@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
 
-import { AuthProvider } from "@/lib/auth-provider";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
-import koMessages from "../messages/ko.json";
 import "./globals.css";
 
 const metadataBase = new URL(SITE_URL);
@@ -54,11 +51,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="min-h-full bg-white text-slate-900 antialiased">
-        <AuthProvider>
-          <NextIntlClientProvider locale="ko" messages={koMessages}>
-            {children}
-          </NextIntlClientProvider>
-        </AuthProvider>
+        {children}
       </body>
     </html>
   );
