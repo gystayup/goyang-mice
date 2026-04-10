@@ -1,0 +1,46 @@
+{
+  "name": "goyang-mice-nextjs",
+  "version": "1.0.0",
+  "description": "고양 문화관광·MICE 연구소 & DMC 공식 웹사이트",
+  "author": "Goyang MICE Research Institute",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "postinstall": "prisma generate",
+    "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@supabase/supabase-js": "^2.101.1",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.2",
+    "next-auth": "^5.0.0-beta.30",
+    "next-intl": "^4.9.0",
+    "nodemailer": "^6.10.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "resend": "^6.10.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6",
+    "@testing-library/react": "^14",
+    "@types/jest": "^29",
+    "@types/node": "^20",
+    "@types/nodemailer": "^6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.2",
+    "jest": "^29",
+    "jest-environment-jsdom": "^29",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
