@@ -604,7 +604,7 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           <SectionTitle
             eyebrow={copy.tracks.eyebrow}
             title={copy.tracks.title}
-            desc={copy.tracks.desc}
+            description={copy.tracks.desc}
           />
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {copy.areas.map((item) => (

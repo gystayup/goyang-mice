@@ -1,21 +1,11 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import Script from "next/script";
 
 import { AuthProvider } from "@/lib/auth-provider";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
 import koMessages from "../messages/ko.json";
 import "./globals.css";
-
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  minimumScale: 1,
-  themeColor: "#ffffff",
-};
 
 const metadataBase = new URL(SITE_URL);
 
@@ -64,17 +54,6 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="min-h-full bg-white text-slate-900 antialiased">
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-            </Script>
-          </>
-        )}
         <AuthProvider>
           <NextIntlClientProvider locale="ko" messages={koMessages}>
             {children}

@@ -89,13 +89,14 @@ export default async function ProductDetailPage(props: {
         <ProductCategoryQuickNav activeCategory={categoryKey} />
 
         {product.categoryKey === "airport" ? (
-          <AirportTransferDetail product={product} />
+          <AirportTransferDetail product={product} locale={locale} />
         ) : product.categoryKey === "ticket" ? (
-          <TicketShowcase product={product} />
+          <TicketShowcase product={product} locale={locale} />
         ) : showcaseCategories.has(product.categoryKey) ? (
           <CategoryServiceShowcase
             product={product}
             category={product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"}
+            locale={locale}
           />
         ) : (
           <div className="mt-10 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">

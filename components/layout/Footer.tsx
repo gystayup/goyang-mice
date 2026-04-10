@@ -67,35 +67,35 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="px-4 pb-12 pt-8 sm:px-5 sm:pb-16 lg:px-6 lg:pb-8">
+    <footer className="px-4 pb-24 pt-10 sm:px-5 lg:px-6 lg:pb-8">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] bg-[#10203a] text-slate-300 shadow-[0_22px_60px_rgba(16,32,58,0.18)]">
         <div className="grid gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.15fr_0.8fr_0.8fr_1fr] lg:px-8">
           <div>
-            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-950">
+            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-slate-950">
               {copy.badge}
             </div>
-            <h2 className="mt-4 text-[1.35rem] font-black leading-[1.25] tracking-[-0.03em] text-white sm:text-[1.6rem] sm:leading-[1.2]">
+            <h2 className="mt-4 text-[1.45rem] font-black leading-[1.18] tracking-[-0.04em] text-white sm:text-[1.7rem]">
               {copy.title}
             </h2>
             <p className="mt-3 text-sm leading-7 text-slate-400">{copy.desc}</p>
-            <div className="mt-6 space-y-3">
+            <div className="mt-6 space-y-3 text-sm">
               <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-slate-500" />
-                <span className="text-sm leading-6 text-slate-400">{copy.location}</span>
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                <span>{copy.location}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 shrink-0 text-slate-500" />
-                <span className="text-sm text-slate-400">031-000-0000</span>
+                <Phone className="h-4 w-4 shrink-0 text-slate-500" />
+                <span>031-000-0000</span>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 shrink-0 text-slate-500" />
-                <span className="text-sm text-slate-400">contact@goyangmice.kr</span>
+                <Mail className="h-4 w-4 shrink-0 text-slate-500" />
+                <span>contact@goyangmice.kr</span>
               </div>
             </div>
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fff0b0]">
               {copy.navigate}
             </div>
             <ul className="mt-5 space-y-3">
@@ -110,7 +110,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fff0b0]">
               {copy.focus}
             </div>
             <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-400">
@@ -121,7 +121,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fff0b0]">
               {copy.collaborate}
             </div>
             <p className="mt-5 text-sm leading-7 text-slate-400">{copy.collaborateDesc}</p>
@@ -135,7 +135,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-white/10 px-5 py-5 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <div>© {year} Goyang MICE Platform. All rights reserved.</div>
           <div className="flex flex-wrap gap-4">
             {policies.map((item) => (

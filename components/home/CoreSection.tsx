@@ -169,34 +169,34 @@ export default async function CoreSection() {
             <Link
               key={item.href}
               href={item.href}
-              className="group relative flex h-full flex-col overflow-hidden rounded-[26px] border border-white/70 bg-white/90 p-5 shadow-[0_12px_32px_rgba(16,32,58,0.06)] transition hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(16,32,58,0.1)] sm:p-6"
+              className="group flex h-full flex-col overflow-hidden rounded-[26px] border border-white/70 bg-white/90 p-5 shadow-[0_12px_32px_rgba(16,32,58,0.06)] transition hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(16,32,58,0.1)] sm:p-6"
             >
               <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${item.tone}`} />
 
               <div className="flex items-start justify-between gap-3">
                 <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.iconTone}`}
+                  className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.iconTone}`}
                 >
-                  <Icon className="h-6 w-6" />
+                  <Icon className="h-5 w-5" />
                 </div>
                 <span
-                  className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] ${item.chip}`}
+                  className={`inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${item.chip}`}
                 >
                   {item.tag}
                 </span>
               </div>
 
-              <h3 className="mt-4 text-lg font-black leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-xl">
+              <h3 className="mt-5 text-[1.35rem] font-black leading-[1.15] tracking-[-0.04em] text-slate-950">
                 {item.title}
               </h3>
 
-              <div className="mt-3 rounded-2xl bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+              <div className="mt-3 rounded-2xl bg-slate-50/90 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {item.point}
               </div>
 
-              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[15px]">{item.desc}</p>
+              <p className="mt-4 text-[15px] leading-7 text-slate-600">{item.desc}</p>
 
-              <div className="mt-auto pt-5">
+              <div className="mt-auto pt-6">
                 <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff7d66] transition group-hover:gap-3">
                   {activeLocale === "en" ? "View details" : "자세히 보기"}
                   <ArrowRight className="h-4 w-4" />

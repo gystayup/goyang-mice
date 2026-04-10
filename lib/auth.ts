@@ -46,18 +46,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         //   throw new Error('비활성화된 계정입니다.');
         // }
 
-        // 환경변수 기반 관리자 계정 (DB 연동 전 사용)
-        const adminEmail = process.env.ADMIN_EMAIL || 'admin@goyangmice.kr';
-        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-
+        // 테스트용 기본 계정
         if (
-          credentials.email === adminEmail &&
-          credentials.password === adminPassword
+          credentials.email === 'admin@goyangmice.kr' &&
+          credentials.password === 'admin123'
         ) {
           return {
             id: '1',
             email: credentials.email,
-            name: 'Admin',
+            name: 'Admin User',
             role: 'SUPER_ADMIN' as UserRole,
             image: null,
           };
