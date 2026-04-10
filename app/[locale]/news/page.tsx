@@ -1,5 +1,5 @@
 import Shell from "@/components/layout/Shell";
-import NewsPage, { metadata } from "../../news/page";
+import NewsPage, { metadata } from "../../news/_page";
 
 export { metadata };
 

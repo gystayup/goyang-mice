@@ -1,4 +1,4 @@
-import InstitutePage, { getInstituteMetadata, type PageLocale } from "../../institute/page";
+import InstitutePage, { getInstituteMetadata, type PageLocale } from "../../institute/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 

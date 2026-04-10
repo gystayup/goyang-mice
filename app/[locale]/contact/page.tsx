@@ -1,4 +1,4 @@
-import ContactPage, { type PageLocale } from "../../contact/page";
+import ContactPage, { type PageLocale } from "../../contact/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 

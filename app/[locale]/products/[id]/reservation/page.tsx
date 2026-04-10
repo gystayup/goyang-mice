@@ -1,6 +1,6 @@
 import ReservationPage, {
   generateMetadata,
-} from "../../../../products/[id]/reservation/page";
+} from "../../../../products/[id]/reservation/_page";
 
 export { generateMetadata };
 

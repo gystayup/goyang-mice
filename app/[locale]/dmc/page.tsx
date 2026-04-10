@@ -1,4 +1,4 @@
-import DmcPage, { type PageLocale } from "../../dmc/page";
+import DmcPage, { type PageLocale } from "../../dmc/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 

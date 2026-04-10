@@ -1,4 +1,4 @@
-import ResearchPage, { type PageLocale } from "../../research/page";
+import ResearchPage, { type PageLocale } from "../../research/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 

@@ -1,4 +1,4 @@
-import ProductsPage, { type PageLocale } from "../../products/page";
+import ProductsPage, { type PageLocale } from "../../products/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 

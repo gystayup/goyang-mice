@@ -1,4 +1,4 @@
-import ProductDetailPage, { generateMetadata } from "../../../products/[id]/page";
+import ProductDetailPage, { generateMetadata } from "../../../products/[id]/_page";
 
 export { generateMetadata };
 

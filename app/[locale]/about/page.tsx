@@ -1,4 +1,4 @@
-import AboutPage, { getAboutMetadata, type PageLocale } from "../../about/page";
+import AboutPage, { getAboutMetadata, type PageLocale } from "../../about/_page";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
