@@ -2,6 +2,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+import { AuthProvider } from "@/lib/auth-provider";
+
 const locales = ["ko", "en", "ja", "zh-CN", "zh-TW"] as const;
 
 export function generateStaticParams() {
@@ -25,8 +27,10 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      {children}
-    </NextIntlClientProvider>
+    <AuthProvider>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        {children}
+      </NextIntlClientProvider>
+    </AuthProvider>
   );
 }
