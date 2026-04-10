@@ -1,0 +1,335 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============ Users (관리자) ============
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  role          UserRole  @default(OPERATOR)
+  status        Status    @default(ACTIVE)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ============ Partners (제휴사) ============
+model Partner {
+  id            String    @id @default(cuid())
+  name          String
+  partnerType   PartnerType
+  contactName   String?
+  phone         String?
+  email         String?
+  address       String?
+  status        Status    @default(ACTIVE)
+  notes         String?
+  createdAt     DateTime  @default(now())
+
+  products      Product[]
+
+  @@map("partners")
+}
+
+// ============ Products (상품) ============
+model Product {
+  id            String    @id @default(cuid())
+  partnerId     String?
+  partner       Partner?  @relation(fields: [partnerId], references: [id])
+  productType   ProductType
+  title         String
+  slug          String
+  summary       String?
+  description   String
+  location      String?
+  durationText  String?
+  minPeople     Int?
+  maxPeople     Int?
+  basePrice     Decimal?
+  priceType     PriceType @default(INQUIRY)
+  isBookable    Boolean   @default(true)
+  status        ProductStatus @default(PUBLISHED)
+  thumbnailId   String?
+  lang          String    @default("ko")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  options       ProductOption[]
+  schedules     ProductSchedule[]
+  bookings      Booking[]
+
+  @@map("products")
+}
+
+// ============ Product Options (옵션/패키지) ============
+model ProductOption {
+  id            String    @id @default(cuid())
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  optionName    String
+  price         Decimal?
+  capacity      Int?
+  status        Status    @default(ACTIVE)
+  sortOrder     Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  schedules     ProductSchedule[]
+  bookings      Booking[]
+
+  @@map("product_options")
+}
+
+// ============ Product Schedules (예약 가능 일정) ============
+model ProductSchedule {
+  id            String    @id @default(cuid())
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  optionId      String?
+  option        ProductOption? @relation(fields: [optionId], references: [id], onDelete: SetNull)
+  scheduleDate  DateTime
+  startTime     String?
+  endTime       String?
+  quota         Int?
+  remainingQuota Int?
+  status        ScheduleStatus @default(OPEN)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  bookings      Booking[]
+
+  @@map("product_schedules")
+}
+
+// ============ Bookings (예약) ============
+model Booking {
+  id            String    @id @default(cuid())
+  bookingNo     String    @unique
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id])
+  optionId      String?
+  option        ProductOption? @relation(fields: [optionId], references: [id], onDelete: SetNull)
+  scheduleId    String?
+  schedule      ProductSchedule? @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  customerName  String
+  organizationName String?
+  phone         String
+  email         String
+  bookingDate   DateTime
+  guestCount    Int
+  unitPrice     Decimal?
+  totalPrice    Decimal?
+  requestNote   String?
+  status        BookingStatus @default(RECEIVED)
+  privacyAgreed Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("bookings")
+}
+
+// ============ Inquiries (문의) ============
+model Inquiry {
+  id            String    @id @default(cuid())
+  inquiryType   InquiryType
+  organizationName String?
+  contactName   String
+  phone         String
+  email         String
+  subject       String?
+  eventDate     DateTime?
+  expectedPeople Int?
+  budgetText    String?
+  message       String
+  status        InquiryStatus @default(RECEIVED)
+  privacyAgreed Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("inquiries")
+}
+
+// ============ Pages (페이지) ============
+model Page {
+  id            String    @id @default(cuid())
+  pageKey       String    @unique
+  title         String
+  slug          String
+  contentJson   Json
+  lang          String    @default("ko")
+  status        PageStatus @default(DRAFT)
+  seoTitle      String?
+  seoDescription String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("pages")
+}
+
+// ============ Posts (게시물) ============
+model Post {
+  id            String    @id @default(cuid())
+  category      PostCategory
+  title         String
+  slug          String
+  summary       String?
+  content       String
+  thumbnailId   String?
+  attachmentId  String?
+  isPinned      Boolean   @default(false)
+  status        PostStatus @default(DRAFT)
+  publishedAt   DateTime?
+  lang          String    @default("ko")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("posts")
+}
+
+// ============ Projects (프로젝트) ============
+model Project {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String
+  category      ProjectCategory
+  summary       String?
+  content       String
+  startDate     DateTime?
+  endDate       DateTime?
+  resultText    String?
+  thumbnailId   String?
+  status        ProjectStatus @default(DRAFT)
+  lang          String    @default("ko")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("projects")
+}
+
+// ============ Media Files ============
+model MediaFile {
+  id            String    @id @default(cuid())
+  fileName      String
+  filePath      String
+  fileType      String
+  fileSize      Int?
+  altText       String?
+  uploadedBy    String?
+  createdAt     DateTime  @default(now())
+
+  @@map("media_files")
+}
+
+// ============ Enums ============
+enum UserRole {
+  SUPER_ADMIN
+  OPERATOR
+  EDITOR
+  PARTNER_MANAGER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum PartnerType {
+  STAY
+  EXPERIENCE
+  TOUR
+  TRANSPORT
+  VIP
+  VENUE
+}
+
+enum ProductType {
+  STAY
+  EXPERIENCE
+  TOUR
+  PACKAGE
+}
+
+enum PriceType {
+  FIXED
+  FROM
+  INQUIRY
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+enum ScheduleStatus {
+  OPEN
+  CLOSED
+  SOLDOUT
+}
+
+enum BookingStatus {
+  RECEIVED
+  REVIEWING
+  CONFIRMED
+  ON_HOLD
+  CANCELLED
+}
+
+enum InquiryType {
+  RESEARCH
+  POLICY
+  DMC
+  BOOKING
+  EVENT
+  PARTNERSHIP
+}
+
+enum InquiryStatus {
+  RECEIVED
+  REVIEWING
+  REPLIED
+  CLOSED
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum PostCategory {
+  NOTICE
+  PRESS
+  REPORT
+  ARCHIVE
+  EVENT
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ProjectCategory {
+  RESEARCH
+  EVENT
+  DMC
+  BRANDING
+  PARTNERSHIP
+}

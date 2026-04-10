@@ -1,0 +1,291 @@
+{
+  "common": {
+    "siteTitle": "고양 문화관광·MICE 연구소",
+    "siteSubtitle": "부설 고양 DMC센터",
+    "contactCTA": "사업문의",
+    "learnMore": "자세히 보기",
+    "goBack": "목록으로",
+    "submit": "접수하기",
+    "viewDetail": "상세보기",
+    "reserve": "예약",
+    "required": "필수",
+    "viewMore": "자세히 보기",
+    "more": "더 보기"
+  },
+  "nav": {
+    "institute": "연구소 소개",
+    "research": "연구 분야",
+    "dmc": "DMC 서비스",
+    "products": "숙박·체험·관광상품",
+    "contact": "문의하기"
+  },
+  "home": {
+    "hero": {
+      "title": "고양문화관광마이스연구소",
+      "dmc": "DMC",
+      "subtitle": "연구와 실행의 융합으로 고양시를 글로벌 MICE 허브로 만들어갑니다",
+      "bookProduct": "상품 예약하기",
+      "contact": "문의하기"
+    },
+    "stats": {
+      "kintox": "인접 국제전시장",
+      "services": "DMC 서비스 분야",
+      "products": "4개",
+      "productsLabel": "숙박·체험 상품",
+      "year": "출범 연도"
+    },
+    "quickLinks": {
+      "title": "서비스 바로가기",
+      "subtitle": "연구소와 DMC의 다양한 서비스를 한눈에 확인하세요",
+      "institute": {
+        "title": "연구소 소개",
+        "desc": "비전·미션, 조직, 연혁"
+      },
+      "research": {
+        "title": "연구 분야",
+        "desc": "문화관광·MICE 전략연구"
+      },
+      "dmc": {
+        "title": "DMC 서비스",
+        "desc": "기획에서 운영까지"
+      },
+      "products": {
+        "title": "숙박·체험·관광상품",
+        "desc": "예약 가능한 DMC 상품"
+      },
+      "contact": {
+        "title": "문의하기",
+        "desc": "사업·협력·연구 문의"
+      }
+    },
+    "resources": {
+      "title": "Why 고양?",
+      "subtitle": "고양시는 MICE 개최에 최적화된 입지와 인프라를 보유하고 있습니다",
+      "kintox": {
+        "title": "킨텍스(KINTEX)",
+        "desc": "아시아 최대 규모 국제전시장"
+      },
+      "culture": {
+        "title": "고양시 문화자원",
+        "desc": "역사·문화·예술이 공존하는 도시"
+      },
+      "transport": {
+        "title": "교통 접근성",
+        "desc": "서울접근성 15분, 인천공항 1시간"
+      },
+      "mice": {
+        "title": "MICE 인프라",
+        "desc": "컨벤션센터, 호텔, 리조트 완비"
+      }
+    },
+    "products": {
+      "title": "인기 상품",
+      "subtitle": "고양시의 매력을 담은 특별한 체험 상품을 만나보세요",
+      "viewAll": "모든 상품 보기",
+      "imagePlaceholder": "상품 이미지",
+      "reviews": "개 리뷰",
+      "book": "예약하기",
+      "vip": {
+        "title": "VIP 패키지",
+        "type": "패키지",
+        "price": "₩2,450,000"
+      },
+      "culture": {
+        "title": "문화예술 반일 체험",
+        "type": "투어",
+        "price": "₩98,000"
+      },
+      "business": {
+        "title": "비즈니스 스테이",
+        "type": "숙박",
+        "price": "₩320,000"
+      }
+    },
+    "projects": {
+      "title": "최근 프로젝트",
+      "status": {
+        "completed": "완료"
+      },
+      "strategy": {
+        "title": "고양시 MICE 전략 연구",
+        "category": "연구",
+        "status": "진행중"
+      },
+      "exhibition": {
+        "title": "킨텍스 전시회 DMC 운영",
+        "category": "실적",
+        "status": "완료"
+      },
+      "development": {
+        "title": "문화관광 상품 개발",
+        "category": "개발",
+        "status": "완료"
+      }
+    },
+    "news": {
+      "title": "뉴스 & 소식",
+      "categories": {
+        "announcement": "공지",
+        "event": "이벤트"
+      },
+      "launch": {
+        "title": "고양문화관광마이스연구소 DMC 출범",
+        "content": "고양시의 MICE 산업 발전을 위한 연구소와 DMC 서비스가 통합 운영을 시작합니다."
+      },
+      "spring": {
+        "title": "킨텍스 봄 시즌 전시회 DMC 서비스 개시",
+        "content": "봄 시즌 국제 전시회 참가자를 위한 종합 DMC 서비스를 제공합니다."
+      }
+    },
+    "cta": {
+      "title": "고양시 MICE의 미래를 함께 만들어가요",
+      "subtitle": "연구와 실행의 융합으로 글로벌 MICE 허브를 실현합니다",
+      "collaboration": "협력 문의하기",
+      "research": "연구 참여하기"
+    }
+  },
+  "institute": {
+    "label": "Institute Overview",
+    "title": "연구소 소개",
+    "desc": "고양 문화관광·MICE 연구소는 고양시의 문화, 관광, 전시, 컨벤션, 이벤트 산업을 전략적으로 육성하고 이를 도시브랜드와 지역경제 성과로 연결하기 위해 설립된 전문 플랫폼입니다.",
+    "visionSectionTitle": "비전 · 미션 · 핵심가치",
+    "leadershipLabel": "Leadership Message",
+    "leadershipQuote": "정책연구와 현장실행이 함께 가야 도시 경쟁력이 만들어집니다",
+    "leadershipDesc": "연구소는 전략 제안에 머무르지 않고, 고양의 자산을 산업과 성과로 연결하는 실행형 싱크탱크를 지향합니다.",
+    "leadershipSignature": "— 소장",
+    "orgLabel": "Organization",
+    "orgTitle": "조직 구성",
+    "timelineLabel": "Timeline",
+    "timelineTitle": "연혁",
+    "docsLabel": "Documents",
+    "docsTitle": "관련 자료",
+    "viewBtn": "보기",
+    "ctaResearch": "연구 분야 보기",
+    "ctaContact": "문의하기"
+  },
+  "research": {
+    "label": "Research Areas",
+    "title": "연구 분야",
+    "desc": "연구소는 도시브랜드와 지역경제, 국제행사와 관광산업을 함께 바라보는 융합형 시각으로 연구를 수행합니다.",
+    "areasTitle": "6개 핵심 연구 분야",
+    "processLabel": "Research Process",
+    "processTitle": "연구 수행 프로세스",
+    "processDesc": "실행 가능성과 현장 적용을 동시에 검토하는 통합 연구 방법론입니다.",
+    "reportsLabel": "Latest Reports",
+    "reportsTitle": "발간자료",
+    "reportsDesc": "연구소의 주요 연구 결과물과 정책 브리프를 확인하실 수 있습니다.",
+    "commissionTitle": "연구용역 의뢰 안내",
+    "commissionDesc": "문화관광·MICE 분야 연구용역, 정책 자문, 컨설팅 의뢰를 환영합니다.",
+    "commissionLink": "연구용역 문의하기",
+    "viewBtn": "보기",
+    "ctaDmc": "DMC 서비스 보기",
+    "ctaBack": "연구소 소개로 돌아가기"
+  },
+  "dmc": {
+    "label": "DMC Services",
+    "title": "DMC 서비스",
+    "desc": "부설 고양 DMC센터는 기업행사, 국제회의, 인센티브투어, 팸투어, VIP 프로그램 등 다양한 목적의 현장 운영 서비스를 기획에서 완료까지 제공합니다.",
+    "servicesTitle": "6가지 핵심 서비스",
+    "processLabel": "Process",
+    "processTitle": "서비스 운영 프로세스",
+    "processDesc": "상담부터 결과 보고까지 전 과정을 전담팀이 함께합니다.",
+    "partnersLabel": "Partners",
+    "partnersTitle": "협력 파트너 유형",
+    "partnersDesc": "다양한 기관 및 업체와의 네트워크를 통해 통합 서비스를 제공합니다.",
+    "consultCTA": "DMC 상담 신청",
+    "ctaContact": "DMC 상담 신청",
+    "ctaProducts": "숙박·체험·관광상품 보기"
+  },
+  "products": {
+    "label": "Booking & Products",
+    "title": "숙박·체험·관광상품",
+    "desc": "소개형을 넘어 실제 상품 조회와 예약 문의, 향후 결제 연동까지 확장 가능한 DMC 상품 중심 페이지입니다.",
+    "listTitle": "DMC 상품 목록",
+    "filterLabel": "Search Guide",
+    "filterTitle": "상품 선택 가이드",
+    "filterDesc": "아래 항목을 미리 정리해두면 빠른 상담이 가능합니다.",
+    "bookingLabel": "Booking Flow",
+    "bookingTitle": "예약 흐름",
+    "futureNote": "향후 확장 예정",
+    "futureDesc": "실시간 예약 가능일 조회, 파트너 재고 연동, 결제 모듈, 마이페이지, 예약 상태 관리까지 순차적으로 개발할 예정입니다.",
+    "detailBtn": "상세보기",
+    "reserveBtn": "예약",
+    "consultCTA": "맞춤형 상담 신청",
+    "ctaContact": "예약 문의하기",
+    "ctaDmc": "DMC 서비스 보기"
+  },
+  "reservation": {
+    "label": "Reservation Detail",
+    "breadcrumb": "숙박·체험·관광상품",
+    "duration": "소요시간",
+    "headcount": "예약인원",
+    "departure": "출발장소",
+    "datesLabel": "Available Dates",
+    "packageLabel": "Package Options",
+    "summaryLabel": "Booking Summary",
+    "summaryTitle": "예약 신청",
+    "selectedDate": "선택 날짜",
+    "selectedPackage": "선택 패키지",
+    "guestCount": "인원 수",
+    "estimatedPrice": "예상 금액",
+    "priceNote": "* 결제 연동 전 단계 — 예약 신청 후 담당자 확인 방식",
+    "orgName": "기관명 / 단체명",
+    "managerName": "담당자명",
+    "phone": "연락처",
+    "email": "이메일",
+    "memo": "추가 요청사항",
+    "agreeText": "개인정보 수집 및 이용, 예약 약관에 동의합니다.",
+    "submitBtn": "예약 신청하기",
+    "consultBtn": "상담 후 예약하기",
+    "includedLabel": "Included",
+    "includedTitle": "포함 사항 / 유의사항",
+    "included": "포함 사항",
+    "cautions": "유의사항",
+    "recommendLabel": "Recommended",
+    "recommendTitle": "연계 추천 상품",
+    "backBtn": "상품 목록으로"
+  },
+  "contact": {
+    "label": "Contact & Proposal",
+    "title": "문의하기",
+    "desc": "연구, 행사 운영, DMC 서비스, 숙박·체험 예약, 협업 제안까지 하나의 통합 창구에서 접수합니다.",
+    "infoLabel": "Contact Info",
+    "infoTitle": "연락처 안내",
+    "infoDesc": "담당자가 직접 확인하고 영업일 기준 1~2일 내에 회신드립니다.",
+    "hoursLabel": "운영시간",
+    "hours": "월 ~ 금 09:00 ~ 18:00",
+    "hoursNote": "토·일·공휴일 휴무 (긴급 시 이메일 접수)",
+    "formLabel": "Inquiry Form",
+    "formTitle": "문의 양식",
+    "typeTitle": "문의 유형",
+    "orgName": "기관명 / 단체명",
+    "managerName": "담당자명",
+    "phone": "연락처",
+    "email": "이메일",
+    "eventName": "행사 / 사업명",
+    "date": "예정일",
+    "headcount": "예상 인원",
+    "budget": "예산 범위",
+    "message": "문의 내용",
+    "messagePlaceholder": "문의하실 내용을 자세히 적어주세요.",
+    "agreeText": "개인정보 수집 및 이용에 동의합니다.",
+    "agreeDetail": "(수집항목: 기관명, 담당자명, 연락처, 이메일 / 목적: 문의 처리 및 회신)",
+    "submitBtn": "문의 접수하기",
+    "submitting": "접수 중...",
+    "successTitle": "문의가 접수되었습니다",
+    "successDesc": "담당자가 확인 후 영업일 기준 1~2일 내에 회신드립니다.",
+    "newInquiry": "새 문의 작성",
+    "typesLabel": "Inquiry Types",
+    "typesTitle": "문의 유형 안내"
+  },
+  "footer": {
+    "address": "경기도 고양시 일산서구 킨텍스로 217-60",
+    "phone": "031-000-0000",
+    "email": "contact@goyang-mice.kr",
+    "institute": "연구소",
+    "services": "서비스",
+    "info": "안내",
+    "admin": "관리자",
+    "copyright": "고양 문화관광·MICE 연구소. All rights reserved."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "tour": {
+    "key": "tour",
+    "label": "여행상품 예약",
+    "src": "/uploads/dmc/categories/1775745388488-tour-20230225_100331.jpg",
+    "fileName": "20230225_100331.jpg",
+    "mimeType": "image/jpeg",
+    "updatedAt": "2026-04-09T14:36:28.534Z"
+  },
+  "stay": {
+    "key": "stay",
+    "label": "숙박 예약",
+    "src": "/uploads/dmc/categories/1775745348733-stay-20230303_150746.jpg",
+    "fileName": "20230303_150746.jpg",
+    "mimeType": "image/jpeg",
+    "updatedAt": "2026-04-09T14:35:48.889Z"
+  },
+  "restaurant": {
+    "key": "restaurant",
+    "label": "음식점 예약",
+    "src": "/uploads/dmc/categories/1775745247641-restaurant-1.png",
+    "fileName": "커피머신럭셔리-1.png",
+    "mimeType": "image/png",
+    "updatedAt": "2026-04-09T14:34:08.587Z"
+  },
+  "cafe": {
+    "key": "cafe",
+    "label": "카페 예약",
+    "src": "/uploads/dmc/categories/1775745208210-cafe-2.png",
+    "fileName": "메인콘텐츠-2.png",
+    "mimeType": "image/png",
+    "updatedAt": "2026-04-09T14:33:29.141Z"
+  },
+  "ticket": {
+    "key": "ticket",
+    "label": "티켓 예약",
+    "src": "/uploads/dmc/categories/1775745179498-ticket-2.jpg",
+    "fileName": "하슬라-2.jpg",
+    "mimeType": "image/jpeg",
+    "updatedAt": "2026-04-09T14:32:59.593Z"
+  },
+  "airport": {
+    "key": "airport",
+    "label": "공항픽업 예약",
+    "src": "/uploads/dmc/categories/1775745078996-airport-kakaotalk_20210225_122846965.png",
+    "fileName": "KakaoTalk_20210225_122846965.png",
+    "mimeType": "image/png",
+    "updatedAt": "2026-04-09T14:31:19.031Z"
+  }
+}

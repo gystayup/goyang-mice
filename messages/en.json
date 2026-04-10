@@ -1,0 +1,291 @@
+{
+  "common": {
+    "siteTitle": "Goyang Culture Tourism & MICE Research Institute",
+    "siteSubtitle": "Affiliated Goyang DMC Center",
+    "contactCTA": "Business Inquiry",
+    "learnMore": "Learn More",
+    "goBack": "Back to List",
+    "submit": "Submit",
+    "viewDetail": "View Details",
+    "reserve": "Reserve",
+    "required": "Required",
+    "viewMore": "View More",
+    "more": "More"
+  },
+  "nav": {
+    "institute": "About the Institute",
+    "research": "Research Areas",
+    "dmc": "DMC Services",
+    "products": "Stay & Experience Products",
+    "contact": "Contact Us"
+  },
+  "home": {
+    "hero": {
+      "title": "Goyang Culture Tourism MICE Research Institute",
+      "dmc": "DMC",
+      "subtitle": "Through the fusion of research and execution, we are making Goyang City a global MICE hub",
+      "bookProduct": "Book Products",
+      "contact": "Contact Us"
+    },
+    "stats": {
+      "kintox": "Adjacent International Exhibition Center",
+      "services": "DMC Service Areas",
+      "products": "4",
+      "productsLabel": "Stay & Experience Products",
+      "year": "Year Established"
+    },
+    "quickLinks": {
+      "title": "Service Quick Access",
+      "subtitle": "Explore various services from the Institute and DMC at a glance",
+      "institute": {
+        "title": "About the Institute",
+        "desc": "Vision·Mission, Organization, History"
+      },
+      "research": {
+        "title": "Research Areas",
+        "desc": "Culture Tourism·MICE Strategy Research"
+      },
+      "dmc": {
+        "title": "DMC Services",
+        "desc": "From Planning to Operations"
+      },
+      "products": {
+        "title": "Stay & Experience Products",
+        "desc": "Bookable DMC Products"
+      },
+      "contact": {
+        "title": "Contact Us",
+        "desc": "Business·Collaboration·Research Inquiries"
+      }
+    },
+    "resources": {
+      "title": "Why Goyang?",
+      "subtitle": "Goyang City has optimal location and infrastructure for hosting MICE events",
+      "kintox": {
+        "title": "KINTEX",
+        "desc": "Asia's largest international exhibition center"
+      },
+      "culture": {
+        "title": "Goyang City Cultural Resources",
+        "desc": "A city where history, culture, and arts coexist"
+      },
+      "transport": {
+        "title": "Transportation Accessibility",
+        "desc": "15 minutes to Seoul, 1 hour to Incheon Airport"
+      },
+      "mice": {
+        "title": "MICE Infrastructure",
+        "desc": "Convention centers, hotels, resorts fully equipped"
+      }
+    },
+    "products": {
+      "title": "Popular Products",
+      "subtitle": "Discover special experience products that capture the charm of Goyang City",
+      "viewAll": "View All Products",
+      "imagePlaceholder": "Product Image",
+      "reviews": " reviews",
+      "book": "Book Now",
+      "vip": {
+        "title": "VIP Package",
+        "type": "Package",
+        "price": "₩2,450,000"
+      },
+      "culture": {
+        "title": "Culture & Arts Half-Day Experience",
+        "type": "Tour",
+        "price": "₩98,000"
+      },
+      "business": {
+        "title": "Business Stay",
+        "type": "Accommodation",
+        "price": "₩320,000"
+      }
+    },
+    "projects": {
+      "title": "Recent Projects",
+      "status": {
+        "completed": "Completed"
+      },
+      "strategy": {
+        "title": "Goyang City MICE Strategy Research",
+        "category": "Research",
+        "status": "In Progress"
+      },
+      "exhibition": {
+        "title": "KINTEX Exhibition DMC Operations",
+        "category": "Achievements",
+        "status": "Completed"
+      },
+      "development": {
+        "title": "Culture Tourism Product Development",
+        "category": "Development",
+        "status": "Completed"
+      }
+    },
+    "news": {
+      "title": "News & Updates",
+      "categories": {
+        "announcement": "Announcement",
+        "event": "Event"
+      },
+      "launch": {
+        "title": "Launch of Goyang Culture Tourism MICE Research Institute DMC",
+        "content": "The Institute and DMC services for Goyang City's MICE industry development begin integrated operations."
+      },
+      "spring": {
+        "title": "KINTEX Spring Season Exhibition DMC Service Launch",
+        "content": "Comprehensive DMC services provided for international exhibition participants during the spring season."
+      }
+    },
+    "cta": {
+      "title": "Let's Build the Future of Goyang City's MICE Together",
+      "subtitle": "Realizing a global MICE hub through the fusion of research and execution",
+      "collaboration": "Collaboration Inquiry",
+      "research": "Join Research"
+    }
+  },
+  "institute": {
+    "label": "Institute Overview",
+    "title": "About the Institute",
+    "desc": "The Goyang Culture Tourism & MICE Research Institute is a specialized platform established to strategically develop Goyang's culture, tourism, exhibition, convention, and events industries, and to connect them to city branding and local economic outcomes.",
+    "visionSectionTitle": "Vision · Mission · Core Values",
+    "leadershipLabel": "Leadership Message",
+    "leadershipQuote": "Urban competitiveness is built when policy research and on-the-ground execution go hand in hand",
+    "leadershipDesc": "The Institute goes beyond strategic proposals — we aspire to be an action-oriented think tank that connects Goyang's assets to industry outcomes and tangible results.",
+    "leadershipSignature": "— Director",
+    "orgLabel": "Organization",
+    "orgTitle": "Organizational Structure",
+    "timelineLabel": "Timeline",
+    "timelineTitle": "History",
+    "docsLabel": "Documents",
+    "docsTitle": "Related Materials",
+    "viewBtn": "View",
+    "ctaResearch": "View Research Areas",
+    "ctaContact": "Contact Us"
+  },
+  "research": {
+    "label": "Research Areas",
+    "title": "Research Areas",
+    "desc": "The Institute conducts research through an interdisciplinary lens that bridges city branding and local economy with international events and the tourism industry.",
+    "areasTitle": "6 Core Research Areas",
+    "processLabel": "Research Process",
+    "processTitle": "Research Methodology",
+    "processDesc": "An integrated research methodology that simultaneously examines feasibility and real-world applicability.",
+    "reportsLabel": "Latest Reports",
+    "reportsTitle": "Publications",
+    "reportsDesc": "Browse the Institute's major research outputs and policy briefs.",
+    "commissionTitle": "Research Commission Guide",
+    "commissionDesc": "We welcome research commissions, policy advisory requests, and consulting inquiries in the culture tourism and MICE fields.",
+    "commissionLink": "Inquire About a Research Commission",
+    "viewBtn": "View",
+    "ctaDmc": "View DMC Services",
+    "ctaBack": "Back to About the Institute"
+  },
+  "dmc": {
+    "label": "DMC Services",
+    "title": "DMC Services",
+    "desc": "The affiliated Goyang DMC Center provides end-to-end on-site operational services for corporate events, international conferences, incentive tours, FAM tours, VIP programs, and more — from planning through completion.",
+    "servicesTitle": "6 Core Services",
+    "processLabel": "Process",
+    "processTitle": "Service Operations Process",
+    "processDesc": "A dedicated team accompanies every step from initial consultation to final reporting.",
+    "partnersLabel": "Partners",
+    "partnersTitle": "Types of Partner Organizations",
+    "partnersDesc": "We deliver integrated services through a broad network of institutions and vendors.",
+    "consultCTA": "Request a DMC Consultation",
+    "ctaContact": "Request a DMC Consultation",
+    "ctaProducts": "View Stay & Experience Products"
+  },
+  "products": {
+    "label": "Booking & Products",
+    "title": "Stay & Experience Products",
+    "desc": "A DMC product-focused page that goes beyond simple listings to support real product browsing, reservation inquiries, and future payment integration.",
+    "listTitle": "DMC Product Catalog",
+    "filterLabel": "Search Guide",
+    "filterTitle": "Product Selection Guide",
+    "filterDesc": "Preparing the following information in advance will help us assist you more quickly.",
+    "bookingLabel": "Booking Flow",
+    "bookingTitle": "How to Book",
+    "futureNote": "Coming Soon",
+    "futureDesc": "We plan to develop real-time availability lookup, partner inventory integration, a payment module, a member portal, and reservation status management in phases.",
+    "detailBtn": "View Details",
+    "reserveBtn": "Reserve",
+    "consultCTA": "Request a Custom Consultation",
+    "ctaContact": "Reservation Inquiry",
+    "ctaDmc": "View DMC Services"
+  },
+  "reservation": {
+    "label": "Reservation Detail",
+    "breadcrumb": "Stay & Experience Products",
+    "duration": "Duration",
+    "headcount": "Number of Guests",
+    "departure": "Departure Point",
+    "datesLabel": "Available Dates",
+    "packageLabel": "Package Options",
+    "summaryLabel": "Booking Summary",
+    "summaryTitle": "Reservation Request",
+    "selectedDate": "Selected Date",
+    "selectedPackage": "Selected Package",
+    "guestCount": "Number of Guests",
+    "estimatedPrice": "Estimated Price",
+    "priceNote": "* Payment integration is not yet available — reservations are confirmed manually by staff after submission.",
+    "orgName": "Organization / Group Name",
+    "managerName": "Contact Person",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "memo": "Additional Requests",
+    "agreeText": "I agree to the collection and use of personal information and the reservation terms.",
+    "submitBtn": "Submit Reservation",
+    "consultBtn": "Book After Consultation",
+    "includedLabel": "Included",
+    "includedTitle": "What's Included / Notes",
+    "included": "What's Included",
+    "cautions": "Notes & Cautions",
+    "recommendLabel": "Recommended",
+    "recommendTitle": "Related Products You May Like",
+    "backBtn": "Back to Product List"
+  },
+  "contact": {
+    "label": "Contact & Proposal",
+    "title": "Contact Us",
+    "desc": "Submit all inquiries — research, event operations, DMC services, stay & experience bookings, and partnership proposals — through a single integrated channel.",
+    "infoLabel": "Contact Info",
+    "infoTitle": "Contact Information",
+    "infoDesc": "Our staff will review your inquiry personally and respond within 1–2 business days.",
+    "hoursLabel": "Office Hours",
+    "hours": "Mon – Fri  09:00 – 18:00",
+    "hoursNote": "Closed on weekends and public holidays (urgent inquiries may be submitted via email)",
+    "formLabel": "Inquiry Form",
+    "formTitle": "Inquiry Form",
+    "typeTitle": "Inquiry Type",
+    "orgName": "Organization / Group Name",
+    "managerName": "Contact Person",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "eventName": "Event / Project Name",
+    "date": "Scheduled Date",
+    "headcount": "Expected Number of Participants",
+    "budget": "Budget Range",
+    "message": "Message",
+    "messagePlaceholder": "Please describe your inquiry in detail.",
+    "agreeText": "I agree to the collection and use of my personal information.",
+    "agreeDetail": "(Items collected: organization name, contact person, phone number, email / Purpose: processing and responding to inquiries)",
+    "submitBtn": "Submit Inquiry",
+    "submitting": "Submitting...",
+    "successTitle": "Your inquiry has been received",
+    "successDesc": "Our staff will review your submission and respond within 1–2 business days.",
+    "newInquiry": "Submit Another Inquiry",
+    "typesLabel": "Inquiry Types",
+    "typesTitle": "Types of Inquiries We Handle"
+  },
+  "footer": {
+    "address": "217-60 Kintex-ro, Ilsanseo-gu, Goyang-si, Gyeonggi-do",
+    "phone": "031-000-0000",
+    "email": "contact@goyang-mice.kr",
+    "institute": "Institute",
+    "services": "Services",
+    "info": "Information",
+    "admin": "Admin",
+    "copyright": "Goyang Culture Tourism & MICE Research Institute. All rights reserved."
+  }
+}

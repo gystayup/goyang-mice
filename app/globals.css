@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "SUIT Variable", "Pretendard Variable", "Noto Sans KR",
+    "Apple SD Gothic Neo", sans-serif;
+
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+
+  --shadow-soft: 0 10px 30px rgba(31, 41, 55, 0.08),
+    0 2px 10px rgba(31, 41, 55, 0.05);
+  --shadow-lift: 0 20px 60px rgba(15, 23, 42, 0.14),
+    0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+:root {
+  --page-bg: #fffaf5;
+  --paper: rgba(255, 255, 255, 0.82);
+  --ink: #10203a;
+  --mint: #8df0cf;
+  --peach: #ffb58f;
+  --butter: #ffe98b;
+  --sky: #a4d8ff;
+  --rose: #ffdbd4;
+}
+
+html {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 205, 176, 0.34), transparent 24%),
+    radial-gradient(circle at 85% 18%, rgba(141, 240, 207, 0.24), transparent 20%),
+    radial-gradient(circle at 50% 100%, rgba(164, 216, 255, 0.18), transparent 26%),
+    linear-gradient(180deg, #fffdf8 0%, #fff6ef 100%);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+body,
+main,
+section,
+div {
+  min-width: 0;
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li {
+  overflow-wrap: anywhere;
+}
+
+::selection {
+  background: rgba(255, 181, 143, 0.45);
+  color: #11223d;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(16, 32, 58, 0.72);
+  outline-offset: 3px;
+}
