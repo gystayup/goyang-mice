@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 
-import type { PageLocale } from "./page";
+import type { PageLocale } from "./_page";
 
 const inquiryTypeOptions: Record<PageLocale, { label: string; value: string }[]> = {
   ko: [
