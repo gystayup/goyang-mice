@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import {
   BadgePercent,
   CalendarRange,
+  ChevronDown,
+  ChevronUp,
   CreditCard,
   LayoutGrid,
 } from "lucide-react";
@@ -224,6 +226,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
 
 export default function ProductCatalog({ locale = "ko" }: { locale?: PageLocale }) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === "all") {
@@ -286,7 +289,8 @@ export default function ProductCatalog({ locale = "ko" }: { locale?: PageLocale 
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      {/* 데스크탑: 기존 가로 나열 */}
+      <div className="hidden flex-wrap gap-3 sm:flex">
         <button
           type="button"
           onClick={() => setActiveCategory("all")}
@@ -312,6 +316,59 @@ export default function ProductCatalog({ locale = "ko" }: { locale?: PageLocale 
             {copy.categories[item.key].label}
           </button>
         ))}
+      </div>
+
+      {/* 모바일: 접기/펼치기 */}
+      <div className="sm:hidden">
+        <button
+          type="button"
+          onClick={() => setFilterOpen((v) => !v)}
+          className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+        >
+          <span className="flex items-center gap-2">
+            <LayoutGrid className="h-4 w-4 text-slate-400" />
+            <span>
+              {activeCategory === "all"
+                ? copy.all
+                : copy.categories[activeCategory as keyof typeof copy.categories].label}
+            </span>
+          </span>
+          {filterOpen ? (
+            <ChevronUp className="h-4 w-4 text-slate-400" />
+          ) : (
+            <ChevronDown className="h-4 w-4 text-slate-400" />
+          )}
+        </button>
+
+        {filterOpen && (
+          <div className="mt-2 grid grid-cols-2 gap-2 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
+            <button
+              type="button"
+              onClick={() => { setActiveCategory("all"); setFilterOpen(false); }}
+              className={`rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+                activeCategory === "all"
+                  ? "bg-slate-950 text-white"
+                  : "bg-slate-50 text-slate-700 hover:bg-slate-100"
+              }`}
+            >
+              {copy.all}
+            </button>
+            {dmcCategories.map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => { setActiveCategory(item.key); setFilterOpen(false); }}
+                className={`rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+                  activeCategory === item.key
+                    ? "bg-slate-950 text-white"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100"
+                }`}
+              >
+                {copy.categories[item.key].label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {activeCategory !== "all" ? (
