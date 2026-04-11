@@ -60,7 +60,7 @@ export default function Header() {
         <div className="lg:hidden">
           {/* 1행: 브랜드 + 언어 + 메뉴 */}
           <div className="flex items-center justify-between gap-2">
-            <Link href="/" className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-slate-950">
+            <Link href="/" className="inline-flex shrink-0 rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-950 whitespace-nowrap">
               {copy.brand}
             </Link>
 
