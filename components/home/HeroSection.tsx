@@ -12,7 +12,7 @@ type LocaleCopy = {
 
 const heroCopy: Record<"ko" | "en", LocaleCopy> = {
   ko: {
-    introBadge: "고양 문화관광·마이스 연구연계 DMC",
+    introBadge: "고양 방문경험 연구·연계 플랫폼",
     title: "",
     desc: "",
     cards: [
@@ -59,7 +59,7 @@ const heroCopy: Record<"ko" | "en", LocaleCopy> = {
     ],
   },
   en: {
-    introBadge: "Goyang Culture·Tourism·MICE Research & DMC",
+    introBadge: "Goyang Visit Experience Research & Connection Platform",
     title: "",
     desc: "",
     cards: [
