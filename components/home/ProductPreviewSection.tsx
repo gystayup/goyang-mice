@@ -1,5 +1,4 @@
 import { ArrowRight, Building2, Car, Coffee, MapPin, ShoppingBag, Ticket } from "lucide-react";
-import { getLocale } from "next-intl/server";
 
 import SectionTitle from "@/components/common/SectionTitle";
 import { products } from "@/data/products";
@@ -63,8 +62,7 @@ const categoryCopy: Record<
 
 const categoryOrder: CategoryKey[] = ["tour", "stay", "restaurant", "cafe", "ticket", "airport"];
 
-export default async function ProductPreviewSection() {
-  const locale = await getLocale();
+export default async function ProductPreviewSection({ locale }: { locale: string }) {
   const activeLocale = locale === "en" ? "en" : "ko";
   const copy = copyMap[activeLocale];
 

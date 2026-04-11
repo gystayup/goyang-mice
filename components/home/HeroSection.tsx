@@ -1,4 +1,3 @@
-import { getLocale } from "next-intl/server";
 
 import HeroMediaCarousel from "@/components/home/HeroMediaCarousel";
 
@@ -107,8 +106,7 @@ const heroCopy: Record<"ko" | "en", LocaleCopy> = {
   },
 };
 
-export default async function HeroSection() {
-  const locale = await getLocale();
+export default async function HeroSection({ locale }: { locale: string }) {
   const copy = heroCopy[locale === "en" ? "en" : "ko"];
 
   return (

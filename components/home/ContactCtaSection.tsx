@@ -4,8 +4,6 @@ import {
   CalendarRange,
   Handshake,
 } from "lucide-react";
-import { getLocale } from "next-intl/server";
-
 import SectionTitle from "@/components/common/SectionTitle";
 import { Link } from "@/lib/navigation";
 
@@ -66,8 +64,7 @@ const copyMap = {
   },
 } as const;
 
-export default async function ContactCtaSection() {
-  const locale = await getLocale();
+export default async function ContactCtaSection({ locale }: { locale: string }) {
   const copy = copyMap[locale === "en" ? "en" : "ko"];
 
   return (

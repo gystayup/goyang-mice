@@ -6,8 +6,6 @@ import {
   Mail,
   ShoppingBag,
 } from "lucide-react";
-import { getLocale } from "next-intl/server";
-
 import SectionTitle from "@/components/common/SectionTitle";
 import { Link } from "@/lib/navigation";
 
@@ -140,8 +138,7 @@ const cardSets: Record<"ko" | "en", QuickCard[]> = {
   ],
 };
 
-export default async function CoreSection() {
-  const locale = await getLocale();
+export default async function CoreSection({ locale }: { locale: string }) {
   const activeLocale = locale === "en" ? "en" : "ko";
   const cards = cardSets[activeLocale];
 

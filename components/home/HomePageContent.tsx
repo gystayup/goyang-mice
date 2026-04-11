@@ -5,15 +5,15 @@ import ProductPreviewSection from "@/components/home/ProductPreviewSection";
 import ContactCtaSection from "@/components/home/ContactCtaSection";
 import MobileQuickActions from "@/components/home/MobileQuickActions";
 
-export default function HomePageContent() {
+export default function HomePageContent({ locale }: { locale: string }) {
   return (
     <>
-      <HeroSection />
-      <CoreSection />
-      <WhyGoyangSection />
-      <ProductPreviewSection />
-      <ContactCtaSection />
-      <MobileQuickActions />
+      <HeroSection locale={locale} />
+      <CoreSection locale={locale} />
+      <WhyGoyangSection locale={locale} />
+      <ProductPreviewSection locale={locale} />
+      <ContactCtaSection locale={locale} />
+      <MobileQuickActions locale={locale} />
     </>
   );
 }

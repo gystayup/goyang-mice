@@ -31,10 +31,15 @@ export async function generateMetadata({
   };
 }
 
-export default function LocaleHomePage() {
+export default async function LocaleHomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   return (
     <Shell>
-      <HomePageContent />
+      <HomePageContent locale={locale} />
     </Shell>
   );
 }

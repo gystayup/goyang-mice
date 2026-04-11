@@ -1,5 +1,3 @@
-import { getLocale } from "next-intl/server";
-
 const copyMap = {
   ko: {
     eyebrow: "Why Goyang",
@@ -57,8 +55,7 @@ const copyMap = {
   },
 } as const;
 
-export default async function WhyGoyangSection() {
-  const locale = await getLocale();
+export default async function WhyGoyangSection({ locale }: { locale: string }) {
   const copy = copyMap[locale === "en" ? "en" : "ko"];
 
   return (

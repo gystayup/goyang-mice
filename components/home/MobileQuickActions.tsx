@@ -1,5 +1,4 @@
 import { ArrowRight, MessageSquareText } from "lucide-react";
-import { getLocale } from "next-intl/server";
 
 import { Link } from "@/lib/navigation";
 
@@ -14,8 +13,7 @@ const copyMap = {
   },
 } as const;
 
-export default async function MobileQuickActions() {
-  const locale = await getLocale();
+export default async function MobileQuickActions({ locale }: { locale: string }) {
   const copy = copyMap[locale === "en" ? "en" : "ko"];
 
   return (
