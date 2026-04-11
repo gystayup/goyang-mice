@@ -9,8 +9,8 @@ import { Link, usePathname } from "@/lib/navigation";
 
 type HeaderCopy = {
   brand: string;
-  title: string;
-  subtitle: string;
+  titleLine1: string;
+  titleLine2: string;
   reservation: string;
   contact: string;
   partnership: string;
@@ -21,8 +21,8 @@ type HeaderCopy = {
 const copyMap: Record<"ko" | "en", HeaderCopy> = {
   ko: {
     brand: "GOYANG VIBE LAB",
-    title: "고양특례시 K-컬처플랫폼",
-    subtitle: "K-POP, 문화, 관광, MICE 연구소 · DMC 서비스",
+    titleLine1: "고양특례시",
+    titleLine2: "K-컬처플랫폼",
     reservation: "예약 보기",
     contact: "문의하기",
     partnership: "협력 제안",
@@ -31,8 +31,8 @@ const copyMap: Record<"ko" | "en", HeaderCopy> = {
   },
   en: {
     brand: "GOYANG VIBE LAB",
-    title: "Goyang Special City K-Culture Platform",
-    subtitle: "K-POP, Culture, Tourism, MICE Institute · DMC Services",
+    titleLine1: "Goyang Special City",
+    titleLine2: "K-Culture Platform",
     reservation: "Bookings",
     contact: "Contact",
     partnership: "Partnership",
@@ -117,10 +117,8 @@ export default function Header() {
               {copy.brand}
             </div>
             <div className="mt-3 text-[1.7rem] font-black leading-[1.1] tracking-[-0.04em] text-slate-950">
-              {copy.title}
-            </div>
-            <div className="mt-1 max-w-[22rem] text-[15px] leading-7 text-slate-500">
-              {copy.subtitle}
+              <span className="block">{copy.titleLine1}</span>
+              <span className="block">{copy.titleLine2}</span>
             </div>
           </Link>
 
