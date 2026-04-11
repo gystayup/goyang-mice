@@ -56,59 +56,21 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 px-3 sm:px-4">
       <div className="mx-auto max-w-7xl rounded-[28px] border border-white/70 bg-white/88 px-4 py-4 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur-xl sm:px-5 lg:px-6">
-        {/* 모바일 헤더 */}
-        <div className="lg:hidden">
-          {/* 1행: 브랜드 + 언어 + 메뉴 */}
-          <div className="flex items-center justify-between gap-2">
-            <Link href="/" className="inline-flex shrink-0 rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-950 whitespace-nowrap">
-              {copy.brand}
-            </Link>
-
-            <div className="flex shrink-0 items-center gap-2">
-              <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 p-1">
-                <Link
-                  href={pathname}
-                  locale="ko"
-                  aria-current={activeLocale === "ko" ? "true" : undefined}
-                  className={`${localeButtonClass} ${
-                    activeLocale === "ko"
-                      ? "bg-slate-950 text-white"
-                      : "text-slate-600 hover:bg-white"
-                  }`}
-                >
-                  KO
-                </Link>
-                <Link
-                  href={pathname}
-                  locale="en"
-                  aria-current={activeLocale === "en" ? "true" : undefined}
-                  className={`${localeButtonClass} ${
-                    activeLocale === "en"
-                      ? "bg-slate-950 text-white"
-                      : "text-slate-600 hover:bg-white"
-                  }`}
-                >
-                  EN
-                </Link>
-              </div>
-
-              <button
-                type="button"
-                aria-label={menuOpen ? copy.closeLabel : copy.menuLabel}
-                onClick={() => setMenuOpen((open) => !open)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-white"
-              >
-                {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-            </div>
-          </div>
-
-          {/* 2행: 제목 (전체 너비) */}
-          <Link href="/" className="mt-2 block">
-            <div className="whitespace-nowrap text-[15px] font-black leading-tight tracking-[-0.03em] text-slate-950">
-              {copy.title}
-            </div>
+        {/* 모바일 헤더: 배지 + 언어 + 메뉴만 표시 */}
+        <div className="flex items-center justify-between gap-2 lg:hidden">
+          <Link href="/" className="inline-flex shrink-0 whitespace-nowrap rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-950">
+            {copy.brand}
           </Link>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 p-1">
+              <Link href={pathname} locale="ko" className={`${localeButtonClass} ${activeLocale === "ko" ? "bg-slate-950 text-white" : "text-slate-600 hover:bg-white"}`}>KO</Link>
+              <Link href={pathname} locale="en" className={`${localeButtonClass} ${activeLocale === "en" ? "bg-slate-950 text-white" : "text-slate-600 hover:bg-white"}`}>EN</Link>
+            </div>
+            <button type="button" aria-label={menuOpen ? copy.closeLabel : copy.menuLabel} onClick={() => setMenuOpen((o) => !o)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-white">
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {menuOpen ? (
