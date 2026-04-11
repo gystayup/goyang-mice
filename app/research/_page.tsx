@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChartNoAxesColumn,
   ChevronLeft,
@@ -474,17 +474,53 @@ function getResearchCopy(locale: PageLocale) {
   };
 }
 
+type DbArchiveItem = {
+  id: string;
+  title: string;
+  summary: string | null;
+  content: string;
+};
+
+type ArchiveCard = {
+  issue: string;
+  season: string;
+  title: string;
+  desc: string;
+  gradient: string;
+};
+
+function parseDbItems(items: DbArchiveItem[]): ArchiveCard[] {
+  return items.map((item) => {
+    let meta = { issue: "", season: "", gradient: "" };
+    try { meta = JSON.parse(item.content) as typeof meta; } catch { /* ignore */ }
+    return { issue: meta.issue ?? "", season: meta.season ?? "", title: item.title, desc: item.summary ?? "", gradient: meta.gradient ?? "" };
+  });
+}
+
 export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getResearchCopy(locale);
   const archiveRef = useRef<HTMLDivElement>(null);
+  const [dbArchiveItems, setDbArchiveItems] = useState<ArchiveCard[] | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/research-archives")
+      .then((r) => r.json())
+      .then((data: { success: boolean; data: DbArchiveItem[] }) => {
+        if (data.success && data.data.length > 0) {
+          setDbArchiveItems(parseDbItems(data.data));
+        }
+      })
+      .catch(() => { /* fallback to hardcoded */ });
+  }, []);
+
+  const archiveItems = dbArchiveItems ?? copy.archiveItems;
 
   const scrollArchive = (direction: "left" | "right") => {
     const container = archiveRef.current;
     if (!container) return;
-
-    const cardWidth = container.clientWidth * 0.72;
+    const cardWidth = container.querySelector("article")?.offsetWidth ?? container.clientWidth * 0.72;
     container.scrollBy({
-      left: direction === "right" ? cardWidth : -cardWidth,
+      left: direction === "right" ? cardWidth + 16 : -(cardWidth + 16),
       behavior: "smooth",
     });
   };
@@ -531,10 +567,10 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
         <section className="rounded-[36px] border border-white/70 bg-white/82 px-6 py-8 shadow-[0_14px_38px_rgba(16,32,58,0.08)] backdrop-blur lg:px-8">
           <SectionTitle eyebrow={copy.archive.eyebrow} title={copy.archive.title} />
 
-          {/* 모바일: 가로 스크롤 + 화살표 / 데스크탑: 4열 그리드 */}
+          {/* 통합 캐러셀 (모바일 + 데스크탑 공통) */}
           <div className="relative mt-6">
-            {/* 모바일 화살표 */}
-            <div className="mb-3 flex justify-end gap-2 lg:hidden">
+            {/* 화살표 버튼 */}
+            <div className="mb-3 flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => scrollArchive("left")}
@@ -553,36 +589,15 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
               </button>
             </div>
 
-            {/* 모바일: 가로 스크롤 */}
+            {/* 가로 스크롤 컨테이너 */}
             <div
               ref={archiveRef}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-hide lg:hidden"
+              className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-hide"
             >
-              {copy.archiveItems.map((item) => (
-                <article
-                  key={item.issue + "-mobile"}
-                  className="flex min-w-[70vw] max-w-[70vw] snap-start flex-col rounded-[30px] border border-slate-200 bg-white shadow-soft sm:min-w-[45vw] sm:max-w-[45vw]"
-                >
-                  <div className="relative aspect-[4/5] rounded-t-[30px] p-5 text-white" style={{ background: item.gradient }}>
-                    <div className="text-sm font-semibold tracking-[0.18em] text-white/88">{item.season}</div>
-                    <div className="mt-4 text-3xl font-black tracking-tight">{item.issue}</div>
-                    <div className="mt-8 text-2xl font-black leading-tight">RESEARCH</div>
-                    <div className="text-xl font-black leading-tight">ARCHIVE</div>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="text-lg font-black tracking-tight text-slate-950">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {/* 데스크탑: 4열 그리드 */}
-            <div className="hidden gap-4 lg:grid lg:grid-cols-4">
-              {copy.archiveItems.map((item) => (
+              {archiveItems.map((item) => (
                 <article
                   key={item.issue}
-                  className="flex flex-col rounded-[30px] border border-slate-200 bg-white shadow-soft"
+                  className="flex w-[70vw] shrink-0 snap-start flex-col rounded-[30px] border border-slate-200 bg-white shadow-soft sm:w-[45vw] lg:w-[calc(25%-12px)]"
                 >
                   <div className="relative aspect-[4/5] rounded-t-[30px] p-5 text-white" style={{ background: item.gradient }}>
                     <div className="text-sm font-semibold tracking-[0.18em] text-white/88">{item.season}</div>

@@ -31,6 +31,7 @@ import DmcCategoryMediaPanel from "./DmcCategoryMediaPanel";
 import DmcHeroMediaPanel from "./DmcHeroMediaPanel";
 import MediaUploadButton from "./MediaUploadButton";
 import ProductManagementPanel from "./ProductManagementPanel";
+import ResearchArchivePanel from "./ResearchArchivePanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
   airportTransferStatusOrder,
@@ -991,6 +992,10 @@ export default function AdminDashboard() {
                 })}
               </div>
             </div>
+          ) : null}
+
+          {!loading && activeTab === "research-archive" ? (
+            <ResearchArchivePanel />
           ) : null}
 
           {!loading && activeTab === "inquiries" ? (
