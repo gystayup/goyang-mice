@@ -307,7 +307,7 @@ function getResearchCopy(locale: PageLocale) {
   return {
     hero: {
       eyebrow: "RESEARCH",
-      title: "고양의 K-컬쳐, 관광, MICE, 라이프스타일 전략을 연결하는 핵심 연구 트랙",
+      title: "고양의 K-컬쳐, 관광, MICE, 라이프스타일을 연결하는 핵심 연구 트랙",
       desc:
         "연구는 실행으로 이어지는 구조를 만드는 데 목적이 있습니다. 도시 자산, 방문객 여정, 운영 모델을 실제 프로그램과 서비스로 연결합니다.",
     },
