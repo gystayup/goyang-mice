@@ -2,13 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
+  Building2,
   ChartNoAxesColumn,
   ChevronLeft,
   ChevronRight,
   Compass,
+  FileText,
   Layers3,
   LayoutPanelTop,
+  Navigation,
+  Network,
   Sparkles,
+  TrendingUp,
 } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
@@ -88,40 +93,16 @@ function getResearchCopy(locale: PageLocale) {
       ],
       tracks: {
         eyebrow: "Research Tracks",
-        title: "6 execution-oriented tracks for 2026",
-        desc: "These themes focus on increasing visitor volume and improving local economic outcomes in Goyang.",
+        title: "2026 Core Research Tracks",
+        desc: "",
       },
       areas: [
-        {
-          title: "Citywide MICE Zone Research",
-          desc: "Designing connected MICE zones that link venues, performances, tourism, and stay.",
-          tone: "bg-[#fff3df]",
-        },
-        {
-          title: "Visitor Journey Design",
-          desc: "Planning how visitors move, spend, stay, and return across the city.",
-          tone: "bg-[#eafbf4]",
-        },
-        {
-          title: "Tourism District Models",
-          desc: "Creating stay-oriented program models linked to tourism districts and local commercial areas.",
-          tone: "bg-[#eef2ff]",
-        },
-        {
-          title: "Regional Industry Linkage",
-          desc: "Connecting culture, tourism, shopping, dining, and accommodation into one working structure.",
-          tone: "bg-[#ffe7df]",
-        },
-        {
-          title: "Program Impact Measurement",
-          desc: "Building structures for tracking satisfaction, stay extension, and local economic effects.",
-          tone: "bg-[#f7f1ff]",
-        },
-        {
-          title: "Policy & Operations Briefing",
-          desc: "Converting research outcomes into policy notes and field-ready briefs.",
-          tone: "bg-[#eef8ff]",
-        },
+        { icon: Building2,  title: "Citywide MICE Zone Research",    desc: "Designing connected MICE zones that link venues, performances, tourism, and stay.",                     tone: "bg-[#fff3df]" },
+        { icon: Navigation, title: "Visitor Journey Design",          desc: "Planning how visitors move, spend, stay, and return across the city.",                                 tone: "bg-[#eafbf4]" },
+        { icon: Network,    title: "Tourism District Models",         desc: "Creating stay-oriented program models linked to tourism districts and local commercial areas.",          tone: "bg-[#eef2ff]" },
+        { icon: Layers3,    title: "Regional Industry Linkage",       desc: "Connecting culture, tourism, shopping, dining, and accommodation into one working structure.",          tone: "bg-[#ffe7df]" },
+        { icon: TrendingUp, title: "Program Impact Measurement",      desc: "Building structures for tracking satisfaction, stay extension, and local economic effects.",            tone: "bg-[#f7f1ff]" },
+        { icon: FileText,   title: "Policy & Operations Briefing",    desc: "Converting research outcomes into policy notes and field-ready briefs.",                               tone: "bg-[#eef8ff]" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -190,14 +171,14 @@ function getResearchCopy(locale: PageLocale) {
         { issue: "VOL.03", season: "2026 FALL", title: "ライフスタイル都市戦略メモ", desc: "家族体験、カフェ、グルメ、ショッピングを含む高陽型ライフスタイル戦略メモです。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
         { issue: "VOL.04", season: "2026 WINTER", title: "現場運営実行ブリーフアーカイブ", desc: "予約、スケジュール、パートナー運営、現場対応まで連携する実行資料集です。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
-      tracks: { eyebrow: "Research Tracks", title: "2026年度コア研究トラックを6つの実行テーマで整理しました。", desc: "以下は高陽市の訪問者増加を目的とした地域経済効果向上に焦点を当てています。" },
+      tracks: { eyebrow: "Research Tracks", title: "2026年 コア研究トラック", desc: "" },
       areas: [
-        { title: "都市型MICE圏域研究", desc: "展示場、公演場、観光、宿泊資源をひとつのMICE圏域構造で連結します。", tone: "bg-[#fff3df]" },
-        { title: "訪問者ジャーニー設計", desc: "到着、消費、滞在、再訪問までつながる訪問者フローを設計します。", tone: "bg-[#eafbf4]" },
-        { title: "観光特区連携モデル開発", desc: "観光特区と地域商圏を組み合わせた滞在型プログラムモデルを構築します。", tone: "bg-[#eef2ff]" },
-        { title: "地域産業連携構造", desc: "文化、観光、ショッピング、グルメ、宿泊産業が共に機能する構造を設計します。", tone: "bg-[#ffe7df]" },
-        { title: "プログラム効果測定", desc: "満足度、滞在拡大、地域経済効果を測定可能な構造へ変換します。", tone: "bg-[#f7f1ff]" },
-        { title: "政策と現場実行ブリーフ", desc: "研究結果を現場運営や提案書作成に活用できる形で整理します。", tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "都市型MICE圏域研究",    desc: "展示場、公演場、観光、宿泊資源をひとつのMICE圏域構造で連結します。",                 tone: "bg-[#fff3df]" },
+        { icon: Navigation, title: "訪問者ジャーニー設計",  desc: "到着、消費、滞在、再訪問までつながる訪問者フローを設計します。",                     tone: "bg-[#eafbf4]" },
+        { icon: Network,    title: "観光特区連携モデル開発", desc: "観光特区と地域商圏を組み合わせた滞在型プログラムモデルを構築します。",               tone: "bg-[#eef2ff]" },
+        { icon: Layers3,    title: "地域産業連携構造",      desc: "文化、観光、ショッピング、グルメ、宿泊産業が共に機能する構造を設計します。",         tone: "bg-[#ffe7df]" },
+        { icon: TrendingUp, title: "プログラム効果測定",    desc: "満足度、滞在拡大、地域経済効果を測定可能な構造へ変換します。",                       tone: "bg-[#f7f1ff]" },
+        { icon: FileText,   title: "政策と現場実行ブリーフ", desc: "研究結果を現場運営や提案書作成に活用できる形で整理します。",                        tone: "bg-[#eef8ff]" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -241,14 +222,14 @@ function getResearchCopy(locale: PageLocale) {
         { issue: "VOL.03", season: "2026 FALL", title: "生活方式城市战略备忘录", desc: "包含家庭体验、咖啡馆、美食、购物的高阳型生活方式战略备忘录。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
         { issue: "VOL.04", season: "2026 WINTER", title: "现场运营执行简报档案", desc: "涵盖预约、日程、合作伙伴运营与现场应对的执行资料集。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
-      tracks: { eyebrow: "Research Tracks", title: "2026年度核心研究方向归纳为6大执行主题", desc: "以下内容聚焦于提升高阳市访客数量及地区经济效益。" },
+      tracks: { eyebrow: "Research Tracks", title: "2026年 核心研究方向", desc: "" },
       areas: [
-        { title: "城市型MICE区域研究", desc: "将展览馆、演出场馆、旅游、住宿资源整合为统一的MICE区域结构。", tone: "bg-[#fff3df]" },
-        { title: "访客旅程设计", desc: "规划从到达、消费、停留到再次访问的访客流程。", tone: "bg-[#eafbf4]" },
-        { title: "旅游特区联动模型开发", desc: "构建将旅游特区与当地商圈结合的驻留型项目模型。", tone: "bg-[#eef2ff]" },
-        { title: "地区产业联动结构", desc: "设计文化、旅游、购物、餐饮、住宿产业协同运作的整体结构。", tone: "bg-[#ffe7df]" },
-        { title: "项目效益评估", desc: "将满意度、停留延长、地区经济效益转化为可量化的评估结构。", tone: "bg-[#f7f1ff]" },
-        { title: "政策与现场执行简报", desc: "将研究成果整理为可直接用于现场运营与提案撰写的材料。", tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "城市型MICE区域研究",   desc: "将展览馆、演出场馆、旅游、住宿资源整合为统一的MICE区域结构。",       tone: "bg-[#fff3df]" },
+        { icon: Navigation, title: "访客旅程设计",         desc: "规划从到达、消费、停留到再次访问的访客流程。",                       tone: "bg-[#eafbf4]" },
+        { icon: Network,    title: "旅游特区联动模型开发", desc: "构建将旅游特区与当地商圈结合的驻留型项目模型。",                     tone: "bg-[#eef2ff]" },
+        { icon: Layers3,    title: "地区产业联动结构",     desc: "设计文化、旅游、购物、餐饮、住宿产业协同运作的整体结构。",           tone: "bg-[#ffe7df]" },
+        { icon: TrendingUp, title: "项目效益评估",         desc: "将满意度、停留延长、地区经济效益转化为可量化的评估结构。",           tone: "bg-[#f7f1ff]" },
+        { icon: FileText,   title: "政策与现场执行简报",   desc: "将研究成果整理为可直接用于现场运营与提案撰写的材料。",               tone: "bg-[#eef8ff]" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -292,14 +273,14 @@ function getResearchCopy(locale: PageLocale) {
         { issue: "VOL.03", season: "2026 FALL", title: "生活風格城市策略備忘錄", desc: "包含家庭體驗、咖啡廳、美食、購物的高陽型生活風格策略備忘錄。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
         { issue: "VOL.04", season: "2026 WINTER", title: "現場營運執行簡報檔案", desc: "涵蓋預約、日程、合作夥伴營運與現場應對的執行資料集。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
-      tracks: { eyebrow: "Research Tracks", title: "2026年度核心研究方向歸納為6大執行主題", desc: "以下內容聚焦於提升高陽市訪客數量及地區經濟效益。" },
+      tracks: { eyebrow: "Research Tracks", title: "2026年 核心研究方向", desc: "" },
       areas: [
-        { title: "城市型MICE區域研究", desc: "將展覽館、演出場館、旅遊、住宿資源整合為統一的MICE區域結構。", tone: "bg-[#fff3df]" },
-        { title: "訪客旅程設計", desc: "規劃從到達、消費、停留到再次造訪的訪客流程。", tone: "bg-[#eafbf4]" },
-        { title: "觀光特區聯動模型開發", desc: "構建將觀光特區與當地商圈結合的駐留型方案模型。", tone: "bg-[#eef2ff]" },
-        { title: "地區產業聯動結構", desc: "設計文化、旅遊、購物、餐飲、住宿產業協同運作的整體結構。", tone: "bg-[#ffe7df]" },
-        { title: "方案效益評估", desc: "將滿意度、停留延長、地區經濟效益轉化為可量化的評估結構。", tone: "bg-[#f7f1ff]" },
-        { title: "政策與現場執行簡報", desc: "將研究成果整理為可直接用於現場營運與提案撰寫的材料。", tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "城市型MICE區域研究",   desc: "將展覽館、演出場館、旅遊、住宿資源整合為統一的MICE區域結構。",       tone: "bg-[#fff3df]" },
+        { icon: Navigation, title: "訪客旅程設計",         desc: "規劃從到達、消費、停留到再次造訪的訪客流程。",                       tone: "bg-[#eafbf4]" },
+        { icon: Network,    title: "觀光特區聯動模型開發", desc: "構建將觀光特區與當地商圈結合的駐留型方案模型。",                     tone: "bg-[#eef2ff]" },
+        { icon: Layers3,    title: "地區產業聯動結構",     desc: "設計文化、旅遊、購物、餐飲、住宿產業協同運作的整體結構。",           tone: "bg-[#ffe7df]" },
+        { icon: TrendingUp, title: "方案效益評估",         desc: "將滿意度、停留延長、地區經濟效益轉化為可量化的評估結構。",           tone: "bg-[#f7f1ff]" },
+        { icon: FileText,   title: "政策與現場執行簡報",   desc: "將研究成果整理為可直接用於現場營運與提案撰寫的材料。",               tone: "bg-[#eef8ff]" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -392,40 +373,16 @@ function getResearchCopy(locale: PageLocale) {
     ],
     tracks: {
       eyebrow: "Research Tracks",
-      title: "2026년도 핵심 연구 트랙을 6개의 실행 주제로 정리했습니다.",
-      desc: "아래에는 고양시 방문자 증대를 위한 지역경제효과 증진에 포커스를 맞추었습니다.",
+      title: "2026년 핵심연구트랙",
+      desc: "",
     },
     areas: [
-      {
-        title: "도시형 MICE 권역 연구",
-        desc: "전시장, 공연장, 관광, 숙박 자원을 하나의 MICE 권역 구조로 연결합니다.",
-        tone: "bg-[#fff3df]",
-      },
-      {
-        title: "방문객 여정 설계",
-        desc: "도착, 소비, 체류, 재방문까지 이어지는 방문객 흐름을 설계합니다.",
-        tone: "bg-[#eafbf4]",
-      },
-      {
-        title: "관광특구 연계 모델 개발",
-        desc: "관광특구와 지역 상권을 연결한 체류형 프로그램 모델을 구축합니다.",
-        tone: "bg-[#eef2ff]",
-      },
-      {
-        title: "지역 산업 연계 구조",
-        desc: "문화, 관광, 쇼핑, 미식, 숙박 산업이 함께 작동하는 구조를 설계합니다.",
-        tone: "bg-[#ffe7df]",
-      },
-      {
-        title: "프로그램 효과 측정",
-        desc: "만족도, 체류 확대, 지역경제 효과를 측정 가능한 구조로 전환합니다.",
-        tone: "bg-[#f7f1ff]",
-      },
-      {
-        title: "정책과 현장 실행 브리프",
-        desc: "연구 결과를 실제 현장 운영과 제안서 작성에 활용할 수 있도록 정리합니다.",
-        tone: "bg-[#eef8ff]",
-      },
+      { icon: Building2,   title: "도시형 MICE 권역 연구",     desc: "전시장, 공연장, 관광, 숙박 자원을 하나의 MICE 권역 구조로 연결합니다.",          tone: "bg-[#fff3df]" },
+      { icon: Navigation,  title: "방문객 여정 설계",           desc: "도착, 소비, 체류, 재방문까지 이어지는 방문객 흐름을 설계합니다.",                tone: "bg-[#eafbf4]" },
+      { icon: Network,     title: "관광특구 연계 모델 개발",    desc: "관광특구와 지역 상권을 연결한 체류형 프로그램 모델을 구축합니다.",                tone: "bg-[#eef2ff]" },
+      { icon: Layers3,     title: "지역 산업 연계 구조",        desc: "문화, 관광, 쇼핑, 미식, 숙박 산업이 함께 작동하는 구조를 설계합니다.",           tone: "bg-[#ffe7df]" },
+      { icon: TrendingUp,  title: "프로그램 효과 측정",         desc: "만족도, 체류 확대, 지역경제 효과를 측정 가능한 구조로 전환합니다.",               tone: "bg-[#f7f1ff]" },
+      { icon: FileText,    title: "정책과 현장 실행 브리프",    desc: "연구 결과를 실제 현장 운영과 제안서 작성에 활용할 수 있도록 정리합니다.",        tone: "bg-[#eef8ff]" },
     ],
     perspective: {
       eyebrow: "Research Perspective",
@@ -622,16 +579,22 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
             desc={copy.tracks.desc}
           />
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {copy.areas.map((item) => (
-              <PremiumCard key={item.title} className={`p-7 ${item.tone}`}>
-                <div className="text-2xl font-black tracking-tight text-slate-950">
-                  {item.title}
-                </div>
-                <p className="mt-4 text-base leading-8 text-slate-700">
-                  {item.desc}
-                </p>
-              </PremiumCard>
-            ))}
+            {copy.areas.map((item) => {
+              const Icon = item.icon;
+              return (
+                <PremiumCard key={item.title} className={`p-7 ${item.tone}`}>
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/70 shadow-sm">
+                    <Icon className="h-6 w-6 text-slate-700" />
+                  </div>
+                  <div className="text-xl font-black leading-snug tracking-tight text-slate-950 sm:text-2xl">
+                    {item.title}
+                  </div>
+                  <p className="mt-3 text-base leading-8 text-slate-700">
+                    {item.desc}
+                  </p>
+                </PremiumCard>
+              );
+            })}
           </div>
         </section>
 
