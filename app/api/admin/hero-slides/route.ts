@@ -25,18 +25,20 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
-    const body = (await request.json()) as { slides: unknown[] };
+    const body = (await request.json()) as { slides: Record<string, unknown>[] };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const slidesJson = body.slides as any;
     const page = await prisma.page.upsert({
       where: { pageKey: PAGE_KEY },
       update: {
-        contentJson: body.slides,
+        contentJson: slidesJson,
         status: "PUBLISHED",
       },
       create: {
         pageKey: PAGE_KEY,
         title: "Hero Slides",
         slug: "hero-slides",
-        contentJson: body.slides,
+        contentJson: slidesJson,
         status: "PUBLISHED",
         lang: "ko",
       },
