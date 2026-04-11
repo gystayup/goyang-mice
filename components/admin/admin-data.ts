@@ -12,6 +12,7 @@ export type AdminTab =
   | "products"
   | "news"
   | "research-archive"
+  | "hero-slides"
   | "inquiries"
   | "users"
   | "settings";
@@ -150,6 +151,7 @@ export const navItems = [
   { id: "products", label: "상품 운영" },
   { id: "news", label: "뉴스·공지" },
   { id: "research-archive", label: "연구 아카이브" },
+  { id: "hero-slides", label: "히어로 슬라이드" },
   { id: "inquiries", label: "문의 관리" },
   { id: "users", label: "사용자 관리" },
   { id: "settings", label: "설정" },

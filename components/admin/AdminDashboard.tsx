@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   LogOut,
   Mail,
+  MonitorPlay,
   Newspaper,
   Package,
   Plane,
@@ -31,6 +32,7 @@ import DmcCategoryMediaPanel from "./DmcCategoryMediaPanel";
 import DmcHeroMediaPanel from "./DmcHeroMediaPanel";
 import MediaUploadButton from "./MediaUploadButton";
 import ProductManagementPanel from "./ProductManagementPanel";
+import HeroSlidesPanel from "./HeroSlidesPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
@@ -353,6 +355,7 @@ export default function AdminDashboard() {
               products: Package,
               news: Newspaper,
               "research-archive": Newspaper,
+              "hero-slides": MonitorPlay,
               inquiries: Mail,
               users: Users,
               settings: Settings,
@@ -998,6 +1001,10 @@ export default function AdminDashboard() {
 
           {!loading && activeTab === "research-archive" ? (
             <ResearchArchivePanel />
+          ) : null}
+
+          {!loading && activeTab === "hero-slides" ? (
+            <HeroSlidesPanel />
           ) : null}
 
           {!loading && activeTab === "inquiries" ? (
