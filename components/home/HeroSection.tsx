@@ -12,9 +12,9 @@ type LocaleCopy = {
 
 const heroCopy: Record<"ko" | "en", LocaleCopy> = {
   ko: {
-    introBadge: "고양, 문화, 관광, 마이스 연구소 & DMC",
-    title: "고양에서 K-CULTURE, TOUR, MICE 경험을 연결하는 DMC 플랫폼",
-    desc: "KINTEX, 공연장, 관광 거점, 로컬 라이프스타일 공간을 하나의 방문 흐름으로 연결해 예약과 운영, 체류 경험까지 이어갑니다.",
+    introBadge: "고양 문화관광·마이스 연구연계 DMC",
+    title: "",
+    desc: "",
     cards: [
       {
         eyebrow: "Research",
@@ -59,9 +59,9 @@ const heroCopy: Record<"ko" | "en", LocaleCopy> = {
     ],
   },
   en: {
-    introBadge: "Goyang Culture, Tourism, MICE Institute & DMC",
-    title: "A DMC platform connecting K-culture, tourism and MICE experiences in Goyang",
-    desc: "We connect KINTEX, venues, tourism hubs and local lifestyle spaces into one visitor journey covering booking, operations and stay experiences.",
+    introBadge: "Goyang Culture·Tourism·MICE Research & DMC",
+    title: "",
+    desc: "",
     cards: [
       {
         eyebrow: "Research",
@@ -121,17 +121,11 @@ export default async function HeroSection({ locale }: { locale: string }) {
 
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:mt-10 sm:px-6 lg:mt-12">
         <div className="rounded-[30px] border border-white/70 bg-white/86 p-5 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur sm:rounded-[34px] sm:p-6 lg:p-8">
-          {/* 타이틀 영역 */}
-          <div className="rounded-[26px] bg-[linear-gradient(135deg,_#fff1de_0%,_#ffe9e2_36%,_#fffefa_100%)] px-5 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-9">
+          {/* 뱃지 영역 */}
+          <div className="rounded-[26px] bg-[linear-gradient(135deg,_#fff1de_0%,_#ffe9e2_36%,_#fffefa_100%)] px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7">
             <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-slate-950">
               {copy.introBadge}
             </div>
-            <h2 className="mt-4 text-[1.7rem] font-black leading-[1.15] tracking-[-0.03em] text-[#10203a] [text-wrap:balance] sm:text-[2.2rem] sm:leading-[1.1] lg:text-[3rem] lg:leading-[1.05]">
-              {copy.title}
-            </h2>
-            <p className="mt-4 max-w-3xl text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8 lg:text-lg lg:leading-9">
-              {copy.desc}
-            </p>
           </div>
 
           {/* 카드 3개 */}
