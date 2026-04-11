@@ -1,8 +1,7 @@
 const copyMap = {
   ko: {
     eyebrow: "Why Goyang",
-    title:
-      "고양은 공연, 전시, 관광, 라이프스타일 콘텐츠가 가까운 거리에서 연결되어 방문을 체류 경험으로 확장하기 좋은 도시입니다.",
+    title: "고양, 공연·전시·관광·라이프스타일이 융합된 체류형 도시",
     items: [
       {
         title: "공연과 전시가 체류 경험으로 이어집니다",
@@ -28,8 +27,7 @@ const copyMap = {
   },
   en: {
     eyebrow: "Why Goyang",
-    title:
-      "Goyang is a city where performances, exhibitions, tourism and lifestyle content connect closely enough to turn visits into longer stay experiences.",
+    title: "Goyang — a stay-oriented city where performances, exhibitions, tourism and lifestyle converge",
     items: [
       {
         title: "Performances and exhibitions extend into stay experiences",
