@@ -58,8 +58,15 @@ export default function Header() {
       <div className="mx-auto max-w-7xl rounded-[28px] border border-white/70 bg-white/88 px-4 py-4 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur-xl sm:px-5 lg:px-6">
         {/* 모바일 헤더: 배지 + 언어 + 메뉴만 표시 */}
         <div className="flex items-center justify-between gap-2 lg:hidden">
-          <Link href="/" className="inline-flex shrink-0 whitespace-nowrap rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-950">
-            {copy.brand}
+          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap overflow-hidden rounded-full bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_50%,_#10203a_100%)] px-4 py-2 shadow-[0_4px_14px_rgba(16,32,58,0.35)]">
+            <span className="absolute inset-0 bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b,_#ff8f7e)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
+            <span className="relative flex h-1.5 w-1.5 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+            </span>
+            <span className="relative bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] bg-clip-text text-[11px] font-black uppercase tracking-[0.18em] text-transparent">
+              {copy.brand}
+            </span>
           </Link>
 
           <div className="flex shrink-0 items-center gap-2">
@@ -113,8 +120,15 @@ export default function Header() {
 
         <div className="hidden lg:grid lg:grid-cols-[minmax(0,18rem)_auto_minmax(0,1fr)_auto] lg:items-start lg:gap-4 xl:grid-cols-[minmax(0,22rem)_auto_minmax(0,1fr)_auto] xl:gap-5">
           <Link href="/" className="min-w-0">
-            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-slate-950">
-              {copy.brand}
+            <div className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_50%,_#10203a_100%)] px-5 py-2.5 shadow-[0_6px_20px_rgba(16,32,58,0.40)] transition hover:shadow-[0_8px_28px_rgba(16,32,58,0.50)]">
+              <span className="absolute inset-0 bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b,_#ff8f7e)] opacity-0 transition-opacity duration-300 group-hover:opacity-15" />
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8df0cf]" />
+              </span>
+              <span className="relative bg-[linear-gradient(135deg,_#8df0cf_0%,_#ffe98b_60%,_#ffb58f_100%)] bg-clip-text text-[13px] font-black uppercase tracking-[0.22em] text-transparent">
+                {copy.brand}
+              </span>
             </div>
             <div className="mt-3 text-[1.7rem] font-black leading-[1.1] tracking-[-0.04em] text-slate-950">
               <span className="block">{copy.titleLine1}</span>
