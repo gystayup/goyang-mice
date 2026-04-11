@@ -54,17 +54,16 @@ export default function Header() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header className="sticky top-0 z-50 px-3 sm:px-4">
       <div className="mx-auto max-w-7xl rounded-[28px] border border-white/70 bg-white/88 px-4 py-4 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur-xl sm:px-5 lg:px-6">
         <div className="flex items-start justify-between gap-3 lg:hidden">
           <Link href="/" className="min-w-0 flex-1 pr-2">
             <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-slate-950">
               {copy.brand}
             </div>
-            <div className="mt-3 text-xl font-black leading-tight tracking-[-0.04em] text-slate-950">
+            <div className="mt-2 whitespace-nowrap text-[14px] font-black leading-tight tracking-[-0.03em] text-slate-950">
               {copy.title}
             </div>
-            <div className="mt-1 text-sm leading-6 text-slate-500">{copy.subtitle}</div>
           </Link>
 
           <div className="flex shrink-0 items-center gap-2">
@@ -106,7 +105,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2 lg:hidden">
+        <div className="hidden">
           <Link
             href="/products"
             className="inline-flex min-h-11 items-center justify-center rounded-full bg-slate-950 px-5 text-sm font-semibold text-white"
