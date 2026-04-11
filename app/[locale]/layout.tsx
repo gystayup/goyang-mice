@@ -6,10 +6,6 @@ import { AuthProvider } from "@/lib/auth-provider";
 
 const locales = ["ko", "en", "ja", "zh-CN", "zh-TW"] as const;
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
-
 export default async function LocaleLayout({
   children,
   params,

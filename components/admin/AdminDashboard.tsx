@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import {
   BedDouble,
@@ -342,7 +342,7 @@ export default function AdminDashboard() {
 
         <nav className="flex-1 space-y-2">
           {navItems.map((item) => {
-            const Icon = {
+            const iconMap: Record<string, React.ElementType> = {
               dashboard: LayoutDashboard,
               bookings: FileText,
               airport: Plane,
@@ -352,10 +352,12 @@ export default function AdminDashboard() {
               stay: BedDouble,
               products: Package,
               news: Newspaper,
+              "research-archive": Newspaper,
               inquiries: Mail,
               users: Users,
               settings: Settings,
-            }[item.id];
+            };
+            const Icon = iconMap[item.id] ?? LayoutDashboard;
 
             return (
               <button
