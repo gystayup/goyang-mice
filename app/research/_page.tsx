@@ -106,7 +106,7 @@ function getResearchCopy(locale: PageLocale) {
       ],
       perspective: {
         eyebrow: "Research Perspective",
-        title: "Research should end in experiences people can choose, not only in reports",
+        title: "Good research transforms a city's tangible and intangible assets into new value.",
         desc:
           "Our research becomes brand stories, program planning, service design, and operational briefs that can move in the field.",
       },
@@ -182,7 +182,7 @@ function getResearchCopy(locale: PageLocale) {
       ],
       perspective: {
         eyebrow: "Research Perspective",
-        title: "良い研究は都市を説明するだけでなく、選択可能な体験として翻訳されるべきです",
+        title: "良い研究は都市の有形・無形資産を新たな価値へと転換するものです。",
         desc: "GOYANG MICE PLATFORMの研究は、ブランドストーリー、プログラム企画、サービス設計、現場運営ブリーフへとつながる出発点です。",
       },
       frames: [
@@ -233,7 +233,7 @@ function getResearchCopy(locale: PageLocale) {
       ],
       perspective: {
         eyebrow: "Research Perspective",
-        title: "好的研究不止于解读城市，更要转化为可供选择的体验",
+        title: "好的研究应将城市的有形与无形资产转化为新的价值。",
         desc: "GOYANG MICE PLATFORM的研究是通往品牌故事、项目策划、服务设计与现场运营简报的起点。",
       },
       frames: [
@@ -284,7 +284,7 @@ function getResearchCopy(locale: PageLocale) {
       ],
       perspective: {
         eyebrow: "Research Perspective",
-        title: "好的研究不止於解讀城市，更要轉化為可供選擇的體驗",
+        title: "好的研究應將城市的有形與無形資產轉化為新的價值。",
         desc: "GOYANG MICE PLATFORM的研究是通往品牌故事、專案規劃、服務設計與現場營運簡報的起點。",
       },
       frames: [
@@ -386,7 +386,7 @@ function getResearchCopy(locale: PageLocale) {
     ],
     perspective: {
       eyebrow: "Research Perspective",
-      title: "좋은 연구는 도시를 설명하는 데서 끝나지 않고, 선택 가능한 경험으로 번역되어야 합니다",
+      title: "좋은 연구는 도시의 유무형 자산을 새로운 가치로 전환해야 합니다.",
       desc:
         "GOYANG MICE PLATFORM의 연구는 브랜드 스토리, 프로그램 기획, 서비스 설계, 현장 운영 브리프로 연결되기 위한 출발점입니다.",
     },
