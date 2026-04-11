@@ -20,7 +20,7 @@ const categoryCopy = {
     hero: {
       badge: "DMC Service Program",
       title:
-        "여행상품부터 공항픽업까지 6개 예약 서비스를 하나의 흐름으로 운영합니다",
+        "한국방문의 목적지는 고양특례시입니다. 예약은 고양 DMC에서",
       paymentsLabel: "결제방법",
       payments: ["💳 크레딧카드", "💬 카카오페이", "🏦 계좌송금"],
       signals: [
@@ -85,7 +85,7 @@ const categoryCopy = {
     hero: {
       badge: "DMC Service Program",
       title:
-        "Operate 6 booking services in one connected flow, from travel products to airport pickup",
+        "Goyang Special City — your destination in Korea. Book with Goyang DMC.",
       paymentsLabel: "Payment Methods",
       payments: ["💳 Credit Card", "💬 KakaoPay", "🏦 Bank Transfer"],
       signals: [
