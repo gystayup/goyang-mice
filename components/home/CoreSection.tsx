@@ -145,17 +145,8 @@ export default async function CoreSection({ locale }: { locale: string }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18">
       <SectionTitle
-        eyebrow={activeLocale === "en" ? "Quick Access" : "핵심 메뉴"}
-        title={
-          activeLocale === "en"
-            ? "Five clear paths for first-time visitors"
-            : "처음 들어와도 바로 이해되는 5개의 핵심 메뉴"
-        }
-        desc={
-          activeLocale === "en"
-            ? "Each menu is organized as a distinct content unit so users can understand where to go without confusion."
-            : "연구소 소개부터 DMC 서비스, 예약 프로그램, 문의까지 모바일에서도 읽기 쉽게 핵심 경로를 정리했습니다."
-        }
+        eyebrow={activeLocale === "en" ? "Core Services" : "핵심업무"}
+        title={activeLocale === "en" ? "What We Do" : "우리가 하는 일"}
       />
 
       <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-2 xl:grid-cols-5">
