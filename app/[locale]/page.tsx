@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import HomePageContent from "@/components/home/HomePageContent";
 import Shell from "@/components/layout/Shell";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {
