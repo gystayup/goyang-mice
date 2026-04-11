@@ -142,9 +142,8 @@ const koreanCopy: DmcCopy = {
   },
   categories: {
     eyebrow: "예약 카테고리",
-    title: "6개 예약 카테고리에서 바로 선택하세요",
-    description:
-      "아래 카테고리를 선택하면 서비스 상세와 예약 페이지로 바로 이동할 수 있습니다.",
+    title: "원스톱 통합예약 서비스",
+    description: "원하는 서비스를 바로 선택하고 예약하세요",
     cta: "더 알아보기",
     booking: "예약하기",
     items: [
@@ -354,8 +353,8 @@ const englishCopy: DmcCopy = {
   },
   categories: {
     eyebrow: "Booking Categories",
-    title: "Choose from 6 booking categories",
-    description: "Select a category below to move directly into service details and booking.",
+    title: "One-stop Integrated Booking Service",
+    description: "Select the service you need and book it right away.",
     cta: "Learn More",
     booking: "Book Now",
     items: [
