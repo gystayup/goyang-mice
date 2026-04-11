@@ -1,5 +1,6 @@
 
 import HeroMediaCarousel from "@/components/home/HeroMediaCarousel";
+import ExpandableStats from "@/components/home/ExpandableStats";
 
 type LocaleCopy = {
   introBadge: string;
@@ -151,22 +152,8 @@ export default async function HeroSection({ locale }: { locale: string }) {
             ))}
           </div>
 
-          {/* 통계 4개 - 시각적 구분선 추가 */}
-          <div className="mt-4 border-t border-slate-100 pt-4">
-            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-              {copy.stats.map((stat) => (
-                <article
-                  key={stat.value}
-                  className={`rounded-[20px] border border-slate-100 px-4 py-4 shadow-[0_6px_18px_rgba(16,32,58,0.04)] sm:px-5 ${stat.tone}`}
-                >
-                  <div className="text-base font-black tracking-[-0.03em] text-slate-950 sm:text-lg lg:text-xl">
-                    {stat.value}
-                  </div>
-                  <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:text-sm sm:leading-6">{stat.label}</p>
-                </article>
-              ))}
-            </div>
-          </div>
+          {/* 통계 4개 - 접기/펼치기 */}
+          <ExpandableStats stats={copy.stats} locale={locale} />
         </div>
       </div>
     </section>
