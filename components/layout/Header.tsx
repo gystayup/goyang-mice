@@ -21,7 +21,7 @@ type HeaderCopy = {
 const copyMap: Record<"ko" | "en", HeaderCopy> = {
   ko: {
     brand: "GOYANG VIBE LAB",
-    titleLine1: "고양특례시",
+    titleLine1: "",
     titleLine2: "K-컬처플랫폼",
     reservation: "예약 보기",
     contact: "문의하기",
@@ -31,7 +31,7 @@ const copyMap: Record<"ko" | "en", HeaderCopy> = {
   },
   en: {
     brand: "GOYANG VIBE LAB",
-    titleLine1: "Goyang Special City",
+    titleLine1: "",
     titleLine2: "K-Culture Platform",
     reservation: "Bookings",
     contact: "Contact",
