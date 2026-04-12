@@ -215,50 +215,58 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
   const Icon = tagIcons[product.categoryKey];
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_12px_32px_rgba(16,32,58,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(16,32,58,0.12)]">
-      <div className="relative flex min-h-[14.5rem] flex-col overflow-hidden border-b border-slate-200 bg-[linear-gradient(140deg,_#13254a_0%,_#284fb0_42%,_#7fd5ec_100%)] p-5 text-white sm:min-h-[15.5rem] sm:p-6">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_26%)]" />
-        <div className="absolute -bottom-16 -left-10 h-32 w-32 rounded-full bg-white/12 blur-3xl" />
+    <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/80 bg-white/80 shadow-[0_12px_36px_rgba(16,32,58,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_56px_rgba(16,32,58,0.14)]">
+      {/* 카드 헤더 — 다크 그라데이션 */}
+      <div className="relative flex min-h-[14.5rem] flex-col overflow-hidden p-5 text-white sm:min-h-[15.5rem] sm:p-6"
+           style={{ background: "linear-gradient(145deg, #080e1a 0%, #0f1e38 35%, #1a3060 70%, #2a4a8a 100%)" }}>
+        {/* 도트 그리드 */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.05]"
+             style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+        {/* 글로우 */}
+        <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#8df0cf]/18 blur-[40px]" />
+        <div className="pointer-events-none absolute -bottom-8 left-0 h-28 w-28 rounded-full bg-[#a4d8ff]/14 blur-[40px]" />
+        {/* 상단 네온 라인 */}
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
 
         <div className="relative flex items-start justify-between gap-3">
-          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-50">
+          <span className="rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/12 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#8df0cf]/90 backdrop-blur">
             {product.badge}
           </span>
-          <span className="inline-flex items-center gap-1.5 pt-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/82">
+          <span className="inline-flex items-center gap-1.5 pt-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
             <Icon className="h-3.5 w-3.5" />
             {display.tag}
           </span>
         </div>
 
-        <h3 className="relative mt-5 min-h-[3rem] text-[1.45rem] font-black leading-[1.08] tracking-[-0.05em] text-white sm:text-[1.75rem]">
+        <h3 className="relative mt-5 min-h-[3rem] text-[1.45rem] font-black leading-[1.1] tracking-[-0.05em] text-white sm:text-[1.75rem]">
           {display.title}
         </h3>
-        <p className="relative mt-4 line-clamp-3 text-[15px] leading-7 text-slate-50/94 sm:text-base">
+        <p className="relative mt-4 line-clamp-3 text-[15px] leading-7 text-slate-300 sm:text-base">
           {display.summary}
         </p>
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <div className="flex min-h-[3rem] items-start justify-between gap-3">
-          <span className="inline-flex rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700">
+          <span className="inline-flex rounded-full border border-white/60 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-700 backdrop-blur">
             {display.category}
           </span>
-          <span className="text-right text-[13px] font-semibold leading-6 text-slate-500">
+          <span className="text-right text-[13px] font-semibold leading-6 text-slate-400">
             {display.categorySummary}
           </span>
         </div>
 
-        <div className="mt-5 grid gap-3 rounded-[24px] border border-slate-100 bg-slate-50/80 p-4 text-[15px] text-slate-700">
+        <div className="mt-5 grid gap-3 rounded-[20px] border border-white/60 bg-white/50 p-4 text-[15px] text-slate-700 backdrop-blur">
           <div className="flex items-center gap-2.5">
-            <CalendarClock className="h-4.5 w-4.5 shrink-0 text-sky-700" />
+            <CalendarClock className="h-4 w-4 shrink-0 text-[#0a6b48]" />
             <span>{display.duration}</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <Users className="h-4.5 w-4.5 shrink-0 text-sky-700" />
+            <Users className="h-4 w-4 shrink-0 text-[#3655a6]" />
             <span>{display.people}</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <MapPin className="h-4.5 w-4.5 shrink-0 text-sky-700" />
+            <MapPin className="h-4 w-4 shrink-0 text-[#9b3a1a]" />
             <span>{display.location}</span>
           </div>
         </div>
@@ -268,7 +276,7 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
             {display.subcategories.slice(0, 3).map((item) => (
               <span
                 key={item}
-                className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600"
+                className="rounded-full border border-white/70 bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-slate-600 backdrop-blur"
               >
                 {item}
               </span>
@@ -276,8 +284,8 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
           </div>
         </div>
 
-        <div className="mt-6 rounded-[24px] border border-slate-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] px-5 py-4">
-          <div className="text-xs font-semibold tracking-[0.18em] text-slate-500">
+        <div className="mt-6 overflow-hidden rounded-[20px] border border-white/60 bg-gradient-to-br from-[#f0f4ff] to-[#eef2ff] px-5 py-4">
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
             {display.priceLabel}
           </div>
           <div className="mt-2 text-[1.9rem] font-black tracking-[-0.04em] text-slate-950 sm:text-[2.1rem]">
@@ -289,14 +297,14 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Link
               href={`/products/${product.id}`}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 text-sm font-bold text-white shadow-[0_6px_18px_rgba(16,32,58,0.20)] transition hover:-translate-y-0.5 hover:brightness-110"
             >
               {ui.details}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href={`/products/${product.id}/reservation`}
-              className="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/70 bg-white/80 px-5 text-sm font-semibold text-slate-700 backdrop-blur transition hover:bg-white hover:shadow-md"
             >
               {ui.reserve}
             </Link>

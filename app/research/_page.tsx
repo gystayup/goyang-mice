@@ -485,35 +485,46 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
   return (
     <Shell>
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-20 pt-10">
-        <section className="overflow-hidden rounded-[40px] border border-white/70 bg-[linear-gradient(135deg,_#10203a_0%,_#304f9b_38%,_#8df0cf_100%)] px-6 py-8 text-white shadow-[0_24px_60px_rgba(16,32,58,0.14)] lg:px-10 lg:py-10">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        {/* ── Hero ── */}
+        <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_40%,_#102040_70%,_#1a3060_100%)] px-6 py-10 text-white shadow-[0_28px_70px_rgba(8,14,26,0.22)] lg:px-10 lg:py-12">
+          {/* 도트 그리드 */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.045]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
+          {/* 글로우 오브 */}
+          <div className="pointer-events-none absolute -left-12 -top-12 h-64 w-64 rounded-full bg-[#8df0cf]/14 blur-[70px]" />
+          <div className="pointer-events-none absolute -bottom-12 right-0 h-72 w-72 rounded-full bg-[#a4d8ff]/14 blur-[80px]" />
+          {/* 상단 네온 라인 */}
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+
+          <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
-              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[#fff0b0]">
-                {copy.hero.eyebrow}
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/10 px-3.5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#8df0cf]/90">{copy.hero.eyebrow}</span>
               </div>
-              <h1 className="mt-4 max-w-4xl text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-5xl">
+              <h1 className="mt-5 max-w-4xl text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl lg:text-[3rem] lg:leading-[1.1]">
                 {copy.hero.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/82">
+              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-400">
                 {copy.hero.desc}
               </p>
+              <div className="mt-7 h-px w-full bg-gradient-to-r from-[#8df0cf]/30 via-[#ffe98b]/20 to-transparent" />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               {copy.signals.map((item) => {
                 const Icon = item.icon;
                 return (
                   <div
                     key={item.value}
-                    className="rounded-[28px] border border-white/20 bg-white/12 p-5 backdrop-blur-xl"
+                    className="rounded-[22px] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm transition duration-300 hover:bg-white/[0.10]"
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/15">
-                      <Icon className="h-5 w-5 text-[#fff0b0]" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/12">
+                      <Icon className="h-5 w-5 text-[#ffe98b]" />
                     </div>
-                    <div className="mt-5 text-xl font-black tracking-tight text-white">
+                    <div className="mt-4 text-xl font-black tracking-[-0.03em] text-white">
                       {item.value}
                     </div>
-                    <p className="mt-2 text-sm leading-7 text-white/78">{item.label}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-400">{item.label}</p>
                   </div>
                 );
               })}
@@ -521,17 +532,17 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        <section className="rounded-[36px] border border-white/70 bg-white/82 px-6 py-8 shadow-[0_14px_38px_rgba(16,32,58,0.08)] backdrop-blur lg:px-8">
+        {/* ── Archive ── */}
+        <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/65 px-6 py-8 shadow-[0_16px_48px_rgba(16,32,58,0.09)] backdrop-blur-xl lg:px-8">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
           <SectionTitle eyebrow={copy.archive.eyebrow} title={copy.archive.title} />
 
-          {/* 통합 캐러셀 (모바일 + 데스크탑 공통) */}
           <div className="relative mt-6">
-            {/* 화살표 버튼 */}
             <div className="mb-3 flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => scrollArchive("left")}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/70 text-slate-600 shadow-sm backdrop-blur transition hover:bg-white hover:text-slate-900"
                 aria-label="Previous"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -539,14 +550,13 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
               <button
                 type="button"
                 onClick={() => scrollArchive("right")}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/70 text-slate-600 shadow-sm backdrop-blur transition hover:bg-white hover:text-slate-900"
                 aria-label="Next"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
 
-            {/* 가로 스크롤 컨테이너 */}
             <div
               ref={archiveRef}
               className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-hide"
@@ -554,17 +564,21 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
               {archiveItems.map((item) => (
                 <article
                   key={item.issue}
-                  className="flex w-[70vw] shrink-0 snap-start flex-col rounded-[30px] border border-slate-200 bg-white shadow-soft sm:w-[45vw] lg:w-[calc(25%-12px)]"
+                  className="group flex w-[70vw] shrink-0 snap-start flex-col overflow-hidden rounded-[28px] border border-white/60 bg-white shadow-[0_8px_28px_rgba(16,32,58,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(16,32,58,0.13)] sm:w-[45vw] lg:w-[calc(25%-12px)]"
                 >
-                  <div className="relative aspect-[4/5] rounded-t-[30px] p-5 text-white" style={{ background: item.gradient }}>
-                    <div className="text-sm font-semibold tracking-[0.18em] text-white/88">{item.season}</div>
-                    <div className="mt-4 text-3xl font-black tracking-tight">{item.issue}</div>
-                    <div className="mt-8 text-2xl font-black leading-tight">RESEARCH</div>
-                    <div className="text-xl font-black leading-tight">ARCHIVE</div>
+                  <div className="relative aspect-[4/5] rounded-t-[28px] p-6 text-white" style={{ background: item.gradient }}>
+                    {/* 도트 그리드 */}
+                    <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+                    <div className="relative">
+                      <div className="text-[11px] font-bold tracking-[0.22em] text-white/80 uppercase">{item.season}</div>
+                      <div className="mt-3 text-3xl font-black tracking-[-0.04em]">{item.issue}</div>
+                      <div className="mt-auto pt-14 text-2xl font-black leading-tight tracking-[-0.03em]">RESEARCH</div>
+                      <div className="text-2xl font-black leading-tight tracking-[-0.03em]">ARCHIVE</div>
+                    </div>
                   </div>
                   <div className="flex flex-1 flex-col p-5">
-                    <h3 className="text-lg font-black tracking-tight text-slate-950">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
+                    <h3 className="text-[1.05rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-500">{item.desc}</p>
                   </div>
                 </article>
               ))}
@@ -572,44 +586,68 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
+        {/* ── Research Tracks ── */}
         <section className="space-y-6">
           <SectionTitle
             eyebrow={copy.tracks.eyebrow}
             title={copy.tracks.title}
             desc={copy.tracks.desc}
           />
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {copy.areas.map((item) => {
               const Icon = item.icon;
+              const toneGlow: Record<string, string> = {
+                "bg-[#fff3df]": "rgba(255,233,139,0.45)",
+                "bg-[#eafbf4]": "rgba(141,240,207,0.45)",
+                "bg-[#eef2ff]": "rgba(100,130,255,0.4)",
+                "bg-[#ffe7df]": "rgba(255,143,126,0.45)",
+                "bg-[#f7f1ff]": "rgba(160,100,255,0.4)",
+                "bg-[#eef8ff]": "rgba(100,180,255,0.4)",
+              };
               return (
-                <PremiumCard key={item.title} className={`p-7 ${item.tone}`}>
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/70 shadow-sm">
+                <div
+                  key={item.title}
+                  className={`group relative overflow-hidden rounded-[26px] border border-white/80 p-7 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1 ${item.tone}`}
+                  style={{ boxShadow: undefined }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = `0 0 32px ${toneGlow[item.tone] ?? "rgba(16,32,58,0.1)"}` }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "" }}
+                >
+                  <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[26px] bg-gradient-to-r from-current/20 to-transparent opacity-60" />
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 shadow-sm backdrop-blur">
                     <Icon className="h-6 w-6 text-slate-700" />
                   </div>
-                  <div className="text-xl font-black leading-snug tracking-tight text-slate-950 sm:text-2xl">
+                  <div className="text-xl font-black leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-2xl">
                     {item.title}
                   </div>
-                  <p className="mt-3 text-base leading-8 text-slate-700">
+                  <p className="mt-3 text-[15px] leading-7 text-slate-600">
                     {item.desc}
                   </p>
-                </PremiumCard>
+                </div>
               );
             })}
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <PremiumCard className="p-8">
-            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-orange-500">
-              {copy.perspective.eyebrow}
+        {/* ── Perspective ── */}
+        <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
+          <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_50%,_#1a3060_100%)] p-8 text-white shadow-[0_24px_60px_rgba(8,14,26,0.20)]">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#8df0cf]/14 blur-[60px]" />
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#ffe98b]/25 bg-[#ffe98b]/10 px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#ffe98b]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#ffe98b]/90">{copy.perspective.eyebrow}</span>
+              </div>
+              <h2 className="mt-5 text-[1.5rem] font-black leading-[1.25] tracking-[-0.035em] text-white [text-wrap:balance] sm:text-2xl lg:text-[1.8rem]">
+                {copy.perspective.title}
+              </h2>
+              <div className="mt-5 h-px w-full bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
+              <p className="mt-5 text-[15px] leading-8 text-slate-400">
+                {copy.perspective.desc}
+              </p>
             </div>
-            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950">
-              {copy.perspective.title}
-            </h2>
-            <p className="mt-5 text-base leading-8 text-slate-600">
-              {copy.perspective.desc}
-            </p>
-          </PremiumCard>
+          </div>
 
           <div className="grid gap-4">
             {copy.frames.map((item) => {
@@ -617,14 +655,14 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
               return (
                 <PremiumCard key={item.title} className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="rounded-2xl bg-slate-100 p-3 text-sky-700">
-                      <Icon className="h-5 w-5" />
+                    <div className="rounded-2xl bg-[linear-gradient(135deg,_#eef3ff,_#e8fbf3)] p-3">
+                      <Icon className="h-5 w-5 text-slate-700" />
                     </div>
-                    <div className="text-xl font-black tracking-tight text-slate-950">
+                    <div className="text-[1.1rem] font-black tracking-[-0.03em] text-slate-950">
                       {item.title}
                     </div>
                   </div>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                  <p className="mt-4 text-sm leading-7 text-slate-500">
                     {item.desc}
                   </p>
                 </PremiumCard>
@@ -633,18 +671,22 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
+        {/* ── Process ── */}
         <section className="space-y-6">
           <SectionTitle eyebrow={copy.process.eyebrow} title={copy.process.title} />
-          <div className="grid gap-6 md:grid-cols-3">
-            {copy.process.steps.map((item) => (
+          <div className="grid gap-5 md:grid-cols-3">
+            {copy.process.steps.map((item, index) => (
               <PremiumCard key={item.step} className="p-7">
-                <div className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
-                  {item.step}
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#a4d8ff)] text-sm font-black text-slate-950">
+                    {index + 1}
+                  </div>
+                  <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">{item.step}</div>
                 </div>
-                <div className="mt-3 text-2xl font-black tracking-tight text-slate-950">
+                <div className="mt-4 text-[1.3rem] font-black tracking-[-0.03em] text-slate-950">
                   {item.title}
                 </div>
-                <p className="mt-4 text-base leading-8 text-slate-600">
+                <p className="mt-3 text-[15px] leading-7 text-slate-500">
                   {item.desc}
                 </p>
               </PremiumCard>

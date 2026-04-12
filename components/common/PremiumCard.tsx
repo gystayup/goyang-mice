@@ -11,7 +11,7 @@ export default function PremiumCard({
 }: PremiumCardProps) {
   return (
     <div
-      className={`rounded-[28px] border border-slate-200 bg-white p-8 shadow-sm hover:shadow-lg transition-shadow ${className}`}
+      className={`relative overflow-hidden rounded-[28px] border border-white/80 bg-white/75 shadow-[0_8px_28px_rgba(16,32,58,0.07)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/90 hover:shadow-[0_16px_40px_rgba(16,32,58,0.11)] ${className}`}
     >
       {children}
     </div>

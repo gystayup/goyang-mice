@@ -831,23 +831,40 @@ export default async function DmcPage({
   return (
     <Shell>
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-6 pb-24 pt-10 md:gap-14">
-      <section className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-soft">
-        <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr]">
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_40%,_#1a3060_100%)] shadow-[0_28px_70px_rgba(8,14,26,0.22)]">
+        {/* 도트 그리드 */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
+        {/* 글로우 */}
+        <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-[#8df0cf]/14 blur-[70px]" />
+        <div className="pointer-events-none absolute -bottom-12 right-10 h-60 w-60 rounded-full bg-[#a4d8ff]/14 blur-[70px]" />
+        {/* 상단 네온 라인 */}
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+
+        <div className="relative grid gap-0 lg:grid-cols-[1.02fr_0.98fr]">
           <div className="flex flex-col justify-center p-8 md:p-12">
-            <div className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-400">
-              {copy.hero.eyebrow}
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/10 px-3.5 py-1.5">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#8df0cf]/90">{copy.hero.eyebrow}</span>
             </div>
-            <h1 className="mt-5 text-2xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-3xl md:text-[2.8rem]">
+            <h1 className="mt-5 text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl md:text-[2.6rem] md:leading-[1.12]">
               {copy.hero.title}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-9 text-slate-700">
+            <div className="mt-5 h-px w-full max-w-sm bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
+            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-400 md:text-lg md:leading-9">
               {copy.hero.description}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <AnchorButton href="#booking-categories" variant="primary">
+              <a
+                href="#booking-categories"
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.35)] transition hover:-translate-y-0.5 hover:brightness-105"
+              >
                 {copy.hero.buttons.booking}
-              </AnchorButton>
+              </a>
               <LinkButton href="/contact" variant="secondary">
                 {copy.hero.buttons.inquiry}
               </LinkButton>
@@ -857,7 +874,7 @@ export default async function DmcPage({
             </div>
           </div>
 
-          <div className="bg-[#0f1117] p-5 md:p-7">
+          <div className="border-l border-white/10 p-5 md:p-7">
             <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-slate-900/80 shadow-[0_24px_60px_rgba(15,23,42,0.28)]">
               <div className="aspect-[4/3]">
                 {heroMedia.mediaType === "image" && heroMedia.src ? (
@@ -895,22 +912,39 @@ export default async function DmcPage({
         </div>
       </section>
 
+      {/* ── Pillars ── */}
       <section className="space-y-8">
         <SectionTitle
           eyebrow={copy.pillars.eyebrow}
           title={copy.pillars.title}
         />
-        <div className="grid gap-6 md:grid-cols-3">
-          {copy.pillars.items.map((item) => (
-            <PremiumCard key={item.title} className="p-7">
-              <div className="text-2xl font-black tracking-tight text-slate-950">
-                {item.title}
+        <div className="grid gap-5 md:grid-cols-3">
+          {copy.pillars.items.map((item, index) => {
+            const gradients = [
+              { from: "#fffbee", to: "#fff4da", glow: "rgba(255,233,139,0.45)" },
+              { from: "#f0fdf8", to: "#e8fbf3", glow: "rgba(141,240,207,0.45)" },
+              { from: "#f0f4ff", to: "#eef2ff", glow: "rgba(100,130,255,0.4)" },
+            ];
+            const g = gradients[index % 3];
+            return (
+              <div
+                key={item.title}
+                style={{ background: `linear-gradient(145deg, ${g.from}, ${g.to})` }}
+                className="group relative overflow-hidden rounded-[28px] border border-white/80 p-7 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_0_32px_var(--glow)]"
+              >
+                <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[28px] bg-gradient-to-r from-[#8df0cf]/60 via-[#ffe98b]/50 to-[#ffb58f]/40" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-sm font-black text-slate-700 shadow-sm">
+                  {index + 1}
+                </div>
+                <div className="mt-4 text-[1.3rem] font-black tracking-[-0.04em] text-slate-950">
+                  {item.title}
+                </div>
+                <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                  {item.description}
+                </p>
               </div>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                {item.description}
-              </p>
-            </PremiumCard>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -928,7 +962,7 @@ export default async function DmcPage({
             return (
               <article
                 key={item.key}
-                className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-lift"
+                className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-white/80 bg-white/80 shadow-[0_8px_28px_rgba(16,32,58,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(16,32,58,0.13)]"
               >
                 <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${item.theme}`}>
                   {media?.src ? (
@@ -936,31 +970,31 @@ export default async function DmcPage({
                       src={media.src}
                       alt={item.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
                       unoptimized
                     />
                   ) : (
                     <div className="flex h-full items-start justify-between p-7">
-                      <span className="rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-700">
+                      <span className="rounded-full bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-slate-700 backdrop-blur">
                         {item.eyebrow}
                       </span>
-                      <div className="rounded-full bg-slate-950 p-4 text-white shadow-lg">
+                      <div className="rounded-full bg-slate-950/90 p-4 text-white shadow-lg backdrop-blur">
                         <Icon className="h-6 w-6" />
                       </div>
                     </div>
                   )}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/70 to-transparent p-6">
-                    <div className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 to-transparent p-6">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/75">
                       {item.eyebrow}
                     </div>
-                    <div className="mt-2 text-3xl font-black tracking-tight text-white">
+                    <div className="mt-2 text-2xl font-black tracking-[-0.03em] text-white">
                       {item.title}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-1 flex-col p-7">
-                  <p className="min-h-[5.5rem] text-base leading-8 text-slate-600">
+                  <p className="min-h-[5.5rem] text-[15px] leading-7 text-slate-500">
                     {item.description}
                   </p>
 
@@ -968,7 +1002,7 @@ export default async function DmcPage({
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600"
+                        className="rounded-full border border-white/70 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur"
                       >
                         {tag}
                       </span>
@@ -978,13 +1012,13 @@ export default async function DmcPage({
                   <div className="mt-auto flex gap-3 pt-7">
                     <Link
                       href={item.href}
-                      className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                      className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-white"
                     >
                       {copy.categories.cta}
                     </Link>
                     <Link
                       href={item.href}
-                      className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                      className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 py-3 text-sm font-bold text-white transition hover:brightness-110"
                     >
                       {copy.categories.booking}
                     </Link>
@@ -996,138 +1030,175 @@ export default async function DmcPage({
         </div>
       </section>
 
+      {/* ── Use Cases ── */}
       <section className="space-y-8">
         <SectionTitle
           eyebrow={copy.useCases.eyebrow}
           title={copy.useCases.title}
         />
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {copy.useCases.items.map((item) => (
-            <PremiumCard key={item.title} className="p-6">
-              <div className="text-xl font-black tracking-tight text-slate-950">
-                {item.title}
-              </div>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
-                {item.description}
-              </p>
-            </PremiumCard>
-          ))}
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {copy.useCases.items.map((item, index) => {
+            const colors = [
+              { bg: "bg-[#ffe8a0]", text: "text-[#9b7a00]" },
+              { bg: "bg-[#b7f0d8]", text: "text-[#0a6b48]" },
+              { bg: "bg-[#d4ddff]", text: "text-[#3655a6]" },
+              { bg: "bg-[#ffd0c0]", text: "text-[#9b3a1a]" },
+            ];
+            const c = colors[index % 4];
+            return (
+              <PremiumCard key={item.title} className="p-6">
+                <div className={`mb-4 inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${c.bg} ${c.text}`}>
+                  {index + 1}
+                </div>
+                <div className="text-[1.1rem] font-black tracking-[-0.03em] text-slate-950">
+                  {item.title}
+                </div>
+                <p className="mt-3 text-sm leading-7 text-slate-500">
+                  {item.description}
+                </p>
+              </PremiumCard>
+            );
+          })}
         </div>
       </section>
 
+      {/* ── Steps ── */}
       <section className="space-y-8">
         <SectionTitle
           eyebrow={copy.steps.eyebrow}
           title={copy.steps.title}
         />
-        <div className="grid gap-6 lg:grid-cols-4">
-          {copy.steps.items.map((item) => (
+        <div className="grid gap-5 lg:grid-cols-4">
+          {copy.steps.items.map((item, index) => (
             <PremiumCard key={item.step} className="p-7">
-              <div className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-700">
-                STEP {item.step}
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#a4d8ff)] text-sm font-black text-slate-950">
+                  {item.step}
+                </div>
               </div>
-              <div className="mt-3 text-2xl font-black tracking-tight text-slate-950">
+              <div className="mt-4 text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
                 {item.title}
               </div>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
+              <p className="mt-3 text-sm leading-7 text-slate-500">
                 {item.description}
               </p>
             </PremiumCard>
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
-          <AnchorButton href="#booking-categories" variant="primary">
+          <a
+            href="#booking-categories"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+          >
             {copy.steps.ctas.booking}
-          </AnchorButton>
+          </a>
           <LinkButton href="/contact" variant="secondary">
             {copy.steps.ctas.consult}
           </LinkButton>
         </div>
       </section>
 
-      <section className="space-y-8">
+      {/* ── Partners ── */}
+      <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 px-7 py-10 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
         <SectionTitle
           eyebrow={copy.partners.eyebrow}
           title={copy.partners.title}
           desc={copy.partners.description}
         />
-        <div className="flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap gap-2.5">
           {copy.partners.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-soft"
+              className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md"
             >
               {tag}
             </span>
           ))}
         </div>
-        <LinkButton href="/contact" variant="secondary">
-          {copy.partners.button}
-        </LinkButton>
+        <div className="mt-6">
+          <LinkButton href="/contact" variant="secondary">
+            {copy.partners.button}
+          </LinkButton>
+        </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-2">
+      {/* ── Operations ── */}
+      <section className="grid gap-5 lg:grid-cols-2">
         <PremiumCard className="p-8">
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-amber-100 p-3 text-amber-700">
-              <CalendarRange className="h-5 w-5" />
+          <div className="flex items-start gap-4">
+            <div className="rounded-2xl bg-[linear-gradient(135deg,_#fffbee,_#fff4da)] p-3 shadow-sm">
+              <CalendarRange className="h-5 w-5 text-[#9b7a00]" />
             </div>
-            <div className="text-2xl font-black tracking-tight text-slate-950">
+            <div className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">
               {copy.operations.leftTitle}
             </div>
           </div>
-          <p className="mt-5 text-base leading-8 text-slate-600">
+          <p className="mt-5 text-[15px] leading-7 text-slate-500">
             {copy.operations.leftDescription}
           </p>
         </PremiumCard>
 
         <PremiumCard className="p-8">
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-emerald-100 p-3 text-emerald-700">
-              <BriefcaseBusiness className="h-5 w-5" />
+          <div className="flex items-start gap-4">
+            <div className="rounded-2xl bg-[linear-gradient(135deg,_#f0fdf8,_#e8fbf3)] p-3 shadow-sm">
+              <BriefcaseBusiness className="h-5 w-5 text-[#0a6b48]" />
             </div>
-            <div className="text-2xl font-black tracking-tight text-slate-950">
+            <div className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">
               {copy.operations.rightTitle}
             </div>
           </div>
-          <p className="mt-5 text-base leading-8 text-slate-600">
+          <p className="mt-5 text-[15px] leading-7 text-slate-500">
             {copy.operations.rightDescription}
           </p>
         </PremiumCard>
 
         <div className="flex flex-wrap gap-3 lg:col-span-2">
-          <AnchorButton href="#booking-categories" variant="primary">
+          <a
+            href="#booking-categories"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+          >
             {copy.operations.booking}
-          </AnchorButton>
+          </a>
           <LinkButton href="/contact" variant="secondary">
             {copy.operations.inquiry}
           </LinkButton>
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-[36px] bg-[linear-gradient(135deg,_#0f172a_0%,_#172554_38%,_#0f766e_100%)] p-8 text-white shadow-soft md:p-12">
-        <div className="max-w-4xl">
-          <div className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-200">
-            FINAL CTA
+      {/* ── Final CTA ── */}
+      <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_40%,_#1a3060_100%)] p-10 text-white shadow-[0_28px_70px_rgba(8,14,26,0.22)] md:p-14">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
+        <div className="pointer-events-none absolute -right-12 -top-12 h-60 w-60 rounded-full bg-[#8df0cf]/14 blur-[70px]" />
+        <div className="pointer-events-none absolute -bottom-10 left-1/4 h-48 w-48 rounded-full bg-[#ffb58f]/12 blur-[60px]" />
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+        <div className="relative max-w-4xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#ffe98b]/25 bg-[#ffe98b]/10 px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ffe98b]" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#ffe98b]/90">FINAL CTA</span>
           </div>
-          <h2 className="mt-4 text-4xl font-black tracking-tight md:text-5xl">
+          <h2 className="mt-5 text-3xl font-black tracking-[-0.04em] text-white [text-wrap:balance] md:text-[2.8rem] md:leading-[1.12]">
             {copy.final.title}
           </h2>
-          <p className="mt-5 text-base leading-8 text-slate-100 md:text-lg">
+          <div className="mt-5 h-px w-full bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
+          <p className="mt-5 text-base leading-8 text-slate-400 md:text-lg">
             {copy.final.description}
           </p>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <AnchorButton href="#booking-categories" variant="secondary">
+        <div className="relative mt-8 flex flex-wrap gap-3">
+          <a
+            href="#booking-categories"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.35)] transition hover:-translate-y-0.5 hover:brightness-105"
+          >
             {copy.final.booking}
-          </AnchorButton>
+          </a>
           <LinkButton href="/contact" variant="ghost">
             {copy.final.inquiry}
           </LinkButton>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/18"
           >
             {copy.final.partner}
           </Link>
