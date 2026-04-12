@@ -165,9 +165,11 @@ export default function HeroMediaCarousel() {
   const next = () => setIndex((c) => (c + 1) % slides.length);
 
   const current = slides[index];
-  const label = isEn ? current.enLabel : current.koLabel;
-  const title = isEn ? current.enTitle : current.koTitle;
-  const desc = isEn ? current.enDesc : current.koDesc;
+  // ko → 한국어, 그 외(en/ja/zh-CN/zh-TW) → 영어
+  const isKo = locale === "ko";
+  const label = isKo ? current.koLabel : current.enLabel;
+  const title = isKo ? current.koTitle : current.enTitle;
+  const desc = isKo ? current.koDesc : current.enDesc;
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-white/70 bg-[#10203a] text-white shadow-[0_22px_60px_rgba(16,32,58,0.16)] sm:rounded-[34px]">
