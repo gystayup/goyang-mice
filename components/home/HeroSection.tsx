@@ -7,7 +7,7 @@ import ExpandableStats from "@/components/home/ExpandableStats";
 type LocaleCopy = {
   badgeEyebrow: string;
   badgeTitle: string;
-  cards: Array<{ eyebrow: string; title: string; desc: string; tone: string; iconTone: string; icon: typeof BookOpen }>;
+  cards: Array<{ eyebrow: string; title: string; desc: string; tone: string; iconTone: string; borderGlow: string; icon: typeof BookOpen }>;
   stats: Array<{ value: string; label: string; tone: string }>;
 };
 
@@ -20,32 +20,35 @@ const heroCopy: Record<"ko" | "en", LocaleCopy> = {
         eyebrow: "Research",
         title: "고양특례시 문화·관광·마이스 전략 연구",
         desc: "도시 자산 분석과 방문객 여정 설계를 기반으로 실행 가능한 기획 구조를 만듭니다.",
-        tone: "bg-[#fff4da]",
+        tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]",
         iconTone: "bg-[#ffe8a0] text-[#9b7a00]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]",
         icon: BookOpen,
       },
       {
         eyebrow: "DMC",
         title: "현장을 움직이는 로컬 운영 서비스",
         desc: "공연, 전시, VIP, 단체 방문객을 위한 일정 설계와 현장 대응을 통합 지원합니다.",
-        tone: "bg-[#e8fbf3]",
+        tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]",
         iconTone: "bg-[#b7f0d8] text-[#0a6b48]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]",
         icon: MapPin,
       },
       {
         eyebrow: "Experience",
         title: "머무르고 이어지는 체류 경험",
         desc: "카페, 미식, 로컬 체험, 쇼핑 동선을 연결해 고양만의 라이프스타일 경험을 확장합니다.",
-        tone: "bg-[#ffe7df]",
+        tone: "bg-gradient-to-br from-[#fff5f2] to-[#ffe7df]",
         iconTone: "bg-[#ffd0c0] text-[#9b3a1a]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(255,143,126,0.45)]",
         icon: Sparkles,
       },
     ],
     stats: [
-      { value: "K-POP · KINTEX",    label: "공연, 전시, 비즈니스 방문이 이어지는 핵심 거점",            tone: "bg-[#fff7df]" },
-      { value: "5축 연결",           label: "공연, 전시, 관광, 숙박, 쇼핑·미식을 하나의 흐름으로 연결", tone: "bg-[#eff9f4]" },
-      { value: "운영형 DMC",         label: "기획부터 예약, 현장 운영까지 이어지는 실행 구조",            tone: "bg-[#eef3ff]" },
-      { value: "라이프스타일 확장",  label: "가족 체험과 상시 운영 콘텐츠로 체류 프로그램을 확대",       tone: "bg-[#fff0ea]" },
+      { value: "K-POP · KINTEX",    label: "공연, 전시, 비즈니스 방문이 이어지는 핵심 거점",            tone: "bg-[#fffdf0]" },
+      { value: "5축 연결",           label: "공연, 전시, 관광, 숙박, 쇼핑·미식을 하나의 흐름으로 연결", tone: "bg-[#f0fdf8]" },
+      { value: "운영형 DMC",         label: "기획부터 예약, 현장 운영까지 이어지는 실행 구조",            tone: "bg-[#f0f4ff]" },
+      { value: "라이프스타일 확장",  label: "가족 체험과 상시 운영 콘텐츠로 체류 프로그램을 확대",       tone: "bg-[#fff6f2]" },
     ],
   },
   en: {
@@ -56,32 +59,35 @@ const heroCopy: Record<"ko" | "en", LocaleCopy> = {
         eyebrow: "Research",
         title: "Strategic research for culture, tourism and MICE",
         desc: "We build practical strategies based on city assets and visitor journey design.",
-        tone: "bg-[#fff4da]",
+        tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]",
         iconTone: "bg-[#ffe8a0] text-[#9b7a00]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]",
         icon: BookOpen,
       },
       {
         eyebrow: "DMC",
         title: "Local operations that keep experiences moving",
         desc: "We support schedules, logistics and on-site coordination for events, buyers, VIPs and groups.",
-        tone: "bg-[#e8fbf3]",
+        tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]",
         iconTone: "bg-[#b7f0d8] text-[#0a6b48]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]",
         icon: MapPin,
       },
       {
         eyebrow: "Experience",
         title: "Lifestyle journeys that extend the stay",
         desc: "We expand visits through dining, cafés, shopping and local lifestyle experiences.",
-        tone: "bg-[#ffe7df]",
+        tone: "bg-gradient-to-br from-[#fff5f2] to-[#ffe7df]",
         iconTone: "bg-[#ffd0c0] text-[#9b3a1a]",
+        borderGlow: "hover:shadow-[0_0_24px_rgba(255,143,126,0.45)]",
         icon: Sparkles,
       },
     ],
     stats: [
-      { value: "K-POP · KINTEX",       label: "A key hub for performances, exhibitions and business visits",           tone: "bg-[#fff7df]" },
-      { value: "5 connected layers",    label: "Performance, exhibition, tourism, stay and dining in one flow",        tone: "bg-[#eff9f4]" },
-      { value: "Operations-first DMC",  label: "A practical structure from planning and booking to field delivery",    tone: "bg-[#eef3ff]" },
-      { value: "Lifestyle expansion",   label: "Family-friendly programs and repeatable content that lengthen stays",  tone: "bg-[#fff0ea]" },
+      { value: "K-POP · KINTEX",       label: "A key hub for performances, exhibitions and business visits",           tone: "bg-[#fffdf0]" },
+      { value: "5 connected layers",    label: "Performance, exhibition, tourism, stay and dining in one flow",        tone: "bg-[#f0fdf8]" },
+      { value: "Operations-first DMC",  label: "A practical structure from planning and booking to field delivery",    tone: "bg-[#f0f4ff]" },
+      { value: "Lifestyle expansion",   label: "Family-friendly programs and repeatable content that lengthen stays",  tone: "bg-[#fff6f2]" },
     ],
   },
 };
@@ -91,9 +97,10 @@ export default async function HeroSection({ locale }: { locale: string }) {
 
   return (
     <section className="relative overflow-hidden pb-12 pt-4 sm:pb-16 sm:pt-6 lg:pb-20">
-      {/* 배경 블러 장식 */}
-      <div className="absolute left-[-7rem] top-10 h-48 w-48 rounded-full bg-[#ffe0d6] blur-3xl" />
-      <div className="absolute right-[-5rem] top-24 h-56 w-56 rounded-full bg-[#dff9ef] blur-3xl" />
+      {/* 배경 글로우 오브 */}
+      <div className="pointer-events-none absolute -left-24 top-8 h-64 w-64 rounded-full bg-[#8df0cf] opacity-20 blur-[80px]" />
+      <div className="pointer-events-none absolute -right-20 top-16 h-72 w-72 rounded-full bg-[#a4d8ff] opacity-25 blur-[90px]" />
+      <div className="pointer-events-none absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-[#ffb58f] opacity-18 blur-[70px]" />
 
       {/* 캐러셀 */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -102,19 +109,30 @@ export default async function HeroSection({ locale }: { locale: string }) {
 
       {/* 콘텐츠 카드 영역 */}
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:mt-10 sm:px-6 lg:mt-12">
-        <div className="rounded-[30px] border border-white/70 bg-white/86 p-5 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur sm:rounded-[34px] sm:p-6 lg:p-8">
+        <div className="relative overflow-hidden rounded-[30px] border border-white/80 bg-white/72 p-5 shadow-[0_20px_60px_rgba(16,32,58,0.10),_0_0_0_1px_rgba(255,255,255,0.6)] backdrop-blur-xl sm:rounded-[36px] sm:p-6 lg:p-8">
+          {/* 내부 장식 그라데이션 */}
+          <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#8df0cf]/18 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-8 left-1/4 h-32 w-32 rounded-full bg-[#ffe98b]/22 blur-3xl" />
 
           {/* ── 플랫폼 타이틀 배너 ── */}
-          <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_45%,_#2d5a8e_100%)] px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-9">
-            {/* 장식 원 */}
-            <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/5" />
-            <div className="pointer-events-none absolute -bottom-8 right-24 h-32 w-32 rounded-full bg-[#8df0cf]/10" />
-            <div className="pointer-events-none absolute bottom-4 left-1/2 h-20 w-20 -translate-x-1/2 rounded-full bg-[#ffe98b]/8" />
+          <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(135deg,_#080e1a_0%,_#10203a_30%,_#1a3060_60%,_#2d4a8a_100%)] px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-9">
+            {/* 격자 배경 */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.06]"
+              style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)", backgroundSize: "24px 24px" }}
+            />
+            {/* 글로우 오브 */}
+            <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-[#8df0cf]/16 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-10 right-20 h-36 w-36 rounded-full bg-[#a4d8ff]/18 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-2 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-[#ffe98b]/12 blur-3xl" />
 
             {/* 뱃지 */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#8df0cf]/30 bg-[#8df0cf]/12 px-3 py-1 backdrop-blur">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#8df0cf]/90">
                 {copy.badgeEyebrow}
               </span>
             </div>
@@ -125,7 +143,7 @@ export default async function HeroSection({ locale }: { locale: string }) {
             </h2>
 
             {/* 하단 장식 라인 */}
-            <div className="mt-6 h-px w-full bg-gradient-to-r from-[#8df0cf]/40 via-[#ffe98b]/30 to-transparent" />
+            <div className="mt-6 h-px w-full bg-gradient-to-r from-[#8df0cf]/50 via-[#ffe98b]/35 to-transparent" />
           </div>
 
           {/* ── 카드 3개 ── */}
@@ -135,20 +153,20 @@ export default async function HeroSection({ locale }: { locale: string }) {
               return (
                 <article
                   key={card.title}
-                  className={`group rounded-[22px] border border-white/70 p-5 shadow-[0_8px_24px_rgba(16,32,58,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(16,32,58,0.09)] sm:p-6 ${card.tone}`}
+                  className={`group relative overflow-hidden rounded-[22px] border border-white/80 p-5 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1 sm:p-6 ${card.tone} ${card.borderGlow}`}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${card.iconTone}`}>
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl shadow-sm ${card.iconTone}`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="inline-flex rounded-full border border-slate-200/60 bg-white/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                    <span className="inline-flex rounded-full border border-slate-200/70 bg-white/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500 backdrop-blur">
                       {card.eyebrow}
                     </span>
                   </div>
                   <h3 className="mt-4 text-lg font-black leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-xl">
                     {card.title}
                   </h3>
-                  <p className="mt-2.5 text-sm leading-7 text-slate-600 sm:text-[15px]">{card.desc}</p>
+                  <p className="mt-2.5 text-sm leading-7 text-slate-500 sm:text-[15px]">{card.desc}</p>
                 </article>
               );
             })}

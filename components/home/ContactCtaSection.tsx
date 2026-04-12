@@ -19,19 +19,31 @@ const copyMap = {
         icon: BriefcaseBusiness,
         title: "행사 운영 제안",
         desc: "방문 프로그램, 체류 동선, 현장 운영 시나리오를 함께 설계합니다.",
-        color: "bg-[#fff4da] text-[#9b6400]",
+        gradFrom: "#fffbee",
+        gradTo: "#fff4da",
+        iconBg: "bg-[#ffe8a0]",
+        iconColor: "text-[#9b7a00]",
+        glow: "rgba(255,233,139,0.4)",
       },
       {
         icon: Handshake,
         title: "제휴 파트너 연결",
         desc: "기관, 숙박, 미식, 로컬 거점과 연결되는 협력 구조를 제안합니다.",
-        color: "bg-[#e8fbf3] text-[#0d7b58]",
+        gradFrom: "#f0fdf8",
+        gradTo: "#e8fbf3",
+        iconBg: "bg-[#b7f0d8]",
+        iconColor: "text-[#0a6b48]",
+        glow: "rgba(141,240,207,0.4)",
       },
       {
         icon: CalendarRange,
         title: "중장기 프로젝트 상담",
         desc: "브랜딩과 콘텐츠 기획, 운영 구조까지 이어지는 프로젝트 상담을 지원합니다.",
-        color: "bg-[#eef2ff] text-[#3655a6]",
+        gradFrom: "#f0f4ff",
+        gradTo: "#eef2ff",
+        iconBg: "bg-[#d4ddff]",
+        iconColor: "text-[#3655a6]",
+        glow: "rgba(100,130,255,0.35)",
       },
     ],
   },
@@ -46,19 +58,31 @@ const copyMap = {
         icon: BriefcaseBusiness,
         title: "Operations planning",
         desc: "We help structure visitor programs, stay flows and field operations scenarios.",
-        color: "bg-[#fff4da] text-[#9b6400]",
+        gradFrom: "#fffbee",
+        gradTo: "#fff4da",
+        iconBg: "bg-[#ffe8a0]",
+        iconColor: "text-[#9b7a00]",
+        glow: "rgba(255,233,139,0.4)",
       },
       {
         icon: Handshake,
         title: "Partner connection",
         desc: "We connect public agencies, stays, venues and local partners into one service structure.",
-        color: "bg-[#e8fbf3] text-[#0d7b58]",
+        gradFrom: "#f0fdf8",
+        gradTo: "#e8fbf3",
+        iconBg: "bg-[#b7f0d8]",
+        iconColor: "text-[#0a6b48]",
+        glow: "rgba(141,240,207,0.4)",
       },
       {
         icon: CalendarRange,
         title: "Project consultation",
         desc: "We support longer-term projects covering branding, content planning and operations design.",
-        color: "bg-[#eef2ff] text-[#3655a6]",
+        gradFrom: "#f0f4ff",
+        gradTo: "#eef2ff",
+        iconBg: "bg-[#d4ddff]",
+        iconColor: "text-[#3655a6]",
+        glow: "rgba(100,130,255,0.35)",
       },
     ],
   },
@@ -70,50 +94,74 @@ export default async function ContactCtaSection({ locale }: { locale: string }) 
   return (
     <section className="py-14 sm:py-18">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[30px] bg-[linear-gradient(135deg,_#10203a_0%,_#304f9b_38%,_#ff8f7e_100%)] p-6 text-white shadow-[0_24px_60px_rgba(16,32,58,0.16)] sm:rounded-[36px] sm:p-8 lg:p-10">
-            <SectionTitle
-              eyebrow={copy.eyebrow}
-              title={copy.title}
-              desc={copy.desc}
-              className="[&_div]:text-[#fff0b0] [&_h2]:text-white [&_p]:text-white/84"
-            />
+        <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/contact"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
-              >
-                {copy.primary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/dmc"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white transition hover:bg-white/18"
-              >
-                {copy.secondary}
-              </Link>
+          {/* 왼쪽: 어두운 CTA 패널 */}
+          <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0e1c35_40%,_#1a2e58_80%,_#1e3a6e_100%)] p-7 text-white shadow-[0_28px_70px_rgba(8,14,26,0.22)] sm:rounded-[40px] sm:p-9 lg:p-11">
+            {/* 격자 배경 */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.045]"
+              style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }}
+            />
+            {/* 글로우 오브 */}
+            <div className="pointer-events-none absolute -right-16 -top-16 h-60 w-60 rounded-full bg-[#8df0cf]/15 blur-[70px]" />
+            <div className="pointer-events-none absolute -bottom-12 left-10 h-48 w-48 rounded-full bg-[#ffb58f]/12 blur-[60px]" />
+            {/* 상단 네온 라인 */}
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+
+            <div className="relative">
+              <SectionTitle
+                eyebrow={copy.eyebrow}
+                title={copy.title}
+                desc={copy.desc}
+                className="[&>div]:border-[#8df0cf]/25 [&>div]:bg-[#8df0cf]/10 [&>div>p]:text-[#8df0cf]/90 [&>div>span]:bg-[#8df0cf] [&_h2]:text-white [&_p]:text-slate-400"
+              />
+
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Link
+                  href="/contact"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-6 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.35)] transition hover:-translate-y-0.5 hover:brightness-105"
+                >
+                  {copy.primary}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/dmc"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white transition hover:bg-white/18"
+                >
+                  {copy.secondary}
+                </Link>
+              </div>
             </div>
           </div>
 
+          {/* 오른쪽: 트랙 카드들 */}
           <div className="grid gap-4">
             {copy.tracks.map((item) => {
               const Icon = item.icon;
-
               return (
                 <article
                   key={item.title}
-                  className="rounded-[24px] border border-white/70 bg-white/88 p-5 shadow-[0_12px_32px_rgba(16,32,58,0.06)] backdrop-blur"
+                  style={{ background: `linear-gradient(145deg, ${item.gradFrom}, ${item.gradTo})` }}
+                  className="group relative overflow-hidden rounded-[24px] border border-white/90 p-5 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1 sm:p-6"
                 >
+                  {/* 왼쪽 액센트 */}
                   <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-2xl ${item.color}`}
-                  >
+                    className="absolute left-0 top-0 h-full w-[3px] rounded-l-[24px] opacity-60"
+                    style={{ background: `linear-gradient(180deg, ${item.gradTo}, ${item.gradFrom})` }}
+                  />
+                  {/* 호버 글로우 */}
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-[24px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{ boxShadow: `0 0 28px ${item.glow}` }}
+                  />
+                  <div className={`relative flex h-11 w-11 items-center justify-center rounded-2xl shadow-sm ${item.iconBg} ${item.iconColor}`}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mt-5 text-[1.25rem] font-black tracking-[-0.03em] text-slate-950">
+                  <h3 className="relative mt-4 text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
+                  <p className="relative mt-2.5 text-sm leading-7 text-slate-500">{item.desc}</p>
                 </article>
               );
             })}

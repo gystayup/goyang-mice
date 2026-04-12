@@ -32,23 +32,23 @@ const copyMap = {
 
 const categoryCopy: Record<
   "ko" | "en",
-  Record<CategoryKey, { title: string; tone: string; iconTone: string }>
+  Record<CategoryKey, { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string }>
 > = {
   ko: {
-    tour:       { title: "여행상품 예약",    tone: "bg-[#fff7df]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]" },
-    stay:       { title: "숙박 예약",        tone: "bg-[#e9fbf4]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]" },
-    restaurant: { title: "음식점 예약",      tone: "bg-[#fff2e5]", iconTone: "bg-[#ffd5a8] text-[#9b4800]" },
-    cafe:       { title: "라이프스타일",     tone: "bg-[#f5efff]", iconTone: "bg-[#dcc8ff] text-[#6b3dbf]" },
-    ticket:     { title: "티켓 예약",        tone: "bg-[#eef8f5]", iconTone: "bg-[#a8e8da] text-[#0a6b5a]" },
-    airport:    { title: "공항픽업 예약",    tone: "bg-[#fff4e9]", iconTone: "bg-[#ffd5b0] text-[#9b5200]" },
+    tour:       { title: "여행상품 예약",  gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    stay:       { title: "숙박 예약",      gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
+    restaurant: { title: "음식점 예약",    gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
+    cafe:       { title: "라이프스타일",   gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
+    ticket:     { title: "티켓 예약",      gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
+    airport:    { title: "공항픽업 예약",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
   },
   en: {
-    tour:       { title: "Travel Products", tone: "bg-[#fff7df]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]" },
-    stay:       { title: "Accommodation",   tone: "bg-[#e9fbf4]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]" },
-    restaurant: { title: "Restaurant",      tone: "bg-[#fff2e5]", iconTone: "bg-[#ffd5a8] text-[#9b4800]" },
-    cafe:       { title: "Lifestyle",       tone: "bg-[#f5efff]", iconTone: "bg-[#dcc8ff] text-[#6b3dbf]" },
-    ticket:     { title: "Ticket Booking",  tone: "bg-[#eef8f5]", iconTone: "bg-[#a8e8da] text-[#0a6b5a]" },
-    airport:    { title: "Airport Pickup",  tone: "bg-[#fff4e9]", iconTone: "bg-[#ffd5b0] text-[#9b5200]" },
+    tour:       { title: "Travel Products", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    stay:       { title: "Accommodation",   gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
+    restaurant: { title: "Restaurant",      gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
+    cafe:       { title: "Lifestyle",       gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
+    ticket:     { title: "Ticket Booking",  gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
+    airport:    { title: "Airport Pickup",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
   },
 };
 
@@ -59,12 +59,19 @@ export default async function ProductPreviewSection({ locale }: { locale: string
   const copy = copyMap[activeLocale];
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-      <div className="overflow-hidden rounded-[30px] border border-white/70 bg-[linear-gradient(135deg,_#fff0d7_0%,_#ffe5df_30%,_#eef7ff_68%,_#e7fbf3_100%)] px-5 py-8 shadow-[0_18px_46px_rgba(16,32,58,0.08)] sm:rounded-[36px] sm:px-8 sm:py-10">
+    <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+      {/* 배경 글로우 */}
+      <div className="pointer-events-none absolute left-1/4 top-0 h-48 w-48 rounded-full bg-[#ffe98b]/20 blur-[70px]" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 h-48 w-48 rounded-full bg-[#8df0cf]/18 blur-[70px]" />
+
+      <div className="relative overflow-hidden rounded-[32px] border border-white/80 bg-white/60 px-5 py-10 shadow-[0_20px_60px_rgba(16,32,58,0.09),_0_0_0_1px_rgba(255,255,255,0.7)] backdrop-blur-lg sm:rounded-[40px] sm:px-8 sm:py-12">
+        {/* 상단 장식 라인 */}
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+
         <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
 
         {/* 카테고리 카드 */}
-        <div className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 md:grid-cols-3">
           {categoryOrder.map((key) => {
             const item = categoryCopy[activeLocale][key];
             const Icon = categoryIcons[key];
@@ -72,14 +79,21 @@ export default async function ProductPreviewSection({ locale }: { locale: string
               <Link
                 key={key}
                 href="/products"
-                className={`group flex items-center gap-4 rounded-[20px] border border-white/80 px-5 py-5 shadow-[0_6px_16px_rgba(16,32,58,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(16,32,58,0.08)] sm:px-6 ${item.tone}`}
+                style={{ background: `linear-gradient(145deg, ${item.gradFrom}, ${item.gradTo})` }}
+                className="group relative flex items-center gap-4 overflow-hidden rounded-[20px] border border-white/90 px-5 py-5 shadow-[0_4px_16px_rgba(16,32,58,0.06)] transition duration-300 hover:-translate-y-1 sm:px-6"
               >
-                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${item.iconTone}`}>
+                {/* 호버 글로우 */}
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[20px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ boxShadow: `0 0 28px ${item.glow}` }}
+                />
+                <div className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${item.iconBg} ${item.iconColor}`}>
                   <Icon className="h-7 w-7" />
                 </div>
-                <div className="text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-2xl">
+                <div className="relative text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-[1.35rem]">
                   {item.title}
                 </div>
+                <ArrowRight className="relative ml-auto h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-slate-600" />
               </Link>
             );
           })}
@@ -89,7 +103,7 @@ export default async function ProductPreviewSection({ locale }: { locale: string
       <div className="mt-6 flex justify-end">
         <Link
           href="/products"
-          className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full border border-white/70 bg-white/80 px-5 text-sm font-semibold text-slate-700 shadow-[0_4px_14px_rgba(16,32,58,0.07)] backdrop-blur transition hover:bg-white hover:shadow-[0_8px_24px_rgba(16,32,58,0.10)]"
         >
           {copy.viewAll}
           <ArrowRight className="h-4 w-4" />

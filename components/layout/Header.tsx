@@ -55,7 +55,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 px-3 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] border border-white/70 bg-white/88 px-4 py-4 shadow-[0_18px_50px_rgba(16,32,58,0.08)] backdrop-blur-xl sm:px-5 lg:px-6">
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-white/80 bg-white/80 px-4 py-4 shadow-[0_18px_50px_rgba(16,32,58,0.10),_0_0_0_1px_rgba(255,255,255,0.6)] backdrop-blur-2xl sm:px-5 lg:px-6">
         {/* 모바일 헤더: 배지 + 언어 + 메뉴만 표시 */}
         <div className="flex items-center justify-between gap-2 lg:hidden">
           <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap overflow-hidden rounded-full bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_50%,_#10203a_100%)] px-4 py-2 shadow-[0_4px_14px_rgba(16,32,58,0.35)]">

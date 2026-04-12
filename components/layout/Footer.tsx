@@ -68,7 +68,14 @@ export default function Footer() {
 
   return (
     <footer className="px-4 pb-24 pt-10 sm:px-5 lg:px-6 lg:pb-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] bg-[#10203a] text-slate-300 shadow-[0_22px_60px_rgba(16,32,58,0.18)]">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_50%,_#102040_100%)] text-slate-300 shadow-[0_28px_80px_rgba(8,14,26,0.26)]">
+        {/* 상단 네온 라인 */}
+        <div className="h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+        {/* 격자 배경 */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[32px] opacity-[0.03]"
+          style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }}
+        />
         <div className="grid gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.15fr_0.8fr_0.8fr_1fr] lg:px-8">
           <div>
             <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-slate-950">
@@ -127,7 +134,7 @@ export default function Footer() {
             <p className="mt-5 text-sm leading-7 text-slate-400">{copy.collaborateDesc}</p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
+              className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-5 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.30)] transition hover:-translate-y-0.5 hover:brightness-105"
             >
               {copy.cta}
               <ArrowRight className="h-4 w-4" />
