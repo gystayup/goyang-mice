@@ -36,10 +36,34 @@ const enLabels: Record<NavigationKey, string> = {
   contact: "Contact",
 };
 
+const jaLabels: Record<NavigationKey, string> = {
+  about: "研究所紹介",
+  research: "研究分野",
+  dmc: "DMCサービス",
+  products: "予約",
+  contact: "お問い合わせ",
+};
+
+const zhCNLabels: Record<NavigationKey, string> = {
+  about: "研究所介绍",
+  research: "研究领域",
+  dmc: "DMC服务",
+  products: "服务预约",
+  contact: "联系我们",
+};
+
+const zhTWLabels: Record<NavigationKey, string> = {
+  about: "研究所介紹",
+  research: "研究領域",
+  dmc: "DMC服務",
+  products: "服務預約",
+  contact: "聯絡我們",
+};
+
 export const navigationLabels: Record<LocaleKey, Record<NavigationKey, string>> = {
   ko: koLabels,
   en: enLabels,
-  ja: enLabels,
-  "zh-CN": enLabels,
-  "zh-TW": enLabels,
+  ja: jaLabels,
+  "zh-CN": zhCNLabels,
+  "zh-TW": zhTWLabels,
 };
