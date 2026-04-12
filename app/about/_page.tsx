@@ -418,38 +418,62 @@ export default function AboutPage({ locale = "ko" }: { locale?: PageLocale }) {
   return (
     <Shell>
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-20 pt-10">
-        <section className="overflow-hidden rounded-[40px] border border-white/70 bg-[linear-gradient(135deg,_#10203a_0%,_#304f9b_38%,_#ff8f7e_100%)] px-6 py-8 text-white shadow-[0_24px_60px_rgba(16,32,58,0.14)] lg:px-10 lg:py-10">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-            <div className="flex h-full flex-col gap-6">
-              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[#fff0b0]">
-                {copy.eyebrow}
+        <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_40%,_#102040_70%,_#1a3060_100%)] px-6 py-10 text-white shadow-[0_28px_70px_rgba(8,14,26,0.22)] lg:px-10 lg:py-12">
+          {/* 도트 그리드 */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.045]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
+          {/* 글로우 오브 */}
+          <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-[#8df0cf]/15 blur-[70px]" />
+          <div className="pointer-events-none absolute -bottom-12 right-0 h-72 w-72 rounded-full bg-[#a4d8ff]/14 blur-[80px]" />
+          <div className="pointer-events-none absolute right-1/4 top-1/2 h-48 w-48 rounded-full bg-[#ffb58f]/10 blur-[70px]" />
+          {/* 상단 네온 라인 */}
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+
+          <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+            {/* 왼쪽: 텍스트 */}
+            <div className="flex h-full flex-col gap-5">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/10 px-3.5 py-1.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#8df0cf]/90">{copy.eyebrow}</span>
               </div>
               <div>
-                <h1 className="mt-4 max-w-4xl text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-5xl">
+                <h1 className="max-w-2xl text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl lg:text-[2.8rem] lg:leading-[1.12]">
                   {copy.title}
                 </h1>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-white/82">
+                <div className="mt-5 h-px w-full max-w-sm bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
+                <p className="mt-5 max-w-xl text-base leading-8 text-slate-400">
                   {copy.desc}
                 </p>
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {copy.highlights.map((item) => {
+            {/* 오른쪽: 4개 하이라이트 카드 */}
+            <div className="grid gap-3 sm:grid-cols-2">
+              {copy.highlights.map((item, index) => {
                 const Icon = item.icon;
-
+                const accents = [
+                  { iconBg: "bg-[#ffe98b]/20", iconColor: "text-[#ffe98b]", border: "border-[#ffe98b]/20", bar: "bg-[#ffe98b]" },
+                  { iconBg: "bg-[#8df0cf]/18", iconColor: "text-[#8df0cf]", border: "border-[#8df0cf]/20", bar: "bg-[#8df0cf]" },
+                  { iconBg: "bg-[#a4d8ff]/18", iconColor: "text-[#a4d8ff]", border: "border-[#a4d8ff]/20", bar: "bg-[#a4d8ff]" },
+                  { iconBg: "bg-[#ffb58f]/18", iconColor: "text-[#ffb58f]", border: "border-[#ffb58f]/20", bar: "bg-[#ffb58f]" },
+                ];
+                const ac = accents[index % 4];
                 return (
                   <div
                     key={item.value}
-                    className="rounded-[28px] border border-white/20 bg-white/12 p-5 backdrop-blur-xl"
+                    className={`relative overflow-hidden rounded-[22px] border bg-white/[0.06] p-5 backdrop-blur-sm transition duration-300 hover:bg-white/[0.10] ${ac.border}`}
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/15">
-                      <Icon className="h-5 w-5 text-[#fff0b0]" />
+                    {/* 왼쪽 컬러 라인 */}
+                    <div className={`absolute left-0 top-4 h-8 w-[3px] rounded-r-full ${ac.bar}`} />
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${ac.iconBg}`}>
+                      <Icon className={`h-5 w-5 ${ac.iconColor}`} />
                     </div>
-                    <div className="mt-5 text-xl font-black tracking-tight text-white">
+                    <div className="mt-4 text-[1.05rem] font-black tracking-[-0.03em] text-white">
                       {item.value}
                     </div>
-                    <p className="mt-2 text-sm leading-7 text-white/78">{item.label}</p>
+                    <p className="mt-2 text-[13px] leading-6 text-slate-400">{item.label}</p>
                   </div>
                 );
               })}
