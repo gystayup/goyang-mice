@@ -7,7 +7,29 @@ import {
 import SectionTitle from "@/components/common/SectionTitle";
 import { Link } from "@/lib/navigation";
 
-const copyMap = {
+type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+type Track = {
+  icon: typeof BriefcaseBusiness;
+  title: string;
+  desc: string;
+  gradFrom: string;
+  gradTo: string;
+  iconBg: string;
+  iconColor: string;
+  glow: string;
+};
+
+type Copy = {
+  eyebrow: string;
+  title: string;
+  desc: string;
+  primary: string;
+  secondary: string;
+  tracks: Track[];
+};
+
+const copyMap: Record<LocaleKey, Copy> = {
   ko: {
     eyebrow: "Next Step",
     title: "좋은 아이디어를 실제 프로그램과 운영 구조로 연결해 드립니다.",
@@ -15,36 +37,9 @@ const copyMap = {
     primary: "상담 요청하기",
     secondary: "DMC 서비스 보기",
     tracks: [
-      {
-        icon: BriefcaseBusiness,
-        title: "행사 운영 제안",
-        desc: "방문 프로그램, 체류 동선, 현장 운영 시나리오를 함께 설계합니다.",
-        gradFrom: "#fffbee",
-        gradTo: "#fff4da",
-        iconBg: "bg-[#ffe8a0]",
-        iconColor: "text-[#9b7a00]",
-        glow: "rgba(255,233,139,0.4)",
-      },
-      {
-        icon: Handshake,
-        title: "제휴 파트너 연결",
-        desc: "기관, 숙박, 미식, 로컬 거점과 연결되는 협력 구조를 제안합니다.",
-        gradFrom: "#f0fdf8",
-        gradTo: "#e8fbf3",
-        iconBg: "bg-[#b7f0d8]",
-        iconColor: "text-[#0a6b48]",
-        glow: "rgba(141,240,207,0.4)",
-      },
-      {
-        icon: CalendarRange,
-        title: "중장기 프로젝트 상담",
-        desc: "브랜딩과 콘텐츠 기획, 운영 구조까지 이어지는 프로젝트 상담을 지원합니다.",
-        gradFrom: "#f0f4ff",
-        gradTo: "#eef2ff",
-        iconBg: "bg-[#d4ddff]",
-        iconColor: "text-[#3655a6]",
-        glow: "rgba(100,130,255,0.35)",
-      },
+      { icon: BriefcaseBusiness, title: "행사 운영 제안", desc: "방문 프로그램, 체류 동선, 현장 운영 시나리오를 함께 설계합니다.", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
+      { icon: Handshake, title: "제휴 파트너 연결", desc: "기관, 숙박, 미식, 로컬 거점과 연결되는 협력 구조를 제안합니다.", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
+      { icon: CalendarRange, title: "중장기 프로젝트 상담", desc: "브랜딩과 콘텐츠 기획, 운영 구조까지 이어지는 프로젝트 상담을 지원합니다.", gradFrom: "#f0f4ff", gradTo: "#eef2ff", iconBg: "bg-[#d4ddff]", iconColor: "text-[#3655a6]", glow: "rgba(100,130,255,0.35)" },
     ],
   },
   en: {
@@ -54,42 +49,54 @@ const copyMap = {
     primary: "Request consultation",
     secondary: "View DMC services",
     tracks: [
-      {
-        icon: BriefcaseBusiness,
-        title: "Operations planning",
-        desc: "We help structure visitor programs, stay flows and field operations scenarios.",
-        gradFrom: "#fffbee",
-        gradTo: "#fff4da",
-        iconBg: "bg-[#ffe8a0]",
-        iconColor: "text-[#9b7a00]",
-        glow: "rgba(255,233,139,0.4)",
-      },
-      {
-        icon: Handshake,
-        title: "Partner connection",
-        desc: "We connect public agencies, stays, venues and local partners into one service structure.",
-        gradFrom: "#f0fdf8",
-        gradTo: "#e8fbf3",
-        iconBg: "bg-[#b7f0d8]",
-        iconColor: "text-[#0a6b48]",
-        glow: "rgba(141,240,207,0.4)",
-      },
-      {
-        icon: CalendarRange,
-        title: "Project consultation",
-        desc: "We support longer-term projects covering branding, content planning and operations design.",
-        gradFrom: "#f0f4ff",
-        gradTo: "#eef2ff",
-        iconBg: "bg-[#d4ddff]",
-        iconColor: "text-[#3655a6]",
-        glow: "rgba(100,130,255,0.35)",
-      },
+      { icon: BriefcaseBusiness, title: "Operations planning", desc: "We help structure visitor programs, stay flows and field operations scenarios.", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
+      { icon: Handshake, title: "Partner connection", desc: "We connect public agencies, stays, venues and local partners into one service structure.", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
+      { icon: CalendarRange, title: "Project consultation", desc: "We support longer-term projects covering branding, content planning and operations design.", gradFrom: "#f0f4ff", gradTo: "#eef2ff", iconBg: "bg-[#d4ddff]", iconColor: "text-[#3655a6]", glow: "rgba(100,130,255,0.35)" },
     ],
   },
-} as const;
+  ja: {
+    eyebrow: "Next Step",
+    title: "良いアイデアを実際のプログラムと運営構造へとつなげます。",
+    desc: "イベント運営・DMCサービス・研究プロジェクト・機関連携など、目標とご状況をお知らせいただければ、最も現実的な次のステップをご提案します。",
+    primary: "相談を申し込む",
+    secondary: "DMCサービスを見る",
+    tracks: [
+      { icon: BriefcaseBusiness, title: "イベント運営提案", desc: "訪問プログラム、滞在動線、現場運営シナリオを一緒に設計します。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
+      { icon: Handshake, title: "提携パートナー連結", desc: "機関・宿泊・グルメ・ローカル拠点と連携する協力体制をご提案します。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
+      { icon: CalendarRange, title: "中長期プロジェクト相談", desc: "ブランディングとコンテンツ企画から運営構造まで、プロジェクト全体をサポートします。", gradFrom: "#f0f4ff", gradTo: "#eef2ff", iconBg: "bg-[#d4ddff]", iconColor: "text-[#3655a6]", glow: "rgba(100,130,255,0.35)" },
+    ],
+  },
+  "zh-CN": {
+    eyebrow: "Next Step",
+    title: "将好的创意转化为实际项目与运营结构。",
+    desc: "无论是活动运营、DMC服务、研究项目还是机构合作，请告知您的目标与需求，我们将为您规划最切实可行的下一步。",
+    primary: "申请咨询",
+    secondary: "查看DMC服务",
+    tracks: [
+      { icon: BriefcaseBusiness, title: "活动运营方案", desc: "共同设计访客项目、滞留路线及现场运营方案。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
+      { icon: Handshake, title: "合作伙伴连接", desc: "提供与机构、住宿、餐饮及本地据点的合作结构方案。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
+      { icon: CalendarRange, title: "中长期项目咨询", desc: "支持涵盖品牌策划、内容规划及运营结构的全程项目咨询。", gradFrom: "#f0f4ff", gradTo: "#eef2ff", iconBg: "bg-[#d4ddff]", iconColor: "text-[#3655a6]", glow: "rgba(100,130,255,0.35)" },
+    ],
+  },
+  "zh-TW": {
+    eyebrow: "Next Step",
+    title: "將好的創意轉化為實際項目與運營結構。",
+    desc: "無論是活動運營、DMC服務、研究計畫還是機構合作，請告知您的目標與需求，我們將為您規劃最切實可行的下一步。",
+    primary: "申請諮詢",
+    secondary: "查看DMC服務",
+    tracks: [
+      { icon: BriefcaseBusiness, title: "活動運營方案", desc: "共同設計訪客計畫、滯留路線及現場運營方案。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
+      { icon: Handshake, title: "合作夥伴連結", desc: "提供與機構、住宿、餐飲及在地據點的合作結構方案。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
+      { icon: CalendarRange, title: "中長期計畫諮詢", desc: "支援涵蓋品牌策劃、內容規劃及運營結構的全程計畫諮詢。", gradFrom: "#f0f4ff", gradTo: "#eef2ff", iconBg: "bg-[#d4ddff]", iconColor: "text-[#3655a6]", glow: "rgba(100,130,255,0.35)" },
+    ],
+  },
+};
+
+const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
 export default async function ContactCtaSection({ locale }: { locale: string }) {
-  const copy = copyMap[locale === "en" ? "en" : "ko"];
+  const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
+  const copy = copyMap[activeLocale];
 
   return (
     <section className="py-14 sm:py-18">

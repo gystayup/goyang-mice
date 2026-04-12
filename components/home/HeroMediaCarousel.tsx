@@ -15,6 +15,8 @@ type HeroSlide = {
   enDesc: string;
   youtubeId?: string;
   background?: string;
+  imageUrl?: string;
+  videoUrl?: string;
 };
 
 // 기본 슬라이드 (DB 미응답 시 fallback)
@@ -76,6 +78,10 @@ const fallbackSlides: HeroSlide[] = [
   },
 ];
 
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(url);
+}
+
 function SlideFrame({ slide, active }: { slide: HeroSlide; active: boolean }) {
   if (slide.type === "youtube" && slide.youtubeId) {
     const src = `https://www.youtube.com/embed/${slide.youtubeId}?autoplay=${
@@ -91,6 +97,34 @@ function SlideFrame({ slide, active }: { slide: HeroSlide; active: boolean }) {
       />
     );
   }
+
+  // 업로드된 영상 파일
+  if (slide.videoUrl && isVideoUrl(slide.videoUrl)) {
+    return (
+      <video
+        src={slide.videoUrl}
+        className="h-full w-full object-cover"
+        autoPlay={active}
+        muted
+        loop
+        playsInline
+      />
+    );
+  }
+
+  // 업로드된 이미지 파일
+  if (slide.imageUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={slide.imageUrl}
+        alt={slide.koTitle}
+        className="h-full w-full object-cover"
+      />
+    );
+  }
+
+  // 그라디언트 배경 (기본 fallback)
   return (
     <div className="h-full w-full" style={{ background: slide.background }}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,_rgba(255,255,255,0.18),_transparent_18%),radial-gradient(circle_at_80%_16%,_rgba(255,255,255,0.2),_transparent_20%)]" />

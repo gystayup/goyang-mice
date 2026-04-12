@@ -1,20 +1,20 @@
 import { ArrowRight, MessageSquareText } from "lucide-react";
-
 import { Link } from "@/lib/navigation";
 
-const copyMap = {
-  ko: {
-    bookings: "예약 시작",
-    contact: "문의하기",
-  },
-  en: {
-    bookings: "Start Booking",
-    contact: "Contact",
-  },
-} as const;
+type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+const copyMap: Record<LocaleKey, { bookings: string; contact: string }> = {
+  ko:    { bookings: "예약 시작",    contact: "문의하기" },
+  en:    { bookings: "Start Booking", contact: "Contact" },
+  ja:    { bookings: "予約する",      contact: "お問い合わせ" },
+  "zh-CN": { bookings: "开始预约",   contact: "联系我们" },
+  "zh-TW": { bookings: "開始預約",   contact: "聯絡我們" },
+};
 
 export default async function MobileQuickActions({ locale }: { locale: string }) {
-  const copy = copyMap[locale === "en" ? "en" : "ko"];
+  const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
+  const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
+  const copy = copyMap[activeLocale];
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-4 pb-4 lg:hidden">

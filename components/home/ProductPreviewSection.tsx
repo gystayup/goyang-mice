@@ -7,6 +7,7 @@ import { Link } from "@/lib/navigation";
 import ProductCard from "../products/ProductCard";
 
 type CategoryKey = "tour" | "stay" | "restaurant" | "cafe" | "ticket" | "airport";
+type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
 const categoryIcons: Record<CategoryKey, typeof Compass> = {
   tour: Compass,
@@ -17,23 +18,17 @@ const categoryIcons: Record<CategoryKey, typeof Compass> = {
   airport: PlaneTakeoff,
 };
 
-const copyMap = {
-  ko: {
-    eyebrow: "DMC Services",
-    title: "고양시 방문, 체류 관광, 이벤트 원스톱 서비스",
-    viewAll: "전체 서비스 보기",
-  },
-  en: {
-    eyebrow: "DMC Services",
-    title: "One-stop services for Goyang visits, stays, tourism and events",
-    viewAll: "View all services",
-  },
-} as const;
+type MainCopy = { eyebrow: string; title: string; viewAll: string };
+const copyMap: Record<LocaleKey, MainCopy> = {
+  ko:      { eyebrow: "DMC Services", title: "고양시 방문, 체류 관광, 이벤트 원스톱 서비스",                        viewAll: "전체 서비스 보기" },
+  en:      { eyebrow: "DMC Services", title: "One-stop services for Goyang visits, stays, tourism and events",      viewAll: "View all services" },
+  ja:      { eyebrow: "DMC Services", title: "高陽市訪問・滞在観光・イベントのワンストップサービス",                viewAll: "全サービスを見る" },
+  "zh-CN": { eyebrow: "DMC Services", title: "高阳市访问·滞留旅游·活动一站式服务",                                 viewAll: "查看全部服务" },
+  "zh-TW": { eyebrow: "DMC Services", title: "高陽市訪問·滯留旅遊·活動一站式服務",                                 viewAll: "查看全部服務" },
+};
 
-const categoryCopy: Record<
-  "ko" | "en",
-  Record<CategoryKey, { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string }>
-> = {
+type CatItem = { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string };
+const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
   ko: {
     tour:       { title: "여행상품 예약",  gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "숙박 예약",      gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
@@ -50,12 +45,37 @@ const categoryCopy: Record<
     ticket:     { title: "Ticket Booking",  gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "Airport Pickup",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
   },
+  ja: {
+    tour:       { title: "旅行商品予約",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    stay:       { title: "宿泊予約",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
+    restaurant: { title: "レストラン予約",  gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
+    cafe:       { title: "ライフスタイル",  gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
+    ticket:     { title: "チケット予約",    gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
+    airport:    { title: "空港送迎予約",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+  },
+  "zh-CN": {
+    tour:       { title: "旅游产品预约",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    stay:       { title: "住宿预约",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
+    restaurant: { title: "餐厅预约",        gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
+    cafe:       { title: "生活方式",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
+    ticket:     { title: "票务预约",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
+    airport:    { title: "机场接送预约",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+  },
+  "zh-TW": {
+    tour:       { title: "旅遊產品預約",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    stay:       { title: "住宿預約",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
+    restaurant: { title: "餐廳預約",        gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
+    cafe:       { title: "生活風格",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
+    ticket:     { title: "票務預約",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
+    airport:    { title: "機場接送預約",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+  },
 };
 
 const categoryOrder: CategoryKey[] = ["tour", "stay", "restaurant", "cafe", "ticket", "airport"];
+const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
 export default async function ProductPreviewSection({ locale }: { locale: string }) {
-  const activeLocale = locale === "en" ? "en" : "ko";
+  const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
   const copy = copyMap[activeLocale];
 
   return (

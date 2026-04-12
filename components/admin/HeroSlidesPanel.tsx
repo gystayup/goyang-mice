@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronDown,
   ChevronUp,
@@ -9,7 +9,9 @@ import {
   Plus,
   Save,
   Trash2,
+  Upload,
   Video,
+  X,
 } from "lucide-react";
 
 type HeroSlide = {
@@ -23,6 +25,8 @@ type HeroSlide = {
   enDesc: string;
   youtubeId?: string;
   background?: string;
+  imageUrl?: string;   // 업로드된 이미지/영상 URL
+  videoUrl?: string;   // 업로드된 영상 URL
 };
 
 const GRADIENT_PRESETS = [
@@ -52,6 +56,165 @@ const GRADIENT_PRESETS = [
   },
 ];
 
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(url);
+}
+
+// 파일 업로드 컴포넌트 (이미지 + 영상)
+function MediaUploader({
+  slideId,
+  imageUrl,
+  videoUrl,
+  onUpload,
+  onClear,
+}: {
+  slideId: string;
+  imageUrl?: string;
+  videoUrl?: string;
+  onUpload: (field: "imageUrl" | "videoUrl", url: string) => void;
+  onClear: (field: "imageUrl" | "videoUrl") => void;
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState("");
+  const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+
+  const handleFile = async (file: File) => {
+    setError("");
+    setUploading(true);
+    setProgress("업로드 중...");
+
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("category", "hero-slides");
+
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+
+      if (!json.success || !json.url) {
+        setError(json.error ?? "업로드 실패");
+        setUploading(false);
+        setProgress("");
+        return;
+      }
+
+      const field = file.type.startsWith("video/") ? "videoUrl" : "imageUrl";
+      onUpload(field, json.url);
+      setProgress("업로드 완료!");
+      setTimeout(() => setProgress(""), 2000);
+    } catch {
+      setError("업로드 중 오류가 발생했습니다.");
+    }
+    setUploading(false);
+  };
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleFile(file);
+    e.target.value = "";
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFile(file);
+  };
+
+  const currentUrl = imageUrl || videoUrl;
+  const isVideo = videoUrl && isVideoUrl(videoUrl);
+
+  return (
+    <div className="mb-4">
+      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+        미디어 파일 업로드
+      </label>
+
+      {/* 현재 미디어 미리보기 */}
+      {currentUrl && (
+        <div className="mb-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-900">
+          {isVideo ? (
+            <video
+              src={currentUrl}
+              className="h-36 w-full object-cover"
+              muted
+              playsInline
+              preload="metadata"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={currentUrl}
+              alt="슬라이드 미리보기"
+              className="h-36 w-full object-cover"
+            />
+          )}
+          <div className="flex items-center justify-between px-3 py-2">
+            <span className="truncate text-[11px] text-slate-400">{currentUrl.split("/").pop()}</span>
+            <button
+              type="button"
+              onClick={() => onClear(isVideo ? "videoUrl" : "imageUrl")}
+              className="ml-2 shrink-0 rounded-lg p-1 text-red-400 hover:bg-red-50"
+              title="미디어 제거"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 드래그 앤 드롭 / 클릭 업로드 영역 */}
+      <div
+        className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-6 text-center transition cursor-pointer ${
+          dragOver
+            ? "border-slate-500 bg-slate-100"
+            : "border-slate-200 bg-slate-50 hover:border-slate-400 hover:bg-white"
+        }`}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={onDrop}
+        onClick={() => !uploading && fileRef.current?.click()}
+      >
+        {uploading ? (
+          <>
+            <Loader2 className="h-7 w-7 animate-spin text-slate-400" />
+            <span className="text-sm text-slate-500">{progress}</span>
+          </>
+        ) : (
+          <>
+            <Upload className="h-7 w-7 text-slate-300" />
+            <div>
+              <p className="text-sm font-semibold text-slate-600">
+                클릭하거나 파일을 드래그하세요
+              </p>
+              <p className="mt-0.5 text-xs text-slate-400">
+                이미지(JPG·PNG·WEBP) 또는 영상(MP4·WEBM·MOV) · 최대 60MB
+              </p>
+            </div>
+          </>
+        )}
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+          className="hidden"
+          onChange={onInputChange}
+          disabled={uploading}
+        />
+      </div>
+
+      {progress && !uploading && (
+        <p className="mt-1.5 text-xs text-emerald-600 font-medium">{progress}</p>
+      )}
+      {error && (
+        <p className="mt-1.5 text-xs text-red-500">{error}</p>
+      )}
+    </div>
+  );
+}
+
 function newSlide(): HeroSlide {
   return {
     id: `slide-${Date.now()}`,
@@ -80,7 +243,6 @@ export default function HeroSlidesPanel() {
         if (json.success && json.data.length > 0) {
           setSlides(json.data as HeroSlide[]);
         } else {
-          // 기본값: 현재 하드코딩된 슬라이드
           setSlides(defaultSlides);
         }
         setLoading(false);
@@ -115,6 +277,12 @@ export default function HeroSlidesPanel() {
   const update = (id: string, field: keyof HeroSlide, value: string) => {
     setSlides((prev) =>
       prev.map((s) => (s.id === id ? { ...s, [field]: value } : s))
+    );
+  };
+
+  const clearField = (id: string, field: "imageUrl" | "videoUrl") => {
+    setSlides((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, [field]: undefined } : s))
     );
   };
 
@@ -204,6 +372,7 @@ export default function HeroSlidesPanel() {
       <div className="space-y-3">
         {slides.map((slide, i) => {
           const isOpen = expandedId === slide.id;
+          const thumbUrl = slide.imageUrl || slide.videoUrl;
           return (
             <div
               key={slide.id}
@@ -216,16 +385,25 @@ export default function HeroSlidesPanel() {
                   {i + 1}
                 </span>
 
-                {/* 미디어 타입 아이콘 */}
+                {/* 미디어 타입 썸네일 */}
                 <div
-                  className="flex h-10 w-16 shrink-0 items-center justify-center rounded-xl"
+                  className="flex h-10 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl"
                   style={
-                    slide.type === "image"
-                      ? { background: slide.background ?? "#213b83" }
-                      : { background: "#000" }
+                    !thumbUrl
+                      ? slide.type === "image"
+                        ? { background: slide.background ?? "#213b83" }
+                        : { background: "#000" }
+                      : {}
                   }
                 >
-                  {slide.type === "youtube" ? (
+                  {thumbUrl ? (
+                    slide.videoUrl && isVideoUrl(slide.videoUrl) ? (
+                      <video src={thumbUrl} className="h-full w-full object-cover" muted playsInline preload="none" />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={thumbUrl} alt="" className="h-full w-full object-cover" />
+                    )
+                  ) : slide.type === "youtube" ? (
                     <Video className="h-4 w-4 text-white" />
                   ) : (
                     <Image className="h-4 w-4 text-white" />
@@ -303,7 +481,7 @@ export default function HeroSlidesPanel() {
                           ) : (
                             <Image className="h-4 w-4" />
                           )}
-                          {t === "youtube" ? "유튜브 영상" : "이미지 (그라디언트)"}
+                          {t === "youtube" ? "유튜브 영상" : "이미지 / 영상 파일"}
                         </button>
                       ))}
                     </div>
@@ -325,41 +503,54 @@ export default function HeroSlidesPanel() {
                     </div>
                   )}
 
-                  {/* 배경 그라디언트 */}
+                  {/* 이미지/영상 파일 업로드 */}
                   {slide.type === "image" && (
-                    <div className="mb-4">
-                      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        배경 그라디언트
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        {GRADIENT_PRESETS.map((g) => (
-                          <button
-                            key={g.value}
-                            type="button"
-                            onClick={() => update(slide.id, "background", g.value)}
-                            title={g.label}
-                            className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition ${
-                              slide.background === g.value
-                                ? "border-slate-900 shadow-sm"
-                                : "border-slate-200 hover:border-slate-400"
-                            }`}
-                          >
-                            <span
-                              className="h-4 w-8 rounded-md"
-                              style={{ background: g.value }}
-                            />
-                            {g.label}
-                          </button>
-                        ))}
-                      </div>
-                      <input
-                        type="text"
-                        value={slide.background ?? ""}
-                        onChange={(e) => update(slide.id, "background", e.target.value)}
-                        placeholder="또는 직접 CSS gradient 입력"
-                        className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-500 outline-none focus:border-slate-400"
+                    <>
+                      <MediaUploader
+                        slideId={slide.id}
+                        imageUrl={slide.imageUrl}
+                        videoUrl={slide.videoUrl}
+                        onUpload={(field, url) => update(slide.id, field, url)}
+                        onClear={(field) => clearField(slide.id, field)}
                       />
-                    </div>
+
+                      {/* 파일 없을 때 배경 그라디언트 선택 */}
+                      {!slide.imageUrl && !slide.videoUrl && (
+                        <div className="mb-4">
+                          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            배경 그라디언트 (파일 미업로드 시 표시)
+                          </label>
+                          <div className="flex flex-wrap gap-2">
+                            {GRADIENT_PRESETS.map((g) => (
+                              <button
+                                key={g.value}
+                                type="button"
+                                onClick={() => update(slide.id, "background", g.value)}
+                                title={g.label}
+                                className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition ${
+                                  slide.background === g.value
+                                    ? "border-slate-900 shadow-sm"
+                                    : "border-slate-200 hover:border-slate-400"
+                                }`}
+                              >
+                                <span
+                                  className="h-4 w-8 rounded-md"
+                                  style={{ background: g.value }}
+                                />
+                                {g.label}
+                              </button>
+                            ))}
+                          </div>
+                          <input
+                            type="text"
+                            value={slide.background ?? ""}
+                            onChange={(e) => update(slide.id, "background", e.target.value)}
+                            placeholder="또는 직접 CSS gradient 입력"
+                            className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-500 outline-none focus:border-slate-400"
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
 
                   {/* 한국어 / 영어 나란히 */}
