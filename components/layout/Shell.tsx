@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import ChannelTalk from "./ChannelTalk";
+import FloatingButtons from "./FloatingButtons";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -37,6 +39,8 @@ export default function Shell({ children }: ShellProps) {
       <Header />
       <main>{children}</main>
       <Footer />
+      <ChannelTalk />
+      <FloatingButtons />
     </div>
   );
 }
