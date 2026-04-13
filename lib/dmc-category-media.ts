@@ -26,7 +26,7 @@ export interface DmcCategoryMediaItem {
 export type DmcCategoryMediaMap = Record<DmcCategoryMediaKey, DmcCategoryMediaItem>;
 
 const PAGE_KEY = "dmc-category-media";
-const BUCKET = "goyang mice";
+const BUCKET = "uploads";
 const FOLDER = "dmc/categories";
 
 function getSupabaseClient() {

@@ -22,7 +22,7 @@ const defaultDmcHeroMedia: DmcHeroMedia = {
 };
 
 const PAGE_KEY = "dmc-hero-media";
-const BUCKET = "goyang mice";
+const BUCKET = "uploads";
 const FOLDER = "dmc/hero";
 
 function getSupabaseClient() {
