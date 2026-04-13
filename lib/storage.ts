@@ -23,10 +23,10 @@ export async function uploadFile(
     const supabase = getSupabaseClient();
     const path = `admin/${category}/${filename}`;
     const { error } = await supabase.storage
-      .from("uploads")
+      .from("goyang mice")
       .upload(path, buffer, { contentType: mimeType, upsert: false });
     if (error) throw new Error(error.message);
-    const { data } = supabase.storage.from("uploads").getPublicUrl(path);
+    const { data } = supabase.storage.from("goyang mice").getPublicUrl(path);
     return data.publicUrl;
   }
 
@@ -42,7 +42,7 @@ export async function uploadFile(
 export async function deleteFile(filename: string, category: string): Promise<void> {
   if (UPLOAD_SERVICE === "supabase") {
     const supabase = getSupabaseClient();
-    await supabase.storage.from("uploads").remove([`admin/${category}/${filename}`]);
+    await supabase.storage.from("goyang mice").remove([`admin/${category}/${filename}`]);
     return;
   }
 
@@ -55,11 +55,11 @@ export async function deleteFile(filename: string, category: string): Promise<vo
 export async function listFiles(category: string): Promise<Array<{ filename: string; url: string; size: number; createdAt: Date }>> {
   if (UPLOAD_SERVICE === "supabase") {
     const supabase = getSupabaseClient();
-    const { data, error } = await supabase.storage.from("uploads").list(`admin/${category}`);
+    const { data, error } = await supabase.storage.from("goyang mice").list(`admin/${category}`);
     if (error) throw new Error(error.message);
     return (data ?? []).map((f) => {
       const { data: urlData } = supabase.storage
-        .from("uploads")
+        .from("goyang mice")
         .getPublicUrl(`admin/${category}/${f.name}`);
       return {
         filename: f.name,

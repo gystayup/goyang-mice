@@ -259,13 +259,13 @@ export default function TicketReservationBooking({
           <SummaryRow label="공연장" value={ticket.venue} />
         </div>
 
-        <div className="mt-6 rounded-[28px] bg-white/8 px-5 py-5">
-          <div className="text-sm text-slate-300">티켓 수량</div>
+        <div className="mt-6 rounded-[28px] bg-white/12 px-5 py-5">
+          <div className="text-sm font-semibold text-slate-200">티켓 수량</div>
           <div className="mt-3 flex items-center gap-3">
             <button
               type="button"
               onClick={() => setTicketCount((count) => Math.max(1, count - 1))}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-lg"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-lg hover:bg-white/10 transition"
             >
               -
             </button>
@@ -273,20 +273,20 @@ export default function TicketReservationBooking({
             <button
               type="button"
               onClick={() => setTicketCount((count) => count + 1)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-lg"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-lg hover:bg-white/10 transition"
             >
               +
             </button>
-            <div className="text-sm text-slate-400">매</div>
+            <div className="text-sm text-slate-300">매</div>
           </div>
         </div>
 
-        <div className="mt-4 rounded-[28px] bg-white/8 px-5 py-5">
-          <div className="text-sm text-slate-300">총 결제 금액</div>
+        <div className="mt-4 rounded-[28px] bg-white/12 px-5 py-5">
+          <div className="text-sm font-semibold text-slate-200">총 결제 금액</div>
           <div className="mt-2 text-3xl font-black">
             {totalAmount.toLocaleString("ko-KR")}원
           </div>
-          <p className="mt-2 text-xs leading-6 text-slate-400">
+          <p className="mt-2 text-xs leading-6 text-slate-300">
             실제 결제 확정 후 관리자 페이지에서 발권 가능 여부와 결제 상태를 다시 한 번
             확인합니다.
           </p>
@@ -318,8 +318,8 @@ export default function TicketReservationBooking({
             onChange={(value) => setForm((current) => ({ ...current, email: value }))}
             required
           />
-          <label className="rounded-[24px] border border-white/10 bg-white/5 px-4 py-3.5">
-            <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+          <label className="block rounded-[24px] border border-white/20 bg-white/10 px-4 py-3.5">
+            <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
               결제 방식
             </div>
             <select
@@ -343,11 +343,11 @@ export default function TicketReservationBooking({
             onChange={(event) =>
               setForm((current) => ({ ...current, request: event.target.value }))
             }
-            className="w-full rounded-[24px] border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-white/30"
+            className="w-full rounded-[24px] border border-white/20 bg-white/10 px-4 py-3.5 text-sm text-white placeholder-slate-400 outline-none transition focus:border-white/40"
           />
         </div>
 
-        <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-[24px] border border-white/10 bg-white/5 px-4 py-4">
+        <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-[24px] border border-white/20 bg-white/10 px-4 py-4">
           <input
             type="checkbox"
             checked={form.agree}
@@ -356,7 +356,7 @@ export default function TicketReservationBooking({
             }
             className="mt-1 h-4 w-4 shrink-0 accent-white"
           />
-          <span className="text-sm leading-6 text-slate-300">
+          <span className="text-sm leading-6 text-slate-200">
             개인정보 수집 및 티켓 예약·결제 안내를 위한 연락에 동의합니다.
           </span>
         </label>
@@ -420,15 +420,15 @@ function FormInput({
       placeholder={placeholder}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      className="w-full rounded-[24px] border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-white/30"
+      className="w-full rounded-[24px] border border-white/20 bg-white/10 px-4 py-3.5 text-sm text-white placeholder-slate-400 outline-none transition focus:border-white/40"
     />
   );
 }
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] bg-white/8 px-5 py-4">
-      <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+    <div className="rounded-[24px] bg-white/12 px-5 py-4">
+      <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
         {label}
       </div>
       <div className="mt-2 text-base font-bold text-white">{value}</div>

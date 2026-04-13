@@ -208,11 +208,11 @@ export default function ContactPage({ locale = "ko" }: { locale?: PageLocale }) 
                   >
                     <div className="flex items-start gap-3">
                       <Icon className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                           {item.label}
                         </div>
-                        <div className="mt-2 text-sm leading-7 text-slate-200">
+                        <div className="mt-2 break-words text-sm leading-7 text-slate-200">
                           {item.value}
                         </div>
                       </div>
