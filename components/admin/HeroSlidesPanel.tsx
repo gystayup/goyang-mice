@@ -262,11 +262,11 @@ export default function HeroSlidesPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slides }),
       });
-      const json = (await res.json()) as { success: boolean };
+      const json = (await res.json()) as { success: boolean; error?: string };
       if (json.success) {
         setMsg({ type: "success", text: "저장되었습니다." });
       } else {
-        setMsg({ type: "error", text: "저장 실패" });
+        setMsg({ type: "error", text: json.error ?? "저장 실패" });
       }
     } catch {
       setMsg({ type: "error", text: "저장 중 오류가 발생했습니다." });
