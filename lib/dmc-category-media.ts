@@ -1,5 +1,7 @@
-import { mkdir, readFile, rm, stat, writeFile } from "fs/promises";
+import { createClient } from "@supabase/supabase-js";
 import path from "path";
+
+import { prisma } from "@/lib/prisma";
 
 export const dmcCategoryMediaDefinitions = [
   { key: "tour", label: "여행상품 예약" },
@@ -23,8 +25,16 @@ export interface DmcCategoryMediaItem {
 
 export type DmcCategoryMediaMap = Record<DmcCategoryMediaKey, DmcCategoryMediaItem>;
 
-const metadataPath = path.join(process.cwd(), "data", "dmc-category-media.json");
-const uploadDir = path.join(process.cwd(), "public", "uploads", "dmc", "categories");
+const PAGE_KEY = "dmc-category-media";
+const BUCKET = "goyang mice";
+const FOLDER = "dmc/categories";
+
+function getSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error("Supabase 환경변수가 설정되지 않았습니다.");
+  return createClient(url, key);
+}
 
 function createDefaultMap(): DmcCategoryMediaMap {
   return Object.fromEntries(
@@ -42,35 +52,15 @@ function createDefaultMap(): DmcCategoryMediaMap {
   ) as DmcCategoryMediaMap;
 }
 
-function toPublicMediaUrl(fileName: string) {
-  return `/uploads/dmc/categories/${fileName}`;
-}
-
-function resolveStoredFilePath(src: string) {
-  const relativePath = src.replace(/^\/+/, "");
-  return path.join(process.cwd(), "public", relativePath.replace(/^public[\\/]/, ""));
-}
-
 function isValidCategoryKey(value: string): value is DmcCategoryMediaKey {
   return dmcCategoryMediaDefinitions.some((item) => item.key === value);
 }
 
-export async function ensureDmcCategoryMediaStorage() {
-  await mkdir(uploadDir, { recursive: true });
-
-  try {
-    await stat(metadataPath);
-  } catch {
-    await writeFile(metadataPath, JSON.stringify(createDefaultMap(), null, 2), "utf8");
-  }
-}
-
 export async function readDmcCategoryMediaMap(): Promise<DmcCategoryMediaMap> {
-  await ensureDmcCategoryMediaStorage();
-
   try {
-    const raw = await readFile(metadataPath, "utf8");
-    const parsed = JSON.parse(raw) as Partial<Record<DmcCategoryMediaKey, Partial<DmcCategoryMediaItem>>>;
+    const page = await prisma.page.findUnique({ where: { pageKey: PAGE_KEY } });
+    if (!page || !page.contentJson) return createDefaultMap();
+    const parsed = page.contentJson as Partial<Record<DmcCategoryMediaKey, Partial<DmcCategoryMediaItem>>>;
     const defaults = createDefaultMap();
 
     for (const item of dmcCategoryMediaDefinitions) {
@@ -91,41 +81,55 @@ export async function readDmcCategoryMediaMap(): Promise<DmcCategoryMediaMap> {
   }
 }
 
-export async function writeDmcCategoryMediaMap(mediaMap: DmcCategoryMediaMap) {
-  await ensureDmcCategoryMediaStorage();
-  await writeFile(metadataPath, JSON.stringify(mediaMap, null, 2), "utf8");
+async function writeDmcCategoryMediaMap(mediaMap: DmcCategoryMediaMap) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await prisma.page.upsert({
+    where: { pageKey: PAGE_KEY },
+    update: { contentJson: mediaMap as any },
+    create: {
+      pageKey: PAGE_KEY,
+      title: "DMC Category Media",
+      slug: "dmc-category-media",
+      contentJson: mediaMap as any,
+      status: "PUBLISHED",
+      lang: "ko",
+    },
+  });
 }
 
 export async function saveDmcCategoryMediaFile(
   categoryKey: DmcCategoryMediaKey,
   file: File
 ) {
+  const supabase = getSupabaseClient();
   const mediaMap = await readDmcCategoryMediaMap();
   const current = mediaMap[categoryKey];
 
+  // Delete old file
   if (current.src) {
-    try {
-      await rm(resolveStoredFilePath(current.src), { force: true });
-    } catch {
-      // Ignore cleanup issues for replaced files.
+    const oldFileName = current.src.split("/").pop();
+    if (oldFileName) {
+      await supabase.storage.from(BUCKET).remove([`${FOLDER}/${oldFileName}`]);
     }
   }
 
-  const fileExtension = path.extname(file.name) || ".bin";
-  const safeBaseName = path
-    .basename(file.name, fileExtension)
-    .toLowerCase()
-    .replace(/[^a-z0-9-_]+/g, "-")
-    .replace(/^-+|-+$/g, "") || `${categoryKey}-category`;
-  const savedFileName = `${Date.now()}-${categoryKey}-${safeBaseName}${fileExtension.toLowerCase()}`;
-  const filePath = path.join(uploadDir, savedFileName);
+  // Upload new file
+  const ext = path.extname(file.name).toLowerCase() || ".bin";
+  const savedFileName = `${Date.now()}-${categoryKey}${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  await writeFile(filePath, buffer);
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(`${FOLDER}/${savedFileName}`, buffer, { contentType: file.type, upsert: false });
+  if (error) throw new Error(error.message);
+
+  const { data: urlData } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(`${FOLDER}/${savedFileName}`);
 
   mediaMap[categoryKey] = {
     ...mediaMap[categoryKey],
-    src: toPublicMediaUrl(savedFileName),
+    src: urlData.publicUrl,
     fileName: file.name,
     mimeType: file.type,
     updatedAt: new Date().toISOString(),
@@ -136,14 +140,14 @@ export async function saveDmcCategoryMediaFile(
 }
 
 export async function clearDmcCategoryMediaFile(categoryKey: DmcCategoryMediaKey) {
+  const supabase = getSupabaseClient();
   const mediaMap = await readDmcCategoryMediaMap();
   const current = mediaMap[categoryKey];
 
   if (current.src) {
-    try {
-      await rm(resolveStoredFilePath(current.src), { force: true });
-    } catch {
-      // Ignore missing or already removed files.
+    const oldFileName = current.src.split("/").pop();
+    if (oldFileName) {
+      await supabase.storage.from(BUCKET).remove([`${FOLDER}/${oldFileName}`]);
     }
   }
 

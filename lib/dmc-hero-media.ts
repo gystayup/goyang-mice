@@ -1,5 +1,7 @@
-import { mkdir, readFile, rm, stat, writeFile } from "fs/promises";
+import { createClient } from "@supabase/supabase-js";
 import path from "path";
+
+import { prisma } from "@/lib/prisma";
 
 export type DmcHeroMediaType = "none" | "image" | "video";
 
@@ -19,101 +21,82 @@ const defaultDmcHeroMedia: DmcHeroMedia = {
   updatedAt: null,
 };
 
-const metadataPath = path.join(process.cwd(), "data", "dmc-hero-media.json");
-const uploadDir = path.join(process.cwd(), "public", "uploads", "dmc");
+const PAGE_KEY = "dmc-hero-media";
+const BUCKET = "goyang mice";
+const FOLDER = "dmc/hero";
 
-function toPublicMediaUrl(fileName: string) {
-  return `/uploads/dmc/${fileName}`;
-}
-
-function resolveStoredFilePath(src: string) {
-  const relativePath = src.replace(/^\/+/, "");
-  return path.join(process.cwd(), "public", relativePath.replace(/^public[\\/]/, ""));
-}
-
-export async function ensureDmcHeroMediaStorage() {
-  await mkdir(uploadDir, { recursive: true });
-
-  try {
-    await stat(metadataPath);
-  } catch {
-    await writeFile(
-      metadataPath,
-      JSON.stringify(defaultDmcHeroMedia, null, 2),
-      "utf8"
-    );
-  }
+function getSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error("Supabase 환경변수가 설정되지 않았습니다.");
+  return createClient(url, key);
 }
 
 export async function readDmcHeroMedia(): Promise<DmcHeroMedia> {
-  await ensureDmcHeroMediaStorage();
-
   try {
-    const raw = await readFile(metadataPath, "utf8");
-    const parsed = JSON.parse(raw) as Partial<DmcHeroMedia>;
-
+    const page = await prisma.page.findUnique({ where: { pageKey: PAGE_KEY } });
+    if (!page || !page.contentJson) return defaultDmcHeroMedia;
+    const data = page.contentJson as Partial<DmcHeroMedia>;
     return {
       mediaType:
-        parsed.mediaType === "image" || parsed.mediaType === "video"
-          ? parsed.mediaType
+        data.mediaType === "image" || data.mediaType === "video"
+          ? data.mediaType
           : "none",
-      src: parsed.src ?? "",
-      fileName: parsed.fileName ?? "",
-      mimeType: parsed.mimeType ?? "",
-      updatedAt: parsed.updatedAt ?? null,
+      src: data.src ?? "",
+      fileName: data.fileName ?? "",
+      mimeType: data.mimeType ?? "",
+      updatedAt: data.updatedAt ?? null,
     };
   } catch {
     return defaultDmcHeroMedia;
   }
 }
 
-export async function writeDmcHeroMedia(media: DmcHeroMedia) {
-  await ensureDmcHeroMediaStorage();
-  await writeFile(metadataPath, JSON.stringify(media, null, 2), "utf8");
-}
-
-export async function clearDmcHeroMedia() {
-  const current = await readDmcHeroMedia();
-
-  if (current.src) {
-    try {
-      await rm(resolveStoredFilePath(current.src), { force: true });
-    } catch {
-      // Ignore missing or already removed files.
-    }
-  }
-
-  await writeDmcHeroMedia(defaultDmcHeroMedia);
-  return defaultDmcHeroMedia;
+async function writeDmcHeroMedia(media: DmcHeroMedia) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await prisma.page.upsert({
+    where: { pageKey: PAGE_KEY },
+    update: { contentJson: media as any },
+    create: {
+      pageKey: PAGE_KEY,
+      title: "DMC Hero Media",
+      slug: "dmc-hero-media",
+      contentJson: media as any,
+      status: "PUBLISHED",
+      lang: "ko",
+    },
+  });
 }
 
 export async function saveDmcHeroMediaFile(file: File): Promise<DmcHeroMedia> {
-  await ensureDmcHeroMediaStorage();
+  const supabase = getSupabaseClient();
 
+  // Delete old file
   const current = await readDmcHeroMedia();
   if (current.src) {
-    try {
-      await rm(resolveStoredFilePath(current.src), { force: true });
-    } catch {
-      // Ignore cleanup issues for replaced files.
+    const oldFileName = current.src.split("/").pop();
+    if (oldFileName) {
+      await supabase.storage.from(BUCKET).remove([`${FOLDER}/${oldFileName}`]);
     }
   }
 
-  const fileExtension = path.extname(file.name) || ".bin";
-  const safeBaseName = path
-    .basename(file.name, fileExtension)
-    .toLowerCase()
-    .replace(/[^a-z0-9-_]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "dmc-hero";
-  const savedFileName = `${Date.now()}-${safeBaseName}${fileExtension.toLowerCase()}`;
-  const filePath = path.join(uploadDir, savedFileName);
+  // Upload new file
+  const ext = path.extname(file.name).toLowerCase() || ".bin";
+  const savedFileName = `${Date.now()}-dmc-hero${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  await writeFile(filePath, buffer);
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(`${FOLDER}/${savedFileName}`, buffer, { contentType: file.type, upsert: false });
+  if (error) throw new Error(error.message);
+
+  const { data: urlData } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(`${FOLDER}/${savedFileName}`);
 
   const nextMedia: DmcHeroMedia = {
     mediaType: file.type.startsWith("video/") ? "video" : "image",
-    src: toPublicMediaUrl(savedFileName),
+    src: urlData.publicUrl,
     fileName: file.name,
     mimeType: file.type,
     updatedAt: new Date().toISOString(),
@@ -121,4 +104,19 @@ export async function saveDmcHeroMediaFile(file: File): Promise<DmcHeroMedia> {
 
   await writeDmcHeroMedia(nextMedia);
   return nextMedia;
+}
+
+export async function clearDmcHeroMedia(): Promise<DmcHeroMedia> {
+  const supabase = getSupabaseClient();
+  const current = await readDmcHeroMedia();
+
+  if (current.src) {
+    const oldFileName = current.src.split("/").pop();
+    if (oldFileName) {
+      await supabase.storage.from(BUCKET).remove([`${FOLDER}/${oldFileName}`]);
+    }
+  }
+
+  await writeDmcHeroMedia(defaultDmcHeroMedia);
+  return defaultDmcHeroMedia;
 }
