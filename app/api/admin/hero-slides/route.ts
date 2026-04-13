@@ -46,6 +46,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true, data: page });
   } catch (error) {
     console.error("Hero slides PUT error:", error);
-    return NextResponse.json({ success: false, error: "저장 실패" }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: `저장 실패: ${msg}` }, { status: 500 });
   }
 }
