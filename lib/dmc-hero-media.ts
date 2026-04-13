@@ -1,8 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import path from "path";
 
-import { prisma } from "@/lib/prisma";
-
 export type DmcHeroMediaType = "none" | "image" | "video";
 
 export interface DmcHeroMedia {
@@ -34,18 +32,16 @@ function getSupabaseClient() {
 
 export async function readDmcHeroMedia(): Promise<DmcHeroMedia> {
   try {
-    const page = await prisma.page.findUnique({ where: { pageKey: PAGE_KEY } });
-    if (!page || !page.contentJson) return defaultDmcHeroMedia;
-    const data = page.contentJson as Partial<DmcHeroMedia>;
+    const supabase = getSupabaseClient();
+    const { data } = await supabase.from("pages").select("contentJson").eq("pageKey", PAGE_KEY).single();
+    if (!data?.contentJson) return defaultDmcHeroMedia;
+    const d = data.contentJson as Partial<DmcHeroMedia>;
     return {
-      mediaType:
-        data.mediaType === "image" || data.mediaType === "video"
-          ? data.mediaType
-          : "none",
-      src: data.src ?? "",
-      fileName: data.fileName ?? "",
-      mimeType: data.mimeType ?? "",
-      updatedAt: data.updatedAt ?? null,
+      mediaType: d.mediaType === "image" || d.mediaType === "video" ? d.mediaType : "none",
+      src: d.src ?? "",
+      fileName: d.fileName ?? "",
+      mimeType: d.mimeType ?? "",
+      updatedAt: d.updatedAt ?? null,
     };
   } catch {
     return defaultDmcHeroMedia;
@@ -53,19 +49,23 @@ export async function readDmcHeroMedia(): Promise<DmcHeroMedia> {
 }
 
 async function writeDmcHeroMedia(media: DmcHeroMedia) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await prisma.page.upsert({
-    where: { pageKey: PAGE_KEY },
-    update: { contentJson: media as any },
-    create: {
+  const supabase = getSupabaseClient();
+  const { data: existing } = await supabase.from("pages").select("id").eq("pageKey", PAGE_KEY).single();
+  if (existing) {
+    await supabase.from("pages").update({ contentJson: media, updatedAt: new Date().toISOString() }).eq("pageKey", PAGE_KEY);
+  } else {
+    await supabase.from("pages").insert({
+      id: crypto.randomUUID(),
       pageKey: PAGE_KEY,
       title: "DMC Hero Media",
-      slug: "dmc-hero-media",
-      contentJson: media as any,
+      slug: PAGE_KEY,
+      contentJson: media,
       status: "PUBLISHED",
       lang: "ko",
-    },
-  });
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  }
 }
 
 export async function saveDmcHeroMediaFile(file: File): Promise<DmcHeroMedia> {

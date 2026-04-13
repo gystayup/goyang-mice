@@ -1,8 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import path from "path";
 
-import { prisma } from "@/lib/prisma";
-
 export const dmcCategoryMediaDefinitions = [
   { key: "tour", label: "여행상품 예약" },
   { key: "stay", label: "숙박 예약" },
@@ -58,9 +56,10 @@ function isValidCategoryKey(value: string): value is DmcCategoryMediaKey {
 
 export async function readDmcCategoryMediaMap(): Promise<DmcCategoryMediaMap> {
   try {
-    const page = await prisma.page.findUnique({ where: { pageKey: PAGE_KEY } });
-    if (!page || !page.contentJson) return createDefaultMap();
-    const parsed = page.contentJson as Partial<Record<DmcCategoryMediaKey, Partial<DmcCategoryMediaItem>>>;
+    const supabase = getSupabaseClient();
+    const { data } = await supabase.from("pages").select("contentJson").eq("pageKey", PAGE_KEY).single();
+    if (!data?.contentJson) return createDefaultMap();
+    const parsed = data.contentJson as Partial<Record<DmcCategoryMediaKey, Partial<DmcCategoryMediaItem>>>;
     const defaults = createDefaultMap();
 
     for (const item of dmcCategoryMediaDefinitions) {
@@ -82,19 +81,23 @@ export async function readDmcCategoryMediaMap(): Promise<DmcCategoryMediaMap> {
 }
 
 async function writeDmcCategoryMediaMap(mediaMap: DmcCategoryMediaMap) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await prisma.page.upsert({
-    where: { pageKey: PAGE_KEY },
-    update: { contentJson: mediaMap as any },
-    create: {
+  const supabase = getSupabaseClient();
+  const { data: existing } = await supabase.from("pages").select("id").eq("pageKey", PAGE_KEY).single();
+  if (existing) {
+    await supabase.from("pages").update({ contentJson: mediaMap, updatedAt: new Date().toISOString() }).eq("pageKey", PAGE_KEY);
+  } else {
+    await supabase.from("pages").insert({
+      id: crypto.randomUUID(),
       pageKey: PAGE_KEY,
       title: "DMC Category Media",
-      slug: "dmc-category-media",
-      contentJson: mediaMap as any,
+      slug: PAGE_KEY,
+      contentJson: mediaMap,
       status: "PUBLISHED",
       lang: "ko",
-    },
-  });
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  }
 }
 
 export async function saveDmcCategoryMediaFile(

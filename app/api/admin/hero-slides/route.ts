@@ -1,21 +1,30 @@
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
-
-import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const PAGE_KEY = "hero-slides";
 
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  return createClient(url, key);
+}
+
 export async function GET() {
   try {
-    const page = await prisma.page.findUnique({
-      where: { pageKey: PAGE_KEY },
-    });
-    if (!page) {
+    const supabase = getSupabase();
+    const { data, error } = await supabase
+      .from("pages")
+      .select("contentJson")
+      .eq("pageKey", PAGE_KEY)
+      .single();
+
+    if (error || !data) {
       return NextResponse.json({ success: true, data: [] });
     }
-    const slides = Array.isArray(page.contentJson) ? page.contentJson : [];
+    const slides = Array.isArray(data.contentJson) ? data.contentJson : [];
     return NextResponse.json({ success: true, data: slides });
   } catch (error) {
     console.error("Hero slides GET error:", error);
@@ -25,25 +34,35 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    const supabase = getSupabase();
     const body = (await request.json()) as { slides: Record<string, unknown>[] };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const slidesJson = body.slides as any;
-    const page = await prisma.page.upsert({
-      where: { pageKey: PAGE_KEY },
-      update: {
-        contentJson: slidesJson,
-        status: "PUBLISHED",
-      },
-      create: {
+
+    const { data: existing } = await supabase
+      .from("pages")
+      .select("id")
+      .eq("pageKey", PAGE_KEY)
+      .single();
+
+    if (existing) {
+      await supabase
+        .from("pages")
+        .update({ contentJson: body.slides, status: "PUBLISHED", updatedAt: new Date().toISOString() })
+        .eq("pageKey", PAGE_KEY);
+    } else {
+      await supabase.from("pages").insert({
+        id: crypto.randomUUID(),
         pageKey: PAGE_KEY,
         title: "Hero Slides",
         slug: "hero-slides",
-        contentJson: slidesJson,
+        contentJson: body.slides,
         status: "PUBLISHED",
         lang: "ko",
-      },
-    });
-    return NextResponse.json({ success: true, data: page });
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Hero slides PUT error:", error);
     const msg = error instanceof Error ? error.message : String(error);
