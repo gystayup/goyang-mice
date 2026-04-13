@@ -17,14 +17,22 @@ export async function GET() {
     const supabase = getSupabase();
     const { data, error } = await supabase
       .from("pages")
-      .select("contentJson")
+      .select("*")
       .eq("pageKey", PAGE_KEY)
       .single();
 
-    if (error || !data) {
-      return NextResponse.json({ success: true, data: [] });
+    if (error) {
+      console.error("Hero slides GET query error:", error);
+      return NextResponse.json({ success: true, data: [], debug: error.message });
     }
-    const slides = Array.isArray(data.contentJson) ? data.contentJson : [];
+    if (!data) {
+      return NextResponse.json({ success: true, data: [], debug: "no data" });
+    }
+    // contentJson 키 다양한 케이스 대응
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const raw = data as any;
+    const contentJson = raw.contentJson ?? raw.contentjson ?? raw["contentJson"] ?? null;
+    const slides = Array.isArray(contentJson) ? contentJson : [];
     return NextResponse.json({ success: true, data: slides });
   } catch (error) {
     console.error("Hero slides GET error:", error);
