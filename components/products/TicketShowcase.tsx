@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { ArrowRight, CalendarDays, MapPinned } from "lucide-react";
 
@@ -7,23 +8,32 @@ import type { Product } from "@/data/products";
 import {
   getTicketProduct,
   ticketCategories,
-  ticketProducts,
+  ticketProducts as staticTicketProducts,
   type TicketCategory,
+  type TicketProduct,
 } from "@/data/ticket-booking";
 import { Link } from "@/lib/navigation";
 
 const utilityMenus = ["랭킹", "오픈예정", "지역별", "공연장"];
 
-export default function TicketShowcase({ product }: { product: Product }) {
+export default function TicketShowcase({
+  product,
+  items: itemsProp,
+}: {
+  product: Product;
+  items?: TicketProduct[];
+}) {
+  const allTickets = itemsProp ?? staticTicketProducts;
   const [activeCategory, setActiveCategory] = useState<TicketCategory | "all">("all");
-  const [featuredTicketId, setFeaturedTicketId] = useState(ticketProducts[0]?.id ?? "");
+  const [featuredTicketId, setFeaturedTicketId] = useState(allTickets[0]?.id ?? "");
 
   const filteredTickets = useMemo(() => {
-    if (activeCategory === "all") return ticketProducts;
-    return ticketProducts.filter((ticket) => ticket.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === "all") return allTickets;
+    return allTickets.filter((ticket) => ticket.category === activeCategory);
+  }, [activeCategory, allTickets]);
 
-  const featuredTicket = getTicketProduct(featuredTicketId);
+  const featuredTicket =
+    allTickets.find((t) => t.id === featuredTicketId) ?? getTicketProduct(featuredTicketId);
 
   return (
     <div className="mt-10 space-y-8">
@@ -95,19 +105,22 @@ export default function TicketShowcase({ product }: { product: Product }) {
               Featured Ticket
             </div>
             <div className="mt-4 rounded-[32px] border border-slate-200 bg-white p-6">
-              <div
-                className={`aspect-[4/5] rounded-[28px] bg-gradient-to-br ${featuredTicket.imageTone} p-6 text-slate-950`}
-              >
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
-                  {featuredTicket.badge}
+              {featuredTicket.imageUrl ? (
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[28px]">
+                  <Image src={featuredTicket.imageUrl} alt={featuredTicket.title} fill className="object-cover" sizes="400px" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-white/70">{featuredTicket.badge}</div>
+                    <div className="mt-1 text-2xl font-black leading-tight text-white">{featuredTicket.title}</div>
+                  </div>
                 </div>
-                <div className="mt-4 text-4xl font-black tracking-tight">
-                  {featuredTicket.posterLabel}
+              ) : (
+                <div className={`aspect-[4/5] rounded-[28px] bg-gradient-to-br ${featuredTicket.imageTone} p-6 text-slate-950`}>
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">{featuredTicket.badge}</div>
+                  <div className="mt-4 text-4xl font-black tracking-tight">{featuredTicket.posterLabel}</div>
+                  <div className="mt-6 max-w-[12rem] text-2xl font-black leading-tight">{featuredTicket.title}</div>
                 </div>
-                <div className="mt-6 max-w-[12rem] text-2xl font-black leading-tight">
-                  {featuredTicket.title}
-                </div>
-              </div>
+              )}
               <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-950">
                 {featuredTicket.title}
               </h3>
@@ -144,17 +157,22 @@ export default function TicketShowcase({ product }: { product: Product }) {
                 onClick={() => setFeaturedTicketId(ticketItem.id)}
                 className="block w-full text-left"
               >
-                <div className={`aspect-[4/5] bg-gradient-to-br ${ticketItem.imageTone} p-6 text-slate-950`}>
-                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
-                    {ticketItem.badge}
+                {ticketItem.imageUrl ? (
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <Image src={ticketItem.imageUrl} alt={ticketItem.title} fill className="object-cover object-top" sizes="(max-width:768px) 50vw, 300px" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-white/70">{ticketItem.badge}</div>
+                      <div className="mt-1 text-xl font-black leading-tight text-white line-clamp-2">{ticketItem.title}</div>
+                    </div>
                   </div>
-                  <div className="mt-6 text-4xl font-black tracking-tight">
-                    {ticketItem.posterLabel}
+                ) : (
+                  <div className={`aspect-[4/5] bg-gradient-to-br ${ticketItem.imageTone} p-6 text-slate-950`}>
+                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">{ticketItem.badge}</div>
+                    <div className="mt-6 text-4xl font-black tracking-tight">{ticketItem.posterLabel}</div>
+                    <div className="mt-6 max-w-[12rem] text-2xl font-black leading-tight">{ticketItem.title}</div>
                   </div>
-                  <div className="mt-6 max-w-[12rem] text-2xl font-black leading-tight">
-                    {ticketItem.title}
-                  </div>
-                </div>
+                )}
               </button>
 
               <div className="p-6">

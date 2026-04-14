@@ -4,11 +4,79 @@ import { useEffect, useRef, useState } from "react";
 import { Edit2, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
 
 type Category = "tour" | "stay" | "restaurant" | "cafe";
+type ActivePanel = Category | "ticket";
+
 const CATEGORIES: { key: Category; label: string }[] = [
   { key: "tour", label: "여행상품" },
   { key: "stay", label: "숙박예약" },
   { key: "restaurant", label: "음식점예약" },
   { key: "cafe", label: "라이프스타일" },
+];
+
+// ── 티켓 관련 타입 ──────────────────────────────────────────────
+type TicketCategory = "concert" | "festival" | "exhibition" | "family" | "k-pop";
+const TICKET_CATEGORIES: { key: TicketCategory; label: string }[] = [
+  { key: "concert", label: "콘서트" },
+  { key: "festival", label: "페스티벌" },
+  { key: "exhibition", label: "전시/행사" },
+  { key: "family", label: "아동/가족" },
+  { key: "k-pop", label: "K-POP" },
+];
+
+interface TicketOption {
+  id: string;
+  label: string;
+  price: number;
+  benefits: string[];
+}
+
+interface TicketItem {
+  id: string;
+  category: TicketCategory;
+  badge: string;
+  title: string;
+  subtitle: string;
+  venue: string;
+  dateText: string;
+  imageTone: string;
+  summary: string;
+  description: string;
+  posterLabel: string;
+  tags: string[];
+  options: TicketOption[];
+  imageUrl?: string;
+  duration?: string;
+  ageLimit?: string;
+}
+
+const emptyTicket = (): TicketItem => ({
+  id: "",
+  category: "concert",
+  badge: "",
+  title: "",
+  subtitle: "",
+  venue: "",
+  dateText: "",
+  imageTone: COLOR_PRESETS_TICKET[0].value,
+  summary: "",
+  description: "",
+  posterLabel: "",
+  tags: [],
+  options: [],
+  imageUrl: undefined,
+  duration: undefined,
+  ageLimit: undefined,
+});
+
+const COLOR_PRESETS_TICKET: { label: string; value: string }[] = [
+  { label: "사이버/네온 (K-POP)", value: "from-cyan-200 via-fuchsia-200 to-sky-300" },
+  { label: "옐로우/라임 (페스티벌)", value: "from-yellow-100 via-cyan-200 to-lime-200" },
+  { label: "딥블루/인디고 (콘서트)", value: "from-indigo-200 via-blue-200 to-slate-300" },
+  { label: "로즈/앰버 (전시)", value: "from-rose-100 via-amber-100 to-orange-200" },
+  { label: "그린/민트 (가족)", value: "from-green-100 via-teal-100 to-emerald-200" },
+  { label: "퍼플/핑크", value: "from-purple-200 via-pink-100 to-rose-200" },
+  { label: "골드/오렌지", value: "from-yellow-200 via-orange-100 to-amber-200" },
+  { label: "다크/다크 (야간)", value: "from-slate-700 via-indigo-500 to-sky-400" },
 ];
 
 const COLOR_PRESETS: { label: string; value: string }[] = [
@@ -80,7 +148,7 @@ const emptyItem = (): ServiceCatalogItem => ({
 
 export default function ServiceCatalogPanel() {
   const [catalog, setCatalog] = useState<CatalogMap>({ tour: [], stay: [], restaurant: [], cafe: [] });
-  const [activeCategory, setActiveCategory] = useState<Category>("tour");
+  const [activeCategory, setActiveCategory] = useState<ActivePanel>("tour");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
@@ -227,7 +295,7 @@ export default function ServiceCatalogPanel() {
     setField("options", next);
   }
 
-  const items = catalog[activeCategory] ?? [];
+  const items = activeCategory !== "ticket" ? (catalog[activeCategory as Category] ?? []) : [];
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-6">
@@ -237,30 +305,32 @@ export default function ServiceCatalogPanel() {
           <div className="text-xs font-semibold tracking-[0.2em] text-[#3655a6]">SERVICE CATALOG</div>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">예약 서비스 상품 관리</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            투어, 숙박, 음식점, 라이프스타일 카테고리별 서비스 상품을 추가·수정·삭제합니다.
+            투어, 숙박, 음식점, 라이프스타일, 티켓 상품을 추가·수정·삭제합니다.
           </p>
         </div>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={load}
-            className="inline-flex items-center rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-          >
-            새로고침
-          </button>
-          <button
-            type="button"
-            onClick={openAdd}
-            className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-          >
-            <Plus className="h-4 w-4" />
-            새 상품 추가
-          </button>
-        </div>
+        {activeCategory !== "ticket" && (
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={load}
+              className="inline-flex items-center rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+            >
+              새로고침
+            </button>
+            <button
+              type="button"
+              onClick={openAdd}
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              <Plus className="h-4 w-4" />
+              새 상품 추가
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 알림 */}
-      {msg && (
+      {msg && activeCategory !== "ticket" && (
         <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${msg.type === "ok" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-rose-200 bg-rose-50 text-rose-700"}`}>
           {msg.text}
         </div>
@@ -283,7 +353,24 @@ export default function ServiceCatalogPanel() {
             <span className="ml-1.5 text-xs opacity-60">({(catalog[cat.key] ?? []).length})</span>
           </button>
         ))}
+        {/* 티켓 탭 */}
+        <button
+          type="button"
+          onClick={() => { setActiveCategory("ticket"); closeForm(); setMsg(null); }}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+            activeCategory === "ticket"
+              ? "bg-indigo-600 text-white"
+              : "border border-indigo-200 bg-white text-indigo-700 hover:bg-indigo-50"
+          }`}
+        >
+          🎫 티켓
+        </button>
       </div>
+
+      {/* 티켓 탭 선택 시 별도 패널 렌더링 */}
+      {activeCategory === "ticket" && (
+        <TicketCatalogTab />
+      )}
 
       {/* 상품 목록 */}
       {loading ? (
@@ -672,5 +759,358 @@ export default function ServiceCatalogPanel() {
         </div>
       )}
     </section>
+  );
+}
+
+// ── 티켓 카탈로그 탭 ─────────────────────────────────────────────
+function TicketCatalogTab() {
+  const [tickets, setTickets] = useState<TicketItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<TicketItem | null>(null);
+  const [form, setForm] = useState<TicketItem>(emptyTicket());
+  const [tagsInput, setTagsInput] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function load() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/ticket-catalog", { cache: "no-store" });
+      const json = (await res.json()) as { success: boolean; data?: TicketItem[] };
+      if (json.success && json.data) setTickets(json.data);
+    } catch {
+      setMsg({ type: "err", text: "불러오기 실패" });
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => { void load(); }, []);
+
+  function setField<K extends keyof TicketItem>(key: K, value: TicketItem[K]) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function openAdd() {
+    setEditingItem(null);
+    setForm(emptyTicket());
+    setTagsInput("");
+    setFormOpen(true);
+    setMsg(null);
+  }
+  function openEdit(item: TicketItem) {
+    setEditingItem(item);
+    setForm({ ...item });
+    setTagsInput(item.tags.join(", "));
+    setFormOpen(true);
+    setMsg(null);
+  }
+  function closeForm() {
+    setFormOpen(false);
+    setEditingItem(null);
+    setForm(emptyTicket());
+    setTagsInput("");
+  }
+
+  async function handleImageUpload(file: File) {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("category", "tickets");
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+      if (!json.success || !json.url) throw new Error(json.error ?? "업로드 실패");
+      setField("imageUrl", json.url);
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "이미지 업로드 실패" });
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handleSave() {
+    if (!form.title.trim()) { setMsg({ type: "err", text: "공연명을 입력하세요." }); return; }
+    const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
+    const itemId = editingItem ? form.id : `ticket-${Date.now()}`;
+    const payload: TicketItem = { ...form, id: itemId, tags };
+    setSaving(true); setMsg(null);
+    try {
+      const method = editingItem ? "PUT" : "POST";
+      const res = await fetch("/api/admin/ticket-catalog", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ item: payload }),
+      });
+      const json = (await res.json()) as { success: boolean; data?: TicketItem[]; error?: string };
+      if (!json.success) throw new Error(json.error ?? "저장 실패");
+      if (json.data) setTickets(json.data);
+      setMsg({ type: "ok", text: editingItem ? "수정되었습니다." : "티켓이 추가되었습니다." });
+      closeForm();
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "저장 실패" });
+    } finally { setSaving(false); }
+  }
+
+  async function handleDelete(item: TicketItem) {
+    if (!confirm(`"${item.title}" 티켓을 삭제하시겠습니까?`)) return;
+    setSaving(true); setMsg(null);
+    try {
+      const res = await fetch(`/api/admin/ticket-catalog?id=${item.id}`, { method: "DELETE" });
+      const json = (await res.json()) as { success: boolean; data?: TicketItem[]; error?: string };
+      if (!json.success) throw new Error(json.error ?? "삭제 실패");
+      if (json.data) setTickets(json.data);
+      setMsg({ type: "ok", text: "삭제되었습니다." });
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "삭제 실패" });
+    } finally { setSaving(false); }
+  }
+
+  function addOption() {
+    setField("options", [...form.options, { id: `opt-${Date.now()}`, label: "", price: 0, benefits: [] }]);
+  }
+  function removeOption(idx: number) {
+    setField("options", form.options.filter((_, i) => i !== idx));
+  }
+  function setOption(idx: number, key: keyof TicketOption, value: string | number | string[]) {
+    const next = form.options.map((o, i) => (i === idx ? { ...o, [key]: value } : o));
+    setField("options", next);
+  }
+
+  return (
+    <div className="mt-6">
+      {/* 티켓 탭 헤더 */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-bold text-indigo-700">🎫 티켓 공연·전시·페스티벌 관리</p>
+          <p className="mt-0.5 text-xs text-slate-500">포스터, 공연시간, 관람연령, 좌석별 가격 등 인터파크 스타일로 등록합니다.</p>
+        </div>
+        <div className="flex gap-2">
+          <button type="button" onClick={load} className="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">새로고침</button>
+          <button type="button" onClick={openAdd} className="inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            <Plus className="h-4 w-4" /> 티켓 추가
+          </button>
+        </div>
+      </div>
+
+      {msg && (
+        <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${msg.type === "ok" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-rose-200 bg-rose-50 text-rose-700"}`}>
+          {msg.text}
+        </div>
+      )}
+
+      {/* 티켓 목록 */}
+      {loading ? (
+        <div className="mt-8 flex items-center justify-center gap-2 text-slate-400">
+          <Loader2 className="h-5 w-5 animate-spin" /> 불러오는 중...
+        </div>
+      ) : tickets.length === 0 ? (
+        <div className="mt-6 rounded-2xl border border-dashed border-indigo-200 py-12 text-center text-sm text-slate-400">
+          등록된 티켓이 없습니다. 위 버튼으로 추가하세요.
+        </div>
+      ) : (
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {tickets.map((t) => {
+            const minPrice = t.options.length > 0 ? Math.min(...t.options.map((o) => o.price)) : 0;
+            const catLabel = TICKET_CATEGORIES.find((c) => c.key === t.category)?.label ?? t.category;
+            return (
+              <div key={t.id} className="flex flex-col gap-3 overflow-hidden rounded-[20px] border border-indigo-100 bg-indigo-50/30 p-4">
+                {t.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={t.imageUrl} alt={t.title} className="h-28 w-full rounded-[14px] object-cover" />
+                ) : (
+                  <div className={`flex h-20 flex-col justify-end rounded-[14px] bg-gradient-to-br ${t.imageTone} px-3 py-2`}>
+                    <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-600">{t.badge}</div>
+                    <div className="text-lg font-black tracking-tight text-slate-900">{t.posterLabel}</div>
+                  </div>
+                )}
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-bold text-indigo-700">{catLabel}</span>
+                    {t.badge && <span className="text-[10px] text-slate-500">{t.badge}</span>}
+                  </div>
+                  <div className="mt-1 text-sm font-bold text-slate-900 line-clamp-1">{t.title}</div>
+                  <div className="mt-0.5 text-xs text-slate-500 line-clamp-1">{t.venue} · {t.dateText}</div>
+                  {(t.duration || t.ageLimit) && (
+                    <div className="mt-0.5 text-xs text-slate-400">
+                      {t.duration && `⏱ ${t.duration}`}{t.duration && t.ageLimit && " · "}{t.ageLimit && `👤 ${t.ageLimit}`}
+                    </div>
+                  )}
+                  {minPrice > 0 && (
+                    <div className="mt-1 text-sm font-black text-indigo-700">₩{minPrice.toLocaleString("ko-KR")} ~</div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => openEdit(t)} className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                    <Edit2 className="h-3.5 w-3.5" /> 수정
+                  </button>
+                  <button type="button" onClick={() => handleDelete(t)} disabled={saving} className="flex items-center justify-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700 hover:bg-rose-100 disabled:opacity-50">
+                    <Trash2 className="h-3.5 w-3.5" /> 삭제
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 추가/수정 폼 */}
+      {formOpen && (
+        <div className="mt-6 rounded-[24px] border border-indigo-100 bg-indigo-50/30 p-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-slate-900">{editingItem ? "티켓 수정" : "새 티켓 추가"}</h3>
+            <button type="button" onClick={closeForm} className="rounded-full p-1.5 text-slate-400 hover:bg-slate-200"><X className="h-5 w-5" /></button>
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {/* 카테고리 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">카테고리 *</label>
+              <select value={form.category} onChange={(e) => setField("category", e.target.value as TicketCategory)}
+                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none">
+                {TICKET_CATEGORIES.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+              </select>
+            </div>
+            {/* 배지 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">배지 (예: 예매 중, 오픈 예정)</label>
+              <input type="text" value={form.badge} onChange={(e) => setField("badge", e.target.value)}
+                placeholder="예: 예매 중" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 포스터 라벨 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">포스터 큰 텍스트</label>
+              <input type="text" value={form.posterLabel} onChange={(e) => setField("posterLabel", e.target.value)}
+                placeholder="예: ARENA, MUSICAL, FEST" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 공연명 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">공연명 *</label>
+              <input type="text" value={form.title} onChange={(e) => setField("title", e.target.value)}
+                placeholder="예: 뮤지컬 데스노트 - 대전" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 부제목 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">부제목</label>
+              <input type="text" value={form.subtitle} onChange={(e) => setField("subtitle", e.target.value)}
+                placeholder="예: 고양형 K-POP 연계 공연" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 공연장 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">공연장 (장소)</label>
+              <input type="text" value={form.venue} onChange={(e) => setField("venue", e.target.value)}
+                placeholder="예: 고양아람누리 아람극장" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 공연 기간 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">공연 기간</label>
+              <input type="text" value={form.dateText} onChange={(e) => setField("dateText", e.target.value)}
+                placeholder="예: 2026.06.09 ~ 2026.06.14" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 공연 시간 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">공연 시간</label>
+              <input type="text" value={form.duration ?? ""} onChange={(e) => setField("duration", e.target.value || undefined)}
+                placeholder="예: 165분 (인터미션 20분 포함)" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 관람 연령 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">관람 연령</label>
+              <input type="text" value={form.ageLimit ?? ""} onChange={(e) => setField("ageLimit", e.target.value || undefined)}
+                placeholder="예: 14세 이상 관람가" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 카드 색상 */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-600">카드 색상 (포스터 미사용 시)</label>
+              <select value={form.imageTone} onChange={(e) => setField("imageTone", e.target.value)}
+                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none">
+                {COLOR_PRESETS_TICKET.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+              </select>
+              <div className={`mt-1.5 h-8 w-full rounded-lg bg-gradient-to-br ${form.imageTone}`} />
+            </div>
+            {/* 한 줄 설명 */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-600">한 줄 설명</label>
+              <input type="text" value={form.summary} onChange={(e) => setField("summary", e.target.value)}
+                placeholder="예: 고양 공연 인프라의 시작을 알리는 K-POP 라이브 시리즈." className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 상세 설명 */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-600">상세 설명</label>
+              <textarea value={form.description} onChange={(e) => setField("description", e.target.value)}
+                rows={3} placeholder="공연 상세 설명을 입력하세요."
+                className="mt-1.5 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 포스터 사진 업로드 */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-600">포스터 사진</label>
+              <div className="mt-1.5 flex gap-3 items-center">
+                <input ref={fileRef} type="file" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); e.target.value = ""; }} />
+                <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50">
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                  {uploading ? "업로드 중..." : "포스터 업로드"}
+                </button>
+                {form.imageUrl && <button type="button" onClick={() => setField("imageUrl", undefined)} className="text-xs text-rose-500 hover:underline">삭제</button>}
+              </div>
+              {form.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.imageUrl} alt="포스터" className="mt-2 h-40 w-full rounded-xl object-cover object-top" />
+              ) : (
+                <div className="mt-2 flex h-20 items-center justify-center rounded-xl border border-dashed border-slate-200 text-xs text-slate-400">업로드된 포스터 없음</div>
+              )}
+            </div>
+            {/* 태그 */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-600">태그 (쉼표로 구분)</label>
+              <input type="text" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)}
+                placeholder="예: K-POP, 공연, 프리미엄 좌석" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 좌석 등급 옵션 */}
+            <div className="md:col-span-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-slate-600">좌석 등급 / 가격 (VIP · R석 · S석 등)</label>
+                <button type="button" onClick={addOption} className="flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+                  <Plus className="h-3.5 w-3.5" /> 등급 추가
+                </button>
+              </div>
+              {form.options.length === 0 ? (
+                <p className="mt-2 text-xs text-slate-400">좌석 등급이 없습니다. 위 버튼으로 추가하세요.</p>
+              ) : (
+                <div className="mt-2 space-y-2">
+                  {form.options.map((opt, idx) => (
+                    <div key={opt.id} className="flex gap-2 rounded-xl border border-slate-200 bg-white p-3">
+                      <div className="flex flex-1 flex-wrap gap-2">
+                        <input type="text" value={opt.label} onChange={(e) => setOption(idx, "label", e.target.value)}
+                          placeholder="등급명 (예: VIP, R석)" className="flex-1 min-w-[100px] rounded-lg border border-slate-200 px-2 py-1.5 text-xs focus:outline-none" />
+                        <input type="number" value={opt.price || ""} onChange={(e) => setOption(idx, "price", Number(e.target.value))}
+                          placeholder="가격" className="w-24 rounded-lg border border-slate-200 px-2 py-1.5 text-xs focus:outline-none" />
+                        <input type="text" value={opt.benefits.join(", ")} onChange={(e) => setOption(idx, "benefits", e.target.value.split(",").map((b) => b.trim()).filter(Boolean))}
+                          placeholder="혜택 (쉼표 구분, 예: 우선입장, 굿즈)" className="flex-1 min-w-[120px] rounded-lg border border-slate-200 px-2 py-1.5 text-xs focus:outline-none" />
+                      </div>
+                      <button type="button" onClick={() => removeOption(idx)} className="flex-shrink-0 rounded-full p-1 text-slate-400 hover:bg-rose-50 hover:text-rose-500">
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-5 flex justify-end gap-3">
+            <button type="button" onClick={closeForm} className="rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100">취소</button>
+            <button type="button" onClick={handleSave} disabled={saving}
+              className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50">
+              {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+              {editingItem ? "수정 저장" : "티켓 추가"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import Shell from "@/components/layout/Shell";
 import ProductCategoryQuickNav from "@/components/products/ProductCategoryQuickNav";
 import { getProductById } from "@/data/products";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
+import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 
 const showcaseCategories = new Set<string>(["tour", "stay", "restaurant", "cafe"]);
 
@@ -66,6 +67,18 @@ export default async function ReservationPage(props: {
     }
   }
 
+  // 티켓 DB에서 해당 티켓 조회
+  const ticketId = getSearchParam(searchParams.ticket);
+  let dbTicket: import("@/data/ticket-booking").TicketProduct | undefined;
+  if (product.categoryKey === "ticket" && ticketId) {
+    try {
+      const tickets = await readTicketCatalog();
+      dbTicket = tickets.find((t) => t.id === ticketId);
+    } catch {
+      // fallback to static data
+    }
+  }
+
   return (
     <Shell>
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -93,7 +106,8 @@ export default async function ReservationPage(props: {
         ) : product.categoryKey === "ticket" ? (
           <TicketReservationBooking
             product={product}
-            initialTicketId={getSearchParam(searchParams.ticket)}
+            initialTicketId={ticketId}
+            initialTicket={dbTicket}
           />
         ) : showcaseCategories.has(product.categoryKey) ? (
           <CategoryServiceReservation

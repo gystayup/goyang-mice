@@ -26,6 +26,10 @@ export interface TicketProduct {
   posterLabel: string;
   tags: string[];
   options: TicketOption[];
+  // 상세 소개 콘텐츠
+  imageUrl?: string;     // 포스터 사진
+  duration?: string;     // 공연 시간 (예: "165분 (인터미션 20분 포함)")
+  ageLimit?: string;     // 관람 연령 (예: "14세 이상")
 }
 
 export const ticketCategories: Array<{ id: TicketCategory | "all"; label: string }> = [

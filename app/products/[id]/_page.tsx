@@ -12,6 +12,7 @@ import { getProductPageCopy } from "@/data/locales/product-page-copy";
 import type { DmcCategoryKey } from "@/data/products";
 import { getProductById } from "@/data/products";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
+import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 import { Link } from "@/lib/navigation";
 
 const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe"]);
@@ -88,6 +89,12 @@ export default async function ProductDetailPage(props: {
       ? catalog[product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"]
       : undefined;
 
+  // 티켓 DB 데이터 로드
+  const ticketItems =
+    product.categoryKey === "ticket"
+      ? await readTicketCatalog().catch(() => undefined)
+      : undefined;
+
   return (
     <Shell>
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -101,7 +108,7 @@ export default async function ProductDetailPage(props: {
         {product.categoryKey === "airport" ? (
           <AirportTransferDetail product={product} />
         ) : product.categoryKey === "ticket" ? (
-          <TicketShowcase product={product} />
+          <TicketShowcase product={product} items={ticketItems} />
         ) : showcaseCategories.has(product.categoryKey) ? (
           <CategoryServiceShowcase
             product={product}

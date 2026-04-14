@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, MapPinned } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, MapPinned, Users } from "lucide-react";
 
 import BookingMetaPanel from "@/components/booking/BookingMetaPanel";
 import { getTicketProduct, type TicketProduct } from "@/data/ticket-booking";
@@ -10,6 +11,7 @@ import type { Product } from "@/data/products";
 type TicketReservationBookingProps = {
   product: Product;
   initialTicketId?: string;
+  initialTicket?: TicketProduct;
 };
 
 type FormState = {
@@ -34,8 +36,9 @@ const ticketSeasonLabels: Record<TicketProduct["category"], string> = {
 export default function TicketReservationBooking({
   product,
   initialTicketId,
+  initialTicket,
 }: TicketReservationBookingProps) {
-  const ticket = getTicketProduct(initialTicketId);
+  const ticket = initialTicket ?? getTicketProduct(initialTicketId);
   const [selectedOptionId, setSelectedOptionId] = useState(ticket.options[0]?.id ?? "");
   const [ticketCount, setTicketCount] = useState(2);
   const [reservationDate, setReservationDate] = useState(
@@ -91,7 +94,88 @@ export default function TicketReservationBooking({
   }
 
   return (
-    <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+    <div className="mt-10 space-y-6">
+
+      {/* ── 인터파크 스타일 티켓 소개 섹션 ── */}
+      <section className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-soft">
+        <div className="grid gap-0 md:grid-cols-[280px_1fr]">
+          {/* 포스터 */}
+          <div className="flex items-stretch">
+            {ticket.imageUrl ? (
+              <div className="relative min-h-[320px] w-full md:min-h-0">
+                <Image
+                  src={ticket.imageUrl}
+                  alt={ticket.title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="280px"
+                />
+              </div>
+            ) : (
+              <div className={`flex w-full flex-col justify-end bg-gradient-to-br ${ticket.imageTone} p-8 text-slate-950`}>
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">{ticket.badge}</div>
+                <div className="mt-3 text-5xl font-black tracking-tight">{ticket.posterLabel}</div>
+                <div className="mt-4 text-2xl font-black leading-tight">{ticket.title}</div>
+              </div>
+            )}
+          </div>
+
+          {/* 상세 정보 */}
+          <div className="p-8 md:p-10">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-bold text-indigo-700">
+                {ticket.badge || "티켓"}
+              </span>
+              {ticket.subtitle && (
+                <span className="text-sm text-slate-500">{ticket.subtitle}</span>
+              )}
+            </div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">
+              {ticket.title}
+            </h2>
+            <p className="mt-4 text-sm leading-8 text-slate-600">{ticket.description}</p>
+
+            {/* 공연 정보 그리드 */}
+            <div className="mt-6 divide-y divide-slate-100 rounded-[20px] border border-slate-200">
+              <InfoRow icon={<MapPinned className="h-4 w-4 text-indigo-500" />} label="장소" value={ticket.venue} />
+              <InfoRow icon={<CalendarDays className="h-4 w-4 text-indigo-500" />} label="공연기간" value={ticket.dateText} />
+              {ticket.duration && (
+                <InfoRow icon={<Clock className="h-4 w-4 text-indigo-500" />} label="공연시간" value={ticket.duration} />
+              )}
+              {ticket.ageLimit && (
+                <InfoRow icon={<Users className="h-4 w-4 text-indigo-500" />} label="관람연령" value={ticket.ageLimit} />
+              )}
+            </div>
+
+            {/* 좌석 등급별 가격 */}
+            {ticket.options.length > 0 && (
+              <div className="mt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">전체 가격 보기</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {ticket.options.map((opt) => (
+                    <div key={opt.id} className="rounded-[16px] border border-slate-200 bg-slate-50 px-4 py-3 text-center">
+                      <div className="text-xs font-bold text-slate-600">{opt.label}</div>
+                      <div className="mt-1 text-base font-black text-slate-950">
+                        {opt.price.toLocaleString("ko-KR")}원
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 태그 */}
+            <div className="mt-5 flex flex-wrap gap-2">
+              {ticket.tags.map((tag) => (
+                <span key={tag} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 예약 폼 그리드 ── */}
+    <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
       <div className="space-y-6">
         <section className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-soft">
           <div className="grid gap-0 md:grid-cols-[0.75fr_1.25fr]">
@@ -376,6 +460,19 @@ export default function TicketReservationBooking({
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
+    </div>
+    </div>
+  );
+}
+
+function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-center gap-4 px-5 py-3">
+      <div className="flex w-24 shrink-0 items-center gap-2 text-xs font-semibold text-slate-500">
+        {icon}
+        <span>{label}</span>
+      </div>
+      <div className="text-sm font-medium text-slate-800">{value}</div>
     </div>
   );
 }
