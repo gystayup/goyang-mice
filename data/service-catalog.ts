@@ -29,7 +29,7 @@ export interface ServiceCatalogItem {
   options: ServiceCatalogOption[];
 }
 
-const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]> = {
+export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]> = {
   tour: [
     {
       id: "lake-park-sunset-tour",

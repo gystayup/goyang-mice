@@ -34,6 +34,7 @@ import MediaUploadButton from "./MediaUploadButton";
 import ProductManagementPanel from "./ProductManagementPanel";
 import HeroSlidesPanel from "./HeroSlidesPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
+import ServiceCatalogPanel from "./ServiceCatalogPanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
   airportTransferStatusOrder,
@@ -900,7 +901,10 @@ export default function AdminDashboard() {
           ) : null}
 
           {!loading && activeTab === "products" ? (
-            <ProductManagementPanel products={filteredProducts} />
+            <div className="mt-6 space-y-6">
+              <ServiceCatalogPanel />
+              <ProductManagementPanel products={filteredProducts} />
+            </div>
           ) : null}
 
           {!loading && activeTab === "news" ? (

@@ -1,10 +1,9 @@
-"use client";
-
 import { CalendarDays, MapPinned } from "lucide-react";
 
 import {
   getServiceCatalogByCategory,
   type ServiceCatalogCategory,
+  type ServiceCatalogItem,
 } from "@/data/service-catalog";
 import type { Product } from "@/data/products";
 import { Link } from "@/lib/navigation";
@@ -12,11 +11,13 @@ import { Link } from "@/lib/navigation";
 export default function CategoryServiceShowcase({
   product,
   category,
+  items: itemsProp,
 }: {
   product: Product;
   category: ServiceCatalogCategory;
+  items?: ServiceCatalogItem[];
 }) {
-  const items = getServiceCatalogByCategory(category);
+  const items = itemsProp ?? getServiceCatalogByCategory(category);
 
   return (
     <div className="mt-10 space-y-8">

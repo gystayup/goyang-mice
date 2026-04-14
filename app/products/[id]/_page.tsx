@@ -11,6 +11,7 @@ import { getCategoryEyebrow, getCommonCopy } from "@/data/locales/general-copy";
 import { getProductPageCopy } from "@/data/locales/product-page-copy";
 import type { DmcCategoryKey } from "@/data/products";
 import { getProductById } from "@/data/products";
+import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { Link } from "@/lib/navigation";
 
 const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe"]);
@@ -78,6 +79,15 @@ export default async function ProductDetailPage(props: {
   const pageCopy = getProductPageCopy(locale, product.id);
   const categoryKey = product.categoryKey as DmcCategoryKey;
 
+  // DB에서 카탈로그 데이터 로드 (없으면 기본값 사용)
+  const catalog = showcaseCategories.has(product.categoryKey)
+    ? await readServiceCatalog().catch(() => null)
+    : null;
+  const catalogItems =
+    catalog && showcaseCategories.has(product.categoryKey)
+      ? catalog[product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"]
+      : undefined;
+
   return (
     <Shell>
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -96,6 +106,7 @@ export default async function ProductDetailPage(props: {
           <CategoryServiceShowcase
             product={product}
             category={product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"}
+            items={catalogItems}
           />
         ) : (
           <div className="mt-10 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
