@@ -1,7 +1,9 @@
 import { ArrowRight, BedDouble, Compass, PlaneTakeoff, Sparkles, Ticket, UtensilsCrossed } from "lucide-react";
+import Image from "next/image";
 
 import SectionTitle from "@/components/common/SectionTitle";
 import { products } from "@/data/products";
+import { readDmcCategoryMediaMap } from "@/lib/dmc-category-media";
 import { Link } from "@/lib/navigation";
 
 import ProductCard from "../products/ProductCard";
@@ -77,6 +79,7 @@ const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 export default async function ProductPreviewSection({ locale }: { locale: string }) {
   const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
   const copy = copyMap[activeLocale];
+  const categoryMedia = await readDmcCategoryMediaMap().catch(() => null);
 
   return (
     <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
@@ -95,25 +98,41 @@ export default async function ProductPreviewSection({ locale }: { locale: string
           {categoryOrder.map((key) => {
             const item = categoryCopy[activeLocale][key];
             const Icon = categoryIcons[key];
+            const photo = categoryMedia?.[key]?.src ?? "";
             return (
               <Link
                 key={key}
                 href="/products"
-                style={{ background: `linear-gradient(145deg, ${item.gradFrom}, ${item.gradTo})` }}
+                style={photo ? undefined : { background: `linear-gradient(145deg, ${item.gradFrom}, ${item.gradTo})` }}
                 className="group relative flex items-center gap-4 overflow-hidden rounded-[20px] border border-white/90 px-5 py-5 shadow-[0_4px_16px_rgba(16,32,58,0.06)] transition duration-300 hover:-translate-y-1 sm:px-6"
               >
-                {/* 호버 글로우 */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-[20px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{ boxShadow: `0 0 28px ${item.glow}` }}
-                />
-                <div className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${item.iconBg} ${item.iconColor}`}>
+                {/* 배경 사진 */}
+                {photo ? (
+                  <>
+                    <Image
+                      src={photo}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    {/* 사진 위 어두운 오버레이 */}
+                    <div className="pointer-events-none absolute inset-0 bg-black/40 transition-opacity duration-300 group-hover:bg-black/50" />
+                  </>
+                ) : (
+                  /* 호버 글로우 (그라데이션 모드) */
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-[20px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{ boxShadow: `0 0 28px ${item.glow}` }}
+                  />
+                )}
+                <div className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${photo ? "bg-white/20 text-white" : `${item.iconBg} ${item.iconColor}`}`}>
                   <Icon className="h-7 w-7" />
                 </div>
-                <div className="relative text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-[1.35rem]">
+                <div className={`relative text-xl font-black tracking-[-0.03em] sm:text-[1.35rem] ${photo ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]" : "text-slate-950"}`}>
                   {item.title}
                 </div>
-                <ArrowRight className="relative ml-auto h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-slate-600" />
+                <ArrowRight className={`relative ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1 ${photo ? "text-white/80 group-hover:text-white" : "text-slate-400 group-hover:text-slate-600"}`} />
               </Link>
             );
           })}

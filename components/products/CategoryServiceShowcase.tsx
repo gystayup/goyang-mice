@@ -63,90 +63,88 @@ export default function CategoryServiceShowcase({
         </div>
       </section>
 
-      <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {items.map((item) => {
           const query = new URLSearchParams({ item: item.id });
 
           return (
             <article
               key={item.id}
-              className="flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-xl"
+              className="flex h-full flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className={`aspect-[4/5] bg-gradient-to-br ${item.imageTone} p-6 text-slate-950`}>
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
+              {/* 카드 헤더 — 고정 높이로 축소 */}
+              <div className={`relative h-28 bg-gradient-to-br ${item.imageTone} px-5 py-4 text-slate-950`}>
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600">
                   {item.subtitle}
                 </div>
-                <div className="mt-5 text-4xl font-black tracking-tight">{item.posterLabel}</div>
-                <div className="mt-6 max-w-[12rem] text-2xl font-black leading-tight">
+                <div className="mt-1 text-2xl font-black tracking-tight">{item.posterLabel}</div>
+                <div className="mt-1 text-base font-black leading-tight line-clamp-1">
                   {item.title}
                 </div>
               </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <div className="min-h-[5.25rem]">
-                  <h3 className="line-clamp-2 text-2xl font-black tracking-tight text-slate-950">
-                    {item.title}
-                  </h3>
-                </div>
-                <div className="mt-3 min-h-[5.5rem]">
-                  <p className="line-clamp-3 overflow-hidden text-sm leading-7 text-slate-600">
-                    {item.summary}
-                  </p>
-                </div>
+              <div className="flex flex-1 flex-col p-4">
+                {/* 제목 + 설명 */}
+                <h3 className="line-clamp-1 text-base font-black tracking-tight text-slate-950">
+                  {item.title}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500">
+                  {item.summary}
+                </p>
 
-                <div className="mt-4 min-h-[5.5rem] space-y-2 text-sm text-slate-600">
-                  <div className="flex items-center gap-2">
-                    <MapPinned className="h-4 w-4 text-slate-400" />
-                    <span>{item.location}</span>
+                {/* 위치 + 날짜 */}
+                <div className="mt-3 space-y-1 text-xs text-slate-500">
+                  <div className="flex items-center gap-1.5">
+                    <MapPinned className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                    <span className="truncate">{item.location}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CalendarDays className="h-4 w-4 text-slate-400" />
-                    <span>{item.dateText}</span>
+                  <div className="flex items-center gap-1.5">
+                    <CalendarDays className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                    <span className="truncate">{item.dateText}</span>
                   </div>
                 </div>
 
-                <div className="mt-5 h-[7.5rem] rounded-[24px] bg-slate-50 p-4">
+                {/* 가격 */}
+                <div className="mt-3 rounded-[16px] bg-slate-50 px-3 py-2.5">
                   {item.originalPrice ? (
-                    <div className="text-sm text-slate-400 line-through">
+                    <div className="text-xs text-slate-400 line-through">
                       {item.originalPrice.toLocaleString("ko-KR")}원
                     </div>
                   ) : null}
-                  <div className="mt-2 flex items-end gap-2">
+                  <div className="flex items-end gap-1.5">
                     {item.discountLabel ? (
-                      <span className="text-2xl font-black text-rose-500">
-                        {item.discountLabel}
-                      </span>
+                      <span className="text-base font-black text-rose-500">{item.discountLabel}</span>
                     ) : null}
-                    <span className="text-3xl font-black tracking-tight text-slate-950">
+                    <span className="text-xl font-black tracking-tight text-slate-950">
                       {item.price.toLocaleString("ko-KR")}원
                     </span>
-                    <span className="pb-1 text-sm font-semibold text-slate-500">부터</span>
+                    <span className="pb-0.5 text-xs font-semibold text-slate-400">부터</span>
                   </div>
                 </div>
 
-                <div className="mt-5 h-[5rem] overflow-hidden">
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                {/* 태그 */}
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  {item.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
 
-                <div className="mt-auto flex gap-3 pt-6">
+                {/* 버튼 */}
+                <div className="mt-auto flex gap-2 pt-3">
                   <Link
                     href={`/products/${product.id}/reservation?${query.toString()}`}
-                    className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                   >
                     상세 보기
                   </Link>
                   <Link
                     href={`/products/${product.id}/reservation?${query.toString()}`}
-                    className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
                   >
                     예약
                   </Link>
