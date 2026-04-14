@@ -1,12 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, MapPinned } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, MapPinned, Smartphone } from "lucide-react";
 
 import BookingMetaPanel from "@/components/booking/BookingMetaPanel";
 import {
   getServiceCatalogItem,
   type ServiceCatalogCategory,
+  type ServiceCatalogItem,
 } from "@/data/service-catalog";
 import type { Product } from "@/data/products";
 
@@ -22,12 +24,14 @@ export default function CategoryServiceReservation({
   product,
   category,
   initialItemId,
+  initialItem,
 }: {
   product: Product;
   category: ServiceCatalogCategory;
   initialItemId?: string;
+  initialItem?: ServiceCatalogItem;
 }) {
-  const item = getServiceCatalogItem(category, initialItemId);
+  const item = initialItem ?? getServiceCatalogItem(category, initialItemId);
   const [selectedOptionId, setSelectedOptionId] = useState(item.options[0]?.id ?? "");
   const [quantity, setQuantity] = useState(2);
   const [reservationDate, setReservationDate] = useState(
@@ -69,8 +73,85 @@ export default function CategoryServiceReservation({
     );
   }
 
+  const hasIntro = item.imageUrl || (item.highlights?.length ?? 0) > 0 || (item.includes?.length ?? 0) > 0 || item.couponGuide;
+
   return (
-    <div className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+    <div className="mt-10 space-y-6">
+
+      {/* ── 상품 소개 섹션 ── */}
+      {hasIntro && (
+        <section className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-soft">
+          {/* 대표 사진 */}
+          {item.imageUrl && (
+            <div className="relative h-56 w-full md:h-72">
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 1200px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/70">{item.subtitle}</p>
+                <h2 className="mt-1 text-2xl font-black tracking-tight text-white md:text-3xl">{item.title}</h2>
+              </div>
+            </div>
+          )}
+
+          <div className={`grid gap-0 ${(item.highlights?.length ?? 0) > 0 && (item.includes?.length ?? 0) > 0 ? "md:grid-cols-2" : ""}`}>
+            {/* 주요 특징 */}
+            {(item.highlights?.length ?? 0) > 0 && (
+              <div className="border-b border-slate-100 p-8 md:border-b-0 md:border-r">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">Highlights</p>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-slate-950">주요 특징</h3>
+                <ul className="mt-5 space-y-3">
+                  {item.highlights!.map((hl) => (
+                    <li key={hl} className="flex items-start gap-3 text-sm leading-7 text-slate-600">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
+                      <span>{hl}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 포함 사항 */}
+            {(item.includes?.length ?? 0) > 0 && (
+              <div className="border-b border-slate-100 p-8 md:border-b-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Included</p>
+                <h3 className="mt-2 text-lg font-black tracking-tight text-slate-950">포함 사항</h3>
+                <ul className="mt-5 space-y-3">
+                  {item.includes!.map((inc) => (
+                    <li key={inc} className="flex items-start gap-3 text-sm leading-7 text-slate-600">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                      <span>{inc}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* 모바일 쿠폰 안내 */}
+          {item.couponGuide && (
+            <div className="border-t border-slate-100 bg-amber-50 p-8">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-200">
+                  <Smartphone className="h-5 w-5 text-amber-800" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">Mobile Coupon</p>
+                  <h3 className="mt-1 text-base font-black text-slate-950">모바일 쿠폰 사용 안내</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-700">{item.couponGuide}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+    <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
       <div className="space-y-6">
         <section className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-soft">
           <div className="grid gap-0 md:grid-cols-[0.78fr_1.22fr]">
@@ -348,6 +429,7 @@ export default function CategoryServiceReservation({
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
+    </div>
     </div>
   );
 }

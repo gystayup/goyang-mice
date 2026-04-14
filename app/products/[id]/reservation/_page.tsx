@@ -8,8 +8,9 @@ import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import ProductCategoryQuickNav from "@/components/products/ProductCategoryQuickNav";
 import { getProductById } from "@/data/products";
+import { readServiceCatalog } from "@/lib/service-catalog-db";
 
-const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe"]);
+const showcaseCategories = new Set<string>(["tour", "stay", "restaurant", "cafe"]);
 
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>;
@@ -52,6 +53,19 @@ export default async function ReservationPage(props: {
     );
   }
 
+  // DB 카탈로그에서 해당 아이템 조회
+  const itemId = getSearchParam(searchParams.item);
+  let catalogItem: import("@/data/service-catalog").ServiceCatalogItem | undefined;
+  if (showcaseCategories.has(product.categoryKey) && itemId) {
+    try {
+      const catalog = await readServiceCatalog();
+      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe";
+      catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
+    } catch {
+      // fallback to static data
+    }
+  }
+
   return (
     <Shell>
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -85,7 +99,8 @@ export default async function ReservationPage(props: {
           <CategoryServiceReservation
             product={product}
             category={product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"}
-            initialItemId={getSearchParam(searchParams.item)}
+            initialItemId={itemId}
+            initialItem={catalogItem}
           />
         ) : (
           <div className="mt-10 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">

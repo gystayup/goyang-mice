@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Edit2, Loader2, Plus, Trash2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Edit2, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
 
 type Category = "tour" | "stay" | "restaurant" | "cafe";
 const CATEGORIES: { key: Category; label: string }[] = [
@@ -48,6 +48,11 @@ interface ServiceCatalogItem {
   price: number;
   discountLabel?: string;
   options: ServiceCatalogOption[];
+  // 상품 소개 콘텐츠
+  imageUrl?: string;
+  highlights?: string[];
+  includes?: string[];
+  couponGuide?: string;
 }
 
 type CatalogMap = Record<Category, ServiceCatalogItem[]>;
@@ -67,6 +72,10 @@ const emptyItem = (): ServiceCatalogItem => ({
   price: 0,
   discountLabel: undefined,
   options: [],
+  imageUrl: undefined,
+  highlights: [],
+  includes: [],
+  couponGuide: undefined,
 });
 
 export default function ServiceCatalogPanel() {
@@ -81,6 +90,10 @@ export default function ServiceCatalogPanel() {
   const [editingItem, setEditingItem] = useState<ServiceCatalogItem | null>(null);
   const [form, setForm] = useState<ServiceCatalogItem>(emptyItem());
   const [tagsInput, setTagsInput] = useState("");
+  const [highlightsInput, setHighlightsInput] = useState("");
+  const [includesInput, setIncludesInput] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     setLoading(true);
@@ -102,6 +115,8 @@ export default function ServiceCatalogPanel() {
     setEditingItem(null);
     setForm(blank);
     setTagsInput("");
+    setHighlightsInput("");
+    setIncludesInput("");
     setFormOpen(true);
     setMsg(null);
   }
@@ -110,6 +125,8 @@ export default function ServiceCatalogPanel() {
     setEditingItem(item);
     setForm({ ...item });
     setTagsInput(item.tags.join(", "));
+    setHighlightsInput((item.highlights ?? []).join("\n"));
+    setIncludesInput((item.includes ?? []).join("\n"));
     setFormOpen(true);
     setMsg(null);
   }
@@ -119,6 +136,25 @@ export default function ServiceCatalogPanel() {
     setEditingItem(null);
     setForm(emptyItem());
     setTagsInput("");
+    setHighlightsInput("");
+    setIncludesInput("");
+  }
+
+  async function handleImageUpload(file: File) {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("category", "catalog");
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+      if (!json.success || !json.url) throw new Error(json.error ?? "업로드 실패");
+      setField("imageUrl", json.url);
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "이미지 업로드 실패" });
+    } finally {
+      setUploading(false);
+    }
   }
 
   function setField<K extends keyof ServiceCatalogItem>(key: K, value: ServiceCatalogItem[K]) {
@@ -130,8 +166,10 @@ export default function ServiceCatalogPanel() {
     if (!form.price || form.price <= 0) { setMsg({ type: "err", text: "가격을 입력하세요." }); return; }
 
     const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
+    const highlights = highlightsInput.split("\n").map((l) => l.trim()).filter(Boolean);
+    const includes = includesInput.split("\n").map((l) => l.trim()).filter(Boolean);
     const itemId = editingItem ? form.id : `${activeCategory}-${Date.now()}`;
-    const payload: ServiceCatalogItem = { ...form, id: itemId, tags };
+    const payload: ServiceCatalogItem = { ...form, id: itemId, tags, highlights, includes };
 
     setSaving(true);
     setMsg(null);
@@ -420,6 +458,93 @@ export default function ServiceCatalogPanel() {
                 placeholder="상품 상세 설명을 입력하세요."
                 className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
               />
+            </div>
+
+            {/* ── 상품 소개 섹션 ── */}
+            <div className="md:col-span-2">
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500 mb-3">📸 상품 소개 콘텐츠 (예약 페이지에 표시)</div>
+
+                {/* 대표 사진 */}
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-slate-600">대표 사진</label>
+                  <div className="mt-1.5 flex gap-3 items-center">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) void handleImageUpload(file);
+                        e.target.value = "";
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploading}
+                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                    >
+                      {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                      {uploading ? "업로드 중..." : "사진 업로드"}
+                    </button>
+                    {form.imageUrl && (
+                      <button
+                        type="button"
+                        onClick={() => setField("imageUrl", undefined)}
+                        className="text-xs text-rose-500 hover:underline"
+                      >
+                        삭제
+                      </button>
+                    )}
+                  </div>
+                  {form.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={form.imageUrl} alt="대표 사진" className="mt-2 h-32 w-full rounded-xl object-cover" />
+                  ) : (
+                    <div className="mt-2 flex h-20 items-center justify-center rounded-xl border border-dashed border-slate-200 text-xs text-slate-400">
+                      업로드된 사진 없음
+                    </div>
+                  )}
+                </div>
+
+                {/* 주요 특징 */}
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-slate-600">주요 특징 (한 줄에 하나씩)</label>
+                  <textarea
+                    value={highlightsInput}
+                    onChange={(e) => setHighlightsInput(e.target.value)}
+                    rows={3}
+                    placeholder={"예:\n분위기 있는 실내 공간\n계절 식재료 사용 브런치 메뉴\n모바일 쿠폰으로 간편 입장"}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                  />
+                </div>
+
+                {/* 포함 사항 */}
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-slate-600">포함 사항 (한 줄에 하나씩)</label>
+                  <textarea
+                    value={includesInput}
+                    onChange={(e) => setIncludesInput(e.target.value)}
+                    rows={3}
+                    placeholder={"예:\n브런치 세트 1인 제공\n음료 1잔 포함\n모바일 쿠폰 발송"}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                  />
+                </div>
+
+                {/* 모바일 쿠폰 안내 */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600">모바일 쿠폰 사용 안내</label>
+                  <textarea
+                    value={form.couponGuide ?? ""}
+                    onChange={(e) => setField("couponGuide", e.target.value || undefined)}
+                    rows={3}
+                    placeholder="예: 예약 완료 후 등록된 이메일로 모바일 쿠폰이 발송됩니다. 방문 시 쿠폰 화면을 직원에게 제시해 주세요."
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* 가격 */}
