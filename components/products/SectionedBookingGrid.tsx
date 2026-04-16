@@ -1,0 +1,283 @@
+"use client";
+
+import Image from "next/image";
+import { useLocale } from "next-intl";
+import { MapPinned, CalendarDays, ChevronRight } from "lucide-react";
+
+import { Link } from "@/lib/navigation";
+import type { UnifiedItem, ItemCategory } from "./UnifiedBookingGrid";
+
+// Re-export types for convenience
+export type { UnifiedItem, ItemCategory };
+
+// ─── Category metadata ────────────────────────────────────────────────────────
+
+interface CategoryMeta {
+  key: ItemCategory;
+  emoji: string;
+  label: string;
+  /** URL to the "전체보기" list page for this category */
+  allHref: string;
+  /** Card aspect ratio: portrait cards for ticket/tour, landscape for the rest */
+  portrait: boolean;
+}
+
+type SupportedLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+const CATEGORY_LABELS: Record<ItemCategory, Record<SupportedLocale, string>> = {
+  tour: { ko: "투어", en: "Tour", ja: "ツアー", "zh-CN": "旅游", "zh-TW": "旅遊" },
+  stay: { ko: "숙박", en: "Stay", ja: "宿泊", "zh-CN": "住宿", "zh-TW": "住宿" },
+  restaurant: { ko: "음식점", en: "Dining", ja: "飲食", "zh-CN": "餐厅", "zh-TW": "餐廳" },
+  cafe: { ko: "라이프스타일", en: "Lifestyle", ja: "ライフスタイル", "zh-CN": "生活方式", "zh-TW": "生活風格" },
+  ticket: { ko: "티켓", en: "Ticket", ja: "チケット", "zh-CN": "票务", "zh-TW": "票務" },
+  airport: { ko: "공항픽업", en: "Airport", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
+};
+
+const SEE_ALL_LABEL: Record<SupportedLocale, string> = {
+  ko: "전체보기",
+  en: "See all",
+  ja: "すべて見る",
+  "zh-CN": "查看全部",
+  "zh-TW": "查看全部",
+};
+
+const NO_ITEMS_LABEL: Record<SupportedLocale, string> = {
+  ko: "등록된 상품이 없습니다.",
+  en: "No products available.",
+  ja: "登録された商品がありません。",
+  "zh-CN": "暂无商品。",
+  "zh-TW": "暫無商品。",
+};
+
+function getCategories(locale: SupportedLocale): CategoryMeta[] {
+  return [
+    { key: "tour",       emoji: "🗺️", label: CATEGORY_LABELS.tour[locale],       allHref: "/products?cat=tour",       portrait: false },
+    { key: "stay",       emoji: "🏨", label: CATEGORY_LABELS.stay[locale],       allHref: "/products?cat=stay",       portrait: false },
+    { key: "restaurant", emoji: "🍽️", label: CATEGORY_LABELS.restaurant[locale], allHref: "/products?cat=restaurant", portrait: false },
+    { key: "cafe",       emoji: "☕", label: CATEGORY_LABELS.cafe[locale],       allHref: "/products?cat=cafe",       portrait: false },
+    { key: "ticket",     emoji: "🎫", label: CATEGORY_LABELS.ticket[locale],     allHref: "/products?cat=ticket",     portrait: false },
+    { key: "airport",    emoji: "✈️", label: CATEGORY_LABELS.airport[locale],    allHref: "/products?cat=airport",    portrait: false },
+  ];
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+export default function SectionedBookingGrid({ items }: { items: UnifiedItem[] }) {
+  const locale = useLocale();
+  const activeLocale: SupportedLocale = (
+    ["ko", "en", "ja", "zh-CN", "zh-TW"].includes(locale) ? locale : "ko"
+  ) as SupportedLocale;
+
+  const categories = getCategories(activeLocale);
+
+  // Group items by category, preserving CATEGORIES order
+  const grouped: Map<ItemCategory, UnifiedItem[]> = new Map();
+  for (const cat of categories) {
+    const catItems = items.filter((i) => i.category === cat.key);
+    if (catItems.length > 0) grouped.set(cat.key, catItems);
+  }
+
+  const activeCats = categories.filter((c) => grouped.has(c.key));
+
+  if (activeCats.length === 0) {
+    return (
+      <div className="py-20 text-center text-sm text-slate-400">
+        {NO_ITEMS_LABEL[activeLocale]}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* ── Category quick-nav bar ── */}
+      <QuickNav categories={activeCats} />
+
+      {/* ── Category sections ── */}
+      <div className="mt-6 space-y-12">
+        {activeCats.map((cat) => (
+          <CategorySection
+            key={cat.key}
+            meta={cat}
+            items={grouped.get(cat.key)!}
+            seeAllLabel={SEE_ALL_LABEL[activeLocale]}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Quick-nav bar ────────────────────────────────────────────────────────────
+
+function QuickNav({ categories }: { categories: CategoryMeta[] }) {
+  const scrollToSection = (key: ItemCategory) => {
+    const el = document.getElementById(`section-${key}`);
+    if (!el) return;
+    const offset = 72; // height of the sticky nav itself
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  return (
+    <div className="sticky top-0 z-20 -mx-4 bg-white/80 px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6">
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {categories.map((cat) => (
+          <button
+            key={cat.key}
+            type="button"
+            onClick={() => scrollToSection(cat.key)}
+            className="flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-sky-400 hover:text-sky-600 active:scale-95"
+          >
+            <span>{cat.emoji}</span>
+            <span>{cat.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Category section ─────────────────────────────────────────────────────────
+
+function CategorySection({
+  meta,
+  items,
+  seeAllLabel,
+}: {
+  meta: CategoryMeta;
+  items: UnifiedItem[];
+  seeAllLabel: string;
+}) {
+  return (
+    <section id={`section-${meta.key}`} className="scroll-mt-20">
+      {/* Section header */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">{meta.emoji}</span>
+          <h2 className="text-lg font-black tracking-tight text-slate-950">
+            {meta.label}
+          </h2>
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+            {items.length}
+          </span>
+        </div>
+        <Link
+          href={meta.allHref}
+          className="flex items-center gap-0.5 text-xs font-semibold text-sky-600 hover:text-sky-700"
+        >
+          {seeAllLabel}
+          <ChevronRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+
+      {/* 4열 그리드 */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        {items.slice(0, 4).map((item) => (
+          <ItemCard key={item.id} item={item} portrait={meta.portrait} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) {
+  const aspectClass = portrait ? "aspect-[2/3]" : "aspect-[3/2]";
+
+  return (
+    <Link href={item.reservationUrl} className="block">
+      <article className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        {/* ── Image / gradient area ── */}
+        <div className={`relative ${aspectClass} overflow-hidden`}>
+          {item.imageUrl ? (
+            <>
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                fill
+                className="object-cover object-center transition duration-300 group-hover:scale-105"
+                sizes="(max-width:640px) 72vw, 300px"
+              />
+              {/* Gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+              {/* Title overlay */}
+              <div className="absolute bottom-3 left-3 right-3">
+                <p className="line-clamp-2 text-sm font-black leading-snug text-white drop-shadow">
+                  {item.title}
+                </p>
+              </div>
+            </>
+          ) : (
+            /* Gradient placeholder */
+            <div
+              className={`flex h-full w-full flex-col justify-end bg-gradient-to-br ${item.imageTone} p-4`}
+            >
+              <p className="text-xl font-black tracking-tight text-slate-900 line-clamp-1">
+                {item.posterLabel}
+              </p>
+              <p className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-slate-800">
+                {item.title}
+              </p>
+            </div>
+          )}
+
+          {/* Category badge — top-left */}
+          <div className="absolute left-2 top-2">
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                item.imageUrl
+                  ? "bg-black/50 text-white backdrop-blur-sm"
+                  : "bg-white/70 text-slate-700"
+              }`}
+            >
+              {item.categoryLabel}
+            </span>
+          </div>
+
+          {/* Discount badge — top-right */}
+          {item.discountLabel && (
+            <div className="absolute right-2 top-2">
+              <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white shadow">
+                {item.discountLabel}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* ── Info area (fixed height so all cards are uniform) ── */}
+        <div className="flex h-[108px] flex-col justify-between overflow-hidden p-3">
+          <div>
+            <h3 className="line-clamp-2 text-sm font-bold leading-snug text-slate-950">
+              {item.title}
+            </h3>
+            <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-400">
+              <div className="flex items-center gap-1">
+                <MapPinned className="h-3 w-3 shrink-0" />
+                <span className="truncate">{item.venue}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <CalendarDays className="h-3 w-3 shrink-0" />
+                <span className="truncate">{item.dateText}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-baseline gap-1.5">
+            {item.originalPrice ? (
+              <span className="text-[11px] text-slate-400 line-through">
+                {item.originalPrice.toLocaleString("ko-KR")}
+              </span>
+            ) : null}
+            {item.minPrice > 0 ? (
+              <span className="text-sm font-black text-slate-950">
+                {item.minPrice.toLocaleString("ko-KR")}원~
+              </span>
+            ) : (
+              <span className="text-sm font-bold text-sky-600">예약 문의</span>
+            )}
+          </div>
+        </div>
+      </article>
+    </Link>
+  );
+}

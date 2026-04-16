@@ -19,100 +19,72 @@ type HeroSlide = {
   videoUrl?: string;
 };
 
-// 기본 슬라이드 (DB 미응답 시 fallback)
+// 기본 슬라이드 (실제 업로드된 이미지 사용 — DB 미응답/느린 네트워크 대응)
 const fallbackSlides: HeroSlide[] = [
   {
-    id: "intro-video",
-    type: "youtube",
-    koLabel: "고양 소개 영상",
-    koTitle: "도시의 분위기와 K-컬처 장면을 담은 대표 영상",
-    koDesc: "공연, 전시, 체류, 라이프스타일 장면이 자연스럽게 이어지는 대표 미디어입니다.",
-    enLabel: "Goyang city film",
-    enTitle: "A featured video that introduces the city and its K-culture atmosphere",
-    enDesc: "A lead visual that connects performance, exhibition, stay and lifestyle scenes.",
-    youtubeId: "Hsg5JTPITFw",
-  },
-  {
-    id: "kintex",
+    id: "ilsan-lake-park",
     type: "image",
-    koLabel: "KINTEX 거점",
-    koTitle: "공연과 전시, 비즈니스 방문이 이어지는 주요 장면",
-    koDesc: "행사 관람, 현장 운영, 지역 체류가 하나의 흐름으로 이어지는 메인 비주얼입니다.",
-    enLabel: "KINTEX hub",
-    enTitle: "A key visual for performances, exhibitions and business visits",
-    enDesc: "A main scene where events, operations and local stays connect in one flow.",
+    koLabel: "Ilsan Lake Park",
+    koTitle: "일산호수공원의 아름다움",
+    koDesc: "고양의 대표 휴식 공간에서 펼쳐지는 여유로운 일상.",
+    enLabel: "Ilsan Lake Park",
+    enTitle: "The beauty of Ilsan Lake Park",
+    enDesc: "Leisurely daily life in Goyang's signature park.",
+    imageUrl: "/uploads/admin/hero-slides/1776336108132-xpdsox5vpgs.jpg",
     background: "linear-gradient(135deg, #213b83 0%, #5679e8 48%, #9edff6 100%)",
   },
   {
-    id: "local-stay",
+    id: "lafesta",
     type: "image",
-    koLabel: "로컬 체류",
-    koTitle: "가족 체험과 로컬 체류가 자연스럽게 이어지는 분위기",
-    koDesc: "관광, 미식, 쇼핑, 숙박을 함께 보여주는 라이프스타일 장면입니다.",
-    enLabel: "Local stay",
-    enTitle: "A softer scene where family experiences and longer stays naturally connect",
-    enDesc: "A lifestyle-oriented visual combining tourism, dining, shopping and local visits.",
+    koLabel: "라페스타",
+    koTitle: "공연과 쇼핑, 먹거리, 젊은이의 거리",
+    koDesc: "라페스타 일산의 활기찬 거리를 경험해보세요.",
+    enLabel: "La Festa",
+    enTitle: "Streets of performances, shopping and youth",
+    enDesc: "Experience the vibrant streets of La Festa Ilsan.",
+    imageUrl: "/uploads/admin/hero-slides/1776335198795-rquic0ytccd.jpg",
     background: "linear-gradient(135deg, #ffe38f 0%, #ffb39b 40%, #c39af9 100%)",
+  },
+  {
+    id: "korean-bbq",
+    type: "image",
+    koLabel: "Korean BBQ Tour",
+    koTitle: "정통 한국 바비큐 체험",
+    koDesc: "맛있는 삼겹살과 다채로운 반찬을 맛보며 한국식 식사의 매력을 직접 경험해보세요.",
+    enLabel: "Experience Korean BBQ",
+    enTitle: "Authentic Korean BBQ Experience",
+    enDesc: "Grill premium samgyeopsal, enjoy classic Korean side dishes, and experience Korean dining like a local.",
+    imageUrl: "/uploads/admin/hero-slides/1776334623967-gvj79gmlf7.jpg",
+    background: "linear-gradient(135deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
   },
   {
     id: "night-program",
     type: "image",
     koLabel: "야간 프로그램",
-    koTitle: "야간 공연과 현장 운영의 에너지를 담은 비주얼",
-    koDesc: "캠페인 배너와 시즌형 대표 장면으로 교체해 사용할 수 있는 이미지 영역입니다.",
+    koTitle: "호수공원 분수대와 나이트라이프",
+    koDesc: "야간경관이 아름다운 도시",
     enLabel: "Night program",
-    enTitle: "A visual that captures night events and on-site energy",
-    enDesc: "A campaign-ready scene that can be replaced with seasonal brand media.",
+    enTitle: "Lake Park Fountain and Nightlife",
+    enDesc: "A beautiful night cityscape.",
+    imageUrl: "/uploads/admin/hero-slides/1776336200211-q626oifearq.jpg",
     background: "linear-gradient(135deg, #122548 0%, #3557b0 42%, #ff8d8b 84%, #ffd280 100%)",
   },
   {
-    id: "dmc-service",
+    id: "seooreung",
     type: "image",
-    koLabel: "DMC 서비스",
-    koTitle: "고양의 문화·관광·MICE를 하나로 잇는 운영 플랫폼",
-    koDesc: "연구, 기획, 예약, 현장 운영까지 고양의 모든 방문 경험을 연결합니다.",
-    enLabel: "DMC Services",
-    enTitle: "An operations platform connecting culture, tourism and MICE in Goyang",
-    enDesc: "Connecting every visitor experience in Goyang — from research and booking to on-site operations.",
+    koLabel: "세계문화유산의 도시 고양",
+    koTitle: "전통의 역사와 신도시의 조화로움",
+    koDesc: "서오릉은 조선왕조 왕실의 품격과 역사, 자연경관이 함께 어우러진 서쪽의 다섯 왕릉군입니다.",
+    enLabel: "UNESCO World Heritage",
+    enTitle: "Seooreung Royal Tombs",
+    enDesc: "Seooreung is a group of five royal tombs in the western area, where the dignity of the Joseon royal family, history, and natural scenery come together in harmony.",
+    imageUrl: "/uploads/admin/hero-slides/1776337581935-ot6e5uqseik.jpg",
     background: "linear-gradient(135deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
   },
 ];
 
-function isVideoUrl(url: string) {
-  return /\.(mp4|webm|mov)(\?|$)/i.test(url);
-}
-
-function SlideFrame({ slide, active }: { slide: HeroSlide; active: boolean }) {
-  if (slide.type === "youtube" && slide.youtubeId) {
-    const src = `https://www.youtube.com/embed/${slide.youtubeId}?autoplay=${
-      active ? "1" : "0"
-    }&mute=1&controls=0&loop=1&playlist=${slide.youtubeId}&playsinline=1&rel=0&modestbranding=1`;
-    return (
-      <iframe
-        src={src}
-        title={slide.koTitle}
-        className="h-full w-full scale-[1.08]"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowFullScreen
-      />
-    );
-  }
-
-  // 업로드된 영상 파일
-  if (slide.videoUrl && isVideoUrl(slide.videoUrl)) {
-    return (
-      <video
-        src={slide.videoUrl}
-        className="h-full w-full object-cover"
-        autoPlay={active}
-        muted
-        loop
-        playsInline
-      />
-    );
-  }
-
-  // 업로드된 이미지 파일
+function SlideFrame({ slide }: { slide: HeroSlide }) {
+  // 업로드된 이미지 파일 — 컨테이너 전체 채움 (hero 스타일)
   if (slide.imageUrl) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -136,16 +108,27 @@ export default function HeroMediaCarousel() {
   const locale = useLocale();
   const isEn = locale === "en";
 
-  const [slides, setSlides] = useState<HeroSlide[]>(fallbackSlides);
+  // 초기 fallback: imageUrl이 없는 그라디언트 슬라이드만 (DB 로드 전 임시 노출)
+  const imageOnlyFallback = fallbackSlides.filter(
+    (s) => s.type !== "youtube" && !s.videoUrl
+  );
+  const [slides, setSlides] = useState<HeroSlide[]>(imageOnlyFallback);
   const [index, setIndex] = useState(0);
 
-  // DB에서 슬라이드 데이터 로드
+  // DB에서 슬라이드 데이터 로드 — imageUrl 있는 모든 슬라이드 표시
   useEffect(() => {
     fetch("/api/admin/hero-slides")
       .then((r) => r.json())
-      .then((json: { success: boolean; data: HeroSlide[] }) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setSlides(json.data);
+      .then((json) => {
+        if (json?.success && Array.isArray(json.data) && json.data.length > 0) {
+          // imageUrl이 있는 슬라이드만 사용 — 이미지가 있다면 사용자가 업로드한 것
+          const filtered = (json.data as HeroSlide[]).filter(
+            (s) => Boolean(s.imageUrl)
+          );
+          if (filtered.length > 0) {
+            setSlides(filtered);
+            setIndex(0);
+          }
         }
       })
       .catch(() => {
@@ -182,7 +165,7 @@ export default function HeroMediaCarousel() {
               i === index ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           >
-            <SlideFrame slide={slide} active={i === index} />
+            <SlideFrame slide={slide} />
           </div>
         ))}
         {/* 하단 그라디언트 오버레이 */}

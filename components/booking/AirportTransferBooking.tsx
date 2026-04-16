@@ -33,11 +33,35 @@ type FormState = {
   email: string;
   paymentMethod: string;
   flightNumber: string;
+  terminal: string;       // "1터미널" | "2터미널" | ""
+  baggageCount: number;   // 수하물 개수
+  customDestination: string; // 기타 직접 입력 도착지
   request: string;
   agree: boolean;
 };
 
 const paymentMethods = ["크레딧카드", "카카오페이", "계좌송금", "법인 후불 정산"];
+
+// 공항별 터미널 목록
+const AIRPORT_TERMINALS: Record<string, string[]> = {
+  ICN: ["제1터미널 (T1)", "제2터미널 (T2)"],
+  GMP: ["국내선 터미널", "국제선 터미널"],
+};
+
+// 고양시 주요 도착지 10개
+const GOYANG_DESTINATIONS = [
+  "KINTEX 제1·2전시장",
+  "고양 K-POP 아레나",
+  "일산호수공원 인근 호텔",
+  "고양아람누리",
+  "고양종합운동장",
+  "스타필드 고양",
+  "킨텍스 인근 비즈니스 호텔",
+  "일산동구 (마두·장항동)",
+  "일산서구 (탄현·대화동)",
+  "고양시청 / 덕양구청",
+  "직접 입력",
+];
 
 const initialFormState: FormState = {
   organization: "",
@@ -46,6 +70,9 @@ const initialFormState: FormState = {
   email: "",
   paymentMethod: paymentMethods[0],
   flightNumber: "",
+  terminal: "",
+  baggageCount: 1,
+  customDestination: "",
   request: "",
   agree: false,
 };
@@ -120,6 +147,8 @@ export default function AirportTransferBooking({
       to: nextRoute.toLabel,
     }));
 
+    // 공항 변경 시 터미널 초기화
+    setForm((c) => ({ ...c, terminal: "" }));
     const nextVehicle = getAirportVehiclesByRoute(nextRoute.id)[0];
     setSelectedVehicleId(nextVehicle?.id ?? "");
   };
@@ -137,6 +166,8 @@ export default function AirportTransferBooking({
       to: route.toLabel,
     }));
 
+    // 노선(공항) 변경 시 터미널 초기화
+    setForm((c) => ({ ...c, terminal: "" }));
     const nextVehicle = getAirportVehiclesByRoute(routeId)[0];
     setSelectedVehicleId(nextVehicle?.id ?? "");
   };
@@ -170,8 +201,220 @@ export default function AirportTransferBooking({
     );
   }
 
+  // 노선별 최저가
+  const routeMinPrices: Record<string, number> = {
+    "icn-pickup": 89000,
+    "icn-sending": 84000,
+    "gmp-pickup": 62000,
+    "gmp-sending": 57000,
+  };
+
   return (
-    <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+    <div>
+      {/* ── 히어로 섹션 ── */}
+      <div className="relative -mx-6 mb-10 overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,_#020617_0%,_#0c1a3a_40%,_#0e3a6e_70%,_#0ea5e9_100%)] px-8 py-12 md:px-16 md:py-16">
+        {/* 배경 별/점 장식 */}
+        <div className="pointer-events-none absolute inset-0 opacity-20" style={{backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px"}} />
+
+        <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:gap-12">
+          {/* 텍스트 */}
+          <div className="flex-1">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-sky-300">
+              Airport Transfer Service
+            </p>
+            <h2 className="mt-3 text-4xl font-black leading-tight tracking-tight text-white md:text-5xl">
+              공항픽업·샌딩<br />서비스
+            </h2>
+            <p className="mt-4 text-base leading-8 text-slate-300">
+              <span className="font-semibold text-sky-200">고객을 안전하게 모시겠습니다.</span>
+            </p>
+            <p className="mt-2 text-sm text-slate-400">
+              인천공항 · 김포공항 · 365일 24시간 · 짐 많아도 걱정 마세요!
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("airport-booking-form");
+                el?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-7 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-amber-400 active:scale-95"
+            >
+              <ArrowRight className="h-5 w-5" />
+              빠른 예약하기
+            </button>
+          </div>
+
+          {/* 차량 이미지 콜라주 */}
+          <div className="grid w-full max-w-sm grid-cols-2 gap-2 md:w-auto md:shrink-0">
+            {/* 메르세데스 E-Class */}
+            <div className="relative col-span-2 h-36 overflow-hidden rounded-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80"
+                alt="프리미엄 세단"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <span className="absolute bottom-2 left-3 text-xs font-bold text-white">프리미엄 세단 (Mercedes · BMW)</span>
+            </div>
+            {/* SUV / 카니발 */}
+            <div className="relative h-28 overflow-hidden rounded-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80"
+                alt="SUV"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <span className="absolute bottom-2 left-2 text-[10px] font-bold text-white">프리미엄 SUV</span>
+            </div>
+            {/* 밴 / 솔라티 */}
+            <div className="relative h-28 overflow-hidden rounded-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"
+                alt="밴"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <span className="absolute bottom-2 left-2 text-[10px] font-bold text-white">그룹 밴</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 차량 Fleet 소개 ── */}
+      <div className="mb-10">
+        <h3 className="mb-4 text-lg font-black text-slate-900">보유 차량 안내</h3>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            {
+              img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&q=80",
+              name: "프리미엄 세단",
+              desc: "Mercedes E-Class · BMW 5",
+              seats: "최대 3인",
+              badge: "비즈니스",
+              badgeColor: "bg-blue-100 text-blue-700",
+            },
+            {
+              img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&q=80",
+              name: "이코노미 세단",
+              desc: "그랜저 · K8 · 소나타",
+              seats: "최대 3인",
+              badge: "경제적",
+              badgeColor: "bg-emerald-100 text-emerald-700",
+            },
+            {
+              img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80",
+              name: "프리미엄 SUV",
+              desc: "카니발 · 스타리아",
+              seats: "최대 7인",
+              badge: "가족·단체",
+              badgeColor: "bg-purple-100 text-purple-700",
+            },
+            {
+              img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
+              name: "그룹 밴·버스",
+              desc: "솔라티 · 전세버스",
+              seats: "최대 45인",
+              badge: "단체 문의",
+              badgeColor: "bg-amber-100 text-amber-700",
+            },
+          ].map((v) => (
+            <div key={v.name} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="relative h-28 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={v.img} alt={v.name} className="h-full w-full object-cover" />
+                <span className={`absolute right-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-bold ${v.badgeColor}`}>{v.badge}</span>
+              </div>
+              <div className="px-3 py-3">
+                <p className="text-sm font-black text-slate-900">{v.name}</p>
+                <p className="text-[11px] text-slate-500">{v.desc}</p>
+                <p className="mt-1 text-[11px] font-semibold text-sky-600">{v.seats}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── 노선 카드 그리드 (본보야지벤 스타일) ── */}
+      <div className="mb-10">
+        {/* 배너 */}
+        <div className="mb-6 flex items-start gap-3 rounded-2xl border-l-4 border-amber-400 bg-amber-50 px-5 py-4">
+          <Plane className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+          <div>
+            <p className="text-sm font-bold text-amber-900">공항 갈 때도, 올 때도!</p>
+            <p className="mt-0.5 text-xs text-amber-700">
+              고양 특례시 전 지역 픽업 &amp; 샌딩을 책임집니다. 기사님이 시간 맞춰 딱 도착해요.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {airportTransferRoutes.map((route) => {
+            const isActive = search.routeId === route.id;
+            const minPrice = routeMinPrices[route.id] ?? 0;
+            const isPickup = route.mode === "pickup";
+            return (
+              <div
+                key={route.id}
+                className={`flex flex-col overflow-hidden rounded-[20px] border-2 bg-white transition ${
+                  isActive ? "border-amber-400 shadow-md" : "border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {/* 카드 상단 */}
+                <div className={`flex flex-col items-center px-4 py-5 ${isActive ? "bg-amber-50" : "bg-slate-50"}`}>
+                  {/* 공항 아이콘 */}
+                  <div className={`flex h-16 w-16 items-center justify-center rounded-full ${route.airportCode === "ICN" ? "bg-blue-100" : "bg-sky-100"}`}>
+                    <Plane className={`h-8 w-8 ${isPickup ? "rotate-[225deg]" : "rotate-45"} ${route.airportCode === "ICN" ? "text-blue-600" : "text-sky-600"}`} />
+                  </div>
+                  <p className="mt-3 text-xl font-black tracking-tight text-slate-900">
+                    {route.airportCode === "ICN" ? "인천공항" : "김포공항"}
+                  </p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    {route.airportCode}
+                  </p>
+                  {/* 픽업/샌딩 배지 */}
+                  <span className={`mt-2 rounded-full px-2.5 py-1 text-[11px] font-bold ${
+                    isPickup
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-rose-100 text-rose-700"
+                  }`}>
+                    {isPickup ? "↓ 픽업 (도착)" : "↑ 샌딩 (출발)"}
+                  </span>
+                </div>
+                {/* 카드 하단 */}
+                <div className="flex flex-1 flex-col justify-between px-4 py-4">
+                  <p className="text-xs text-slate-500 line-clamp-2">{route.desc}</p>
+                  <div>
+                    <p className="mt-3 text-lg font-black text-amber-600">
+                      {minPrice.toLocaleString("ko-KR")}원~
+                    </p>
+                    <p className="text-[10px] text-slate-400">1인 기준</p>
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleRouteChange(route.id);
+                          setTimeout(() => {
+                            document.getElementById("airport-booking-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }, 100);
+                        }}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-amber-500 px-2 py-2 text-xs font-black text-white hover:bg-amber-400"
+                      >
+                        <Users className="h-3 w-3" /> 예약하기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── 기존 예약 폼 ── */}
+      <div id="airport-booking-form" className="scroll-mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
       <div className="space-y-6">
         <section className="rounded-[36px] border border-slate-200 bg-white p-6 shadow-soft md:p-7">
           <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
@@ -233,46 +476,163 @@ export default function AirportTransferBooking({
             </div>
           </div>
 
+          {/* ── 터미널 선택 (ICN: T1/T2, GMP: 국내/국제) ── */}
+          {(() => {
+            const airportCode = activeRoute.airportCode;
+            const airportName = airportCode === "ICN" ? "인천공항" : "김포공항";
+            const terminals = AIRPORT_TERMINALS[airportCode] ?? [];
+            const isPickup = search.mode === "pickup";
+            const label = isPickup ? `${airportName} 도착 터미널 선택` : `${airportName} 출발 터미널 선택`;
+            return (
+              <div className="mt-5 rounded-[24px] border-2 border-sky-300 bg-sky-50 px-5 py-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-base">✈️</span>
+                  <p className="text-sm font-black text-sky-800">{label}</p>
+                  {!form.terminal && (
+                    <span className="ml-auto rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-600">필수 선택</span>
+                  )}
+                  {form.terminal && (
+                    <span className="ml-auto rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-600">✓ {form.terminal}</span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {terminals.map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setForm((c) => ({ ...c, terminal: t }))}
+                      className={`rounded-full px-6 py-2.5 text-sm font-black transition active:scale-95 ${
+                        form.terminal === t
+                          ? "bg-sky-600 text-white shadow-md ring-2 ring-sky-300"
+                          : "border-2 border-sky-200 bg-white text-sky-700 hover:border-sky-400 hover:bg-sky-50"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <FieldCard
-              label="출발지"
-              value={search.from}
-              onChange={(value) => setSearch((current) => ({ ...current, from: value }))}
-            />
-            <FieldCard
-              label="목적지"
-              value={search.to}
-              onChange={(value) => setSearch((current) => ({ ...current, to: value }))}
-            />
+            {/* 출발지 */}
+            {search.mode === "sending" ? (
+              /* 샌딩: 출발지 = 고양시 위치 선택 */
+              <div className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-3">
+                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">출발지</div>
+                <select
+                  value={search.from}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setSearch((c) => ({ ...c, from: v === "직접 입력" ? "" : v }));
+                    if (v === "직접 입력") setForm((c) => ({ ...c, customDestination: "" }));
+                  }}
+                  className="mt-2 w-full bg-transparent text-sm font-bold text-slate-900 outline-none"
+                >
+                  <option value="">-- 출발지 선택 --</option>
+                  {GOYANG_DESTINATIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+                </select>
+                {search.from === "" && (
+                  <input
+                    type="text"
+                    placeholder="직접 입력"
+                    value={form.customDestination}
+                    onChange={(e) => {
+                      setForm((c) => ({ ...c, customDestination: e.target.value }));
+                      setSearch((c) => ({ ...c, from: e.target.value }));
+                    }}
+                    className="mt-2 w-full border-t border-slate-200 bg-transparent pt-2 text-sm font-bold text-slate-900 outline-none placeholder-slate-400"
+                  />
+                )}
+              </div>
+            ) : (
+              <FieldCard label="출발지" value={search.from} onChange={(value) => setSearch((c) => ({ ...c, from: value }))} />
+            )}
+
+            {/* 목적지 */}
+            {search.mode === "pickup" ? (
+              /* 픽업: 목적지 = 고양시 위치 선택 */
+              <div className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-3">
+                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">고양 도착지</div>
+                <select
+                  value={search.to}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setSearch((c) => ({ ...c, to: v === "직접 입력" ? "" : v }));
+                    if (v === "직접 입력") setForm((c) => ({ ...c, customDestination: "" }));
+                  }}
+                  className="mt-2 w-full bg-transparent text-sm font-bold text-slate-900 outline-none"
+                >
+                  <option value="">-- 도착지 선택 --</option>
+                  {GOYANG_DESTINATIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+                </select>
+                {search.to === "" && (
+                  <input
+                    type="text"
+                    placeholder="직접 입력 (예: 고양시 일산서구 OO동)"
+                    value={form.customDestination}
+                    onChange={(e) => {
+                      setForm((c) => ({ ...c, customDestination: e.target.value }));
+                      setSearch((c) => ({ ...c, to: e.target.value }));
+                    }}
+                    className="mt-2 w-full border-t border-slate-200 bg-transparent pt-2 text-sm font-bold text-slate-900 outline-none placeholder-slate-400"
+                  />
+                )}
+              </div>
+            ) : (
+              <FieldCard label="목적지" value={search.to} onChange={(value) => setSearch((c) => ({ ...c, to: value }))} />
+            )}
+
             <FieldCard
               label="출발일"
               type="datetime-local"
               value={search.departureDate}
-              onChange={(value) =>
-                setSearch((current) => ({ ...current, departureDate: value }))
-              }
+              onChange={(value) => setSearch((current) => ({ ...current, departureDate: value }))}
             />
             <label className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                탑승객
-              </div>
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">탑승객</div>
               <select
                 value={search.passengers}
-                onChange={(event) =>
-                  setSearch((current) => ({
-                    ...current,
-                    passengers: Number(event.target.value),
-                  }))
-                }
+                onChange={(event) => setSearch((current) => ({ ...current, passengers: Number(event.target.value) }))}
                 className="mt-2 w-full bg-transparent text-lg font-bold text-slate-900 outline-none"
               >
                 {Array.from({ length: 12 }).map((_, index) => (
-                  <option key={index + 1} value={index + 1}>
-                    {index + 1}명
-                  </option>
+                  <option key={index + 1} value={index + 1}>{index + 1}명</option>
                 ))}
               </select>
             </label>
+          </div>
+
+          {/* ── 항공편명 + 수하물 수 ── */}
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <div className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">✈️ 항공편명</div>
+              <input
+                type="text"
+                placeholder="예: KE 082, OZ 201"
+                value={form.flightNumber}
+                onChange={(e) => setForm((c) => ({ ...c, flightNumber: e.target.value }))}
+                className="mt-2 w-full bg-transparent text-base font-bold text-slate-900 outline-none placeholder-slate-400"
+              />
+            </div>
+            <div className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">🧳 수하물 (가방 수)</div>
+              <div className="mt-2 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setForm((c) => ({ ...c, baggageCount: Math.max(0, c.baggageCount - 1) }))}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300 font-bold"
+                >−</button>
+                <span className="text-lg font-black text-slate-900 w-6 text-center">{form.baggageCount}</span>
+                <button
+                  type="button"
+                  onClick={() => setForm((c) => ({ ...c, baggageCount: Math.min(20, c.baggageCount + 1) }))}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300 font-bold"
+                >+</button>
+                <span className="text-sm text-slate-500">개</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -417,11 +777,13 @@ export default function AirportTransferBooking({
                 request_note: [
                   `공항 서비스: ${activeRoute.label}`,
                   `이동 방식: ${search.mode === "pickup" ? "픽업" : "샌딩"}`,
-                  `출발지: ${search.from}`,
-                  `목적지: ${search.to}`,
+                  form.terminal ? `터미널: ${form.terminal}` : "",
+                  `출발지: ${search.from || "-"}`,
+                  `목적지: ${search.to || "-"}`,
                   `선택 차량: ${selectedVehicle?.name ?? "미선택"}`,
                   selectedVehicle ? `차량 금액: ₩ ${selectedVehicle.price.toLocaleString("ko-KR")}` : "",
-                  form.flightNumber ? `항공편 정보: ${form.flightNumber}` : "",
+                  form.flightNumber ? `항공편명: ${form.flightNumber}` : "",
+                  `수하물: ${form.baggageCount}개`,
                   form.request ? `추가 요청: ${form.request}` : "",
                 ]
                   .filter(Boolean)
@@ -460,7 +822,8 @@ export default function AirportTransferBooking({
 
         <div className="mt-6 space-y-3">
           <SummaryRow label="노선" value={activeRoute.label} />
-          <SummaryRow label="이동 경로" value={`${search.from} → ${search.to}`} />
+          {form.terminal && <SummaryRow label="터미널" value={form.terminal} />}
+          <SummaryRow label="이동 경로" value={`${search.from || "-"} → ${search.to || "-"}`} />
           <SummaryRow
             label="출발 일시"
             value={
@@ -471,6 +834,8 @@ export default function AirportTransferBooking({
           />
           <SummaryRow label="차량" value={selectedVehicle?.name ?? "-"} />
           <SummaryRow label="탑승객" value={`${search.passengers}명`} />
+          {form.flightNumber && <SummaryRow label="항공편명" value={form.flightNumber} />}
+          <SummaryRow label="수하물" value={`${form.baggageCount}개`} />
           <SummaryRow
             label="예약 금액"
             value={
@@ -525,11 +890,6 @@ export default function AirportTransferBooking({
               ))}
             </select>
           </label>
-          <FormInput
-            placeholder="항공편명 또는 행사 스케줄 코드"
-            value={form.flightNumber}
-            onChange={(value) => setForm((current) => ({ ...current, flightNumber: value }))}
-          />
           <textarea
             rows={4}
             placeholder="기사 미팅보드명, 수하물 정보, VIP 요청, 공연 일정 등 추가 요청을 남겨주세요."
@@ -570,6 +930,19 @@ export default function AirportTransferBooking({
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
+    </div>
+    {/* ── 하단 CTA ── */}
+    <div className="mt-12 rounded-2xl bg-slate-950 px-6 py-8 text-center">
+      <p className="text-lg font-black text-white">맞춤 차량 문의</p>
+      <p className="mt-2 text-sm text-slate-300">단체, VIP, 특수 이동이 필요하신가요? 전담 매니저가 직접 상담해드립니다.</p>
+      <a
+        href="/contact"
+        className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-6 py-3 text-sm font-black text-white hover:bg-amber-400"
+      >
+        <ArrowRight className="h-4 w-4" />
+        맞춤 차량 문의하기
+      </a>
+    </div>
     </div>
   );
 }

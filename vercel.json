@@ -1,4 +1,5 @@
 {
+  "alias": ["goyang-mice.vercel.app"],
   "redirects": [
     {
       "source": "/",

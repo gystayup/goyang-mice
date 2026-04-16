@@ -175,7 +175,7 @@ export async function POST(
     await sendAdminNotification("inquiry", {
       contactName: responseInquiry.contact_name,
       inquiryType: responseInquiry.inquiry_type,
-      subject: responseInquiry.subject,
+      subject: responseInquiry.subject ?? "",
       message: responseInquiry.message,
       email: responseInquiry.email,
     });

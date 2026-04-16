@@ -116,6 +116,16 @@ export async function saveDmcCategoryMediaFile(
     }
   }
 
+  // 버킷이 없으면 자동 생성
+  const { data: buckets } = await supabase.storage.listBuckets();
+  const bucketExists = buckets?.some((b) => b.name === BUCKET);
+  if (!bucketExists) {
+    const { error: createErr } = await supabase.storage.createBucket(BUCKET, { public: true });
+    if (createErr && !createErr.message.includes("already exists")) {
+      throw new Error(`버킷 생성 실패: ${createErr.message}`);
+    }
+  }
+
   // Upload new file
   const ext = path.extname(file.name).toLowerCase() || ".bin";
   const savedFileName = `${Date.now()}-${categoryKey}${ext}`;
@@ -123,7 +133,7 @@ export async function saveDmcCategoryMediaFile(
 
   const { error } = await supabase.storage
     .from(BUCKET)
-    .upload(`${FOLDER}/${savedFileName}`, buffer, { contentType: file.type, upsert: false });
+    .upload(`${FOLDER}/${savedFileName}`, buffer, { contentType: file.type, upsert: true });
   if (error) throw new Error(error.message);
 
   const { data: urlData } = supabase.storage

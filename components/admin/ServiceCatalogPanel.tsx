@@ -45,8 +45,17 @@ interface TicketItem {
   tags: string[];
   options: TicketOption[];
   imageUrl?: string;
+  images?: string[];
   duration?: string;
   ageLimit?: string;
+  tabNotice?: string;
+  tabCasting?: string;
+  tabDetails?: string;
+  tabPrice?: string;
+  tabDiscount?: string;
+  tabUsageInfo?: string;
+  tabVenue?: string;
+  tabCancellation?: string;
 }
 
 const emptyTicket = (): TicketItem => ({
@@ -64,8 +73,17 @@ const emptyTicket = (): TicketItem => ({
   tags: [],
   options: [],
   imageUrl: undefined,
+  images: [],
   duration: undefined,
   ageLimit: undefined,
+  tabNotice: undefined,
+  tabCasting: undefined,
+  tabDetails: undefined,
+  tabPrice: undefined,
+  tabDiscount: undefined,
+  tabUsageInfo: undefined,
+  tabVenue: undefined,
+  tabCancellation: undefined,
 });
 
 const COLOR_PRESETS_TICKET: { label: string; value: string }[] = [
@@ -118,9 +136,15 @@ interface ServiceCatalogItem {
   options: ServiceCatalogOption[];
   // 상품 소개 콘텐츠
   imageUrl?: string;
+  images?: string[];
   highlights?: string[];
   includes?: string[];
   couponGuide?: string;
+  // 상세페이지 탭 콘텐츠
+  tabNotice?: string;
+  tabDetails?: string;
+  tabUsageInfo?: string;
+  tabCancellation?: string;
 }
 
 type CatalogMap = Record<Category, ServiceCatalogItem[]>;
@@ -141,9 +165,14 @@ const emptyItem = (): ServiceCatalogItem => ({
   discountLabel: undefined,
   options: [],
   imageUrl: undefined,
+  images: [],
   highlights: [],
   includes: [],
   couponGuide: undefined,
+  tabNotice: undefined,
+  tabDetails: undefined,
+  tabUsageInfo: undefined,
+  tabCancellation: undefined,
 });
 
 export default function ServiceCatalogPanel() {
@@ -161,7 +190,9 @@ export default function ServiceCatalogPanel() {
   const [highlightsInput, setHighlightsInput] = useState("");
   const [includesInput, setIncludesInput] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     setLoading(true);
@@ -223,6 +254,27 @@ export default function ServiceCatalogPanel() {
     } finally {
       setUploading(false);
     }
+  }
+
+  async function handleGalleryUpload(file: File) {
+    setUploadingGallery(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("category", "catalog");
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+      if (!json.success || !json.url) throw new Error(json.error ?? "업로드 실패");
+      setForm((prev) => ({ ...prev, images: [...(prev.images ?? []), json.url!] }));
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "갤러리 업로드 실패" });
+    } finally {
+      setUploadingGallery(false);
+    }
+  }
+
+  function removeGalleryImage(idx: number) {
+    setForm((prev) => ({ ...prev, images: (prev.images ?? []).filter((_, i) => i !== idx) }));
   }
 
   function setField<K extends keyof ServiceCatalogItem>(key: K, value: ServiceCatalogItem[K]) {
@@ -631,6 +683,97 @@ export default function ServiceCatalogPanel() {
                     className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
                   />
                 </div>
+
+                {/* 갤러리 이미지 (상세페이지 슬라이더) */}
+                <div className="mt-4 border-t border-slate-100 pt-4">
+                  <div className="text-xs font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">🖼️ 상세페이지 슬라이더 이미지 (추가)</div>
+                  <input
+                    ref={galleryInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) void handleGalleryUpload(file);
+                      e.target.value = "";
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => galleryInputRef.current?.click()}
+                    disabled={uploadingGallery}
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                  >
+                    {uploadingGallery ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                    {uploadingGallery ? "업로드 중..." : "이미지 추가"}
+                  </button>
+                  {(form.images ?? []).length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {(form.images ?? []).map((url, idx) => (
+                        <div key={idx} className="relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={url} alt={`갤러리 ${idx + 1}`} className="h-20 w-28 rounded-xl object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => removeGalleryImage(idx)}
+                            className="absolute -right-1.5 -top-1.5 rounded-full bg-rose-500 p-0.5 text-white"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* ── 상세페이지 탭 콘텐츠 ── */}
+            <div className="md:col-span-2">
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500 mb-3">📋 상세페이지 탭 내용</div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">공지사항 (선택)</label>
+                    <textarea
+                      value={form.tabNotice ?? ""}
+                      onChange={(e) => setField("tabNotice", e.target.value || undefined)}
+                      rows={3}
+                      placeholder="공지사항 내용을 입력하세요."
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">상품상세 (선택)</label>
+                    <textarea
+                      value={form.tabDetails ?? ""}
+                      onChange={(e) => setField("tabDetails", e.target.value || undefined)}
+                      rows={5}
+                      placeholder="상품 상세 내용을 입력하세요. (더보기로 접힘)"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">이용안내 (선택)</label>
+                    <textarea
+                      value={form.tabUsageInfo ?? ""}
+                      onChange={(e) => setField("tabUsageInfo", e.target.value || undefined)}
+                      rows={4}
+                      placeholder="이용 방법, 주의사항 등을 입력하세요."
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">취소 및 환불규정 (선택)</label>
+                    <textarea
+                      value={form.tabCancellation ?? ""}
+                      onChange={(e) => setField("tabCancellation", e.target.value || undefined)}
+                      rows={4}
+                      placeholder="취소 및 환불 규정을 입력하세요."
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -773,7 +916,9 @@ function TicketCatalogTab() {
   const [form, setForm] = useState<TicketItem>(emptyTicket());
   const [tagsInput, setTagsInput] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const galleryRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     setLoading(true);
@@ -829,6 +974,27 @@ function TicketCatalogTab() {
     } finally {
       setUploading(false);
     }
+  }
+
+  async function handleGalleryUploadTicket(file: File) {
+    setUploadingGallery(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("category", "tickets");
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+      if (!json.success || !json.url) throw new Error(json.error ?? "업로드 실패");
+      setForm((prev) => ({ ...prev, images: [...(prev.images ?? []), json.url!] }));
+    } catch (e) {
+      setMsg({ type: "err", text: e instanceof Error ? e.message : "갤러리 업로드 실패" });
+    } finally {
+      setUploadingGallery(false);
+    }
+  }
+
+  function removeGalleryImageTicket(idx: number) {
+    setForm((prev) => ({ ...prev, images: (prev.images ?? []).filter((_, i) => i !== idx) }));
   }
 
   async function handleSave() {
@@ -1063,11 +1229,86 @@ function TicketCatalogTab() {
                 <div className="mt-2 flex h-20 items-center justify-center rounded-xl border border-dashed border-slate-200 text-xs text-slate-400">업로드된 포스터 없음</div>
               )}
             </div>
+            {/* 갤러리 이미지 */}
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-slate-600">상세페이지 슬라이더 이미지 (추가)</label>
+              <div className="mt-1.5 flex gap-3 items-center">
+                <input ref={galleryRef} type="file" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleGalleryUploadTicket(f); e.target.value = ""; }} />
+                <button type="button" onClick={() => galleryRef.current?.click()} disabled={uploadingGallery}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50">
+                  {uploadingGallery ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImagePlus className="h-3.5 w-3.5" />}
+                  {uploadingGallery ? "업로드 중..." : "이미지 추가"}
+                </button>
+              </div>
+              {(form.images ?? []).length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(form.images ?? []).map((url, idx) => (
+                    <div key={idx} className="relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`갤러리 ${idx + 1}`} className="h-20 w-28 rounded-xl object-cover" />
+                      <button type="button" onClick={() => removeGalleryImageTicket(idx)}
+                        className="absolute -right-1.5 -top-1.5 rounded-full bg-rose-500 p-0.5 text-white">
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             {/* 태그 */}
             <div className="md:col-span-2">
               <label className="block text-xs font-semibold text-slate-600">태그 (쉼표로 구분)</label>
               <input type="text" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)}
                 placeholder="예: K-POP, 공연, 프리미엄 좌석" className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+            </div>
+            {/* 상세페이지 탭 콘텐츠 */}
+            <div className="md:col-span-2">
+              <div className="rounded-xl border border-indigo-100 bg-white p-4">
+                <div className="text-xs font-bold uppercase tracking-[0.15em] text-indigo-500 mb-3">📋 상세페이지 탭 내용</div>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">공지사항</label>
+                    <textarea value={form.tabNotice ?? ""} onChange={(e) => setField("tabNotice", e.target.value || undefined)}
+                      rows={2} placeholder="공지사항 내용" className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">캐스팅 정보</label>
+                    <textarea value={form.tabCasting ?? ""} onChange={(e) => setField("tabCasting", e.target.value || undefined)}
+                      rows={3} placeholder="배우/캐스팅 정보를 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">상품상세</label>
+                    <textarea value={form.tabDetails ?? ""} onChange={(e) => setField("tabDetails", e.target.value || undefined)}
+                      rows={4} placeholder="공연 상세 내용을 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">가격 안내</label>
+                    <textarea value={form.tabPrice ?? ""} onChange={(e) => setField("tabPrice", e.target.value || undefined)}
+                      rows={4} placeholder="좌석 등급별 가격, 구매 조건 등을 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">할인정보</label>
+                    <textarea value={form.tabDiscount ?? ""} onChange={(e) => setField("tabDiscount", e.target.value || undefined)}
+                      rows={4} placeholder="얼리버드, 단체 할인, 청소년 할인 등을 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">이용안내</label>
+                    <textarea value={form.tabUsageInfo ?? ""} onChange={(e) => setField("tabUsageInfo", e.target.value || undefined)}
+                      rows={3} placeholder="공연장 이용 안내" className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">장소 안내</label>
+                    <textarea value={form.tabVenue ?? ""} onChange={(e) => setField("tabVenue", e.target.value || undefined)}
+                      rows={4} placeholder="공연장 주소, 교통편, 주차 안내 등을 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">취소 및 환불규정</label>
+                    <textarea value={form.tabCancellation ?? ""} onChange={(e) => setField("tabCancellation", e.target.value || undefined)}
+                      rows={3} placeholder="취소/환불 규정을 입력하세요." className="mt-1 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none" />
+                  </div>
+                </div>
+              </div>
             </div>
             {/* 좌석 등급 옵션 */}
             <div className="md:col-span-2">

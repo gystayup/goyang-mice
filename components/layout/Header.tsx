@@ -80,13 +80,12 @@ export default function Header() {
 
         {/* ── 모바일 헤더 ── */}
         <div className="flex items-center justify-between gap-2 lg:hidden">
-          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap overflow-hidden rounded-full bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_50%,_#10203a_100%)] px-4 py-2 shadow-[0_4px_14px_rgba(16,32,58,0.35)]">
-            <span className="absolute inset-0 bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b,_#ff8f7e)] opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
+          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-slate-900/10 bg-white/60 px-3.5 py-1.5 backdrop-blur-md transition-all duration-300 hover:border-slate-900/20 hover:bg-white hover:shadow-sm">
             <span className="relative flex h-1.5 w-1.5 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+              <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-400/40" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </span>
-            <span className="relative bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] bg-clip-text text-[11px] font-black uppercase tracking-[0.18em] text-transparent">
+            <span className="relative bg-[linear-gradient(135deg,_#0f172a_0%,_#334155_50%,_#0f172a_100%)] bg-clip-text text-[10px] font-black uppercase tracking-[0.28em] text-transparent">
               {copy.brand}
             </span>
           </Link>
@@ -147,18 +146,17 @@ export default function Header() {
         <div className="hidden lg:grid lg:grid-cols-[minmax(0,16rem)_auto_minmax(0,1fr)_auto] lg:items-center lg:gap-4 xl:grid-cols-[minmax(0,18rem)_auto_minmax(0,1fr)_auto] xl:gap-5">
 
           {/* 로고 + 타이틀 */}
-          <Link href="/" className="min-w-0">
-            <div className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-[linear-gradient(135deg,_#10203a_0%,_#1e3a6e_50%,_#10203a_100%)] px-4 py-2 shadow-[0_4px_16px_rgba(16,32,58,0.38)] transition hover:shadow-[0_6px_22px_rgba(16,32,58,0.48)]">
-              <span className="absolute inset-0 bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b,_#ff8f7e)] opacity-0 transition-opacity duration-300 group-hover:opacity-15" />
+          <Link href="/" className="min-w-0 group">
+            <div className="relative inline-flex items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-1.5 backdrop-blur-md transition-all duration-300 group-hover:border-slate-900/25 group-hover:bg-white group-hover:shadow-[0_6px_20px_rgba(15,23,42,0.08)]">
               <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
+                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-400/40" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
               </span>
-              <span className="relative bg-[linear-gradient(135deg,_#8df0cf_0%,_#ffe98b_60%,_#ffb58f_100%)] bg-clip-text text-[11px] font-black uppercase tracking-[0.20em] text-transparent">
+              <span className="relative bg-[linear-gradient(135deg,_#0f172a_0%,_#334155_50%,_#0f172a_100%)] bg-clip-text text-[10.5px] font-black uppercase tracking-[0.3em] text-transparent transition-all duration-300 group-hover:tracking-[0.32em]">
                 {copy.brand}
               </span>
             </div>
-            <div className="mt-1.5 whitespace-nowrap text-[1.2rem] font-black leading-[1.15] tracking-[-0.03em] text-slate-950">
+            <div className="mt-2 whitespace-nowrap text-[1.2rem] font-black leading-[1.15] tracking-[-0.03em] text-slate-950">
               {copy.titleLine2}
             </div>
           </Link>

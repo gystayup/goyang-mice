@@ -76,9 +76,10 @@ export async function POST(request: Request) {
       data: mediaMap,
     });
   } catch (error) {
-    console.error("DMC category media POST error:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("DMC category media POST error:", msg);
     return NextResponse.json(
-      { success: false, error: "카테고리 이미지 업로드 중 오류가 발생했습니다." },
+      { success: false, error: msg },
       { status: 500 }
     );
   }
