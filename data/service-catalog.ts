@@ -33,6 +33,7 @@ export interface ServiceCatalogTranslation {
   highlights?: string[];
   includes?: string[];
   couponGuide?: string;
+  options?: Array<{ id: string; label?: string; benefits?: string[] }>;
 }
 
 export interface ServiceCatalogItem {
@@ -105,6 +106,14 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           meetingPointAddress:
             "300 Hallyu World-ro, Ilsanseo-gu, Goyang-si, Gyeonggi-do",
           meetingPointNote: "Arrive 15 minutes before departure",
+          tabNotice: "※ The operation schedule may change due to weather or on-site conditions.\n※ A reservation confirmation SMS will be sent 2 hours before departure.",
+          tabDetails: "Ilsan Lake Park Sunset Local Tour connects Goyang's iconic attractions in a half-day emotional experience.\n\n📍 Course Guide\n- Ilsan Lake Park Sunset Walk (approx. 60 min)\n- La Festa Street & Local Café (approx. 40 min)\n- Western Dom Night View Photo Time (approx. 30 min)\n\n🚌 Transportation\n- Dedicated shuttle bus (departing from KINTEX)\n- Minimum 4 participants for confirmed departure\n\n💡 Recommended for\n- First-time visitors to Goyang\n- Exhibition attendees with free time after KINTEX\n- VIP escort programs for international buyers",
+          tabUsageInfo: "• Meeting point: KINTEX Hall 1 main entrance\n• Departure: 4:30 PM (arrive 15 min early)\n• Duration: approx. 2 hours 30 minutes\n• Wear comfortable sneakers\n• Some routes may change in rain\n• Snacks and drinks provided during tour\n• Minimum participants: 4",
+          tabCancellation: "■ Cancellation & Refund Policy\n\n• 3 days to 1 day before use: 50% refund\n• Same-day cancellation or no-show: no refund\n• 4+ days before use: 100% refund\n\n■ Weather Cancellation\n• Full refund or reschedule if tour is cancelled due to weather\n\n■ Refund Processing\n• 3–5 business days depending on payment method",
+          options: [
+            { id: "weekday", label: "Weekday General Pass", benefits: ["Guide included", "Local coupon provided"] },
+            { id: "vip", label: "Premium Companion Pass", benefits: ["Small group operation", "Photo documentation included"] },
+          ],
         },
         ja: {
           title: "一山湖水公園サンセットローカルツアー",
@@ -119,6 +128,14 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           meetingPointAddress:
             "京畿道高陽市一山西区ハンリューワールド路 300 ウォンマウント広場",
           meetingPointNote: "出発15分前に到着必須",
+          tabNotice: "※ 運営スケジュールは天候や現場状況により変更される場合があります。\n※ 出発2時間前に予約確定のSMSが送信されます。",
+          tabDetails: "一山湖水公園サンセットローカルツアーは、高陽の代表名所を感性的に繋いだ半日型体験商品です。\n\n📍 コース案内\n- 一山湖水公園サンセット散策（約60分）\n- ラフェスタ街・ローカルカフェ（約40分）\n- ウェスタンドーム夜景フォトタイム（約30分）\n\n🚌 移動方法\n- 専用シャトルバス（KINTEX出発）\n- 最小4名以上で出発確定\n\n💡 こんな方におすすめ\n- 高陽初来訪のお客様\n- KINTEX展示参加後の自由時間旅行者\n- 海外バイヤーの随行プログラム",
+          tabUsageInfo: "• 集合場所：KINTEX第1展示場正門前\n• 出発時間：午後4時30分（15分前到着必須）\n• 所要時間：約2時間30分\n• 服装：歩きやすいスニーカー推奨\n• 雨天時は一部コース変更あり\n• ツアー中に軽食・ドリンク提供\n• 最小出発人数：4名",
+          tabCancellation: "■ キャンセル・払い戻し規定\n\n• ご利用日3日前〜前日：予約金の50%を払い戻し\n• 当日キャンセルまたはノーショー：払い戻し不可\n• ご利用日4日前以前：100%払い戻し\n\n■ 天候による中止\n• 悪天候でツアー運営不可の場合、全額払い戻しまたは日程変更\n\n■ 払い戻し処理期間\n• 支払い方法により3〜5営業日",
+          options: [
+            { id: "weekday", label: "平日一般チケット", benefits: ["ガイド込み", "ローカルクーポン付き"] },
+            { id: "vip", label: "プレミアム同行チケット", benefits: ["小規模運営", "写真記録込み"] },
+          ],
         },
         "zh-CN": {
           title: "一山湖水公园日落本地游",
@@ -133,6 +150,14 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           meetingPointAddress:
             "京畿道高阳市一山西区韩流世界路300号 WonMount广场",
           meetingPointNote: "出发前15分钟务必到达",
+          tabNotice: "※ 运营日程可能因天气或现场情况而变更。\n※ 出发前2小时将发送预订确认短信。",
+          tabDetails: "一山湖水公园日落本地游是将高阳代表名胜感性连接的半日型体验产品。\n\n📍 行程指南\n- 一山湖水公园日落散步（约60分钟）\n- 拉费斯塔街道·本地咖啡馆（约40分钟）\n- Western Dom夜景拍照时间（约30分钟）\n\n🚌 交通方式\n- 专用班车（以KINTEX为出发地）\n- 最少4人以上出发确定\n\n💡 推荐人群\n- 首次访问高阳的游客\n- KINTEX展会后有空余时间的旅行者\n- 海外买家随行接待项目",
+          tabUsageInfo: "• 集合地点：KINTEX第1展览馆正门前\n• 出发时间：下午4:30（出发前15分钟必须到达）\n• 所需时间：约2小时30分钟\n• 着装：建议穿舒适运动鞋\n• 雨天部分路线可能变更\n• 游览途中提供零食和饮料\n• 最少出发人数：4人",
+          tabCancellation: "■ 取消及退款规定\n\n• 使用日前3天至前1天：退还预付款的50%\n• 使用当日取消或未出现：不予退款\n• 使用日前4天以上：全额退款\n\n■ 因天气取消\n• 因恶劣天气无法运营时，全额退款或变更日程\n\n■ 退款处理时间\n• 根据支付方式，需3-5个工作日",
+          options: [
+            { id: "weekday", label: "平日普通票", benefits: ["含导游", "提供本地优惠券"] },
+            { id: "vip", label: "高级随行票", benefits: ["小规模运营", "含摄影记录"] },
+          ],
         },
         "zh-TW": {
           title: "一山湖水公園日落在地遊",
@@ -147,6 +172,14 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           meetingPointAddress:
             "京畿道高陽市一山西區韓流世界路300號 WonMount廣場",
           meetingPointNote: "出發前15分鐘務必到達",
+          tabNotice: "※ 運營日程可能因天氣或現場情況而變更。\n※ 出發前2小時將發送預訂確認簡訊。",
+          tabDetails: "一山湖水公園日落在地遊是將高陽代表名勝感性連接的半日型體驗產品。\n\n📍 行程指南\n- 一山湖水公園日落散步（約60分鐘）\n- 拉費斯塔街道·在地咖啡館（約40分鐘）\n- Western Dom夜景拍照時間（約30分鐘）\n\n🚌 交通方式\n- 專用班車（以KINTEX為出發地）\n- 最少4人以上出發確定\n\n💡 推薦人群\n- 首次訪問高陽的遊客\n- KINTEX展會後有空餘時間的旅行者\n- 海外買家隨行接待項目",
+          tabUsageInfo: "• 集合地點：KINTEX第1展覽館正門前\n• 出發時間：下午4:30（出發前15分鐘必須到達）\n• 所需時間：約2小時30分鐘\n• 著裝：建議穿舒適運動鞋\n• 雨天部分路線可能變更\n• 遊覽途中提供零食和飲料\n• 最少出發人數：4人",
+          tabCancellation: "■ 取消及退款規定\n\n• 使用日前3天至前1天：退還預付款的50%\n• 使用當日取消或未出現：不予退款\n• 使用日前4天以上：全額退款\n\n■ 因天氣取消\n• 因惡劣天氣無法運營時，全額退款或變更日程\n\n■ 退款處理時間\n• 根據支付方式，需3-5個工作日",
+          options: [
+            { id: "weekday", label: "平日普通票", benefits: ["含導遊", "提供在地優惠券"] },
+            { id: "vip", label: "高級隨行票", benefits: ["小規模運營", "含攝影記錄"] },
+          ],
         },
       },
       tabNotice: "※ 운영 일정은 기상 및 현장 상황에 따라 변경될 수 있습니다.\n※ 출발 2시간 전까지 예약 확정 안내 문자가 발송됩니다.",
@@ -199,6 +232,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["City Tour", "K-Culture", "Lifestyle"],
           meetingPoint: "WonMount Plaza",
           meetingPointNote: "Arrive 15 minutes before departure",
+          options: [
+            { id: "am", label: "Morning City Walk", benefits: ["Guide included"] },
+            { id: "pm", label: "Afternoon City Walk", benefits: ["Evening route recommended"] },
+          ],
         },
         ja: {
           title: "K-カルチャーシティウォークツアー",
@@ -211,6 +248,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["都心ツアー", "K-カルチャー", "ライフスタイル"],
           meetingPoint: "ウォンマウント広場",
           meetingPointNote: "出発15分前に到着必須",
+          options: [
+            { id: "am", label: "午前シティウォーク", benefits: ["ガイド込み"] },
+            { id: "pm", label: "午後シティウォーク", benefits: ["夜間動線推奨"] },
+          ],
         },
         "zh-CN": {
           title: "K-文化城市漫步之旅",
@@ -223,6 +264,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["都市游", "K-文化", "生活方式"],
           meetingPoint: "WonMount广场",
           meetingPointNote: "出发前15分钟务必到达",
+          options: [
+            { id: "am", label: "上午城市漫步", benefits: ["含导游"] },
+            { id: "pm", label: "下午城市漫步", benefits: ["推荐夜间路线"] },
+          ],
         },
         "zh-TW": {
           title: "K-文化城市漫步之旅",
@@ -235,6 +280,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["都市遊", "K-文化", "生活風格"],
           meetingPoint: "WonMount廣場",
           meetingPointNote: "出發前15分鐘務必到達",
+          options: [
+            { id: "am", label: "上午城市漫步", benefits: ["含導遊"] },
+            { id: "pm", label: "下午城市漫步", benefits: ["推薦夜間路線"] },
+          ],
         },
       },
       options: [
@@ -283,6 +332,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["Family", "Experience", "Weekend"],
           meetingPoint: "WonMount Plaza",
           meetingPointNote: "Arrive 20 minutes before departure",
+          options: [
+            { id: "four", label: "Family 4-Person Pass", benefits: ["Experience materials included"] },
+            { id: "six", label: "Family 6-Person Pass", benefits: ["Private space provided"] },
+          ],
         },
         ja: {
           title: "家族ヒーリング体験パッケージ",
@@ -295,6 +348,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["家族", "体験", "週末"],
           meetingPoint: "ウォンマウント広場",
           meetingPointNote: "出発20分前到着推奨",
+          options: [
+            { id: "four", label: "家族4名チケット", benefits: ["体験材料込み"] },
+            { id: "six", label: "家族6名チケット", benefits: ["専用スペース提供"] },
+          ],
         },
         "zh-CN": {
           title: "家庭疗愈体验套餐",
@@ -307,6 +364,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["家庭", "体验", "周末"],
           meetingPoint: "WonMount广场",
           meetingPointNote: "建议出发前20分钟到达",
+          options: [
+            { id: "four", label: "家庭4人票", benefits: ["含体验材料"] },
+            { id: "six", label: "家庭6人票", benefits: ["提供专用空间"] },
+          ],
         },
         "zh-TW": {
           title: "家庭療癒體驗套餐",
@@ -319,6 +380,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["家庭", "體驗", "週末"],
           meetingPoint: "WonMount廣場",
           meetingPointNote: "建議出發前20分鐘到達",
+          options: [
+            { id: "four", label: "家庭4人票", benefits: ["含體驗材料"] },
+            { id: "six", label: "家庭6人票", benefits: ["提供專用空間"] },
+          ],
         },
       },
       options: [
@@ -367,6 +432,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["Night Tour", "Photo", "Bus Tour"],
           meetingPoint: "WonMount Plaza",
           meetingPointNote: "Night departure · Arrive 15 min early",
+          options: [
+            { id: "photo", label: "Photo Tour Pass", benefits: ["Photo spot guidance"] },
+            { id: "photo-vip", label: "Premium Photo Pass", benefits: ["Private vehicle", "Night snap included"] },
+          ],
         },
         ja: {
           title: "高陽ナイトフォトバスツアー",
@@ -379,6 +448,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["夜間ツアー", "フォト", "バスツアー"],
           meetingPoint: "ウォンマウント広場",
           meetingPointNote: "夜間出発 · 15分前到着",
+          options: [
+            { id: "photo", label: "フォトツアーチケット", benefits: ["撮影スポット案内"] },
+            { id: "photo-vip", label: "プレミアムフォトチケット", benefits: ["専用車両", "夜景スナップ込み"] },
+          ],
         },
         "zh-CN": {
           title: "高阳夜景摄影巴士游",
@@ -391,6 +464,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["夜间游", "摄影", "巴士游"],
           meetingPoint: "WonMount广场",
           meetingPointNote: "夜间出发 · 提前15分钟到达",
+          options: [
+            { id: "photo", label: "摄影游览票", benefits: ["摄影地点引导"] },
+            { id: "photo-vip", label: "高级摄影票", benefits: ["专用车辆", "含夜景快照"] },
+          ],
         },
         "zh-TW": {
           title: "高陽夜景攝影巴士遊",
@@ -403,6 +480,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           tags: ["夜間遊", "攝影", "巴士遊"],
           meetingPoint: "WonMount廣場",
           meetingPointNote: "夜間出發 · 提前15分鐘到達",
+          options: [
+            { id: "photo", label: "攝影遊覽票", benefits: ["攝影地點引導"] },
+            { id: "photo-vip", label: "高級攝影票", benefits: ["專用車輛", "含夜景快照"] },
+          ],
         },
       },
       options: [
@@ -438,10 +519,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 139000,
       discountLabel: "21%",
       translations: {
-        en: { title: "KINTEX Business Stay", subtitle: "Exhibition attendees only", location: "Business hotels near KINTEX", dateText: "1-5 nights available", posterLabel: "STAY", summary: "A continuous stay package for exhibitors and buyers.", tags: ["Business Hotel", "Exhibition", "Breakfast"] },
-        ja: { title: "KINTEXビジネスステイ", subtitle: "展示参加者専用", location: "KINTEX近隣ビジネスホテル", dateText: "1泊〜5泊予約可能", posterLabel: "STAY", summary: "展示参加者とバイヤーのための連泊型宿泊パッケージ。", tags: ["ビジネスホテル", "展示参加", "朝食選択"] },
-        "zh-CN": { title: "KINTEX商务住宿", subtitle: "展会参会者专属", location: "KINTEX附近商务酒店", dateText: "可预订1-5晚", posterLabel: "STAY", summary: "为展会参会者和买家提供的连续住宿套餐。", tags: ["商务酒店", "展会", "可选早餐"] },
-        "zh-TW": { title: "KINTEX商務住宿", subtitle: "展會參會者專屬", location: "KINTEX附近商務酒店", dateText: "可預訂1-5晚", posterLabel: "STAY", summary: "為展會參會者和買家提供的連續住宿套餐。", tags: ["商務酒店", "展會", "可選早餐"] },
+        en: { title: "KINTEX Business Stay", subtitle: "Exhibition attendees only", location: "Business hotels near KINTEX", dateText: "1-5 nights available", posterLabel: "STAY", summary: "A continuous stay package for exhibitors and buyers.", tags: ["Business Hotel", "Exhibition", "Breakfast"], options: [{ id: "standard", label: "Standard Double", benefits: ["Breakfast option", "Fast check-in"] }, { id: "executive", label: "Executive Twin", benefits: ["Lounge access", "Shuttle included"] }] },
+        ja: { title: "KINTEXビジネスステイ", subtitle: "展示参加者専用", location: "KINTEX近隣ビジネスホテル", dateText: "1泊〜5泊予約可能", posterLabel: "STAY", summary: "展示参加者とバイヤーのための連泊型宿泊パッケージ。", tags: ["ビジネスホテル", "展示参加", "朝食選択"], options: [{ id: "standard", label: "スタンダードダブル", benefits: ["朝食選択", "早期チェックイン"] }, { id: "executive", label: "エグゼクティブツイン", benefits: ["ラウンジ利用", "シャトル込み"] }] },
+        "zh-CN": { title: "KINTEX商务住宿", subtitle: "展会参会者专属", location: "KINTEX附近商务酒店", dateText: "可预订1-5晚", posterLabel: "STAY", summary: "为展会参会者和买家提供的连续住宿套餐。", tags: ["商务酒店", "展会", "可选早餐"], options: [{ id: "standard", label: "标准双人间", benefits: ["可选早餐", "快速入住"] }, { id: "executive", label: "行政双床间", benefits: ["贵宾厅使用", "含班车"] }] },
+        "zh-TW": { title: "KINTEX商務住宿", subtitle: "展會參會者專屬", location: "KINTEX附近商務酒店", dateText: "可預訂1-5晚", posterLabel: "STAY", summary: "為展會參會者和買家提供的連續住宿套餐。", tags: ["商務酒店", "展會", "可選早餐"], options: [{ id: "standard", label: "標準雙人間", benefits: ["可選早餐", "快速入住"] }, { id: "executive", label: "行政雙床間", benefits: ["貴賓廳使用", "含班車"] }] },
       },
       options: [
         {
@@ -474,10 +555,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 345000,
       discountLabel: "18%",
       translations: {
-        en: { title: "VIP Suite Stay", subtitle: "For artists & buyers", location: "Goyang Premium Hotel", dateText: "Per night booking", posterLabel: "VIP", summary: "Suite rooms for artists, VIPs and premium guests.", tags: ["VIP", "Suite", "Concierge"] },
-        ja: { title: "VIPスイートステイ", subtitle: "アーティスト・バイヤー運営", location: "高陽プレミアムホテル", dateText: "1泊単位予約", posterLabel: "VIP", summary: "アーティスト、VIP、高級招待顧客のためのスイートルーム。", tags: ["VIP", "スイート", "コンシェルジュ"] },
-        "zh-CN": { title: "VIP套房住宿", subtitle: "艺人·买家专属", location: "高阳高端酒店", dateText: "按晚预订", posterLabel: "VIP", summary: "为艺人、VIP及贵宾提供的套房产品。", tags: ["VIP", "套房", "礼宾"] },
-        "zh-TW": { title: "VIP套房住宿", subtitle: "藝人·買家專屬", location: "高陽高端酒店", dateText: "按晚預訂", posterLabel: "VIP", summary: "為藝人、VIP及貴賓提供的套房產品。", tags: ["VIP", "套房", "禮賓"] },
+        en: { title: "VIP Suite Stay", subtitle: "For artists & buyers", location: "Goyang Premium Hotel", dateText: "Per night booking", posterLabel: "VIP", summary: "Suite rooms for artists, VIPs and premium guests.", tags: ["VIP", "Suite", "Concierge"], options: [{ id: "suite", label: "Suite 1 Night", benefits: ["Welcome amenity", "Concierge"] }, { id: "suite-car", label: "Suite + Vehicle", benefits: ["Airport transfer", "Private check-in"] }] },
+        ja: { title: "VIPスイートステイ", subtitle: "アーティスト・バイヤー運営", location: "高陽プレミアムホテル", dateText: "1泊単位予約", posterLabel: "VIP", summary: "アーティスト、VIP、高級招待顧客のためのスイートルーム。", tags: ["VIP", "スイート", "コンシェルジュ"], options: [{ id: "suite", label: "スイート1泊", benefits: ["ウェルカムアメニティ", "コンシェルジュ"] }, { id: "suite-car", label: "スイート＋車両", benefits: ["空港連携", "専用チェックイン"] }] },
+        "zh-CN": { title: "VIP套房住宿", subtitle: "艺人·买家专属", location: "高阳高端酒店", dateText: "按晚预订", posterLabel: "VIP", summary: "为艺人、VIP及贵宾提供的套房产品。", tags: ["VIP", "套房", "礼宾"], options: [{ id: "suite", label: "套房1晚", benefits: ["欢迎礼品", "礼宾服务"] }, { id: "suite-car", label: "套房＋用车", benefits: ["机场接送", "专属入住"] }] },
+        "zh-TW": { title: "VIP套房住宿", subtitle: "藝人·買家專屬", location: "高陽高端酒店", dateText: "按晚預訂", posterLabel: "VIP", summary: "為藝人、VIP及貴賓提供的套房產品。", tags: ["VIP", "套房", "禮賓"], options: [{ id: "suite", label: "套房1晚", benefits: ["歡迎禮品", "禮賓服務"] }, { id: "suite-car", label: "套房＋用車", benefits: ["機場接送", "專屬入住"] }] },
       },
       options: [
         {
@@ -510,10 +591,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 185000,
       discountLabel: "22%",
       translations: {
-        en: { title: "Family Weekend Stay Package", subtitle: "Local experience combo", location: "Hotels near Ilsan Lake Park", dateText: "Fri/Sat/Sun operation", posterLabel: "WEEKEND", summary: "A weekend stay package linked with family experience programs.", tags: ["Family", "Weekend", "Experience"] },
-        ja: { title: "家族週末ステイパッケージ", subtitle: "ローカル体験連携", location: "一山湖水公園近隣ホテル", dateText: "金・土・日運営", posterLabel: "WEEKEND", summary: "家族体験プログラムと連携する週末型宿泊パッケージ。", tags: ["家族", "週末", "体験連携"] },
-        "zh-CN": { title: "家庭周末住宿套餐", subtitle: "本地体验连接", location: "一山湖水公园附近酒店", dateText: "周五·六·日运营", posterLabel: "WEEKEND", summary: "与家庭体验项目连接的周末住宿套餐。", tags: ["家庭", "周末", "体验连接"] },
-        "zh-TW": { title: "家庭週末住宿套餐", subtitle: "在地體驗連接", location: "一山湖水公園附近酒店", dateText: "週五·六·日運營", posterLabel: "WEEKEND", summary: "與家庭體驗項目連接的週末住宿套餐。", tags: ["家庭", "週末", "體驗連接"] },
+        en: { title: "Family Weekend Stay Package", subtitle: "Local experience combo", location: "Hotels near Ilsan Lake Park", dateText: "Fri/Sat/Sun operation", posterLabel: "WEEKEND", summary: "A weekend stay package linked with family experience programs.", tags: ["Family", "Weekend", "Experience"], options: [{ id: "family-room", label: "Family Room 1 Night", benefits: ["Children's amenity set"] }, { id: "family-plus", label: "Family Room + Experience", benefits: ["Café coupon", "Experience ticket included"] }] },
+        ja: { title: "家族週末ステイパッケージ", subtitle: "ローカル体験連携", location: "一山湖水公園近隣ホテル", dateText: "金・土・日運営", posterLabel: "WEEKEND", summary: "家族体験プログラムと連携する週末型宿泊パッケージ。", tags: ["家族", "週末", "体験連携"], options: [{ id: "family-room", label: "ファミリールーム1泊", benefits: ["子供用アメニティセット"] }, { id: "family-plus", label: "ファミリールーム＋体験", benefits: ["カフェクーポン", "体験券込み"] }] },
+        "zh-CN": { title: "家庭周末住宿套餐", subtitle: "本地体验连接", location: "一山湖水公园附近酒店", dateText: "周五·六·日运营", posterLabel: "WEEKEND", summary: "与家庭体验项目连接的周末住宿套餐。", tags: ["家庭", "周末", "体验连接"], options: [{ id: "family-room", label: "家庭房1晚", benefits: ["儿童礼品套装"] }, { id: "family-plus", label: "家庭房＋体验", benefits: ["咖啡馆优惠券", "含体验票"] }] },
+        "zh-TW": { title: "家庭週末住宿套餐", subtitle: "在地體驗連接", location: "一山湖水公園附近酒店", dateText: "週五·六·日運營", posterLabel: "WEEKEND", summary: "與家庭體驗項目連接的週末住宿套餐。", tags: ["家庭", "週末", "體驗連接"], options: [{ id: "family-room", label: "家庭房1晚", benefits: ["兒童禮品套裝"] }, { id: "family-plus", label: "家庭房＋體驗", benefits: ["咖啡館優惠券", "含體驗票"] }] },
       },
       options: [
         {
@@ -546,10 +627,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 168000,
       discountLabel: "20%",
       translations: {
-        en: { title: "Group Room Block Reservation", subtitle: "Events · Corporate groups", location: "Multiple major Goyang hotels", dateText: "20+ rooms inquiry", posterLabel: "GROUP", summary: "A room block reservation for event groups.", tags: ["Group", "Room Block", "Post-payment"] },
-        ja: { title: "団体客室ブロック予約", subtitle: "イベント·企業グループ", location: "高陽主要ホテル連携", dateText: "20室以上問い合わせ", posterLabel: "GROUP", summary: "行事団体のための客室ブロック予約商品。", tags: ["団体", "ルームブロック", "後払い"] },
-        "zh-CN": { title: "团体房间预订", subtitle: "活动·企业团体", location: "高阳主要酒店联动", dateText: "20间以上咨询", posterLabel: "GROUP", summary: "为活动团体提供的房间整块预订产品。", tags: ["团体", "房间整块", "后付款"] },
-        "zh-TW": { title: "團體房間預訂", subtitle: "活動·企業團體", location: "高陽主要酒店聯動", dateText: "20間以上諮詢", posterLabel: "GROUP", summary: "為活動團體提供的房間整塊預訂產品。", tags: ["團體", "房間整塊", "後付款"] },
+        en: { title: "Group Room Block Reservation", subtitle: "Events · Corporate groups", location: "Multiple major Goyang hotels", dateText: "20+ rooms inquiry", posterLabel: "GROUP", summary: "A room block reservation for event groups.", tags: ["Group", "Room Block", "Post-payment"], options: [{ id: "block-standard", label: "Basic Room Block", benefits: ["Group list management"] }, { id: "block-premium", label: "Premium Room Block", benefits: ["Shuttle", "Post-payment settlement"] }] },
+        ja: { title: "団体客室ブロック予約", subtitle: "イベント·企業グループ", location: "高陽主要ホテル連携", dateText: "20室以上問い合わせ", posterLabel: "GROUP", summary: "行事団体のための客室ブロック予約商品。", tags: ["団体", "ルームブロック", "後払い"], options: [{ id: "block-standard", label: "基本ルームブロック", benefits: ["グループ名簿管理"] }, { id: "block-premium", label: "プレミアムルームブロック", benefits: ["シャトル", "後払い精算"] }] },
+        "zh-CN": { title: "团体房间预订", subtitle: "活动·企业团体", location: "高阳主要酒店联动", dateText: "20间以上咨询", posterLabel: "GROUP", summary: "为活动团体提供的房间整块预订产品。", tags: ["团体", "房间整块", "后付款"], options: [{ id: "block-standard", label: "基本房间整块", benefits: ["团体名单管理"] }, { id: "block-premium", label: "高级房间整块", benefits: ["班车", "后付款结算"] }] },
+        "zh-TW": { title: "團體房間預訂", subtitle: "活動·企業團體", location: "高陽主要酒店聯動", dateText: "20間以上諮詢", posterLabel: "GROUP", summary: "為活動團體提供的房間整塊預訂產品。", tags: ["團體", "房間整塊", "後付款"], options: [{ id: "block-standard", label: "基本房間整塊", benefits: ["團體名單管理"] }, { id: "block-premium", label: "高級房間整塊", benefits: ["班車", "後付款結算"] }] },
       },
       options: [
         {
@@ -584,10 +665,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 76000,
       discountLabel: "22%",
       translations: {
-        en: { title: "KINTEX Business Course Dining", subtitle: "For buyer meetings", location: "Premium restaurant near KINTEX", dateText: "Lunch/Dinner available", posterLabel: "DINING", summary: "Course dining ideal for buyer meetings and small business dinners.", tags: ["Business", "Course Dining", "Private Room"] },
-        ja: { title: "KINTEXビジネスコースダイニング", subtitle: "バイヤーミーティング専用", location: "KINTEX近隣プレミアムレストラン", dateText: "昼/夜選択可", posterLabel: "DINING", summary: "バイヤーミーティングや小規模ビジネス会食に最適なコースダイニング。", tags: ["ビジネス", "コース", "個室"] },
-        "zh-CN": { title: "KINTEX商务套餐", subtitle: "买家会议专属", location: "KINTEX附近高端餐厅", dateText: "可选午餐/晚餐", posterLabel: "DINING", summary: "适合买家会议和小型商务晚宴的套餐预订。", tags: ["商务", "套餐", "包间"] },
-        "zh-TW": { title: "KINTEX商務套餐", subtitle: "買家會議專屬", location: "KINTEX附近高端餐廳", dateText: "可選午餐/晚餐", posterLabel: "DINING", summary: "適合買家會議和小型商務晚宴的套餐預訂。", tags: ["商務", "套餐", "包間"] },
+        en: { title: "KINTEX Business Course Dining", subtitle: "For buyer meetings", location: "Premium restaurant near KINTEX", dateText: "Lunch/Dinner available", posterLabel: "DINING", summary: "Course dining ideal for buyer meetings and small business dinners.", tags: ["Business", "Course Dining", "Private Room"], options: [{ id: "lunch", label: "Lunch Course", benefits: ["Private room available"] }, { id: "dinner", label: "Dinner Course", benefits: ["Welcome drink included"] }] },
+        ja: { title: "KINTEXビジネスコースダイニング", subtitle: "バイヤーミーティング専用", location: "KINTEX近隣プレミアムレストラン", dateText: "昼/夜選択可", posterLabel: "DINING", summary: "バイヤーミーティングや小規模ビジネス会食に最適なコースダイニング。", tags: ["ビジネス", "コース", "個室"], options: [{ id: "lunch", label: "ランチコース", benefits: ["個室利用可"] }, { id: "dinner", label: "ディナーコース", benefits: ["ウェルカムドリンク込み"] }] },
+        "zh-CN": { title: "KINTEX商务套餐", subtitle: "买家会议专属", location: "KINTEX附近高端餐厅", dateText: "可选午餐/晚餐", posterLabel: "DINING", summary: "适合买家会议和小型商务晚宴的套餐预订。", tags: ["商务", "套餐", "包间"], options: [{ id: "lunch", label: "午餐套餐", benefits: ["可用包间"] }, { id: "dinner", label: "晚餐套餐", benefits: ["含欢迎饮品"] }] },
+        "zh-TW": { title: "KINTEX商務套餐", subtitle: "買家會議專屬", location: "KINTEX附近高端餐廳", dateText: "可選午餐/晚餐", posterLabel: "DINING", summary: "適合買家會議和小型商務晚宴的套餐預訂。", tags: ["商務", "套餐", "包間"], options: [{ id: "lunch", label: "午餐套餐", benefits: ["可用包間"] }, { id: "dinner", label: "晚餐套餐", benefits: ["含歡迎飲品"] }] },
       },
       options: [
         {
@@ -620,10 +701,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 32000,
       discountLabel: "24%",
       translations: {
-        en: { title: "Goyang Local Gourmet Table", subtitle: "Tourism-zone linked", location: "WonMount · La Festa area", dateText: "Daily", posterLabel: "LOCAL FOOD", summary: "A gourmet booking that lets you experience Goyang's local districts.", tags: ["Local Food", "District", "Stay-friendly"] },
-        ja: { title: "高陽ローカル美食テーブル", subtitle: "観光特区商圏連携", location: "ウォンマウント · ラフェスタ", dateText: "毎日運営", posterLabel: "LOCAL FOOD", summary: "高陽のローカル商圏を体験できる美食型予約商品。", tags: ["ローカル美食", "商圏", "滞在型"] },
-        "zh-CN": { title: "高阳本地美食餐桌", subtitle: "旅游特区商圈连接", location: "WonMount · La Festa商圈", dateText: "每日运营", posterLabel: "LOCAL FOOD", summary: "可体验高阳本地商圈的美食型预订产品。", tags: ["本地美食", "商圈", "滞留型"] },
-        "zh-TW": { title: "高陽在地美食餐桌", subtitle: "旅遊特區商圈連接", location: "WonMount · La Festa商圈", dateText: "每日運營", posterLabel: "LOCAL FOOD", summary: "可體驗高陽在地商圈的美食型預訂產品。", tags: ["在地美食", "商圈", "滯留型"] },
+        en: { title: "Goyang Local Gourmet Table", subtitle: "Tourism-zone linked", location: "WonMount · La Festa area", dateText: "Daily", posterLabel: "LOCAL FOOD", summary: "A gourmet booking that lets you experience Goyang's local districts.", tags: ["Local Food", "District", "Stay-friendly"], options: [{ id: "set", label: "Local Set", benefits: ["Signature menu included"] }, { id: "special", label: "Special Course", benefits: ["Dessert included"] }] },
+        ja: { title: "高陽ローカル美食テーブル", subtitle: "観光特区商圏連携", location: "ウォンマウント · ラフェスタ", dateText: "毎日運営", posterLabel: "LOCAL FOOD", summary: "高陽のローカル商圏を体験できる美食型予約商品。", tags: ["ローカル美食", "商圏", "滞在型"], options: [{ id: "set", label: "ローカルセット", benefits: ["代表メニュー込み"] }, { id: "special", label: "スペシャルコース", benefits: ["デザート込み"] }] },
+        "zh-CN": { title: "高阳本地美食餐桌", subtitle: "旅游特区商圈连接", location: "WonMount · La Festa商圈", dateText: "每日运营", posterLabel: "LOCAL FOOD", summary: "可体验高阳本地商圈的美食型预订产品。", tags: ["本地美食", "商圈", "滞留型"], options: [{ id: "set", label: "本地套餐", benefits: ["含招牌菜"] }, { id: "special", label: "特别套餐", benefits: ["含甜点"] }] },
+        "zh-TW": { title: "高陽在地美食餐桌", subtitle: "旅遊特區商圈連接", location: "WonMount · La Festa商圈", dateText: "每日運營", posterLabel: "LOCAL FOOD", summary: "可體驗高陽在地商圈的美食型預訂產品。", tags: ["在地美食", "商圈", "滯留型"], options: [{ id: "set", label: "在地套餐", benefits: ["含招牌菜"] }, { id: "special", label: "特別套餐", benefits: ["含甜點"] }] },
       },
       options: [
         {
@@ -656,10 +737,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 149000,
       discountLabel: "17%",
       translations: {
-        en: { title: "VIP Banquet Night", subtitle: "Private dining", location: "Goyang Private Dining Room", dateText: "Reservation required", posterLabel: "VIP", summary: "Private banquet product for premium invited guests.", tags: ["VIP", "Banquet", "Private"] },
-        ja: { title: "VIP晩餐ナイト", subtitle: "プライベートダイニング", location: "高陽プライベートダイニングルーム", dateText: "事前予約制", posterLabel: "VIP", summary: "高級招待客のためのプライベート晩餐商品。", tags: ["VIP", "晩餐", "プライベート"] },
-        "zh-CN": { title: "VIP晚宴之夜", subtitle: "私人用餐", location: "高阳私人用餐厅", dateText: "需提前预约", posterLabel: "VIP", summary: "为高端邀请宾客提供的私人晚宴产品。", tags: ["VIP", "晚宴", "私人"] },
-        "zh-TW": { title: "VIP晚宴之夜", subtitle: "私人用餐", location: "高陽私人用餐廳", dateText: "需提前預約", posterLabel: "VIP", summary: "為高端邀請賓客提供的私人晚宴產品。", tags: ["VIP", "晚宴", "私人"] },
+        en: { title: "VIP Banquet Night", subtitle: "Private dining", location: "Goyang Private Dining Room", dateText: "Reservation required", posterLabel: "VIP", summary: "Private banquet product for premium invited guests.", tags: ["VIP", "Banquet", "Private"], options: [{ id: "private", label: "Private Dining", benefits: ["Private room", "Custom menu"] }, { id: "private-plus", label: "Private Dining Plus", benefits: ["Wine pairing", "Dedicated service"] }] },
+        ja: { title: "VIP晩餐ナイト", subtitle: "プライベートダイニング", location: "高陽プライベートダイニングルーム", dateText: "事前予約制", posterLabel: "VIP", summary: "高級招待客のためのプライベート晩餐商品。", tags: ["VIP", "晩餐", "プライベート"], options: [{ id: "private", label: "プライベートダイニング", benefits: ["専用ルーム", "カスタムメニュー"] }, { id: "private-plus", label: "プライベートダイニングプラス", benefits: ["ワインペアリング", "専任対応"] }] },
+        "zh-CN": { title: "VIP晚宴之夜", subtitle: "私人用餐", location: "高阳私人用餐厅", dateText: "需提前预约", posterLabel: "VIP", summary: "为高端邀请宾客提供的私人晚宴产品。", tags: ["VIP", "晚宴", "私人"], options: [{ id: "private", label: "私人餐厅", benefits: ["专用包间", "定制菜单"] }, { id: "private-plus", label: "私人餐厅Plus", benefits: ["葡萄酒搭配", "专属服务"] }] },
+        "zh-TW": { title: "VIP晚宴之夜", subtitle: "私人用餐", location: "高陽私人用餐廳", dateText: "需提前預約", posterLabel: "VIP", summary: "為高端邀請賓客提供的私人晚宴產品。", tags: ["VIP", "晚宴", "私人"], options: [{ id: "private", label: "私人餐廳", benefits: ["專用包間", "定製菜單"] }, { id: "private-plus", label: "私人餐廳Plus", benefits: ["葡萄酒搭配", "專屬服務"] }] },
       },
       options: [
         {
@@ -692,10 +773,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 28000,
       discountLabel: "22%",
       translations: {
-        en: { title: "Family Korean Table Reservation", subtitle: "Multi-generation meal", location: "Korean restaurant · Family spaces", dateText: "Weekday/Weekend", posterLabel: "FAMILY TABLE", summary: "Korean-style table reservation ideal for families and group gatherings.", tags: ["Family", "Korean", "Group Meal"] },
-        ja: { title: "家族韓食テーブル予約", subtitle: "世代型食事商品", location: "高陽韓食店 · 家族集まり空間", dateText: "平日/週末運営", posterLabel: "FAMILY TABLE", summary: "家族訪問客と団体集まりに最適な韓食中心の食事予約。", tags: ["家族", "韓食", "団体食"] },
-        "zh-CN": { title: "家庭韩餐预订", subtitle: "多代聚餐产品", location: "高阳韩餐厅 · 家庭聚会空间", dateText: "平日/周末运营", posterLabel: "FAMILY TABLE", summary: "适合家庭访客和团体聚会的韩餐预订。", tags: ["家庭", "韩餐", "团餐"] },
-        "zh-TW": { title: "家庭韓餐預訂", subtitle: "多代聚餐產品", location: "高陽韓餐廳 · 家庭聚會空間", dateText: "平日/週末運營", posterLabel: "FAMILY TABLE", summary: "適合家庭訪客和團體聚會的韓餐預訂。", tags: ["家庭", "韓餐", "團餐"] },
+        en: { title: "Family Korean Table Reservation", subtitle: "Multi-generation meal", location: "Korean restaurant · Family spaces", dateText: "Weekday/Weekend", posterLabel: "FAMILY TABLE", summary: "Korean-style table reservation ideal for families and group gatherings.", tags: ["Family", "Korean", "Group Meal"], options: [{ id: "basic", label: "Basic Korean Table", benefits: ["Recommended for 4 persons"] }, { id: "premium", label: "Premium Korean Table", benefits: ["Seasonal menu included"] }] },
+        ja: { title: "家族韓食テーブル予約", subtitle: "世代型食事商品", location: "高陽韓食店 · 家族集まり空間", dateText: "平日/週末運営", posterLabel: "FAMILY TABLE", summary: "家族訪問客と団体集まりに最適な韓食中心の食事予約。", tags: ["家族", "韓食", "団体食"], options: [{ id: "basic", label: "基本韓食テーブル", benefits: ["4名様推奨"] }, { id: "premium", label: "プレミアム韓食テーブル", benefits: ["季節メニュー込み"] }] },
+        "zh-CN": { title: "家庭韩餐预订", subtitle: "多代聚餐产品", location: "高阳韩餐厅 · 家庭聚会空间", dateText: "平日/周末运营", posterLabel: "FAMILY TABLE", summary: "适合家庭访客和团体聚会的韩餐预订。", tags: ["家庭", "韩餐", "团餐"], options: [{ id: "basic", label: "基本韩餐桌", benefits: ["推荐4人用"] }, { id: "premium", label: "高级韩餐桌", benefits: ["含时令菜单"] }] },
+        "zh-TW": { title: "家庭韓餐預訂", subtitle: "多代聚餐產品", location: "高陽韓餐廳 · 家庭聚會空間", dateText: "平日/週末運營", posterLabel: "FAMILY TABLE", summary: "適合家庭訪客和團體聚會的韓餐預訂。", tags: ["家庭", "韓餐", "團餐"], options: [{ id: "basic", label: "基本韓餐桌", benefits: ["推薦4人用"] }, { id: "premium", label: "高級韓餐桌", benefits: ["含時令菜單"] }] },
       },
       options: [
         {
@@ -730,10 +811,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 24000,
       discountLabel: "25%",
       translations: {
-        en: { title: "Brunch Social Club Reservation", subtitle: "Morning lifestyle program", location: "Goyang Brunch Café Lounge", dateText: "Morning hours", posterLabel: "BRUNCH", summary: "Reservation combining brunch and local lifestyle space.", tags: ["Brunch", "Lounge", "Lifestyle"] },
-        ja: { title: "ブランチソーシャルクラブ予約", subtitle: "ライフスタイル午前プログラム", location: "高陽ブランチカフェラウンジ", dateText: "午前タイム運営", posterLabel: "BRUNCH", summary: "ブランチとローカルライフスタイル空間体験を組み合わせた予約商品。", tags: ["ブランチ", "ラウンジ", "ライフスタイル"] },
-        "zh-CN": { title: "早午餐社交俱乐部预订", subtitle: "生活方式早间项目", location: "高阳早午餐咖啡厅", dateText: "上午运营", posterLabel: "BRUNCH", summary: "结合早午餐和本地生活方式空间的预订产品。", tags: ["早午餐", "休闲厅", "生活方式"] },
-        "zh-TW": { title: "早午餐社交俱樂部預訂", subtitle: "生活風格早間項目", location: "高陽早午餐咖啡廳", dateText: "上午運營", posterLabel: "BRUNCH", summary: "結合早午餐和在地生活風格空間的預訂產品。", tags: ["早午餐", "休閒廳", "生活風格"] },
+        en: { title: "Brunch Social Club Reservation", subtitle: "Morning lifestyle program", location: "Goyang Brunch Café Lounge", dateText: "Morning hours", posterLabel: "BRUNCH", summary: "Reservation combining brunch and local lifestyle space.", tags: ["Brunch", "Lounge", "Lifestyle"], options: [{ id: "single", label: "Brunch Single Pass", benefits: ["Signature menu included"] }, { id: "couple", label: "Brunch Couple Pass", benefits: ["Dessert included"] }] },
+        ja: { title: "ブランチソーシャルクラブ予約", subtitle: "ライフスタイル午前プログラム", location: "高陽ブランチカフェラウンジ", dateText: "午前タイム運営", posterLabel: "BRUNCH", summary: "ブランチとローカルライフスタイル空間体験を組み合わせた予約商品。", tags: ["ブランチ", "ラウンジ", "ライフスタイル"], options: [{ id: "single", label: "ブランチ1名チケット", benefits: ["代表メニュー込み"] }, { id: "couple", label: "ブランチ2名チケット", benefits: ["デザート込み"] }] },
+        "zh-CN": { title: "早午餐社交俱乐部预订", subtitle: "生活方式早间项目", location: "高阳早午餐咖啡厅", dateText: "上午运营", posterLabel: "BRUNCH", summary: "结合早午餐和本地生活方式空间的预订产品。", tags: ["早午餐", "休闲厅", "生活方式"], options: [{ id: "single", label: "早午餐单人票", benefits: ["含招牌菜单"] }, { id: "couple", label: "早午餐双人票", benefits: ["含甜点"] }] },
+        "zh-TW": { title: "早午餐社交俱樂部預訂", subtitle: "生活風格早間項目", location: "高陽早午餐咖啡廳", dateText: "上午運營", posterLabel: "BRUNCH", summary: "結合早午餐和在地生活風格空間的預訂產品。", tags: ["早午餐", "休閒廳", "生活風格"], options: [{ id: "single", label: "早午餐單人票", benefits: ["含招牌菜單"] }, { id: "couple", label: "早午餐雙人票", benefits: ["含甜點"] }] },
       },
       options: [
         {
@@ -766,10 +847,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 29000,
       discountLabel: "24%",
       translations: {
-        en: { title: "Goyang Local Cafe Hopping Tour", subtitle: "Taste-based half-day course", location: "Haengju · Ilsan Local Cafés", dateText: "Afternoon focus", posterLabel: "CAFE HOP", summary: "A lifestyle tour connecting café reservations with routes.", tags: ["Café Tour", "Local Space", "Half-day"] },
-        ja: { title: "高陽ローカルカフェホッピングツアー", subtitle: "趣向ベース半日コース", location: "幸州山城 · 一山ローカルカフェ", dateText: "午後集中運営", posterLabel: "CAFE HOP", summary: "カフェ予約と移動動線を組み合わせたライフスタイルツアー。", tags: ["カフェツアー", "ローカル空間", "半日コース"] },
-        "zh-CN": { title: "高阳本地咖啡馆巡游", subtitle: "品味型半日行程", location: "幸州山城 · 一山本地咖啡馆", dateText: "下午集中运营", posterLabel: "CAFE HOP", summary: "结合咖啡馆预订与行程动线的生活方式巡游产品。", tags: ["咖啡馆游", "本地空间", "半日游"] },
-        "zh-TW": { title: "高陽在地咖啡館巡遊", subtitle: "品味型半日行程", location: "幸州山城 · 一山在地咖啡館", dateText: "下午集中運營", posterLabel: "CAFE HOP", summary: "結合咖啡館預訂與行程動線的生活風格巡遊產品。", tags: ["咖啡館遊", "在地空間", "半日遊"] },
+        en: { title: "Goyang Local Cafe Hopping Tour", subtitle: "Taste-based half-day course", location: "Haengju · Ilsan Local Cafés", dateText: "Afternoon focus", posterLabel: "CAFE HOP", summary: "A lifestyle tour connecting café reservations with routes.", tags: ["Café Tour", "Local Space", "Half-day"], options: [{ id: "hop-basic", label: "2-Café Course", benefits: ["2 drinks included"] }, { id: "hop-plus", label: "3-Café Course", benefits: ["Dessert included"] }] },
+        ja: { title: "高陽ローカルカフェホッピングツアー", subtitle: "趣向ベース半日コース", location: "幸州山城 · 一山ローカルカフェ", dateText: "午後集中運営", posterLabel: "CAFE HOP", summary: "カフェ予約と移動動線を組み合わせたライフスタイルツアー。", tags: ["カフェツアー", "ローカル空間", "半日コース"], options: [{ id: "hop-basic", label: "カフェ2店舗コース", benefits: ["ドリンク2杯込み"] }, { id: "hop-plus", label: "カフェ3店舗コース", benefits: ["デザート込み"] }] },
+        "zh-CN": { title: "高阳本地咖啡馆巡游", subtitle: "品味型半日行程", location: "幸州山城 · 一山本地咖啡馆", dateText: "下午集中运营", posterLabel: "CAFE HOP", summary: "结合咖啡馆预订与行程动线的生活方式巡游产品。", tags: ["咖啡馆游", "本地空间", "半日游"], options: [{ id: "hop-basic", label: "2家咖啡馆路线", benefits: ["含2杯饮品"] }, { id: "hop-plus", label: "3家咖啡馆路线", benefits: ["含甜点"] }] },
+        "zh-TW": { title: "高陽在地咖啡館巡遊", subtitle: "品味型半日行程", location: "幸州山城 · 一山在地咖啡館", dateText: "下午集中運營", posterLabel: "CAFE HOP", summary: "結合咖啡館預訂與行程動線的生活風格巡遊產品。", tags: ["咖啡館遊", "在地空間", "半日遊"], options: [{ id: "hop-basic", label: "2家咖啡館路線", benefits: ["含2杯飲品"] }, { id: "hop-plus", label: "3家咖啡館路線", benefits: ["含甜點"] }] },
       },
       options: [
         {
@@ -802,10 +883,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 42000,
       discountLabel: "22%",
       translations: {
-        en: { title: "Creative Work Lounge", subtitle: "Small meetings · Creative gatherings", location: "Goyang Lifestyle Studio", dateText: "Weekday/Weekend time slots", posterLabel: "WORK LOUNGE", summary: "Space reservation for work, conversations and meetings.", tags: ["Space Rental", "Meeting", "Creative"] },
-        ja: { title: "クリエイティブワークラウンジ", subtitle: "小規模ミーティング·創作集まり", location: "高陽ライフスタイルスタジオ", dateText: "平日/週末時間選択", posterLabel: "WORK LOUNGE", summary: "作業·対話·ミーティングが可能な感度の高い空間予約サービス。", tags: ["空間レンタル", "ミーティング", "創作"] },
-        "zh-CN": { title: "创意工作休息室", subtitle: "小型会议 · 创作聚会", location: "高阳生活方式工作室", dateText: "平日/周末时段可选", posterLabel: "WORK LOUNGE", summary: "可进行工作、对话和会议的高品质空间预订服务。", tags: ["空间租赁", "会议", "创作"] },
-        "zh-TW": { title: "創意工作休息室", subtitle: "小型會議 · 創作聚會", location: "高陽生活風格工作室", dateText: "平日/週末時段可選", posterLabel: "WORK LOUNGE", summary: "可進行工作、對話和會議的高品質空間預訂服務。", tags: ["空間租賃", "會議", "創作"] },
+        en: { title: "Creative Work Lounge", subtitle: "Small meetings · Creative gatherings", location: "Goyang Lifestyle Studio", dateText: "Weekday/Weekend time slots", posterLabel: "WORK LOUNGE", summary: "Space reservation for work, conversations and meetings.", tags: ["Space Rental", "Meeting", "Creative"], options: [{ id: "space-only", label: "Space Rental", benefits: ["2-hour rental"] }, { id: "space-drink", label: "Space + Drink Package", benefits: ["Welcome drink included"] }] },
+        ja: { title: "クリエイティブワークラウンジ", subtitle: "小規模ミーティング·創作集まり", location: "高陽ライフスタイルスタジオ", dateText: "平日/週末時間選択", posterLabel: "WORK LOUNGE", summary: "作業·対話·ミーティングが可能な感度の高い空間予約サービス。", tags: ["空間レンタル", "ミーティング", "創作"], options: [{ id: "space-only", label: "スペース利用券", benefits: ["2時間貸し切り"] }, { id: "space-drink", label: "スペース＋ドリンクパッケージ", benefits: ["ウェルカムドリンク込み"] }] },
+        "zh-CN": { title: "创意工作休息室", subtitle: "小型会议 · 创作聚会", location: "高阳生活方式工作室", dateText: "平日/周末时段可选", posterLabel: "WORK LOUNGE", summary: "可进行工作、对话和会议的高品质空间预订服务。", tags: ["空间租赁", "会议", "创作"], options: [{ id: "space-only", label: "空间租赁券", benefits: ["2小时包场"] }, { id: "space-drink", label: "空间＋饮品套餐", benefits: ["含欢迎饮品"] }] },
+        "zh-TW": { title: "創意工作休息室", subtitle: "小型會議 · 創作聚會", location: "高陽生活風格工作室", dateText: "平日/週末時段可選", posterLabel: "WORK LOUNGE", summary: "可進行工作、對話和會議的高品質空間預訂服務。", tags: ["空間租賃", "會議", "創作"], options: [{ id: "space-only", label: "空間租賃券", benefits: ["2小時包場"] }, { id: "space-drink", label: "空間＋飲品套餐", benefits: ["含歡迎飲品"] }] },
       },
       options: [
         {
@@ -838,10 +919,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       price: 28000,
       discountLabel: "22%",
       translations: {
-        en: { title: "Sunset Rooftop Cafe Reservation", subtitle: "Night-vibe stay", location: "Goyang Rooftop Café", dateText: "Fri/Sat Night", posterLabel: "ROOFTOP", summary: "Rooftop cafe reservation enjoying night views, drinks and music.", tags: ["Rooftop", "Night", "Emotional Stay"] },
-        ja: { title: "サンセットルーフトップカフェ予約", subtitle: "夜間感性滞在型", location: "高陽ルーフトップカフェ", dateText: "金·土夜間運営", posterLabel: "ROOFTOP", summary: "夜景·ドリンク·音楽を楽しむルーフトップカフェ予約商品。", tags: ["ルーフトップ", "夜間", "感性滞在"] },
-        "zh-CN": { title: "日落屋顶咖啡馆预订", subtitle: "夜间感性滞留型", location: "高阳屋顶咖啡馆", dateText: "周五·六夜间运营", posterLabel: "ROOFTOP", summary: "一边欣赏夜景、享受饮品与音乐的屋顶咖啡馆预订产品。", tags: ["屋顶", "夜间", "感性滞留"] },
-        "zh-TW": { title: "日落屋頂咖啡館預訂", subtitle: "夜間感性滯留型", location: "高陽屋頂咖啡館", dateText: "週五·六夜間運營", posterLabel: "ROOFTOP", summary: "一邊欣賞夜景、享受飲品與音樂的屋頂咖啡館預訂產品。", tags: ["屋頂", "夜間", "感性滯留"] },
+        en: { title: "Sunset Rooftop Cafe Reservation", subtitle: "Night-vibe stay", location: "Goyang Rooftop Café", dateText: "Fri/Sat Night", posterLabel: "ROOFTOP", summary: "Rooftop cafe reservation enjoying night views, drinks and music.", tags: ["Rooftop", "Night", "Emotional Stay"], options: [{ id: "sunset", label: "Sunset Package", benefits: ["2 drinks included"] }, { id: "sunset-plus", label: "Sunset Platter", benefits: ["Brunch platter included"] }] },
+        ja: { title: "サンセットルーフトップカフェ予約", subtitle: "夜間感性滞在型", location: "高陽ルーフトップカフェ", dateText: "金·土夜間運営", posterLabel: "ROOFTOP", summary: "夜景·ドリンク·音楽を楽しむルーフトップカフェ予約商品。", tags: ["ルーフトップ", "夜間", "感性滞在"], options: [{ id: "sunset", label: "サンセットパッケージ", benefits: ["ドリンク2杯込み"] }, { id: "sunset-plus", label: "サンセットプラッター", benefits: ["ブランチプラッター込み"] }] },
+        "zh-CN": { title: "日落屋顶咖啡馆预订", subtitle: "夜间感性滞留型", location: "高阳屋顶咖啡馆", dateText: "周五·六夜间运营", posterLabel: "ROOFTOP", summary: "一边欣赏夜景、享受饮品与音乐的屋顶咖啡馆预订产品。", tags: ["屋顶", "夜间", "感性滞留"], options: [{ id: "sunset", label: "日落套餐", benefits: ["含2杯饮品"] }, { id: "sunset-plus", label: "日落拼盘", benefits: ["含早午餐拼盘"] }] },
+        "zh-TW": { title: "日落屋頂咖啡館預訂", subtitle: "夜間感性滯留型", location: "高陽屋頂咖啡館", dateText: "週五·六夜間運營", posterLabel: "ROOFTOP", summary: "一邊欣賞夜景、享受飲品與音樂的屋頂咖啡館預訂產品。", tags: ["屋頂", "夜間", "感性滯留"], options: [{ id: "sunset", label: "日落套餐", benefits: ["含2杯飲品"] }, { id: "sunset-plus", label: "日落拼盤", benefits: ["含早午餐拼盤"] }] },
       },
       options: [
         {
@@ -874,10 +955,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       tags: ["인천공항", "픽업", "VIP 이동"],
       price: 0,
       translations: {
-        en: { title: "Incheon Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Incheon Int'l Airport T1·T2", dateText: "365 days · 24h", posterLabel: "AIRPORT", summary: "Safe and convenient transfer from Incheon Airport to Goyang venues.", tags: ["Incheon Airport", "Pickup", "VIP Transfer"] },
-        ja: { title: "仁川空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "仁川国際空港 第1·2ターミナル", dateText: "365日 · 24時間", posterLabel: "AIRPORT", summary: "仁川空港から高陽の主要施設まで安全・快適な移動サービス。", tags: ["仁川空港", "ピックアップ", "VIP送迎"] },
-        "zh-CN": { title: "仁川机场接送预约", subtitle: "机场接送服务", location: "仁川国际机场 T1·T2", dateText: "全年·24小时", posterLabel: "AIRPORT", summary: "从仁川机场到高阳市主要地点的安全便捷接送服务。", tags: ["仁川机场", "接送", "VIP接送"] },
-        "zh-TW": { title: "仁川機場接送預約", subtitle: "機場接送服務", location: "仁川國際機場 T1·T2", dateText: "全年·24小時", posterLabel: "AIRPORT", summary: "從仁川機場到高陽市主要地點的安全便捷接送服務。", tags: ["仁川機場", "接送", "VIP接送"] },
+        en: { title: "Incheon Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Incheon Int'l Airport T1·T2", dateText: "365 days · 24h", posterLabel: "AIRPORT", summary: "Safe and convenient transfer from Incheon Airport to Goyang venues.", tags: ["Incheon Airport", "Pickup", "VIP Transfer"], options: [{ id: "sedan", label: "Sedan (1-3 persons)", benefits: ["Dedicated driver", "24/7 service"] }, { id: "van", label: "Van (4-7 persons)", benefits: ["Large trunk", "Group available"] }, { id: "vip-van", label: "VIP Limousine (1-4 persons)", benefits: ["VIP protocol", "Welcome board"] }] },
+        ja: { title: "仁川空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "仁川国際空港 第1·2ターミナル", dateText: "365日 · 24時間", posterLabel: "AIRPORT", summary: "仁川空港から高陽の主要施設まで安全・快適な移動サービス。", tags: ["仁川空港", "ピックアップ", "VIP送迎"], options: [{ id: "sedan", label: "セダン（1〜3名）", benefits: ["専任ドライバー", "24時間対応"] }, { id: "van", label: "バン（4〜7名）", benefits: ["大型トランク", "団体対応"] }, { id: "vip-van", label: "VIPリムジン（1〜4名）", benefits: ["VIP送迎", "ウェルカムボード"] }] },
+        "zh-CN": { title: "仁川机场接送预约", subtitle: "机场接送服务", location: "仁川国际机场 T1·T2", dateText: "全年·24小时", posterLabel: "AIRPORT", summary: "从仁川机场到高阳市主要地点的安全便捷接送服务。", tags: ["仁川机场", "接送", "VIP接送"], options: [{ id: "sedan", label: "轿车（1-3人）", benefits: ["专属司机", "24小时服务"] }, { id: "van", label: "商务车（4-7人）", benefits: ["大型行李箱", "可接团体"] }, { id: "vip-van", label: "VIP豪华车（1-4人）", benefits: ["VIP礼宾", "欢迎牌"] }] },
+        "zh-TW": { title: "仁川機場接送預約", subtitle: "機場接送服務", location: "仁川國際機場 T1·T2", dateText: "全年·24小時", posterLabel: "AIRPORT", summary: "從仁川機場到高陽市主要地點的安全便捷接送服務。", tags: ["仁川機場", "接送", "VIP接送"], options: [{ id: "sedan", label: "轎車（1-3人）", benefits: ["專屬司機", "24小時服務"] }, { id: "van", label: "商務車（4-7人）", benefits: ["大型行李箱", "可接團體"] }, { id: "vip-van", label: "VIP豪華車（1-4人）", benefits: ["VIP禮賓", "歡迎牌"] }] },
       },
       options: [
         { id: "sedan", label: "세단 (1-3인)", price: 85000, benefits: ["전용 기사", "24시간"] },
@@ -899,10 +980,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       tags: ["김포공항", "픽업", "단거리"],
       price: 0,
       translations: {
-        en: { title: "Gimpo Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Gimpo International Airport", dateText: "365 days · 06:00-24:00", posterLabel: "GIMPO", summary: "Fast and convenient transfer from Gimpo Airport to Goyang.", tags: ["Gimpo Airport", "Pickup", "Short-haul"] },
-        ja: { title: "金浦空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "金浦国際空港", dateText: "365日 · 06:00-24:00", posterLabel: "GIMPO", summary: "金浦空港から高陽市の主要施設まで快適な送迎サービス。", tags: ["金浦空港", "ピックアップ", "近距離"] },
-        "zh-CN": { title: "金浦机场接送预约", subtitle: "机场接送服务", location: "金浦国际机场", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "从金浦机场到高阳市主要地点的快速便捷接送服务。", tags: ["金浦机场", "接送", "短途"] },
-        "zh-TW": { title: "金浦機場接送預約", subtitle: "機場接送服務", location: "金浦國際機場", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "從金浦機場到高陽市主要地點的快速便捷接送服務。", tags: ["金浦機場", "接送", "短途"] },
+        en: { title: "Gimpo Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Gimpo International Airport", dateText: "365 days · 06:00-24:00", posterLabel: "GIMPO", summary: "Fast and convenient transfer from Gimpo Airport to Goyang.", tags: ["Gimpo Airport", "Pickup", "Short-haul"], options: [{ id: "sedan", label: "Sedan (1-3 persons)", benefits: ["Dedicated driver", "Direct route"] }, { id: "van", label: "Van (4-7 persons)", benefits: ["Group available"] }] },
+        ja: { title: "金浦空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "金浦国際空港", dateText: "365日 · 06:00-24:00", posterLabel: "GIMPO", summary: "金浦空港から高陽市の主要施設まで快適な送迎サービス。", tags: ["金浦空港", "ピックアップ", "近距離"], options: [{ id: "sedan", label: "セダン（1〜3名）", benefits: ["専任ドライバー", "直通"] }, { id: "van", label: "バン（4〜7名）", benefits: ["団体対応"] }] },
+        "zh-CN": { title: "金浦机场接送预约", subtitle: "机场接送服务", location: "金浦国际机场", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "从金浦机场到高阳市主要地点的快速便捷接送服务。", tags: ["金浦机场", "接送", "短途"], options: [{ id: "sedan", label: "轿车（1-3人）", benefits: ["专属司机", "直达"] }, { id: "van", label: "商务车（4-7人）", benefits: ["可接团体"] }] },
+        "zh-TW": { title: "金浦機場接送預約", subtitle: "機場接送服務", location: "金浦國際機場", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "從金浦機場到高陽市主要地點的快速便捷接送服務。", tags: ["金浦機場", "接送", "短途"], options: [{ id: "sedan", label: "轎車（1-3人）", benefits: ["專屬司機", "直達"] }, { id: "van", label: "商務車（4-7人）", benefits: ["可接團體"] }] },
       },
       options: [
         { id: "sedan", label: "세단 (1-3인)", price: 55000, benefits: ["전용 기사", "직통"] },

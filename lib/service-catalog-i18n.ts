@@ -34,7 +34,7 @@ export function getLocalizedServiceItem<T extends ServiceCatalogItem>(
 
   if (!t) return item;
 
-  return {
+  const baseResult = {
     ...item,
     title: t.title ?? item.title,
     subtitle: t.subtitle ?? item.subtitle,
@@ -55,6 +55,21 @@ export function getLocalizedServiceItem<T extends ServiceCatalogItem>(
     includes: t.includes ?? item.includes,
     couponGuide: t.couponGuide ?? item.couponGuide,
   };
+
+  if (t.options && t.options.length > 0) {
+    const mergedOptions = item.options.map((opt) => {
+      const tOpt = t.options!.find((o) => o.id === opt.id);
+      if (!tOpt) return opt;
+      return {
+        ...opt,
+        label: tOpt.label ?? opt.label,
+        benefits: tOpt.benefits ?? opt.benefits,
+      };
+    });
+    return { ...baseResult, options: mergedOptions };
+  }
+
+  return baseResult;
 }
 
 function findStaticItemById(id: string): ServiceCatalogItem | undefined {
