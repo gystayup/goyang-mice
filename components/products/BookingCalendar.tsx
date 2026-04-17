@@ -2,7 +2,119 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
+import { useLocale } from "next-intl";
 
+// ─── i18n ────────────────────────────────────────────────────────────────────
+type SupportedLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+const localeToBCP47: Record<SupportedLocale, string> = {
+  ko: "ko-KR",
+  en: "en-US",
+  ja: "ja-JP",
+  "zh-CN": "zh-CN",
+  "zh-TW": "zh-TW",
+};
+
+const WEEKDAYS: Record<SupportedLocale, string[]> = {
+  ko: ["일", "월", "화", "수", "목", "금", "토"],
+  en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  ja: ["日", "月", "火", "水", "木", "金", "土"],
+  "zh-CN": ["日", "一", "二", "三", "四", "五", "六"],
+  "zh-TW": ["日", "一", "二", "三", "四", "五", "六"],
+};
+
+const T = {
+  prevMonth: {
+    ko: "이전 달",
+    en: "Previous month",
+    ja: "前の月",
+    "zh-CN": "上个月",
+    "zh-TW": "上個月",
+  },
+  nextMonth: {
+    ko: "다음 달",
+    en: "Next month",
+    ja: "次の月",
+    "zh-CN": "下个月",
+    "zh-TW": "下個月",
+  },
+  soldOutAria: {
+    ko: "(매진)",
+    en: "(Sold out)",
+    ja: "(売切)",
+    "zh-CN": "(售罄)",
+    "zh-TW": "(售罄)",
+  },
+  timeSelect: {
+    ko: "시간 선택",
+    en: "Select Time",
+    ja: "時間を選択",
+    "zh-CN": "选择时间",
+    "zh-TW": "選擇時間",
+  },
+  soldOut: {
+    ko: "마감",
+    en: "Full",
+    ja: "満席",
+    "zh-CN": "已满",
+    "zh-TW": "已滿",
+  },
+  ticketsLabel: {
+    ko: "매수",
+    en: "Tickets",
+    ja: "枚数",
+    "zh-CN": "张数",
+    "zh-TW": "張數",
+  },
+  personsLabel: {
+    ko: "인원",
+    en: "Persons",
+    ja: "人数",
+    "zh-CN": "人数",
+    "zh-TW": "人數",
+  },
+  decrease: {
+    ko: "줄이기",
+    en: "Decrease",
+    ja: "減らす",
+    "zh-CN": "减少",
+    "zh-TW": "減少",
+  },
+  increase: {
+    ko: "늘이기",
+    en: "Increase",
+    ja: "増やす",
+    "zh-CN": "增加",
+    "zh-TW": "增加",
+  },
+  confirmDate: {
+    ko: "날짜 선택 완료",
+    en: "Confirm Date",
+    ja: "日付を確定",
+    "zh-CN": "确认日期",
+    "zh-TW": "確認日期",
+  },
+  selectDateFirst: {
+    ko: "날짜를 먼저 선택해 주세요",
+    en: "Please select a date",
+    ja: "日付を選択してください",
+    "zh-CN": "请先选择日期",
+    "zh-TW": "請先選擇日期",
+  },
+  selectTime: {
+    ko: "시간을 선택해 주세요",
+    en: "Please select a time",
+    ja: "時間を選択してください",
+    "zh-CN": "请选择时间",
+    "zh-TW": "請選擇時間",
+  },
+} satisfies Record<string, Record<SupportedLocale, string>>;
+
+function t(key: keyof typeof T, locale: SupportedLocale): string {
+  return T[key][locale] ?? T[key]["ko"];
+}
+
+// ─── Calendar props & defaults ────────────────────────────────────────────────
 export interface BookingCalendarProps {
   category: "tour" | "restaurant" | "cafe" | "ticket";
   performanceDates?: Date[];
@@ -39,6 +151,12 @@ export default function BookingCalendar({
   fullSlots,
   onConfirm,
 }: BookingCalendarProps) {
+  const rawLocale = useLocale();
+  const locale = (["ko", "en", "ja", "zh-CN", "zh-TW"].includes(rawLocale)
+    ? rawLocale
+    : "ko") as SupportedLocale;
+  const bcp47 = localeToBCP47[locale];
+
   const today = toMidnight(new Date());
 
   const [viewYear, setViewYear] = useState(today.getFullYear());
@@ -80,7 +198,7 @@ export default function BookingCalendar({
   // Pad end to complete the last row
   while (cells.length % 7 !== 0) cells.push(null);
 
-  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString("ko-KR", {
+  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(bcp47, {
     year: "numeric",
     month: "long",
   });
@@ -112,8 +230,8 @@ export default function BookingCalendar({
   const slots =
     timeSlots && timeSlots.length > 0 ? timeSlots : DEFAULT_SLOTS[category];
 
-  // ── Count ─────────────────────────────────────────────────────────────────
-  const countLabel = category === "ticket" ? "매수" : "인원";
+  // ── Count label ───────────────────────────────────────────────────────────
+  const countLabel = category === "ticket" ? t("ticketsLabel", locale) : t("personsLabel", locale);
 
   // ── Confirm ───────────────────────────────────────────────────────────────
   const canConfirm = selectedDate !== null && selectedSlot !== null;
@@ -121,6 +239,15 @@ export default function BookingCalendar({
   function handleConfirm() {
     if (!canConfirm) return;
     onConfirm(selectedDate!, selectedSlot!, count);
+  }
+
+  // ── Date aria-label helper ────────────────────────────────────────────────
+  function dateAriaLabel(d: Date, soldOut: boolean): string {
+    const dateStr = d.toLocaleDateString(bcp47, {
+      month: "long",
+      day: "numeric",
+    });
+    return soldOut ? `${dateStr} ${t("soldOutAria", locale)}` : dateStr;
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -132,7 +259,7 @@ export default function BookingCalendar({
           type="button"
           onClick={goPrevMonth}
           className="flex h-7 w-7 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 active:scale-95"
-          aria-label="이전 달"
+          aria-label={t("prevMonth", locale)}
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -141,7 +268,7 @@ export default function BookingCalendar({
           type="button"
           onClick={goNextMonth}
           className="flex h-7 w-7 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 active:scale-95"
-          aria-label="다음 달"
+          aria-label={t("nextMonth", locale)}
         >
           <ChevronRight className="h-4 w-4" />
         </button>
@@ -149,7 +276,7 @@ export default function BookingCalendar({
 
       {/* Weekday headers */}
       <div className="grid grid-cols-7 border-t border-slate-100">
-        {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
+        {WEEKDAYS[locale].map((day) => (
           <div
             key={day}
             className="py-1.5 text-center text-[10px] font-bold text-slate-400"
@@ -194,7 +321,7 @@ export default function BookingCalendar({
                 disabled={disabled}
                 onClick={() => handleDateClick(d)}
                 className={cellCls}
-                aria-label={`${d.getDate()}일${soldOut ? " (매진)" : ""}`}
+                aria-label={dateAriaLabel(d, soldOut)}
               >
                 {d.getDate()}
                 {/* Performance dot indicator (not selected) */}
@@ -210,7 +337,7 @@ export default function BookingCalendar({
       {/* ── Time slots (shown after date picked) ─────────────────────────── */}
       {selectedDate && (
         <div className="border-t border-slate-100 px-5 py-4">
-          <p className="mb-3 text-sm font-bold text-slate-700">시간 선택</p>
+          <p className="mb-3 text-sm font-bold text-slate-700">{t("timeSelect", locale)}</p>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
             {slots.map((slot) => {
               const isFull = fullSlots?.includes(slot) ?? false;
@@ -239,7 +366,9 @@ export default function BookingCalendar({
                 >
                   {slot}
                   {isFull && (
-                    <span className="ml-1 text-[10px] font-semibold text-red-300">마감</span>
+                    <span className="ml-1 text-[10px] font-semibold text-red-300">
+                      {t("soldOut", locale)}
+                    </span>
                   )}
                 </button>
               );
@@ -259,7 +388,7 @@ export default function BookingCalendar({
                 onClick={() => setCount((c) => Math.max(1, c - 1))}
                 disabled={count <= 1}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
-                aria-label="줄이기"
+                aria-label={t("decrease", locale)}
               >
                 <Minus className="h-4 w-4" />
               </button>
@@ -271,7 +400,7 @@ export default function BookingCalendar({
                 onClick={() => setCount((c) => Math.min(10, c + 1))}
                 disabled={count >= 10}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
-                aria-label="늘이기"
+                aria-label={t("increase", locale)}
               >
                 <Plus className="h-4 w-4" />
               </button>
@@ -288,13 +417,13 @@ export default function BookingCalendar({
           onClick={handleConfirm}
           className="w-full rounded-2xl bg-slate-950 py-3.5 text-base font-black text-white shadow-sm transition hover:bg-slate-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30"
         >
-          날짜 선택 완료
+          {t("confirmDate", locale)}
         </button>
         {!selectedDate && (
-          <p className="mt-2 text-center text-xs text-slate-400">날짜를 먼저 선택해 주세요</p>
+          <p className="mt-2 text-center text-xs text-slate-400">{t("selectDateFirst", locale)}</p>
         )}
         {selectedDate && !selectedSlot && (
-          <p className="mt-2 text-center text-xs text-slate-400">시간을 선택해 주세요</p>
+          <p className="mt-2 text-center text-xs text-slate-400">{t("selectTime", locale)}</p>
         )}
       </div>
     </div>

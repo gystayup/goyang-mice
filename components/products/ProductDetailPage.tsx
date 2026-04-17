@@ -18,11 +18,251 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Link } from "@/lib/navigation";
+import { useLocale } from "next-intl";
 import type { ServiceCatalogItem } from "@/data/service-catalog";
 import type { TicketProduct } from "@/data/ticket-booking";
 import BookingCalendar from "@/components/products/BookingCalendar";
 import type { BookingCalendarProps } from "@/components/products/BookingCalendar";
 
+// ─── i18n ────────────────────────────────────────────────────────────────────
+type SupportedLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+const localeToBCP47: Record<SupportedLocale, string> = {
+  ko: "ko-KR",
+  en: "en-US",
+  ja: "ja-JP",
+  "zh-CN": "zh-CN",
+  "zh-TW": "zh-TW",
+};
+
+const T = {
+  // Tab labels
+  tabNotice: {
+    ko: "공지사항",
+    en: "Notice",
+    ja: "お知らせ",
+    "zh-CN": "公告",
+    "zh-TW": "公告",
+  },
+  tabCasting: {
+    ko: "캐스팅",
+    en: "Casting",
+    ja: "キャスト",
+    "zh-CN": "演员表",
+    "zh-TW": "演員表",
+  },
+  tabDetails: {
+    ko: "상품상세",
+    en: "Details",
+    ja: "商品詳細",
+    "zh-CN": "商品详情",
+    "zh-TW": "商品詳情",
+  },
+  tabPrice: {
+    ko: "가격",
+    en: "Price",
+    ja: "料金",
+    "zh-CN": "价格",
+    "zh-TW": "價格",
+  },
+  tabDiscount: {
+    ko: "할인정보",
+    en: "Discounts",
+    ja: "割引情報",
+    "zh-CN": "优惠信息",
+    "zh-TW": "優惠資訊",
+  },
+  tabUsage: {
+    ko: "이용안내",
+    en: "Usage Info",
+    ja: "ご利用案内",
+    "zh-CN": "使用须知",
+    "zh-TW": "使用須知",
+  },
+  tabVenue: {
+    ko: "장소",
+    en: "Venue",
+    ja: "会場",
+    "zh-CN": "场地",
+    "zh-TW": "場地",
+  },
+  tabCancellation: {
+    ko: "취소·환불",
+    en: "Cancellation",
+    ja: "キャンセル・返金",
+    "zh-CN": "取消·退款",
+    "zh-TW": "取消·退款",
+  },
+  // Info labels
+  labelLocation: {
+    ko: "장소",
+    en: "Venue",
+    ja: "会場",
+    "zh-CN": "地点",
+    "zh-TW": "地點",
+  },
+  labelSchedule: {
+    ko: "운영",
+    en: "Schedule",
+    ja: "スケジュール",
+    "zh-CN": "运营",
+    "zh-TW": "運營",
+  },
+  labelDuration: {
+    ko: "소요시간",
+    en: "Duration",
+    ja: "所要時間",
+    "zh-CN": "时长",
+    "zh-TW": "時長",
+  },
+  labelAge: {
+    ko: "연령",
+    en: "Age",
+    ja: "年齢",
+    "zh-CN": "年龄",
+    "zh-TW": "年齡",
+  },
+  // Misc
+  discountSuffix: {
+    ko: "할인",
+    en: "OFF",
+    ja: "割引",
+    "zh-CN": "折扣",
+    "zh-TW": "折扣",
+  },
+  reviewsPending: {
+    ko: "후기 준비 중",
+    en: "Reviews coming soon",
+    ja: "レビュー準備中",
+    "zh-CN": "评价准备中",
+    "zh-TW": "評價準備中",
+  },
+  meetingPoint: {
+    ko: "만남의 장소",
+    en: "Meeting Point",
+    ja: "集合場所",
+    "zh-CN": "集合地点",
+    "zh-TW": "集合地點",
+  },
+  viewOnMap: {
+    ko: "지도에서 보기",
+    en: "View on Map",
+    ja: "地図で見る",
+    "zh-CN": "在地图上查看",
+    "zh-TW": "在地圖上查看",
+  },
+  dateTimeSelect: {
+    ko: "날짜 및 시간 선택",
+    en: "Select Date & Time",
+    ja: "日時を選択",
+    "zh-CN": "选择日期和时间",
+    "zh-TW": "選擇日期和時間",
+  },
+  change: {
+    ko: "변경",
+    en: "Change",
+    ja: "変更",
+    "zh-CN": "更改",
+    "zh-TW": "更改",
+  },
+  ticketsLabel: {
+    ko: "매수",
+    en: "Tickets",
+    ja: "枚数",
+    "zh-CN": "张数",
+    "zh-TW": "張數",
+  },
+  personsLabel: {
+    ko: "인원",
+    en: "Persons",
+    ja: "人数",
+    "zh-CN": "人数",
+    "zh-TW": "人數",
+  },
+  ticketsUnit: {
+    ko: "매",
+    en: "ticket(s)",
+    ja: "枚",
+    "zh-CN": "张",
+    "zh-TW": "張",
+  },
+  personsUnit: {
+    ko: "명",
+    en: "person(s)",
+    ja: "名",
+    "zh-CN": "人",
+    "zh-TW": "人",
+  },
+  selected: {
+    ko: "선택됨",
+    en: "selected",
+    ja: "選択済み",
+    "zh-CN": "已选择",
+    "zh-TW": "已選擇",
+  },
+  ticketOptions: {
+    ko: "티켓 옵션",
+    en: "Ticket Options",
+    ja: "チケットオプション",
+    "zh-CN": "票务选项",
+    "zh-TW": "票務選項",
+  },
+  collapse: {
+    ko: "접기",
+    en: "Collapse",
+    ja: "閉じる",
+    "zh-CN": "收起",
+    "zh-TW": "收起",
+  },
+  seeMore: {
+    ko: "상세 내용 더보기",
+    en: "See More",
+    ja: "詳細を見る",
+    "zh-CN": "查看更多",
+    "zh-TW": "查看更多",
+  },
+  contentPending: {
+    ko: "내용이 준비 중입니다.",
+    en: "Content coming soon.",
+    ja: "コンテンツ準備中です。",
+    "zh-CN": "内容准备中。",
+    "zh-TW": "內容準備中。",
+  },
+  bestPrice: {
+    ko: "최저가",
+    en: "Best Price",
+    ja: "最安値",
+    "zh-CN": "最低价",
+    "zh-TW": "最低價",
+  },
+  wonUnit: {
+    ko: "원~",
+    en: "KRW~",
+    ja: "ウォン~",
+    "zh-CN": "韩元~",
+    "zh-TW": "韓元~",
+  },
+  inquiry: {
+    ko: "예약 문의",
+    en: "Inquiry",
+    ja: "お問い合わせ",
+    "zh-CN": "预约咨询",
+    "zh-TW": "預約諮詢",
+  },
+  bookNow: {
+    ko: "예약하기",
+    en: "Book Now",
+    ja: "予約する",
+    "zh-CN": "立即预约",
+    "zh-TW": "立即預約",
+  },
+} satisfies Record<string, Record<SupportedLocale, string>>;
+
+function t(key: keyof typeof T, locale: SupportedLocale): string {
+  return T[key][locale] ?? T[key]["ko"];
+}
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 type DetailItem =
   | { type: "service"; item: ServiceCatalogItem; category: string; categoryLabel: string }
   | { type: "ticket"; item: TicketProduct };
@@ -219,6 +459,12 @@ export default function ProductDetailPage({
   reservationUrl,
   backUrl = "/products",
 }: ProductDetailPageProps) {
+  const rawLocale = useLocale();
+  const locale = (["ko", "en", "ja", "zh-CN", "zh-TW"].includes(rawLocale)
+    ? rawLocale
+    : "ko") as SupportedLocale;
+  const bcp47 = localeToBCP47[locale];
+
   const item = data.item;
   const isTicket = data.type === "ticket";
   const ticket = isTicket ? (item as TicketProduct) : null;
@@ -271,18 +517,29 @@ export default function ProductDetailPage({
 
   // 탭 구성
   type TabKey = "notice" | "casting" | "details" | "price" | "discount" | "usage" | "venue" | "cancellation";
-  const tabs: { key: TabKey; label: string; content?: string }[] = [];
-  if (item.tabNotice) tabs.push({ key: "notice", label: "공지사항", content: item.tabNotice });
-  if (ticket?.tabCasting) tabs.push({ key: "casting", label: "캐스팅", content: ticket.tabCasting });
-  tabs.push({ key: "details", label: "상품상세", content: item.tabDetails });
-  if (isTicket && ticket?.tabPrice) tabs.push({ key: "price", label: "가격", content: ticket.tabPrice });
-  if (isTicket && ticket?.tabDiscount) tabs.push({ key: "discount", label: "할인정보", content: ticket.tabDiscount });
-  if (item.tabUsageInfo) tabs.push({ key: "usage", label: "이용안내", content: item.tabUsageInfo });
-  if (isTicket && ticket?.tabVenue) tabs.push({ key: "venue", label: "장소", content: ticket.tabVenue });
-  if (item.tabCancellation)
-    tabs.push({ key: "cancellation", label: "취소·환불", content: item.tabCancellation });
+  const TAB_LABELS: Record<TabKey, keyof typeof T> = {
+    notice: "tabNotice",
+    casting: "tabCasting",
+    details: "tabDetails",
+    price: "tabPrice",
+    discount: "tabDiscount",
+    usage: "tabUsage",
+    venue: "tabVenue",
+    cancellation: "tabCancellation",
+  };
 
-  const activeContent = tabs.find((t) => t.key === activeTab)?.content;
+  const tabs: { key: TabKey; label: string; content?: string }[] = [];
+  if (item.tabNotice) tabs.push({ key: "notice", label: t("tabNotice", locale), content: item.tabNotice });
+  if (ticket?.tabCasting) tabs.push({ key: "casting", label: t("tabCasting", locale), content: ticket.tabCasting });
+  tabs.push({ key: "details", label: t("tabDetails", locale), content: item.tabDetails });
+  if (isTicket && ticket?.tabPrice) tabs.push({ key: "price", label: t("tabPrice", locale), content: ticket.tabPrice });
+  if (isTicket && ticket?.tabDiscount) tabs.push({ key: "discount", label: t("tabDiscount", locale), content: ticket.tabDiscount });
+  if (item.tabUsageInfo) tabs.push({ key: "usage", label: t("tabUsage", locale), content: item.tabUsageInfo });
+  if (isTicket && ticket?.tabVenue) tabs.push({ key: "venue", label: t("tabVenue", locale), content: ticket.tabVenue });
+  if (item.tabCancellation)
+    tabs.push({ key: "cancellation", label: t("tabCancellation", locale), content: item.tabCancellation });
+
+  const activeContent = tabs.find((tab) => tab.key === activeTab)?.content;
 
   // 가격
   const minPrice = isTicket
@@ -297,6 +554,14 @@ export default function ProductDetailPage({
 
   // 세부 갤러리 이미지 (슬라이더 제외 나머지)
   const galleryImages = item.images ?? [];
+
+  // ── Booking confirmation label ────────────────────────────────────────────
+  const countUnitLabel = calendarCategory === "ticket"
+    ? t("ticketsUnit", locale)
+    : t("personsUnit", locale);
+  const countTypeLabel = calendarCategory === "ticket"
+    ? t("ticketsLabel", locale)
+    : t("personsLabel", locale);
 
   return (
     <div className="mx-auto max-w-2xl pb-32">
@@ -392,7 +657,7 @@ export default function ProductDetailPage({
           </span>
           {discountPct && (
             <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white shadow-sm shadow-rose-200">
-              {discountPct}% 할인
+              {discountPct}% {t("discountSuffix", locale)}
             </span>
           )}
         </div>
@@ -416,24 +681,26 @@ export default function ProductDetailPage({
           </div>
           <span className="text-sm font-black text-amber-900">5.0</span>
           <span className="h-3 w-px bg-amber-300/60" />
-          <span className="text-[11px] font-semibold text-amber-700/80">후기 준비 중</span>
+          <span className="text-[11px] font-semibold text-amber-700/80">
+            {t("reviewsPending", locale)}
+          </span>
         </div>
 
         {/* 정보 — 미니멀 리스트 스타일 */}
         <div className="mt-5 space-y-2.5 rounded-2xl bg-slate-50/80 px-4 py-3.5 ring-1 ring-slate-100">
-          <InfoRow icon={<MapPinned className="h-4 w-4" />} label="장소">
+          <InfoRow icon={<MapPinned className="h-4 w-4" />} label={t("labelLocation", locale)}>
             {isTicket ? ticket!.venue : service!.location}
           </InfoRow>
-          <InfoRow icon={<CalendarDays className="h-4 w-4" />} label="운영">
+          <InfoRow icon={<CalendarDays className="h-4 w-4" />} label={t("labelSchedule", locale)}>
             {isTicket ? ticket!.dateText : service!.dateText}
           </InfoRow>
           {ticket?.duration && (
-            <InfoRow icon={<Clock3 className="h-4 w-4" />} label="소요시간">
+            <InfoRow icon={<Clock3 className="h-4 w-4" />} label={t("labelDuration", locale)}>
               {ticket.duration}
             </InfoRow>
           )}
           {ticket?.ageLimit && (
-            <InfoRow icon={<Users className="h-4 w-4" />} label="연령">
+            <InfoRow icon={<Users className="h-4 w-4" />} label={t("labelAge", locale)}>
               {ticket.ageLimit}
             </InfoRow>
           )}
@@ -463,10 +730,12 @@ export default function ProductDetailPage({
             {minPrice > 0 ? (
               <p className="text-2xl font-black text-white">
                 {minPrice.toLocaleString("ko-KR")}
-                <span className="ml-0.5 text-sm font-semibold text-slate-300">원~</span>
+                <span className="ml-0.5 text-sm font-semibold text-slate-300">
+                  {t("wonUnit", locale)}
+                </span>
               </p>
             ) : (
-              <p className="text-xl font-bold text-sky-400">예약 문의</p>
+              <p className="text-xl font-bold text-sky-400">{t("inquiry", locale)}</p>
             )}
           </div>
           {discountPct && (
@@ -481,7 +750,7 @@ export default function ProductDetailPage({
       {!isTicket && service?.meetingPoint && (
         <div className="mt-5 px-5">
           <h2 className="mb-3 flex items-center gap-2 text-base font-black text-slate-950">
-            <span>📍</span> 만남의 장소
+            <span>📍</span> {t("meetingPoint", locale)}
           </h2>
           <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm transition hover:shadow-md">
             {/* 장식용 그라데이션 */}
@@ -527,7 +796,7 @@ export default function ProductDetailPage({
               rel="noopener noreferrer"
               className="relative mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-950 py-2.5 text-[13px] font-bold text-white transition hover:bg-slate-800 active:scale-[0.98]"
             >
-              🗺️ 지도에서 보기
+              🗺️ {t("viewOnMap", locale)}
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -539,7 +808,7 @@ export default function ProductDetailPage({
       {/* ── 날짜 및 시간 선택 — 이미지와 동일한 edge-to-edge 너비 ── */}
       <div className="mt-5">
         <h2 className="mb-3 flex items-center gap-2 px-5 text-base font-black text-slate-950">
-          <span>📅</span> 날짜 및 시간 선택
+          <span>📅</span> {t("dateTimeSelect", locale)}
         </h2>
 
         {bookingConfirmed ? (
@@ -549,7 +818,7 @@ export default function ProductDetailPage({
               <span className="mt-0.5 text-base">✅</span>
               <div>
                 <p className="text-sm font-black text-emerald-800">
-                  {bookingConfirmed.date.toLocaleDateString("ko-KR", {
+                  {bookingConfirmed.date.toLocaleDateString(bcp47, {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -558,9 +827,9 @@ export default function ProductDetailPage({
                   {bookingConfirmed.timeSlot}
                 </p>
                 <p className="mt-0.5 text-xs font-semibold text-emerald-600">
-                  {calendarCategory === "ticket" ? "매수" : "인원"}{" "}
+                  {countTypeLabel}{" "}
                   {bookingConfirmed.count}
-                  {calendarCategory === "ticket" ? "매" : "명"} 선택됨
+                  {countUnitLabel} {t("selected", locale)}
                 </p>
               </div>
             </div>
@@ -569,7 +838,7 @@ export default function ProductDetailPage({
               onClick={() => setBookingConfirmed(null)}
               className="rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 active:scale-95"
             >
-              변경
+              {t("change", locale)}
             </button>
           </div>
         ) : (
@@ -586,7 +855,7 @@ export default function ProductDetailPage({
       {/* ── 티켓 옵션 (티켓 전용) ── */}
       {isTicket && ticket!.options.length > 0 && (
         <div className="mt-5 px-5">
-          <h2 className="mb-3 text-base font-black text-slate-950">티켓 옵션</h2>
+          <h2 className="mb-3 text-base font-black text-slate-950">{t("ticketOptions", locale)}</h2>
           <div className="space-y-2">
             {ticket!.options.map((opt) => (
               <div
@@ -672,16 +941,18 @@ export default function ProductDetailPage({
                         className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-slate-200 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50 active:scale-[0.98]"
                       >
                         {detailsExpanded ? (
-                          <>접기 <ChevronUp className="h-4 w-4" /></>
+                          <>{t("collapse", locale)} <ChevronUp className="h-4 w-4" /></>
                         ) : (
-                          <>상세 내용 더보기 <ChevronDown className="h-4 w-4" /></>
+                          <>{t("seeMore", locale)} <ChevronDown className="h-4 w-4" /></>
                         )}
                       </button>
                     </div>
                   )}
                   {/* 이미지만 있고 텍스트 없을 때 */}
                   {!activeContent && galleryImages.length === 0 && (
-                    <div className="px-5 py-10 text-center text-sm text-slate-400">내용이 준비 중입니다.</div>
+                    <div className="px-5 py-10 text-center text-sm text-slate-400">
+                      {t("contentPending", locale)}
+                    </div>
                   )}
                 </div>
               ) : (
@@ -694,7 +965,7 @@ export default function ProductDetailPage({
                 <DetailGallery images={galleryImages} />
               ) : (
                 <div className="flex flex-col items-center py-10 text-slate-400">
-                  <p className="text-sm">내용이 준비 중입니다.</p>
+                  <p className="text-sm">{t("contentPending", locale)}</p>
                 </div>
               )
             )}
@@ -715,21 +986,25 @@ export default function ProductDetailPage({
           <div className="flex-1">
             {minPrice > 0 ? (
               <>
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">최저가</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                  {t("bestPrice", locale)}
+                </p>
                 <p className="text-xl font-black text-slate-950">
                   {minPrice.toLocaleString("ko-KR")}
-                  <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>
+                  <span className="ml-0.5 text-sm font-semibold text-slate-500">
+                    {t("wonUnit", locale)}
+                  </span>
                 </p>
               </>
             ) : (
-              <p className="text-sm font-semibold text-slate-500">예약 문의</p>
+              <p className="text-sm font-semibold text-slate-500">{t("inquiry", locale)}</p>
             )}
           </div>
           <Link
             href={reservationUrl}
             className="rounded-2xl bg-slate-950 px-10 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-slate-800 active:scale-95"
           >
-            예약하기
+            {t("bookNow", locale)}
           </Link>
         </div>
       </div>
