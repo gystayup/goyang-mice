@@ -1017,7 +1017,7 @@ export default async function DmcPage({
                       {copy.categories.cta}
                     </Link>
                     <Link
-                      href={item.href}
+                      href={`/products#section-${item.key}`}
                       className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 py-3 text-sm font-bold text-white transition hover:brightness-110"
                     >
                       {copy.categories.booking}
