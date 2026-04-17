@@ -95,13 +95,13 @@ export default async function ProductDetailServerPage(props: {
     );
   }
 
-  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일)
-  const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe"]);
+  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일/공항픽업)
+  const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe", "airport"]);
   if (showcaseCategories.has(product.categoryKey) && itemId) {
     let catalogItem;
     try {
       const catalog = await readServiceCatalog();
-      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe";
+      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport";
       catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
     } catch {
       // ignore
@@ -140,7 +140,7 @@ export default async function ProductDetailServerPage(props: {
     );
   }
 
-  // 공항픽업 등 기타 → 예약 페이지로 바로 리다이렉트
+  // 기타 → 예약 페이지로 이동
   return (
     <Shell>
       <div className="mx-auto max-w-7xl px-6 py-20 text-center">

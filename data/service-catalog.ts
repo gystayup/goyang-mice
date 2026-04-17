@@ -960,6 +960,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
         "zh-CN": { title: "仁川机场接送预约", subtitle: "机场接送服务", location: "仁川国际机场 T1·T2", dateText: "全年·24小时", posterLabel: "AIRPORT", summary: "从仁川机场到高阳市主要地点的安全便捷接送服务。", tags: ["仁川机场", "接送", "VIP接送"], options: [{ id: "sedan", label: "轿车（1-3人）", benefits: ["专属司机", "24小时服务"] }, { id: "van", label: "商务车（4-7人）", benefits: ["大型行李箱", "可接团体"] }, { id: "vip-van", label: "VIP豪华车（1-4人）", benefits: ["VIP礼宾", "欢迎牌"] }] },
         "zh-TW": { title: "仁川機場接送預約", subtitle: "機場接送服務", location: "仁川國際機場 T1·T2", dateText: "全年·24小時", posterLabel: "AIRPORT", summary: "從仁川機場到高陽市主要地點的安全便捷接送服務。", tags: ["仁川機場", "接送", "VIP接送"], options: [{ id: "sedan", label: "轎車（1-3人）", benefits: ["專屬司機", "24小時服務"] }, { id: "van", label: "商務車（4-7人）", benefits: ["大型行李箱", "可接團體"] }, { id: "vip-van", label: "VIP豪華車（1-4人）", benefits: ["VIP禮賓", "歡迎牌"] }] },
       },
+      tabNotice: "※ 항공편 도착 후 수하물 수취 시간을 고려하여 기사가 대기합니다.\n※ 항공편 지연 시 추가 비용 없이 대기합니다.\n※ 예약 확정 후 기사 연락처가 문자로 발송됩니다.",
+      tabDetails: "인천공항 픽업·샌딩 예약은 인천국제공항 1·2터미널에서 고양시 주요 지점까지 운행하는 공식 차량 이동 서비스입니다.\n\n📍 운행 구간\n- 인천공항 1터미널 ↔ 고양시 (KINTEX, 일산, 주요 호텔)\n- 인천공항 2터미널 ↔ 고양시 (KINTEX, 일산, 주요 호텔)\n\n🚗 차량 종류\n- 세단: 1~3인 소그룹, 비즈니스 이동\n- 승합: 4~7인 그룹, 대형 수하물 가능\n- VIP 리무진: 1~4인, VIP 의전 서비스\n\n💡 이런 분께 추천\n- KINTEX 전시 참가자 및 바이어\n- 해외 VIP 의전 프로그램\n- 단체 이동이 필요한 행사 참가팀",
+      tabUsageInfo: "• 픽업 장소: 예약 시 선택한 터미널 입국장 출구\n• 기사가 이름/회사명 팻말을 들고 대기합니다\n• 항공편 도착 30분 전 기사 연락처 문자 발송\n• 짐 보관 및 적재 도움 제공\n• 샌딩: 출발 2시간 전 픽업 기준 운행\n• 주요 목적지: KINTEX, 일산 주요 호텔, 킨텍스 전시장\n• 야간/새벽 운행 가능 (24시간)",
+      tabCancellation: "■ 취소 및 환불 규정\n\n• 이용일 3일 전 이전: 100% 환불\n• 이용일 2일 전: 50% 환불\n• 이용일 전날 ~ 당일 취소: 환불 불가\n\n■ 항공편 결항/지연\n• 항공사 사정으로 인한 결항 시 전액 환불\n• 지연 시 추가 대기 비용 없음\n\n■ 환불 처리\n• 결제 수단에 따라 3~5 영업일 소요",
       options: [
         { id: "sedan", label: "세단 (1-3인)", price: 85000, benefits: ["전용 기사", "24시간"] },
         { id: "van", label: "승합 (4-7인)", price: 120000, benefits: ["대형 트렁크", "단체 가능"] },
@@ -985,6 +989,10 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
         "zh-CN": { title: "金浦机场接送预约", subtitle: "机场接送服务", location: "金浦国际机场", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "从金浦机场到高阳市主要地点的快速便捷接送服务。", tags: ["金浦机场", "接送", "短途"], options: [{ id: "sedan", label: "轿车（1-3人）", benefits: ["专属司机", "直达"] }, { id: "van", label: "商务车（4-7人）", benefits: ["可接团体"] }] },
         "zh-TW": { title: "金浦機場接送預約", subtitle: "機場接送服務", location: "金浦國際機場", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "從金浦機場到高陽市主要地點的快速便捷接送服務。", tags: ["金浦機場", "接送", "短途"], options: [{ id: "sedan", label: "轎車（1-3人）", benefits: ["專屬司機", "直達"] }, { id: "van", label: "商務車（4-7人）", benefits: ["可接團體"] }] },
       },
+      tabNotice: "※ 항공편 도착 후 수하물 수취 시간을 고려하여 기사가 대기합니다.\n※ 운항 지연 시 추가 비용 없이 대기합니다.\n※ 예약 확정 후 기사 연락처가 문자로 발송됩니다.",
+      tabDetails: "김포공항 픽업·샌딩 예약은 김포국제공항에서 고양시 주요 지점까지 빠르고 편리하게 운행하는 이동 서비스입니다.\n\n📍 운행 구간\n- 김포공항 ↔ 고양시 (KINTEX, 일산, 주요 호텔)\n- 인천공항 대비 이동 시간 단축 (약 30분)\n\n🚗 차량 종류\n- 세단: 1~3인 소그룹, 직통 이동\n- 승합: 4~7인 그룹, 단체 수하물 가능\n\n💡 이런 분께 추천\n- 국내선/일본·중국 노선 이용객\n- KINTEX 전시 참가자\n- 짧고 빠른 이동이 필요한 방문객",
+      tabUsageInfo: "• 픽업 장소: 김포공항 국내선/국제선 도착 출구\n• 기사가 이름/회사명 팻말을 들고 대기합니다\n• 항공편 도착 30분 전 기사 연락처 문자 발송\n• 운행 시간: 06:00 ~ 24:00 (심야 예외 문의)\n• 짐 적재 도움 제공\n• 주요 목적지: KINTEX, 일산 주요 호텔",
+      tabCancellation: "■ 취소 및 환불 규정\n\n• 이용일 3일 전 이전: 100% 환불\n• 이용일 2일 전: 50% 환불\n• 이용일 전날 ~ 당일 취소: 환불 불가\n\n■ 항공편 결항/지연\n• 항공사 사정으로 인한 결항 시 전액 환불\n• 지연 시 추가 대기 비용 없음\n\n■ 환불 처리\n• 결제 수단에 따라 3~5 영업일 소요",
       options: [
         { id: "sedan", label: "세단 (1-3인)", price: 55000, benefits: ["전용 기사", "직통"] },
         { id: "van", label: "승합 (4-7인)", price: 75000, benefits: ["단체 가능"] },

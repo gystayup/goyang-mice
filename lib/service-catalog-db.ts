@@ -31,9 +31,15 @@ export async function readServiceCatalog(): Promise<CatalogMap> {
     const raw = data as any;
     const contentJson = raw?.contentJson ?? raw?.contentjson ?? null;
     if (!contentJson) return defaultCatalog as CatalogMap;
-    // 기존 DB 데이터에 airport 키가 없을 수 있으므로 기본값과 병합
+    // DB 데이터에 없거나 빈 카테고리는 정적 카탈로그로 보충
     const dbData = contentJson as Partial<CatalogMap>;
-    return { ...EMPTY_MAP, ...dbData };
+    const cats: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport"];
+    const merged = { ...EMPTY_MAP };
+    for (const cat of cats) {
+      const dbItems = dbData[cat];
+      merged[cat] = (dbItems && dbItems.length > 0) ? dbItems : (defaultCatalog[cat] ?? []);
+    }
+    return merged;
   } catch {
     return defaultCatalog as CatalogMap;
   }
