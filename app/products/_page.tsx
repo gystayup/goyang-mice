@@ -5,6 +5,7 @@ import SectionedBookingGrid, { type UnifiedItem } from "@/components/products/Se
 import type { ServiceCatalogCategory } from "@/data/service-catalog";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { getLocalizedServiceItem } from "@/lib/service-catalog-i18n";
+import { getLocalizedTicketProduct } from "@/lib/ticket-i18n";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
@@ -126,8 +127,9 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     }
   }
 
-  // 티켓 아이템
-  for (const ticket of tickets) {
+  // 티켓 아이템 — locale 적용
+  for (const rawTicket of tickets) {
+    const ticket = getLocalizedTicketProduct(rawTicket, locale);
     const minPrice =
       ticket.options.length > 0
         ? Math.min(...ticket.options.map((o) => o.price))
@@ -145,7 +147,7 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       badge: ticket.badge || undefined,
       minPrice,
       tags: ticket.tags,
-      reservationUrl: `/products/ticket-agency-platform/detail?ticket=${ticket.id}`,
+      reservationUrl: `/products/ticket-agency-platform/detail?ticket=${rawTicket.id}`,
     });
   }
 

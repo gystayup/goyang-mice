@@ -12,6 +12,15 @@ export interface TicketOption {
   benefits: string[];
 }
 
+export type TicketLocale = "en" | "ja" | "zh-CN" | "zh-TW";
+
+export interface TicketTranslation {
+  badge?: string;
+  venue?: string;
+  tags?: string[];
+  options?: Array<{ id: string; label: string; benefits?: string[] }>;
+}
+
 export interface TicketProduct {
   id: string;
   category: TicketCategory;
@@ -26,20 +35,21 @@ export interface TicketProduct {
   posterLabel: string;
   tags: string[];
   options: TicketOption[];
+  translations?: Partial<Record<TicketLocale, TicketTranslation>>;
   // 상세 소개 콘텐츠
-  imageUrl?: string;     // 포스터 사진
-  images?: string[];     // 상세페이지 슬라이더 이미지 배열
-  duration?: string;     // 공연 시간 (예: "165분 (인터미션 20분 포함)")
-  ageLimit?: string;     // 관람 연령 (예: "14세 이상")
+  imageUrl?: string;
+  images?: string[];
+  duration?: string;
+  ageLimit?: string;
   // 상세페이지 탭 콘텐츠
-  tabNotice?: string;       // 공지사항
-  tabCasting?: string;      // 캐스팅 (티켓 전용)
-  tabDetails?: string;      // 상품상세
-  tabPrice?: string;        // 가격 안내
-  tabDiscount?: string;     // 할인정보
-  tabUsageInfo?: string;    // 이용안내
-  tabVenue?: string;        // 장소 안내
-  tabCancellation?: string; // 취소 및 환불규정
+  tabNotice?: string;
+  tabCasting?: string;
+  tabDetails?: string;
+  tabPrice?: string;
+  tabDiscount?: string;
+  tabUsageInfo?: string;
+  tabVenue?: string;
+  tabCancellation?: string;
 }
 
 export const ticketCategories: Array<{ id: TicketCategory | "all"; label: string }> = [
@@ -81,6 +91,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "r", label: "R석", price: 143000, benefits: ["지정 좌석", "모바일 티켓"] },
       { id: "s", label: "S석", price: 99000, benefits: ["지정 좌석", "현장 발권 가능"] },
     ],
+    translations: {
+      en: { badge: "Coming Soon", venue: "Goyang K-POP Arena", tags: ["K-POP", "Concert", "Premium Seats"], options: [{ id: "vip", label: "VIP Package", benefits: ["Priority Entry", "Welcome Goods"] }, { id: "r", label: "R-Class", benefits: ["Assigned Seat", "Mobile Ticket"] }, { id: "s", label: "S-Class", benefits: ["Assigned Seat", "On-site Ticketing"] }] },
+      ja: { badge: "近日オープン", venue: "高陽K-POPアリーナ", tags: ["K-POP", "公演", "プレミアム席"], options: [{ id: "vip", label: "VIPパッケージ", benefits: ["優先入場", "ウェルカムグッズ"] }, { id: "r", label: "R席", benefits: ["指定席", "モバイルチケット"] }, { id: "s", label: "S席", benefits: ["指定席", "現場発券可"] }] },
+      "zh-CN": { badge: "即将开放", venue: "高阳K-POP竞技场", tags: ["K-POP", "演出", "高级座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["优先入场", "欢迎礼品"] }, { id: "r", label: "R区", benefits: ["对号入座", "手机票"] }, { id: "s", label: "S区", benefits: ["对号入座", "现场取票"] }] },
+      "zh-TW": { badge: "即將開放", venue: "高陽K-POP競技場", tags: ["K-POP", "演出", "高級座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["優先入場", "歡迎禮品"] }, { id: "r", label: "R區", benefits: ["對號入座", "手機票"] }, { id: "s", label: "S區", benefits: ["對號入座", "現場取票"] }] },
+    },
   },
   {
     id: "goyang-con-city-festival",
@@ -100,6 +116,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "two-day", label: "양일권", price: 129000, benefits: ["양일 입장", "MD 구매권"] },
       { id: "day-pass", label: "1일권", price: 78000, benefits: ["지정 날짜 입장"] },
     ],
+    translations: {
+      en: { badge: "2nd Ticket Sale", venue: "Ilsan Cultural Plaza", tags: ["Festival", "Outdoor Concert", "Food Zone"], options: [{ id: "two-day", label: "2-Day Pass", benefits: ["2-Day Entry", "MD Voucher"] }, { id: "day-pass", label: "1-Day Pass", benefits: ["Single Day Entry"] }] },
+      ja: { badge: "第2次チケット販売", venue: "一山文化広場", tags: ["フェスティバル", "野外公演", "フードゾーン"], options: [{ id: "two-day", label: "2日間パス", benefits: ["両日入場", "MD引換券"] }, { id: "day-pass", label: "1日券", benefits: ["指定日入場"] }] },
+      "zh-CN": { badge: "第二轮票务开放", venue: "一山文化广场", tags: ["音乐节", "户外演出", "美食区"], options: [{ id: "two-day", label: "两日票", benefits: ["两日入场", "周边兑换券"] }, { id: "day-pass", label: "一日票", benefits: ["指定日入场"] }] },
+      "zh-TW": { badge: "第二輪票務開放", venue: "一山文化廣場", tags: ["音樂節", "戶外演出", "美食區"], options: [{ id: "two-day", label: "兩日票", benefits: ["兩日入場", "周邊兌換券"] }, { id: "day-pass", label: "一日票", benefits: ["指定日入場"] }] },
+    },
   },
   {
     id: "goyang-art-night",
@@ -119,6 +141,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "docent", label: "도슨트 패키지", price: 42000, benefits: ["도슨트 포함", "카페 쿠폰"] },
       { id: "general", label: "일반 입장권", price: 18000, benefits: ["전시 입장", "모바일 티켓"] },
     ],
+    translations: {
+      en: { badge: "Extra Seats Available", venue: "Goyang Aramnuri Exhibition Hall", tags: ["Exhibition", "Night", "Media Art"], options: [{ id: "docent", label: "Docent Package", benefits: ["Guided Tour", "Café Coupon"] }, { id: "general", label: "General Admission", benefits: ["Exhibition Entry", "Mobile Ticket"] }] },
+      ja: { badge: "追加席販売中", venue: "高陽アラムヌリ展示館", tags: ["展示", "夜間", "メディアアート"], options: [{ id: "docent", label: "解説付きパッケージ", benefits: ["解説ガイド付き", "カフェクーポン"] }, { id: "general", label: "一般入場券", benefits: ["展示入場", "モバイルチケット"] }] },
+      "zh-CN": { badge: "增开座位", venue: "高阳阿拉木努里展览馆", tags: ["展览", "夜间", "媒体艺术"], options: [{ id: "docent", label: "导览套餐", benefits: ["含导览", "咖啡券"] }, { id: "general", label: "普通入场券", benefits: ["展览入场", "手机票"] }] },
+      "zh-TW": { badge: "增開座位", venue: "高陽阿拉木努里展覽館", tags: ["展覽", "夜間", "媒體藝術"], options: [{ id: "docent", label: "導覽套餐", benefits: ["含導覽", "咖啡券"] }, { id: "general", label: "普通入場券", benefits: ["展覽入場", "手機票"] }] },
+    },
   },
   {
     id: "goyang-family-play",
@@ -139,6 +167,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "adult", label: "성인 1인권", price: 38000, benefits: ["공연 입장"] },
       { id: "child", label: "아동 1인권", price: 24000, benefits: ["공연 입장", "체험 참여"] },
     ],
+    translations: {
+      en: { badge: "Family Pick", venue: "Goyang Eoullim Nuri", tags: ["Family", "Experience Show", "Weekend Program"], options: [{ id: "family-pack", label: "Family Pack (4 persons)", benefits: ["Entry for 4", "Activity Kit"] }, { id: "adult", label: "Adult 1 Person", benefits: ["Show Entry"] }, { id: "child", label: "Child 1 Person", benefits: ["Show Entry", "Activity"] }] },
+      ja: { badge: "ファミリー向け", venue: "高陽オウルリムヌリ", tags: ["ファミリー", "体験公演", "週末プログラム"], options: [{ id: "family-pack", label: "ファミリー4名", benefits: ["4名入場", "体験キット付き"] }, { id: "adult", label: "大人1名", benefits: ["公演入場"] }, { id: "child", label: "子ども1名", benefits: ["公演入場", "体験参加"] }] },
+      "zh-CN": { badge: "家庭推荐", venue: "高阳欧拉利姆努里", tags: ["家庭", "体验演出", "周末活动"], options: [{ id: "family-pack", label: "家庭4人套餐", benefits: ["4人入场", "含体验材料"] }, { id: "adult", label: "成人1张", benefits: ["演出入场"] }, { id: "child", label: "儿童1张", benefits: ["演出入场", "体验活动"] }] },
+      "zh-TW": { badge: "家庭推薦", venue: "高陽歐拉利姆努里", tags: ["家庭", "體驗演出", "週末活動"], options: [{ id: "family-pack", label: "家庭4人套餐", benefits: ["4人入場", "含體驗材料"] }, { id: "adult", label: "成人1張", benefits: ["演出入場"] }, { id: "child", label: "兒童1張", benefits: ["演出入場", "體驗活動"] }] },
+    },
   },
   {
     id: "goyang-kmusic-series",
@@ -158,6 +192,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "premium", label: "프리미엄석", price: 156000, benefits: ["전용 게이트", "MD 쿠폰"] },
       { id: "standard", label: "일반석", price: 88000, benefits: ["지정 좌석"] },
     ],
+    translations: {
+      en: { badge: "Limited Offer", venue: "Goyang Aramnuri Aram Theater", tags: ["Concert", "Band", "Indoor Show"], options: [{ id: "premium", label: "Premium Seat", benefits: ["Dedicated Gate", "MD Coupon"] }, { id: "standard", label: "Standard Seat", benefits: ["Assigned Seat"] }] },
+      ja: { badge: "限定特価", venue: "高陽アラムヌリ アラム劇場", tags: ["コンサート", "バンド", "室内公演"], options: [{ id: "premium", label: "プレミアムシート", benefits: ["専用ゲート", "MDクーポン"] }, { id: "standard", label: "一般席", benefits: ["指定席"] }] },
+      "zh-CN": { badge: "限时特惠", venue: "高阳阿拉木努里剧场", tags: ["音乐会", "乐队", "室内演出"], options: [{ id: "premium", label: "高级座位", benefits: ["专属通道", "周边优惠券"] }, { id: "standard", label: "普通座位", benefits: ["对号入座"] }] },
+      "zh-TW": { badge: "限時特惠", venue: "高陽阿拉木努里劇場", tags: ["音樂會", "樂隊", "室內演出"], options: [{ id: "premium", label: "高級座位", benefits: ["專屬通道", "周邊優惠券"] }, { id: "standard", label: "普通座位", benefits: ["對號入座"] }] },
+    },
   },
   {
     id: "goyang-mice-opening-show",
@@ -177,6 +217,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "networking", label: "네트워킹 패키지", price: 210000, benefits: ["리셉션 포함", "우선 입장"] },
       { id: "general", label: "일반석", price: 69000, benefits: ["모바일 티켓"] },
     ],
+    translations: {
+      en: { badge: "Coming Soon", venue: "KINTEX Outdoor Stage", tags: ["MICE", "VIP", "Special Stage"], options: [{ id: "networking", label: "Networking Package", benefits: ["Reception Included", "Priority Entry"] }, { id: "general", label: "General Seat", benefits: ["Mobile Ticket"] }] },
+      ja: { badge: "近日オープン", venue: "KINTEX野外ステージ", tags: ["MICE", "VIP", "スペシャルステージ"], options: [{ id: "networking", label: "ネットワーキングパッケージ", benefits: ["レセプション込み", "優先入場"] }, { id: "general", label: "一般席", benefits: ["モバイルチケット"] }] },
+      "zh-CN": { badge: "即将开放", venue: "KINTEX户外舞台", tags: ["MICE", "VIP", "特别舞台"], options: [{ id: "networking", label: "社交套餐", benefits: ["含接待会", "优先入场"] }, { id: "general", label: "普通座位", benefits: ["手机票"] }] },
+      "zh-TW": { badge: "即將開放", venue: "KINTEX戶外舞台", tags: ["MICE", "VIP", "特別舞台"], options: [{ id: "networking", label: "社交套餐", benefits: ["含接待會", "優先入場"] }, { id: "general", label: "普通座位", benefits: ["手機票"] }] },
+    },
   },
   {
     id: "goyang-local-stage",
@@ -196,6 +242,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "weekend", label: "주말 패스", price: 54000, benefits: ["양일 입장"] },
       { id: "single", label: "1일권", price: 32000, benefits: ["하루 입장"] },
     ],
+    translations: {
+      en: { badge: "On Sale Now", venue: "Ilsan Lake Park Outdoor Stage", tags: ["Local", "Outdoor Stage", "Flea Market"], options: [{ id: "weekend", label: "Weekend Pass", benefits: ["2-Day Entry"] }, { id: "single", label: "1-Day Pass", benefits: ["Single Day Entry"] }] },
+      ja: { badge: "本日オープン", venue: "一山湖水公園野外ステージ", tags: ["ローカル", "野外ステージ", "フリーマーケット"], options: [{ id: "weekend", label: "週末パス", benefits: ["両日入場"] }, { id: "single", label: "1日券", benefits: ["1日入場"] }] },
+      "zh-CN": { badge: "今日开售", venue: "一山湖水公园户外舞台", tags: ["本地", "户外舞台", "跳蚤市场"], options: [{ id: "weekend", label: "周末通票", benefits: ["两日入场"] }, { id: "single", label: "一日票", benefits: ["单日入场"] }] },
+      "zh-TW": { badge: "今日開售", venue: "一山湖水公園戶外舞台", tags: ["本地", "戶外舞台", "跳蚤市場"], options: [{ id: "weekend", label: "週末通票", benefits: ["兩日入場"] }, { id: "single", label: "一日票", benefits: ["單日入場"] }] },
+    },
   },
   {
     id: "goyang-night-run-ticket",
@@ -215,6 +267,12 @@ export const ticketProducts: TicketProduct[] = [
       { id: "race-pack", label: "러닝 패키지", price: 72000, benefits: ["러닝 키트", "공연 입장"] },
       { id: "show-only", label: "공연 관람권", price: 39000, benefits: ["공연 입장"] },
     ],
+    translations: {
+      en: { badge: "Tickets Available", venue: "Goyang Stadium", tags: ["Sports", "Night Event", "Package Ticket"], options: [{ id: "race-pack", label: "Running Package", benefits: ["Running Kit", "Show Entry"] }, { id: "show-only", label: "Show Ticket", benefits: ["Show Entry"] }] },
+      ja: { badge: "チケット販売中", venue: "高陽総合運動場", tags: ["スポーツ", "夜間イベント", "パッケージチケット"], options: [{ id: "race-pack", label: "ランニングパッケージ", benefits: ["ランニングキット", "公演入場"] }, { id: "show-only", label: "公演観覧券", benefits: ["公演入場"] }] },
+      "zh-CN": { badge: "票务开放", venue: "高阳综合运动场", tags: ["体育", "夜间活动", "套票"], options: [{ id: "race-pack", label: "跑步套餐", benefits: ["跑步装备", "演出入场"] }, { id: "show-only", label: "演出门票", benefits: ["演出入场"] }] },
+      "zh-TW": { badge: "票務開放", venue: "高陽綜合運動場", tags: ["體育", "夜間活動", "套票"], options: [{ id: "race-pack", label: "跑步套餐", benefits: ["跑步裝備", "演出入場"] }, { id: "show-only", label: "演出門票", benefits: ["演出入場"] }] },
+    },
   },
 ];
 
