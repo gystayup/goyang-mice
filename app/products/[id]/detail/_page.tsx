@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import Shell from "@/components/layout/Shell";
 import ProductDetailPage from "@/components/products/ProductDetailPage";
-import StayDetailPage from "@/components/products/StayDetailPage";
 import { getProductById } from "@/data/products";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { getLocalizedServiceItem } from "@/lib/service-catalog-i18n";
@@ -124,19 +123,6 @@ export default async function ProductDetailServerPage(props: {
     }
 
     const reservationUrl = `/products/${product.id}/reservation?item=${itemId}`;
-
-    // 숙박 전용 상세페이지
-    if (product.categoryKey === "stay") {
-      return (
-        <Shell>
-          <StayDetailPage
-            item={catalogItem}
-            reservationUrl={reservationUrl}
-            backUrl="/products"
-          />
-        </Shell>
-      );
-    }
 
     return (
       <Shell>
