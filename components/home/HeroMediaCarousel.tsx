@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 import { useLocale } from "next-intl";
 
 type HeroSlide = {
@@ -102,20 +102,6 @@ function SlideFrame({ slide }: { slide: HeroSlide }) {
     );
   }
 
-  // 유튜브 영상
-  if (slide.type === "youtube" && slide.youtubeId) {
-    return (
-      <iframe
-        src={`https://www.youtube.com/embed/${slide.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${slide.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-        className="h-full w-full"
-        allow="autoplay; encrypted-media"
-        allowFullScreen
-        title={slide.koTitle}
-        style={{ border: "none", pointerEvents: "none" }}
-      />
-    );
-  }
-
   // 업로드된 이미지 파일
   if (slide.imageUrl) {
     return (
@@ -138,22 +124,21 @@ function SlideFrame({ slide }: { slide: HeroSlide }) {
 
 export default function HeroMediaCarousel() {
   const locale = useLocale();
-  const isEn = locale === "en";
 
-  // 초기 fallback: imageUrl이 없는 그라디언트 슬라이드만 (DB 로드 전 임시 노출)
   const imageOnlyFallback = fallbackSlides.filter(
     (s) => s.type !== "youtube" && !s.videoUrl
   );
   const [slides, setSlides] = useState<HeroSlide[]>(imageOnlyFallback);
   const [index, setIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const youtubeRef = useRef<HTMLIFrameElement>(null);
 
-  // DB에서 슬라이드 데이터 로드 — imageUrl 있는 모든 슬라이드 표시
+  // DB에서 슬라이드 데이터 로드
   useEffect(() => {
     fetch("/api/admin/hero-slides")
       .then((r) => r.json())
       .then((json) => {
         if (json?.success && Array.isArray(json.data) && json.data.length > 0) {
-          // 이미지·영상파일·유튜브 중 하나라도 있는 슬라이드 표시
           const filtered = (json.data as HeroSlide[]).filter(
             (s) => Boolean(s.imageUrl) || Boolean(s.videoUrl) || (s.type === "youtube" && Boolean(s.youtubeId))
           );
@@ -163,12 +148,15 @@ export default function HeroMediaCarousel() {
           }
         }
       })
-      .catch(() => {
-        // fallback 유지
-      });
+      .catch(() => {});
   }, []);
 
-  // 자동 슬라이드 — 유튜브/영상이면 더 길게 (20초), 이미지는 5.6초
+  // 슬라이드 변경 시 음소거 초기화
+  useEffect(() => {
+    setIsMuted(true);
+  }, [index]);
+
+  // 자동 슬라이드 — 유튜브/영상이면 20초, 이미지는 5.6초
   useEffect(() => {
     const current = slides[index];
     const isMedia =
@@ -181,15 +169,26 @@ export default function HeroMediaCarousel() {
     return () => window.clearTimeout(timer);
   }, [index, slides]);
 
+  // 유튜브 음소거 토글 (postMessage API)
+  function toggleMute() {
+    if (!youtubeRef.current?.contentWindow) return;
+    const cmd = isMuted ? "unMute" : "mute";
+    youtubeRef.current.contentWindow.postMessage(
+      JSON.stringify({ event: "command", func: cmd, args: "" }),
+      "*"
+    );
+    setIsMuted((prev) => !prev);
+  }
+
   const prev = () => setIndex((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setIndex((c) => (c + 1) % slides.length);
 
   const current = slides[index];
-  // ko → 한국어, 그 외(en/ja/zh-CN/zh-TW) → 영어
   const isKo = locale === "ko";
   const label = isKo ? current.koLabel : current.enLabel;
   const title = isKo ? current.koTitle : current.enTitle;
   const desc = isKo ? current.koDesc : current.enDesc;
+  const isYoutube = current.type === "youtube" && Boolean(current.youtubeId);
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-white/70 bg-[#10203a] text-white shadow-[0_22px_60px_rgba(16,32,58,0.16)] sm:rounded-[34px]">
@@ -202,7 +201,20 @@ export default function HeroMediaCarousel() {
               i === index ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           >
-            <SlideFrame slide={slide} />
+            {/* 유튜브는 ref 접근을 위해 직접 렌더링 */}
+            {slide.type === "youtube" && slide.youtubeId ? (
+              <iframe
+                ref={i === index ? youtubeRef : undefined}
+                src={`https://www.youtube.com/embed/${slide.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${slide.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`}
+                className="h-full w-full"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title={slide.koTitle}
+                style={{ border: "none", pointerEvents: "none" }}
+              />
+            ) : (
+              <SlideFrame slide={slide} />
+            )}
           </div>
         ))}
         {/* 하단 그라디언트 오버레이 */}
@@ -222,7 +234,7 @@ export default function HeroMediaCarousel() {
           <p className="mt-2 text-sm leading-7 text-white/80 sm:text-base">{desc}</p>
         </div>
 
-        {/* 하단 컨트롤: 도트 + 화살표 */}
+        {/* 하단 컨트롤: 도트 + 버튼 */}
         <div className="mt-6 flex items-center justify-between">
           {/* 도트 인디케이터 */}
           <div className="flex items-center gap-2">
@@ -241,8 +253,26 @@ export default function HeroMediaCarousel() {
             ))}
           </div>
 
-          {/* 화살표 버튼 */}
+          {/* 우측 버튼 그룹 */}
           <div className="flex gap-2">
+            {/* 음소거 토글 버튼 — 유튜브 슬라이드에서만 표시 */}
+            {isYoutube && (
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={isMuted ? "소리 켜기" : "소리 끄기"}
+                title={isMuted ? "소리 켜기" : "소리 끄기"}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/20"
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4" />
+                ) : (
+                  <Volume2 className="h-4 w-4" />
+                )}
+              </button>
+            )}
+
+            {/* 이전/다음 화살표 */}
             <button
               type="button"
               onClick={prev}
