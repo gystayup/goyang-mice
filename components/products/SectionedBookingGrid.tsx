@@ -186,10 +186,11 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
   const aspectClass = portrait ? "aspect-[2/3]" : "aspect-[3/2]";
 
   return (
-    <Link href={item.reservationUrl} className="block">
-      <article className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <Link href={item.reservationUrl} className="block h-full">
+      {/* h-full → 같은 행 카드끼리 CSS Grid가 자동으로 높이를 맞춰줌 */}
+      <article className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
         {/* ── Image / gradient area ── */}
-        <div className={`relative ${aspectClass} overflow-hidden`}>
+        <div className={`relative ${aspectClass} shrink-0 overflow-hidden`}>
           {item.imageUrl ? (
             <>
               <Image
@@ -197,7 +198,7 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
                 alt={item.title}
                 fill
                 className="object-cover object-center transition duration-300 group-hover:scale-105"
-                sizes="(max-width:640px) 72vw, 300px"
+                sizes="(max-width:640px) 48vw, 300px"
               />
               {/* Gradient overlay for text readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
@@ -213,7 +214,7 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
             <div
               className={`flex h-full w-full flex-col justify-end bg-gradient-to-br ${item.imageTone} p-4`}
             >
-              <p className="text-xl font-black tracking-tight text-slate-900 line-clamp-1">
+              <p className="line-clamp-1 text-xl font-black tracking-tight text-slate-900">
                 {item.posterLabel}
               </p>
               <p className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-slate-800">
@@ -245,10 +246,11 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
           )}
         </div>
 
-        {/* ── Info area (fixed height so all cards are uniform) ── */}
-        <div className="flex h-[108px] flex-col justify-between overflow-hidden p-3">
-          <div>
-            <h3 className="line-clamp-2 text-sm font-bold leading-snug text-slate-950">
+        {/* ── Info area: flex-1로 늘어나고, 가격은 항상 맨 아래 고정 ── */}
+        <div className="flex flex-1 flex-col p-3">
+          {/* 제목 + 장소/날짜 — flex-1로 공간을 차지 */}
+          <div className="flex-1">
+            <h3 className="line-clamp-2 text-[13px] font-bold leading-snug text-slate-950">
               {item.title}
             </h3>
             <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-400">
@@ -262,18 +264,19 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
               </div>
             </div>
           </div>
-          <div className="flex items-baseline gap-1.5">
+          {/* 가격 — 항상 하단에 붙음 */}
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 border-t border-slate-100 pt-2">
             {item.originalPrice ? (
               <span className="text-[11px] text-slate-400 line-through">
                 {item.originalPrice.toLocaleString("ko-KR")}
               </span>
             ) : null}
             {item.minPrice > 0 ? (
-              <span className="text-sm font-black text-slate-950">
+              <span className="text-[13px] font-black text-slate-950">
                 {item.minPrice.toLocaleString("ko-KR")}원~
               </span>
             ) : (
-              <span className="text-sm font-bold text-sky-600">예약 문의</span>
+              <span className="text-[13px] font-bold text-sky-600">예약 문의</span>
             )}
           </div>
         </div>
