@@ -1011,7 +1011,7 @@ export default async function DmcPage({
 
                   <div className="mt-auto flex gap-3 pt-7">
                     <Link
-                      href={item.href}
+                      href={`/products#section-${item.key}`}
                       className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-white"
                     >
                       {copy.categories.cta}
