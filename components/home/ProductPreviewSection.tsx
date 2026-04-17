@@ -76,6 +76,16 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
 const categoryOrder: CategoryKey[] = ["tour", "stay", "restaurant", "cafe", "ticket", "airport"];
 const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
+// 카테고리 클릭 시 이동할 예약 페이지
+const categoryHref: Record<CategoryKey, string> = {
+  tour:       "/products/tour-experience-platform/reservation",
+  stay:       "/products/stay-reservation-platform/reservation",
+  restaurant: "/products/restaurant-booking-platform/reservation",
+  cafe:       "/products/cafe-booking-platform/reservation",
+  ticket:     "/products/ticket-agency-platform/reservation",
+  airport:    "/products/airport-pickup-platform/reservation",
+};
+
 export default async function ProductPreviewSection({ locale }: { locale: string }) {
   const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
   const copy = copyMap[activeLocale];
@@ -102,7 +112,7 @@ export default async function ProductPreviewSection({ locale }: { locale: string
             return (
               <Link
                 key={key}
-                href="/products"
+                href={categoryHref[key]}
                 style={photo ? undefined : { background: `linear-gradient(145deg, ${item.gradFrom}, ${item.gradTo})` }}
                 className="group relative flex items-center gap-4 overflow-hidden rounded-[20px] border border-white/90 px-5 py-5 shadow-[0_4px_16px_rgba(16,32,58,0.06)] transition duration-300 hover:-translate-y-1 sm:px-6"
               >
