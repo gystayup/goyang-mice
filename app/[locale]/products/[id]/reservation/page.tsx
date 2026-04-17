@@ -22,8 +22,12 @@ export default async function LocaleReservationPage(props: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { locale, id } = await props.params;
+  const searchParams = props.searchParams ? await props.searchParams : {};
 
-  if (PLATFORM_IDS.has(id)) {
+  // item= 또는 ticket= 파라미터가 있으면 실제 예약 폼 — 리다이렉트 안 함
+  const hasItem = searchParams.item || searchParams.ticket;
+
+  if (PLATFORM_IDS.has(id) && !hasItem) {
     const product = getProductById(id);
     const categoryKey = product?.categoryKey ?? "tour";
     redirect(`/${locale}/products#section-${categoryKey}`);
