@@ -756,9 +756,9 @@ function RoomCard({
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-      {/* 객실 이미지 */}
-      <div className="relative aspect-[16/7] overflow-hidden bg-slate-100">
-        {(opt as { imageUrl?: string }).imageUrl ? (
+      {/* 객실 이미지 — 이미지 있을 때만 표시 */}
+      {(opt as { imageUrl?: string }).imageUrl ? (
+        <div className="relative aspect-[16/7] overflow-hidden bg-slate-100">
           <Image
             src={(opt as { imageUrl: string }).imageUrl}
             alt={opt.label}
@@ -766,16 +766,16 @@ function RoomCard({
             className="object-cover"
             sizes="(max-width:768px) 100vw, 672px"
           />
-        ) : (
-          <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${imageTone}`}>
-            <p className="text-lg font-black text-slate-700 opacity-40">{opt.label}</p>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+            <p className="text-sm font-black text-white">{opt.label}</p>
           </div>
-        )}
-        {/* 객실 이름 오버레이 */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
-          <p className="text-sm font-black text-white">{opt.label}</p>
         </div>
-      </div>
+      ) : (
+        /* 이미지 없을 때: 얇은 색 배너 */
+        <div className={`flex h-10 w-full items-center px-4 bg-gradient-to-r ${imageTone}`}>
+          <p className="text-sm font-black text-slate-700">{opt.label}</p>
+        </div>
+      )}
 
       {/* 객실 정보 */}
       <div className="p-4">
