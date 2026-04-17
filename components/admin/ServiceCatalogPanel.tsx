@@ -285,7 +285,8 @@ export default function ServiceCatalogPanel() {
 
   async function handleSave() {
     if (!form.title.trim()) { setMsg({ type: "err", text: "상품명을 입력하세요." }); return; }
-    if (!form.price || form.price <= 0) { setMsg({ type: "err", text: "가격을 입력하세요." }); return; }
+    // 공항픽업은 가격 0 허용 (옵션별 가격 사용), 그 외 카테고리는 가격 필수
+    if (activeCategory !== "airport" && (!form.price || form.price <= 0)) { setMsg({ type: "err", text: "가격을 입력하세요." }); return; }
 
     const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
     const highlights = highlightsInput.split("\n").map((l) => l.trim()).filter(Boolean);
