@@ -13,7 +13,6 @@ import {
   Users,
   Clock3,
   Check,
-  ShoppingCart,
   ChevronDown,
   ChevronUp,
   Wifi,
@@ -73,6 +72,9 @@ export default function StayDetailPage({
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState(0);
   const [introExpanded, setIntroExpanded] = useState(false);
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
+    item.options.length > 0 ? item.options[0].id : null
+  );
 
   // 리뷰
   const [reviews, setReviews] = useState<{ name: string; rating: number; text: string; date: string; helpful: number }[]>([
@@ -107,6 +109,11 @@ export default function StayDetailPage({
   const minPrice = item.options.length > 0
     ? Math.min(...item.options.map((o) => o.price))
     : item.price;
+
+  const selectedOption = item.options.find((o) => o.id === selectedOptionId) ?? item.options[0] ?? null;
+  const selectedReservationUrl = selectedOption
+    ? `${reservationUrl}&option=${selectedOption.id}&nights=${nights}&guests=${guests}`
+    : `${reservationUrl}&nights=${nights}&guests=${guests}`;
 
   return (
     <div className="mx-auto max-w-2xl pb-24">
@@ -332,7 +339,7 @@ export default function StayDetailPage({
 
       {/* 객실 선택 */}
       {activeTab === "rooms" && (
-        <div className="px-5 py-5 space-y-4">
+        <div className="px-5 py-5 space-y-3">
           <p className="text-xs text-slate-400">
             {formatDate(checkIn)}({dayLabel(checkIn)}) 체크인 · {nights}박 · 성인 {guests}명 기준
           </p>
@@ -343,7 +350,8 @@ export default function StayDetailPage({
                 opt={opt}
                 nights={nights}
                 imageTone={item.imageTone}
-                reservationUrl={`${reservationUrl}&option=${opt.id}&nights=${nights}&guests=${guests}`}
+                selected={selectedOptionId === opt.id}
+                onSelect={() => setSelectedOptionId(opt.id)}
               />
             ))
           ) : (
@@ -682,17 +690,30 @@ export default function StayDetailPage({
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 px-4 py-4 shadow-[0_-2px_20px_rgba(0,0,0,0.1)] backdrop-blur-md">
         <div className="mx-auto flex max-w-2xl items-center gap-4">
           <div className="flex-1">
-            {item.originalPrice && (
-              <p className="text-[10px] text-slate-400 line-through">{item.originalPrice.toLocaleString("ko-KR")}원</p>
+            {selectedOption ? (
+              <>
+                <p className="text-[11px] font-bold text-slate-700 truncate">{selectedOption.label}</p>
+                <p className="text-xl font-black text-slate-950">
+                  {selectedOption.price > 0
+                    ? selectedOption.price.toLocaleString("ko-KR")
+                    : (minPrice > 0 ? minPrice.toLocaleString("ko-KR") : "문의")}
+                  {(selectedOption.price > 0 || minPrice > 0) && (
+                    <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>
+                  )}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-[10px] font-semibold text-slate-400">1박 최저가</p>
+                <p className="text-xl font-black text-slate-950">
+                  {minPrice > 0 ? minPrice.toLocaleString("ko-KR") : "문의"}
+                  {minPrice > 0 && <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>}
+                </p>
+              </>
             )}
-            <p className="text-[10px] font-semibold text-slate-400">1박 최저가</p>
-            <p className="text-xl font-black text-slate-950">
-              {minPrice.toLocaleString("ko-KR")}
-              <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>
-            </p>
           </div>
           <Link
-            href={reservationUrl}
+            href={selectedReservationUrl}
             className="rounded-2xl bg-slate-950 px-10 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-slate-800 active:scale-95"
           >
             예약하기
@@ -740,24 +761,32 @@ export default function StayDetailPage({
   );
 }
 
-// ─── 객실 카드 ────────────────────────────────────────────────────────────────
+// ─── 객실 카드 (선택형) ────────────────────────────────────────────────────────
 function RoomCard({
   opt,
   nights,
   imageTone,
-  reservationUrl,
+  selected,
+  onSelect,
 }: {
   opt: { id: string; label: string; price: number; benefits: string[]; imageUrl?: string };
   nights: number;
   imageTone: string;
-  reservationUrl: string;
+  selected: boolean;
+  onSelect: () => void;
 }) {
   const total = opt.price * nights;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-      {/* 객실 이미지 — 이미지 있을 때만 표시 */}
-      {(opt as { imageUrl?: string }).imageUrl ? (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`w-full overflow-hidden rounded-2xl border-2 bg-white text-left shadow-sm transition ${
+        selected ? "border-slate-950" : "border-slate-100 hover:border-slate-300"
+      }`}
+    >
+      {/* 객실 이미지 — 있을 때만 */}
+      {(opt as { imageUrl?: string }).imageUrl && (
         <div className="relative aspect-[16/7] overflow-hidden bg-slate-100">
           <Image
             src={(opt as { imageUrl: string }).imageUrl}
@@ -770,18 +799,22 @@ function RoomCard({
             <p className="text-sm font-black text-white">{opt.label}</p>
           </div>
         </div>
-      ) : (
-        /* 이미지 없을 때: 얇은 색 배너 */
-        <div className={`flex h-10 w-full items-center px-4 bg-gradient-to-r ${imageTone}`}>
-          <p className="text-sm font-black text-slate-700">{opt.label}</p>
-        </div>
       )}
 
       {/* 객실 정보 */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
-            <p className="text-[11px] font-semibold text-slate-400">Flexible Rate</p>
+            {/* 선택 상태 + 객실명 */}
+            <div className="flex items-center gap-2">
+              <div className={`mt-0.5 h-4 w-4 shrink-0 rounded-full border-2 transition ${
+                selected ? "border-slate-950 bg-slate-950" : "border-slate-300"
+              }`}>
+                {selected && <div className="m-0.5 h-2 w-2 rounded-full bg-white" />}
+              </div>
+              <p className="text-sm font-black text-slate-900">{opt.label}</p>
+            </div>
+            {/* 체크인/아웃 */}
             <div className="mt-2 flex items-center gap-3 text-[11px] text-slate-500">
               <span className="flex items-center gap-1">
                 <Clock3 className="h-3 w-3" /> 체크인 15:00
@@ -804,31 +837,20 @@ function RoomCard({
             </div>
           </div>
           {/* 가격 */}
-          <div className="text-right">
-            <p className="text-[10px] text-slate-400">1박</p>
-            <p className="text-lg font-black text-slate-950">
-              {opt.price.toLocaleString("ko-KR")}
-              <span className="text-xs font-semibold text-slate-500">원</span>
-            </p>
-            {nights > 1 && (
-              <p className="text-[10px] text-slate-400">{nights}박 {total.toLocaleString("ko-KR")}원</p>
-            )}
-          </div>
-        </div>
-
-        {/* 버튼 */}
-        <div className="mt-3 flex gap-2">
-          <button className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50">
-            <ShoppingCart className="h-4 w-4" />
-          </button>
-          <Link
-            href={reservationUrl}
-            className="flex flex-1 items-center justify-center rounded-xl bg-slate-950 py-2.5 text-sm font-black text-white transition hover:bg-slate-800 active:scale-95"
-          >
-            예약하기
-          </Link>
+          {opt.price > 0 && (
+            <div className="text-right">
+              <p className="text-[10px] text-slate-400">1박</p>
+              <p className="text-lg font-black text-slate-950">
+                {opt.price.toLocaleString("ko-KR")}
+                <span className="text-xs font-semibold text-slate-500">원</span>
+              </p>
+              {nights > 1 && (
+                <p className="text-[10px] text-slate-400">{nights}박 {total.toLocaleString("ko-KR")}원</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
