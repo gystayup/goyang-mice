@@ -27,6 +27,7 @@ const serviceSeasons: Record<ServiceCatalogCategory, LocalizedText> = {
   stay: { ko: "연중 운영", en: "Year-round", ja: "年中運営", "zh-CN": "全年运营", "zh-TW": "全年營運" },
   restaurant: { ko: "연중 운영", en: "Year-round", ja: "年中運営", "zh-CN": "全年运营", "zh-TW": "全年營運" },
   cafe: { ko: "봄·가을 추천 시즌", en: "Spring · Autumn Picks", ja: "春・秋おすすめシーズン", "zh-CN": "春秋推荐季节", "zh-TW": "春秋推薦季節" },
+  airport: { ko: "365일 · 24시간 운영", en: "365 days · 24h", ja: "365日 · 24時間", "zh-CN": "全年·24小时", "zh-TW": "全年·24小時" },
 };
 
 const ticketCategories: Record<TicketCategory | "all", LocalizedText> = {

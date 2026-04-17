@@ -18,6 +18,7 @@ const seasonLabels: Record<ServiceCatalogCategory, string> = {
   stay: "연중 운영",
   restaurant: "연중 운영",
   cafe: "봄·가을 추천 시즌",
+  airport: "365일 · 24시간 운영",
 };
 
 export default function CategoryServiceReservation({

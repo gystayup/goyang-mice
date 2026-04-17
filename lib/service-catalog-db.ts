@@ -5,6 +5,9 @@ import { serviceCatalog as defaultCatalog } from "@/data/service-catalog";
 
 export type CatalogMap = Record<ServiceCatalogCategory, ServiceCatalogItem[]>;
 
+// 기본 빈 카탈로그 (DB가 비어있을 때 사용)
+const EMPTY_MAP: CatalogMap = { tour: [], stay: [], restaurant: [], cafe: [], airport: [] };
+
 const PAGE_KEY = "service-catalog";
 
 function getSupabaseClient() {
@@ -24,7 +27,9 @@ export async function readServiceCatalog(): Promise<CatalogMap> {
       .eq("pageKey", PAGE_KEY)
       .single();
     if (!data?.contentJson) return defaultCatalog as CatalogMap;
-    return data.contentJson as CatalogMap;
+    // 기존 DB 데이터에 airport 키가 없을 수 있으므로 기본값과 병합
+    const dbData = data.contentJson as Partial<CatalogMap>;
+    return { ...EMPTY_MAP, ...dbData };
   } catch {
     return defaultCatalog as CatalogMap;
   }

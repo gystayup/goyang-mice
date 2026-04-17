@@ -62,6 +62,7 @@ function findStaticItemById(id: string): ServiceCatalogItem | undefined {
     "stay",
     "restaurant",
     "cafe",
+    "airport",
   ];
   for (const cat of categories) {
     const items = staticCatalog[cat];

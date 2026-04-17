@@ -2,7 +2,7 @@ import type { DmcCategoryKey } from "@/data/products";
 
 export type ServiceCatalogCategory = Extract<
   DmcCategoryKey,
-  "tour" | "stay" | "restaurant" | "cafe"
+  "tour" | "stay" | "restaurant" | "cafe" | "airport"
 >;
 
 export interface ServiceCatalogOption {
@@ -856,6 +856,57 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
           price: 42000,
           benefits: ["브런치 플래터 포함"],
         },
+      ],
+    },
+  ],
+  airport: [
+    {
+      id: "airport-incheon-standard",
+      title: "인천공항 픽업·샌딩 예약",
+      subtitle: "공항 이동 서비스",
+      location: "인천국제공항 1·2터미널",
+      dateText: "365일 · 24시간 운영",
+      imageTone: "from-slate-800 via-slate-700 to-sky-900",
+      posterLabel: "AIRPORT",
+      summary: "인천공항에서 고양 주요 숙소·행사장까지 안전하고 편리한 이동 서비스입니다.",
+      description:
+        "공식 차량으로 운영되는 공항 픽업 및 샌딩 서비스입니다. 인천공항 1·2터미널에서 고양시 주요 지점까지 직통으로 이동합니다. 단체·VIP 모두 대응 가능합니다.",
+      tags: ["인천공항", "픽업", "VIP 이동"],
+      price: 0,
+      translations: {
+        en: { title: "Incheon Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Incheon Int'l Airport T1·T2", dateText: "365 days · 24h", posterLabel: "AIRPORT", summary: "Safe and convenient transfer from Incheon Airport to Goyang venues.", tags: ["Incheon Airport", "Pickup", "VIP Transfer"] },
+        ja: { title: "仁川空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "仁川国際空港 第1·2ターミナル", dateText: "365日 · 24時間", posterLabel: "AIRPORT", summary: "仁川空港から高陽の主要施設まで安全・快適な移動サービス。", tags: ["仁川空港", "ピックアップ", "VIP送迎"] },
+        "zh-CN": { title: "仁川机场接送预约", subtitle: "机场接送服务", location: "仁川国际机场 T1·T2", dateText: "全年·24小时", posterLabel: "AIRPORT", summary: "从仁川机场到高阳市主要地点的安全便捷接送服务。", tags: ["仁川机场", "接送", "VIP接送"] },
+        "zh-TW": { title: "仁川機場接送預約", subtitle: "機場接送服務", location: "仁川國際機場 T1·T2", dateText: "全年·24小時", posterLabel: "AIRPORT", summary: "從仁川機場到高陽市主要地點的安全便捷接送服務。", tags: ["仁川機場", "接送", "VIP接送"] },
+      },
+      options: [
+        { id: "sedan", label: "세단 (1-3인)", price: 85000, benefits: ["전용 기사", "24시간"] },
+        { id: "van", label: "승합 (4-7인)", price: 120000, benefits: ["대형 트렁크", "단체 가능"] },
+        { id: "vip-van", label: "VIP 리무진 (1-4인)", price: 180000, benefits: ["VIP 의전", "웰컴 보드"] },
+      ],
+    },
+    {
+      id: "airport-gimpo-standard",
+      title: "김포공항 픽업·샌딩 예약",
+      subtitle: "공항 이동 서비스",
+      location: "김포국제공항",
+      dateText: "365일 · 06:00-24:00 운영",
+      imageTone: "from-sky-800 via-sky-600 to-cyan-400",
+      posterLabel: "GIMPO",
+      summary: "김포공항에서 고양 주요 지점까지 빠르고 편리한 이동 서비스입니다.",
+      description:
+        "김포공항에서 고양시 주요 숙소·행사장까지 운행하는 공항 픽업 서비스입니다. 운항 일정에 맞춰 유연하게 예약할 수 있습니다.",
+      tags: ["김포공항", "픽업", "단거리"],
+      price: 0,
+      translations: {
+        en: { title: "Gimpo Airport Pickup & Sendoff", subtitle: "Airport transfer service", location: "Gimpo International Airport", dateText: "365 days · 06:00-24:00", posterLabel: "GIMPO", summary: "Fast and convenient transfer from Gimpo Airport to Goyang.", tags: ["Gimpo Airport", "Pickup", "Short-haul"] },
+        ja: { title: "金浦空港ピックアップ・送迎", subtitle: "空港送迎サービス", location: "金浦国際空港", dateText: "365日 · 06:00-24:00", posterLabel: "GIMPO", summary: "金浦空港から高陽市の主要施設まで快適な送迎サービス。", tags: ["金浦空港", "ピックアップ", "近距離"] },
+        "zh-CN": { title: "金浦机场接送预约", subtitle: "机场接送服务", location: "金浦国际机场", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "从金浦机场到高阳市主要地点的快速便捷接送服务。", tags: ["金浦机场", "接送", "短途"] },
+        "zh-TW": { title: "金浦機場接送預約", subtitle: "機場接送服務", location: "金浦國際機場", dateText: "全年·06:00-24:00", posterLabel: "GIMPO", summary: "從金浦機場到高陽市主要地點的快速便捷接送服務。", tags: ["金浦機場", "接送", "短途"] },
+      },
+      options: [
+        { id: "sedan", label: "세단 (1-3인)", price: 55000, benefits: ["전용 기사", "직통"] },
+        { id: "van", label: "승합 (4-7인)", price: 75000, benefits: ["단체 가능"] },
       ],
     },
   ],

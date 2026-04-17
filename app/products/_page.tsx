@@ -26,11 +26,12 @@ const CATEGORY_PRODUCT_IDS: Record<ServiceCatalogCategory, string> = {
   stay: "stay-reservation-platform",
   restaurant: "restaurant-booking-platform",
   cafe: "cafe-booking-platform",
+  airport: "airport-pickup-platform",
 };
 
 const CATEGORY_LABELS_MAP: Record<
   PageLocale,
-  Record<ServiceCatalogCategory | "ticket" | "airport", string>
+  Record<ServiceCatalogCategory | "ticket", string>
 > = {
   ko: {
     tour: "투어",
@@ -82,6 +83,7 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       stay: [],
       restaurant: [],
       cafe: [],
+      airport: [],
     })),
     readTicketCatalog().catch(() => []),
   ]);
@@ -89,12 +91,21 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
   const CATEGORY_LABELS = CATEGORY_LABELS_MAP[locale];
   const items: UnifiedItem[] = [];
 
-  // 서비스 카탈로그 아이템 (투어/숙박/음식점/라이프스타일) — locale 적용
+  // 서비스 카탈로그 아이템 (투어/숙박/음식점/라이프스타일/공항픽업) — locale 적용
   for (const [cat, catItems] of Object.entries(catalog)) {
     const category = cat as ServiceCatalogCategory;
     const productId = CATEGORY_PRODUCT_IDS[category];
     for (const rawItem of catItems) {
       const item = getLocalizedServiceItem(rawItem, locale);
+      // 공항픽업은 상세페이지 없이 예약 폼으로 직접 이동
+      const reservationUrl =
+        category === "airport"
+          ? `/products/${productId}/reservation`
+          : `/products/${productId}/detail?item=${item.id}`;
+      const minPrice =
+        item.options && item.options.length > 0
+          ? Math.min(...item.options.map((o) => o.price))
+          : item.price;
       items.push({
         id: `${category}-${item.id}`,
         category,
@@ -106,11 +117,11 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
         imageTone: item.imageTone,
         posterLabel: item.posterLabel,
         badge: item.subtitle || undefined,
-        minPrice: item.price,
+        minPrice,
         originalPrice: item.originalPrice,
         discountLabel: item.discountLabel,
         tags: item.tags,
-        reservationUrl: `/products/${productId}/detail?item=${item.id}`,
+        reservationUrl,
       });
     }
   }
@@ -137,58 +148,6 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       reservationUrl: `/products/ticket-agency-platform/detail?ticket=${ticket.id}`,
     });
   }
-
-  // 공항픽업 (단일 항목) — locale 적용
-  const airportCopy: Record<
-    PageLocale,
-    { title: string; venue: string; dateText: string; tags: string[] }
-  > = {
-    ko: {
-      title: "공항픽업·샌딩 예약",
-      venue: "인천공항 · 김포공항",
-      dateText: "365일 · 24시간 운영",
-      tags: ["인천공항", "김포공항", "VIP 이동"],
-    },
-    en: {
-      title: "Airport Pickup & Sendoff Booking",
-      venue: "Incheon · Gimpo Airport",
-      dateText: "365 days · 24h operation",
-      tags: ["Incheon Airport", "Gimpo Airport", "VIP Transfer"],
-    },
-    ja: {
-      title: "空港ピックアップ・送迎予約",
-      venue: "仁川空港 · 金浦空港",
-      dateText: "365日 · 24時間運営",
-      tags: ["仁川空港", "金浦空港", "VIP送迎"],
-    },
-    "zh-CN": {
-      title: "机场接送预约",
-      venue: "仁川机场 · 金浦机场",
-      dateText: "全年 · 24小时运营",
-      tags: ["仁川机场", "金浦机场", "VIP接送"],
-    },
-    "zh-TW": {
-      title: "機場接送預約",
-      venue: "仁川機場 · 金浦機場",
-      dateText: "全年 · 24小時運營",
-      tags: ["仁川機場", "金浦機場", "VIP接送"],
-    },
-  };
-  const ac = airportCopy[locale];
-  items.push({
-    id: "airport-general",
-    category: "airport",
-    categoryLabel: CATEGORY_LABELS.airport,
-    title: ac.title,
-    venue: ac.venue,
-    dateText: ac.dateText,
-    imageTone: "from-slate-800 via-slate-700 to-sky-900",
-    posterLabel: "AIRPORT",
-    badge: CATEGORY_LABELS.airport,
-    minPrice: 0,
-    tags: ac.tags,
-    reservationUrl: `/products/airport-pickup-platform/reservation`,
-  });
 
   const titleMap: Record<PageLocale, string> = {
     ko: "서비스 예약",

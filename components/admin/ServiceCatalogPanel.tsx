@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Edit2, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
 
-type Category = "tour" | "stay" | "restaurant" | "cafe";
+type Category = "tour" | "stay" | "restaurant" | "cafe" | "airport";
 type ActivePanel = Category | "ticket";
 
 const CATEGORIES: { key: Category; label: string }[] = [
@@ -11,6 +11,7 @@ const CATEGORIES: { key: Category; label: string }[] = [
   { key: "stay", label: "숙박예약" },
   { key: "restaurant", label: "음식점예약" },
   { key: "cafe", label: "라이프스타일" },
+  { key: "airport", label: "공항픽업" },
 ];
 
 // ── 티켓 관련 타입 ──────────────────────────────────────────────
@@ -149,6 +150,7 @@ interface ServiceCatalogItem {
 
 type CatalogMap = Record<Category, ServiceCatalogItem[]>;
 
+
 const emptyItem = (): ServiceCatalogItem => ({
   id: "",
   title: "",
@@ -176,7 +178,7 @@ const emptyItem = (): ServiceCatalogItem => ({
 });
 
 export default function ServiceCatalogPanel() {
-  const [catalog, setCatalog] = useState<CatalogMap>({ tour: [], stay: [], restaurant: [], cafe: [] });
+  const [catalog, setCatalog] = useState<CatalogMap>({ tour: [], stay: [], restaurant: [], cafe: [], airport: [] });
   const [activeCategory, setActiveCategory] = useState<ActivePanel>("tour");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -357,7 +359,7 @@ export default function ServiceCatalogPanel() {
           <div className="text-xs font-semibold tracking-[0.2em] text-[#3655a6]">SERVICE CATALOG</div>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">예약 서비스 상품 관리</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            투어, 숙박, 음식점, 라이프스타일, 티켓 상품을 추가·수정·삭제합니다.
+            투어, 숙박, 음식점, 라이프스타일, 공항픽업, 티켓 상품을 추가·수정·삭제합니다.
           </p>
         </div>
         {activeCategory !== "ticket" && (
