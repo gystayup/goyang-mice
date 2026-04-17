@@ -23,12 +23,16 @@ export async function readServiceCatalog(): Promise<CatalogMap> {
     const supabase = getSupabaseClient();
     const { data } = await supabase
       .from("pages")
-      .select("contentJson")
+      .select("*")
       .eq("pageKey", PAGE_KEY)
       .single();
-    if (!data?.contentJson) return defaultCatalog as CatalogMap;
+    // Supabase는 컬럼명을 소문자(contentjson)로 반환할 수 있으므로 양쪽 모두 처리
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const raw = data as any;
+    const contentJson = raw?.contentJson ?? raw?.contentjson ?? null;
+    if (!contentJson) return defaultCatalog as CatalogMap;
     // 기존 DB 데이터에 airport 키가 없을 수 있으므로 기본값과 병합
-    const dbData = data.contentJson as Partial<CatalogMap>;
+    const dbData = contentJson as Partial<CatalogMap>;
     return { ...EMPTY_MAP, ...dbData };
   } catch {
     return defaultCatalog as CatalogMap;
