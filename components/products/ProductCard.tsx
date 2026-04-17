@@ -391,14 +391,14 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
         {/* 버튼 */}
         <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
           <Link
-            href={`/products/${product.id}`}
+            href={`/products#section-${product.categoryKey}`}
             className="inline-flex min-h-9 items-center justify-center gap-1 rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-3 text-[11px] font-bold text-white transition hover:brightness-110 sm:min-h-10"
           >
             {ui.details}
             <ArrowRight className="h-3 w-3" />
           </Link>
           <Link
-            href={`/products/${product.id}/reservation`}
+            href={`/products#section-${product.categoryKey}`}
             className="inline-flex min-h-9 items-center justify-center rounded-full border border-white/70 bg-white/80 px-3 text-[11px] font-semibold text-slate-700 backdrop-blur transition hover:bg-white sm:min-h-10"
           >
             {ui.reserve}

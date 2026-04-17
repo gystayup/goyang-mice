@@ -78,12 +78,12 @@ const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
 // 카테고리 클릭 시 이동할 예약 페이지
 const categoryHref: Record<CategoryKey, string> = {
-  tour:       "/products/tour-experience-platform/reservation",
-  stay:       "/products/stay-reservation-platform/reservation",
-  restaurant: "/products/restaurant-booking-platform/reservation",
-  cafe:       "/products/cafe-booking-platform/reservation",
-  ticket:     "/products/ticket-agency-platform/reservation",
-  airport:    "/products/airport-pickup-platform/reservation",
+  tour:       "/products#section-tour",
+  stay:       "/products#section-stay",
+  restaurant: "/products#section-restaurant",
+  cafe:       "/products#section-cafe",
+  ticket:     "/products#section-ticket",
+  airport:    "/products#section-airport",
 };
 
 export default async function ProductPreviewSection({ locale }: { locale: string }) {
