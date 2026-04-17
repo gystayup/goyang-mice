@@ -83,8 +83,40 @@ const fallbackSlides: HeroSlide[] = [
   },
 ];
 
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(url);
+}
+
 function SlideFrame({ slide }: { slide: HeroSlide }) {
-  // 업로드된 이미지 파일 — 컨테이너 전체 채움 (hero 스타일)
+  // 업로드된 영상 파일 (mp4/webm/mov)
+  if (slide.videoUrl && isVideoUrl(slide.videoUrl)) {
+    return (
+      <video
+        src={slide.videoUrl}
+        className="h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+    );
+  }
+
+  // 유튜브 영상
+  if (slide.type === "youtube" && slide.youtubeId) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${slide.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${slide.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+        className="h-full w-full"
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+        title={slide.koTitle}
+        style={{ border: "none", pointerEvents: "none" }}
+      />
+    );
+  }
+
+  // 업로드된 이미지 파일
   if (slide.imageUrl) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -121,9 +153,9 @@ export default function HeroMediaCarousel() {
       .then((r) => r.json())
       .then((json) => {
         if (json?.success && Array.isArray(json.data) && json.data.length > 0) {
-          // imageUrl이 있는 슬라이드만 사용 — 이미지가 있다면 사용자가 업로드한 것
+          // 이미지·영상파일·유튜브 중 하나라도 있는 슬라이드 표시
           const filtered = (json.data as HeroSlide[]).filter(
-            (s) => Boolean(s.imageUrl)
+            (s) => Boolean(s.imageUrl) || Boolean(s.videoUrl) || (s.type === "youtube" && Boolean(s.youtubeId))
           );
           if (filtered.length > 0) {
             setSlides(filtered);
@@ -136,13 +168,18 @@ export default function HeroMediaCarousel() {
       });
   }, []);
 
-  // 자동 슬라이드
+  // 자동 슬라이드 — 유튜브/영상이면 더 길게 (20초), 이미지는 5.6초
   useEffect(() => {
-    const timer = window.setInterval(() => {
+    const current = slides[index];
+    const isMedia =
+      (current?.type === "youtube" && current?.youtubeId) ||
+      (current?.videoUrl && /\.(mp4|webm|mov)(\?|$)/i.test(current.videoUrl));
+    const delay = isMedia ? 20000 : 5600;
+    const timer = window.setTimeout(() => {
       setIndex((c) => (c + 1) % slides.length);
-    }, 5600);
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
+    }, delay);
+    return () => window.clearTimeout(timer);
+  }, [index, slides]);
 
   const prev = () => setIndex((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setIndex((c) => (c + 1) % slides.length);
