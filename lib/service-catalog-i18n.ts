@@ -26,8 +26,9 @@ export function getLocalizedServiceItem<T extends ServiceCatalogItem>(
   let t = item.translations?.[locale];
 
   // 2) 없으면 static 카탈로그에서 같은 id 상품의 번역 찾기 (DB 데이터 대응)
+  // ID가 다르면 제목으로도 검색 (관리자 DB 아이템 ↔ 정적 카탈로그 매칭)
   if (!t) {
-    const staticItem = findStaticItemById(item.id);
+    const staticItem = findStaticItemById(item.id) ?? findStaticItemByTitle(item.title);
     t = staticItem?.translations?.[locale];
   }
 
@@ -68,6 +69,24 @@ function findStaticItemById(id: string): ServiceCatalogItem | undefined {
     const items = staticCatalog[cat];
     if (!items) continue;
     const found = items.find((i) => i.id === id);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+/** 제목으로 정적 카탈로그 아이템 검색 (DB 아이템 ID ≠ 정적 ID인 경우 폴백) */
+function findStaticItemByTitle(title: string): ServiceCatalogItem | undefined {
+  const categories: ServiceCatalogCategory[] = [
+    "tour",
+    "stay",
+    "restaurant",
+    "cafe",
+    "airport",
+  ];
+  for (const cat of categories) {
+    const items = staticCatalog[cat];
+    if (!items) continue;
+    const found = items.find((i) => i.title === title);
     if (found) return found;
   }
   return undefined;
