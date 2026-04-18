@@ -29,6 +29,56 @@ const TICKET_BADGE: Record<string, Partial<Record<TLocale, string>>> = {
   "goyang-local-stage":       { en: "On Sale Now", ja: "本日オープン", "zh-CN": "今日开售", "zh-TW": "今日開售" },
   "goyang-night-run-ticket":  { en: "Tickets Available", ja: "チケット販売中", "zh-CN": "票务开放", "zh-TW": "票務開放" },
 };
+const TICKET_TAGS: Record<string, Partial<Record<TLocale, string[]>>> = {
+  "goyang-kpop-arena-open": {
+    en: ["K-POP", "Concert", "Premium Seats"],
+    ja: ["K-POP", "公演", "プレミアム席"],
+    "zh-CN": ["K-POP", "演出", "高级座位"],
+    "zh-TW": ["K-POP", "演出", "高級座位"],
+  },
+  "goyang-con-city-festival": {
+    en: ["Festival", "Outdoor Concert", "Food Zone"],
+    ja: ["フェスティバル", "野外公演", "フードゾーン"],
+    "zh-CN": ["音乐节", "户外演出", "美食区"],
+    "zh-TW": ["音樂節", "戶外演出", "美食區"],
+  },
+  "goyang-art-night": {
+    en: ["Exhibition", "Night", "Media Art"],
+    ja: ["展示", "夜間", "メディアアート"],
+    "zh-CN": ["展览", "夜间", "媒体艺术"],
+    "zh-TW": ["展覽", "夜間", "媒體藝術"],
+  },
+  "goyang-family-play": {
+    en: ["Family", "Experience Show", "Weekend Program"],
+    ja: ["ファミリー", "体験公演", "週末プログラム"],
+    "zh-CN": ["家庭", "体验演出", "周末活动"],
+    "zh-TW": ["家庭", "體驗演出", "週末活動"],
+  },
+  "goyang-kmusic-series": {
+    en: ["Concert", "Band", "Indoor Show"],
+    ja: ["コンサート", "バンド", "室内公演"],
+    "zh-CN": ["音乐会", "乐队", "室内演出"],
+    "zh-TW": ["音樂會", "樂隊", "室內演出"],
+  },
+  "goyang-mice-opening-show": {
+    en: ["MICE", "VIP", "Special Stage"],
+    ja: ["MICE", "VIP", "スペシャルステージ"],
+    "zh-CN": ["MICE", "VIP", "特别舞台"],
+    "zh-TW": ["MICE", "VIP", "特別舞台"],
+  },
+  "goyang-local-stage": {
+    en: ["Local", "Outdoor Stage", "Flea Market"],
+    ja: ["ローカル", "野外ステージ", "フリーマーケット"],
+    "zh-CN": ["本地", "户外舞台", "跳蚤市场"],
+    "zh-TW": ["本地", "戶外舞台", "跳蚤市場"],
+  },
+  "goyang-night-run-ticket": {
+    en: ["Sports", "Night Event", "Package Ticket"],
+    ja: ["スポーツ", "夜間イベント", "パッケージチケット"],
+    "zh-CN": ["体育", "夜间活动", "套票"],
+    "zh-TW": ["體育", "夜間活動", "套票"],
+  },
+};
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
@@ -160,6 +210,8 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       locale !== "ko" ? (TICKET_VENUE[ticket.id]?.[tLocale] ?? ticket.venue) : ticket.venue;
     const localizedBadge =
       locale !== "ko" ? (TICKET_BADGE[ticket.id]?.[tLocale] ?? ticket.badge) : ticket.badge;
+    const localizedTags =
+      locale !== "ko" ? (TICKET_TAGS[ticket.id]?.[tLocale] ?? ticket.tags) : ticket.tags;
     items.push({
       id: `ticket-${ticket.id}`,
       category: "ticket",
@@ -172,7 +224,7 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       posterLabel: ticket.posterLabel,
       badge: localizedBadge || undefined,
       minPrice,
-      tags: ticket.tags,
+      tags: localizedTags,
       reservationUrl: `/products/ticket-agency-platform/detail?ticket=${ticket.id}`,
     });
   }
