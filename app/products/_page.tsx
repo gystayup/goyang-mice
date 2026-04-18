@@ -79,6 +79,25 @@ const TICKET_TAGS: Record<string, Partial<Record<TLocale, string[]>>> = {
     "zh-TW": ["體育", "夜間活動", "套票"],
   },
 };
+// 관리자에서 새 티켓 생성 시 ID가 `ticket-${Date.now()}` 형식이라 고정 ID 매칭 실패.
+// 따라서 title(영문 고정값) 기반으로도 매칭할 수 있도록 보조 맵을 둠.
+const TITLE_TO_KEY: Record<string, string> = {
+  "GOYANG K-POP ARENA OPEN STAGE": "goyang-kpop-arena-open",
+  "GOYANG CON CITY FESTIVAL": "goyang-con-city-festival",
+  "GOYANG ART NIGHT EXHIBITION": "goyang-art-night",
+  "GOYANG FAMILY PLAY WEEK": "goyang-family-play",
+  "GOYANG K-MUSIC SERIES": "goyang-kmusic-series",
+  "GOYANG MICE OPENING SHOW": "goyang-mice-opening-show",
+  "GOYANG LOCAL STAGE": "goyang-local-stage",
+  "GOYANG NIGHT RUN & SHOW": "goyang-night-run-ticket",
+};
+function resolveTicketKey(ticket: { id: string; title: string }): string {
+  // ID가 하드코딩 맵에 있으면 그대로 사용
+  if (TICKET_VENUE[ticket.id]) return ticket.id;
+  // 아니면 title로 매칭 시도
+  const normTitle = ticket.title?.trim().toUpperCase() ?? "";
+  return TITLE_TO_KEY[normTitle] ?? ticket.id;
+}
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
@@ -206,12 +225,13 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
         ? Math.min(...ticket.options.map((o) => o.price))
         : 0;
     const tLocale = locale as TLocale;
+    const tKey = resolveTicketKey(ticket);
     const localizedVenue =
-      locale !== "ko" ? (TICKET_VENUE[ticket.id]?.[tLocale] ?? ticket.venue) : ticket.venue;
+      locale !== "ko" ? (TICKET_VENUE[tKey]?.[tLocale] ?? ticket.venue) : ticket.venue;
     const localizedBadge =
-      locale !== "ko" ? (TICKET_BADGE[ticket.id]?.[tLocale] ?? ticket.badge) : ticket.badge;
+      locale !== "ko" ? (TICKET_BADGE[tKey]?.[tLocale] ?? ticket.badge) : ticket.badge;
     const localizedTags =
-      locale !== "ko" ? (TICKET_TAGS[ticket.id]?.[tLocale] ?? ticket.tags) : ticket.tags;
+      locale !== "ko" ? (TICKET_TAGS[tKey]?.[tLocale] ?? ticket.tags) : ticket.tags;
     items.push({
       id: `ticket-${ticket.id}`,
       category: "ticket",
