@@ -6,6 +6,7 @@ import {
   Hotel,
   MapPin,
   Plane,
+  Stethoscope,
   Ticket,
   Users,
   UtensilsCrossed,
@@ -41,6 +42,7 @@ const tagIcons: Record<Product["categoryKey"], typeof Compass> = {
   cafe: Coffee,
   ticket: Ticket,
   airport: Plane,
+  medical: Stethoscope,
 };
 
 // ── 한국어 ──────────────────────────────────────────────
@@ -86,6 +88,27 @@ const koCopy: Record<string, ProductCopy> = {
     summary: "공항 픽업부터 호텔, 행사장, 시내 이동까지 연결하는 예약 플랫폼입니다.",
     duration: "노선별 운영", people: "1명 ~ 9명", location: "인천공항 / 김포공항 ~ 고양",
     subcategories: ["인천 픽업", "인천 샌딩", "김포 픽업"], priceLabel: "차량 기준 시작가",
+  },
+  "medical-treatment-platform": {
+    category: "고양메디컬투어", categorySummary: "질병치료형", tag: "메디컬",
+    title: "질병치료형 예약 플랫폼",
+    summary: "맞춤상담, 진료예약, 공항픽업, 숙박지원, 통역서비스, 사후관리까지 원스톱으로 연결합니다.",
+    duration: "단기 진료 ~ 장기 체류", people: "1명 ~ 10명", location: "고양 대학병원 및 전문 의료기관",
+    subcategories: ["암·중증질환", "여성질환", "정밀치료"], priceLabel: "진료 상담 후 견적",
+  },
+  "medical-beauty-platform": {
+    category: "고양메디컬투어", categorySummary: "건강미용 증진형", tag: "K-뷰티",
+    title: "건강미용 증진형 예약 플랫폼",
+    summary: "프리미엄 스테이, 편리한 접근성, 다국어 응대 기반으로 성형·피부·웰니스를 예약합니다.",
+    duration: "당일 시술 ~ 2주 체류", people: "1명 ~ 6명", location: "고양 K-뷰티 클리닉 및 프리미엄 스테이",
+    subcategories: ["성형", "피부", "웰니스"], priceLabel: "프로그램별 상담 견적",
+  },
+  "medical-recovery-platform": {
+    category: "고양메디컬투어", categorySummary: "회복·재활형", tag: "회복",
+    title: "회복·재활 예약 플랫폼",
+    summary: "편안한 숙박, 맞춤 식이관리, 의료 일정 관리, 심리상담, 자연·휴식, 정기 체크까지 운영합니다.",
+    duration: "1주 ~ 장기 체류", people: "1명 ~ 4명", location: "고양 회복 거점 스테이 및 재활 기관",
+    subcategories: ["회복체류", "재활", "보호자 동반"], priceLabel: "체류 기간별 상담 견적",
   },
 };
 
@@ -133,6 +156,27 @@ const enCopy: Record<string, ProductCopy> = {
     duration: "By route", people: "1 to 9 guests", location: "Incheon / Gimpo Airport to Goyang",
     subcategories: ["ICN Pickup", "ICN Sending", "GMP Pickup"], priceLabel: "Starting fare",
   },
+  "medical-treatment-platform": {
+    category: "Goyang Medical Tour", categorySummary: "Disease Treatment", tag: "Medical",
+    title: "Medical Treatment Booking Platform",
+    summary: "Connects consultation, treatment booking, airport pickup, stay, interpretation and follow-up in one flow.",
+    duration: "Short treatment to extended stay", people: "1 to 10 guests", location: "Major hospitals in Goyang",
+    subcategories: ["Cancer / Serious Illness", "Women's Health", "Precision Care"], priceLabel: "Quote after consultation",
+  },
+  "medical-beauty-platform": {
+    category: "Goyang Medical Tour", categorySummary: "Health & Beauty", tag: "K-Beauty",
+    title: "Health & Beauty Booking Platform",
+    summary: "Premium stay, convenient access and multi-language support for aesthetics, dermatology and wellness.",
+    duration: "Same-day to 2-week stay", people: "1 to 6 guests", location: "Goyang K-Beauty clinics and premium stays",
+    subcategories: ["Aesthetic", "Dermatology", "Wellness"], priceLabel: "Quote by program",
+  },
+  "medical-recovery-platform": {
+    category: "Goyang Medical Tour", categorySummary: "Recovery & Rehab", tag: "Recovery",
+    title: "Recovery & Rehabilitation Booking Platform",
+    summary: "Comfortable stay, tailored diet, medical schedule, counseling, nature rest and regular check-ups.",
+    duration: "1 week to long stay", people: "1 to 4 guests", location: "Goyang recovery stays and rehab facilities",
+    subcategories: ["Recovery Stay", "Rehabilitation", "Caregiver Support"], priceLabel: "Quote by stay length",
+  },
 };
 
 // ── 日本語 ──────────────────────────────────────────────
@@ -178,6 +222,27 @@ const jaCopy: Record<string, ProductCopy> = {
     summary: "空港送迎からホテル・会場・市内移動まで一括でつなぐ予約プラットフォームです。",
     duration: "路線ごとに運営", people: "1名〜9名", location: "仁川空港 / 金浦空港〜高陽",
     subcategories: ["仁川ピックアップ", "仁川センディング", "金浦ピックアップ"], priceLabel: "車両あたり開始価格",
+  },
+  "medical-treatment-platform": {
+    category: "高陽メディカルツアー", categorySummary: "疾病治療型", tag: "メディカル",
+    title: "疾病治療型予約プラットフォーム",
+    summary: "相談、診療予約、空港送迎、宿泊支援、通訳、アフターケアまでワンストップでつなぎます。",
+    duration: "短期診療〜長期滞在", people: "1名〜10名", location: "高陽の大学病院および専門医療機関",
+    subcategories: ["がん・重症疾患", "女性疾患", "精密治療"], priceLabel: "相談後の見積もり",
+  },
+  "medical-beauty-platform": {
+    category: "高陽メディカルツアー", categorySummary: "健康美容増進型", tag: "K-ビューティ",
+    title: "健康美容増進型予約プラットフォーム",
+    summary: "プレミアムステイ・便利なアクセス・多言語対応で美容・皮膚・ウェルネスを予約します。",
+    duration: "当日施術〜2週間滞在", people: "1名〜6名", location: "高陽K-ビューティクリニックおよびプレミアムステイ",
+    subcategories: ["美容", "皮膚科", "ウェルネス"], priceLabel: "プログラム別相談見積もり",
+  },
+  "medical-recovery-platform": {
+    category: "高陽メディカルツアー", categorySummary: "回復・リハビリ型", tag: "リカバリー",
+    title: "回復・リハビリ予約プラットフォーム",
+    summary: "快適な宿泊、食事管理、医療日程、カウンセリング、自然・休息、定期チェックまで運営します。",
+    duration: "1週間〜長期滞在", people: "1名〜4名", location: "高陽の回復ステイおよびリハビリ機関",
+    subcategories: ["回復滞在", "リハビリ", "付き添いサポート"], priceLabel: "滞在期間別見積もり",
   },
 };
 
@@ -225,6 +290,27 @@ const zhCNCopy: Record<string, ProductCopy> = {
     duration: "按路线运营", people: "1人至9人", location: "仁川机场 / 金浦机场至高阳",
     subcategories: ["仁川接机", "仁川送机", "金浦接机"], priceLabel: "每辆车起始价格",
   },
+  "medical-treatment-platform": {
+    category: "高阳医疗旅游", categorySummary: "疾病治疗型", tag: "医疗",
+    title: "疾病治疗型预约平台",
+    summary: "咨询、就诊预约、机场接送、住宿、翻译与后续管理一站式衔接。",
+    duration: "短期诊疗至长期驻留", people: "1人至10人", location: "高阳大学医院及专业医疗机构",
+    subcategories: ["癌症·重症", "妇科", "精密诊疗"], priceLabel: "咨询后报价",
+  },
+  "medical-beauty-platform": {
+    category: "高阳医疗旅游", categorySummary: "健康美容增进型", tag: "K-美妆",
+    title: "健康美容增进型预约平台",
+    summary: "以高端驻留、便捷通勤与多语言服务预约整形、皮肤与康养项目。",
+    duration: "当日手术至2周驻留", people: "1人至6人", location: "高阳K-美妆诊所及高端驻留",
+    subcategories: ["整形", "皮肤", "康养"], priceLabel: "按项目咨询报价",
+  },
+  "medical-recovery-platform": {
+    category: "高阳医疗旅游", categorySummary: "恢复·康复型", tag: "康复",
+    title: "恢复·康复预约平台",
+    summary: "舒适住宿、定制膳食、医疗日程、心理咨询、自然休憩与定期体检一站式运营。",
+    duration: "1周至长期驻留", people: "1人至4人", location: "高阳康复驻留与康复机构",
+    subcategories: ["康复驻留", "康复治疗", "陪护服务"], priceLabel: "按驻留期咨询报价",
+  },
 };
 
 // ── 繁體中文 ──────────────────────────────────────────────
@@ -270,6 +356,27 @@ const zhTWCopy: Record<string, ProductCopy> = {
     summary: "一站式連結機場接送至酒店、場館及市內出行的預約平台。",
     duration: "按路線運營", people: "1人至9人", location: "仁川機場 / 金浦機場至高陽",
     subcategories: ["仁川接機", "仁川送機", "金浦接機"], priceLabel: "每輛車起始價格",
+  },
+  "medical-treatment-platform": {
+    category: "高陽醫療旅遊", categorySummary: "疾病治療型", tag: "醫療",
+    title: "疾病治療型預約平台",
+    summary: "諮詢、就診預約、機場接送、住宿、翻譯與後續管理一站式銜接。",
+    duration: "短期診療至長期駐留", people: "1人至10人", location: "高陽大學醫院及專業醫療機構",
+    subcategories: ["癌症·重症", "婦科", "精密診療"], priceLabel: "諮詢後報價",
+  },
+  "medical-beauty-platform": {
+    category: "高陽醫療旅遊", categorySummary: "健康美容增進型", tag: "K-美妝",
+    title: "健康美容增進型預約平台",
+    summary: "以高端駐留、便捷通勤與多語言服務預約整形、皮膚與養生方案。",
+    duration: "當日手術至2週駐留", people: "1人至6人", location: "高陽K-美妝診所及高端駐留",
+    subcategories: ["整形", "皮膚", "養生"], priceLabel: "按方案諮詢報價",
+  },
+  "medical-recovery-platform": {
+    category: "高陽醫療旅遊", categorySummary: "恢復·復健型", tag: "復健",
+    title: "恢復·復健預約平台",
+    summary: "舒適住宿、定制膳食、醫療日程、心理諮詢、自然休憩與定期體檢一站式營運。",
+    duration: "1週至長期駐留", people: "1人至4人", location: "高陽恢復駐留與復健機構",
+    subcategories: ["恢復駐留", "復健治療", "陪護服務"], priceLabel: "按駐留期諮詢報價",
   },
 };
 
@@ -384,7 +491,7 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
             {display.priceLabel}
           </div>
           <div className="mt-0.5 text-[1.25rem] font-black tracking-[-0.03em] text-slate-950 sm:text-[1.4rem]">
-            ₩{product.price.toLocaleString("ko-KR")}
+            {product.price > 0 ? `₩${product.price.toLocaleString("ko-KR")}` : display.priceLabel}
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { ArrowRight, BedDouble, Compass, PlaneTakeoff, Sparkles, Ticket, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, BedDouble, Compass, PlaneTakeoff, Sparkles, Stethoscope, Ticket, UtensilsCrossed } from "lucide-react";
 import Image from "next/image";
 
 import SectionTitle from "@/components/common/SectionTitle";
@@ -8,7 +8,7 @@ import { Link } from "@/lib/navigation";
 
 import ProductCard from "../products/ProductCard";
 
-type CategoryKey = "tour" | "stay" | "restaurant" | "cafe" | "ticket" | "airport";
+type CategoryKey = "tour" | "stay" | "restaurant" | "cafe" | "ticket" | "airport" | "medical";
 type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
 const categoryIcons: Record<CategoryKey, typeof Compass> = {
@@ -18,15 +18,16 @@ const categoryIcons: Record<CategoryKey, typeof Compass> = {
   cafe: Sparkles,
   ticket: Ticket,
   airport: PlaneTakeoff,
+  medical: Stethoscope,
 };
 
-type MainCopy = { eyebrow: string; title: string; viewAll: string };
+type MainCopy = { eyebrow: string; title: string; viewAll: string; medicalEyebrow: string; medicalTitle: string };
 const copyMap: Record<LocaleKey, MainCopy> = {
-  ko:      { eyebrow: "DMC Services", title: "고양시 방문, 체류 관광, 이벤트 원스톱 서비스",                        viewAll: "전체 서비스 보기" },
-  en:      { eyebrow: "DMC Services", title: "One-stop services for Goyang visits, stays, tourism and events",      viewAll: "View all services" },
-  ja:      { eyebrow: "DMC Services", title: "高陽市訪問・滞在観光・イベントのワンストップサービス",                viewAll: "全サービスを見る" },
-  "zh-CN": { eyebrow: "DMC Services", title: "高阳市访问·滞留旅游·活动一站式服务",                                 viewAll: "查看全部服务" },
-  "zh-TW": { eyebrow: "DMC Services", title: "高陽市訪問·滯留旅遊·活動一站式服務",                                 viewAll: "查看全部服務" },
+  ko:      { eyebrow: "DMC Services", title: "고양시 방문, 체류 관광, 이벤트 원스톱 서비스",                        viewAll: "전체 서비스 보기", medicalEyebrow: "Medical Tour",  medicalTitle: "고양메디컬투어 — 치료·미용·회복을 연결하는 예약 플랫폼" },
+  en:      { eyebrow: "DMC Services", title: "One-stop services for Goyang visits, stays, tourism and events",      viewAll: "View all services", medicalEyebrow: "Medical Tour",  medicalTitle: "Goyang Medical Tour — Treatment, K-Beauty and Recovery" },
+  ja:      { eyebrow: "DMC Services", title: "高陽市訪問・滞在観光・イベントのワンストップサービス",                viewAll: "全サービスを見る",   medicalEyebrow: "Medical Tour",  medicalTitle: "高陽メディカルツアー — 治療・美容・回復をつなぐ予約プラットフォーム" },
+  "zh-CN": { eyebrow: "DMC Services", title: "高阳市访问·滞留旅游·活动一站式服务",                                 viewAll: "查看全部服务",       medicalEyebrow: "Medical Tour",  medicalTitle: "高阳医疗旅游 — 连接治疗·美容·康复的预约平台" },
+  "zh-TW": { eyebrow: "DMC Services", title: "高陽市訪問·滯留旅遊·活動一站式服務",                                 viewAll: "查看全部服務",       medicalEyebrow: "Medical Tour",  medicalTitle: "高陽醫療旅遊 — 連結治療·美容·復健的預約平台" },
 };
 
 type CatItem = { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string };
@@ -38,6 +39,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "라이프스타일",   gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "티켓 예약",      gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "공항픽업 예약",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+    medical:    { title: "고양메디컬투어",  gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   en: {
     tour:       { title: "Travel Products", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -46,6 +48,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "Lifestyle",       gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "Ticket Booking",  gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "Airport Pickup",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+    medical:    { title: "Goyang Medical Tour", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   ja: {
     tour:       { title: "旅行商品予約",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -54,6 +57,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "ライフスタイル",  gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "チケット予約",    gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "空港送迎予約",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+    medical:    { title: "高陽メディカルツアー", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-CN": {
     tour:       { title: "旅游产品预约",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -62,6 +66,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "生活方式",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "票务预约",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "机场接送预约",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+    medical:    { title: "高阳医疗旅游",    gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-TW": {
     tour:       { title: "旅遊產品預約",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -70,6 +75,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "生活風格",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "票務預約",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "機場接送預約",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
+    medical:    { title: "高陽醫療旅遊",    gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
 };
 
@@ -84,6 +90,7 @@ const categoryHref: Record<CategoryKey, string> = {
   cafe:       "/products#section-cafe",
   ticket:     "/products#section-ticket",
   airport:    "/products#section-airport",
+  medical:    "/products#section-medical",
 };
 
 export default async function ProductPreviewSection({ locale }: { locale: string }) {
@@ -108,7 +115,7 @@ export default async function ProductPreviewSection({ locale }: { locale: string
           {categoryOrder.map((key) => {
             const item = categoryCopy[activeLocale][key];
             const Icon = categoryIcons[key];
-            const photo = categoryMedia?.[key]?.src ?? "";
+            const photo = (categoryMedia as Record<string, { src?: string } | undefined> | null)?.[key]?.src ?? "";
             return (
               <Link
                 key={key}
@@ -160,9 +167,32 @@ export default async function ProductPreviewSection({ locale }: { locale: string
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} locale={activeLocale} />
-        ))}
+        {products
+          .filter((product) => product.categoryKey !== "medical")
+          .map((product) => (
+            <ProductCard key={product.id} product={product} locale={activeLocale} />
+          ))}
+      </div>
+
+      {/* 고양메디컬투어 섹션 */}
+      <div className="mt-12">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[#234ca6]">
+              {copy.medicalEyebrow}
+            </div>
+            <h3 className="mt-2 text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-2xl">
+              {copy.medicalTitle}
+            </h3>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          {products
+            .filter((product) => product.categoryKey === "medical")
+            .map((product) => (
+              <ProductCard key={product.id} product={product} locale={activeLocale} />
+            ))}
+        </div>
       </div>
     </section>
   );

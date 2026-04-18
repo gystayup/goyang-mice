@@ -11,6 +11,7 @@ const categoryLabels: Record<DmcCategoryKey, LocalizedText> = {
   cafe: { ko: "라이프스타일 예약", en: "Lifestyle", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
   ticket: { ko: "티켓예약", en: "Ticket", ja: "チケット予約", "zh-CN": "票务预约", "zh-TW": "票務預約" },
   airport: { ko: "공항픽업예약", en: "Airport Pickup", ja: "空港送迎予約", "zh-CN": "机场接送预约", "zh-TW": "機場接送預約" },
+  medical: { ko: "고양메디컬투어", en: "Goyang Medical Tour", ja: "高陽メディカルツアー", "zh-CN": "高阳医疗旅游", "zh-TW": "高陽醫療旅遊" },
 };
 
 const categoryEyebrows: Record<DmcCategoryKey, LocalizedText> = {
@@ -20,6 +21,7 @@ const categoryEyebrows: Record<DmcCategoryKey, LocalizedText> = {
   cafe: { ko: "라이프스타일 예약", en: "Lifestyle Booking", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
   ticket: { ko: "티켓예약", en: "Ticket Booking", ja: "チケット予約", "zh-CN": "票务预约", "zh-TW": "票務預約" },
   airport: { ko: "공항픽업예약", en: "Airport Transfer", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
+  medical: { ko: "메디컬투어", en: "Medical Tour", ja: "メディカルツアー", "zh-CN": "医疗旅游", "zh-TW": "醫療旅遊" },
 };
 
 const serviceSeasons: Record<ServiceCatalogCategory, LocalizedText> = {

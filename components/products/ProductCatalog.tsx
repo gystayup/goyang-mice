@@ -74,6 +74,12 @@ const categoryCopy = {
         promoDesc:
           "공연, 전시, 체험 프로그램을 검색하고 상세 설명과 결제로 바로 이어집니다.",
       },
+      medical: {
+        label: "고양메디컬투어",
+        promoTitle: "치료·미용·회복을 연결하는 고양 메디컬투어 예약",
+        promoDesc:
+          "질병치료형, 건강미용 증진형, 회복·재활형을 진료·체류·사후관리까지 한 번의 예약 흐름으로 운영합니다.",
+      },
       airport: {
         label: "공항픽업예약",
         promoTitle: "공항에서 고양까지 연결하는 픽업·샌딩 예약",
@@ -139,6 +145,12 @@ const categoryCopy = {
         promoDesc:
           "Search, compare, and move to detailed booking and payment in one connected ticket flow.",
       },
+      medical: {
+        label: "Goyang Medical Tour",
+        promoTitle: "Medical tour booking connecting treatment, K-beauty and recovery",
+        promoDesc:
+          "Disease treatment, health & beauty, and recovery programs are connected through one booking flow from consultation to aftercare.",
+      },
       airport: {
         label: "Airport Pickup",
         promoTitle: "Airport pickup and sending service linked to Goyang stays and venues",
@@ -172,6 +184,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       cafe: { label: "ライフスタイル予約", promoTitle: "カフェと感性空間をつなぐライフスタイル予約", promoDesc: "ブランチ、デザート、ミーティングスペース、感性カフェを予約型サービスで提供します。" },
       ticket: { label: "チケット予約", promoTitle: "公演と展示をつなぐチケット予約サービス", promoDesc: "公演、展示、体験プログラムを検索して詳細説明と決済へスムーズに進めます。" },
       airport: { label: "空港送迎予約", promoTitle: "空港から高陽へつなぐ送迎予約", promoDesc: "仁川空港、金浦空港、VIP移動、団体車両予約をひとつの構造で運営します。" },
+      medical: { label: "高陽メディカルツアー", promoTitle: "治療・美容・回復をつなぐ高陽メディカルツアー予約", promoDesc: "疾病治療型、健康美容増進型、回復・リハビリ型を相談から滞在・アフターケアまで一つの流れで運営します。" },
     },
   },
   "zh-CN": {
@@ -196,6 +209,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       cafe: { label: "生活方式预约", promoTitle: "连接咖啡馆与精选空间的生活方式预约", promoDesc: "早午餐、甜品、会议空间及网红咖啡馆，以可预约服务形式提供。" },
       ticket: { label: "票务预约", promoTitle: "连接演出与展览的票务预约服务", promoDesc: "搜索演出、展览及体验项目，直接跳转至详情说明与支付流程。" },
       airport: { label: "机场接送预约", promoTitle: "连接机场与高阳的接送预约", promoDesc: "仁川机场、金浦机场、VIP接送及团体用车预约，统一在一套结构中运营。" },
+      medical: { label: "高阳医疗旅游", promoTitle: "连接治疗·美容·康复的高阳医疗旅游预约", promoDesc: "疾病治疗型、健康美容增进型与恢复·康复型，从咨询到驻留与后续管理在一体化预约流程中运营。" },
     },
   },
   "zh-TW": {
@@ -220,6 +234,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       cafe: { label: "生活風格預約", promoTitle: "連結咖啡廳與精選空間的生活風格預約", promoDesc: "早午餐、甜品、會議空間及網紅咖啡廳，以可預約服務形式提供。" },
       ticket: { label: "票務預約", promoTitle: "連結演出與展覽的票務預約服務", promoDesc: "搜尋演出、展覽及體驗方案，直接跳轉至詳情說明與支付流程。" },
       airport: { label: "機場接送預約", promoTitle: "連結機場與高陽的接送預約", promoDesc: "仁川機場、金浦機場、VIP接送及團體用車預約，統一在一套結構中營運。" },
+      medical: { label: "高陽醫療旅遊", promoTitle: "連結治療·美容·復健的高陽醫療旅遊預約", promoDesc: "疾病治療型、健康美容增進型與恢復·復健型，從諮詢到駐留與後續管理在一體化預約流程中營運。" },
     },
   },
 };

@@ -15,6 +15,7 @@ const categoryTargets: Record<DmcCategoryKey, string> = {
   cafe: "cafe-booking-platform",
   ticket: "ticket-agency-platform",
   airport: "airport-pickup-platform",
+  medical: "medical-treatment-platform",
 };
 
 export default function ProductCategoryQuickNav({

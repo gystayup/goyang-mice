@@ -4,7 +4,8 @@ export type DmcCategoryKey =
   | "restaurant"
   | "cafe"
   | "ticket"
-  | "airport";
+  | "airport"
+  | "medical";
 
 export interface DmcCategory {
   key: DmcCategoryKey;
@@ -126,6 +127,21 @@ export const dmcCategories: DmcCategory[] = [
     operationsScope: "명단 대조, QR 발권, 입장 처리, 현장 문의 응대를 운영합니다.",
     managementScope: "판매 상태, 좌석 가용성, 취소/환불, 운영 메모를 관리자에서 관리합니다.",
     paymentScope: "즉시결제, 발권 보류, 단체 정산, 환불 정책까지 확장 가능합니다.",
+  },
+  {
+    key: "medical",
+    label: "고양메디컬투어",
+    shortLabel: "Medical",
+    promoTitle: "고양 메디컬투어 예약 플랫폼",
+    promoDesc:
+      "질병치료, 건강미용, 회복·재활을 하나의 예약 구조로 연결해 진료·체류·사후관리까지 운영합니다.",
+    desc:
+      "해외·국내 환자의 의료 여정을 예약 단계에서 체류·회복·사후관리까지 이어지는 원스톱 메디컬 플랫폼입니다.",
+    subcategories: ["질병치료형", "건강미용 증진형", "회복·재활형"],
+    reservationScope: "진료 목적, 희망 일정, 보호자 동반 여부, 통역 언어를 기준으로 예약을 접수합니다.",
+    operationsScope: "진료 예약, 공항 픽업, 숙박 배정, 통역 배정, 일정 관리를 함께 운영합니다.",
+    managementScope: "환자 상태, 진료 이력, 보호자 정보, 사후관리 일정을 관리자에서 관리합니다.",
+    paymentScope: "선결제, 보증금, 진료 후 정산, 보험 연계 결제 구조까지 확장할 수 있습니다.",
   },
   {
     key: "airport",
@@ -461,6 +477,165 @@ export const products: Product[] = [
       { title: "이동 정보 입력", desc: "공항, 출발지, 목적지, 차량 타입을 선택합니다." },
       { title: "배차 확인", desc: "기사, 차량, 대기 조건과 추가요금을 확인합니다." },
       { title: "결제 완료", desc: "편도 또는 왕복 기준으로 결제를 완료합니다." },
+    ],
+  },
+  {
+    id: "medical-treatment-platform",
+    slug: "medical-treatment-platform",
+    categoryKey: "medical",
+    category: "고양메디컬투어",
+    categorySummary: "질병치료형",
+    subcategories: ["암·중증질환", "여성질환", "정밀치료", "종합검진"],
+    type: "예약 서비스 + 진료·체류 운영 서비스",
+    badge: "MEDICAL / TREATMENT",
+    title: "질병치료형 예약 플랫폼",
+    desc:
+      "암·중증질환·여성질환·정밀치료 등 치료 목적의 해외·국내 환자를 위한 진료 예약과 체류 운영을 통합 관리합니다.",
+    summary:
+      "맞춤상담, 진료예약, 공항픽업, 숙박지원, 통역서비스, 사후관리까지 한 번의 예약 흐름으로 제공합니다.",
+    duration: "단기 진료 ~ 장기 체류",
+    people: "1명 ~ 10명 (보호자 동반 가능)",
+    tag: "Medical",
+    location: "고양시 주요 대학병원 및 전문 의료기관",
+    price: 0,
+    priceLabel: "진료 상담 후 견적",
+    highlights: [
+      "의료진 매칭과 진료 일정 예약을 하나의 흐름으로 운영",
+      "공항픽업, 숙박, 통역, 사후관리까지 원스톱 지원",
+      "해외 환자와 보호자를 위한 다국어 상담 서비스",
+    ],
+    includes: ["맞춤상담", "진료예약", "공항픽업", "숙박지원", "통역서비스", "사후관리"],
+    idealFor: ["해외 환자", "중증질환 환자", "정밀검진 희망자", "보호자 동반 환자"],
+    reservationFeatures: [
+      "진료 희망 분야와 일정 접수",
+      "보호자 동반과 체류 기간 입력",
+      "통역 언어와 이동 요청사항 입력",
+    ],
+    operationFeatures: [
+      "병원 진료 일정과 픽업 운영",
+      "숙박과 식이 관리, 통역 배정",
+      "진료 결과 공유와 보호자 커뮤니케이션",
+    ],
+    managementFeatures: [
+      "환자 상태와 진료 이력 관리",
+      "체류 일정, 의료진 연계, 사후관리 기록",
+      "보험과 정산 문서, 의료 기록 보관",
+    ],
+    paymentFeatures: [
+      "상담 후 견적 결제",
+      "진료 후 정산과 보증금 관리",
+      "국제 결제와 보험 연계 정산 지원",
+    ],
+    reservationSteps: [
+      { title: "상담 접수", desc: "희망 진료, 일정, 보호자 동반 여부를 입력합니다." },
+      { title: "진료 매칭", desc: "병원, 의료진, 체류 일정을 조율해 확정합니다." },
+      { title: "체류 운영", desc: "픽업, 숙박, 통역, 사후관리까지 운영합니다." },
+    ],
+  },
+  {
+    id: "medical-beauty-platform",
+    slug: "medical-beauty-platform",
+    categoryKey: "medical",
+    category: "고양메디컬투어",
+    categorySummary: "건강미용 증진형",
+    subcategories: ["성형", "피부", "웰니스", "안티에이징"],
+    type: "예약 서비스 + 뷰티·웰니스 운영 서비스",
+    badge: "MEDICAL / K-BEAUTY",
+    title: "건강미용 증진형 예약 플랫폼",
+    desc:
+      "K-뷰티 수요자를 위한 성형, 피부, 웰니스 프로그램을 프리미엄 체류와 다국어 응대 기반으로 운영하는 예약 서비스입니다.",
+    summary:
+      "프리미엄 스테이, 편리한 접근성, 다국어 응대를 기반으로 성형·피부·웰니스 프로그램을 한 번에 예약합니다.",
+    duration: "당일 시술 ~ 2주 체류",
+    people: "1명 ~ 6명",
+    tag: "K-Beauty",
+    location: "고양시 K-뷰티 클리닉 및 프리미엄 스테이",
+    price: 0,
+    priceLabel: "프로그램별 상담 견적",
+    highlights: [
+      "Premium Stay — 프리미엄 숙박과 회복 케어를 함께 운영",
+      "Convenient Access — 클리닉과 체류지 사이 전용 이동",
+      "Multi-Language Support — 다국어 상담과 시술 통역 제공",
+    ],
+    includes: ["상담 예약", "시술 예약", "회복 케어", "전용 이동", "통역 응대"],
+    idealFor: ["K-뷰티 방문객", "웰니스 프로그램 참가자", "안티에이징 체류 고객", "프리미엄 회복 케어 선호 고객"],
+    reservationFeatures: [
+      "시술·프로그램 유형 선택",
+      "체류 일정과 회복 기간 입력",
+      "언어, 동반자, 숙소 선호도 입력",
+    ],
+    operationFeatures: [
+      "클리닉 예약과 회복 케어 운영",
+      "전용 이동과 통역 배정",
+      "체류 중 일정과 추가 프로그램 안내",
+    ],
+    managementFeatures: [
+      "고객 시술 이력과 회복 상태 관리",
+      "클리닉 파트너와 정산 관리",
+      "재방문 고객 프로그램 운영",
+    ],
+    paymentFeatures: [
+      "프로그램 선결제",
+      "시술 후 추가결제",
+      "다국가 카드 및 간편결제 지원",
+    ],
+    reservationSteps: [
+      { title: "상담 신청", desc: "시술·프로그램 희망과 체류 일정을 접수합니다." },
+      { title: "프로그램 매칭", desc: "클리닉, 스테이, 이동 일정을 확정합니다." },
+      { title: "체류 운영", desc: "시술, 회복 케어, 통역 응대를 운영합니다." },
+    ],
+  },
+  {
+    id: "medical-recovery-platform",
+    slug: "medical-recovery-platform",
+    categoryKey: "medical",
+    category: "고양메디컬투어",
+    categorySummary: "회복·재활형",
+    subcategories: ["회복체류", "재활", "보호자 동반 서비스", "심리상담"],
+    type: "예약 서비스 + 회복·재활 운영 서비스",
+    badge: "MEDICAL / RECOVERY",
+    title: "회복·재활 예약 플랫폼",
+    desc:
+      "수술·치료 후 회복과 재활이 필요한 환자와 보호자를 위한 체류형 메디컬 예약 서비스입니다.",
+    summary:
+      "편안한 숙박, 맞춤 식이관리, 의료 일정 관리, 전용 이동, 심리상담, 자연·휴식, 정기 체크까지 연결합니다.",
+    duration: "1주 ~ 장기 체류",
+    people: "1명 ~ 4명 (보호자 포함)",
+    tag: "Recovery",
+    location: "고양시 회복 거점 스테이 및 재활 기관",
+    price: 0,
+    priceLabel: "체류 기간별 상담 견적",
+    highlights: [
+      "편안한 숙박 — 회복에 최적화된 정적 환경",
+      "맞춤 식이관리와 의료 일정 관리",
+      "자연·휴식 기반 회복과 정기 체크",
+    ],
+    includes: ["편안한숙박", "맞춤식이관리", "의료일정관리", "전용이동", "심리상담", "자연&휴식", "정기체크"],
+    idealFor: ["수술 후 회복 환자", "재활 프로그램 참가자", "보호자 동반 고객", "장기 체류 의료 관광객"],
+    reservationFeatures: [
+      "회복 목적과 체류 기간 접수",
+      "보호자 동반, 이동, 식이 요구사항 입력",
+      "심리상담과 재활 프로그램 선택",
+    ],
+    operationFeatures: [
+      "의료 일정과 재활 진행 관리",
+      "식이, 이동, 심리상담 배정",
+      "정기 체크와 보호자 안내",
+    ],
+    managementFeatures: [
+      "회복 진행 상황과 의료 이력 관리",
+      "재활 파트너와 정산 관리",
+      "사후관리 및 재방문 프로그램 운영",
+    ],
+    paymentFeatures: [
+      "체류 패키지 선결제",
+      "추가 프로그램 현장 결제",
+      "보호자 동반과 보험 연계 정산",
+    ],
+    reservationSteps: [
+      { title: "상담 접수", desc: "회복 목적, 기간, 보호자 동반 여부를 입력합니다." },
+      { title: "프로그램 구성", desc: "재활, 식이, 이동, 심리상담 일정을 확정합니다." },
+      { title: "체류 운영", desc: "정기 체크와 의료 일정을 운영합니다." },
     ],
   },
 ];
