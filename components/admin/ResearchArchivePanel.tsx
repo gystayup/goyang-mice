@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Edit2, Plus, Trash2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Edit2, FileText, ImageIcon, Loader2, Plus, Trash2, Upload, X } from "lucide-react";
 
 const GRADIENT_PRESETS = [
   {
@@ -36,6 +36,8 @@ const GRADIENT_PRESETS = [
   },
 ];
 
+const CATEGORY_TAGS = ["기본연구", "정책연구", "이슈브리프", "개청브리프"];
+
 type ArchiveItem = {
   id: string;
   title: string;
@@ -50,16 +52,15 @@ type ParsedItem = {
   title: string;
   desc: string;
   gradient: string;
+  posterUrl: string;
+  fileUrl: string;
+  fileName: string;
+  categoryTag: string;
+  authors: string;
+  publishDate: string;
 };
 
-type FormState = {
-  id: string;
-  issue: string;
-  season: string;
-  title: string;
-  desc: string;
-  gradient: string;
-};
+type FormState = Omit<ParsedItem, "id"> & { id: string };
 
 const emptyForm: FormState = {
   id: "",
@@ -68,12 +69,28 @@ const emptyForm: FormState = {
   title: "",
   desc: "",
   gradient: GRADIENT_PRESETS[0].value,
+  posterUrl: "",
+  fileUrl: "",
+  fileName: "",
+  categoryTag: CATEGORY_TAGS[0],
+  authors: "",
+  publishDate: "",
 };
 
 function parseItem(item: ArchiveItem): ParsedItem {
-  let meta = { issue: "", season: "", gradient: GRADIENT_PRESETS[0].value };
+  let meta = {
+    issue: "",
+    season: "",
+    gradient: GRADIENT_PRESETS[0].value,
+    posterUrl: "",
+    fileUrl: "",
+    fileName: "",
+    categoryTag: "",
+    authors: "",
+    publishDate: "",
+  };
   try {
-    meta = JSON.parse(item.content) as typeof meta;
+    meta = { ...meta, ...(JSON.parse(item.content) as typeof meta) };
   } catch {
     // ignore
   }
@@ -84,6 +101,12 @@ function parseItem(item: ArchiveItem): ParsedItem {
     title: item.title,
     desc: item.summary ?? "",
     gradient: meta.gradient ?? GRADIENT_PRESETS[0].value,
+    posterUrl: meta.posterUrl ?? "",
+    fileUrl: meta.fileUrl ?? "",
+    fileName: meta.fileName ?? "",
+    categoryTag: meta.categoryTag ?? "",
+    authors: meta.authors ?? "",
+    publishDate: meta.publishDate ?? "",
   };
 }
 
@@ -94,6 +117,10 @@ export default function ResearchArchivePanel() {
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [uploadingPoster, setUploadingPoster] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const posterInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     setLoading(true);
@@ -106,7 +133,9 @@ export default function ResearchArchivePanel() {
     }
   }
 
-  useEffect(() => { void load(); }, []);
+  useEffect(() => {
+    void load();
+  }, []);
 
   function openNew() {
     setForm(emptyForm);
@@ -115,14 +144,62 @@ export default function ResearchArchivePanel() {
   }
 
   function openEdit(item: ParsedItem) {
-    setForm({ id: item.id, issue: item.issue, season: item.season, title: item.title, desc: item.desc, gradient: item.gradient });
+    setForm({ ...item });
     setError("");
     setShowForm(true);
   }
 
+  async function uploadTo(file: File, category: string): Promise<{ url: string; filename: string }> {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("category", category);
+    const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+    const data = (await res.json()) as {
+      success: boolean;
+      url?: string;
+      filename?: string;
+      originalName?: string;
+      error?: string;
+    };
+    if (!data.success || !data.url) throw new Error(data.error ?? "업로드 실패");
+    return { url: data.url, filename: data.originalName ?? data.filename ?? file.name };
+  }
+
+  async function handlePosterUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingPoster(true);
+    setError("");
+    try {
+      const { url } = await uploadTo(file, "research-poster");
+      setForm((f) => ({ ...f, posterUrl: url }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "포스터 업로드 실패");
+    } finally {
+      setUploadingPoster(false);
+      if (posterInputRef.current) posterInputRef.current.value = "";
+    }
+  }
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingFile(true);
+    setError("");
+    try {
+      const { url, filename } = await uploadTo(file, "research-file");
+      setForm((f) => ({ ...f, fileUrl: url, fileName: filename }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "파일 업로드 실패");
+    } finally {
+      setUploadingFile(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
   async function save() {
     if (!form.issue || !form.season || !form.title || !form.desc) {
-      setError("모든 항목을 입력해주세요.");
+      setError("권호/시즌/제목/설명은 필수 입력입니다.");
       return;
     }
     setSaving(true);
@@ -171,10 +248,12 @@ export default function ResearchArchivePanel() {
       {/* 폼 모달 */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-lg rounded-[24px] bg-white p-6 shadow-xl">
+          <div className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-[24px] bg-white p-6 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-bold">{form.id ? "아카이브 수정" : "새 아카이브"}</h3>
-              <button onClick={() => setShowForm(false)}><X className="h-5 w-5 text-slate-500" /></button>
+              <button onClick={() => setShowForm(false)}>
+                <X className="h-5 w-5 text-slate-500" />
+              </button>
             </div>
 
             <div className="space-y-4">
@@ -185,7 +264,7 @@ export default function ResearchArchivePanel() {
                     value={form.issue}
                     onChange={(e) => setForm((f) => ({ ...f, issue: e.target.value }))}
                     placeholder="VOL.05"
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:border-slate-400"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -194,7 +273,33 @@ export default function ResearchArchivePanel() {
                     value={form.season}
                     onChange={(e) => setForm((f) => ({ ...f, season: e.target.value }))}
                     placeholder="2026 SPRING"
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:border-slate-400"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">카테고리 태그</label>
+                  <select
+                    value={form.categoryTag}
+                    onChange={(e) => setForm((f) => ({ ...f, categoryTag: e.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                  >
+                    {CATEGORY_TAGS.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-slate-700">발행일</label>
+                  <input
+                    type="date"
+                    value={form.publishDate}
+                    onChange={(e) => setForm((f) => ({ ...f, publishDate: e.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                   />
                 </div>
               </div>
@@ -205,7 +310,17 @@ export default function ResearchArchivePanel() {
                   value={form.title}
                   onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                   placeholder="연구 자료 제목"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:border-slate-400"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm font-medium text-slate-700">저자 (예: 주연우 外)</label>
+                <input
+                  value={form.authors}
+                  onChange={(e) => setForm((f) => ({ ...f, authors: e.target.value }))}
+                  placeholder="주연우 外"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                 />
               </div>
 
@@ -216,12 +331,96 @@ export default function ResearchArchivePanel() {
                   onChange={(e) => setForm((f) => ({ ...f, desc: e.target.value }))}
                   rows={3}
                   placeholder="연구 자료에 대한 간략한 설명"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:border-slate-400"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                 />
               </div>
 
+              {/* 포스터 업로드 */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">카드 색상</label>
+                <label className="mb-1 block text-sm font-medium text-slate-700">포스터 이미지 (표지)</label>
+                <div className="flex items-center gap-3">
+                  {form.posterUrl ? (
+                    <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={form.posterUrl} alt="포스터" className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setForm((f) => ({ ...f, posterUrl: "" }))}
+                        className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 text-white"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex h-24 w-20 shrink-0 items-center justify-center rounded-lg border border-dashed border-slate-300 text-slate-400">
+                      <ImageIcon className="h-6 w-6" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <input
+                      ref={posterInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePosterUpload}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => posterInputRef.current?.click()}
+                      disabled={uploadingPoster}
+                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    >
+                      {uploadingPoster ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      {uploadingPoster ? "업로드 중..." : form.posterUrl ? "포스터 교체" : "포스터 업로드"}
+                    </button>
+                    <p className="mt-1 text-xs text-slate-500">JPG · PNG · WEBP (최대 100MB)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 연구자료 파일 업로드 */}
+              <div>
+                <label className="mb-1 block text-sm font-medium text-slate-700">연구자료 파일 (PDF)</label>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50">
+                    <FileText className={`h-6 w-6 ${form.fileUrl ? "text-rose-500" : "text-slate-300"}`} />
+                  </div>
+                  <div className="flex-1">
+                    {form.fileUrl && (
+                      <div className="mb-1 flex items-center gap-2 text-xs text-slate-600">
+                        <span className="truncate">{form.fileName || form.fileUrl}</span>
+                        <button
+                          type="button"
+                          onClick={() => setForm((f) => ({ ...f, fileUrl: "", fileName: "" }))}
+                          className="shrink-0 text-rose-500 hover:text-rose-700"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    )}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="application/pdf"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploadingFile}
+                      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    >
+                      {uploadingFile ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      {uploadingFile ? "업로드 중..." : form.fileUrl ? "파일 교체" : "PDF 업로드"}
+                    </button>
+                    <p className="mt-1 text-xs text-slate-500">PDF (최대 100MB)</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-700">카드 색상 (포스터 미등록 시 사용)</label>
                 <div className="grid grid-cols-3 gap-2">
                   {GRADIENT_PRESETS.map((g) => (
                     <button
@@ -232,32 +431,14 @@ export default function ResearchArchivePanel() {
                         form.gradient === g.value ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-slate-50 text-slate-700"
                       }`}
                     >
-                      <span
-                        className="h-4 w-4 shrink-0 rounded-full"
-                        style={{ background: g.value }}
-                      />
+                      <span className="h-4 w-4 shrink-0 rounded-full" style={{ background: g.value }} />
                       {g.label}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* 미리보기 */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">미리보기</label>
-                <div
-                  className="flex h-32 w-24 items-end rounded-2xl p-3 text-white"
-                  style={{ background: form.gradient }}
-                >
-                  <div>
-                    <div className="text-[10px] font-semibold opacity-80">{form.season || "2026 SPRING"}</div>
-                    <div className="text-base font-black">{form.issue || "VOL.00"}</div>
-                    <div className="text-[10px] font-black leading-tight">RESEARCH<br />ARCHIVE</div>
-                  </div>
-                </div>
-              </div>
-
-              {error && <p className="text-sm text-rose-600">{error}</p>}
+              {error && <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
 
               <div className="flex gap-2 pt-2">
                 <button
@@ -288,20 +469,46 @@ export default function ResearchArchivePanel() {
           <p className="mt-1 text-xs text-slate-400">위의 &ldquo;새 아카이브 추가&rdquo; 버튼으로 추가하세요.</p>
         </div>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="space-y-3">
           {items.map((item) => (
-            <div key={item.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div
-                className="flex h-28 flex-col justify-end p-4 text-white"
-                style={{ background: item.gradient }}
-              >
-                <div className="text-[10px] font-semibold tracking-widest opacity-80">{item.season}</div>
-                <div className="text-xl font-black">{item.issue}</div>
-                <div className="text-[10px] font-black leading-tight">RESEARCH ARCHIVE</div>
+            <div
+              key={item.id}
+              className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+            >
+              <div className="h-24 w-20 shrink-0 overflow-hidden rounded-lg">
+                {item.posterUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={item.posterUrl} alt={item.title} className="h-full w-full object-cover" />
+                ) : (
+                  <div
+                    className="flex h-full w-full flex-col justify-end p-2 text-white"
+                    style={{ background: item.gradient }}
+                  >
+                    <div className="text-[8px] font-semibold opacity-80">{item.season}</div>
+                    <div className="text-xs font-black">{item.issue}</div>
+                  </div>
+                )}
               </div>
-              <div className="p-4">
-                <p className="text-sm font-bold text-slate-900 line-clamp-2">{item.title}</p>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  {item.categoryTag && (
+                    <span className="rounded-md bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">
+                      {item.categoryTag}
+                    </span>
+                  )}
+                  <span className="text-xs text-slate-500">{item.issue} · {item.season}</span>
+                </div>
+                <p className="mt-1 truncate text-sm font-bold text-slate-900">{item.title}</p>
                 <p className="mt-1 text-xs text-slate-500 line-clamp-2">{item.desc}</p>
+                <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
+                  {item.publishDate && <span>{item.publishDate}</span>}
+                  {item.authors && <span>· {item.authors}</span>}
+                  {item.fileUrl && (
+                    <span className="inline-flex items-center gap-1 text-emerald-600">
+                      <FileText className="h-3 w-3" /> PDF
+                    </span>
+                  )}
+                </div>
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => openEdit(item)}
@@ -322,9 +529,9 @@ export default function ResearchArchivePanel() {
         </div>
       )}
 
-      <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">
-        <strong>안내:</strong> 여기서 추가/수정한 아카이브는 연구 분야 페이지에 즉시 반영됩니다.
-        항목이 없으면 기본 샘플 데이터가 표시됩니다.
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <strong>안내:</strong> 포스터 이미지를 업로드하면 /research 페이지 목록의 썸네일로 사용됩니다.
+        PDF를 업로드하면 다운로드 버튼이 활성화됩니다 (로그인 사용자만 다운로드 가능).
       </div>
     </div>
   );

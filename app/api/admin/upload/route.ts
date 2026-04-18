@@ -12,8 +12,9 @@ const ALLOWED_TYPES = [
   "video/mp4",
   "video/webm",
   "video/quicktime",
+  "application/pdf",
 ];
-const MAX_SIZE = 60 * 1024 * 1024;
+const MAX_SIZE = 100 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,12 +27,12 @@ export async function POST(req: NextRequest) {
     }
     if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json(
-        { success: false, error: "이미지(JPG·PNG·WEBP·GIF) 또는 영상(MP4·WEBM·MOV)만 업로드할 수 있습니다." },
+        { success: false, error: "이미지(JPG·PNG·WEBP·GIF), 영상(MP4·WEBM·MOV), PDF만 업로드할 수 있습니다." },
         { status: 400 }
       );
     }
     if (file.size > MAX_SIZE) {
-      return NextResponse.json({ success: false, error: "파일 크기는 60MB 이하여야 합니다." }, { status: 400 });
+      return NextResponse.json({ success: false, error: "파일 크기는 100MB 이하여야 합니다." }, { status: 400 });
     }
 
     const ext = file.name.split(".").pop() ?? "bin";

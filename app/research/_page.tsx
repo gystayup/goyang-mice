@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import {
   Building2,
   ChartNoAxesColumn,
-  ChevronLeft,
-  ChevronRight,
   Compass,
+  Download,
   FileText,
   Layers3,
   LayoutPanelTop,
+  Lock,
   Navigation,
   Network,
   Sparkles,
@@ -439,24 +440,68 @@ type DbArchiveItem = {
 };
 
 type ArchiveCard = {
+  id?: string;
   issue: string;
   season: string;
   title: string;
   desc: string;
   gradient: string;
+  posterUrl?: string;
+  fileUrl?: string;
+  fileName?: string;
+  categoryTag?: string;
+  authors?: string;
+  publishDate?: string;
 };
 
 function parseDbItems(items: DbArchiveItem[]): ArchiveCard[] {
   return items.map((item) => {
-    let meta = { issue: "", season: "", gradient: "" };
-    try { meta = JSON.parse(item.content) as typeof meta; } catch { /* ignore */ }
-    return { issue: meta.issue ?? "", season: meta.season ?? "", title: item.title, desc: item.summary ?? "", gradient: meta.gradient ?? "" };
+    let meta: {
+      issue?: string;
+      season?: string;
+      gradient?: string;
+      posterUrl?: string;
+      fileUrl?: string;
+      fileName?: string;
+      categoryTag?: string;
+      authors?: string;
+      publishDate?: string;
+    } = {};
+    try {
+      meta = JSON.parse(item.content);
+    } catch {
+      /* ignore */
+    }
+    return {
+      id: item.id,
+      issue: meta.issue ?? "",
+      season: meta.season ?? "",
+      title: item.title,
+      desc: item.summary ?? "",
+      gradient: meta.gradient ?? "",
+      posterUrl: meta.posterUrl ?? "",
+      fileUrl: meta.fileUrl ?? "",
+      fileName: meta.fileName ?? "",
+      categoryTag: meta.categoryTag ?? "",
+      authors: meta.authors ?? "",
+      publishDate: meta.publishDate ?? "",
+    };
   });
+}
+
+function getArchiveLabels(locale: PageLocale) {
+  if (locale === "en") return { download: "Download", loginRequired: "Login to download", nonSale: "Not for sale" };
+  if (locale === "ja") return { download: "ダウンロード", loginRequired: "ログイン後ダウンロード", nonSale: "非売品" };
+  if (locale === "zh-CN") return { download: "下载", loginRequired: "登录后下载", nonSale: "非卖品" };
+  if (locale === "zh-TW") return { download: "下載", loginRequired: "登入後下載", nonSale: "非賣品" };
+  return { download: "다운로드", loginRequired: "로그인 후 다운로드", nonSale: "비매품" };
 }
 
 export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getResearchCopy(locale);
-  const archiveRef = useRef<HTMLDivElement>(null);
+  const labels = getArchiveLabels(locale);
+  const { data: session } = useSession();
+  const isLoggedIn = !!session?.user;
   const [dbArchiveItems, setDbArchiveItems] = useState<ArchiveCard[] | null>(null);
 
   useEffect(() => {
@@ -470,17 +515,17 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
       .catch(() => { /* fallback to hardcoded */ });
   }, []);
 
-  const archiveItems = dbArchiveItems ?? copy.archiveItems;
+  const archiveItems: ArchiveCard[] = dbArchiveItems ?? copy.archiveItems;
 
-  const scrollArchive = (direction: "left" | "right") => {
-    const container = archiveRef.current;
-    if (!container) return;
-    const cardWidth = container.querySelector("article")?.offsetWidth ?? container.clientWidth * 0.72;
-    container.scrollBy({
-      left: direction === "right" ? cardWidth + 16 : -(cardWidth + 16),
-      behavior: "smooth",
-    });
-  };
+  function handleDownload(item: ArchiveCard) {
+    if (!item.id) return;
+    if (!isLoggedIn) {
+      const callbackUrl = encodeURIComponent(typeof window !== "undefined" ? window.location.href : "/research");
+      window.location.href = `/admin/login?callbackUrl=${callbackUrl}`;
+      return;
+    }
+    window.open(`/api/research-archives/download?id=${item.id}`, "_blank");
+  }
 
   return (
     <Shell>
@@ -532,57 +577,99 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        {/* ── Archive ── */}
+        {/* ── Archive (vertical list) ── */}
         <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/65 px-6 py-8 shadow-[0_16px_48px_rgba(16,32,58,0.09)] backdrop-blur-xl lg:px-8">
           <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
           <SectionTitle eyebrow={copy.archive.eyebrow} title={copy.archive.title} />
 
-          <div className="relative mt-6">
-            <div className="mb-3 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => scrollArchive("left")}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/70 text-slate-600 shadow-sm backdrop-blur transition hover:bg-white hover:text-slate-900"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollArchive("right")}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/70 text-slate-600 shadow-sm backdrop-blur transition hover:bg-white hover:text-slate-900"
-                aria-label="Next"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div
-              ref={archiveRef}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-hide"
-            >
-              {archiveItems.map((item) => (
+          <div className="relative mt-6 divide-y divide-slate-200/70 border-y border-slate-200/70">
+            {archiveItems.map((item, idx) => {
+              const hasPoster = !!item.posterUrl;
+              const hasFile = !!item.fileUrl && !!item.id;
+              return (
                 <article
-                  key={item.issue}
-                  className="group flex w-[70vw] shrink-0 snap-start flex-col overflow-hidden rounded-[28px] border border-white/60 bg-white shadow-[0_8px_28px_rgba(16,32,58,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(16,32,58,0.13)] sm:w-[45vw] lg:w-[calc(25%-12px)]"
+                  key={item.id ?? `${item.issue}-${idx}`}
+                  className="flex gap-5 py-6 sm:gap-6"
                 >
-                  <div className="relative aspect-[4/5] rounded-t-[28px] p-6 text-white" style={{ background: item.gradient }}>
-                    {/* 도트 그리드 */}
-                    <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
-                    <div className="relative">
-                      <div className="text-[11px] font-bold tracking-[0.22em] text-white/80 uppercase">{item.season}</div>
-                      <div className="mt-3 text-3xl font-black tracking-[-0.04em]">{item.issue}</div>
-                      <div className="mt-auto pt-14 text-2xl font-black leading-tight tracking-[-0.03em]">RESEARCH</div>
-                      <div className="text-2xl font-black leading-tight tracking-[-0.03em]">ARCHIVE</div>
+                  {/* 포스터 썸네일 */}
+                  <button
+                    type="button"
+                    onClick={() => hasFile && handleDownload(item)}
+                    disabled={!hasFile}
+                    className={`relative h-36 w-28 shrink-0 overflow-hidden rounded-lg border border-slate-200 shadow-sm sm:h-44 sm:w-32 ${
+                      hasFile ? "cursor-pointer transition hover:shadow-md" : "cursor-default"
+                    }`}
+                    aria-label={hasFile ? labels.download : item.title}
+                  >
+                    {hasPoster ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={item.posterUrl} alt={item.title} className="h-full w-full object-cover" />
+                    ) : (
+                      <div
+                        className="flex h-full w-full flex-col justify-end p-3 text-white"
+                        style={{ background: item.gradient }}
+                      >
+                        <div className="text-[9px] font-bold tracking-[0.2em] opacity-80 uppercase">{item.season}</div>
+                        <div className="mt-1 text-lg font-black tracking-[-0.03em]">{item.issue}</div>
+                        <div className="mt-2 text-[9px] font-black leading-tight tracking-[-0.02em]">RESEARCH<br />ARCHIVE</div>
+                      </div>
+                    )}
+                  </button>
+
+                  {/* 본문 + 다운로드 */}
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {item.categoryTag && (
+                        <span className="rounded-md bg-indigo-600 px-2.5 py-1 text-xs font-bold text-white">
+                          {item.categoryTag}
+                        </span>
+                      )}
+                      {!item.categoryTag && item.issue && (
+                        <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">
+                          {item.issue}
+                        </span>
+                      )}
                     </div>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="text-[1.05rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-500">{item.desc}</p>
+                    <h3 className="mt-2 text-base font-black tracking-[-0.02em] text-slate-950 sm:text-lg">
+                      {item.title}
+                    </h3>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                      <span className="font-semibold text-rose-600">{labels.nonSale}</span>
+                      {item.publishDate && <span className="text-slate-400">|</span>}
+                      {item.publishDate && <span>{item.publishDate}</span>}
+                    </div>
+                    {item.authors && (
+                      <p className="mt-2 text-xs text-slate-600">{item.authors}</p>
+                    )}
+                    {item.desc && (
+                      <p className="mt-2 text-sm leading-6 text-slate-500 line-clamp-2 sm:line-clamp-3">{item.desc}</p>
+                    )}
+
+                    {hasFile && (
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          onClick={() => handleDownload(item)}
+                          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
+                        >
+                          {isLoggedIn ? (
+                            <>
+                              <Download className="h-3.5 w-3.5" />
+                              {labels.download}
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="h-3.5 w-3.5" />
+                              {labels.loginRequired}
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </article>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </section>
 
