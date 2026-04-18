@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Shell from "@/components/layout/Shell";
 import SectionedBookingGrid, { type UnifiedItem } from "@/components/products/SectionedBookingGrid";
 import type { ServiceCatalogCategory } from "@/data/service-catalog";
+import { ticketProducts as staticTickets } from "@/data/ticket-booking";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { getLocalizedServiceItem } from "@/lib/service-catalog-i18n";
 import { getLocalizedTicketProduct } from "@/lib/ticket-i18n";
@@ -127,9 +128,13 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     }
   }
 
-  // 티켓 아이템 — locale 적용
+  // 티켓 아이템 — locale 적용 (translations 항상 정적 데이터 기준으로 병합 보장)
   for (const rawTicket of tickets) {
-    const ticket = getLocalizedTicketProduct(rawTicket, locale);
+    const staticMatch = staticTickets.find((s) => s.id === rawTicket.id);
+    const withTranslations = staticMatch?.translations
+      ? { ...rawTicket, translations: staticMatch.translations }
+      : rawTicket;
+    const ticket = getLocalizedTicketProduct(withTranslations, locale);
     const minPrice =
       ticket.options.length > 0
         ? Math.min(...ticket.options.map((o) => o.price))
