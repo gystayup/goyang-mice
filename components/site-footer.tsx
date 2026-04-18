@@ -55,7 +55,7 @@ export default function SiteFooter() {
           </div>
           {footerLinks.map((col) => (
             <div key={col.title}>
-              <div className="text-sm font-semibold uppercase tracking-widest text-slate-500">
+              <div className="text-[13px] font-black uppercase tracking-widest text-slate-200">
                 {col.title}
               </div>
               <ul className="mt-4 space-y-3">

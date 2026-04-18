@@ -112,9 +112,6 @@ export default async function HeroSection({ locale }: { locale: string }) {
       {/* 콘텐츠 카드 영역 */}
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:mt-10 sm:px-6 lg:mt-12">
         <div className="relative overflow-hidden rounded-[30px] border border-white/80 bg-white/72 p-5 shadow-[0_20px_60px_rgba(16,32,58,0.10),_0_0_0_1px_rgba(255,255,255,0.6)] backdrop-blur-xl sm:rounded-[36px] sm:p-6 lg:p-8">
-          {/* 내부 장식 그라데이션 */}
-          <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#8df0cf]/18 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-8 left-1/4 h-32 w-32 rounded-full bg-[#ffe98b]/22 blur-3xl" />
 
           {/* ── 플랫폼 타이틀 배너 ── */}
           <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(135deg,_#080e1a_0%,_#10203a_30%,_#1a3060_60%,_#2d4a8a_100%)] px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-9">
@@ -123,10 +120,9 @@ export default async function HeroSection({ locale }: { locale: string }) {
               className="pointer-events-none absolute inset-0 opacity-[0.06]"
               style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)", backgroundSize: "24px 24px" }}
             />
-            {/* 글로우 오브 */}
+            {/* 글로우 오브 — 2개로 축소 (좌상 mint, 우하 sky) */}
             <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-[#8df0cf]/16 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-10 right-20 h-36 w-36 rounded-full bg-[#a4d8ff]/18 blur-3xl" />
-            <div className="pointer-events-none absolute bottom-2 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-[#ffe98b]/12 blur-3xl" />
 
             {/* 뱃지 */}
             <div className="inline-flex items-center gap-2 rounded-full border border-[#8df0cf]/30 bg-[#8df0cf]/12 px-3 py-1 backdrop-blur">
