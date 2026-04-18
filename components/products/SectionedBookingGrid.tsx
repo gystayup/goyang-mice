@@ -31,6 +31,7 @@ const CATEGORY_LABELS: Record<ItemCategory, Record<SupportedLocale, string>> = {
   cafe: { ko: "라이프스타일", en: "Lifestyle", ja: "ライフスタイル", "zh-CN": "生活方式", "zh-TW": "生活風格" },
   ticket: { ko: "티켓", en: "Ticket", ja: "チケット", "zh-CN": "票务", "zh-TW": "票務" },
   airport: { ko: "공항픽업", en: "Airport", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
+  medical: { ko: "메디컬", en: "Medical", ja: "メディカル", "zh-CN": "医疗", "zh-TW": "醫療" },
 };
 
 const SEE_ALL_LABEL: Record<SupportedLocale, string> = {
@@ -87,6 +88,7 @@ function getCategories(locale: SupportedLocale): CategoryMeta[] {
     { key: "cafe",       emoji: "☕", label: CATEGORY_LABELS.cafe[locale],       allHref: "/products?cat=cafe",       portrait: false },
     { key: "ticket",     emoji: "🎫", label: CATEGORY_LABELS.ticket[locale],     allHref: "/products?cat=ticket",     portrait: false },
     { key: "airport",    emoji: "✈️", label: CATEGORY_LABELS.airport[locale],    allHref: "/products?cat=airport",    portrait: false },
+    { key: "medical",    emoji: "🩺", label: CATEGORY_LABELS.medical[locale],    allHref: "/products?cat=medical",    portrait: false },
   ];
 }
 

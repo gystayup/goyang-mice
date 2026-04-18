@@ -6,7 +6,14 @@ import { CalendarDays, MapPinned } from "lucide-react";
 
 import { Link } from "@/lib/navigation";
 
-export type ItemCategory = "tour" | "stay" | "restaurant" | "cafe" | "ticket" | "airport";
+export type ItemCategory =
+  | "tour"
+  | "stay"
+  | "restaurant"
+  | "cafe"
+  | "ticket"
+  | "airport"
+  | "medical";
 
 export interface UnifiedItem {
   id: string;
@@ -34,6 +41,7 @@ const CATEGORY_TABS: { key: ItemCategory | "all"; label: string }[] = [
   { key: "cafe", label: "라이프스타일" },
   { key: "ticket", label: "티켓" },
   { key: "airport", label: "공항픽업" },
+  { key: "medical", label: "메디컬" },
 ];
 
 export default function UnifiedBookingGrid({ items }: { items: UnifiedItem[] }) {

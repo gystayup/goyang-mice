@@ -5,9 +5,12 @@ import {
   BriefcaseBusiness,
   CalendarRange,
   Coffee,
+  HeartPulse,
   Hotel,
   Landmark,
   Plane,
+  Sparkles,
+  Stethoscope,
   Ticket,
   UtensilsCrossed,
 } from "lucide-react";
@@ -24,7 +27,16 @@ export const dynamic = "force-dynamic";
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
 type CategoryItem = {
-  key: "tour" | "stay" | "restaurant" | "cafe" | "ticket" | "airport";
+  key:
+    | "tour"
+    | "stay"
+    | "restaurant"
+    | "cafe"
+    | "ticket"
+    | "airport"
+    | "medical-treatment"
+    | "medical-beauty"
+    | "medical-recovery";
   eyebrow: string;
   title: string;
   description: string;
@@ -212,6 +224,39 @@ const koreanCopy: DmcCopy = {
         href: "/products/airport-pickup-platform/reservation",
         icon: Plane,
         theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]",
+      },
+      {
+        key: "medical-treatment",
+        eyebrow: "MEDICAL / TREATMENT",
+        title: "질병치료형 예약",
+        description:
+          "암·중증질환·여성질환·정밀치료 진료예약과 공항픽업·숙박·통역·사후관리를 통합 운영합니다.",
+        tags: ["암·중증질환", "여성질환", "정밀치료"],
+        href: "/products/medical-treatment-platform/reservation",
+        icon: Stethoscope,
+        theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]",
+      },
+      {
+        key: "medical-beauty",
+        eyebrow: "MEDICAL / K-BEAUTY",
+        title: "건강미용 증진형 예약",
+        description:
+          "성형·피부·웰니스 프로그램을 프리미엄 스테이와 다국어 응대 기반으로 예약합니다.",
+        tags: ["성형", "피부", "웰니스"],
+        href: "/products/medical-beauty-platform/reservation",
+        icon: Sparkles,
+        theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]",
+      },
+      {
+        key: "medical-recovery",
+        eyebrow: "MEDICAL / RECOVERY",
+        title: "회복·재활 예약",
+        description:
+          "회복체류, 재활, 보호자 동반 서비스와 식이·의료일정·심리상담까지 연결합니다.",
+        tags: ["회복체류", "재활", "보호자 동반"],
+        href: "/products/medical-recovery-platform/reservation",
+        icon: HeartPulse,
+        theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]",
       },
     ],
   },
@@ -418,6 +463,36 @@ const englishCopy: DmcCopy = {
         icon: Plane,
         theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]",
       },
+      {
+        key: "medical-treatment",
+        eyebrow: "MEDICAL / TREATMENT",
+        title: "Treatment-Focused Medical Booking",
+        description: "Integrated appointments for cancer, severe illness, women's health, and precision care with pickup, stay, interpretation, and aftercare.",
+        tags: ["Cancer & Severe", "Women's Health", "Precision Care"],
+        href: "/products/medical-treatment-platform/reservation",
+        icon: Stethoscope,
+        theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]",
+      },
+      {
+        key: "medical-beauty",
+        eyebrow: "MEDICAL / K-BEAUTY",
+        title: "Health & Beauty Booking",
+        description: "Plastic surgery, dermatology, and wellness programs booked alongside premium stay and multilingual support.",
+        tags: ["Plastic Surgery", "Dermatology", "Wellness"],
+        href: "/products/medical-beauty-platform/reservation",
+        icon: Sparkles,
+        theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]",
+      },
+      {
+        key: "medical-recovery",
+        eyebrow: "MEDICAL / RECOVERY",
+        title: "Recovery & Rehabilitation Booking",
+        description: "Recovery stays, rehabilitation, and caregiver-companion services connected with diet, medical schedule, and counseling support.",
+        tags: ["Recovery Stay", "Rehabilitation", "Caregiver"],
+        href: "/products/medical-recovery-platform/reservation",
+        icon: HeartPulse,
+        theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]",
+      },
     ],
   },
   useCases: {
@@ -552,6 +627,9 @@ const japaneseCopy: DmcCopy = {
       { key: "cafe", eyebrow: "LIFESTYLE BOOKING", title: "ライフスタイル予約", description: "ブランチ、カフェ、ミーティングスペースをつなぐライフスタイル予約サービスです。", tags: ["ブランチ", "デザート", "ミーティングスペース"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
       { key: "ticket", eyebrow: "TICKET BOOKING", title: "チケット予約", description: "公演、展示、体験プログラムの予約と入場フローをつなぐサービスです。", tags: ["公演", "展示", "体験"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
       { key: "airport", eyebrow: "AIRPORT PICKUP", title: "空港送迎予約", description: "空港到着からホテルと会場への移動をつなぐ交通予約サービスです。", tags: ["仁川空港", "金浦空港", "VIP移動"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
+      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治療型予約", description: "がん・重症疾患・女性疾患・精密治療の診療予約に、空港送迎・宿泊・通訳・アフターケアを統合します。", tags: ["がん・重症", "女性疾患", "精密治療"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
+      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容増進型予約", description: "美容整形・皮膚科・ウェルネスプログラムをプレミアムステイと多言語対応で予約します。", tags: ["美容整形", "皮膚科", "ウェルネス"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
+      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "回復・リハビリ予約", description: "回復滞在、リハビリ、同行者サービスに食事・医療日程・カウンセリングまで連携します。", tags: ["回復滞在", "リハビリ", "同行者"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
     ],
   },
   useCases: {
@@ -634,6 +712,9 @@ const chineseSimplifiedCopy: DmcCopy = {
       { key: "cafe", eyebrow: "LIFESTYLE BOOKING", title: "生活方式预约", description: "连接早午餐、咖啡馆及会议空间的生活方式预约服务。", tags: ["早午餐", "甜品", "会议空间"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
       { key: "ticket", eyebrow: "TICKET BOOKING", title: "票务预约", description: "连接演出、展览及体验项目预约与入场流程的服务。", tags: ["演出", "展览", "体验"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
       { key: "airport", eyebrow: "AIRPORT PICKUP", title: "机场接送预约", description: "从机场抵达到酒店及活动场馆的交通接送预约服务。", tags: ["仁川机场", "金浦机场", "VIP接送"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
+      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治疗型预约", description: "整合癌症·重症·女性疾病·精密治疗的诊疗预约与机场接送·住宿·翻译·后续护理。", tags: ["癌症·重症", "女性疾病", "精密治疗"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
+      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容增进型预约", description: "将整形·皮肤·健康管理项目与高端住宿及多语言服务一同预约。", tags: ["整形", "皮肤", "健康管理"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
+      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "恢复·康复预约", description: "将恢复驻留、康复治疗、陪护服务与饮食·医疗行程·心理咨询整合连接。", tags: ["恢复驻留", "康复治疗", "陪护同行"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
     ],
   },
   useCases: {
@@ -716,6 +797,9 @@ const chineseTraditionalCopy: DmcCopy = {
       { key: "cafe", eyebrow: "LIFESTYLE BOOKING", title: "生活風格預約", description: "連結早午餐、咖啡廳及會議空間的生活風格預約服務。", tags: ["早午餐", "甜品", "會議空間"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
       { key: "ticket", eyebrow: "TICKET BOOKING", title: "票務預約", description: "連結演出、展覽及體驗方案預約與入場流程的服務。", tags: ["演出", "展覽", "體驗"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
       { key: "airport", eyebrow: "AIRPORT PICKUP", title: "機場接送預約", description: "從機場抵達到飯店及活動場館的交通接送預約服務。", tags: ["仁川機場", "金浦機場", "VIP接送"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
+      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治療型預約", description: "整合癌症·重症·女性疾病·精密治療的診療預約與機場接送·住宿·翻譯·後續照護。", tags: ["癌症·重症", "女性疾病", "精密治療"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
+      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容增進型預約", description: "將整形·皮膚·健康管理方案與高端住宿及多語言服務一同預約。", tags: ["整形", "皮膚", "健康管理"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
+      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "恢復·復健預約", description: "將恢復駐留、復健治療、陪護服務與飲食·醫療行程·心理諮詢整合連結。", tags: ["恢復駐留", "復健治療", "陪護同行"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
     ],
   },
   useCases: {
@@ -942,7 +1026,7 @@ export default async function DmcPage({
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {copy.categories.items.map((item) => {
             const Icon = item.icon;
-            const media = categoryMediaMap[item.key];
+            const media = (categoryMediaMap as Record<string, { src?: string } | undefined>)[item.key];
 
             return (
               <article

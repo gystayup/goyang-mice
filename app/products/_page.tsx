@@ -249,7 +249,7 @@ const CATEGORY_PRODUCT_IDS: Record<ServiceCatalogCategory, string> = {
 
 const CATEGORY_LABELS_MAP: Record<
   PageLocale,
-  Record<ServiceCatalogCategory | "ticket", string>
+  Record<ServiceCatalogCategory | "ticket" | "medical", string>
 > = {
   ko: {
     tour: "투어",
@@ -258,6 +258,7 @@ const CATEGORY_LABELS_MAP: Record<
     cafe: "라이프스타일",
     ticket: "티켓",
     airport: "공항픽업",
+    medical: "메디컬",
   },
   en: {
     tour: "Tour",
@@ -266,6 +267,7 @@ const CATEGORY_LABELS_MAP: Record<
     cafe: "Lifestyle",
     ticket: "Ticket",
     airport: "Airport",
+    medical: "Medical",
   },
   ja: {
     tour: "ツアー",
@@ -274,6 +276,7 @@ const CATEGORY_LABELS_MAP: Record<
     cafe: "ライフスタイル",
     ticket: "チケット",
     airport: "空港送迎",
+    medical: "メディカル",
   },
   "zh-CN": {
     tour: "旅游",
@@ -282,6 +285,7 @@ const CATEGORY_LABELS_MAP: Record<
     cafe: "生活方式",
     ticket: "票务",
     airport: "机场接送",
+    medical: "医疗",
   },
   "zh-TW": {
     tour: "旅遊",
@@ -290,8 +294,126 @@ const CATEGORY_LABELS_MAP: Record<
     cafe: "生活風格",
     ticket: "票務",
     airport: "機場接送",
+    medical: "醫療",
   },
 };
+
+// 메디컬 카드 정적 데이터 (DB 없이 카탈로그에 바로 렌더)
+type MedicalStatic = {
+  id: string;
+  productId: "medical-treatment-platform" | "medical-beauty-platform" | "medical-recovery-platform";
+  imageTone: string;
+  posterLabel: string;
+  titles: Record<PageLocale, string>;
+  venues: Record<PageLocale, string>;
+  dates: Record<PageLocale, string>;
+  tags: Record<PageLocale, string[]>;
+};
+
+const MEDICAL_STATIC_ITEMS: MedicalStatic[] = [
+  {
+    id: "medical-treatment",
+    productId: "medical-treatment-platform",
+    imageTone: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]",
+    posterLabel: "TREATMENT",
+    titles: {
+      ko: "질병치료형 예약",
+      en: "Treatment-Focused Medical Booking",
+      ja: "疾病治療型予約",
+      "zh-CN": "疾病治疗型预约",
+      "zh-TW": "疾病治療型預約",
+    },
+    venues: {
+      ko: "고양 의료·치료 네트워크",
+      en: "Goyang Treatment Network",
+      ja: "高陽 医療・治療ネットワーク",
+      "zh-CN": "高阳医疗·治疗网络",
+      "zh-TW": "高陽醫療·治療網絡",
+    },
+    dates: {
+      ko: "연중 · 예약 상담",
+      en: "Year-round · By consultation",
+      ja: "通年・要予約相談",
+      "zh-CN": "全年·预约咨询",
+      "zh-TW": "全年·預約諮詢",
+    },
+    tags: {
+      ko: ["암·중증질환", "여성질환", "정밀치료"],
+      en: ["Cancer & Severe", "Women's Health", "Precision Care"],
+      ja: ["がん・重症", "女性疾患", "精密治療"],
+      "zh-CN": ["癌症·重症", "女性疾病", "精密治疗"],
+      "zh-TW": ["癌症·重症", "女性疾病", "精密治療"],
+    },
+  },
+  {
+    id: "medical-beauty",
+    productId: "medical-beauty-platform",
+    imageTone: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]",
+    posterLabel: "K-BEAUTY",
+    titles: {
+      ko: "건강미용 증진형 예약",
+      en: "Health & Beauty Booking",
+      ja: "健康美容増進型予約",
+      "zh-CN": "健康美容增进型预约",
+      "zh-TW": "健康美容增進型預約",
+    },
+    venues: {
+      ko: "고양 K-뷰티·웰니스 파트너",
+      en: "Goyang K-Beauty & Wellness Partners",
+      ja: "高陽 K-ビューティー&ウェルネス",
+      "zh-CN": "高阳 K-美容&健康伙伴",
+      "zh-TW": "高陽 K-美容&健康夥伴",
+    },
+    dates: {
+      ko: "연중 · 예약 상담",
+      en: "Year-round · By consultation",
+      ja: "通年・要予約相談",
+      "zh-CN": "全年·预约咨询",
+      "zh-TW": "全年·預約諮詢",
+    },
+    tags: {
+      ko: ["성형", "피부", "웰니스"],
+      en: ["Plastic Surgery", "Dermatology", "Wellness"],
+      ja: ["美容整形", "皮膚科", "ウェルネス"],
+      "zh-CN": ["整形", "皮肤", "健康管理"],
+      "zh-TW": ["整形", "皮膚", "健康管理"],
+    },
+  },
+  {
+    id: "medical-recovery",
+    productId: "medical-recovery-platform",
+    imageTone: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]",
+    posterLabel: "RECOVERY",
+    titles: {
+      ko: "회복·재활 예약",
+      en: "Recovery & Rehabilitation Booking",
+      ja: "回復・リハビリ予約",
+      "zh-CN": "恢复·康复预约",
+      "zh-TW": "恢復·復健預約",
+    },
+    venues: {
+      ko: "고양 회복·재활 케어 네트워크",
+      en: "Goyang Recovery & Rehab Care",
+      ja: "高陽 回復・リハビリケア",
+      "zh-CN": "高阳恢复·康复护理网络",
+      "zh-TW": "高陽恢復·復健護理網絡",
+    },
+    dates: {
+      ko: "연중 · 예약 상담",
+      en: "Year-round · By consultation",
+      ja: "通年・要予約相談",
+      "zh-CN": "全年·预约咨询",
+      "zh-TW": "全年·預約諮詢",
+    },
+    tags: {
+      ko: ["회복체류", "재활", "보호자 동반"],
+      en: ["Recovery Stay", "Rehabilitation", "Caregiver"],
+      ja: ["回復滞在", "リハビリ", "同行者"],
+      "zh-CN": ["恢复驻留", "康复治疗", "陪护同行"],
+      "zh-TW": ["恢復駐留", "復健治療", "陪護同行"],
+    },
+  },
+];
 
 export default async function ProductsPage({ locale = "ko" }: { locale?: PageLocale }) {
   // DB에서 전체 카탈로그 병렬 로드
@@ -390,6 +512,23 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       minPrice,
       tags: localizedTags,
       reservationUrl: `/products/ticket-agency-platform/detail?ticket=${ticket.id}`,
+    });
+  }
+
+  // 메디컬 카드 3장 (DB 없이 정적 데이터 기반)
+  for (const med of MEDICAL_STATIC_ITEMS) {
+    items.push({
+      id: `medical-${med.id}`,
+      category: "medical",
+      categoryLabel: CATEGORY_LABELS.medical,
+      title: med.titles[locale],
+      venue: med.venues[locale],
+      dateText: med.dates[locale],
+      imageTone: med.imageTone,
+      posterLabel: med.posterLabel,
+      minPrice: 0,
+      tags: med.tags[locale],
+      reservationUrl: `/products/${med.productId}/detail`,
     });
   }
 
