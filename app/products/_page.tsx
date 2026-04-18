@@ -315,11 +315,8 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     const productId = CATEGORY_PRODUCT_IDS[category];
     for (const rawItem of catItems) {
       const item = getLocalizedServiceItem(rawItem, locale);
-      // 공항픽업은 상세페이지 없이 예약 폼으로 직접 이동
-      const reservationUrl =
-        category === "airport"
-          ? `/products/${productId}/reservation`
-          : `/products/${productId}/detail?item=${item.id}`;
+      // 모든 카테고리 카드는 상세 페이지로 이동 → 상세에서 예약 CTA로 이동하는 플로우 통일
+      const reservationUrl = `/products/${productId}/detail?item=${item.id}`;
       const minPrice =
         item.options && item.options.length > 0
           ? Math.min(...item.options.map((o) => o.price))

@@ -724,14 +724,15 @@ export default function ProductDetailPage({
           <div>
             {originalPrice && (
               <p className="text-xs text-slate-400 line-through">
-                {originalPrice.toLocaleString("ko-KR")}원
+                ₩{originalPrice.toLocaleString(bcp47)}
               </p>
             )}
             {minPrice > 0 ? (
               <p className="text-2xl font-black text-white">
-                {minPrice.toLocaleString("ko-KR")}
+                <span className="text-sm font-semibold text-slate-300">₩</span>
+                {minPrice.toLocaleString(bcp47)}
                 <span className="ml-0.5 text-sm font-semibold text-slate-300">
-                  {t("wonUnit", locale)}
+                  {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
                 </span>
               </p>
             ) : (
@@ -877,7 +878,7 @@ export default function ProductDetailPage({
                   </div>
                 </div>
                 <span className="ml-4 shrink-0 text-base font-black text-slate-950">
-                  {opt.price.toLocaleString("ko-KR")}원
+                  ₩{opt.price.toLocaleString(bcp47)}
                 </span>
               </div>
             ))}
@@ -981,7 +982,7 @@ export default function ProductDetailPage({
       )}
 
       {/* ── 하단 고정 예약 버튼 ── */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 px-4 py-4 shadow-[0_-2px_20px_rgba(0,0,0,0.1)] backdrop-blur-md">
+      <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-100 bg-white/95 px-4 py-4 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] backdrop-blur-md">
         <div className="mx-auto flex max-w-2xl items-center gap-4">
           <div className="flex-1">
             {minPrice > 0 ? (
@@ -990,9 +991,10 @@ export default function ProductDetailPage({
                   {t("bestPrice", locale)}
                 </p>
                 <p className="text-xl font-black text-slate-950">
-                  {minPrice.toLocaleString("ko-KR")}
+                  <span className="text-[13px] font-semibold text-slate-500">₩</span>
+                  {minPrice.toLocaleString(bcp47)}
                   <span className="ml-0.5 text-sm font-semibold text-slate-500">
-                    {t("wonUnit", locale)}
+                    {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
                   </span>
                 </p>
               </>
@@ -1002,7 +1004,7 @@ export default function ProductDetailPage({
           </div>
           <Link
             href={reservationUrl}
-            className="rounded-2xl bg-slate-950 px-10 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-slate-800 active:scale-95"
+            className="rounded-2xl bg-gradient-to-r from-slate-950 to-slate-800 px-10 py-3.5 text-base font-black text-white shadow-lg shadow-slate-900/20 transition hover:from-slate-900 hover:to-slate-700 active:scale-95"
           >
             {t("bookNow", locale)}
           </Link>
