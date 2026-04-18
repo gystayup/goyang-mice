@@ -577,27 +577,27 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        {/* ── Archive (vertical list) ── */}
+        {/* ── Archive (horizontal grid - 4 columns) ── */}
         <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/65 px-6 py-8 shadow-[0_16px_48px_rgba(16,32,58,0.09)] backdrop-blur-xl lg:px-8">
           <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
           <SectionTitle eyebrow={copy.archive.eyebrow} title={copy.archive.title} />
 
-          <div className="relative mt-6 divide-y divide-slate-200/70 border-y border-slate-200/70">
+          <div className="relative mt-6 grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
             {archiveItems.map((item, idx) => {
               const hasPoster = !!item.posterUrl;
               const hasFile = !!item.fileUrl && !!item.id;
               return (
                 <article
                   key={item.id ?? `${item.issue}-${idx}`}
-                  className="flex gap-5 py-6 sm:gap-6"
+                  className="group flex flex-col"
                 >
-                  {/* 포스터 썸네일 */}
+                  {/* 포스터 썸네일 (세로 비율) */}
                   <button
                     type="button"
                     onClick={() => hasFile && handleDownload(item)}
                     disabled={!hasFile}
-                    className={`relative h-36 w-28 shrink-0 overflow-hidden rounded-lg border border-slate-200 shadow-sm sm:h-44 sm:w-32 ${
-                      hasFile ? "cursor-pointer transition hover:shadow-md" : "cursor-default"
+                    className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-slate-200 shadow-sm ${
+                      hasFile ? "cursor-pointer transition hover:-translate-y-0.5 hover:shadow-lg" : "cursor-default"
                     }`}
                     aria-label={hasFile ? labels.download : item.title}
                   >
@@ -606,43 +606,44 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                       <img src={item.posterUrl} alt={item.title} className="h-full w-full object-cover" />
                     ) : (
                       <div
-                        className="flex h-full w-full flex-col justify-end p-3 text-white"
+                        className="flex h-full w-full flex-col justify-end p-4 text-white"
                         style={{ background: item.gradient }}
                       >
-                        <div className="text-[9px] font-bold tracking-[0.2em] opacity-80 uppercase">{item.season}</div>
-                        <div className="mt-1 text-lg font-black tracking-[-0.03em]">{item.issue}</div>
-                        <div className="mt-2 text-[9px] font-black leading-tight tracking-[-0.02em]">RESEARCH<br />ARCHIVE</div>
+                        <div className="text-[10px] font-bold tracking-[0.22em] opacity-80 uppercase">{item.season}</div>
+                        <div className="mt-1 text-2xl font-black tracking-[-0.03em]">{item.issue}</div>
+                        <div className="mt-2 text-[10px] font-black leading-tight tracking-[-0.02em]">
+                          RESEARCH
+                          <br />
+                          ARCHIVE
+                        </div>
                       </div>
                     )}
                   </button>
 
-                  {/* 본문 + 다운로드 */}
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="flex flex-wrap items-center gap-2">
+                  {/* 본문 */}
+                  <div className="mt-3 flex min-w-0 flex-1 flex-col">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {item.categoryTag && (
-                        <span className="rounded-md bg-indigo-600 px-2.5 py-1 text-xs font-bold text-white">
+                        <span className="rounded-md bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white">
                           {item.categoryTag}
                         </span>
                       )}
                       {!item.categoryTag && item.issue && (
-                        <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">
+                        <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
                           {item.issue}
                         </span>
                       )}
                     </div>
-                    <h3 className="mt-2 text-base font-black tracking-[-0.02em] text-slate-950 sm:text-lg">
+                    <h3 className="mt-2 line-clamp-2 text-sm font-black tracking-[-0.02em] text-slate-950 sm:text-[15px]">
                       {item.title}
                     </h3>
-                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-2 text-[11px] text-slate-500">
                       <span className="font-semibold text-rose-600">{labels.nonSale}</span>
                       {item.publishDate && <span className="text-slate-400">|</span>}
                       {item.publishDate && <span>{item.publishDate}</span>}
                     </div>
                     {item.authors && (
-                      <p className="mt-2 text-xs text-slate-600">{item.authors}</p>
-                    )}
-                    {item.desc && (
-                      <p className="mt-2 text-sm leading-6 text-slate-500 line-clamp-2 sm:line-clamp-3">{item.desc}</p>
+                      <p className="mt-1 line-clamp-1 text-[11px] text-slate-600">{item.authors}</p>
                     )}
 
                     {hasFile && (
@@ -650,16 +651,16 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                         <button
                           type="button"
                           onClick={() => handleDownload(item)}
-                          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-800 shadow-sm transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
                         >
                           {isLoggedIn ? (
                             <>
-                              <Download className="h-3.5 w-3.5" />
+                              <Download className="h-3 w-3" />
                               {labels.download}
                             </>
                           ) : (
                             <>
-                              <Lock className="h-3.5 w-3.5" />
+                              <Lock className="h-3 w-3" />
                               {labels.loginRequired}
                             </>
                           )}
