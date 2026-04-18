@@ -5,8 +5,30 @@ import SectionedBookingGrid, { type UnifiedItem } from "@/components/products/Se
 import type { ServiceCatalogCategory } from "@/data/service-catalog";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { getLocalizedServiceItem } from "@/lib/service-catalog-i18n";
-import { getLocalizedTicketProduct } from "@/lib/ticket-i18n";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
+
+// 티켓 장소명 번역 맵 — DB/static 무관하게 ID로 직접 적용
+type TLocale = "en" | "ja" | "zh-CN" | "zh-TW";
+const TICKET_VENUE: Record<string, Partial<Record<TLocale, string>>> = {
+  "goyang-kpop-arena-open":   { en: "Goyang K-POP Arena", ja: "高陽K-POPアリーナ", "zh-CN": "高阳K-POP竞技场", "zh-TW": "高陽K-POP競技場" },
+  "goyang-con-city-festival": { en: "Ilsan Cultural Plaza", ja: "一山文化広場", "zh-CN": "一山文化广场", "zh-TW": "一山文化廣場" },
+  "goyang-art-night":         { en: "Goyang Aramnuri Exhibition Hall", ja: "高陽アラムヌリ展示館", "zh-CN": "高阳阿拉木努里展览馆", "zh-TW": "高陽阿拉木努里展覽館" },
+  "goyang-family-play":       { en: "Goyang Eoullim Nuri", ja: "高陽オウルリムヌリ", "zh-CN": "高阳欧拉利姆努里", "zh-TW": "高陽歐拉利姆努里" },
+  "goyang-kmusic-series":     { en: "Goyang Aramnuri Aram Theater", ja: "高陽アラムヌリ アラム劇場", "zh-CN": "高阳阿拉木努里剧场", "zh-TW": "高陽阿拉木努里劇場" },
+  "goyang-mice-opening-show": { en: "KINTEX Outdoor Stage", ja: "KINTEX野外ステージ", "zh-CN": "KINTEX户外舞台", "zh-TW": "KINTEX戶外舞台" },
+  "goyang-local-stage":       { en: "Ilsan Lake Park Outdoor Stage", ja: "一山湖水公園野外ステージ", "zh-CN": "一山湖水公园户外舞台", "zh-TW": "一山湖水公園戶外舞台" },
+  "goyang-night-run-ticket":  { en: "Goyang Stadium", ja: "高陽総合運動場", "zh-CN": "高阳综合运动场", "zh-TW": "高陽綜合運動場" },
+};
+const TICKET_BADGE: Record<string, Partial<Record<TLocale, string>>> = {
+  "goyang-kpop-arena-open":   { en: "Coming Soon", ja: "近日オープン", "zh-CN": "即将开放", "zh-TW": "即將開放" },
+  "goyang-con-city-festival": { en: "2nd Ticket Sale", ja: "第2次チケット販売", "zh-CN": "第二轮票务开放", "zh-TW": "第二輪票務開放" },
+  "goyang-art-night":         { en: "Extra Seats Available", ja: "追加席販売中", "zh-CN": "增开座位", "zh-TW": "增開座位" },
+  "goyang-family-play":       { en: "Family Pick", ja: "ファミリー向け", "zh-CN": "家庭推荐", "zh-TW": "家庭推薦" },
+  "goyang-kmusic-series":     { en: "Limited Offer", ja: "限定特価", "zh-CN": "限时特惠", "zh-TW": "限時特惠" },
+  "goyang-mice-opening-show": { en: "Coming Soon", ja: "近日オープン", "zh-CN": "即将开放", "zh-TW": "即將開放" },
+  "goyang-local-stage":       { en: "On Sale Now", ja: "本日オープン", "zh-CN": "今日开售", "zh-TW": "今日開售" },
+  "goyang-night-run-ticket":  { en: "Tickets Available", ja: "チケット販売中", "zh-CN": "票务开放", "zh-TW": "票務開放" },
+};
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
@@ -127,27 +149,31 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     }
   }
 
-  // 티켓 아이템 — locale 적용 (ticket-i18n 내부에서 static 번역 직접 참조)
-  for (const rawTicket of tickets) {
-    const ticket = getLocalizedTicketProduct(rawTicket, locale);
+  // 티켓 아이템 — locale별 번역 직접 맵에서 적용
+  for (const ticket of tickets) {
     const minPrice =
       ticket.options.length > 0
         ? Math.min(...ticket.options.map((o) => o.price))
         : 0;
+    const tLocale = locale as TLocale;
+    const localizedVenue =
+      locale !== "ko" ? (TICKET_VENUE[ticket.id]?.[tLocale] ?? ticket.venue) : ticket.venue;
+    const localizedBadge =
+      locale !== "ko" ? (TICKET_BADGE[ticket.id]?.[tLocale] ?? ticket.badge) : ticket.badge;
     items.push({
       id: `ticket-${ticket.id}`,
       category: "ticket",
       categoryLabel: CATEGORY_LABELS.ticket,
       title: ticket.title,
-      venue: ticket.venue,
+      venue: localizedVenue,
       dateText: ticket.dateText,
       imageUrl: ticket.imageUrl,
       imageTone: ticket.imageTone,
       posterLabel: ticket.posterLabel,
-      badge: ticket.badge || undefined,
+      badge: localizedBadge || undefined,
       minPrice,
       tags: ticket.tags,
-      reservationUrl: `/products/ticket-agency-platform/detail?ticket=${rawTicket.id}`,
+      reservationUrl: `/products/ticket-agency-platform/detail?ticket=${ticket.id}`,
     });
   }
 
