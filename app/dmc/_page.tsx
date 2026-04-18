@@ -842,7 +842,7 @@ export default async function DmcPage({
         <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
 
         <div className="relative grid gap-0 lg:grid-cols-[1.02fr_0.98fr]">
-          <div className="flex flex-col justify-center p-8 md:p-12">
+          <div className="flex flex-col justify-center p-7 md:p-10">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/10 px-3.5 py-1.5">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8df0cf] opacity-75" />
@@ -850,31 +850,16 @@ export default async function DmcPage({
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#8df0cf]/90">{copy.hero.eyebrow}</span>
             </div>
-            <h1 className="mt-5 text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl md:text-[2.6rem] md:leading-[1.12]">
+            <h1 className="mt-4 text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl md:text-[2.4rem] md:leading-[1.12]">
               {copy.hero.title}
             </h1>
-            <div className="mt-5 h-px w-full max-w-sm bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
-            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-400 md:text-lg md:leading-9">
+            <div className="mt-4 h-px w-full max-w-sm bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
+            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-400 md:text-[17px] md:leading-8">
               {copy.hero.description}
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#booking-categories"
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.35)] transition hover:-translate-y-0.5 hover:brightness-105"
-              >
-                {copy.hero.buttons.booking}
-              </a>
-              <LinkButton href="/contact" variant="secondary">
-                {copy.hero.buttons.inquiry}
-              </LinkButton>
-              <LinkButton href="/contact" variant="ghost">
-                {copy.hero.buttons.partner}
-              </LinkButton>
-            </div>
           </div>
 
-          <div className="border-l border-white/10 p-5 md:p-7">
+          <div className="border-l border-white/10 p-4 md:p-6">
             <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-slate-900/80 shadow-[0_24px_60px_rgba(15,23,42,0.28)]">
               <div className="aspect-[4/3]">
                 {heroMedia.mediaType === "image" && heroMedia.src ? (
