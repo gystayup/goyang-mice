@@ -91,6 +91,84 @@ const TITLE_TO_KEY: Record<string, string> = {
   "GOYANG LOCAL STAGE": "goyang-local-stage",
   "GOYANG NIGHT RUN & SHOW": "goyang-night-run-ticket",
 };
+// 티켓 제목 번역 맵
+const TICKET_TITLE: Record<string, Partial<Record<TLocale, string>>> = {
+  "goyang-kpop-arena-open": {
+    en: "GOYANG K-POP ARENA OPEN STAGE",
+    ja: "高陽K-POPアリーナ オープンステージ",
+    "zh-CN": "高阳K-POP竞技场开幕演出",
+    "zh-TW": "高陽K-POP競技場開幕演出",
+  },
+  "goyang-con-city-festival": {
+    en: "GOYANG CON CITY FESTIVAL",
+    ja: "高陽コンシティフェスティバル",
+    "zh-CN": "高阳Con城市音乐节",
+    "zh-TW": "高陽Con城市音樂節",
+  },
+  "goyang-art-night": {
+    en: "GOYANG ART NIGHT EXHIBITION",
+    ja: "高陽アートナイト展示",
+    "zh-CN": "高阳艺术之夜展览",
+    "zh-TW": "高陽藝術之夜展覽",
+  },
+  "goyang-family-play": {
+    en: "GOYANG FAMILY PLAY WEEK",
+    ja: "高陽ファミリープレイウィーク",
+    "zh-CN": "高阳家庭游玩周",
+    "zh-TW": "高陽家庭遊玩週",
+  },
+  "goyang-kmusic-series": {
+    en: "GOYANG K-MUSIC SERIES",
+    ja: "高陽K-ミュージックシリーズ",
+    "zh-CN": "高阳K-音乐系列",
+    "zh-TW": "高陽K-音樂系列",
+  },
+  "goyang-mice-opening-show": {
+    en: "GOYANG MICE OPENING SHOW",
+    ja: "高陽MICE オープニングショー",
+    "zh-CN": "高阳MICE开幕演出",
+    "zh-TW": "高陽MICE開幕演出",
+  },
+  "goyang-local-stage": {
+    en: "GOYANG LOCAL STAGE",
+    ja: "高陽ローカルステージ",
+    "zh-CN": "高阳本地舞台",
+    "zh-TW": "高陽本地舞台",
+  },
+  "goyang-night-run-ticket": {
+    en: "GOYANG NIGHT RUN & SHOW",
+    ja: "高陽ナイトラン&ショー",
+    "zh-CN": "高阳夜跑&演出",
+    "zh-TW": "高陽夜跑&演出",
+  },
+};
+// 공항픽업 제목 번역 맵 — DB의 영문/한글 title 모두 매칭 가능
+const AIRPORT_TITLE_MAP: Record<string, Partial<Record<TLocale, string>>> = {
+  "pickup from Incheon Airport": {
+    en: "Incheon Airport Pickup",
+    ja: "仁川空港ピックアップ",
+    "zh-CN": "仁川机场接送",
+    "zh-TW": "仁川機場接送",
+  },
+  "Gimpo airport pickup services": {
+    en: "Gimpo Airport Pickup Services",
+    ja: "金浦空港送迎サービス",
+    "zh-CN": "金浦机场接送服务",
+    "zh-TW": "金浦機場接送服務",
+  },
+  "인천공항 픽업·샌드오프": {
+    en: "Incheon Airport Pickup & Sendoff",
+    ja: "仁川空港 ピックアップ＆送迎",
+    "zh-CN": "仁川机场 接送服务",
+    "zh-TW": "仁川機場 接送服務",
+  },
+  "김포공항 픽업·샌드오프": {
+    en: "Gimpo Airport Pickup & Sendoff",
+    ja: "金浦空港 ピックアップ＆送迎",
+    "zh-CN": "金浦机场 接送服务",
+    "zh-TW": "金浦機場 接送服務",
+  },
+};
 function resolveTicketKey(ticket: { id: string; title: string }): string {
   // ID가 하드코딩 맵에 있으면 그대로 사용
   if (TICKET_VENUE[ticket.id]) return ticket.id;
@@ -198,11 +276,20 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
         item.options && item.options.length > 0
           ? Math.min(...item.options.map((o) => o.price))
           : item.price;
+      // 공항픽업은 DB의 영문/한글 title이 정적 번역 데이터와 불일치 → 별도 맵으로 fallback
+      let finalTitle = item.title;
+      if (category === "airport" && locale !== "ko") {
+        const tLocaleAirport = locale as TLocale;
+        // 현재 title 또는 원본 rawItem.title로 번역 시도
+        const mappedByCurrent = AIRPORT_TITLE_MAP[item.title]?.[tLocaleAirport];
+        const mappedByRaw = AIRPORT_TITLE_MAP[rawItem.title]?.[tLocaleAirport];
+        finalTitle = mappedByCurrent ?? mappedByRaw ?? item.title;
+      }
       items.push({
         id: `${category}-${item.id}`,
         category,
         categoryLabel: CATEGORY_LABELS[category],
-        title: item.title,
+        title: finalTitle,
         venue: item.location,
         dateText: item.dateText,
         imageUrl: item.imageUrl,
@@ -226,6 +313,8 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
         : 0;
     const tLocale = locale as TLocale;
     const tKey = resolveTicketKey(ticket);
+    const localizedTitle =
+      locale !== "ko" ? (TICKET_TITLE[tKey]?.[tLocale] ?? ticket.title) : ticket.title;
     const localizedVenue =
       locale !== "ko" ? (TICKET_VENUE[tKey]?.[tLocale] ?? ticket.venue) : ticket.venue;
     const localizedBadge =
@@ -236,7 +325,7 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       id: `ticket-${ticket.id}`,
       category: "ticket",
       categoryLabel: CATEGORY_LABELS.ticket,
-      title: ticket.title,
+      title: localizedTitle,
       venue: localizedVenue,
       dateText: ticket.dateText,
       imageUrl: ticket.imageUrl,
