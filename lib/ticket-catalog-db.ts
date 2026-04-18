@@ -22,7 +22,13 @@ export async function readTicketCatalog(): Promise<TicketProduct[]> {
       .eq("pageKey", PAGE_KEY)
       .single();
     if (!data?.contentJson) return defaultTickets;
-    return data.contentJson as TicketProduct[];
+    // DB 데이터에 정적 translations 병합 (번역은 항상 코드 기준 적용)
+    const dbTickets = data.contentJson as TicketProduct[];
+    return dbTickets.map((dbTicket) => {
+      const defaultTicket = defaultTickets.find((t) => t.id === dbTicket.id);
+      if (!defaultTicket?.translations) return dbTicket;
+      return { ...dbTicket, translations: defaultTicket.translations };
+    });
   } catch {
     return defaultTickets;
   }
