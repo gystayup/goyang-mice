@@ -169,6 +169,54 @@ const AIRPORT_TITLE_MAP: Record<string, Partial<Record<TLocale, string>>> = {
     "zh-TW": "金浦機場 接送服務",
   },
 };
+// 공항픽업 venue(location) 번역 맵 — DB/static 한국어·영문 모두 매칭
+const AIRPORT_VENUE_MAP: Record<string, Partial<Record<TLocale, string>>> = {
+  "인천공항 터미널 1.2": {
+    en: "Incheon Int'l Airport T1·T2",
+    ja: "仁川国際空港 T1·T2",
+    "zh-CN": "仁川国际机场 T1·T2",
+    "zh-TW": "仁川國際機場 T1·T2",
+  },
+  "김포공항에서 고양시로": {
+    en: "Gimpo Airport → Goyang",
+    ja: "金浦空港から高陽市へ",
+    "zh-CN": "金浦机场 → 高阳市",
+    "zh-TW": "金浦機場 → 高陽市",
+  },
+  "인천국제공항 T1·T2": {
+    en: "Incheon Int'l Airport T1·T2",
+    ja: "仁川国際空港 T1·T2",
+    "zh-CN": "仁川国际机场 T1·T2",
+    "zh-TW": "仁川國際機場 T1·T2",
+  },
+  "김포국제공항": {
+    en: "Gimpo International Airport",
+    ja: "金浦国際空港",
+    "zh-CN": "金浦国际机场",
+    "zh-TW": "金浦國際機場",
+  },
+};
+// 공항픽업 dateText 번역 맵
+const AIRPORT_DATE_MAP: Record<string, Partial<Record<TLocale, string>>> = {
+  "매일": {
+    en: "Daily",
+    ja: "毎日",
+    "zh-CN": "每天",
+    "zh-TW": "每天",
+  },
+  "365일 · 24시간": {
+    en: "365 days · 24h",
+    ja: "365日・24時間",
+    "zh-CN": "全年无休 · 24小时",
+    "zh-TW": "全年無休 · 24小時",
+  },
+  "365일 · 06:00-24:00": {
+    en: "365 days · 06:00-24:00",
+    ja: "365日・06:00-24:00",
+    "zh-CN": "全年无休 · 06:00-24:00",
+    "zh-TW": "全年無休 · 06:00-24:00",
+  },
+};
 function resolveTicketKey(ticket: { id: string; title: string }): string {
   // ID가 하드코딩 맵에 있으면 그대로 사용
   if (TICKET_VENUE[ticket.id]) return ticket.id;
@@ -278,20 +326,30 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
           : item.price;
       // 공항픽업은 DB의 영문/한글 title이 정적 번역 데이터와 불일치 → 별도 맵으로 fallback
       let finalTitle = item.title;
+      let finalVenue = item.location;
+      let finalDateText = item.dateText;
       if (category === "airport" && locale !== "ko") {
         const tLocaleAirport = locale as TLocale;
         // 현재 title 또는 원본 rawItem.title로 번역 시도
         const mappedByCurrent = AIRPORT_TITLE_MAP[item.title]?.[tLocaleAirport];
         const mappedByRaw = AIRPORT_TITLE_MAP[rawItem.title]?.[tLocaleAirport];
         finalTitle = mappedByCurrent ?? mappedByRaw ?? item.title;
+        // venue: 현재값 또는 원본으로 번역 시도
+        const venueByCurrent = AIRPORT_VENUE_MAP[item.location ?? ""]?.[tLocaleAirport];
+        const venueByRaw = AIRPORT_VENUE_MAP[rawItem.location ?? ""]?.[tLocaleAirport];
+        finalVenue = venueByCurrent ?? venueByRaw ?? item.location;
+        // dateText: 현재값 또는 원본으로 번역 시도
+        const dateByCurrent = AIRPORT_DATE_MAP[item.dateText ?? ""]?.[tLocaleAirport];
+        const dateByRaw = AIRPORT_DATE_MAP[rawItem.dateText ?? ""]?.[tLocaleAirport];
+        finalDateText = dateByCurrent ?? dateByRaw ?? item.dateText;
       }
       items.push({
         id: `${category}-${item.id}`,
         category,
         categoryLabel: CATEGORY_LABELS[category],
         title: finalTitle,
-        venue: item.location,
-        dateText: item.dateText,
+        venue: finalVenue,
+        dateText: finalDateText,
         imageUrl: item.imageUrl,
         imageTone: item.imageTone,
         posterLabel: item.posterLabel,

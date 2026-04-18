@@ -49,6 +49,14 @@ const NO_ITEMS_LABEL: Record<SupportedLocale, string> = {
   "zh-TW": "暫無商品。",
 };
 
+const BOOKING_INQUIRY_LABEL: Record<SupportedLocale, string> = {
+  ko: "예약 문의",
+  en: "Inquire for Booking",
+  ja: "予約お問い合わせ",
+  "zh-CN": "预约咨询",
+  "zh-TW": "預約諮詢",
+};
+
 function getCategories(locale: SupportedLocale): CategoryMeta[] {
   return [
     { key: "tour",       emoji: "🗺️", label: CATEGORY_LABELS.tour[locale],       allHref: "/products?cat=tour",       portrait: false },
@@ -183,6 +191,10 @@ function CategorySection({
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
 function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) {
+  const locale = useLocale();
+  const activeLocale: SupportedLocale = (
+    ["ko", "en", "ja", "zh-CN", "zh-TW"].includes(locale) ? locale : "ko"
+  ) as SupportedLocale;
   const aspectClass = portrait ? "aspect-[2/3]" : "aspect-[3/2]";
 
   return (
@@ -276,7 +288,7 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
                 {item.minPrice.toLocaleString("ko-KR")}원~
               </span>
             ) : (
-              <span className="text-[13px] font-bold text-sky-600">예약 문의</span>
+              <span className="text-[13px] font-bold text-sky-600">{BOOKING_INQUIRY_LABEL[activeLocale]}</span>
             )}
           </div>
         </div>
