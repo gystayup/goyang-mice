@@ -57,6 +57,28 @@ const BOOKING_INQUIRY_LABEL: Record<SupportedLocale, string> = {
   "zh-TW": "預約諮詢",
 };
 
+// locale별 통화·"~" 상응 표현
+const FROM_PREFIX: Record<SupportedLocale, { prefix: string; suffix: string }> = {
+  ko: { prefix: "", suffix: "원~" },
+  en: { prefix: "from ₩", suffix: "" },
+  ja: { prefix: "₩", suffix: "〜" },
+  "zh-CN": { prefix: "₩", suffix: " 起" },
+  "zh-TW": { prefix: "₩", suffix: " 起" },
+};
+
+function formatPrice(amount: number, locale: SupportedLocale, withFrom: boolean): string {
+  const localeCode =
+    locale === "ko" ? "ko-KR" :
+    locale === "ja" ? "ja-JP" :
+    locale === "zh-CN" ? "zh-CN" :
+    locale === "zh-TW" ? "zh-TW" :
+    "en-US";
+  const num = amount.toLocaleString(localeCode);
+  if (!withFrom) return num;
+  const { prefix, suffix } = FROM_PREFIX[locale];
+  return `${prefix}${num}${suffix}`;
+}
+
 function getCategories(locale: SupportedLocale): CategoryMeta[] {
   return [
     { key: "tour",       emoji: "🗺️", label: CATEGORY_LABELS.tour[locale],       allHref: "/products?cat=tour",       portrait: false },
@@ -127,7 +149,7 @@ function QuickNav({ categories }: { categories: CategoryMeta[] }) {
   };
 
   return (
-    <div className="sticky top-0 z-20 -mx-4 bg-white/80 px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6">
+    <div className="sticky top-0 z-20 -mx-4 border-b border-slate-100 bg-white/85 px-4 py-3 shadow-sm backdrop-blur-md sm:-mx-6 sm:px-6">
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
         {categories.map((cat) => (
           <button
@@ -240,8 +262,8 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
             <span
               className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
                 item.imageUrl
-                  ? "bg-black/50 text-white backdrop-blur-sm"
-                  : "bg-white/70 text-slate-700"
+                  ? "bg-black/70 text-white backdrop-blur-sm"
+                  : "bg-white/80 text-slate-700 shadow-sm"
               }`}
             >
               {item.categoryLabel}
@@ -262,17 +284,17 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
         <div className="flex flex-1 flex-col p-3">
           {/* 제목 + 장소/날짜 — flex-1로 공간을 차지 */}
           <div className="flex-1">
-            <h3 className="line-clamp-2 text-[13px] font-bold leading-snug text-slate-950">
+            <h3 className="line-clamp-2 text-sm font-bold leading-snug text-slate-950 sm:text-[13px]">
               {item.title}
             </h3>
-            <div className="mt-1.5 space-y-0.5 text-[11px] text-slate-400">
+            <div className="mt-1.5 space-y-0.5 text-xs text-slate-500 sm:text-[11px]">
               <div className="flex items-center gap-1">
                 <MapPinned className="h-3 w-3 shrink-0" />
-                <span className="truncate">{item.venue}</span>
+                <span className="truncate" title={item.venue}>{item.venue}</span>
               </div>
               <div className="flex items-center gap-1">
                 <CalendarDays className="h-3 w-3 shrink-0" />
-                <span className="truncate">{item.dateText}</span>
+                <span className="truncate" title={item.dateText}>{item.dateText}</span>
               </div>
             </div>
           </div>
@@ -280,15 +302,15 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
           <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 border-t border-slate-100 pt-2">
             {item.originalPrice ? (
               <span className="text-[11px] text-slate-400 line-through">
-                {item.originalPrice.toLocaleString("ko-KR")}
+                {formatPrice(item.originalPrice, activeLocale, false)}
               </span>
             ) : null}
             {item.minPrice > 0 ? (
-              <span className="text-[13px] font-black text-slate-950">
-                {item.minPrice.toLocaleString("ko-KR")}원~
+              <span className="text-sm font-black text-slate-950 sm:text-[13px]">
+                {formatPrice(item.minPrice, activeLocale, true)}
               </span>
             ) : (
-              <span className="text-[13px] font-bold text-sky-600">{BOOKING_INQUIRY_LABEL[activeLocale]}</span>
+              <span className="text-sm font-bold text-sky-600 sm:text-[13px]">{BOOKING_INQUIRY_LABEL[activeLocale]}</span>
             )}
           </div>
         </div>
