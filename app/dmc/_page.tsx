@@ -1171,23 +1171,6 @@ export default async function DmcPage({
           </p>
         </div>
 
-        <div className="relative mt-8 flex flex-wrap gap-3">
-          <a
-            href="#booking-categories"
-            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff8f7e] to-[#ffcc8f] px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_8px_24px_rgba(255,143,126,0.35)] transition hover:-translate-y-0.5 hover:brightness-105"
-          >
-            {copy.final.booking}
-          </a>
-          <LinkButton href="/contact" variant="ghost">
-            {copy.final.inquiry}
-          </LinkButton>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/18"
-          >
-            {copy.final.partner}
-          </Link>
-        </div>
       </section>
       </div>
     </Shell>
