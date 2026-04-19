@@ -8,6 +8,9 @@ export const dmcCategoryMediaDefinitions = [
   { key: "cafe", label: "카페 예약" },
   { key: "ticket", label: "티켓 예약" },
   { key: "airport", label: "공항픽업 예약" },
+  { key: "medical-treatment", label: "메디컬 / 질병치료형 예약" },
+  { key: "medical-beauty", label: "메디컬 / 건강미용 증진형 예약" },
+  { key: "medical-recovery", label: "메디컬 / 회복·재활 예약" },
 ] as const;
 
 export type DmcCategoryMediaKey = (typeof dmcCategoryMediaDefinitions)[number]["key"];
