@@ -22,7 +22,7 @@ interface EmailOptions {
   bcc?: string;
 }
 
-async function sendEmail(options: EmailOptions) {
+export async function sendEmail(options: EmailOptions) {
   try {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
       console.warn('[Email] 환경변수 미설정 — 이메일 발송 생략');
@@ -222,6 +222,98 @@ export async function sendInquiryConfirmation(inquiry: {
     subject: '[고양 MICE] 문의가 접수되었습니다',
     html: inquiryConfirmationTemplate(inquiry),
   });
+}
+
+// ── 뉴스레터 ────────────────────────────────────────────────────
+function newsletterTemplate(params: {
+  title: string;
+  subtitle?: string;
+  body: string;
+  coverImageUrl?: string;
+  categoryLabel: string;
+  articleUrl: string;
+  unsubscribeUrl: string;
+}): string {
+  const paragraphs = params.body
+    .split(/\n{2,}/)
+    .map(
+      (p) =>
+        `<p style="margin:0 0 16px;line-height:1.8;color:#334155;font-size:15px">${escapeHtml(p).replace(/\n/g, '<br>')}</p>`
+    )
+    .join('');
+
+  const body = `
+    <div style="margin-bottom:16px"><span class="badge">${escapeHtml(params.categoryLabel)}</span></div>
+    ${params.coverImageUrl ? `<img src="${escapeAttr(params.coverImageUrl)}" alt="" style="width:100%;border-radius:12px;margin-bottom:20px;display:block"/>` : ''}
+    <h2 style="margin:0 0 8px;font-size:22px;color:#0f172a;line-height:1.35;font-weight:800">${escapeHtml(params.title)}</h2>
+    ${params.subtitle ? `<p style="margin:0 0 20px;color:#64748b;font-size:14px;line-height:1.6">${escapeHtml(params.subtitle)}</p>` : '<div style="height:8px"></div>'}
+    ${paragraphs}
+    <a href="${escapeAttr(params.articleUrl)}" class="btn">웹에서 전체 읽기 →</a>
+    <div style="margin-top:28px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;line-height:1.7">
+      이 메일은 고양 MICE 뉴스레터 수신에 동의하신 분께 발송되었습니다.<br>
+      더 이상 받지 않으려면 <a href="${escapeAttr(params.unsubscribeUrl)}" style="color:#64748b;text-decoration:underline">수신 거부</a>를 눌러주세요.
+    </div>`;
+
+  return wrapTemplate(params.title, body);
+}
+
+export interface NewsletterSendParams {
+  title: string;
+  subtitle?: string;
+  body: string;
+  coverImageUrl?: string;
+  categoryLabel: string;
+  articleUrl: string;
+  unsubscribeBaseUrl: string; // e.g. https://site.com/ko/mypage — will append ?unsubscribe=1
+}
+
+/**
+ * 구독자 배열에 뉴스레터를 순차 발송합니다.
+ * 실패는 기록하되 전체 진행은 계속합니다.
+ */
+export async function sendNewsletter(
+  recipients: string[],
+  params: NewsletterSendParams
+): Promise<{ sent: number; failed: number; errors: Array<{ to: string; error: string }> }> {
+  let sent = 0;
+  let failed = 0;
+  const errors: Array<{ to: string; error: string }> = [];
+  const subject = `[고양 MICE] ${params.title}`;
+
+  for (const to of recipients) {
+    const unsubscribeUrl = `${params.unsubscribeBaseUrl}?unsubscribe=1&email=${encodeURIComponent(to)}`;
+    const html = newsletterTemplate({
+      title: params.title,
+      subtitle: params.subtitle,
+      body: params.body,
+      coverImageUrl: params.coverImageUrl,
+      categoryLabel: params.categoryLabel,
+      articleUrl: params.articleUrl,
+      unsubscribeUrl,
+    });
+    const result = await sendEmail({ to, subject, html });
+    if (result.success) sent++;
+    else {
+      failed++;
+      errors.push({ to, error: String((result as { error?: unknown }).error ?? 'unknown') });
+    }
+    // 가벼운 rate limit 회피
+    await new Promise((r) => setTimeout(r, 300));
+  }
+  return { sent, failed, errors };
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeAttr(s: string): string {
+  return escapeHtml(s);
 }
 
 export async function sendAdminNotification(

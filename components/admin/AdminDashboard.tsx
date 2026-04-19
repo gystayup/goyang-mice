@@ -35,6 +35,7 @@ import DmcHeroMediaPanel from "./DmcHeroMediaPanel";
 import MediaUploadButton from "./MediaUploadButton";
 import ProductManagementPanel from "./ProductManagementPanel";
 import HeroSlidesPanel from "./HeroSlidesPanel";
+import NewsPanel from "./NewsPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
 import ServiceCatalogPanel from "./ServiceCatalogPanel";
 import SocialLinksPanel from "./SocialLinksPanel";
@@ -912,100 +913,11 @@ export default function AdminDashboard() {
           ) : null}
 
           {!loading && activeTab === "news" ? (
-            <div className="mt-6 space-y-6">
-              <div className="rounded-3xl border border-slate-200 bg-white p-6">
-                <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-xl font-semibold text-slate-900">뉴스·공지 관리</h2>
-                  <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-600">
-                    5개 언어 동시 발행 지원
-                  </div>
-                </div>
-                <div className="mt-6 overflow-x-auto">
-                  <table className="w-full text-sm text-slate-700">
-                    <thead className="bg-slate-50 text-slate-600">
-                      <tr>
-                        {["제목 (KO)", "EN", "JA", "ZH简", "ZH繁", "카테고리", "작성자", "발행일", "상태", "조회", "운영"].map((col) => (
-                          <th key={col} className="px-4 py-4 text-left">{col}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {newsRecords.map((news) => (
-                        <tr key={news.id} className="border-b border-slate-100 hover:bg-slate-50">
-                          <td className="px-4 py-4">
-                            <div className="max-w-[200px] font-medium text-slate-900 line-clamp-2">{news.title_ko}</div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <div className="max-w-[160px] text-xs text-slate-500 line-clamp-2">{news.title_en}</div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <div className="max-w-[140px] text-xs text-slate-500 line-clamp-2">{news.title_ja}</div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <div className="max-w-[140px] text-xs text-slate-500 line-clamp-2">{news.title_zhCN}</div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <div className="max-w-[140px] text-xs text-slate-500 line-clamp-2">{news.title_zhTW}</div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600">
-                              {newsCategoryLabel[news.category] ?? news.category}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4 text-slate-600">{news.author}</td>
-                          <td className="px-4 py-4 text-slate-600">{formatDate(news.publish_date)}</td>
-                          <td className="px-4 py-4">
-                            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusClasses(news.status)}`}>
-                              {newsStatusLabel[news.status]}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4 text-slate-500">{news.views.toLocaleString()}</td>
-                          <td className="px-4 py-4 text-right">
-                            <button
-                              onClick={() =>
-                                setNewsRecords((current) =>
-                                  current.map((item) =>
-                                    item.id === news.id
-                                      ? { ...item, status: cycleStatus(newsStatusOrder, item.status) }
-                                      : item
-                                  )
-                                )
-                              }
-                              className="rounded-2xl border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
-                            >
-                              상태 변경
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="grid gap-6 xl:grid-cols-5">
-                {(["ko", "en", "ja", "zh-CN", "zh-TW"] as const).map((lang, idx) => {
-                  const langLabels = { ko: "한국어", en: "English", ja: "日本語", "zh-CN": "简体中文", "zh-TW": "繁體中文" };
-                  const langColors = [
-                    "border-sky-200 bg-sky-50",
-                    "border-emerald-200 bg-emerald-50",
-                    "border-amber-200 bg-amber-50",
-                    "border-rose-200 bg-rose-50",
-                    "border-violet-200 bg-violet-50",
-                  ];
-                  const published = newsRecords.filter((n) => n.status === "published").length;
-                  return (
-                    <div key={lang} className={`rounded-3xl border p-5 ${langColors[idx]}`}>
-                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-slate-600">{lang.toUpperCase()}</div>
-                      <div className="mt-1 text-sm font-semibold text-slate-800">{langLabels[lang]}</div>
-                      <div className="mt-4 text-3xl font-black text-slate-900">{published}</div>
-                      <div className="mt-1 text-xs text-slate-500">발행된 콘텐츠</div>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="mt-6">
+              <NewsPanel />
             </div>
           ) : null}
+
 
           {!loading && activeTab === "research-archive" ? (
             <ResearchArchivePanel />

@@ -3,10 +3,12 @@ import NewsPage, { metadata } from "../../news/_page";
 
 export { metadata };
 
-export default function LocaleNewsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function LocaleNewsPage() {
   return (
     <Shell>
-      <NewsPage />
+      {await NewsPage()}
     </Shell>
   );
 }

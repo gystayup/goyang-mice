@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LogOut, Save, User } from "lucide-react";
 
 type Visitor = {
@@ -143,6 +143,32 @@ export default function MyPagePanel({ locale, visitor }: { locale: string; visit
   const [phone, setPhone] = useState(visitor.phone ?? "");
   const [marketing, setMarketing] = useState(!!visitor.marketingAgree);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [unsubscribedNotice, setUnsubscribedNotice] = useState(false);
+
+  // 이메일 뉴스레터의 "수신거부" 링크로 접근한 경우 자동 해제
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("unsubscribe") === "1" && visitor.marketingAgree) {
+      setMarketing(false);
+      fetch("/api/visitor/me", {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ marketingAgree: false }),
+      })
+        .then((r) => r.json())
+        .then(() => {
+          setUnsubscribedNotice(true);
+          // URL 파라미터 제거
+          const url = new URL(window.location.href);
+          url.searchParams.delete("unsubscribe");
+          url.searchParams.delete("email");
+          window.history.replaceState({}, "", url.toString());
+        })
+        .catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const save = async () => {
     setStatus("saving");
@@ -191,6 +217,12 @@ export default function MyPagePanel({ locale, visitor }: { locale: string; visit
           {t.logout}
         </button>
       </div>
+
+      {unsubscribedNotice && (
+        <div className="mb-6 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+          뉴스레터 수신이 해제되었습니다. 앞으로 이메일이 발송되지 않습니다.
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-3xl border border-slate-200 bg-white p-6">
