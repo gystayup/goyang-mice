@@ -121,6 +121,26 @@ interface ServiceCatalogOption {
   benefits: string[];
 }
 
+type ServiceLocale = "en" | "ja" | "zh-CN" | "zh-TW";
+
+interface ServiceCatalogTranslation {
+  title?: string;
+  subtitle?: string;
+  location?: string;
+  dateText?: string;
+  posterLabel?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  tabNotice?: string;
+  tabDetails?: string;
+  tabUsageInfo?: string;
+  tabCancellation?: string;
+  highlights?: string[];
+  includes?: string[];
+  couponGuide?: string;
+}
+
 interface ServiceCatalogItem {
   id: string;
   title: string;
@@ -136,6 +156,8 @@ interface ServiceCatalogItem {
   price: number;
   discountLabel?: string;
   options: ServiceCatalogOption[];
+  // 다국어 번역 (선택)
+  translations?: Partial<Record<ServiceLocale, ServiceCatalogTranslation>>;
   // 상품 소개 콘텐츠
   imageUrl?: string;
   images?: string[];
@@ -148,6 +170,13 @@ interface ServiceCatalogItem {
   tabUsageInfo?: string;
   tabCancellation?: string;
 }
+
+const TRANSLATION_LOCALES: { key: ServiceLocale; label: string }[] = [
+  { key: "en", label: "English" },
+  { key: "ja", label: "日本語" },
+  { key: "zh-CN", label: "简体中文" },
+  { key: "zh-TW", label: "繁體中文" },
+];
 
 type CatalogMap = Record<Category, ServiceCatalogItem[]>;
 
@@ -167,6 +196,7 @@ const emptyItem = (): ServiceCatalogItem => ({
   price: 0,
   discountLabel: undefined,
   options: [],
+  translations: {},
   imageUrl: undefined,
   images: [],
   highlights: [],
@@ -286,8 +316,8 @@ export default function ServiceCatalogPanel() {
 
   async function handleSave() {
     if (!form.title.trim()) { setMsg({ type: "err", text: "상품명을 입력하세요." }); return; }
-    // 공항픽업은 가격 0 허용 (옵션별 가격 사용), 그 외 카테고리는 가격 필수
-    if (activeCategory !== "airport" && (!form.price || form.price <= 0)) { setMsg({ type: "err", text: "가격을 입력하세요." }); return; }
+    // 공항픽업 / 메디컬투어는 가격 0 허용 (옵션/수기 견적), 그 외 카테고리는 가격 필수
+    if (activeCategory !== "airport" && activeCategory !== "medical" && (!form.price || form.price <= 0)) { setMsg({ type: "err", text: "가격을 입력하세요." }); return; }
 
     const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
     const highlights = highlightsInput.split("\n").map((l) => l.trim()).filter(Boolean);
@@ -349,6 +379,25 @@ export default function ServiceCatalogPanel() {
   function setOption(idx: number, key: keyof ServiceCatalogOption, value: string | number | string[]) {
     const next = form.options.map((o, i) => (i === idx ? { ...o, [key]: value } : o));
     setField("options", next);
+  }
+
+  // 번역 필드 헬퍼
+  function setTranslationField<K extends keyof ServiceCatalogTranslation>(
+    locale: ServiceLocale,
+    key: K,
+    value: ServiceCatalogTranslation[K]
+  ) {
+    setForm((prev) => {
+      const prevT = prev.translations ?? {};
+      const prevLoc = prevT[locale] ?? {};
+      return {
+        ...prev,
+        translations: {
+          ...prevT,
+          [locale]: { ...prevLoc, [key]: value },
+        },
+      };
+    });
   }
 
   const items = activeCategory !== "ticket" ? (catalog[activeCategory as Category] ?? []) : [];
@@ -881,6 +930,181 @@ export default function ServiceCatalogPanel() {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* ── 다국어 번역 (선택) ── */}
+            <div className="md:col-span-2">
+              <details className="rounded-xl border border-slate-200 bg-white p-4">
+                <summary className="cursor-pointer select-none text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+                  🌐 다국어 번역 (영어 / 일본어 / 중국어 간체 / 중국어 번체)
+                </summary>
+                <p className="mt-2 text-[11px] text-slate-400">
+                  입력하지 않은 필드는 한국어 원문을 그대로 표시합니다.
+                </p>
+                <div className="mt-4 space-y-4">
+                  {TRANSLATION_LOCALES.map(({ key: loc, label }) => {
+                    const t = form.translations?.[loc] ?? {};
+                    return (
+                      <div key={loc} className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+                        <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-bold text-slate-700 border border-slate-200">
+                          {label}
+                        </div>
+                        <div className="grid gap-3 md:grid-cols-2">
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">상품명</label>
+                            <input
+                              type="text"
+                              value={t.title ?? ""}
+                              onChange={(e) => setTranslationField(loc, "title", e.target.value || undefined)}
+                              placeholder={form.title}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">부제</label>
+                            <input
+                              type="text"
+                              value={t.subtitle ?? ""}
+                              onChange={(e) => setTranslationField(loc, "subtitle", e.target.value || undefined)}
+                              placeholder={form.subtitle}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">위치</label>
+                            <input
+                              type="text"
+                              value={t.location ?? ""}
+                              onChange={(e) => setTranslationField(loc, "location", e.target.value || undefined)}
+                              placeholder={form.location}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">일자/시간 문구</label>
+                            <input
+                              type="text"
+                              value={t.dateText ?? ""}
+                              onChange={(e) => setTranslationField(loc, "dateText", e.target.value || undefined)}
+                              placeholder={form.dateText}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">포스터 라벨</label>
+                            <input
+                              type="text"
+                              value={t.posterLabel ?? ""}
+                              onChange={(e) => setTranslationField(loc, "posterLabel", e.target.value || undefined)}
+                              placeholder={form.posterLabel}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-500">태그 (쉼표 구분)</label>
+                            <input
+                              type="text"
+                              value={(t.tags ?? []).join(", ")}
+                              onChange={(e) => {
+                                const arr = e.target.value.split(",").map((s) => s.trim()).filter(Boolean);
+                                setTranslationField(loc, "tags", arr.length > 0 ? arr : undefined);
+                              }}
+                              placeholder={form.tags.join(", ")}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">요약</label>
+                            <textarea
+                              rows={2}
+                              value={t.summary ?? ""}
+                              onChange={(e) => setTranslationField(loc, "summary", e.target.value || undefined)}
+                              placeholder={form.summary}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">설명</label>
+                            <textarea
+                              rows={3}
+                              value={t.description ?? ""}
+                              onChange={(e) => setTranslationField(loc, "description", e.target.value || undefined)}
+                              placeholder={form.description}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">주요 특징 (줄바꿈 구분)</label>
+                            <textarea
+                              rows={3}
+                              value={(t.highlights ?? []).join("\n")}
+                              onChange={(e) => {
+                                const arr = e.target.value.split("\n").map((s) => s.trim()).filter(Boolean);
+                                setTranslationField(loc, "highlights", arr.length > 0 ? arr : undefined);
+                              }}
+                              placeholder={(form.highlights ?? []).join("\n")}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">포함 사항 (줄바꿈 구분)</label>
+                            <textarea
+                              rows={3}
+                              value={(t.includes ?? []).join("\n")}
+                              onChange={(e) => {
+                                const arr = e.target.value.split("\n").map((s) => s.trim()).filter(Boolean);
+                                setTranslationField(loc, "includes", arr.length > 0 ? arr : undefined);
+                              }}
+                              placeholder={(form.includes ?? []).join("\n")}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">공지사항</label>
+                            <textarea
+                              rows={2}
+                              value={t.tabNotice ?? ""}
+                              onChange={(e) => setTranslationField(loc, "tabNotice", e.target.value || undefined)}
+                              placeholder={form.tabNotice ?? ""}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">상품상세</label>
+                            <textarea
+                              rows={3}
+                              value={t.tabDetails ?? ""}
+                              onChange={(e) => setTranslationField(loc, "tabDetails", e.target.value || undefined)}
+                              placeholder={form.tabDetails ?? ""}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">이용안내</label>
+                            <textarea
+                              rows={3}
+                              value={t.tabUsageInfo ?? ""}
+                              onChange={(e) => setTranslationField(loc, "tabUsageInfo", e.target.value || undefined)}
+                              placeholder={form.tabUsageInfo ?? ""}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-[11px] font-semibold text-slate-500">취소 및 환불규정</label>
+                            <textarea
+                              rows={3}
+                              value={t.tabCancellation ?? ""}
+                              onChange={(e) => setTranslationField(loc, "tabCancellation", e.target.value || undefined)}
+                              placeholder={form.tabCancellation ?? ""}
+                              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm focus:border-slate-400 focus:outline-none resize-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </details>
             </div>
           </div>
 

@@ -11,7 +11,6 @@ import HeaderUserMenu from "@/components/layout/HeaderUserMenu";
 type HeaderCopy = {
   brand: string;
   titleLine2: string;
-  partnership: string;
   menuLabel: string;
   closeLabel: string;
 };
@@ -20,35 +19,30 @@ const copyMap: Record<LocaleKey, HeaderCopy> = {
   ko: {
     brand: "GOYANG VIBE LAB",
     titleLine2: "K-컬처플랫폼",
-    partnership: "협력 제안",
     menuLabel: "메뉴 열기",
     closeLabel: "메뉴 닫기",
   },
   en: {
     brand: "GOYANG VIBE LAB",
     titleLine2: "K-Culture Platform",
-    partnership: "Partnership",
     menuLabel: "Open menu",
     closeLabel: "Close menu",
   },
   ja: {
     brand: "GOYANG VIBE LAB",
     titleLine2: "K-カルチャープラットフォーム",
-    partnership: "提携提案",
     menuLabel: "メニューを開く",
     closeLabel: "メニューを閉じる",
   },
   "zh-CN": {
     brand: "GOYANG VIBE LAB",
     titleLine2: "K-文化平台",
-    partnership: "合作提案",
     menuLabel: "打开菜单",
     closeLabel: "关闭菜单",
   },
   "zh-TW": {
     brand: "GOYANG VIBE LAB",
     titleLine2: "K-文化平台",
-    partnership: "合作提案",
     menuLabel: "開啟選單",
     closeLabel: "關閉選單",
   },
@@ -133,14 +127,6 @@ export default function Header() {
                 );
               })}
             </nav>
-            <Link
-              href="/contact"
-              onClick={() => setMenuOpen(false)}
-              className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,_#ff8f7e,_#ffcc8f)] px-5 text-sm font-semibold text-slate-950"
-            >
-              {copy.partnership}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         ) : null}
 
@@ -185,7 +171,7 @@ export default function Header() {
           </div>
 
           {/* 네비게이션 */}
-          <nav className="flex flex-nowrap items-center gap-1 overflow-x-auto pt-0.5">
+          <nav className="flex flex-wrap items-center gap-1 pt-0.5">
             {navigation.map((item, index) => {
               const active = isActive(item.href);
               const tone =
@@ -212,16 +198,9 @@ export default function Header() {
             })}
           </nav>
 
-          {/* CTA + User 메뉴 */}
+          {/* User 메뉴 */}
           <div className="flex items-center gap-2">
             <HeaderUserMenu locale={activeLocale} />
-            <Link
-              href="/contact"
-              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[linear-gradient(135deg,_#ff8f7e,_#ffcc8f)] px-5 text-sm font-semibold text-slate-950 shadow-[0_12px_25px_rgba(255,143,126,0.28)] transition hover:-translate-y-0.5 hover:brightness-105"
-            >
-              {copy.partnership}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </div>
       </div>
