@@ -19,6 +19,7 @@ import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { readDmcCategoryMediaMap } from "@/lib/dmc-category-media";
+import { readDmcCustomCategories } from "@/lib/dmc-custom-categories";
 import { readDmcHeroMedia } from "@/lib/dmc-hero-media";
 import { Link } from "@/lib/navigation";
 
@@ -911,6 +912,7 @@ export default async function DmcPage({
   const copy = getCopy(locale);
   const heroMedia = await readDmcHeroMedia();
   const categoryMediaMap = await readDmcCategoryMediaMap();
+  const customCategories = await readDmcCustomCategories();
 
   return (
     <Shell>
@@ -1096,6 +1098,58 @@ export default async function DmcPage({
               </article>
             );
           })}
+
+          {/* 사용자 정의 카테고리 (관리자에서 추가한 항목) */}
+          {customCategories.map((custom) => (
+            <article
+              key={`custom-${custom.slug}`}
+              className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-white/80 bg-white/80 shadow-[0_8px_28px_rgba(16,32,58,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(16,32,58,0.13)]"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#eef2ff] via-[#ffffff] to-[#f1f5f9]">
+                {custom.src ? (
+                  <Image
+                    src={custom.src}
+                    alt={custom.label}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-slate-400">
+                    <Landmark className="h-12 w-12" />
+                  </div>
+                )}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 to-transparent p-6">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/75">
+                    CUSTOM
+                  </div>
+                  <div className="mt-2 text-2xl font-black tracking-[-0.03em] text-white">
+                    {custom.label}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-1 flex-col p-7">
+                <p className="min-h-[5.5rem] text-[15px] leading-7 text-slate-500">
+                  {custom.description ?? "관리자에서 설정한 맞춤 카테고리입니다."}
+                </p>
+                <div className="mt-auto flex gap-3 pt-7">
+                  <Link
+                    href={`/contact`}
+                    className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-white"
+                  >
+                    {copy.categories.cta}
+                  </Link>
+                  <Link
+                    href={`/contact`}
+                    className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 py-3 text-sm font-bold text-white transition hover:brightness-110"
+                  >
+                    {copy.categories.booking}
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
