@@ -27,6 +27,7 @@ import type {
   User as AdminUser,
 } from "@/lib/database";
 
+import AdminUsersPanel from "./AdminUsersPanel";
 import AirportTransferAdminPanel from "./AirportTransferAdminPanel";
 import DmcCategoryMediaPanel from "./DmcCategoryMediaPanel";
 import DmcHeroMediaPanel from "./DmcHeroMediaPanel";
@@ -1036,26 +1037,7 @@ export default function AdminDashboard() {
           ) : null}
 
           {!loading && activeTab === "users" ? (
-            <AdminTable
-              title="사용자 관리"
-              columns={["이름", "이메일", "권한", "상태", "마지막 로그인"]}
-            >
-              {users.map((user) => (
-                <tr key={user.id} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-4 py-4">{user.name}</td>
-                  <td className="px-4 py-4">{user.email}</td>
-                  <td className="px-4 py-4">{user.role}</td>
-                  <td className="px-4 py-4">
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusClasses(user.status)}`}
-                    >
-                      {user.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">{formatDateTime(user.last_login_at)}</td>
-                </tr>
-              ))}
-            </AdminTable>
+            <AdminUsersPanel />
           ) : null}
 
           {!loading && activeTab === "settings" ? (

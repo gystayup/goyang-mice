@@ -1,13 +1,16 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
+import { touchLastLogin, verifyAdminPassword } from '@/lib/admin-users-db';
+
 type UserRole = 'SUPER_ADMIN' | 'OPERATOR' | 'EDITOR' | 'PARTNER_MANAGER';
-type TokenWithRole = { role?: UserRole };
+type TokenWithRole = { role?: UserRole; uid?: string };
 type UserWithRole = { role?: UserRole };
 
 /**
  * NextAuth 설정
- * 관리자 로그인 및 세션 관리
+ * 관리자 로그인 및 세션 관리 — Supabase pages 테이블의 admin-users row 에 저장된
+ * bcrypt 해시 계정과 비교합니다.
  */
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -23,44 +26,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           throw new Error('이메일과 비밀번호를 입력하세요.');
         }
 
-        // TODO: 데이터베이스에서 사용자 조회
-        // const user = await db.user.findUnique({
-        //   where: { email: credentials.email },
-        // });
-        //
-        // if (!user) {
-        //   throw new Error('사용자를 찾을 수 없습니다.');
-        // }
-        //
-        // // 비밀번호 검증 (bcrypt 사용)
-        // const isPasswordValid = await bcrypt.compare(
-        //   credentials.password,
-        //   user.passwordHash
-        // );
-        //
-        // if (!isPasswordValid) {
-        //   throw new Error('비밀번호가 올바르지 않습니다.');
-        // }
-        //
-        // if (user.status !== 'ACTIVE') {
-        //   throw new Error('비활성화된 계정입니다.');
-        // }
+        const email = String(credentials.email);
+        const password = String(credentials.password);
 
-        // 테스트용 기본 계정
-        if (
-          credentials.email === 'admin@goyangmice.kr' &&
-          credentials.password === 'admin123'
-        ) {
-          return {
-            id: '1',
-            email: credentials.email,
-            name: 'Admin User',
-            role: 'SUPER_ADMIN' as UserRole,
-            image: null,
-          };
+        const user = await verifyAdminPassword(email, password);
+        if (!user) {
+          throw new Error('이메일 또는 비밀번호가 올바르지 않습니다.');
         }
 
-        throw new Error('이메일 또는 비밀번호가 올바르지 않습니다.');
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          image: null,
+        };
       },
     }),
   ],
@@ -73,6 +53,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user && 'role' in user) {
         (token as typeof token & TokenWithRole).role = (user as UserWithRole).role;
       }
+      if (user?.id) {
+        (token as typeof token & TokenWithRole).uid = user.id;
+      }
       return token;
     },
     async session({ session, token }) {
@@ -80,6 +63,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         (session.user as typeof session.user & UserWithRole).role = (
           token as typeof token & TokenWithRole
         ).role;
+        const uid = (token as typeof token & TokenWithRole).uid;
+        if (uid) {
+          (session.user as typeof session.user & { id?: string }).id = uid;
+        }
       }
       return session;
     },
@@ -93,12 +80,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   events: {
     async signIn({ user }) {
-      // TODO: 로그인 기록
-      console.log('User signed in:', user.email);
+      if (user?.id) {
+        try {
+          await touchLastLogin(user.id);
+        } catch (err) {
+          console.error('touchLastLogin failed:', err);
+        }
+      }
     },
     async signOut() {
-      // TODO: 로그아웃 기록
-      console.log('User signed out');
+      // 별도 기록 필요 시 여기서 처리
     },
   },
   session: {
@@ -115,4 +106,10 @@ export async function isAdminAuthenticated() {
   const session = await auth();
   const role = (session?.user as UserWithRole | undefined)?.role;
   return role === 'SUPER_ADMIN' || role === 'OPERATOR';
+}
+
+export async function isSuperAdmin() {
+  const session = await auth();
+  const role = (session?.user as UserWithRole | undefined)?.role;
+  return role === 'SUPER_ADMIN';
 }
