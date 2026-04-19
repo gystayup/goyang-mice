@@ -18,6 +18,11 @@ type ProductOverrides = Partial<
     | "adminStatus"
     | "managerNote"
     | "summary"
+    | "title"
+    | "desc"
+    | "price"
+    | "people"
+    | "duration"
     | "reservationFeatures"
     | "operationFeatures"
     | "managementFeatures"
@@ -80,6 +85,11 @@ export default function ProductManagementPanel({
           productOverrides[product.id]?.managerNote ??
           `${product.category} 카테고리 운영 기준과 예약/정산 조건을 점검 중입니다.`,
         summary: productOverrides[product.id]?.summary ?? product.summary,
+        title: productOverrides[product.id]?.title ?? product.title,
+        desc: productOverrides[product.id]?.desc ?? product.desc,
+        price: productOverrides[product.id]?.price ?? product.price,
+        people: productOverrides[product.id]?.people ?? product.people,
+        duration: productOverrides[product.id]?.duration ?? product.duration,
         reservationFeatures:
           productOverrides[product.id]?.reservationFeatures ?? product.reservationFeatures,
         operationFeatures:
@@ -227,16 +237,41 @@ export default function ProductManagementPanel({
         {selectedProduct ? (
           <div className="rounded-3xl border border-slate-200 bg-white p-6">
             <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 md:flex-row md:items-start md:justify-between">
-              <div>
+              <div className="flex-1">
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
                   {selectedProduct.badge}
                 </div>
-                <h3 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-                  {selectedProduct.title}
-                </h3>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-                  {selectedProduct.desc}
-                </p>
+                <EditableInline
+                  value={selectedProduct.title}
+                  placeholder="상품명"
+                  textClassName="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+                  inputClassName="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-3xl font-bold tracking-tight text-slate-900 outline-none focus:border-slate-300"
+                  onChange={(value) =>
+                    setProductOverrides((current) => ({
+                      ...current,
+                      [selectedProduct.id]: {
+                        ...current[selectedProduct.id],
+                        title: value,
+                      },
+                    }))
+                  }
+                />
+                <EditableInline
+                  multiline
+                  value={selectedProduct.desc}
+                  placeholder="상품 설명"
+                  textClassName="mt-3 max-w-3xl text-sm leading-7 text-slate-600"
+                  inputClassName="mt-3 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-600 outline-none focus:border-slate-300"
+                  onChange={(value) =>
+                    setProductOverrides((current) => ({
+                      ...current,
+                      [selectedProduct.id]: {
+                        ...current[selectedProduct.id],
+                        desc: value,
+                      },
+                    }))
+                  }
+                />
               </div>
 
               <button
@@ -258,9 +293,53 @@ export default function ProductManagementPanel({
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <StatCard label="기준가" value={formatCurrency(selectedProduct.price)} />
-              <StatCard label="운영 범위" value={selectedProduct.people} />
-              <StatCard label="소요 구성" value={selectedProduct.duration} />
+              <EditableStatCard
+                label="기준가"
+                value={String(selectedProduct.price ?? 0)}
+                display={formatCurrency(selectedProduct.price ?? 0)}
+                placeholder="숫자만 입력 (예: 59000)"
+                inputMode="numeric"
+                onChange={(value) => {
+                  const parsed = Number(value.replace(/[^0-9]/g, ""));
+                  setProductOverrides((current) => ({
+                    ...current,
+                    [selectedProduct.id]: {
+                      ...current[selectedProduct.id],
+                      price: Number.isFinite(parsed) ? parsed : 0,
+                    },
+                  }));
+                }}
+              />
+              <EditableStatCard
+                label="운영 범위"
+                value={selectedProduct.people}
+                display={selectedProduct.people}
+                placeholder="예: 1명 ~ 10명"
+                onChange={(value) =>
+                  setProductOverrides((current) => ({
+                    ...current,
+                    [selectedProduct.id]: {
+                      ...current[selectedProduct.id],
+                      people: value,
+                    },
+                  }))
+                }
+              />
+              <EditableStatCard
+                label="소요 구성"
+                value={selectedProduct.duration}
+                display={selectedProduct.duration}
+                placeholder="예: 단기 진료 ~ 장기 체류"
+                onChange={(value) =>
+                  setProductOverrides((current) => ({
+                    ...current,
+                    [selectedProduct.id]: {
+                      ...current[selectedProduct.id],
+                      duration: value,
+                    },
+                  }))
+                }
+              />
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -366,6 +445,135 @@ function StatCard({ label, value }: { label: string; value: string }) {
       </div>
       <div className="mt-3 text-xl font-bold text-slate-900">{value}</div>
     </div>
+  );
+}
+
+function EditableStatCard({
+  label,
+  value,
+  display,
+  placeholder,
+  inputMode,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  display: string;
+  placeholder?: string;
+  inputMode?: "numeric" | "text";
+  onChange: (value: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+
+  useEffect(() => {
+    if (!editing) setDraft(value);
+  }, [value, editing]);
+
+  return (
+    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+      <div className="flex items-center justify-between gap-2">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {label}
+        </div>
+        <button
+          type="button"
+          onClick={() => setEditing((v) => !v)}
+          className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-500 hover:bg-slate-100"
+          aria-label={`${label} 편집`}
+        >
+          <PencilLine className="h-3 w-3" />
+          {editing ? "완료" : "편집"}
+        </button>
+      </div>
+      {editing ? (
+        <input
+          type="text"
+          inputMode={inputMode}
+          value={draft}
+          placeholder={placeholder}
+          autoFocus
+          onChange={(event) => setDraft(event.target.value)}
+          onBlur={() => {
+            setEditing(false);
+            onChange(draft);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              (event.target as HTMLInputElement).blur();
+            }
+          }}
+          className="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xl font-bold text-slate-900 outline-none focus:border-slate-300"
+        />
+      ) : (
+        <div className="mt-3 text-xl font-bold text-slate-900">{display}</div>
+      )}
+    </div>
+  );
+}
+
+function EditableInline({
+  value,
+  placeholder,
+  textClassName,
+  inputClassName,
+  multiline = false,
+  onChange,
+}: {
+  value: string;
+  placeholder?: string;
+  textClassName: string;
+  inputClassName: string;
+  multiline?: boolean;
+  onChange: (value: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+
+  useEffect(() => {
+    if (!editing) setDraft(value);
+  }, [value, editing]);
+
+  if (editing) {
+    const commonProps = {
+      value: draft,
+      placeholder,
+      autoFocus: true,
+      onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setDraft(event.target.value),
+      onBlur: () => {
+        setEditing(false);
+        onChange(draft);
+      },
+      className: inputClassName,
+    } as const;
+    return multiline ? (
+      <textarea rows={3} {...commonProps} />
+    ) : (
+      <input
+        type="text"
+        {...commonProps}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            (event.target as HTMLInputElement).blur();
+          }
+        }}
+      />
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setEditing(true)}
+      className={`${textClassName} group/inline block w-full cursor-text text-left hover:bg-slate-50/60 hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-slate-200 rounded-md`}
+      aria-label="편집"
+    >
+      <span>{value || <span className="text-slate-400">{placeholder}</span>}</span>
+      <PencilLine className="ml-2 inline h-3.5 w-3.5 align-middle text-slate-400 opacity-0 transition group-hover/inline:opacity-100" />
+    </button>
   );
 }
 
