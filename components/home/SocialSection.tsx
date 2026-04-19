@@ -1,4 +1,9 @@
 import SocialFeed from "@/components/social/SocialFeed";
+import {
+  extractYoutubeId,
+  fetchYoutubeChannelVideos,
+  readSocialLinks,
+} from "@/lib/social-links-db";
 
 const TITLES: Record<string, { title: string; subtitle: string }> = {
   ko: {
@@ -23,8 +28,39 @@ const TITLES: Record<string, { title: string; subtitle: string }> = {
   },
 };
 
-export default function SocialSection({ locale }: { locale: string }) {
+/**
+ * 관리자에서 SNS 콘텐츠가 하나도 등록되지 않았다면 섹션 전체를 숨깁니다.
+ * (제목만 덩그러니 남는 빈 상태 방지)
+ * — 관리자가 유튜브 채널 ID / 게시물 URL 하나라도 등록하면 자동으로 다시 노출됩니다.
+ */
+async function hasAnyContent(): Promise<boolean> {
+  try {
+    const data = await readSocialLinks();
+
+    const featuredId = data.youtube.featuredVideoUrl
+      ? extractYoutubeId(data.youtube.featuredVideoUrl)
+      : null;
+    if (featuredId) return true;
+
+    if (data.youtube.videos.some((v) => v.url)) return true;
+    if (data.instagram.posts.some((p) => p.url)) return true;
+    if (data.tiktok.videos.some((v) => v.url)) return true;
+
+    if (data.youtube.autoSync && data.youtube.channelId) {
+      const videos = await fetchYoutubeChannelVideos(data.youtube.channelId, 1);
+      if (videos.length > 0) return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export default async function SocialSection({ locale }: { locale: string }) {
   const copy = TITLES[locale] ?? TITLES.ko;
+  const hasContent = await hasAnyContent();
+  if (!hasContent) return null;
+
   return (
     <section className="bg-slate-50 py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -32,7 +68,6 @@ export default function SocialSection({ locale }: { locale: string }) {
           <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">{copy.title}</h2>
           <p className="mt-2 text-sm text-slate-600 sm:text-base">{copy.subtitle}</p>
         </div>
-        {/* Server component — auto-hides entire block if no content configured */}
         <SocialFeed />
       </div>
     </section>
