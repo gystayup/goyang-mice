@@ -2,7 +2,7 @@ import type { DmcCategoryKey } from "@/data/products";
 
 export type ServiceCatalogCategory = Extract<
   DmcCategoryKey,
-  "tour" | "stay" | "restaurant" | "cafe" | "airport"
+  "tour" | "stay" | "restaurant" | "cafe" | "airport" | "medical"
 >;
 
 export interface ServiceCatalogOption {
@@ -999,6 +999,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       ],
     },
   ],
+  medical: [],
 };
 
 export function getServiceCatalogByCategory(category: ServiceCatalogCategory) {

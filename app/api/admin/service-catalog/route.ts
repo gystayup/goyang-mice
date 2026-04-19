@@ -11,7 +11,7 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const VALID_CATEGORIES: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport"];
+const VALID_CATEGORIES: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport", "medical"];
 
 function isValidCategory(v: unknown): v is ServiceCatalogCategory {
   return VALID_CATEGORIES.includes(v as ServiceCatalogCategory);

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Edit2, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
 
-type Category = "tour" | "stay" | "restaurant" | "cafe" | "airport";
+type Category = "tour" | "stay" | "restaurant" | "cafe" | "airport" | "medical";
 type ActivePanel = Category | "ticket";
 
 const CATEGORIES: { key: Category; label: string }[] = [
@@ -12,6 +12,7 @@ const CATEGORIES: { key: Category; label: string }[] = [
   { key: "restaurant", label: "음식점예약" },
   { key: "cafe", label: "라이프스타일" },
   { key: "airport", label: "공항픽업" },
+  { key: "medical", label: "고양메디컬투어" },
 ];
 
 // ── 티켓 관련 타입 ──────────────────────────────────────────────
@@ -178,7 +179,7 @@ const emptyItem = (): ServiceCatalogItem => ({
 });
 
 export default function ServiceCatalogPanel() {
-  const [catalog, setCatalog] = useState<CatalogMap>({ tour: [], stay: [], restaurant: [], cafe: [], airport: [] });
+  const [catalog, setCatalog] = useState<CatalogMap>({ tour: [], stay: [], restaurant: [], cafe: [], airport: [], medical: [] });
   const [activeCategory, setActiveCategory] = useState<ActivePanel>("tour");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

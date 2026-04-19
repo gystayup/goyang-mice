@@ -6,7 +6,7 @@ import { serviceCatalog as defaultCatalog } from "@/data/service-catalog";
 export type CatalogMap = Record<ServiceCatalogCategory, ServiceCatalogItem[]>;
 
 // 기본 빈 카탈로그 (DB가 비어있을 때 사용)
-const EMPTY_MAP: CatalogMap = { tour: [], stay: [], restaurant: [], cafe: [], airport: [] };
+const EMPTY_MAP: CatalogMap = { tour: [], stay: [], restaurant: [], cafe: [], airport: [], medical: [] };
 
 const PAGE_KEY = "service-catalog";
 
@@ -33,7 +33,7 @@ export async function readServiceCatalog(): Promise<CatalogMap> {
     if (!contentJson) return defaultCatalog as CatalogMap;
     // DB 데이터에 없거나 빈 카테고리는 정적 카탈로그로 보충
     const dbData = contentJson as Partial<CatalogMap>;
-    const cats: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport"];
+    const cats: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport", "medical"];
     const merged = { ...EMPTY_MAP };
     for (const cat of cats) {
       const dbItems = dbData[cat];

@@ -245,6 +245,7 @@ const CATEGORY_PRODUCT_IDS: Record<ServiceCatalogCategory, string> = {
   restaurant: "restaurant-booking-platform",
   cafe: "cafe-booking-platform",
   airport: "airport-pickup-platform",
+  medical: "medical-treatment-platform",
 };
 
 const CATEGORY_LABELS_MAP: Record<
