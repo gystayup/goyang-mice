@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { type LocaleKey, navigation, navigationLabels } from "@/data/navigation";
 import { Link, usePathname } from "@/lib/navigation";
+import HeaderUserMenu from "@/components/layout/HeaderUserMenu";
 
 type HeaderCopy = {
   brand: string;
@@ -91,6 +92,7 @@ export default function Header() {
           </Link>
 
           <div className="flex shrink-0 items-center gap-2">
+            <HeaderUserMenu locale={activeLocale} />
             {/* 모바일 언어 버튼 — 드롭다운 */}
             <MobileLocaleSelector activeLocale={activeLocale} pathname={pathname} />
             <button
@@ -210,8 +212,9 @@ export default function Header() {
             })}
           </nav>
 
-          {/* CTA 버튼 */}
-          <div>
+          {/* CTA + User 메뉴 */}
+          <div className="flex items-center gap-2">
+            <HeaderUserMenu locale={activeLocale} />
             <Link
               href="/contact"
               className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[linear-gradient(135deg,_#ff8f7e,_#ffcc8f)] px-5 text-sm font-semibold text-slate-950 shadow-[0_12px_25px_rgba(255,143,126,0.28)] transition hover:-translate-y-0.5 hover:brightness-105"

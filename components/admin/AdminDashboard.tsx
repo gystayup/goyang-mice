@@ -15,6 +15,7 @@ import {
   Package,
   Plane,
   Settings,
+  Share2,
   Ticket,
   User,
   Users,
@@ -36,6 +37,7 @@ import ProductManagementPanel from "./ProductManagementPanel";
 import HeroSlidesPanel from "./HeroSlidesPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
 import ServiceCatalogPanel from "./ServiceCatalogPanel";
+import SocialLinksPanel from "./SocialLinksPanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
   airportTransferStatusOrder,
@@ -358,6 +360,7 @@ export default function AdminDashboard() {
               news: Newspaper,
               "research-archive": Newspaper,
               "hero-slides": MonitorPlay,
+              "social-links": Share2,
               inquiries: Mail,
               users: Users,
               settings: Settings,
@@ -1010,6 +1013,10 @@ export default function AdminDashboard() {
 
           {!loading && activeTab === "hero-slides" ? (
             <HeroSlidesPanel />
+          ) : null}
+
+          {!loading && activeTab === "social-links" ? (
+            <SocialLinksPanel />
           ) : null}
 
           {!loading && activeTab === "inquiries" ? (
