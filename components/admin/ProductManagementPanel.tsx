@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Eye, EyeOff, PencilLine, Tags } from "lucide-react";
 
 import type { Product } from "@/data/products";
@@ -13,7 +13,16 @@ type ManagedProduct = Product & {
 };
 
 type ProductOverrides = Partial<
-  Pick<ManagedProduct, "adminStatus" | "managerNote" | "summary">
+  Pick<
+    ManagedProduct,
+    | "adminStatus"
+    | "managerNote"
+    | "summary"
+    | "reservationFeatures"
+    | "operationFeatures"
+    | "managementFeatures"
+    | "paymentFeatures"
+  >
 >;
 
 const statusMeta: Record<
@@ -71,6 +80,14 @@ export default function ProductManagementPanel({
           productOverrides[product.id]?.managerNote ??
           `${product.category} 카테고리 운영 기준과 예약/정산 조건을 점검 중입니다.`,
         summary: productOverrides[product.id]?.summary ?? product.summary,
+        reservationFeatures:
+          productOverrides[product.id]?.reservationFeatures ?? product.reservationFeatures,
+        operationFeatures:
+          productOverrides[product.id]?.operationFeatures ?? product.operationFeatures,
+        managementFeatures:
+          productOverrides[product.id]?.managementFeatures ?? product.managementFeatures,
+        paymentFeatures:
+          productOverrides[product.id]?.paymentFeatures ?? product.paymentFeatures,
       })),
     [productOverrides, products]
   );
@@ -278,23 +295,29 @@ export default function ProductManagementPanel({
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {[
-                { label: "예약 기능", items: selectedProduct.reservationFeatures },
-                { label: "운영 기능", items: selectedProduct.operationFeatures },
-                { label: "관리 기능", items: selectedProduct.managementFeatures },
-                { label: "결제 기능", items: selectedProduct.paymentFeatures },
-              ].map((section) => (
-                <div
+              {(
+                [
+                  { label: "예약 기능", field: "reservationFeatures" as const, items: selectedProduct.reservationFeatures },
+                  { label: "운영 기능", field: "operationFeatures" as const, items: selectedProduct.operationFeatures },
+                  { label: "관리 기능", field: "managementFeatures" as const, items: selectedProduct.managementFeatures },
+                  { label: "결제 기능", field: "paymentFeatures" as const, items: selectedProduct.paymentFeatures },
+                ]
+              ).map((section) => (
+                <EditableListCard
                   key={section.label}
-                  className="rounded-3xl border border-slate-200 bg-slate-50 p-5"
-                >
-                  <div className="text-sm font-semibold text-slate-900">{section.label}</div>
-                  <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
-                    {section.items.map((item) => (
-                      <li key={item}>- {item}</li>
-                    ))}
-                  </ul>
-                </div>
+                  title={section.label}
+                  icon={<PencilLine className="h-4 w-4" />}
+                  items={section.items}
+                  onChange={(items) =>
+                    setProductOverrides((current) => ({
+                      ...current,
+                      [selectedProduct.id]: {
+                        ...current[selectedProduct.id],
+                        [section.field]: items,
+                      },
+                    }))
+                  }
+                />
               ))}
             </div>
 
@@ -370,5 +393,67 @@ function EditableCard({
         className="mt-4 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-700 outline-none transition focus:border-slate-300"
       />
     </label>
+  );
+}
+
+function EditableListCard({
+  title,
+  icon,
+  items,
+  onChange,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  items: string[];
+  onChange: (items: string[]) => void;
+}) {
+  // 내부는 줄 단위 문자열로 편집, 저장 시 빈 줄 제거 후 배열로 변환
+  const joined = items.join("\n");
+  const [draft, setDraft] = useState<string>(joined);
+  const [editing, setEditing] = useState<boolean>(false);
+
+  // items prop이 외부에서 바뀌면(다른 상품 선택 등) draft 재동기화
+  // editing 중이 아닐 때만 덮어써서 사용자 입력을 보호
+  useEffect(() => {
+    if (!editing && draft !== joined) {
+      setDraft(joined);
+    }
+  }, [joined, editing, draft]);
+
+  const commit = (next: string) => {
+    const parsed = next
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+    onChange(parsed);
+  };
+
+  return (
+    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+          {icon}
+          <span>{title}</span>
+        </div>
+        <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+          {items.length}개
+        </span>
+      </div>
+      <textarea
+        rows={Math.max(4, items.length + 1)}
+        value={draft}
+        placeholder="한 줄에 하나씩 입력하세요"
+        onFocus={() => setEditing(true)}
+        onChange={(event) => setDraft(event.target.value)}
+        onBlur={() => {
+          setEditing(false);
+          commit(draft);
+        }}
+        className="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-700 outline-none transition focus:border-slate-300"
+      />
+      <p className="mt-2 text-[11px] text-slate-500">
+        한 줄에 하나씩 입력하면 항목으로 자동 저장됩니다.
+      </p>
+    </div>
   );
 }
