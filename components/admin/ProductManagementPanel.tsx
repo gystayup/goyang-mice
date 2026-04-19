@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Eye, EyeOff, PencilLine, Tags } from "lucide-react";
 
 import type { Product } from "@/data/products";
@@ -74,6 +74,61 @@ export default function ProductManagementPanel({
 }) {
   const [productOverrides, setProductOverrides] = useState<Record<string, ProductOverrides>>({});
   const [selectedProductId, setSelectedProductId] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const saveTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+  // 최초 1회: 서버에서 저장된 overrides 로드
+  useEffect(() => {
+    let mounted = true;
+    fetch("/api/admin/product-overrides")
+      .then((res) => res.json())
+      .then((json) => {
+        if (!mounted) return;
+        if (json?.success && json.data && typeof json.data === "object") {
+          setProductOverrides(json.data as Record<string, ProductOverrides>);
+        }
+      })
+      .catch((error) => console.error("load product-overrides error", error));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // productId 단위 debounced 저장 (300ms)
+  const persist = useCallback((productId: string, overrides: ProductOverrides) => {
+    if (saveTimers.current[productId]) {
+      clearTimeout(saveTimers.current[productId]);
+    }
+    setSaveStatus("saving");
+    saveTimers.current[productId] = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/admin/product-overrides", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productKey: productId, overrides }),
+        });
+        const json = await res.json();
+        if (!res.ok || !json?.success) throw new Error(json?.error ?? "save failed");
+        setSaveStatus("saved");
+        setTimeout(() => setSaveStatus("idle"), 1500);
+      } catch (error) {
+        console.error("save product-override error", error);
+        setSaveStatus("error");
+      }
+    }, 300);
+  }, []);
+
+  // setProductOverrides 를 감싸는 헬퍼 — state 업데이트 + DB 저장
+  const updateOverrides = useCallback(
+    (productId: string, mutate: (prev: ProductOverrides | undefined) => ProductOverrides) => {
+      setProductOverrides((current) => {
+        const next = { ...current, [productId]: mutate(current[productId]) };
+        persist(productId, next[productId]);
+        return next;
+      });
+    },
+    [persist]
+  );
 
   const managedProducts = useMemo(
     () =>
@@ -133,9 +188,12 @@ export default function ProductManagementPanel({
           <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
             Product Console
           </div>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
-            상품 운영 관리자
-          </h2>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              상품 운영 관리자
+            </h2>
+            <SaveStatusBadge status={saveStatus} />
+          </div>
           <p className="mt-3 text-sm leading-7 text-slate-600">
             홈페이지에 노출되는 상품 카테고리와 예약 흐름을 기준으로 운영 상태, 기능 구성,
             요약 문구를 한 화면에서 정리할 수 있도록 만든 관리자 전용 패널입니다.
@@ -247,13 +305,7 @@ export default function ProductManagementPanel({
                   textClassName="mt-2 text-3xl font-bold tracking-tight text-slate-900"
                   inputClassName="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-3xl font-bold tracking-tight text-slate-900 outline-none focus:border-slate-300"
                   onChange={(value) =>
-                    setProductOverrides((current) => ({
-                      ...current,
-                      [selectedProduct.id]: {
-                        ...current[selectedProduct.id],
-                        title: value,
-                      },
-                    }))
+                    updateOverrides(selectedProduct.id, (prev) => ({ ...prev, title: value }))
                   }
                 />
                 <EditableInline
@@ -263,13 +315,7 @@ export default function ProductManagementPanel({
                   textClassName="mt-3 max-w-3xl text-sm leading-7 text-slate-600"
                   inputClassName="mt-3 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-600 outline-none focus:border-slate-300"
                   onChange={(value) =>
-                    setProductOverrides((current) => ({
-                      ...current,
-                      [selectedProduct.id]: {
-                        ...current[selectedProduct.id],
-                        desc: value,
-                      },
-                    }))
+                    updateOverrides(selectedProduct.id, (prev) => ({ ...prev, desc: value }))
                   }
                 />
               </div>
@@ -277,12 +323,9 @@ export default function ProductManagementPanel({
               <button
                 type="button"
                 onClick={() =>
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      adminStatus: cycleProductStatus(selectedProduct.adminStatus),
-                    },
+                  updateOverrides(selectedProduct.id, (prev) => ({
+                    ...prev,
+                    adminStatus: cycleProductStatus(selectedProduct.adminStatus),
                   }))
                 }
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
@@ -301,12 +344,9 @@ export default function ProductManagementPanel({
                 inputMode="numeric"
                 onChange={(value) => {
                   const parsed = Number(value.replace(/[^0-9]/g, ""));
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      price: Number.isFinite(parsed) ? parsed : 0,
-                    },
+                  updateOverrides(selectedProduct.id, (prev) => ({
+                    ...prev,
+                    price: Number.isFinite(parsed) ? parsed : 0,
                   }));
                 }}
               />
@@ -316,13 +356,7 @@ export default function ProductManagementPanel({
                 display={selectedProduct.people}
                 placeholder="예: 1명 ~ 10명"
                 onChange={(value) =>
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      people: value,
-                    },
-                  }))
+                  updateOverrides(selectedProduct.id, (prev) => ({ ...prev, people: value }))
                 }
               />
               <EditableStatCard
@@ -331,13 +365,7 @@ export default function ProductManagementPanel({
                 display={selectedProduct.duration}
                 placeholder="예: 단기 진료 ~ 장기 체류"
                 onChange={(value) =>
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      duration: value,
-                    },
-                  }))
+                  updateOverrides(selectedProduct.id, (prev) => ({ ...prev, duration: value }))
                 }
               />
             </div>
@@ -348,13 +376,7 @@ export default function ProductManagementPanel({
                 icon={<PencilLine className="h-4 w-4" />}
                 value={selectedProduct.summary}
                 onChange={(value) =>
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      summary: value,
-                    },
-                  }))
+                  updateOverrides(selectedProduct.id, (prev) => ({ ...prev, summary: value }))
                 }
               />
               <EditableCard
@@ -362,13 +384,7 @@ export default function ProductManagementPanel({
                 icon={<PencilLine className="h-4 w-4" />}
                 value={selectedProduct.managerNote}
                 onChange={(value) =>
-                  setProductOverrides((current) => ({
-                    ...current,
-                    [selectedProduct.id]: {
-                      ...current[selectedProduct.id],
-                      managerNote: value,
-                    },
-                  }))
+                  updateOverrides(selectedProduct.id, (prev) => ({ ...prev, managerNote: value }))
                 }
               />
             </div>
@@ -388,12 +404,9 @@ export default function ProductManagementPanel({
                   icon={<PencilLine className="h-4 w-4" />}
                   items={section.items}
                   onChange={(items) =>
-                    setProductOverrides((current) => ({
-                      ...current,
-                      [selectedProduct.id]: {
-                        ...current[selectedProduct.id],
-                        [section.field]: items,
-                      },
+                    updateOverrides(selectedProduct.id, (prev) => ({
+                      ...prev,
+                      [section.field]: items,
                     }))
                   }
                 />
@@ -414,6 +427,19 @@ export default function ProductManagementPanel({
         ) : null}
       </section>
     </div>
+  );
+}
+
+function SaveStatusBadge({ status }: { status: "idle" | "saving" | "saved" | "error" }) {
+  if (status === "idle") return null;
+  const meta: Record<"saving" | "saved" | "error", { label: string; className: string }> = {
+    saving: { label: "저장 중…", className: "bg-slate-100 text-slate-600" },
+    saved: { label: "저장 완료", className: "bg-emerald-100 text-emerald-700" },
+    error: { label: "저장 실패", className: "bg-rose-100 text-rose-700" },
+  };
+  const { label, className } = meta[status];
+  return (
+    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${className}`}>{label}</span>
   );
 }
 
