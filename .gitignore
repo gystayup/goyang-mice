@@ -52,3 +52,9 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# DB 모드 표식 (로컬 환경별)
+.db-mode
+
+# 임시 백업 파일
+*.bak
