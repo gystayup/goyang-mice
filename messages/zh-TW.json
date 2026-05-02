@@ -8,7 +8,9 @@
     "submit": "提交申請",
     "viewDetail": "查看詳情",
     "reserve": "預約",
-    "required": "必填"
+    "required": "必填",
+    "viewMore": "了解更多",
+    "more": "更多"
   },
   "nav": {
     "institute": "研究所介紹",
@@ -18,33 +20,129 @@
     "contact": "聯絡我們"
   },
   "home": {
-    "badge": "高陽文化觀光·MICE研究所 · 附設 高陽DMC中心",
-    "heroTitle": "研究並實現高陽\n未來價值的專業機構",
-    "heroDesc": "整合政策研究、城市品牌塑造、活動招攬與DMC營運，打造高陽市文化觀光·MICE競爭力的執行型智庫。",
-    "ctaDmc": "查看DMC服務",
-    "ctaContact": "業務諮詢 →",
-    "statsKintex": "毗鄰國際展覽館",
-    "statsDmc": "DMC服務領域",
-    "statsProducts": "住宿·體驗產品",
-    "statsYear": "成立年份",
-    "quickNavTitle": "直接跳轉至您所需的頁面",
-    "quickNavLabel": "Quick Navigation",
-    "quickNavCTA": "前往",
-    "leadershipLabel": "Leadership Message",
-    "leadershipQuote": "政策研究與現場執行並行，方能構建城市競爭力",
-    "leadershipDesc": "研究所不止於戰略提案，而是致力於成為將高陽資產轉化為產業成果的執行型智庫。",
-    "ctaInstituteLink": "查看研究所介紹",
-    "vision": "願景",
-    "mission": "使命",
-    "coreValue": "核心價值",
-    "aspiration": "目標方向",
-    "visionText": "引領高陽文化觀光·MICE競爭力的頂尖戰略平台",
-    "missionText": "整合政策研究、城市品牌塑造、活動招攬與DMC營運，創造城市成果",
-    "coreValueText": "專業性 · 執行力 · 連結性 · 國際性 · 永續性",
-    "aspirationText": "連結研究與實踐的執行型智庫",
-    "finalCtaTitle": "期待您的合作與建議",
-    "finalCtaDesc": "歡迎研究委託、DMC諮詢、活動營運、合作提案等各類洽談。",
-    "finalCtaBtn": "聯絡我們"
+    "hero": {
+      "title": "高陽文化觀光MICE研究所",
+      "dmc": "DMC",
+      "subtitle": "透過研究與執行的融合，將高陽市打造為全球MICE樞紐",
+      "bookProduct": "預訂產品",
+      "contact": "聯絡我們"
+    },
+    "stats": {
+      "kintox": "毗鄰國際展覽館",
+      "services": "DMC服務領域",
+      "products": "4項",
+      "productsLabel": "住宿·體驗產品",
+      "year": "成立年份"
+    },
+    "quickLinks": {
+      "title": "服務快速連結",
+      "subtitle": "一覽研究所與DMC的多元服務",
+      "institute": {
+        "title": "研究所介紹",
+        "desc": "願景·使命、組織、發展歷程"
+      },
+      "research": {
+        "title": "研究領域",
+        "desc": "文化觀光·MICE策略研究"
+      },
+      "dmc": {
+        "title": "DMC服務",
+        "desc": "從規劃到營運"
+      },
+      "products": {
+        "title": "住宿·體驗·旅遊產品",
+        "desc": "可預訂的DMC產品"
+      },
+      "contact": {
+        "title": "聯絡我們",
+        "desc": "業務·合作·研究洽詢"
+      }
+    },
+    "resources": {
+      "title": "為什麼選擇高陽？",
+      "subtitle": "高陽市擁有最適合舉辦MICE活動的區位優勢與基礎建設",
+      "kintox": {
+        "title": "KINTEX（韓國國際展覽中心）",
+        "desc": "亞洲最大規模的國際展覽館"
+      },
+      "culture": {
+        "title": "高陽市文化資源",
+        "desc": "歷史·文化·藝術共存的城市"
+      },
+      "transport": {
+        "title": "交通便利性",
+        "desc": "至首爾市區15分鐘，至仁川機場1小時"
+      },
+      "mice": {
+        "title": "MICE基礎建設",
+        "desc": "會議中心、飯店、度假村一應俱全"
+      }
+    },
+    "products": {
+      "title": "熱門產品",
+      "subtitle": "感受承載高陽魅力的特色體驗產品",
+      "viewAll": "查看所有產品",
+      "imagePlaceholder": "產品圖片",
+      "reviews": "則評論",
+      "book": "立即預訂",
+      "vip": {
+        "title": "VIP套裝",
+        "type": "套裝",
+        "price": "₩2,450,000"
+      },
+      "culture": {
+        "title": "文化藝術 半日體驗",
+        "type": "行程",
+        "price": "₩98,000"
+      },
+      "business": {
+        "title": "商務住宿",
+        "type": "住宿",
+        "price": "₩320,000"
+      }
+    },
+    "projects": {
+      "title": "近期專案",
+      "status": {
+        "completed": "已完成"
+      },
+      "strategy": {
+        "title": "高陽市MICE策略研究",
+        "category": "研究",
+        "status": "進行中"
+      },
+      "exhibition": {
+        "title": "KINTEX展覽DMC營運",
+        "category": "實績",
+        "status": "已完成"
+      },
+      "development": {
+        "title": "文化觀光產品開發",
+        "category": "開發",
+        "status": "已完成"
+      }
+    },
+    "news": {
+      "title": "新聞與動態",
+      "categories": {
+        "announcement": "公告",
+        "event": "活動"
+      },
+      "launch": {
+        "title": "高陽文化觀光MICE研究所DMC正式啟動",
+        "content": "為推動高陽市MICE產業發展，研究所與DMC服務正式啟動整合營運。"
+      },
+      "spring": {
+        "title": "KINTEX春季展覽DMC服務啟動",
+        "content": "為春季國際展覽參展商提供綜合DMC服務。"
+      }
+    },
+    "cta": {
+      "title": "攜手共創高陽MICE的未來",
+      "subtitle": "透過研究與執行的融合，實現全球MICE樞紐",
+      "collaboration": "合作洽詢",
+      "research": "參與研究"
+    }
   },
   "institute": {
     "label": "Institute Overview",

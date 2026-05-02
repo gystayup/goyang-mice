@@ -8,7 +8,9 @@
     "submit": "申し込む",
     "viewDetail": "詳細を見る",
     "reserve": "予約",
-    "required": "必須"
+    "required": "必須",
+    "viewMore": "詳しく見る",
+    "more": "もっと見る"
   },
   "nav": {
     "institute": "研究所紹介",
@@ -18,33 +20,129 @@
     "contact": "お問い合わせ"
   },
   "home": {
-    "badge": "高陽（コヤン）文化観光・MICE研究所 · 附設 高陽DMCセンター",
-    "heroTitle": "高陽の未来価値を\n研究し実現する専門機関",
-    "heroDesc": "政策研究、都市ブランディング、イベント誘致、DMC運営を統合し、高陽市の文化観光・MICE競争力を築く実行型シンクタンクです。",
-    "ctaDmc": "DMCサービスを見る",
-    "ctaContact": "事業お問い合わせ →",
-    "statsKintex": "隣接国際展示場",
-    "statsDmc": "DMCサービス分野",
-    "statsProducts": "宿泊・体験商品",
-    "statsYear": "設立年",
-    "quickNavTitle": "ご希望のページへ直接移動できます",
-    "quickNavLabel": "Quick Navigation",
-    "quickNavCTA": "移動する",
-    "leadershipLabel": "Leadership Message",
-    "leadershipQuote": "政策研究と現場実行が共に進んでこそ、都市の競争力が生まれます",
-    "leadershipDesc": "研究所は戦略提案にとどまらず、高陽の資産を産業と成果へつなぐ実行型シンクタンクを目指しています。",
-    "ctaInstituteLink": "研究所紹介を見る",
-    "vision": "ビジョン",
-    "mission": "ミッション",
-    "coreValue": "コアバリュー",
-    "aspiration": "目指すもの",
-    "visionText": "高陽の文化観光・MICE競争力を牽引する最高の戦略プラットフォーム",
-    "missionText": "政策研究、都市ブランディング、イベント誘致、DMC運営を統合し、都市の成果を創出します",
-    "coreValueText": "専門性 · 実行力 · 連携性 · 国際性 · 持続可能性",
-    "aspirationText": "研究と現場をつなぐ実行型シンクタンク",
-    "finalCtaTitle": "協力・ご提案をお待ちしています",
-    "finalCtaDesc": "研究委託、DMC相談、イベント運営、コラボ提案など、どうぞお気軽にご連絡ください。",
-    "finalCtaBtn": "お問い合わせ"
+    "hero": {
+      "title": "高陽（コヤン）文化観光MICE研究所",
+      "dmc": "DMC",
+      "subtitle": "研究と実行の融合により、高陽市をグローバルMICEハブへと発展させます",
+      "bookProduct": "商品を予約する",
+      "contact": "お問い合わせ"
+    },
+    "stats": {
+      "kintox": "隣接国際展示場",
+      "services": "DMCサービス分野",
+      "products": "4件",
+      "productsLabel": "宿泊・体験商品",
+      "year": "設立年"
+    },
+    "quickLinks": {
+      "title": "サービスへのショートカット",
+      "subtitle": "研究所とDMCの多彩なサービスを一目でご確認いただけます",
+      "institute": {
+        "title": "研究所紹介",
+        "desc": "ビジョン・ミッション、組織、沿革"
+      },
+      "research": {
+        "title": "研究分野",
+        "desc": "文化観光・MICE戦略研究"
+      },
+      "dmc": {
+        "title": "DMCサービス",
+        "desc": "企画から運営まで"
+      },
+      "products": {
+        "title": "宿泊・体験・観光商品",
+        "desc": "予約可能なDMC商品"
+      },
+      "contact": {
+        "title": "お問い合わせ",
+        "desc": "事業・協力・研究のご相談"
+      }
+    },
+    "resources": {
+      "title": "Why 高陽？",
+      "subtitle": "高陽市はMICE開催に最適な立地とインフラを備えています",
+      "kintox": {
+        "title": "KINTEX（キンテックス）",
+        "desc": "アジア最大規模の国際展示場"
+      },
+      "culture": {
+        "title": "高陽市の文化資源",
+        "desc": "歴史・文化・芸術が共存する都市"
+      },
+      "transport": {
+        "title": "交通アクセス",
+        "desc": "ソウル中心部まで15分、仁川空港まで1時間"
+      },
+      "mice": {
+        "title": "MICEインフラ",
+        "desc": "コンベンションセンター、ホテル、リゾートを完備"
+      }
+    },
+    "products": {
+      "title": "人気商品",
+      "subtitle": "高陽市の魅力を詰め込んだ特別な体験商品をご紹介します",
+      "viewAll": "すべての商品を見る",
+      "imagePlaceholder": "商品画像",
+      "reviews": "件のレビュー",
+      "book": "予約する",
+      "vip": {
+        "title": "VIPパッケージ",
+        "type": "パッケージ",
+        "price": "₩2,450,000"
+      },
+      "culture": {
+        "title": "文化芸術 半日体験",
+        "type": "ツアー",
+        "price": "₩98,000"
+      },
+      "business": {
+        "title": "ビジネスステイ",
+        "type": "宿泊",
+        "price": "₩320,000"
+      }
+    },
+    "projects": {
+      "title": "最近のプロジェクト",
+      "status": {
+        "completed": "完了"
+      },
+      "strategy": {
+        "title": "高陽市MICE戦略研究",
+        "category": "研究",
+        "status": "進行中"
+      },
+      "exhibition": {
+        "title": "KINTEX展示会DMC運営",
+        "category": "実績",
+        "status": "完了"
+      },
+      "development": {
+        "title": "文化観光商品開発",
+        "category": "開発",
+        "status": "完了"
+      }
+    },
+    "news": {
+      "title": "ニュース＆お知らせ",
+      "categories": {
+        "announcement": "お知らせ",
+        "event": "イベント"
+      },
+      "launch": {
+        "title": "高陽文化観光MICE研究所DMC始動",
+        "content": "高陽市のMICE産業発展のための研究所とDMCサービスが統合運営を開始します。"
+      },
+      "spring": {
+        "title": "KINTEX春シーズン展示会DMCサービス開始",
+        "content": "春シーズンの国際展示会参加者を対象とした総合DMCサービスを提供します。"
+      }
+    },
+    "cta": {
+      "title": "高陽市MICEの未来を共に創りましょう",
+      "subtitle": "研究と実行の融合により、グローバルMICEハブを実現します",
+      "collaboration": "協力のお問い合わせ",
+      "research": "研究に参加する"
+    }
   },
   "institute": {
     "label": "Institute Overview",

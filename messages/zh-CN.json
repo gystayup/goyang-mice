@@ -8,7 +8,9 @@
     "submit": "提交申请",
     "viewDetail": "查看详情",
     "reserve": "预约",
-    "required": "必填"
+    "required": "必填",
+    "viewMore": "了解更多",
+    "more": "更多"
   },
   "nav": {
     "institute": "研究所介绍",
@@ -18,33 +20,129 @@
     "contact": "联系我们"
   },
   "home": {
-    "badge": "高阳文化旅游·MICE研究所 · 附设 高阳DMC中心",
-    "heroTitle": "研究并实现高阳\n未来价值的专业机构",
-    "heroDesc": "整合政策研究、城市品牌塑造、活动招揽与DMC运营，打造高阳市文化旅游·MICE竞争力的执行型智库。",
-    "ctaDmc": "查看DMC服务",
-    "ctaContact": "业务咨询 →",
-    "statsKintex": "毗邻国际展览馆",
-    "statsDmc": "DMC服务领域",
-    "statsProducts": "住宿·体验产品",
-    "statsYear": "成立年份",
-    "quickNavTitle": "直接跳转至您所需的页面",
-    "quickNavLabel": "Quick Navigation",
-    "quickNavCTA": "前往",
-    "leadershipLabel": "Leadership Message",
-    "leadershipQuote": "政策研究与现场执行并行，方能构建城市竞争力",
-    "leadershipDesc": "研究所不止于战略提案，而是致力于成为将高阳资产转化为产业成果的执行型智库。",
-    "ctaInstituteLink": "查看研究所介绍",
-    "vision": "愿景",
-    "mission": "使命",
-    "coreValue": "核心价值",
-    "aspiration": "目标方向",
-    "visionText": "引领高阳文化旅游·MICE竞争力的顶尖战略平台",
-    "missionText": "整合政策研究、城市品牌塑造、活动招揽与DMC运营，创造城市成果",
-    "coreValueText": "专业性 · 执行力 · 连接性 · 国际性 · 可持续性",
-    "aspirationText": "连接研究与实践的执行型智库",
-    "finalCtaTitle": "期待您的合作与建议",
-    "finalCtaDesc": "欢迎研究委托、DMC咨询、活动运营、合作提案等各类洽谈。",
-    "finalCtaBtn": "联系我们"
+    "hero": {
+      "title": "高阳文化旅游MICE研究所",
+      "dmc": "DMC",
+      "subtitle": "通过研究与执行的融合，将高阳市打造为全球MICE枢纽",
+      "bookProduct": "预订产品",
+      "contact": "联系我们"
+    },
+    "stats": {
+      "kintox": "毗邻国际展览馆",
+      "services": "DMC服务领域",
+      "products": "4个",
+      "productsLabel": "住宿·体验产品",
+      "year": "成立年份"
+    },
+    "quickLinks": {
+      "title": "服务快捷方式",
+      "subtitle": "一站式查看研究所与DMC的多元服务",
+      "institute": {
+        "title": "研究所介绍",
+        "desc": "愿景·使命、组织、发展历程"
+      },
+      "research": {
+        "title": "研究领域",
+        "desc": "文化旅游·MICE战略研究"
+      },
+      "dmc": {
+        "title": "DMC服务",
+        "desc": "从策划到运营"
+      },
+      "products": {
+        "title": "住宿·体验·旅游产品",
+        "desc": "可预约的DMC产品"
+      },
+      "contact": {
+        "title": "联系我们",
+        "desc": "业务·合作·研究咨询"
+      }
+    },
+    "resources": {
+      "title": "为何选择高阳？",
+      "subtitle": "高阳市拥有最适合举办MICE活动的区位优势与基础设施",
+      "kintox": {
+        "title": "KINTEX（韩国国际展览中心）",
+        "desc": "亚洲最大规模的国际展览馆"
+      },
+      "culture": {
+        "title": "高阳市文化资源",
+        "desc": "历史·文化·艺术共存的城市"
+      },
+      "transport": {
+        "title": "交通便利性",
+        "desc": "至首尔市中心15分钟，至仁川机场1小时"
+      },
+      "mice": {
+        "title": "MICE基础设施",
+        "desc": "会议中心、酒店、度假村一应俱全"
+      }
+    },
+    "products": {
+      "title": "热门产品",
+      "subtitle": "感受承载高阳魅力的特色体验产品",
+      "viewAll": "查看全部产品",
+      "imagePlaceholder": "产品图片",
+      "reviews": "条评论",
+      "book": "立即预订",
+      "vip": {
+        "title": "VIP套餐",
+        "type": "套餐",
+        "price": "₩2,450,000"
+      },
+      "culture": {
+        "title": "文化艺术 半日体验",
+        "type": "游览",
+        "price": "₩98,000"
+      },
+      "business": {
+        "title": "商务住宿",
+        "type": "住宿",
+        "price": "₩320,000"
+      }
+    },
+    "projects": {
+      "title": "近期项目",
+      "status": {
+        "completed": "已完成"
+      },
+      "strategy": {
+        "title": "高阳市MICE战略研究",
+        "category": "研究",
+        "status": "进行中"
+      },
+      "exhibition": {
+        "title": "KINTEX展览DMC运营",
+        "category": "业绩",
+        "status": "已完成"
+      },
+      "development": {
+        "title": "文化旅游产品开发",
+        "category": "开发",
+        "status": "已完成"
+      }
+    },
+    "news": {
+      "title": "新闻与动态",
+      "categories": {
+        "announcement": "公告",
+        "event": "活动"
+      },
+      "launch": {
+        "title": "高阳文化旅游MICE研究所DMC正式启动",
+        "content": "为推动高阳市MICE产业发展，研究所与DMC服务正式启动整合运营。"
+      },
+      "spring": {
+        "title": "KINTEX春季展览DMC服务启动",
+        "content": "为春季国际展览参展商提供综合DMC服务。"
+      }
+    },
+    "cta": {
+      "title": "携手共创高阳MICE的未来",
+      "subtitle": "通过研究与执行的融合，实现全球MICE枢纽",
+      "collaboration": "合作咨询",
+      "research": "参与研究"
+    }
   },
   "institute": {
     "label": "Institute Overview",
