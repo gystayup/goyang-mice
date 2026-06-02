@@ -33,18 +33,18 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
   const isVisitor = status === "authenticated" && user?.kind === "visitor";
 
   if (status === "loading") {
-    return <div className="h-9 w-9 animate-pulse rounded-full bg-slate-200" aria-hidden />;
+    return <div className="h-8 w-8 animate-pulse rounded-full bg-slate-200 md:h-9 md:w-9" aria-hidden />;
   }
 
   if (!isVisitor) {
     return (
       <Link
         href="/login"
-        className="inline-flex h-9 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+        className="inline-flex h-8 w-8 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white text-xs font-semibold text-slate-700 transition hover:bg-slate-50 md:h-9 md:w-auto md:px-3"
         aria-label={t.login}
       >
         <LogIn className="h-3.5 w-3.5" />
-        {t.login}
+        <span className="hidden md:inline">{t.login}</span>
       </Link>
     );
   }
@@ -54,7 +54,7 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-9 items-center gap-2 rounded-full border border-slate-200 bg-white px-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+        className="inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 md:h-9 md:gap-2 md:px-2"
       >
         <span className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-slate-200">
           {user?.image ? (

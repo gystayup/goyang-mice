@@ -70,22 +70,23 @@ export default function Header() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 px-3 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] border border-white/80 bg-white/80 px-4 py-3.5 shadow-[0_18px_50px_rgba(16,32,58,0.10),_0_0_0_1px_rgba(255,255,255,0.6)] backdrop-blur-2xl sm:px-5 lg:px-6">
+    <header className="sticky top-0 z-50 px-2 sm:px-4">
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-white/80 bg-white/80 px-3 py-2 shadow-[0_18px_50px_rgba(16,32,58,0.10),_0_0_0_1px_rgba(255,255,255,0.6)] backdrop-blur-2xl md:px-4 md:py-3.5 sm:px-5 lg:px-6">
 
         {/* ── 모바일 헤더 ── */}
-        <div className="flex items-center justify-between gap-2 lg:hidden">
-          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-slate-900/10 bg-white/60 px-3.5 py-1.5 backdrop-blur-md transition-all duration-300 hover:border-slate-900/20 hover:bg-white hover:shadow-sm">
+        <div className="flex items-center justify-between gap-1.5 md:gap-2 lg:hidden">
+          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-900/10 bg-white/60 px-2.5 py-1 backdrop-blur-md transition-all duration-300 hover:border-slate-900/20 hover:bg-white hover:shadow-sm md:gap-2 md:px-3.5 md:py-1.5">
             <span className="relative flex h-1.5 w-1.5 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-400/40" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </span>
-            <span className="relative bg-[linear-gradient(135deg,_#0f172a_0%,_#334155_50%,_#0f172a_100%)] bg-clip-text text-[10px] font-black uppercase tracking-[0.28em] text-transparent">
-              {copy.brand}
+            <span className="relative bg-[linear-gradient(135deg,_#0f172a_0%,_#334155_50%,_#0f172a_100%)] bg-clip-text text-[9px] font-black uppercase tracking-[0.22em] text-transparent md:text-[10px] md:tracking-[0.28em]">
+              <span className="md:hidden">VIBE LAB</span>
+              <span className="hidden md:inline">{copy.brand}</span>
             </span>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
             <HeaderUserMenu locale={activeLocale} />
             {/* 모바일 언어 버튼 — 드롭다운 */}
             <MobileLocaleSelector activeLocale={activeLocale} pathname={pathname} />
@@ -93,9 +94,9 @@ export default function Header() {
               type="button"
               aria-label={menuOpen ? copy.closeLabel : copy.menuLabel}
               onClick={() => setMenuOpen((o) => !o)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-white"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-white md:h-10 md:w-10"
             >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {menuOpen ? <X className="h-4 w-4 md:h-5 md:w-5" /> : <Menu className="h-4 w-4 md:h-5 md:w-5" />}
             </button>
           </div>
         </div>
@@ -224,10 +225,10 @@ function MobileLocaleSelector({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-10 items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 text-[12px] font-bold text-slate-700 transition hover:bg-white"
+        className="inline-flex h-8 items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 text-[11px] font-bold text-slate-700 transition hover:bg-white md:h-10 md:gap-1.5 md:px-3 md:text-[12px]"
       >
         {current?.label ?? "KO"}
-        <svg className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg className={`h-2.5 w-2.5 transition-transform md:h-3 md:w-3 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
