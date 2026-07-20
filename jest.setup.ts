@@ -2,6 +2,10 @@
  * Jest 테스트 환경 설정
  */
 
+// @testing-library/jest-dom 확장 matcher 등록 (toBeInTheDocument, toHaveClass 등)
+// side-effect import: runtime matcher 등록 + TypeScript 타입 확장 자동 로드
+import '@testing-library/jest-dom';
+
 // Mock fetch if needed
 if (typeof global.fetch === 'undefined') {
   global.fetch = jest.fn();
