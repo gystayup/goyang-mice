@@ -719,32 +719,34 @@ export default function ProductDetailPage({
           ))}
         </div>
 
-        {/* 가격 — 이미지와 동일한 edge-to-edge 너비 */}
-        <div className="-mx-5 mt-5 flex items-end justify-between bg-gradient-to-r from-slate-950 to-slate-800 px-5 py-4">
-          <div>
-            {originalPrice && (
-              <p className="text-xs text-slate-400 line-through">
-                ₩{originalPrice.toLocaleString(bcp47)}
-              </p>
-            )}
-            {minPrice > 0 ? (
-              <p className="text-2xl font-black text-white">
-                <span className="text-sm font-semibold text-slate-300">₩</span>
-                {minPrice.toLocaleString(bcp47)}
-                <span className="ml-0.5 text-sm font-semibold text-slate-300">
-                  {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
-                </span>
-              </p>
-            ) : (
-              <p className="text-xl font-bold text-sky-400">{t("inquiry", locale)}</p>
+        {/* 가격 — 티켓 카테고리에서만 표시 */}
+        {isTicket && (
+          <div className="-mx-5 mt-5 flex items-end justify-between bg-gradient-to-r from-slate-950 to-slate-800 px-5 py-4">
+            <div>
+              {originalPrice && (
+                <p className="text-xs text-slate-400 line-through">
+                  ₩{originalPrice.toLocaleString(bcp47)}
+                </p>
+              )}
+              {minPrice > 0 ? (
+                <p className="text-2xl font-black text-white">
+                  <span className="text-sm font-semibold text-slate-300">₩</span>
+                  {minPrice.toLocaleString(bcp47)}
+                  <span className="ml-0.5 text-sm font-semibold text-slate-300">
+                    {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
+                  </span>
+                </p>
+              ) : (
+                <p className="text-xl font-bold text-sky-400">{t("inquiry", locale)}</p>
+              )}
+            </div>
+            {discountPct && (
+              <span className="rounded-full bg-rose-500 px-3 py-1.5 text-sm font-black text-white">
+                {discountPct}% OFF
+              </span>
             )}
           </div>
-          {discountPct && (
-            <span className="rounded-full bg-rose-500 px-3 py-1.5 text-sm font-black text-white">
-              {discountPct}% OFF
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       {/* ── 만남의 장소 (투어/상품에만) ── */}
@@ -985,22 +987,24 @@ export default function ProductDetailPage({
       <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-100 bg-white/95 px-4 py-4 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] backdrop-blur-md">
         <div className="mx-auto flex max-w-2xl items-center gap-4">
           <div className="flex-1">
-            {minPrice > 0 ? (
-              <>
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                  {t("bestPrice", locale)}
-                </p>
-                <p className="text-xl font-black text-slate-950">
-                  <span className="text-[13px] font-semibold text-slate-500">₩</span>
-                  {minPrice.toLocaleString(bcp47)}
-                  <span className="ml-0.5 text-sm font-semibold text-slate-500">
-                    {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
-                  </span>
-                </p>
-              </>
-            ) : (
-              <p className="text-sm font-semibold text-slate-500">{t("inquiry", locale)}</p>
-            )}
+            {isTicket ? (
+              minPrice > 0 ? (
+                <>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    {t("bestPrice", locale)}
+                  </p>
+                  <p className="text-xl font-black text-slate-950">
+                    <span className="text-[13px] font-semibold text-slate-500">₩</span>
+                    {minPrice.toLocaleString(bcp47)}
+                    <span className="ml-0.5 text-sm font-semibold text-slate-500">
+                      {locale === "ko" ? "~" : locale === "ja" ? "〜" : locale === "en" ? "+" : " 起"}
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm font-semibold text-slate-500">{t("inquiry", locale)}</p>
+              )
+            ) : null}
           </div>
           <Link
             href={reservationUrl}

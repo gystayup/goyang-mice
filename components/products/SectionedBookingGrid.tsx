@@ -300,21 +300,23 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
               </div>
             </div>
           </div>
-          {/* 가격 — 항상 하단에 붙음 */}
-          <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 border-t border-slate-100 pt-2">
-            {item.originalPrice ? (
-              <span className="text-[11px] text-slate-400 line-through">
-                {formatPrice(item.originalPrice, activeLocale, false)}
-              </span>
-            ) : null}
-            {item.minPrice > 0 ? (
-              <span className="text-sm font-black text-slate-950 sm:text-[13px]">
-                {formatPrice(item.minPrice, activeLocale, true)}
-              </span>
-            ) : (
-              <span className="text-sm font-bold text-sky-600 sm:text-[13px]">{BOOKING_INQUIRY_LABEL[activeLocale]}</span>
-            )}
-          </div>
+          {/* 가격 — 티켓 카테고리에서만 표시 */}
+          {item.category === "ticket" && (
+            <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 border-t border-slate-100 pt-2">
+              {item.originalPrice ? (
+                <span className="text-[11px] text-slate-400 line-through">
+                  {formatPrice(item.originalPrice, activeLocale, false)}
+                </span>
+              ) : null}
+              {item.minPrice > 0 ? (
+                <span className="text-sm font-black text-slate-950 sm:text-[13px]">
+                  {formatPrice(item.minPrice, activeLocale, true)}
+                </span>
+              ) : (
+                <span className="text-sm font-bold text-sky-600 sm:text-[13px]">{BOOKING_INQUIRY_LABEL[activeLocale]}</span>
+              )}
+            </div>
+          )}
         </div>
       </article>
     </Link>

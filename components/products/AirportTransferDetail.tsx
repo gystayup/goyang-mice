@@ -299,12 +299,12 @@ export default function AirportTransferDetail({ product }: { product: Product })
 
                     <div className="rounded-[28px] bg-slate-50 px-6 py-5 text-left lg:min-w-[220px] lg:text-right">
                       <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                        최저가
+                        요금
                       </div>
-                      <div className="mt-2 text-3xl font-black tracking-tight text-slate-950">
-                        ₩ {vehicle.price.toLocaleString("ko-KR")}
+                      <div className="mt-2 text-xl font-black tracking-tight text-slate-950">
+                        가격 문의
                       </div>
-                      <p className="mt-2 text-sm text-slate-500">세금 및 수수료 포함</p>
+                      <p className="mt-2 text-sm text-slate-500">자세한 요금은 안내를 확인하세요</p>
                     </div>
                   </div>
 

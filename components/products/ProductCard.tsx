@@ -485,15 +485,17 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
           ))}
         </div>
 
-        {/* 가격 */}
-        <div className="mt-2 overflow-hidden rounded-[12px] border border-white/60 bg-gradient-to-br from-[#f0f4ff] to-[#eef2ff] px-3 py-2">
-          <div className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-400">
-            {display.priceLabel}
+        {/* 가격 — 티켓 카테고리에서만 표시 */}
+        {product.categoryKey === "ticket" && (
+          <div className="mt-2 overflow-hidden rounded-[12px] border border-white/60 bg-gradient-to-br from-[#f0f4ff] to-[#eef2ff] px-3 py-2">
+            <div className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-400">
+              {display.priceLabel}
+            </div>
+            <div className="mt-0.5 text-[1.25rem] font-black tracking-[-0.03em] text-slate-950 sm:text-[1.4rem]">
+              {product.price > 0 ? `₩${product.price.toLocaleString("ko-KR")}` : display.priceLabel}
+            </div>
           </div>
-          <div className="mt-0.5 text-[1.25rem] font-black tracking-[-0.03em] text-slate-950 sm:text-[1.4rem]">
-            {product.price > 0 ? `₩${product.price.toLocaleString("ko-KR")}` : display.priceLabel}
-          </div>
-        </div>
+        )}
 
         {/* 버튼 */}
         <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
