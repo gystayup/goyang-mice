@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import AirportTransferBooking from "@/components/booking/AirportTransferBooking";
-import BookingForm from "@/components/booking/BookingForm";
-import CategoryServiceReservation from "@/components/booking/CategoryServiceReservation";
 import TicketReservationBooking from "@/components/booking/TicketReservationBooking";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import ProductCategoryQuickNav from "@/components/products/ProductCategoryQuickNav";
 import { getProductById } from "@/data/products";
-import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
-
-const showcaseCategories = new Set<string>(["tour", "stay", "restaurant", "cafe"]);
 
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>;
@@ -54,23 +49,32 @@ export default async function ReservationPage(props: {
     );
   }
 
-  // DB 카탈로그에서 해당 아이템 조회
-  const itemId = getSearchParam(searchParams.item);
-  let catalogItem: import("@/data/service-catalog").ServiceCatalogItem | undefined;
-  if (showcaseCategories.has(product.categoryKey) && itemId) {
-    try {
-      const catalog = await readServiceCatalog();
-      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe";
-      catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
-    } catch {
-      // fallback to static data
-    }
+  // 티켓 외 카테고리는 예약이 아닌 안내 상품 — 상세 페이지로 안내
+  if (product.categoryKey !== "ticket") {
+    return (
+      <Shell>
+        <div className="mx-auto max-w-3xl px-6 py-20 text-center">
+          <h1 className="text-3xl font-black tracking-tight text-slate-950">
+            안내 상품입니다
+          </h1>
+          <p className="mt-4 text-sm leading-8 text-slate-600">
+            이 카테고리는 예약이 아닌 안내 정보만 제공합니다. 상세 페이지에서 정보를 확인해 주세요.
+          </p>
+          <Link
+            href={`/products/${product.id}`}
+            className="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800"
+          >
+            안내 보기
+          </Link>
+        </div>
+      </Shell>
+    );
   }
 
   // 티켓 DB에서 해당 티켓 조회
   const ticketId = getSearchParam(searchParams.ticket);
   let dbTicket: import("@/data/ticket-booking").TicketProduct | undefined;
-  if (product.categoryKey === "ticket" && ticketId) {
+  if (ticketId) {
     try {
       const tickets = await readTicketCatalog();
       dbTicket = tickets.find((t) => t.id === ticketId);
@@ -92,49 +96,11 @@ export default async function ReservationPage(props: {
           mode="reservation"
         />
 
-        {product.categoryKey === "airport" ? (
-          <AirportTransferBooking
-            product={product}
-            initialMode={getSearchParam(searchParams.mode)}
-            initialRouteId={getSearchParam(searchParams.route)}
-            initialVehicleId={getSearchParam(searchParams.vehicle)}
-            initialFrom={getSearchParam(searchParams.from)}
-            initialTo={getSearchParam(searchParams.to)}
-            initialDepartureDate={getSearchParam(searchParams.departureDate)}
-            initialPassengers={getSearchParam(searchParams.passengers)}
-          />
-        ) : product.categoryKey === "ticket" ? (
-          <TicketReservationBooking
-            product={product}
-            initialTicketId={ticketId}
-            initialTicket={dbTicket}
-          />
-        ) : showcaseCategories.has(product.categoryKey) ? (
-          <CategoryServiceReservation
-            product={product}
-            category={product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"}
-            initialItemId={itemId}
-            initialItem={catalogItem}
-          />
-        ) : (
-          <div className="mt-10 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-            <div className="space-y-6">
-              <div className="rounded-[30px] border border-slate-200 bg-white p-8 shadow-soft">
-                <div className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
-                  {product.badge}
-                </div>
-                <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950">
-                  {product.title}
-                </h2>
-                <p className="mt-4 text-sm leading-8 text-slate-600">
-                  {product.summary}
-                </p>
-              </div>
-            </div>
-
-            <BookingForm product={product} />
-          </div>
-        )}
+        <TicketReservationBooking
+          product={product}
+          initialTicketId={ticketId}
+          initialTicket={dbTicket}
+        />
       </div>
     </Shell>
   );
