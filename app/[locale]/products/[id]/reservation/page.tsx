@@ -7,14 +7,9 @@ import { getProductById } from "@/data/products";
 
 export { generateMetadata };
 
-// 플랫폼 상품 ID는 서비스 예약 목록 페이지로 리다이렉트
-const PLATFORM_IDS = new Set([
-  "tour-experience-platform",
-  "stay-reservation-platform",
-  "restaurant-booking-platform",
-  "cafe-booking-platform",
+// 티켓 플랫폼 상품 ID는 티켓 목록 페이지로 리다이렉트 (ticket 파라미터 없을 때)
+const TICKET_PLATFORM_IDS = new Set([
   "ticket-agency-platform",
-  "airport-pickup-platform",
 ]);
 
 export default async function LocaleReservationPage(props: {
@@ -23,14 +18,17 @@ export default async function LocaleReservationPage(props: {
 }) {
   const { locale, id } = await props.params;
   const searchParams = props.searchParams ? await props.searchParams : {};
+  const product = getProductById(id);
 
-  // item= 또는 ticket= 파라미터가 있으면 실제 예약 폼 — 리다이렉트 안 함
-  const hasItem = searchParams.item || searchParams.ticket;
+  // 티켓 외 카테고리는 예약이 아닌 안내 — 상세 페이지로 리다이렉트
+  if (product && product.categoryKey !== "ticket") {
+    redirect(`/${locale}/products/${id}`);
+  }
 
-  if (PLATFORM_IDS.has(id) && !hasItem) {
-    const product = getProductById(id);
-    const categoryKey = product?.categoryKey ?? "tour";
-    redirect(`/${locale}/products#section-${categoryKey}`);
+  // 티켓 플랫폼 상품에 ticket 파라미터 없이 접근 → 티켓 섹션 목록으로
+  const hasTicket = searchParams.ticket;
+  if (TICKET_PLATFORM_IDS.has(id) && !hasTicket) {
+    redirect(`/${locale}/products#section-ticket`);
   }
 
   return (
