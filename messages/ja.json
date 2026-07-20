@@ -28,14 +28,14 @@
     },
     "stats": {
       "kintox": "隣接国際展示場",
-      "services": "DMCサービス分野",
+      "services": "MICE案内分野",
       "products": "4件",
       "productsLabel": "宿泊・体験商品",
       "year": "設立年"
     },
     "quickLinks": {
       "title": "サービスへのショートカット",
-      "subtitle": "研究所とDMCの多彩なサービスを一目でご確認いただけます",
+      "subtitle": "研究所とMICE案内の多彩なサービスを一目でご確認いただけます",
       "institute": {
         "title": "研究所紹介",
         "desc": "ビジョン・ミッション、組織、沿革"
@@ -45,12 +45,12 @@
         "desc": "文化観光・MICE戦略研究"
       },
       "dmc": {
-        "title": "DMCサービス",
+        "title": "MICE案内",
         "desc": "企画から運営まで"
       },
       "products": {
-        "title": "宿泊・体験・観光商品",
-        "desc": "予約可能なDMC商品"
+        "title": "宿泊・体験・プログラム",
+        "desc": "MICE連携ガイドプログラム"
       },
       "contact": {
         "title": "お問い合わせ",
@@ -154,41 +154,41 @@
     "commissionDesc": "文化観光・MICE分野の研究委託、政策アドバイザリー、コンサルティングのご依頼を歓迎します。",
     "commissionLink": "研究委託のお問い合わせ",
     "viewBtn": "見る",
-    "ctaDmc": "DMCサービスを見る",
+    "ctaDmc": "MICE案内を見る",
     "ctaBack": "研究所紹介へ戻る"
   },
   "dmc": {
-    "label": "DMC Services",
-    "title": "DMCサービス",
-    "desc": "附設 高陽DMCセンターは、企業イベント、国際会議、インセンティブツアー、ファムトリップ、VIPプログラムなど、様々な目的の現場運営サービスを企画から完了まで提供します。",
+    "label": "MICE Guide",
+    "title": "MICE案内",
+    "desc": "附設 高陽DMCセンターは、企業イベント・国際会議・インセンティブ行事・事前視察・VIPプログラムなど、様々な目的の現場運営案内を企画から完了まで提供します。",
     "servicesTitle": "6つのコアサービス",
     "processLabel": "Process",
     "processTitle": "サービス運営プロセス",
     "processDesc": "ご相談から結果報告まで、全プロセスを専任チームがサポートします。",
     "partnersLabel": "Partners",
     "partnersTitle": "連携パートナーの種類",
-    "partnersDesc": "多様な機関・事業者とのネットワークを通じて、統合サービスを提供します。",
-    "consultCTA": "DMC相談を申し込む",
-    "ctaContact": "DMC相談を申し込む",
-    "ctaProducts": "宿泊・体験・観光商品を見る"
+    "partnersDesc": "多様な機関・事業者とのネットワークを通じて、統合案内を提供します。",
+    "consultCTA": "MICE案内相談を申し込む",
+    "ctaContact": "MICE案内相談を申し込む",
+    "ctaProducts": "宿泊・体験・プログラム案内を見る"
   },
   "products": {
-    "label": "Booking & Products",
-    "title": "宿泊・体験・観光商品",
-    "desc": "紹介にとどまらず、実際の商品照会・予約お問い合わせ、将来的な決済連携まで拡張可能なDMC商品中心ページです。",
-    "listTitle": "DMC商品一覧",
+    "label": "Info & Programs",
+    "title": "宿泊・体験・プログラム案内",
+    "desc": "紹介にとどまらず、実際のプログラム照会・案内お問い合わせ、将来的なチケット決済連携まで拡張可能なMICE連携ガイドページです。",
+    "listTitle": "MICE連携ガイド",
     "filterLabel": "Search Guide",
-    "filterTitle": "商品選択ガイド",
+    "filterTitle": "プログラム選択ガイド",
     "filterDesc": "以下の項目を事前に整理しておくと、よりスムーズなご相談が可能です。",
-    "bookingLabel": "Booking Flow",
-    "bookingTitle": "予約の流れ",
+    "bookingLabel": "Guide Flow",
+    "bookingTitle": "案内の流れ",
     "futureNote": "今後の拡張予定",
-    "futureDesc": "リアルタイム予約可能日照会、パートナー在庫連携、決済モジュール、マイページ、予約状況管理を順次開発予定です。",
+    "futureDesc": "リアルタイム案内可能日照会、パートナー在庫連携、チケット決済モジュール、マイページ、案内状況管理を順次開発予定です。",
     "detailBtn": "詳細を見る",
-    "reserveBtn": "予約",
+    "reserveBtn": "案内お問い合わせ",
     "consultCTA": "カスタム相談を申し込む",
-    "ctaContact": "予約のお問い合わせ",
-    "ctaDmc": "DMCサービスを見る"
+    "ctaContact": "案内のお問い合わせ",
+    "ctaDmc": "MICE案内を見る"
   },
   "reservation": {
     "label": "Reservation Detail",
@@ -224,7 +224,7 @@
   "contact": {
     "label": "Contact & Proposal",
     "title": "お問い合わせ",
-    "desc": "研究、イベント運営、DMCサービス、宿泊・体験予約、コラボ提案まで、一つの総合窓口で受け付けます。",
+    "desc": "研究、イベント運営、MICE案内、宿泊・体験のお問い合わせ、コラボ提案まで、一つの総合窓口で受け付けます。",
     "infoLabel": "Contact Info",
     "infoTitle": "連絡先のご案内",
     "infoDesc": "担当者が直接確認し、営業日基準1〜2日以内にご返信いたします。",

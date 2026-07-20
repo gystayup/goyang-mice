@@ -28,14 +28,14 @@
     },
     "stats": {
       "kintox": "毗鄰國際展覽館",
-      "services": "DMC服務領域",
+      "services": "MICE 指南領域",
       "products": "4項",
       "productsLabel": "住宿·體驗產品",
       "year": "成立年份"
     },
     "quickLinks": {
       "title": "服務快速連結",
-      "subtitle": "一覽研究所與DMC的多元服務",
+      "subtitle": "一覽研究所與MICE 指南的多元服務",
       "institute": {
         "title": "研究所介紹",
         "desc": "願景·使命、組織、發展歷程"
@@ -45,12 +45,12 @@
         "desc": "文化觀光·MICE策略研究"
       },
       "dmc": {
-        "title": "DMC服務",
+        "title": "MICE 指南",
         "desc": "從規劃到營運"
       },
       "products": {
-        "title": "住宿·體驗·旅遊產品",
-        "desc": "可預訂的DMC產品"
+        "title": "住宿·體驗·節目",
+        "desc": "MICE聯動指南節目"
       },
       "contact": {
         "title": "聯絡我們",
@@ -154,41 +154,41 @@
     "commissionDesc": "歡迎文化觀光·MICE領域的研究委託、政策諮詢及顧問服務洽談。",
     "commissionLink": "研究委託諮詢",
     "viewBtn": "查看",
-    "ctaDmc": "查看DMC服務",
+    "ctaDmc": "查看MICE 指南",
     "ctaBack": "返回研究所介紹"
   },
   "dmc": {
-    "label": "DMC Services",
-    "title": "DMC服務",
-    "desc": "附設高陽DMC中心提供企業活動、國際會議、獎勵旅遊、踩線團、VIP方案等多種目的的現場營運服務，從策劃到執行全程覆蓋。",
+    "label": "MICE Guide",
+    "title": "MICE 指南",
+    "desc": "附設高陽DMC中心提供企業活動·國際會議·獎勵活動·實地踩點·VIP方案等多種目的的現場營運指南，從策劃到執行全程覆蓋。",
     "servicesTitle": "六大核心服務",
     "processLabel": "Process",
     "processTitle": "服務營運流程",
     "processDesc": "從諮詢到結果報告，全程由專屬團隊陪同。",
     "partnersLabel": "Partners",
     "partnersTitle": "合作夥伴類型",
-    "partnersDesc": "透過與多元機構及廠商的合作網絡，提供一站式綜合服務。",
-    "consultCTA": "申請DMC諮詢",
-    "ctaContact": "申請DMC諮詢",
-    "ctaProducts": "查看住宿·體驗·旅遊產品"
+    "partnersDesc": "透過與多元機構及廠商的合作網絡，提供一站式綜合指南。",
+    "consultCTA": "申請MICE 指南諮詢",
+    "ctaContact": "申請MICE 指南諮詢",
+    "ctaProducts": "查看住宿·體驗·節目指南"
   },
   "products": {
-    "label": "Booking & Products",
-    "title": "住宿·體驗·旅遊產品",
-    "desc": "不僅限於展示介紹，更可實現產品查詢、預約諮詢，並可擴展至未來線上支付功能的DMC產品核心頁面。",
-    "listTitle": "DMC產品列表",
+    "label": "Info & Programs",
+    "title": "住宿·體驗·節目指南",
+    "desc": "不僅限於展示介紹，更可實現節目查詢、指南諮詢，並可擴展至未來票務支付功能的MICE聯動指南核心頁面。",
+    "listTitle": "MICE聯動指南",
     "filterLabel": "Search Guide",
-    "filterTitle": "產品選擇指南",
+    "filterTitle": "節目選擇指南",
     "filterDesc": "提前整理以下資訊，可幫助您獲得更快速的諮詢服務。",
-    "bookingLabel": "Booking Flow",
-    "bookingTitle": "預約流程",
+    "bookingLabel": "Guide Flow",
+    "bookingTitle": "指南流程",
     "futureNote": "未來擴展計畫",
-    "futureDesc": "將陸續開發即時可預約日期查詢、合作夥伴庫存串接、支付模組、會員中心及預約狀態管理功能。",
+    "futureDesc": "將陸續開發即時可用日期查詢、合作夥伴庫存串接、票務支付模組、會員中心及諮詢狀態管理功能。",
     "detailBtn": "查看詳情",
-    "reserveBtn": "預約",
+    "reserveBtn": "諮詢指南",
     "consultCTA": "申請客製化諮詢",
-    "ctaContact": "預約諮詢",
-    "ctaDmc": "查看DMC服務"
+    "ctaContact": "指南諮詢",
+    "ctaDmc": "查看MICE 指南"
   },
   "reservation": {
     "label": "Reservation Detail",
@@ -224,7 +224,7 @@
   "contact": {
     "label": "Contact & Proposal",
     "title": "聯絡我們",
-    "desc": "研究、活動營運、DMC服務、住宿·體驗預約及合作提案，均可透過統一窗口提交。",
+    "desc": "研究、活動營運、MICE 指南、住宿·體驗諮詢及合作提案，均可透過統一窗口提交。",
     "infoLabel": "Contact Info",
     "infoTitle": "聯絡方式",
     "infoDesc": "負責人將親自查閱，並於工作日1至2天內回覆。",
