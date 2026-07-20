@@ -24,7 +24,6 @@
       "title": "고양문화관광마이스연구소",
       "dmc": "DMC",
       "subtitle": "연구와 실행의 융합으로 고양시를 글로벌 MICE 허브로 만들어갑니다",
-      "bookProduct": "상품 예약하기",
       "contact": "문의하기"
     },
     "stats": {
@@ -76,29 +75,6 @@
       "mice": {
         "title": "MICE 인프라",
         "desc": "컨벤션센터, 호텔, 리조트 완비"
-      }
-    },
-    "products": {
-      "title": "인기 상품",
-      "subtitle": "고양시의 매력을 담은 특별한 체험 상품을 만나보세요",
-      "viewAll": "모든 상품 보기",
-      "imagePlaceholder": "상품 이미지",
-      "reviews": "개 리뷰",
-      "book": "예약하기",
-      "vip": {
-        "title": "VIP 패키지",
-        "type": "패키지",
-        "price": "₩2,450,000"
-      },
-      "culture": {
-        "title": "문화예술 반일 체험",
-        "type": "투어",
-        "price": "₩98,000"
-      },
-      "business": {
-        "title": "비즈니스 스테이",
-        "type": "숙박",
-        "price": "₩320,000"
       }
     },
     "projects": {

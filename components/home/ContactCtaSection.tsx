@@ -33,9 +33,9 @@ const copyMap: Record<LocaleKey, Copy> = {
   ko: {
     eyebrow: "Next Step",
     title: "좋은 아이디어를 실제 프로그램과 운영 구조로 연결해 드립니다.",
-    desc: "행사 운영, DMC 서비스, 연구 기반 프로젝트, 기관 협업까지 목표와 상황을 알려주시면 가장 현실적인 다음 단계로 정리해 드립니다.",
+    desc: "행사 운영, MICE 안내, 연구 기반 프로젝트, 기관 협업까지 목표와 상황을 알려주시면 가장 현실적인 다음 단계로 정리해 드립니다.",
     primary: "상담 요청하기",
-    secondary: "DMC 서비스 보기",
+    secondary: "MICE 안내 보기",
     tracks: [
       { icon: BriefcaseBusiness, title: "행사 운영 제안", desc: "방문 프로그램, 체류 동선, 현장 운영 시나리오를 함께 설계합니다.", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
       { icon: Handshake, title: "제휴 파트너 연결", desc: "기관, 숙박, 미식, 로컬 거점과 연결되는 협력 구조를 제안합니다.", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
@@ -45,9 +45,9 @@ const copyMap: Record<LocaleKey, Copy> = {
   en: {
     eyebrow: "Next Step",
     title: "We connect strong ideas to real programs and operations.",
-    desc: "Share your event, DMC service or research-based project goals and we will help shape the most practical next step.",
+    desc: "Share your event, MICE guide or research-based project goals and we will help shape the most practical next step.",
     primary: "Request consultation",
-    secondary: "View DMC services",
+    secondary: "View MICE guide",
     tracks: [
       { icon: BriefcaseBusiness, title: "Operations planning", desc: "We help structure visitor programs, stay flows and field operations scenarios.", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
       { icon: Handshake, title: "Partner connection", desc: "We connect public agencies, stays, venues and local partners into one service structure.", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
@@ -57,9 +57,9 @@ const copyMap: Record<LocaleKey, Copy> = {
   ja: {
     eyebrow: "Next Step",
     title: "良いアイデアを実際のプログラムと運営構造へとつなげます。",
-    desc: "イベント運営・DMCサービス・研究プロジェクト・機関連携など、目標とご状況をお知らせいただければ、最も現実的な次のステップをご提案します。",
+    desc: "イベント運営・MICEガイド・研究プロジェクト・機関連携など、目標とご状況をお知らせいただければ、最も現実的な次のステップをご提案します。",
     primary: "相談を申し込む",
-    secondary: "DMCサービスを見る",
+    secondary: "MICEガイドを見る",
     tracks: [
       { icon: BriefcaseBusiness, title: "イベント運営提案", desc: "訪問プログラム、滞在動線、現場運営シナリオを一緒に設計します。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
       { icon: Handshake, title: "提携パートナー連結", desc: "機関・宿泊・グルメ・ローカル拠点と連携する協力体制をご提案します。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
@@ -69,9 +69,9 @@ const copyMap: Record<LocaleKey, Copy> = {
   "zh-CN": {
     eyebrow: "Next Step",
     title: "将好的创意转化为实际项目与运营结构。",
-    desc: "无论是活动运营、DMC服务、研究项目还是机构合作，请告知您的目标与需求，我们将为您规划最切实可行的下一步。",
+    desc: "无论是活动运营、MICE指南、研究项目还是机构合作，请告知您的目标与需求，我们将为您规划最切实可行的下一步。",
     primary: "申请咨询",
-    secondary: "查看DMC服务",
+    secondary: "查看MICE指南",
     tracks: [
       { icon: BriefcaseBusiness, title: "活动运营方案", desc: "共同设计访客项目、滞留路线及现场运营方案。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
       { icon: Handshake, title: "合作伙伴连接", desc: "提供与机构、住宿、餐饮及本地据点的合作结构方案。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },
@@ -81,9 +81,9 @@ const copyMap: Record<LocaleKey, Copy> = {
   "zh-TW": {
     eyebrow: "Next Step",
     title: "將好的創意轉化為實際項目與運營結構。",
-    desc: "無論是活動運營、DMC服務、研究計畫還是機構合作，請告知您的目標與需求，我們將為您規劃最切實可行的下一步。",
+    desc: "無論是活動運營、MICE指南、研究計畫還是機構合作，請告知您的目標與需求，我們將為您規劃最切實可行的下一步。",
     primary: "申請諮詢",
-    secondary: "查看DMC服務",
+    secondary: "查看MICE指南",
     tracks: [
       { icon: BriefcaseBusiness, title: "活動運營方案", desc: "共同設計訪客計畫、滯留路線及現場運營方案。", gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.4)" },
       { icon: Handshake, title: "合作夥伴連結", desc: "提供與機構、住宿、餐飲及在地據點的合作結構方案。", gradFrom: "#f0fdf8", gradTo: "#e8fbf3", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.4)" },

@@ -21,7 +21,7 @@ const copyMap: Record<LocaleKey, Copy> = {
     items: [
       { title: "공연과 전시가 체류 경험으로 이어집니다", desc: "KINTEX, 공연장, 관광특구와 로컬 거점이 가까워 방문 경험을 하나의 여정으로 설계할 수 있습니다.", accentColor: "#ffe98b", numberColor: "text-[#ffe98b]", num: "01" },
       { title: "로컬 라이프스타일이 프로그램이 됩니다", desc: "카페, 미식, 쇼핑, 가족형 체험을 묶어 고양만의 체류형 콘텐츠로 확장할 수 있습니다.", accentColor: "#8df0cf", numberColor: "text-[#8df0cf]", num: "02" },
-      { title: "연구가 운영 구조로 이어집니다", desc: "보고서에 머무르지 않고 예약 서비스, 현장 운영, 체류 프로그램으로 연결되는 실행 구조를 만듭니다.", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
+      { title: "연구가 운영 구조로 이어집니다", desc: "보고서에 머무르지 않고 지역 안내, 현장 운영, 체류 프로그램으로 연결되는 실행 구조를 만듭니다.", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
       { title: "K-컬처 감도가 있는 도시 경험을 제안합니다", desc: "공연과 전시, 로컬 장면을 연결해 오래 기억되는 방문 경험을 구성할 수 있습니다.", accentColor: "#ffb58f", numberColor: "text-[#ffb58f]", num: "04" },
     ],
   },
@@ -31,7 +31,7 @@ const copyMap: Record<LocaleKey, Copy> = {
     items: [
       { title: "Performances and exhibitions extend into stay experiences", desc: "KINTEX, venues, tourism districts and local neighborhoods are close enough to form one visitor journey.", accentColor: "#ffe98b", numberColor: "text-[#ffe98b]", num: "01" },
       { title: "Local lifestyle becomes part of the program", desc: "Cafés, dining, shopping and family-friendly experiences can be shaped into stay-oriented content.", accentColor: "#8df0cf", numberColor: "text-[#8df0cf]", num: "02" },
-      { title: "Research becomes an operational structure", desc: "The goal is not just reports, but bookings, field operations and practical visitor programs.", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
+      { title: "Research becomes an operational structure", desc: "The goal is not just reports, but local guides, field operations and practical visitor programs.", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
       { title: "K-culture energy becomes a branded city experience", desc: "Performances, exhibitions and local scenes are translated into richer, better remembered visitor journeys.", accentColor: "#ffb58f", numberColor: "text-[#ffb58f]", num: "04" },
     ],
   },
@@ -41,7 +41,7 @@ const copyMap: Record<LocaleKey, Copy> = {
     items: [
       { title: "公演と展示が滞在体験へとつながります", desc: "KINTEX、公演場、観光特区とローカル拠点が近接しており、訪問体験を一つの旅程として設計できます。", accentColor: "#ffe98b", numberColor: "text-[#ffe98b]", num: "01" },
       { title: "ローカルライフスタイルがプログラムになります", desc: "カフェ、グルメ、ショッピング、ファミリー体験をまとめ、高陽独自の滞在型コンテンツへと拡張できます。", accentColor: "#8df0cf", numberColor: "text-[#8df0cf]", num: "02" },
-      { title: "研究が運営構造へとつながります", desc: "報告書にとどまらず、予約サービス・現場運営・滞在プログラムへと連結する実行構造を構築します。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
+      { title: "研究が運営構造へとつながります", desc: "報告書にとどまらず、地域案内・現場運営・滞在プログラムへと連結する実行構造を構築します。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
       { title: "K-カルチャーを感じる都市体験を提案します", desc: "公演・展示・ローカルシーンを連結し、長く記憶に残る訪問体験を作り上げます。", accentColor: "#ffb58f", numberColor: "text-[#ffb58f]", num: "04" },
     ],
   },
@@ -51,7 +51,7 @@ const copyMap: Record<LocaleKey, Copy> = {
     items: [
       { title: "演出与展览延伸为滞留体验", desc: "KINTEX、演出场馆、旅游特区与本地据点紧密相邻，可将访客体验设计为完整旅程。", accentColor: "#ffe98b", numberColor: "text-[#ffe98b]", num: "01" },
       { title: "本地生活方式成为旅游项目", desc: "将咖啡馆、美食、购物和家庭体验整合，打造高阳独特的滞留型内容。", accentColor: "#8df0cf", numberColor: "text-[#8df0cf]", num: "02" },
-      { title: "研究成果转化为运营结构", desc: "不止于报告，而是构建连接预约服务、现场运营和滞留项目的实行结构。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
+      { title: "研究成果转化为运营结构", desc: "不止于报告，而是构建连接地区指南、现场运营和滞留项目的实行结构。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
       { title: "提供具有K-文化感的城市体验", desc: "连结演出、展览与本地场景，打造令人久久难忘的访客体验。", accentColor: "#ffb58f", numberColor: "text-[#ffb58f]", num: "04" },
     ],
   },
@@ -61,7 +61,7 @@ const copyMap: Record<LocaleKey, Copy> = {
     items: [
       { title: "演出與展覽延伸為滯留體驗", desc: "KINTEX、演出場館、旅遊特區與在地據點緊密相鄰，可將訪客體驗設計為完整旅程。", accentColor: "#ffe98b", numberColor: "text-[#ffe98b]", num: "01" },
       { title: "在地生活風格成為旅遊項目", desc: "整合咖啡廳、美食、購物與家庭體驗，打造高陽獨特的滯留型內容。", accentColor: "#8df0cf", numberColor: "text-[#8df0cf]", num: "02" },
-      { title: "研究成果轉化為運營結構", desc: "不只停留於報告，而是構建連結預約服務、現場運營與滯留計畫的執行結構。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
+      { title: "研究成果轉化為運營結構", desc: "不只停留於報告，而是構建連結地區指南、現場運營與滯留計畫的執行結構。", accentColor: "#a4d8ff", numberColor: "text-[#a4d8ff]", num: "03" },
       { title: "提供具有K-文化感的城市體驗", desc: "連結演出、展覽與在地場景，打造令人久久難忘的訪客體驗。", accentColor: "#ffb58f", numberColor: "text-[#ffb58f]", num: "04" },
     ],
   },

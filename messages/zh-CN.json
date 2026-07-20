@@ -24,7 +24,6 @@
       "title": "高阳文化旅游MICE研究所",
       "dmc": "DMC",
       "subtitle": "通过研究与执行的融合，将高阳市打造为全球MICE枢纽",
-      "bookProduct": "预订产品",
       "contact": "联系我们"
     },
     "stats": {
@@ -76,29 +75,6 @@
       "mice": {
         "title": "MICE基础设施",
         "desc": "会议中心、酒店、度假村一应俱全"
-      }
-    },
-    "products": {
-      "title": "热门产品",
-      "subtitle": "感受承载高阳魅力的特色体验产品",
-      "viewAll": "查看全部产品",
-      "imagePlaceholder": "产品图片",
-      "reviews": "条评论",
-      "book": "立即预订",
-      "vip": {
-        "title": "VIP套餐",
-        "type": "套餐",
-        "price": "₩2,450,000"
-      },
-      "culture": {
-        "title": "文化艺术 半日体验",
-        "type": "游览",
-        "price": "₩98,000"
-      },
-      "business": {
-        "title": "商务住宿",
-        "type": "住宿",
-        "price": "₩320,000"
       }
     },
     "projects": {

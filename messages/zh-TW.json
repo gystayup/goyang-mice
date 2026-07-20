@@ -24,7 +24,6 @@
       "title": "高陽文化觀光MICE研究所",
       "dmc": "DMC",
       "subtitle": "透過研究與執行的融合，將高陽市打造為全球MICE樞紐",
-      "bookProduct": "預訂產品",
       "contact": "聯絡我們"
     },
     "stats": {
@@ -76,29 +75,6 @@
       "mice": {
         "title": "MICE基礎建設",
         "desc": "會議中心、飯店、度假村一應俱全"
-      }
-    },
-    "products": {
-      "title": "熱門產品",
-      "subtitle": "感受承載高陽魅力的特色體驗產品",
-      "viewAll": "查看所有產品",
-      "imagePlaceholder": "產品圖片",
-      "reviews": "則評論",
-      "book": "立即預訂",
-      "vip": {
-        "title": "VIP套裝",
-        "type": "套裝",
-        "price": "₩2,450,000"
-      },
-      "culture": {
-        "title": "文化藝術 半日體驗",
-        "type": "行程",
-        "price": "₩98,000"
-      },
-      "business": {
-        "title": "商務住宿",
-        "type": "住宿",
-        "price": "₩320,000"
       }
     },
     "projects": {

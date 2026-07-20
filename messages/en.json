@@ -24,7 +24,6 @@
       "title": "Goyang Culture Tourism MICE Research Institute",
       "dmc": "DMC",
       "subtitle": "Through the fusion of research and execution, we are making Goyang City a global MICE hub",
-      "bookProduct": "Book Products",
       "contact": "Contact Us"
     },
     "stats": {
@@ -76,29 +75,6 @@
       "mice": {
         "title": "MICE Infrastructure",
         "desc": "Convention centers, hotels, resorts fully equipped"
-      }
-    },
-    "products": {
-      "title": "Popular Products",
-      "subtitle": "Discover special experience products that capture the charm of Goyang City",
-      "viewAll": "View All Products",
-      "imagePlaceholder": "Product Image",
-      "reviews": " reviews",
-      "book": "Book Now",
-      "vip": {
-        "title": "VIP Package",
-        "type": "Package",
-        "price": "₩2,450,000"
-      },
-      "culture": {
-        "title": "Culture & Arts Half-Day Experience",
-        "type": "Tour",
-        "price": "₩98,000"
-      },
-      "business": {
-        "title": "Business Stay",
-        "type": "Accommodation",
-        "price": "₩320,000"
       }
     },
     "projects": {

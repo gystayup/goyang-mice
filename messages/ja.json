@@ -24,7 +24,6 @@
       "title": "高陽（コヤン）文化観光MICE研究所",
       "dmc": "DMC",
       "subtitle": "研究と実行の融合により、高陽市をグローバルMICEハブへと発展させます",
-      "bookProduct": "商品を予約する",
       "contact": "お問い合わせ"
     },
     "stats": {
@@ -76,29 +75,6 @@
       "mice": {
         "title": "MICEインフラ",
         "desc": "コンベンションセンター、ホテル、リゾートを完備"
-      }
-    },
-    "products": {
-      "title": "人気商品",
-      "subtitle": "高陽市の魅力を詰め込んだ特別な体験商品をご紹介します",
-      "viewAll": "すべての商品を見る",
-      "imagePlaceholder": "商品画像",
-      "reviews": "件のレビュー",
-      "book": "予約する",
-      "vip": {
-        "title": "VIPパッケージ",
-        "type": "パッケージ",
-        "price": "₩2,450,000"
-      },
-      "culture": {
-        "title": "文化芸術 半日体験",
-        "type": "ツアー",
-        "price": "₩98,000"
-      },
-      "business": {
-        "title": "ビジネスステイ",
-        "type": "宿泊",
-        "price": "₩320,000"
       }
     },
     "projects": {
