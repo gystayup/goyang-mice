@@ -37,8 +37,10 @@ describe('Card Component', () => {
     );
 
     const cardElement = container.firstChild;
-    expect(cardElement).toHaveClass('shadow');
-    expect(cardElement).toHaveClass('rounded');
+    // shared-components.tsx Card 실제 클래스: rounded-[30px] ... p-8 shadow-sm
+    expect(cardElement).toHaveClass('shadow-sm');
+    expect(cardElement).toHaveClass('rounded-[30px]');
+    expect(cardElement).toHaveClass('p-8');
   });
 });
 
@@ -53,8 +55,12 @@ describe('InfoBox Component', () => {
     const { container } = render(<InfoBox />);
     const infoBox = container.firstChild;
 
-    expect(infoBox).toHaveClass('p');
-    expect(infoBox).toHaveClass('rounded');
+    // shared-components.tsx InfoBox 실제 클래스:
+    //   flex items-center justify-between rounded-[28px] ... px-6 py-4 shadow-sm
+    // (p-* 단축 클래스 없음 → px/py 축별로 분리)
+    expect(infoBox).toHaveClass('px-6');
+    expect(infoBox).toHaveClass('py-4');
+    expect(infoBox).toHaveClass('rounded-[28px]');
   });
 });
 
