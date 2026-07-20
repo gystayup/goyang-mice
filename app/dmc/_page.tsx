@@ -114,7 +114,7 @@ type DmcCopy = {
 
 const koreanCopy: DmcCopy = {
   metadata: {
-    title: "DMC 서비스",
+    title: "MICE 안내",
     description:
       "여행상품, 숙박, 음식점, 카페, 티켓, 공항픽업까지 고양의 DMC 서비스를 한 곳에서 예약하세요.",
   },
@@ -358,7 +358,7 @@ const koreanCopy: DmcCopy = {
 
 const englishCopy: DmcCopy = {
   metadata: {
-    title: "DMC Services",
+    title: "MICE Guide",
     description:
       "Reserve Goyang's DMC services in one place, from travel products and stay to dining, tickets, and airport pickup.",
   },
@@ -593,7 +593,7 @@ const englishCopy: DmcCopy = {
 
 const japaneseCopy: DmcCopy = {
   metadata: {
-    title: "DMCサービス",
+    title: "MICEガイド",
     description:
       "旅行商品、宿泊、飲食店、カフェ、チケット、空港送迎まで高陽のDMCサービスを一カ所でご予約いただけます。",
   },
@@ -680,7 +680,7 @@ const japaneseCopy: DmcCopy = {
 
 const chineseSimplifiedCopy: DmcCopy = {
   metadata: {
-    title: "DMC服务",
+    title: "MICE 指南",
     description: "旅游产品、住宿、餐厅、咖啡厅、票务及机场接送，高阳DMC服务一站式预约。",
   },
   hero: {
@@ -765,7 +765,7 @@ const chineseSimplifiedCopy: DmcCopy = {
 
 const chineseTraditionalCopy: DmcCopy = {
   metadata: {
-    title: "DMC服務",
+    title: "MICE 指南",
     description: "旅遊產品、住宿、餐廳、咖啡廳、票務及機場接送，高陽DMC服務一站式預約。",
   },
   hero: {
