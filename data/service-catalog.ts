@@ -78,6 +78,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
   tour: [
     {
       id: "lake-park-sunset-tour",
+      homepageUrl: "",
+      phone: "",
       title: "일산호수공원 선셋 로컬투어",
       subtitle: "감성 루트 1일",
       location: "일산호수공원 · 라페스타 · 웨스턴돔",
@@ -206,6 +208,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "k-culture-city-walk",
+      homepageUrl: "",
+      phone: "",
       title: "K-컬처 시티워크 투어",
       subtitle: "오전 또는 오후 선택",
       location: "고양 스타필드 · 공연장 연계 동선",
@@ -306,6 +310,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "family-healing-course",
+      homepageUrl: "",
+      phone: "",
       title: "가족 힐링 체험 패키지",
       subtitle: "가족 추천 1일",
       location: "고양 생태공원 · 체험농장",
@@ -406,6 +412,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "night-photo-bus",
+      homepageUrl: "",
+      phone: "",
       title: "고양 나이트 포토 버스투어",
       subtitle: "야간 감성 코스",
       location: "호수공원 · 야경 포토 스폿",
@@ -508,6 +516,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
   stay: [
     {
       id: "kintex-business-stay",
+      homepageUrl: "",
+      phone: "",
       title: "KINTEX 비즈니스 스테이",
       subtitle: "전시 참가자 전용",
       location: "KINTEX 인근 비즈니스 호텔",
@@ -544,6 +554,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "vip-suite-stay",
+      homepageUrl: "",
+      phone: "",
       title: "VIP 스위트 스테이",
       subtitle: "아티스트 · 바이어 운영",
       location: "고양 프리미엄 호텔",
@@ -580,6 +592,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "family-weekend-stay",
+      homepageUrl: "",
+      phone: "",
       title: "가족 주말 스테이 패키지",
       subtitle: "로컬 체험 연계",
       location: "일산호수공원 인근 호텔",
@@ -616,6 +630,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "group-room-block",
+      homepageUrl: "",
+      phone: "",
       title: "단체 객실 블록 예약",
       subtitle: "이벤트 · 기업 그룹",
       location: "고양 주요 호텔 다중 연계",
@@ -654,6 +670,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
   restaurant: [
     {
       id: "kintex-dining-course",
+      homepageUrl: "",
+      phone: "",
       title: "KINTEX 비즈니스 코스 다이닝",
       subtitle: "바이어 미팅 전용",
       location: "KINTEX 인근 프리미엄 레스토랑",
@@ -690,6 +708,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "local-food-table",
+      homepageUrl: "",
+      phone: "",
       title: "고양 로컬 미식 테이블",
       subtitle: "관광특구 상권 연계",
       location: "원마운트 · 라페스타 상권",
@@ -726,6 +746,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "vip-banquet-night",
+      homepageUrl: "",
+      phone: "",
       title: "VIP 만찬 나이트",
       subtitle: "프라이빗 다이닝",
       location: "고양 프라이빗 다이닝룸",
@@ -762,6 +784,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "family-korean-table",
+      homepageUrl: "",
+      phone: "",
       title: "가족 한식 테이블 예약",
       subtitle: "세대형 식사 상품",
       location: "고양 한식당 · 가족모임 공간",
@@ -800,6 +824,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
   cafe: [
     {
       id: "brunch-social-club",
+      homepageUrl: "",
+      phone: "",
       title: "브런치 소셜 클럽 예약",
       subtitle: "라이프스타일 오전 프로그램",
       location: "고양 브런치 카페 라운지",
@@ -836,6 +862,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "local-cafe-hop",
+      homepageUrl: "",
+      phone: "",
       title: "고양 로컬 카페 호핑 투어",
       subtitle: "취향 기반 반일 코스",
       location: "행주산성 · 일산 로컬 카페",
@@ -872,6 +900,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "creative-work-lounge",
+      homepageUrl: "",
+      phone: "",
       title: "크리에이티브 워크 라운지",
       subtitle: "소규모 미팅 · 창작 모임",
       location: "고양 라이프스타일 스튜디오",
@@ -908,6 +938,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "sunset-rooftop-cafe",
+      homepageUrl: "",
+      phone: "",
       title: "선셋 루프탑 카페 예약",
       subtitle: "야간 감성 체류형",
       location: "고양 루프탑 카페",
@@ -946,6 +978,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
   airport: [
     {
       id: "airport-incheon-standard",
+      homepageUrl: "",
+      phone: "",
       title: "인천공항 픽업·샌딩 예약",
       subtitle: "공항 이동 서비스",
       location: "인천국제공항 1·2터미널",
@@ -975,6 +1009,8 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
     {
       id: "airport-gimpo-standard",
+      homepageUrl: "",
+      phone: "",
       title: "김포공항 픽업·샌딩 예약",
       subtitle: "공항 이동 서비스",
       location: "김포국제공항",

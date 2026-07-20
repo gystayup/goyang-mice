@@ -130,6 +130,8 @@ export const airportTransferRoutes: AirportTransferRoute[] = [
 export const airportVehicleOptions: AirportVehicleOption[] = [
   {
     id: "icn-pickup-economy",
+    homepageUrl: "",
+    phone: "",
     routeId: "icn-pickup",
     operator: "GOYANG TRANSFER",
     name: "이코노미 세단 3인",
@@ -143,6 +145,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "icn-pickup-suv",
+    homepageUrl: "",
+    phone: "",
     routeId: "icn-pickup",
     operator: "GOYANG VIP DRIVE",
     name: "프리미엄 SUV 5인",
@@ -156,6 +160,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "icn-pickup-van",
+    homepageUrl: "",
+    phone: "",
     routeId: "icn-pickup",
     operator: "GOYANG GROUP MOVE",
     name: "그룹 밴 9인",
@@ -169,6 +175,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "icn-sending-economy",
+    homepageUrl: "",
+    phone: "",
     routeId: "icn-sending",
     operator: "GOYANG TRANSFER",
     name: "샌딩 세단 3인",
@@ -182,6 +190,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "icn-sending-suv",
+    homepageUrl: "",
+    phone: "",
     routeId: "icn-sending",
     operator: "GOYANG VIP DRIVE",
     name: "샌딩 프리미엄 SUV 5인",
@@ -195,6 +205,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "gmp-pickup-economy",
+    homepageUrl: "",
+    phone: "",
     routeId: "gmp-pickup",
     operator: "GOYANG CITY RIDE",
     name: "시티 세단 3인",
@@ -208,6 +220,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "gmp-pickup-van",
+    homepageUrl: "",
+    phone: "",
     routeId: "gmp-pickup",
     operator: "GOYANG GROUP MOVE",
     name: "그룹 밴 7인",
@@ -221,6 +235,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "gmp-sending-economy",
+    homepageUrl: "",
+    phone: "",
     routeId: "gmp-sending",
     operator: "GOYANG CITY RIDE",
     name: "시티 샌딩 세단 3인",
@@ -234,6 +250,8 @@ export const airportVehicleOptions: AirportVehicleOption[] = [
   },
   {
     id: "gmp-sending-suv",
+    homepageUrl: "",
+    phone: "",
     routeId: "gmp-sending",
     operator: "GOYANG VIP DRIVE",
     name: "프리미엄 샌딩 SUV 5인",
