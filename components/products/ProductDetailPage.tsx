@@ -263,6 +263,20 @@ const T = {
     "zh-CN": "查看指南",
     "zh-TW": "查看指南",
   },
+  viewHomepage: {
+    ko: "홈페이지 바로가기",
+    en: "Visit Homepage",
+    ja: "ホームページを見る",
+    "zh-CN": "访问官网",
+    "zh-TW": "前往官網",
+  },
+  contactStore: {
+    ko: "매장에 문의하기",
+    en: "Contact Store",
+    ja: "店舗に問い合わせ",
+    "zh-CN": "联系店铺",
+    "zh-TW": "聯絡店家",
+  },
 } satisfies Record<string, Record<SupportedLocale, string>>;
 
 function t(key: keyof typeof T, locale: SupportedLocale): string {
@@ -815,52 +829,83 @@ export default function ProductDetailPage({
         </div>
       )}
 
-      {/* ── 날짜 및 시간 선택 — 이미지와 동일한 edge-to-edge 너비 ── */}
-      <div className="mt-5">
-        <h2 className="mb-3 flex items-center gap-2 px-5 text-base font-black text-slate-950">
-          <span>📅</span> {t("dateTimeSelect", locale)}
-        </h2>
+      {/* ── 날짜 및 시간 선택 — 티켓 전용 ── */}
+      {isTicket && (
+        <div className="mt-5">
+          <h2 className="mb-3 flex items-center gap-2 px-5 text-base font-black text-slate-950">
+            <span>📅</span> {t("dateTimeSelect", locale)}
+          </h2>
 
-        {bookingConfirmed ? (
-          /* Confirmation summary card */
-          <div className="flex items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4">
-            <div className="flex items-start gap-2">
-              <span className="mt-0.5 text-base">✅</span>
-              <div>
-                <p className="text-sm font-black text-emerald-800">
-                  {bookingConfirmed.date.toLocaleDateString(bcp47, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    weekday: "short",
-                  })}{" "}
-                  {bookingConfirmed.timeSlot}
-                </p>
-                <p className="mt-0.5 text-xs font-semibold text-emerald-600">
-                  {countTypeLabel}{" "}
-                  {bookingConfirmed.count}
-                  {countUnitLabel} {t("selected", locale)}
-                </p>
+          {bookingConfirmed ? (
+            /* Confirmation summary card */
+            <div className="flex items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4">
+              <div className="flex items-start gap-2">
+                <span className="mt-0.5 text-base">✅</span>
+                <div>
+                  <p className="text-sm font-black text-emerald-800">
+                    {bookingConfirmed.date.toLocaleDateString(bcp47, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      weekday: "short",
+                    })}{" "}
+                    {bookingConfirmed.timeSlot}
+                  </p>
+                  <p className="mt-0.5 text-xs font-semibold text-emerald-600">
+                    {countTypeLabel}{" "}
+                    {bookingConfirmed.count}
+                    {countUnitLabel} {t("selected", locale)}
+                  </p>
+                </div>
               </div>
+              <button
+                type="button"
+                onClick={() => setBookingConfirmed(null)}
+                className="rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 active:scale-95"
+              >
+                {t("change", locale)}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => setBookingConfirmed(null)}
-              className="rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 active:scale-95"
-            >
-              {t("change", locale)}
-            </button>
+          ) : (
+            <BookingCalendar
+              category={calendarCategory}
+              performanceDates={samplePerformanceDates}
+              onConfirm={(date, timeSlot, count) =>
+                setBookingConfirmed({ date, timeSlot, count })
+              }
+            />
+          )}
+        </div>
+      )}
+
+      {/* ── 매장 안내 CTA — 서비스 카테고리 전용, 데이터 있을 때만 ── */}
+      {!isTicket && (service?.homepageUrl || service?.phone) && (
+        <div className="mt-5 px-5">
+          <h2 className="mb-3 flex items-center gap-2 text-base font-black text-slate-950">
+            <span>📞</span> {t("contactStore", locale)}
+          </h2>
+          <div className="flex flex-col gap-2">
+            {service?.homepageUrl && (
+              <a
+                href={service.homepageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:bg-slate-50"
+              >
+                🌐 {t("viewHomepage", locale)}
+              </a>
+            )}
+            {service?.phone && (
+              <a
+                href={`tel:${service.phone}`}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+              >
+                ☎️ {t("contactStore", locale)} ({service.phone})
+              </a>
+            )}
           </div>
-        ) : (
-          <BookingCalendar
-            category={calendarCategory}
-            performanceDates={isTicket ? samplePerformanceDates : undefined}
-            onConfirm={(date, timeSlot, count) =>
-              setBookingConfirmed({ date, timeSlot, count })
-            }
-          />
-        )}
-      </div>
+        </div>
+      )}
 
       {/* ── 티켓 옵션 (티켓 전용) ── */}
       {isTicket && ticket!.options.length > 0 && (

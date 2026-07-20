@@ -35,22 +35,22 @@ export default function CategoryServiceShowcase({
             </p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
-              <MetricCard label="상품 구조" value="4열 카드 배치" />
-              <MetricCard label="예약 흐름" value="목록 - 상세 - 결제" />
+              <MetricCard label="구성" value="카드형 매장 안내" />
+              <MetricCard label="이용 흐름" value="목록 → 상세 → 매장 문의" />
               <MetricCard label="운영 권역" value={product.location} />
             </div>
           </div>
 
           <div className="bg-[linear-gradient(180deg,_#fff7ed_0%,_#ffffff_100%)] p-8 md:p-10">
             <div className="text-sm font-semibold uppercase tracking-[0.22em] text-orange-500">
-              Booking Flow
+              Guide Flow
             </div>
             <div className="mt-4 space-y-3">
               {[
-                "카드형 상품 목록에서 4개씩 비교하며 탐색합니다.",
-                "상세 보기 또는 예약 버튼으로 상품 상세와 결제 화면으로 이동합니다.",
-                "옵션과 인원, 날짜, 결제 방식을 선택한 뒤 예약을 접수합니다.",
-                "관리자 페이지에서 예약, 결제, 운영 상태를 계속 관리할 수 있습니다.",
+                "카드형 매장 목록에서 원하는 곳을 탐색합니다.",
+                "안내 보기 버튼으로 상세 페이지에서 매장 정보를 확인합니다.",
+                "매장 홈페이지 또는 대표 전화로 직접 문의·예약하세요.",
+                "예약·결제는 각 매장의 자체 시스템을 이용합니다.",
               ].map((item) => (
                 <div
                   key={item}
@@ -105,26 +105,8 @@ export default function CategoryServiceShowcase({
                   </div>
                 </div>
 
-                {/* 가격 */}
-                <div className="mt-3 rounded-[16px] bg-slate-50 px-3 py-2.5">
-                  {item.originalPrice ? (
-                    <div className="text-xs text-slate-400 line-through">
-                      {item.originalPrice.toLocaleString("ko-KR")}원
-                    </div>
-                  ) : null}
-                  <div className="flex items-end gap-1.5">
-                    {item.discountLabel ? (
-                      <span className="text-base font-black text-rose-500">{item.discountLabel}</span>
-                    ) : null}
-                    <span className="text-xl font-black tracking-tight text-slate-950">
-                      {item.price.toLocaleString("ko-KR")}원
-                    </span>
-                    <span className="pb-0.5 text-xs font-semibold text-slate-400">부터</span>
-                  </div>
-                </div>
-
                 {/* 태그 */}
-                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {item.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
@@ -135,19 +117,19 @@ export default function CategoryServiceShowcase({
                   ))}
                 </div>
 
-                {/* 버튼 */}
+                {/* 버튼 — 소개형: 상세 보기 + 안내 보기 (동일 목적지) */}
                 <div className="mt-auto flex gap-2 pt-3">
                   <Link
-                    href={`/products/${product.id}/reservation?${query.toString()}`}
+                    href={`/products/${product.id}/detail?${query.toString()}`}
                     className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                   >
                     상세 보기
                   </Link>
                   <Link
-                    href={`/products/${product.id}/reservation?${query.toString()}`}
+                    href={`/products/${product.id}/detail?${query.toString()}`}
                     className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
                   >
-                    예약
+                    안내 보기
                   </Link>
                 </div>
               </div>

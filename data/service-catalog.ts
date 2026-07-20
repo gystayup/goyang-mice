@@ -69,6 +69,9 @@ export interface ServiceCatalogItem {
   tabDetails?: string;        // 상품상세
   tabUsageInfo?: string;      // 이용안내
   tabCancellation?: string;   // 취소 및 환불규정
+  // 소개형 CTA (Phase 3): 데이터 없으면 CTA 자동 숨김
+  homepageUrl?: string;       // 매장/시설 공식 홈페이지 (외부 링크)
+  phone?: string;             // 매장/시설 대표 전화 (tel: 프로토콜)
 }
 
 export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]> = {
