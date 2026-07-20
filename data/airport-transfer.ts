@@ -42,6 +42,9 @@ export interface AirportVehicleOption {
   badges: string[];
   features: AirportTransferFilterId[];
   etaNote: string;
+  // 소개형 CTA용 (Phase 3): 데이터 없으면 CTA 자동 숨김
+  homepageUrl?: string;
+  phone?: string;
 }
 
 export interface AirportTransferFilter {
