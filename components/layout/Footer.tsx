@@ -61,6 +61,100 @@ type CopyEntry = {
   location: string;
 };
 
+// 통신판매업 필수 게재 정보 — 값은 5개 로케일 공통 (한국 사업자 실제 명칭·번호)
+const BUSINESS_INFO = {
+  companyName: "원새봄 주식회사",
+  ceo: "심송학",
+  bizRegNo: "287-87-01247",
+  ecomRegNo: "제 2021-서울서초-3110 호",
+  address: "경기도 고양시 일산동구 호수로 358-25, 동문타워2차 618호",
+  phone: "010-8851-1274",
+  email: "onesaebom1@gmail.com",
+  privacyOfficer: "심송학",
+} as const;
+
+type BusinessLabels = {
+  sectionTitle: string;
+  companyName: string;
+  ceo: string;
+  bizRegNo: string;
+  ecomRegNo: string;
+  changePending: string;
+  address: string;
+  phone: string;
+  email: string;
+  privacyOfficer: string;
+  operatedBy: string;
+};
+
+const businessLabels: Record<LocaleKey, BusinessLabels> = {
+  ko: {
+    sectionTitle: "사업자 정보",
+    companyName: "상호",
+    ceo: "대표",
+    bizRegNo: "사업자등록번호",
+    ecomRegNo: "통신판매업 신고번호",
+    changePending: "변경신고 예정",
+    address: "소재지",
+    phone: "대표전화",
+    email: "이메일",
+    privacyOfficer: "개인정보관리책임자",
+    operatedBy: "운영",
+  },
+  en: {
+    sectionTitle: "Business Information",
+    companyName: "Company",
+    ceo: "CEO",
+    bizRegNo: "Business Registration No.",
+    ecomRegNo: "E-Commerce Registration No.",
+    changePending: "change filing pending",
+    address: "Address",
+    phone: "Phone",
+    email: "Email",
+    privacyOfficer: "Privacy Officer",
+    operatedBy: "Operated by",
+  },
+  ja: {
+    sectionTitle: "事業者情報",
+    companyName: "商号",
+    ceo: "代表者",
+    bizRegNo: "事業者登録番号",
+    ecomRegNo: "通信販売業申告番号",
+    changePending: "変更届出予定",
+    address: "所在地",
+    phone: "代表電話",
+    email: "メール",
+    privacyOfficer: "個人情報管理責任者",
+    operatedBy: "運営",
+  },
+  "zh-CN": {
+    sectionTitle: "商户信息",
+    companyName: "公司名称",
+    ceo: "法定代表人",
+    bizRegNo: "营业执照编号",
+    ecomRegNo: "电子商务备案编号",
+    changePending: "变更备案待定",
+    address: "地址",
+    phone: "电话",
+    email: "邮箱",
+    privacyOfficer: "个人信息管理负责人",
+    operatedBy: "运营",
+  },
+  "zh-TW": {
+    sectionTitle: "商戶資訊",
+    companyName: "公司名稱",
+    ceo: "法定代表人",
+    bizRegNo: "營業執照編號",
+    ecomRegNo: "電子商務備案編號",
+    changePending: "變更備案待定",
+    address: "地址",
+    phone: "電話",
+    email: "郵箱",
+    privacyOfficer: "個人資料管理負責人",
+    operatedBy: "營運",
+  },
+};
+
 const copyMap: Record<LocaleKey, CopyEntry> = {
   ko: {
     badge: "고양 MICE 플랫폼",
@@ -124,6 +218,7 @@ export default function Footer() {
   const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
   const copy = copyMap[activeLocale];
   const policies = policyLinks[activeLocale];
+  const bLabels = businessLabels[activeLocale];
   const year = new Date().getFullYear();
 
   return (
@@ -152,11 +247,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>031-000-0000</span>
+                <span>010-8851-1274</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>contact@goyangmice.kr</span>
+                <span>onesaebom1@gmail.com</span>
               </div>
             </div>
           </div>
@@ -202,8 +297,57 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* 사업자 정보 블록 — 통신판매업 필수 게재 */}
+        <div className="border-t border-white/10 px-5 py-6 text-xs leading-6 text-slate-400 sm:px-6 lg:px-8">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            {bLabels.sectionTitle}
+          </div>
+          <dl className="mt-3 grid gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.companyName}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.companyName}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.ceo}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.ceo}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.bizRegNo}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.bizRegNo}</dd>
+            </div>
+            <div className="flex gap-2 sm:col-span-2 lg:col-span-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.ecomRegNo}</dt>
+              <dd className="text-slate-300">
+                {BUSINESS_INFO.ecomRegNo}
+                <span className="ml-1 text-slate-500">({bLabels.changePending})</span>
+              </dd>
+            </div>
+            <div className="flex gap-2 sm:col-span-2 lg:col-span-3">
+              <dt className="shrink-0 text-slate-500">{bLabels.address}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.address}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.phone}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.phone}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.email}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.email}</dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="shrink-0 text-slate-500">{bLabels.privacyOfficer}</dt>
+              <dd className="text-slate-300">{BUSINESS_INFO.privacyOfficer}</dd>
+            </div>
+          </dl>
+        </div>
+
         <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div>© {year} Goyang MICE Platform. All rights reserved.</div>
+          <div>
+            © {year} Goyang MICE Platform. All rights reserved.
+            <span className="ml-2 text-slate-600">
+              · {bLabels.operatedBy}: {BUSINESS_INFO.companyName}
+            </span>
+          </div>
           <div className="flex flex-wrap gap-4">
             {policies.map((item) => (
               <Link key={item.href} href={item.href} className="transition hover:text-white">
