@@ -388,12 +388,12 @@ const copyByLocale: Record<LocaleKey, Record<string, ProductCopy>> = {
   "zh-TW": zhTWCopy,
 };
 
-const buttonCopy: Record<LocaleKey, { details: string; reserve: string }> = {
-  ko:      { details: "상세 보기",   reserve: "예약하기" },
-  en:      { details: "View details", reserve: "Reserve" },
-  ja:      { details: "詳細を見る",  reserve: "予約する" },
-  "zh-CN": { details: "查看详情",    reserve: "立即预约" },
-  "zh-TW": { details: "查看詳情",    reserve: "立即預約" },
+const buttonCopy: Record<LocaleKey, { details: string; reserve: string; guide: string }> = {
+  ko:      { details: "상세 보기",   reserve: "예약하기",  guide: "안내 보기" },
+  en:      { details: "View details", reserve: "Reserve",   guide: "View info" },
+  ja:      { details: "詳細を見る",  reserve: "予約する",  guide: "案内を見る" },
+  "zh-CN": { details: "查看详情",    reserve: "立即预约",  guide: "查看指南" },
+  "zh-TW": { details: "查看詳情",    reserve: "立即預約",  guide: "查看指南" },
 };
 
 const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
@@ -510,7 +510,7 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
             href={`/products#section-${product.categoryKey}`}
             className="inline-flex min-h-9 items-center justify-center rounded-full border border-white/70 bg-white/80 px-3 text-[11px] font-semibold text-slate-700 backdrop-blur transition hover:bg-white sm:min-h-10"
           >
-            {ui.reserve}
+            {product.categoryKey === "ticket" ? ui.reserve : ui.guide}
           </Link>
         </div>
       </div>

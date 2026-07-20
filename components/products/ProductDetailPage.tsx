@@ -256,6 +256,13 @@ const T = {
     "zh-CN": "立即预约",
     "zh-TW": "立即預約",
   },
+  viewGuide: {
+    ko: "안내 보기",
+    en: "View info",
+    ja: "案内を見る",
+    "zh-CN": "查看指南",
+    "zh-TW": "查看指南",
+  },
 } satisfies Record<string, Record<SupportedLocale, string>>;
 
 function t(key: keyof typeof T, locale: SupportedLocale): string {
@@ -1007,10 +1014,10 @@ export default function ProductDetailPage({
             ) : null}
           </div>
           <Link
-            href={reservationUrl}
+            href={isTicket ? reservationUrl : backUrl}
             className="rounded-2xl bg-gradient-to-r from-slate-950 to-slate-800 px-10 py-3.5 text-base font-black text-white shadow-lg shadow-slate-900/20 transition hover:from-slate-900 hover:to-slate-700 active:scale-95"
           >
-            {t("bookNow", locale)}
+            {isTicket ? t("bookNow", locale) : t("viewGuide", locale)}
           </Link>
         </div>
       </div>
