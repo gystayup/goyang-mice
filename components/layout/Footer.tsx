@@ -247,11 +247,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>031-000-0000</span>
+                <span>010-8851-1274</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>contact@goyangmice.kr</span>
+                <span>onesaebom1@gmail.com</span>
               </div>
             </div>
           </div>
