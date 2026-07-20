@@ -28,14 +28,14 @@
     },
     "stats": {
       "kintox": "Adjacent International Exhibition Center",
-      "services": "DMC Service Areas",
+      "services": "MICE Guide Areas",
       "products": "4",
       "productsLabel": "Stay & Experience Products",
       "year": "Year Established"
     },
     "quickLinks": {
       "title": "Service Quick Access",
-      "subtitle": "Explore various services from the Institute and DMC at a glance",
+      "subtitle": "Explore various services from the Institute and MICE Guide at a glance",
       "institute": {
         "title": "About the Institute",
         "desc": "Vision·Mission, Organization, History"
@@ -45,12 +45,12 @@
         "desc": "Culture Tourism·MICE Strategy Research"
       },
       "dmc": {
-        "title": "DMC Services",
+        "title": "MICE Guide",
         "desc": "From Planning to Operations"
       },
       "products": {
-        "title": "Stay & Experience Products",
-        "desc": "Bookable DMC Products"
+        "title": "Stay & Experience Info",
+        "desc": "MICE-linked Guide Programs"
       },
       "contact": {
         "title": "Contact Us",
@@ -154,41 +154,41 @@
     "commissionDesc": "We welcome research commissions, policy advisory requests, and consulting inquiries in the culture tourism and MICE fields.",
     "commissionLink": "Inquire About a Research Commission",
     "viewBtn": "View",
-    "ctaDmc": "View DMC Services",
+    "ctaDmc": "View MICE Guide",
     "ctaBack": "Back to About the Institute"
   },
   "dmc": {
-    "label": "DMC Services",
-    "title": "DMC Services",
-    "desc": "The affiliated Goyang DMC Center provides end-to-end on-site operational services for corporate events, international conferences, incentive tours, FAM tours, VIP programs, and more — from planning through completion.",
+    "label": "MICE Guide",
+    "title": "MICE Guide",
+    "desc": "The affiliated Goyang DMC Center provides end-to-end on-site operational guidance for corporate events, international conferences, incentive events, FAM programs, VIP programs, and more — from planning through completion.",
     "servicesTitle": "6 Core Services",
     "processLabel": "Process",
     "processTitle": "Service Operations Process",
     "processDesc": "A dedicated team accompanies every step from initial consultation to final reporting.",
     "partnersLabel": "Partners",
     "partnersTitle": "Types of Partner Organizations",
-    "partnersDesc": "We deliver integrated services through a broad network of institutions and vendors.",
-    "consultCTA": "Request a DMC Consultation",
-    "ctaContact": "Request a DMC Consultation",
-    "ctaProducts": "View Stay & Experience Products"
+    "partnersDesc": "We deliver integrated guidance through a broad network of institutions and vendors.",
+    "consultCTA": "Request a MICE Guide Consultation",
+    "ctaContact": "Request a MICE Guide Consultation",
+    "ctaProducts": "View Stay & Experience Programs"
   },
   "products": {
-    "label": "Booking & Products",
-    "title": "Stay & Experience Products",
-    "desc": "A DMC product-focused page that goes beyond simple listings to support real product browsing, reservation inquiries, and future payment integration.",
-    "listTitle": "DMC Product Catalog",
+    "label": "Info & Programs",
+    "title": "Stay & Experience Programs",
+    "desc": "A MICE-linked guide page that goes beyond simple listings to support real program browsing, inquiry submission, and future ticket-payment integration.",
+    "listTitle": "MICE-linked Guide",
     "filterLabel": "Search Guide",
-    "filterTitle": "Product Selection Guide",
+    "filterTitle": "Program Selection Guide",
     "filterDesc": "Preparing the following information in advance will help us assist you more quickly.",
-    "bookingLabel": "Booking Flow",
-    "bookingTitle": "How to Book",
+    "bookingLabel": "Guide Flow",
+    "bookingTitle": "How the Guide Works",
     "futureNote": "Coming Soon",
-    "futureDesc": "We plan to develop real-time availability lookup, partner inventory integration, a payment module, a member portal, and reservation status management in phases.",
+    "futureDesc": "We plan to develop real-time availability lookup, partner inventory integration, a ticket-payment module, a member portal, and inquiry status management in phases.",
     "detailBtn": "View Details",
-    "reserveBtn": "Reserve",
+    "reserveBtn": "Contact for Info",
     "consultCTA": "Request a Custom Consultation",
-    "ctaContact": "Reservation Inquiry",
-    "ctaDmc": "View DMC Services"
+    "ctaContact": "Inquiry",
+    "ctaDmc": "View MICE Guide"
   },
   "reservation": {
     "label": "Reservation Detail",
@@ -224,7 +224,7 @@
   "contact": {
     "label": "Contact & Proposal",
     "title": "Contact Us",
-    "desc": "Submit all inquiries — research, event operations, DMC services, stay & experience bookings, and partnership proposals — through a single integrated channel.",
+    "desc": "Submit all inquiries — research, event operations, MICE guide, stay & experience info, and partnership proposals — through a single integrated channel.",
     "infoLabel": "Contact Info",
     "infoTitle": "Contact Information",
     "infoDesc": "Our staff will review your inquiry personally and respond within 1–2 business days.",
