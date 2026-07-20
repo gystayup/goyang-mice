@@ -27,7 +27,7 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     stats: [
       { value: "K-POP · KINTEX",    label: "공연, 전시, 비즈니스 방문이 이어지는 핵심 거점",            tone: "bg-[#fffdf0]" },
       { value: "5축 연결",           label: "공연, 전시, 관광, 숙박, 쇼핑·미식을 하나의 흐름으로 연결", tone: "bg-[#f0fdf8]" },
-      { value: "운영형 DMC",         label: "기획부터 예약, 현장 운영까지 이어지는 실행 구조",            tone: "bg-[#f0f4ff]" },
+      { value: "운영형 DMC",         label: "기획부터 안내, 현장 운영까지 이어지는 실행 구조",            tone: "bg-[#f0f4ff]" },
       { value: "라이프스타일 확장",  label: "가족 체험과 상시 운영 콘텐츠로 체류 프로그램을 확대",       tone: "bg-[#fff6f2]" },
     ],
   },
@@ -42,7 +42,7 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     stats: [
       { value: "K-POP · KINTEX",       label: "A key hub for performances, exhibitions and business visits",           tone: "bg-[#fffdf0]" },
       { value: "5 connected layers",    label: "Performance, exhibition, tourism, stay and dining in one flow",        tone: "bg-[#f0fdf8]" },
-      { value: "Operations-first DMC",  label: "A practical structure from planning and booking to field delivery",    tone: "bg-[#f0f4ff]" },
+      { value: "Operations-first DMC",  label: "A practical structure from planning and guidance to field delivery",  tone: "bg-[#f0f4ff]" },
       { value: "Lifestyle expansion",   label: "Family-friendly programs and repeatable content that lengthen stays",  tone: "bg-[#fff6f2]" },
     ],
   },
@@ -57,7 +57,7 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     stats: [
       { value: "K-POP · KINTEX",    label: "公演・展示・ビジネス訪問が続く重要拠点",            tone: "bg-[#fffdf0]" },
       { value: "5軸連結",            label: "公演・展示・観光・宿泊・ショッピング&グルメを一つの流れに", tone: "bg-[#f0fdf8]" },
-      { value: "運営型DMC",          label: "企画から予約・現場運営まで続く実行構造",            tone: "bg-[#f0f4ff]" },
+      { value: "運営型DMC",          label: "企画から案内・現場運営まで続く実行構造",            tone: "bg-[#f0f4ff]" },
       { value: "ライフスタイル拡張", label: "家族体験と常時運営コンテンツで滞在プログラムを拡大", tone: "bg-[#fff6f2]" },
     ],
   },
@@ -72,7 +72,7 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     stats: [
       { value: "K-POP · KINTEX",  label: "演出、展览、商务访问的核心据点",            tone: "bg-[#fffdf0]" },
       { value: "5轴联接",          label: "演出、展览、旅游、住宿、购物美食融为一体",  tone: "bg-[#f0fdf8]" },
-      { value: "运营型DMC",        label: "从策划到预订、现场运营的完整执行结构",      tone: "bg-[#f0f4ff]" },
+      { value: "运营型DMC",        label: "从策划到指南、现场运营的完整执行结构",      tone: "bg-[#f0f4ff]" },
       { value: "生活方式延伸",     label: "通过家庭体验和常态运营内容扩展滞留项目",   tone: "bg-[#fff6f2]" },
     ],
   },
@@ -87,7 +87,7 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     stats: [
       { value: "K-POP · KINTEX",  label: "演出、展覽、商務訪問的核心據點",            tone: "bg-[#fffdf0]" },
       { value: "5軸聯接",          label: "演出、展覽、旅遊、住宿、購物美食融為一體",  tone: "bg-[#f0fdf8]" },
-      { value: "運營型DMC",        label: "從策劃到預訂、現場運營的完整執行結構",      tone: "bg-[#f0f4ff]" },
+      { value: "運營型DMC",        label: "從策劃到指南、現場運營的完整執行結構",      tone: "bg-[#f0f4ff]" },
       { value: "生活風格延伸",     label: "透過家庭體驗與常態運營內容擴展滯留計畫",   tone: "bg-[#fff6f2]" },
     ],
   },
