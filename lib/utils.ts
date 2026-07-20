@@ -158,6 +158,11 @@ export const format = {
   phone: (phone: string): string => {
     const cleaned = phone.replace(/\D/g, '');
     if (cleaned.length === 10) {
+      // 서울 번호(02): 2-4-4 분할 (예: 0212345678 → 02-1234-5678)
+      if (cleaned.startsWith('02')) {
+        return `${cleaned.slice(0, 2)}-${cleaned.slice(2, 6)}-${cleaned.slice(6)}`;
+      }
+      // 그 외 10자리: 3-3-4 분할
       return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
     }
     if (cleaned.length === 11) {
