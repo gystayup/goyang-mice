@@ -16,7 +16,7 @@
     "institute": "研究所紹介",
     "research": "研究分野",
     "dmc": "MICEガイド",
-    "products": "宿泊・体験・観光商品",
+    "products": "宿泊・体験案内",
     "contact": "お問い合わせ"
   },
   "home": {
@@ -192,7 +192,6 @@
   },
   "reservation": {
     "label": "Reservation Detail",
-    "breadcrumb": "宿泊・体験・観光商品",
     "duration": "所要時間",
     "headcount": "予約人数",
     "departure": "出発場所",

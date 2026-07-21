@@ -16,7 +16,7 @@
     "institute": "研究所介绍",
     "research": "研究领域",
     "dmc": "MICE 指南",
-    "products": "住宿·体验·旅游产品",
+    "products": "住宿·体验指南",
     "contact": "联系我们"
   },
   "home": {
@@ -192,7 +192,6 @@
   },
   "reservation": {
     "label": "Reservation Detail",
-    "breadcrumb": "住宿·体验·旅游产品",
     "duration": "所需时间",
     "headcount": "预约人数",
     "departure": "出发地点",
