@@ -1,10 +1,19 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+import { isAdminAuthenticated } from "@/lib/auth";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const PAGE_KEY = "hero-slides";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -41,6 +50,8 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const supabase = getSupabase();
     const body = (await request.json()) as { slides: Record<string, unknown>[] };

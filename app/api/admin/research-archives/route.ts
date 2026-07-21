@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
 
+import { isAdminAuthenticated } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 type ArchiveBody = {
   id?: string;
@@ -54,6 +62,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as ArchiveBody;
 
@@ -79,6 +89,8 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as ArchiveBody;
     if (!body.id) {
@@ -103,6 +115,8 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { id } = (await request.json()) as { id: string };
     await prisma.post.delete({ where: { id } });

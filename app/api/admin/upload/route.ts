@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+
+import { isAdminAuthenticated } from "@/lib/auth";
 import { deleteFile, listFiles, uploadFile } from "@/lib/storage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 const ALLOWED_TYPES = [
   "image/jpeg",
@@ -17,6 +26,8 @@ const ALLOWED_TYPES = [
 const MAX_SIZE = 100 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const formData = await req.formData();
     const file = formData.get("file");
@@ -60,6 +71,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { filename, category = "general" } = await req.json();
     if (!filename || typeof filename !== "string" || filename.includes("..")) {

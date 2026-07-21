@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isAdminAuthenticated } from "@/lib/auth";
 import type { ServiceCatalogCategory, ServiceCatalogItem } from "@/data/service-catalog";
 import {
   addServiceCatalogItem,
@@ -10,6 +11,13 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 const VALID_CATEGORIES: ServiceCatalogCategory[] = ["tour", "stay", "restaurant", "cafe", "airport", "medical"];
 
@@ -32,6 +40,8 @@ export async function GET() {
 
 // POST — 상품 추가
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as {
       category: ServiceCatalogCategory;
@@ -61,6 +71,8 @@ export async function POST(request: Request) {
 
 // PUT — 상품 수정
 export async function PUT(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as {
       category: ServiceCatalogCategory;
@@ -84,6 +96,8 @@ export async function PUT(request: Request) {
 
 // DELETE — 상품 삭제
 export async function DELETE(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
