@@ -547,6 +547,10 @@ export default function ProductDetailPage({
     timeSlot: string;
     count: number;
   } | null>(null);
+  const [selectedOptionId, setSelectedOptionId] = useState<string>(() =>
+    isTicket && ticket!.options.length > 0 ? ticket!.options[0].id : ""
+  );
+  const [ticketCount, setTicketCount] = useState<number>(1);
 
   // ── Booking calendar helpers ──────────────────────────────────────────────
   // Determine category for calendar
@@ -608,6 +612,10 @@ export default function ProductDetailPage({
   const minPrice = isTicket
     ? ticket!.options.length > 0 ? Math.min(...ticket!.options.map((o) => o.price)) : 0
     : service!.price;
+  const selectedOption = isTicket
+    ? ticket!.options.find((o) => o.id === selectedOptionId) ?? ticket!.options[0] ?? null
+    : null;
+  const ticketTotal = isTicket ? (selectedOption?.price ?? minPrice) * ticketCount : 0;
   const originalPrice = !isTicket ? service!.originalPrice : undefined;
   const categoryLabel = isTicket ? ticket!.badge : (data as { categoryLabel: string }).categoryLabel;
   const discountPct =
@@ -1036,30 +1044,67 @@ export default function ProductDetailPage({
         <div className="mt-5 px-5">
           <h2 className="mb-3 text-base font-black text-slate-950">{t("ticketOptions", locale)}</h2>
           <div className="space-y-2">
-            {ticket!.options.map((opt) => (
-              <div
-                key={opt.id}
-                className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3"
-              >
-                <div>
-                  <p className="text-sm font-bold text-slate-900">{opt.label}</p>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {opt.benefits.map((b) => (
-                      <span
-                        key={b}
-                        className="inline-flex items-center gap-0.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200"
-                      >
-                        <CheckCircle2 className="h-3 w-3 text-sky-400" />
-                        {b}
-                      </span>
-                    ))}
+            {ticket!.options.map((opt) => {
+              const isSelected = selectedOptionId === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setSelectedOptionId(opt.id)}
+                  aria-pressed={isSelected}
+                  className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left transition ${
+                    isSelected
+                      ? "border-slate-950 bg-white ring-2 ring-slate-900"
+                      : "border-slate-100 bg-slate-50 hover:border-slate-300"
+                  }`}
+                >
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">{opt.label}</p>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {opt.benefits.map((b) => (
+                        <span
+                          key={b}
+                          className="inline-flex items-center gap-0.5 rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200"
+                        >
+                          <CheckCircle2 className="h-3 w-3 text-sky-400" />
+                          {b}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <span className="ml-4 shrink-0 text-base font-black text-slate-950">
-                  ₩{opt.price.toLocaleString(bcp47)}
-                </span>
-              </div>
-            ))}
+                  <span className="ml-4 shrink-0 text-base font-black text-slate-950">
+                    ₩{opt.price.toLocaleString(bcp47)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 수량 선택 */}
+          <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-sm font-bold text-slate-700">{t("ticketsLabel", locale)}</p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setTicketCount((c) => Math.max(1, c - 1))}
+                disabled={ticketCount <= 1}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label="decrease"
+              >
+                −
+              </button>
+              <span className="w-8 text-center text-base font-black text-slate-950">{ticketCount}</span>
+              <button
+                type="button"
+                onClick={() => setTicketCount((c) => Math.min(10, c + 1))}
+                disabled={ticketCount >= 10}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label="increase"
+              >
+                +
+              </button>
+              <span className="ml-1 text-xs text-slate-500">{t("ticketsUnit", locale)}</span>
+            </div>
           </div>
         </div>
       )}
@@ -1164,7 +1209,17 @@ export default function ProductDetailPage({
         <div className="mx-auto flex max-w-2xl items-center gap-4">
           <div className="flex-1">
             {isTicket ? (
-              minPrice > 0 ? (
+              selectedOption ? (
+                <>
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    {selectedOption.label} × {ticketCount}
+                  </p>
+                  <p className="text-xl font-black text-slate-950">
+                    <span className="text-[13px] font-semibold text-slate-500">₩</span>
+                    {ticketTotal.toLocaleString(bcp47)}
+                  </p>
+                </>
+              ) : minPrice > 0 ? (
                 <>
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                     {t("bestPrice", locale)}
@@ -1183,7 +1238,21 @@ export default function ProductDetailPage({
             ) : null}
           </div>
           <Link
-            href={isTicket ? reservationUrl : backUrl}
+            href={
+              isTicket
+                ? (() => {
+                    const params = new URLSearchParams();
+                    if (selectedOptionId) params.set("option", selectedOptionId);
+                    if (ticketCount > 1) params.set("count", String(ticketCount));
+                    if (bookingConfirmed?.date) {
+                      params.set("date", bookingConfirmed.date.toISOString().slice(0, 10));
+                    }
+                    const extra = params.toString();
+                    // reservationUrl already contains "?ticket=..." for tickets
+                    return extra ? `${reservationUrl}&${extra}` : reservationUrl;
+                  })()
+                : backUrl
+            }
             className="rounded-2xl bg-gradient-to-r from-slate-950 to-slate-800 px-10 py-3.5 text-base font-black text-white shadow-lg shadow-slate-900/20 transition hover:from-slate-900 hover:to-slate-700 active:scale-95"
           >
             {isTicket ? t("bookNow", locale) : t("viewGuide", locale)}

@@ -90,12 +90,15 @@ export const ticketProducts: TicketProduct[] = [
       { id: "vip", label: "VIP 패키지", price: 198000, benefits: ["우선 입장", "웰컴 굿즈"] },
       { id: "r", label: "R석", price: 143000, benefits: ["지정 좌석", "모바일 티켓"] },
       { id: "s", label: "S석", price: 99000, benefits: ["지정 좌석", "현장 발권 가능"] },
+      // 임시값(고양시 정보 확보 시 교체 예정)
+      { id: "a", label: "A석", price: 79000, benefits: ["지정 좌석"] },
+      { id: "b", label: "B석", price: 59000, benefits: ["지정 좌석"] },
     ],
     translations: {
-      en: { badge: "Coming Soon", venue: "Goyang K-POP Arena", tags: ["K-POP", "Concert", "Premium Seats"], options: [{ id: "vip", label: "VIP Package", benefits: ["Priority Entry", "Welcome Goods"] }, { id: "r", label: "R-Class", benefits: ["Assigned Seat", "Mobile Ticket"] }, { id: "s", label: "S-Class", benefits: ["Assigned Seat", "On-site Ticketing"] }] },
-      ja: { badge: "近日オープン", venue: "高陽K-POPアリーナ", tags: ["K-POP", "公演", "プレミアム席"], options: [{ id: "vip", label: "VIPパッケージ", benefits: ["優先入場", "ウェルカムグッズ"] }, { id: "r", label: "R席", benefits: ["指定席", "モバイルチケット"] }, { id: "s", label: "S席", benefits: ["指定席", "現場発券可"] }] },
-      "zh-CN": { badge: "即将开放", venue: "高阳K-POP竞技场", tags: ["K-POP", "演出", "高级座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["优先入场", "欢迎礼品"] }, { id: "r", label: "R区", benefits: ["对号入座", "手机票"] }, { id: "s", label: "S区", benefits: ["对号入座", "现场取票"] }] },
-      "zh-TW": { badge: "即將開放", venue: "高陽K-POP競技場", tags: ["K-POP", "演出", "高級座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["優先入場", "歡迎禮品"] }, { id: "r", label: "R區", benefits: ["對號入座", "手機票"] }, { id: "s", label: "S區", benefits: ["對號入座", "現場取票"] }] },
+      en: { badge: "Coming Soon", venue: "Goyang K-POP Arena", tags: ["K-POP", "Concert", "Premium Seats"], options: [{ id: "vip", label: "VIP Package", benefits: ["Priority Entry", "Welcome Goods"] }, { id: "r", label: "R-Class", benefits: ["Assigned Seat", "Mobile Ticket"] }, { id: "s", label: "S-Class", benefits: ["Assigned Seat", "On-site Ticketing"] }, { id: "a", label: "A-Class", benefits: ["Assigned Seat"] }, { id: "b", label: "B-Class", benefits: ["Assigned Seat"] }] },
+      ja: { badge: "近日オープン", venue: "高陽K-POPアリーナ", tags: ["K-POP", "公演", "プレミアム席"], options: [{ id: "vip", label: "VIPパッケージ", benefits: ["優先入場", "ウェルカムグッズ"] }, { id: "r", label: "R席", benefits: ["指定席", "モバイルチケット"] }, { id: "s", label: "S席", benefits: ["指定席", "現場発券可"] }, { id: "a", label: "A席", benefits: ["指定席"] }, { id: "b", label: "B席", benefits: ["指定席"] }] },
+      "zh-CN": { badge: "即将开放", venue: "高阳K-POP竞技场", tags: ["K-POP", "演出", "高级座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["优先入场", "欢迎礼品"] }, { id: "r", label: "R区", benefits: ["对号入座", "手机票"] }, { id: "s", label: "S区", benefits: ["对号入座", "现场取票"] }, { id: "a", label: "A区", benefits: ["对号入座"] }, { id: "b", label: "B区", benefits: ["对号入座"] }] },
+      "zh-TW": { badge: "即將開放", venue: "高陽K-POP競技場", tags: ["K-POP", "演出", "高級座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["優先入場", "歡迎禮品"] }, { id: "r", label: "R區", benefits: ["對號入座", "手機票"] }, { id: "s", label: "S區", benefits: ["對號入座", "現場取票"] }, { id: "a", label: "A區", benefits: ["對號入座"] }, { id: "b", label: "B區", benefits: ["對號入座"] }] },
     },
   },
   {

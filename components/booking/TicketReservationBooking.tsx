@@ -12,6 +12,9 @@ type TicketReservationBookingProps = {
   product: Product;
   initialTicketId?: string;
   initialTicket?: TicketProduct;
+  initialOptionId?: string;
+  initialCount?: number;
+  initialDate?: string;
 };
 
 type FormState = {
@@ -37,12 +40,22 @@ export default function TicketReservationBooking({
   product,
   initialTicketId,
   initialTicket,
+  initialOptionId,
+  initialCount,
+  initialDate,
 }: TicketReservationBookingProps) {
   const ticket = initialTicket ?? getTicketProduct(initialTicketId);
-  const [selectedOptionId, setSelectedOptionId] = useState(ticket.options[0]?.id ?? "");
-  const [ticketCount, setTicketCount] = useState(2);
+  const [selectedOptionId, setSelectedOptionId] = useState(() => {
+    if (initialOptionId && ticket.options.some((o) => o.id === initialOptionId)) {
+      return initialOptionId;
+    }
+    return ticket.options[0]?.id ?? "";
+  });
+  const [ticketCount, setTicketCount] = useState(
+    initialCount && initialCount > 0 ? initialCount : 2
+  );
   const [reservationDate, setReservationDate] = useState(
-    new Date().toISOString().slice(0, 10)
+    initialDate ?? new Date().toISOString().slice(0, 10)
   );
   const [form, setForm] = useState<FormState>({
     organization: "",
