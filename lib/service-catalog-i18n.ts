@@ -54,6 +54,7 @@ export function getLocalizedServiceItem<T extends ServiceCatalogItem>(
     highlights: t.highlights ?? item.highlights,
     includes: t.includes ?? item.includes,
     couponGuide: t.couponGuide ?? item.couponGuide,
+    departments: t.departments ?? item.departments,
   };
 
   if (t.options && t.options.length > 0) {
@@ -79,6 +80,7 @@ function findStaticItemById(id: string): ServiceCatalogItem | undefined {
     "restaurant",
     "cafe",
     "airport",
+    "medical",
   ];
   for (const cat of categories) {
     const items = staticCatalog[cat];
@@ -97,6 +99,7 @@ function findStaticItemByTitle(title: string): ServiceCatalogItem | undefined {
     "restaurant",
     "cafe",
     "airport",
+    "medical",
   ];
   for (const cat of categories) {
     const items = staticCatalog[cat];

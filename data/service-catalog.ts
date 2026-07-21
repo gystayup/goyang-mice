@@ -33,6 +33,7 @@ export interface ServiceCatalogTranslation {
   highlights?: string[];
   includes?: string[];
   couponGuide?: string;
+  departments?: string[];
   options?: Array<{ id: string; label?: string; benefits?: string[] }>;
 }
 
@@ -72,6 +73,9 @@ export interface ServiceCatalogItem {
   // 소개형 CTA (Phase 3): 데이터 없으면 CTA 자동 숨김
   homepageUrl?: string;       // 매장/시설 공식 홈페이지 (외부 링크)
   phone?: string;             // 매장/시설 대표 전화 (tel: 프로토콜)
+  // 병원 소개형 슬롯 (Phase 4-A): 없으면 렌더 생략
+  departments?: string[];             // 진료과 (예: ["내과", "정형외과"])
+  languagesSupported?: ServiceLocale[]; // 통역 지원 언어 (en/ja/zh-CN/zh-TW)
 }
 
 export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]> = {
@@ -1038,7 +1042,82 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       ],
     },
   ],
-  medical: [],
+  medical: [
+    // Phase 4-B 주입 템플릿 (구조 검증 완료 · 프로덕션 노출 없음)
+    // 실제 병원 데이터 주입 시 아래 블록의 주석을 풀고 id/title/... 값을 병원 정보로 채우세요.
+    //   - price: 0, options: []  → 예약 UI 자동 비활성화 (소개형)
+    //   - homepageUrl / phone    → 채우면 매장 CTA 자동 노출 (Phase 3 규약)
+    //   - departments            → 진료과 배열 (i18n: translations.<locale>.departments)
+    //   - languagesSupported     → 통역 지원 언어 (ServiceLocale 배열)
+    /*
+    {
+      id: "sample-hospital-slot",
+      homepageUrl: "",
+      phone: "",
+      title: "샘플 병원 (Phase 4-B 데이터 주입 예정)",
+      subtitle: "슬롯 구조 검증용",
+      location: "고양시",
+      dateText: "연중 · 예약 상담",
+      imageTone: "from-sky-100 via-white to-slate-100",
+      posterLabel: "SAMPLE",
+      summary:
+        "이 카드는 병원 소개 슬롯의 렌더 검증을 위한 샘플입니다. Phase 4-B에서 실제 병원 데이터로 대체됩니다.",
+      description:
+        "병원 소개형 카드의 필드 구조(진료과, 지원 언어, 홈페이지·전화 CTA)를 검증하기 위한 임시 슬롯입니다.",
+      tags: ["샘플", "구조 검증", "Phase 4-A"],
+      price: 0,
+      departments: ["내과", "외과", "산부인과"],
+      languagesSupported: ["en", "ja", "zh-CN", "zh-TW"],
+      translations: {
+        en: {
+          title: "Sample Hospital (Phase 4-B data pending)",
+          subtitle: "Slot structure verification",
+          location: "Goyang City",
+          dateText: "Year-round · By consultation",
+          posterLabel: "SAMPLE",
+          summary:
+            "Placeholder card to verify the hospital introduction slot render. Real data will be injected in Phase 4-B.",
+          tags: ["Sample", "Structure Check", "Phase 4-A"],
+          departments: ["Internal Medicine", "Surgery", "Obstetrics & Gynecology"],
+        },
+        ja: {
+          title: "サンプル病院（Phase 4-Bデータ投入予定）",
+          subtitle: "スロット構造検証用",
+          location: "高陽市",
+          dateText: "通年・要予約相談",
+          posterLabel: "SAMPLE",
+          summary:
+            "病院紹介スロットのレンダー検証用のサンプルカードです。Phase 4-Bで実データに差し替えます。",
+          tags: ["サンプル", "構造検証", "Phase 4-A"],
+          departments: ["内科", "外科", "産婦人科"],
+        },
+        "zh-CN": {
+          title: "样例医院（待Phase 4-B数据注入）",
+          subtitle: "槽位结构验证用",
+          location: "高阳市",
+          dateText: "全年·预约咨询",
+          posterLabel: "SAMPLE",
+          summary:
+            "用于验证医院介绍槽位渲染的样例卡片。Phase 4-B将替换为真实数据。",
+          tags: ["样例", "结构验证", "Phase 4-A"],
+          departments: ["内科", "外科", "妇产科"],
+        },
+        "zh-TW": {
+          title: "範例醫院（待Phase 4-B資料注入）",
+          subtitle: "槽位結構驗證用",
+          location: "高陽市",
+          dateText: "全年·預約諮詢",
+          posterLabel: "SAMPLE",
+          summary:
+            "用於驗證醫院介紹槽位渲染的範例卡片。Phase 4-B將替換為真實資料。",
+          tags: ["範例", "結構驗證", "Phase 4-A"],
+          departments: ["內科", "外科", "婦產科"],
+        },
+      },
+      options: [],
+    },
+    */
+  ],
 };
 
 export function getServiceCatalogByCategory(category: ServiceCatalogCategory) {

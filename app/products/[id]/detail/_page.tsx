@@ -18,6 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   cafe: "라이프스타일",
   ticket: "티켓",
   airport: "공항픽업",
+  medical: "메디컬",
 };
 
 export async function generateMetadata(props: {
@@ -95,13 +96,20 @@ export default async function ProductDetailServerPage(props: {
     );
   }
 
-  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일/공항픽업)
-  const showcaseCategories = new Set(["tour", "stay", "restaurant", "cafe", "airport"]);
+  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일/공항픽업/메디컬)
+  const showcaseCategories = new Set([
+    "tour",
+    "stay",
+    "restaurant",
+    "cafe",
+    "airport",
+    "medical",
+  ]);
   if (showcaseCategories.has(product.categoryKey) && itemId) {
     let catalogItem;
     try {
       const catalog = await readServiceCatalog();
-      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport";
+      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport" | "medical";
       catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
     } catch {
       // ignore

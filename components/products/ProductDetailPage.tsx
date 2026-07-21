@@ -277,7 +277,28 @@ const T = {
     "zh-CN": "联系店铺",
     "zh-TW": "聯絡店家",
   },
+  labelDepartments: {
+    ko: "진료과",
+    en: "Departments",
+    ja: "診療科",
+    "zh-CN": "诊疗科室",
+    "zh-TW": "診療科別",
+  },
+  labelLanguages: {
+    ko: "지원 언어",
+    en: "Languages Supported",
+    ja: "対応言語",
+    "zh-CN": "支持语言",
+    "zh-TW": "支援語言",
+  },
 } satisfies Record<string, Record<SupportedLocale, string>>;
+
+const LANGUAGE_BADGE: Record<"en" | "ja" | "zh-CN" | "zh-TW", string> = {
+  en: "EN",
+  ja: "JP",
+  "zh-CN": "CN",
+  "zh-TW": "TW",
+};
 
 function t(key: keyof typeof T, locale: SupportedLocale): string {
   return T[key][locale] ?? T[key]["ko"];
@@ -739,6 +760,44 @@ export default function ProductDetailPage({
             </span>
           ))}
         </div>
+
+        {/* 진료과 — 병원 소개형 슬롯 (있을 때만) */}
+        {!isTicket && service?.departments && service.departments.length > 0 && (
+          <div className="mt-4">
+            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              {t("labelDepartments", locale)}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {service.departments.map((dept) => (
+                <span
+                  key={dept}
+                  className="inline-flex items-center rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-semibold text-sky-700 ring-1 ring-sky-200"
+                >
+                  {dept}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 지원 언어 — 병원 소개형 슬롯 (있을 때만) */}
+        {!isTicket && service?.languagesSupported && service.languagesSupported.length > 0 && (
+          <div className="mt-3">
+            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              {t("labelLanguages", locale)}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {service.languagesSupported.map((lng) => (
+                <span
+                  key={lng}
+                  className="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-black tracking-wider text-emerald-700 ring-1 ring-emerald-200"
+                >
+                  {LANGUAGE_BADGE[lng]}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 가격 — 티켓 카테고리에서만 표시 */}
         {isTicket && (

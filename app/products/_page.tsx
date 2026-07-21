@@ -425,6 +425,7 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
       restaurant: [],
       cafe: [],
       airport: [],
+      medical: [],
     })),
     readTicketCatalog().catch(() => []),
   ]);

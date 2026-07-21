@@ -53,8 +53,11 @@ next-env.d.ts
 .vercel
 .env*.local
 
-# DB ╦П╣Е г╔╫д (╥ндц х╞╟Ф╨╟)
+# DB О©╫О©╫О©╫ г╔О©╫О©╫ (О©╫О©╫О©╫О©╫ х╞О©╫Ф╨╟)
 .db-mode
 
-# юс╫ц ╧И╬В фдюо
+# О©╫с╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
 *.bak
+
+# lighthouse reports
+*.report.html
