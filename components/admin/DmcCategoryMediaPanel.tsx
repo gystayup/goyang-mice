@@ -278,14 +278,14 @@ export default function DmcCategoryMediaPanel() {
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <div className="text-xs font-semibold tracking-[0.2em] text-[#ff7d66]">
-            DMC CATEGORY IMAGES
+            MICE CATEGORY IMAGES
           </div>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-            DMC 예약 카테고리 카드 이미지 관리
+            MICE 안내 카테고리 카드 이미지 관리
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
             여행상품, 숙박, 음식점, 카페, 티켓, 공항픽업 카드 상단 이미지를 카테고리별로
-            따로 업로드할 수 있습니다. 이미지를 등록하면 DMC 페이지 카드 상단 그라데이션
+            따로 업로드할 수 있습니다. 이미지를 등록하면 MICE 안내 페이지 카드 상단 그라데이션
             영역 대신 실제 사진이 노출됩니다.
           </p>
         </div>
@@ -426,7 +426,7 @@ export default function DmcCategoryMediaPanel() {
             </h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
               위에 없는 신규 카테고리를 자유롭게 추가할 수 있습니다. 이름과 이미지를 입력하면
-              DMC 페이지 카테고리 섹션에 자동으로 카드가 노출됩니다.
+              MICE 안내 페이지 카테고리 섹션에 자동으로 카드가 노출됩니다.
             </p>
           </div>
           <button

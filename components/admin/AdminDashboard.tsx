@@ -343,8 +343,8 @@ export default function AdminDashboard() {
     <div className="flex h-screen bg-slate-100">
       <aside className="flex w-72 flex-col overflow-y-auto bg-slate-900 p-6 text-white xl:w-64">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold">고양 DMC</h2>
-          <p className="mt-1 text-xs text-slate-400">운영 관리 시스템</p>
+          <h2 className="text-2xl font-bold">고양 MICE 안내</h2>
+          <p className="mt-1 text-xs text-slate-400">MICE 안내 운영 시스템</p>
         </div>
 
         <nav className="flex-1 space-y-2">

@@ -57,7 +57,7 @@ const products = [
 ];
 
 const inquiries = [
-  { type: "DMC 상담", client: "한국전자전 조직위", date: "2026-04-30", status: "처리중" },
+  { type: "MICE 안내 상담", client: "한국전자전 조직위", date: "2026-04-30", status: "처리중" },
   { type: "연구용역 문의", client: "고양시청 관광과", date: "2026-05-01", status: "회신완료" },
   { type: "협업 제안", client: "KTO 해외마케팅팀", date: "2026-05-02", status: "검토중" },
   { type: "행사운영 문의", client: "글로벌 의료기기전", date: "2026-05-03", status: "접수" },
@@ -250,7 +250,7 @@ export default function CmsClient() {
             {/* 콘텐츠 관리 */}
             {active === "콘텐츠 관리" && (
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                {["메인 비주얼", "연구소 소개", "연구 분야", "DMC 서비스", "숙박·체험 상품", "문의 페이지", "뉴스·자료실", "공지사항"].map((item) => (
+                {["메인 비주얼", "연구소 소개", "연구 분야", "MICE 안내", "숙박·체험 상품", "문의 페이지", "뉴스·자료실", "공지사항"].map((item) => (
                   <div key={item} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
                     <span className="text-sm font-medium text-slate-700">{item}</span>
                     <button className="flex items-center gap-1 rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
