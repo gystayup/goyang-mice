@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isAdminAuthenticated } from "@/lib/auth";
 import type { TicketProduct } from "@/data/ticket-booking";
 import {
   addTicketItem,
@@ -10,6 +11,13 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 // GET — 전체 티켓 목록 조회
 export async function GET() {
@@ -23,6 +31,8 @@ export async function GET() {
 
 // POST — 티켓 추가
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as { item: TicketProduct };
     if (!body.item?.id || !body.item?.title) {
@@ -40,6 +50,8 @@ export async function POST(request: Request) {
 
 // PUT — 티켓 수정
 export async function PUT(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = (await request.json()) as { item: TicketProduct };
     const tickets = await updateTicketItem(body.item);
@@ -51,6 +63,8 @@ export async function PUT(request: Request) {
 
 // DELETE — 티켓 삭제
 export async function DELETE(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

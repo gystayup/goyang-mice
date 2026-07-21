@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isAdminAuthenticated } from "@/lib/auth";
 import {
   clearDmcHeroMedia,
   readDmcHeroMedia,
@@ -8,6 +9,13 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+async function requireAdmin() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ success: false, error: "권한이 없습니다." }, { status: 403 });
+  }
+  return null;
+}
 
 const allowedMimeTypes = [
   "image/jpeg",
@@ -35,6 +43,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const formData = await request.formData();
     const file = formData.get("file");
@@ -79,6 +89,8 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE() {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const media = await clearDmcHeroMedia();
     return NextResponse.json({
