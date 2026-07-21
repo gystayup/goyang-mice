@@ -492,7 +492,10 @@ function EditableStatCard({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(value);
 
+  // 외부 value(다른 상품 선택 등)가 바뀌면 편집 중이 아닐 때 draft 재동기화.
+  // React 19 권장 대안(렌더 중 조정)은 상태 4개 필요로 복잡도 상승 → 명시적 effect 유지.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!editing) setDraft(value);
   }, [value, editing]);
 
@@ -557,7 +560,9 @@ function EditableInline({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(value);
 
+  // 외부 value 변경 시 편집 중이 아닐 때만 draft 재동기화. 상단 FieldCard와 동일 패턴.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!editing) setDraft(value);
   }, [value, editing]);
 
@@ -650,6 +655,7 @@ function EditableListCard({
   // editing 중이 아닐 때만 덮어써서 사용자 입력을 보호
   useEffect(() => {
     if (!editing && draft !== joined) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDraft(joined);
     }
   }, [joined, editing, draft]);

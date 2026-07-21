@@ -59,7 +59,7 @@ export class InternalServerError extends ApiError {
 /**
  * 성공 응답을 생성합니다
  */
-export function successResponse<T = any>(data: T, message?: string) {
+export function successResponse<T = unknown>(data: T, message?: string) {
   return {
     success: true,
     message: message || '요청이 성공했습니다.',
@@ -70,7 +70,7 @@ export function successResponse<T = any>(data: T, message?: string) {
 /**
  * 에러 응답을 생성합니다
  */
-export function errorResponse(error: any, message?: string) {
+export function errorResponse(error: unknown, message?: string) {
   if (error instanceof ApiError) {
     return {
       success: false,

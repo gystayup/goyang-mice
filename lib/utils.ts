@@ -41,7 +41,7 @@ export const api = {
   /**
    * 예약 신청
    */
-  createBooking: async (data: any) => {
+  createBooking: async (data: unknown) => {
     try {
       const response = await fetch('/api/bookings', {
         method: 'POST',
@@ -63,7 +63,7 @@ export const api = {
   /**
    * 문의 신청
    */
-  createInquiry: async (data: any) => {
+  createInquiry: async (data: unknown) => {
     try {
       const response = await fetch('/api/inquiries', {
         method: 'POST',

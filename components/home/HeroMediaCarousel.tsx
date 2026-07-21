@@ -151,8 +151,10 @@ export default function HeroMediaCarousel() {
       .catch(() => {});
   }, []);
 
-  // 슬라이드 변경 시 음소거 초기화
+  // 슬라이드 인덱스가 바뀌면 다음 슬라이드도 기본 음소거로 시작 (사용자 UX)
+  // key prop 리마운트 대신 명시적 상태 리셋 유지.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMuted(true);
   }, [index]);
 
