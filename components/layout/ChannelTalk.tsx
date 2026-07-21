@@ -4,9 +4,14 @@ import { useEffect } from "react";
 
 const PLUGIN_KEY = "d8b5659b-f9b8-468b-8a8e-c166bab220f3";
 
+interface ChannelIOQueue {
+  (...args: unknown[]): void;
+  q: unknown[][];
+}
+
 declare global {
   interface Window {
-    ChannelIO?: (...args: unknown[]) => void;
+    ChannelIO?: ChannelIOQueue | ((...args: unknown[]) => void);
     ChannelIOInitialized?: boolean;
   }
 }
@@ -16,9 +21,9 @@ export default function ChannelTalk() {
     // 중복 로드 방지
     if (window.ChannelIO) return;
 
-    const ch = (...args: unknown[]) => { (ch as any).q.push(args); };
-    (ch as any).q = [];
-    window.ChannelIO = ch as (...args: unknown[]) => void;
+    const ch = ((...args: unknown[]) => { ch.q.push(args); }) as ChannelIOQueue;
+    ch.q = [];
+    window.ChannelIO = ch;
 
     const load = () => {
       if (window.ChannelIOInitialized) return;

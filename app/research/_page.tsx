@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
   Building2,
@@ -501,6 +502,7 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
   const copy = getResearchCopy(locale);
   const labels = getArchiveLabels(locale);
   const { data: session } = useSession();
+  const router = useRouter();
   const isLoggedIn = !!session?.user;
   const [dbArchiveItems, setDbArchiveItems] = useState<ArchiveCard[] | null>(null);
 
@@ -521,7 +523,7 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
     if (!item.id) return;
     if (!isLoggedIn) {
       const callbackUrl = encodeURIComponent(typeof window !== "undefined" ? window.location.href : "/research");
-      window.location.href = `/admin/login?callbackUrl=${callbackUrl}`;
+      router.push(`/admin/login?callbackUrl=${callbackUrl}`);
       return;
     }
     window.open(`/api/research-archives/download?id=${item.id}`, "_blank");

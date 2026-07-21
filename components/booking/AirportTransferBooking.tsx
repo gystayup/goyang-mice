@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, CheckCircle2, Luggage, Plane, Users } from "lucide-react";
 
 import BookingMetaPanel from "@/components/booking/BookingMetaPanel";
@@ -935,13 +936,13 @@ export default function AirportTransferBooking({
     <div className="mt-12 rounded-2xl bg-slate-950 px-6 py-8 text-center">
       <p className="text-lg font-black text-white">맞춤 차량 문의</p>
       <p className="mt-2 text-sm text-slate-300">단체, VIP, 특수 이동이 필요하신가요? 전담 매니저가 직접 상담해드립니다.</p>
-      <a
+      <Link
         href="/contact"
         className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-6 py-3 text-sm font-black text-white hover:bg-amber-400"
       >
         <ArrowRight className="h-4 w-4" />
         맞춤 차량 문의하기
-      </a>
+      </Link>
     </div>
     </div>
   );
