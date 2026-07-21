@@ -172,6 +172,8 @@ interface ServiceCatalogItem {
   // 소개형 CTA (Phase 3) — 매장/시설 외부 링크·전화
   homepageUrl?: string;
   phone?: string;
+  // 위치 안내 (Phase 4-C) — 카카오맵/네이버지도 링크 정확도용 정식 주소
+  meetingPointAddress?: string;
   // 병원 소개형 슬롯 (Phase 4-A)
   departments?: string[];
   languagesSupported?: ServiceLocale[];
@@ -214,6 +216,7 @@ const emptyItem = (): ServiceCatalogItem => ({
   tabCancellation: undefined,
   homepageUrl: "",
   phone: "",
+  meetingPointAddress: "",
   departments: undefined,
   languagesSupported: undefined,
 });
@@ -830,6 +833,21 @@ export default function ServiceCatalogPanel() {
                       placeholder="예: 031-000-0000"
                       className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                     />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-semibold text-slate-600">
+                      정식 주소 (선택 · 지도 링크 정확도용)
+                    </label>
+                    <input
+                      type="text"
+                      value={form.meetingPointAddress ?? ""}
+                      onChange={(e) => setField("meetingPointAddress", e.target.value)}
+                      placeholder="예: 경기도 고양시 일산서구 한류월드로 300"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                    />
+                    <p className="mt-1 text-[11px] text-slate-400">
+                      입력 시 카카오맵/네이버지도 검색이 정식 주소 기준으로 이뤄집니다. 없으면 위치(location) 필드로 대체.
+                    </p>
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-xs font-semibold text-slate-600">

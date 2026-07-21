@@ -151,6 +151,27 @@ const T = {
     "zh-CN": "在地图上查看",
     "zh-TW": "在地圖上查看",
   },
+  locationGuide: {
+    ko: "위치 안내",
+    en: "Location",
+    ja: "所在地案内",
+    "zh-CN": "位置指南",
+    "zh-TW": "位置指南",
+  },
+  openInKakaoMap: {
+    ko: "카카오맵",
+    en: "KakaoMap",
+    ja: "KakaoMap",
+    "zh-CN": "KakaoMap",
+    "zh-TW": "KakaoMap",
+  },
+  openInNaverMap: {
+    ko: "네이버지도",
+    en: "Naver Map",
+    ja: "Naver Map",
+    "zh-CN": "Naver Map",
+    "zh-TW": "Naver Map",
+  },
   dateTimeSelect: {
     ko: "날짜 및 시간 선택",
     en: "Select Date & Time",
@@ -828,6 +849,50 @@ export default function ProductDetailPage({
           </div>
         )}
       </div>
+
+      {/* ── 위치 안내 (소개형 카테고리 · meetingPoint 없을 때) ── */}
+      {!isTicket && !service?.meetingPoint && service?.location && (
+        <div className="mt-5 px-5">
+          <h2 className="mb-3 flex items-center gap-2 text-base font-black text-slate-950">
+            <span>📍</span> {t("locationGuide", locale)}
+          </h2>
+          <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 text-white shadow-lg shadow-slate-900/20">
+                <MapPinned className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[14px] font-black leading-snug tracking-tight text-slate-950">
+                  {service.location}
+                </p>
+                {service.meetingPointAddress && (
+                  <p className="mt-1 text-[12px] font-medium text-slate-500">
+                    {service.meetingPointAddress}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <a
+                href={`https://map.kakao.com/?q=${encodeURIComponent(service.meetingPointAddress || service.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#FEE500] py-2.5 text-[13px] font-black text-[#3C1E1E] transition hover:brightness-95 active:scale-[0.98]"
+              >
+                🗺️ {t("openInKakaoMap", locale)}
+              </a>
+              <a
+                href={`https://map.naver.com/p/search/${encodeURIComponent(service.meetingPointAddress || service.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#03C75A] py-2.5 text-[13px] font-black text-white transition hover:brightness-95 active:scale-[0.98]"
+              >
+                🗺️ {t("openInNaverMap", locale)}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── 만남의 장소 (투어/상품에만) ── */}
       {!isTicket && service?.meetingPoint && (
