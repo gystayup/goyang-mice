@@ -73,6 +73,12 @@ export default async function ReservationPage(props: {
 
   // 티켓 DB에서 해당 티켓 조회
   const ticketId = getSearchParam(searchParams.ticket);
+  const initialOptionId = getSearchParam(searchParams.option);
+  const rawCount = getSearchParam(searchParams.count);
+  const parsedCount = rawCount ? Number.parseInt(rawCount, 10) : undefined;
+  const initialCount =
+    parsedCount && Number.isFinite(parsedCount) && parsedCount > 0 ? parsedCount : undefined;
+  const initialDate = getSearchParam(searchParams.date);
   let dbTicket: import("@/data/ticket-booking").TicketProduct | undefined;
   if (ticketId) {
     try {
@@ -100,6 +106,9 @@ export default async function ReservationPage(props: {
           product={product}
           initialTicketId={ticketId}
           initialTicket={dbTicket}
+          initialOptionId={initialOptionId}
+          initialCount={initialCount}
+          initialDate={initialDate}
         />
       </div>
     </Shell>
