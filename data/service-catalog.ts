@@ -1043,12 +1043,13 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
     },
   ],
   medical: [
-    // Phase 4-A 슬롯 검증용 샘플 (Phase 4-B에서 실제 병원 데이터로 교체 예정)
-    // 실제 병원 데이터 주입 시 아래 구조를 그대로 복제해서 사용:
+    // Phase 4-B 주입 템플릿 (구조 검증 완료 · 프로덕션 노출 없음)
+    // 실제 병원 데이터 주입 시 아래 블록의 주석을 풀고 id/title/... 값을 병원 정보로 채우세요.
     //   - price: 0, options: []  → 예약 UI 자동 비활성화 (소개형)
     //   - homepageUrl / phone    → 채우면 매장 CTA 자동 노출 (Phase 3 규약)
     //   - departments            → 진료과 배열 (i18n: translations.<locale>.departments)
     //   - languagesSupported     → 통역 지원 언어 (ServiceLocale 배열)
+    /*
     {
       id: "sample-hospital-slot",
       homepageUrl: "",
@@ -1115,6 +1116,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       },
       options: [],
     },
+    */
   ],
 };
 
