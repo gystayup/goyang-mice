@@ -16,7 +16,7 @@
     "institute": "About the Institute",
     "research": "Research Areas",
     "dmc": "MICE Guide",
-    "products": "Stay & Experience Products",
+    "products": "Stay & Experience Guide",
     "contact": "Contact Us"
   },
   "home": {
@@ -192,7 +192,6 @@
   },
   "reservation": {
     "label": "Reservation Detail",
-    "breadcrumb": "Stay & Experience Products",
     "duration": "Duration",
     "headcount": "Number of Guests",
     "departure": "Departure Point",

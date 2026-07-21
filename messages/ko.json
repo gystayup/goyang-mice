@@ -16,7 +16,7 @@
     "institute": "연구소 소개",
     "research": "연구 분야",
     "dmc": "MICE 안내",
-    "products": "숙박·체험·관광상품",
+    "products": "숙박·체험 안내",
     "contact": "문의하기"
   },
   "home": {
@@ -192,7 +192,6 @@
   },
   "reservation": {
     "label": "Reservation Detail",
-    "breadcrumb": "숙박·체험·관광상품",
     "duration": "소요시간",
     "headcount": "예약인원",
     "departure": "출발장소",
