@@ -169,6 +169,12 @@ interface ServiceCatalogItem {
   tabDetails?: string;
   tabUsageInfo?: string;
   tabCancellation?: string;
+  // 소개형 CTA (Phase 3) — 매장/시설 외부 링크·전화
+  homepageUrl?: string;
+  phone?: string;
+  // 병원 소개형 슬롯 (Phase 4-A)
+  departments?: string[];
+  languagesSupported?: ServiceLocale[];
 }
 
 const TRANSLATION_LOCALES: { key: ServiceLocale; label: string }[] = [
@@ -206,6 +212,10 @@ const emptyItem = (): ServiceCatalogItem => ({
   tabDetails: undefined,
   tabUsageInfo: undefined,
   tabCancellation: undefined,
+  homepageUrl: "",
+  phone: "",
+  departments: undefined,
+  languagesSupported: undefined,
 });
 
 export default function ServiceCatalogPanel() {
@@ -222,6 +232,7 @@ export default function ServiceCatalogPanel() {
   const [tagsInput, setTagsInput] = useState("");
   const [highlightsInput, setHighlightsInput] = useState("");
   const [includesInput, setIncludesInput] = useState("");
+  const [departmentsInput, setDepartmentsInput] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -249,6 +260,7 @@ export default function ServiceCatalogPanel() {
     setTagsInput("");
     setHighlightsInput("");
     setIncludesInput("");
+    setDepartmentsInput("");
     setFormOpen(true);
     setMsg(null);
   }
@@ -259,6 +271,7 @@ export default function ServiceCatalogPanel() {
     setTagsInput(item.tags.join(", "));
     setHighlightsInput((item.highlights ?? []).join("\n"));
     setIncludesInput((item.includes ?? []).join("\n"));
+    setDepartmentsInput((item.departments ?? []).join(", "));
     setFormOpen(true);
     setMsg(null);
   }
@@ -270,6 +283,7 @@ export default function ServiceCatalogPanel() {
     setTagsInput("");
     setHighlightsInput("");
     setIncludesInput("");
+    setDepartmentsInput("");
   }
 
   async function handleImageUpload(file: File) {
@@ -322,8 +336,16 @@ export default function ServiceCatalogPanel() {
     const tags = tagsInput.split(",").map((t) => t.trim()).filter(Boolean);
     const highlights = highlightsInput.split("\n").map((l) => l.trim()).filter(Boolean);
     const includes = includesInput.split("\n").map((l) => l.trim()).filter(Boolean);
+    const departmentsParsed = departmentsInput.split(",").map((d) => d.trim()).filter(Boolean);
     const itemId = editingItem ? form.id : `${activeCategory}-${Date.now()}`;
-    const payload: ServiceCatalogItem = { ...form, id: itemId, tags, highlights, includes };
+    const payload: ServiceCatalogItem = {
+      ...form,
+      id: itemId,
+      tags,
+      highlights,
+      includes,
+      departments: departmentsParsed.length > 0 ? departmentsParsed : undefined,
+    };
 
     setSaving(true);
     setMsg(null);
@@ -777,6 +799,86 @@ export default function ServiceCatalogPanel() {
                       ))}
                     </div>
                   )}
+                </div>
+              </div>
+            </div>
+
+            {/* ── 소개형 CTA · 병원 소개 슬롯 (Phase 3 / Phase 4-A) ── */}
+            <div className="md:col-span-2">
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500 mb-1">🏥 소개형 CTA · 병원 소개 슬롯</div>
+                <div className="text-[11px] text-slate-500 mb-3">
+                  홈페이지·전화는 매장/시설/병원 상세페이지 CTA로 노출됩니다. 진료과·지원 언어는 병원 카드에서만 렌더됩니다 (값 없으면 자동 숨김).
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">공식 홈페이지 URL (선택)</label>
+                    <input
+                      type="url"
+                      value={form.homepageUrl ?? ""}
+                      onChange={(e) => setField("homepageUrl", e.target.value)}
+                      placeholder="https://example.com"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600">대표 전화 (선택)</label>
+                    <input
+                      type="tel"
+                      value={form.phone ?? ""}
+                      onChange={(e) => setField("phone", e.target.value)}
+                      placeholder="예: 031-000-0000"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-semibold text-slate-600">
+                      진료과 (병원 전용, 쉼표로 구분)
+                    </label>
+                    <input
+                      type="text"
+                      value={departmentsInput}
+                      onChange={(e) => setDepartmentsInput(e.target.value)}
+                      placeholder="예: 내과, 외과, 산부인과, 정형외과"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+                    />
+                    <p className="mt-1 text-[11px] text-slate-400">
+                      medical 카테고리에서만 활용됩니다. 값이 없으면 카드에 노출되지 않습니다.
+                    </p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-semibold text-slate-600">지원 언어 (병원 전용, 다중 선택)</label>
+                    <div className="mt-1.5 flex flex-wrap gap-3">
+                      {(["en", "ja", "zh-CN", "zh-TW"] as ServiceLocale[]).map((lng) => {
+                        const checked = (form.languagesSupported ?? []).includes(lng);
+                        const label = lng === "en" ? "English" : lng === "ja" ? "日本語" : lng === "zh-CN" ? "简体中文" : "繁體中文";
+                        return (
+                          <label
+                            key={lng}
+                            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold cursor-pointer ${
+                              checked
+                                ? "border-emerald-400 bg-emerald-50 text-emerald-700"
+                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={(e) => {
+                                const current = form.languagesSupported ?? [];
+                                const next = e.target.checked
+                                  ? [...current, lng]
+                                  : current.filter((l) => l !== lng);
+                                setField("languagesSupported", next.length > 0 ? next : undefined);
+                              }}
+                              className="h-3 w-3"
+                            />
+                            {label}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
