@@ -117,6 +117,34 @@ export default function CategoryServiceShowcase({
                   ))}
                 </div>
 
+                {/* 진료과 — 병원 소개형 슬롯 (있을 때만) */}
+                {item.departments && item.departments.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {item.departments.slice(0, 3).map((dept) => (
+                      <span
+                        key={dept}
+                        className="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-semibold text-sky-700 ring-1 ring-sky-200"
+                      >
+                        {dept}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* 지원 언어 — 병원 소개형 슬롯 (있을 때만) */}
+                {item.languagesSupported && item.languagesSupported.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {item.languagesSupported.map((lng) => (
+                      <span
+                        key={lng}
+                        className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-black tracking-wider text-emerald-700 ring-1 ring-emerald-200"
+                      >
+                        {lng === "en" ? "EN" : lng === "ja" ? "JP" : lng === "zh-CN" ? "CN" : "TW"}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* 버튼 — 소개형: 상세 보기 + 안내 보기 (동일 목적지) */}
                 <div className="mt-auto flex gap-2 pt-3">
                   <Link
