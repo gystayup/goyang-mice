@@ -43,7 +43,7 @@ const GRADIENT_PRESETS = [
     value: "linear-gradient(135deg, #122548 0%, #3557b0 42%, #ff8d8b 84%, #ffd280 100%)",
   },
   {
-    label: "딥 오션 (DMC 서비스)",
+    label: "딥 오션 (MICE 안내)",
     value: "linear-gradient(135deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
   },
   {
@@ -705,10 +705,10 @@ const defaultSlides: HeroSlide[] = [
   {
     id: "dmc-service",
     type: "image",
-    koLabel: "DMC 서비스",
+    koLabel: "MICE 안내",
     koTitle: "고양의 문화·관광·MICE를 하나로 잇는 운영 플랫폼",
-    koDesc: "연구, 기획, 예약, 현장 운영까지 고양의 모든 방문 경험을 연결합니다.",
-    enLabel: "DMC Services",
+    koDesc: "연구, 기획, 안내, 현장 운영까지 고양의 모든 방문 경험을 연결합니다.",
+    enLabel: "MICE Guide",
     enTitle: "An operations platform connecting culture, tourism and MICE in Goyang",
     enDesc: "Connecting every visitor experience in Goyang — from research and booking to on-site operations.",
     background: "linear-gradient(135deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
