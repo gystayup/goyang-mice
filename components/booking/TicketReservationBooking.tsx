@@ -88,9 +88,9 @@ export default function TicketReservationBooking({
           티켓 예약이 접수되었습니다.
         </h3>
         <p className="mt-4 max-w-3xl text-sm leading-7">
-          예약 번호는 <span className="font-bold">{submittedBookingNo}</span> 입니다. 결제 방식과
-          좌석 또는 패키지 정보가 함께 접수되었으며, 관리자 페이지에서 발권과 결제 상태를
-          이어서 관리할 수 있습니다.
+          예약 번호는 <span className="font-bold">{submittedBookingNo}</span> 입니다.
+          선택하신 좌석/패키지와 결제방법(참고)이 함께 접수되었으며, 관리자가 발권과
+          진행 상태를 이어서 안내드립니다.
         </p>
         <button
           type="button"
@@ -244,7 +244,7 @@ export default function TicketReservationBooking({
           reservationDate={reservationDate}
           onReservationDateChange={setReservationDate}
           paymentMethods={paymentMethods}
-          note="공연 일정과 좌석 패키지를 확인한 뒤 예약 날짜와 결제방법을 정하면 티켓 예약 요청과 운영 확인이 함께 진행됩니다."
+          note="공연 일정과 좌석 패키지를 확인한 뒤 예약 날짜와 결제방법(참고)을 정하면 티켓 예약이 접수되고, 발권·정산은 관리자가 별도로 안내드립니다."
         />
 
         <section className="rounded-[36px] border border-slate-200 bg-white p-6 shadow-soft">
@@ -345,9 +345,9 @@ export default function TicketReservationBooking({
         className="rounded-[36px] bg-slate-950 p-8 text-white shadow-soft"
       >
         <div className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-200">
-          Ticket Payment
+          Ticket Reservation
         </div>
-        <h3 className="mt-4 text-3xl font-black tracking-tight">상세 확인 및 결제</h3>
+        <h3 className="mt-4 text-3xl font-black tracking-tight">예약 신청</h3>
 
         <div className="mt-6 space-y-3">
           <SummaryRow label="선택 공연" value={ticket.title} />
@@ -379,13 +379,13 @@ export default function TicketReservationBooking({
         </div>
 
         <div className="mt-4 rounded-[28px] bg-white/12 px-5 py-5">
-          <div className="text-sm font-semibold text-slate-200">총 결제 금액</div>
+          <div className="text-sm font-semibold text-slate-200">예상 금액 (예약 접수 기준)</div>
           <div className="mt-2 text-3xl font-black">
             {totalAmount.toLocaleString("ko-KR")}원
           </div>
           <p className="mt-2 text-xs leading-6 text-slate-300">
-            실제 결제 확정 후 관리자 페이지에서 발권 가능 여부와 결제 상태를 다시 한 번
-            확인합니다.
+            예약 접수 후 관리자가 확인해 발권 가능 여부와 결제·정산 진행 상태를
+            안내드립니다.
           </p>
         </div>
 
@@ -417,7 +417,7 @@ export default function TicketReservationBooking({
           />
           <label className="block rounded-[24px] border border-white/20 bg-white/10 px-4 py-3.5">
             <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
-              결제 방식
+              결제 방식 (참고)
             </div>
             <select
               value={form.paymentMethod}
@@ -454,7 +454,7 @@ export default function TicketReservationBooking({
             className="mt-1 h-4 w-4 shrink-0 accent-white"
           />
           <span className="text-sm leading-6 text-slate-200">
-            개인정보 수집 및 티켓 예약·결제 안내를 위한 연락에 동의합니다.
+            개인정보 수집 및 티켓 예약·발권 안내를 위한 연락에 동의합니다.
           </span>
         </label>
 
@@ -469,7 +469,7 @@ export default function TicketReservationBooking({
           disabled={submitting || !form.agree}
           className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {submitting ? "예약 접수 중..." : "티켓 예약 및 결제 요청"}
+          {submitting ? "예약 접수 중..." : "티켓 예약 요청"}
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
