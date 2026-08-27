@@ -155,6 +155,39 @@ const businessLabels: Record<LocaleKey, BusinessLabels> = {
   },
 };
 
+// 법적 면책 문구 — 관광진흥법·의료법상 여행업·외국인환자 유치업 미해당 고지
+// 소개형 카테고리(숙박·음식·카페·투어·의료)에 대한 비판매·비알선·비유치 명시
+const disclaimers: Record<LocaleKey, readonly [string, string]> = {
+  ko: [
+    "본 플랫폼은 관광정보 제공 및 연구·기획 서비스를 제공하며, 여행상품의 판매·알선 및 외국인환자 유치행위를 하지 않습니다.",
+    "티켓 외 카테고리(숙박·음식·카페·투어·의료 등)의 정보는 안내 목적이며, 실제 계약·거래는 표시된 각 사업자와 이용자 간에 직접 성립합니다.",
+  ],
+  en: [
+    "This platform provides tourism information and research and planning services only. It does not sell or broker travel products, nor engage in the recruitment of foreign patients.",
+    "Information on non-ticket categories (accommodation, dining, cafés, tours, medical, etc.) is provided for guidance only; any actual contract or transaction is concluded directly between the listed business and the user.",
+  ],
+  ja: [
+    "本プラットフォームは観光情報の提供および研究・企画サービスを提供するものであり、旅行商品の販売・斡旋および外国人患者の誘致行為は行いません。",
+    "チケット以外のカテゴリー（宿泊・飲食・カフェ・ツアー・医療等）の情報は案内を目的とし、実際の契約・取引は表示された各事業者と利用者との間で直接成立します。",
+  ],
+  "zh-CN": [
+    "本平台仅提供旅游信息及研究、策划服务，不从事旅游产品的销售、中介及外国患者招揽行为。",
+    "门票以外类别（住宿、餐饮、咖啡、旅游、医疗等）的信息仅供参考，实际合同、交易由所示各经营者与用户直接达成。",
+  ],
+  "zh-TW": [
+    "本平台僅提供觀光資訊及研究、企劃服務，不從事旅遊商品之銷售、仲介及外國病患招攬行為。",
+    "門票以外類別（住宿、餐飲、咖啡、旅遊、醫療等）之資訊僅供參考，實際合約、交易由所示各業者與使用者直接成立。",
+  ],
+};
+
+const disclaimerHeadings: Record<LocaleKey, string> = {
+  ko: "법적 고지",
+  en: "Legal Notice",
+  ja: "法的告知",
+  "zh-CN": "法律告知",
+  "zh-TW": "法律告知",
+};
+
 const copyMap: Record<LocaleKey, CopyEntry> = {
   ko: {
     badge: "고양 MICE 플랫폼",
@@ -339,6 +372,20 @@ export default function Footer() {
               <dd className="text-slate-300">{BUSINESS_INFO.privacyOfficer}</dd>
             </div>
           </dl>
+        </div>
+
+        {/* 법적 면책 문구 — 여행업·외국인환자 유치업 미해당 고지 */}
+        <div className="border-t border-white/10 px-5 py-6 text-xs leading-6 text-slate-400 sm:px-6 lg:px-8">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            {disclaimerHeadings[activeLocale]}
+          </div>
+          <div className="mt-3 space-y-2">
+            {disclaimers[activeLocale].map((sentence, i) => (
+              <p key={i} className="text-slate-400">
+                {sentence}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
