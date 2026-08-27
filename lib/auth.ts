@@ -6,10 +6,8 @@ import Kakao from 'next-auth/providers/kakao';
 import { touchLastLogin, verifyAdminPassword } from '@/lib/admin-users-db';
 import { upsertVisitor } from '@/lib/visitors-db';
 
-type AdminRole = 'SUPER_ADMIN' | 'OPERATOR' | 'EDITOR' | 'PARTNER_MANAGER';
-type SessionKind = 'admin' | 'visitor';
-type TokenExtras = { role?: AdminRole; uid?: string; kind?: SessionKind };
-type UserExtras = { role?: AdminRole; kind?: SessionKind };
+// role/kind/uid 필드는 types/next-auth.d.ts 의 모듈 확장으로 이미 Session/User/JWT
+// 인터페이스에 노출되어 있으므로, 콜백에서 `as` 캐스팅 없이 직접 접근 가능.
 
 /**
  * 관리자(Credentials) + 방문자(OAuth) 통합 NextAuth.
@@ -39,9 +37,8 @@ const providers: NextAuthConfig['providers'] = [
         name: user.name,
         role: user.role,
         image: null,
-        kind: 'admin' as SessionKind,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any;
+        kind: 'admin' as const,
+      };
     },
   }),
 ];
@@ -131,22 +128,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true;
     },
     async jwt({ token, user, account }) {
+      // 최초 로그인 시(user 존재)에만 확장 필드를 토큰에 심는다.
+      // 이후 요청에서는 user 가 undefined 라 이 블록을 건너뛰며,
+      // JWT 안에 남아 있는 role/kind/uid 가 그대로 유지된다.
       if (user) {
-        const u = user as typeof user & UserExtras;
-        if (u.role) (token as typeof token & TokenExtras).role = u.role;
-        const kind: SessionKind = u.kind ?? (account?.provider && account.provider !== 'credentials' ? 'visitor' : 'admin');
-        (token as typeof token & TokenExtras).kind = kind;
-        if (user.id) (token as typeof token & TokenExtras).uid = user.id;
+        if (user.role) token.role = user.role;
+        token.kind =
+          user.kind ??
+          (account?.provider && account.provider !== 'credentials' ? 'visitor' : 'admin');
+        if (user.id) token.uid = user.id;
       }
       return token;
     },
     async session({ session, token }) {
+      // token 의 확장 필드를 session.user 로 노출.
+      // isSuperAdmin / isAdminAuthenticated 게이트가 여기 값을 읽는다.
       if (session.user) {
-        const t = token as typeof token & TokenExtras;
-        const extended = session.user as typeof session.user & UserExtras & { id?: string };
-        if (t.role) extended.role = t.role;
-        if (t.kind) extended.kind = t.kind;
-        if (t.uid) extended.id = t.uid;
+        if (token.role) session.user.role = token.role;
+        if (token.kind) session.user.kind = token.kind;
+        if (token.uid) session.user.id = token.uid;
       }
       return session;
     },
@@ -181,20 +181,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 /** 관리자(SUPER_ADMIN/OPERATOR) 접근 확인 */
 export async function isAdminAuthenticated() {
   const session = await auth();
-  const u = session?.user as UserExtras | undefined;
+  const u = session?.user;
   if (!u || u.kind !== 'admin') return false;
   return u.role === 'SUPER_ADMIN' || u.role === 'OPERATOR';
 }
 
 export async function isSuperAdmin() {
   const session = await auth();
-  const u = session?.user as UserExtras | undefined;
+  const u = session?.user;
   return u?.kind === 'admin' && u?.role === 'SUPER_ADMIN';
 }
 
 /** 방문자 로그인 여부 */
 export async function isVisitorAuthenticated() {
   const session = await auth();
-  const u = session?.user as UserExtras | undefined;
+  const u = session?.user;
   return u?.kind === 'visitor';
 }
