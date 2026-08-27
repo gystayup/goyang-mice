@@ -23,9 +23,12 @@ export default async function middleware(request: NextRequest) {
     }
 
     // NextAuth JWT 세션 검증 (Edge 호환: getToken은 콜백 실행 없이 쿠키만 디코드)
+    // secureCookie 를 명시해야 프로덕션 HTTPS 에서 auth handler 가 쓴
+    // `__Secure-authjs.session-token` 을 정확히 찾고 salt 도 일치함.
     const token = (await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
+      secureCookie: process.env.NODE_ENV === "production",
     })) as (AdminJwt | null);
 
     const isAdmin =
