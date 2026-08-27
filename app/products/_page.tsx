@@ -232,9 +232,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "서비스 예약",
+  title: "서비스 안내",
   description:
-    "고양의 여행상품, 숙박, 음식점, 라이프스타일, 티켓, 공항픽업 예약 서비스를 한 곳에서 확인해보세요.",
+    "고양의 문화·여가·MICE 서비스를 한 곳에서 안내해 드립니다.",
   alternates: { canonical: "/ko/products" },
 };
 
@@ -535,18 +535,18 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
   }
 
   const titleMap: Record<PageLocale, string> = {
-    ko: "서비스 예약",
-    en: "Booking Services",
-    ja: "サービス予約",
-    "zh-CN": "服务预约",
-    "zh-TW": "服務預約",
+    ko: "서비스 안내",
+    en: "Services",
+    ja: "サービス案内",
+    "zh-CN": "服务指南",
+    "zh-TW": "服務指南",
   };
   const descMap: Record<PageLocale, string> = {
-    ko: "투어, 숙박, 음식점, 라이프스타일, 티켓, 공항픽업을 한 곳에서 예약하세요.",
-    en: "Book tours, stays, dining, lifestyle, tickets, and airport pickup all in one place.",
-    ja: "ツアー、宿泊、飲食店、ライフスタイル、チケット、空港送迎をまとめて予約。",
-    "zh-CN": "在一处预约旅游、住宿、餐厅、生活方式、票务及机场接送。",
-    "zh-TW": "在一處預約旅遊、住宿、餐廳、生活風格、票務及機場接送。",
+    ko: "고양의 문화·여가·MICE 서비스를 한 곳에서 안내해 드립니다.",
+    en: "Explore Goyang's culture, leisure, and MICE services in one place.",
+    ja: "高陽の文化・レジャー・MICEサービスを一括でご案内します。",
+    "zh-CN": "在一处了解高阳的文化、休闲与MICE服务信息。",
+    "zh-TW": "在一處了解高陽的文化、休閒與MICE服務資訊。",
   };
 
   return (
