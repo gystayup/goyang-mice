@@ -962,29 +962,10 @@ export default function ServiceCatalogPanel() {
               />
             </div>
 
-            {/* 원래 가격 */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-600">원래 가격 (취소선, 선택)</label>
-              <input
-                type="number"
-                value={form.originalPrice || ""}
-                onChange={(e) => setField("originalPrice", e.target.value ? Number(e.target.value) : undefined)}
-                placeholder="예: 32000"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
-              />
-            </div>
-
-            {/* 할인 라벨 */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-600">할인 표시 (선택)</label>
-              <input
-                type="text"
-                value={form.discountLabel || ""}
-                onChange={(e) => setField("discountLabel", e.target.value || undefined)}
-                placeholder="예: 25%"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
-              />
-            </div>
+            {/* 원래 가격·할인 라벨 입력 필드 — 2026-07-14 법적 지침에 따라 소개형(비티켓)
+                카테고리에서는 표시 금지. 이 폼은 activeCategory !== "ticket" 분기 안에서만
+                렌더되어 소개형 편집 전용이므로, 두 필드를 삭제해 관리자 신규 입력을 차단.
+                티켓 편집은 별도 폼(파일 하단)에서 처리되어 영향 없음. */}
 
             {/* 태그 */}
             <div>
