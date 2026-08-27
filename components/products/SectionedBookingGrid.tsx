@@ -272,8 +272,8 @@ function ItemCard({ item, portrait }: { item: UnifiedItem; portrait: boolean }) 
             </span>
           </div>
 
-          {/* Discount badge — top-right */}
-          {item.discountLabel && (
+          {/* Discount badge — top-right (ticket only) */}
+          {item.category === "ticket" && item.discountLabel && (
             <div className="absolute right-2 top-2">
               <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white shadow">
                 {item.discountLabel}
