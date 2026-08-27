@@ -726,7 +726,7 @@ export default function ProductDetailPage({
             <span className="h-1 w-1 rounded-full bg-sky-500" />
             {categoryLabel}
           </span>
-          {discountPct && (
+          {isTicket && discountPct && (
             <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white shadow-sm shadow-rose-200">
               {discountPct}% {t("discountSuffix", locale)}
             </span>
