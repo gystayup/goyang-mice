@@ -94,9 +94,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "일산호수공원, 라페스타, 로컬 베이커리와 포토 스폿을 묶은 반일형 여행상품입니다. 공연 관람객, 가족 방문객, 해외 바이어 모두를 위한 유연한 일정으로 운영할 수 있습니다.",
       tags: ["버스투어", "로컬 명소", "반일 코스"],
-      originalPrice: 78000,
       price: 59000,
-      discountLabel: "24%",
       meetingPoint: "원마운트 광장",
       meetingPointAddress: "경기도 고양시 일산서구 한류월드로 300 원마운트 광장",
       meetingPointMapUrl: "https://map.naver.com/p/search/원마운트",
@@ -224,9 +222,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "쇼핑, 공연, 라이프스타일 스폿을 연결하는 워킹형 상품입니다. 공연 관람 이후 짧은 체류 시간을 확장하고 싶은 방문객에게 특히 잘 맞습니다.",
       tags: ["도심투어", "K-컬처", "라이프스타일"],
-      originalPrice: 52000,
       price: 41000,
-      discountLabel: "21%",
       meetingPoint: "원마운트 광장",
       meetingPointAddress: "경기도 고양시 일산서구 한류월드로 300 원마운트 광장",
       meetingPointMapUrl: "https://map.naver.com/p/search/원마운트",
@@ -326,9 +322,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "생태공원 산책, 농장 체험, 로컬 푸드 체험을 묶은 가족형 상품입니다. 숙박이나 라이프스타일 예약과 연결하면 체류형 프로그램으로 확장하기 좋습니다.",
       tags: ["가족", "체험", "주말"],
-      originalPrice: 98000,
       price: 76000,
-      discountLabel: "22%",
       meetingPoint: "원마운트 광장",
       meetingPointAddress: "경기도 고양시 일산서구 한류월드로 300 원마운트 광장",
       meetingPointMapUrl: "https://map.naver.com/p/search/원마운트",
@@ -428,9 +422,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "고양의 야경 스폿과 공연장 주변의 감도 높은 공간을 연결한 로컬 체험 코스입니다. 커플, 해외 방문객, 야간 콘텐츠 수요에 적합합니다.",
       tags: ["야간투어", "포토", "버스투어"],
-      originalPrice: 64000,
       price: 49000,
-      discountLabel: "23%",
       meetingPoint: "원마운트 광장",
       meetingPointAddress: "경기도 고양시 일산서구 한류월드로 300 원마운트 광장",
       meetingPointMapUrl: "https://map.naver.com/p/search/원마운트",
@@ -532,9 +524,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "KINTEX 접근성이 좋은 비즈니스 호텔 상품으로, 조식, 셔틀, 빠른 체크인 옵션까지 선택할 수 있습니다. 행사 일정과 연동해 객실 블록 운영도 가능합니다.",
       tags: ["비즈니스호텔", "전시 참가", "조식 선택"],
-      originalPrice: 178000,
       price: 139000,
-      discountLabel: "21%",
       translations: {
         en: { title: "KINTEX Business Stay", subtitle: "Exhibition attendees only", location: "Business hotels near KINTEX", dateText: "1-5 nights available", posterLabel: "STAY", summary: "A continuous stay package for exhibitors and buyers.", tags: ["Business Hotel", "Exhibition", "Breakfast"], options: [{ id: "standard", label: "Standard Double", benefits: ["Breakfast option", "Fast check-in"] }, { id: "executive", label: "Executive Twin", benefits: ["Lounge access", "Shuttle included"] }] },
         ja: { title: "KINTEXビジネスステイ", subtitle: "展示参加者専用", location: "KINTEX近隣ビジネスホテル", dateText: "1泊〜5泊予約可能", posterLabel: "STAY", summary: "展示参加者とバイヤーのための連泊型宿泊パッケージ。", tags: ["ビジネスホテル", "展示参加", "朝食選択"], options: [{ id: "standard", label: "スタンダードダブル", benefits: ["朝食選択", "早期チェックイン"] }, { id: "executive", label: "エグゼクティブツイン", benefits: ["ラウンジ利用", "シャトル込み"] }] },
@@ -570,9 +560,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "프라이빗 체크인, 전용 차량 연결, 컨시어지 요청까지 함께 운영할 수 있는 숙박 상품입니다. 공항픽업과 함께 구성하면 VIP 패키지로 확장 가능합니다.",
       tags: ["VIP", "스위트", "컨시어지"],
-      originalPrice: 420000,
       price: 345000,
-      discountLabel: "18%",
       translations: {
         en: { title: "VIP Suite Stay", subtitle: "For artists & buyers", location: "Goyang Premium Hotel", dateText: "Per night booking", posterLabel: "VIP", summary: "Suite rooms for artists, VIPs and premium guests.", tags: ["VIP", "Suite", "Concierge"], options: [{ id: "suite", label: "Suite 1 Night", benefits: ["Welcome amenity", "Concierge"] }, { id: "suite-car", label: "Suite + Vehicle", benefits: ["Airport transfer", "Private check-in"] }] },
         ja: { title: "VIPスイートステイ", subtitle: "アーティスト・バイヤー運営", location: "高陽プレミアムホテル", dateText: "1泊単位予約", posterLabel: "VIP", summary: "アーティスト、VIP、高級招待顧客のためのスイートルーム。", tags: ["VIP", "スイート", "コンシェルジュ"], options: [{ id: "suite", label: "スイート1泊", benefits: ["ウェルカムアメニティ", "コンシェルジュ"] }, { id: "suite-car", label: "スイート＋車両", benefits: ["空港連携", "専用チェックイン"] }] },
@@ -608,9 +596,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "객실 숙박과 로컬 카페, 체험 프로그램, 티켓 상품을 함께 묶을 수 있는 체류형 패키지입니다. 가족 방문객의 평균 체류 시간을 늘리는 구조에 적합합니다.",
       tags: ["가족", "주말", "체험 연계"],
-      originalPrice: 238000,
       price: 185000,
-      discountLabel: "22%",
       translations: {
         en: { title: "Family Weekend Stay Package", subtitle: "Local experience combo", location: "Hotels near Ilsan Lake Park", dateText: "Fri/Sat/Sun operation", posterLabel: "WEEKEND", summary: "A weekend stay package linked with family experience programs.", tags: ["Family", "Weekend", "Experience"], options: [{ id: "family-room", label: "Family Room 1 Night", benefits: ["Children's amenity set"] }, { id: "family-plus", label: "Family Room + Experience", benefits: ["Café coupon", "Experience ticket included"] }] },
         ja: { title: "家族週末ステイパッケージ", subtitle: "ローカル体験連携", location: "一山湖水公園近隣ホテル", dateText: "金・土・日運営", posterLabel: "WEEKEND", summary: "家族体験プログラムと連携する週末型宿泊パッケージ。", tags: ["家族", "週末", "体験連携"], options: [{ id: "family-room", label: "ファミリールーム1泊", benefits: ["子供用アメニティセット"] }, { id: "family-plus", label: "ファミリールーム＋体験", benefits: ["カフェクーポン", "体験券込み"] }] },
@@ -646,9 +632,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "20객실 이상 그룹 숙박을 전제로 만든 단체 객실 블록 상품입니다. 룸타입 배분, 체크인 명단, 셔틀 연계, 후불 정산까지 함께 운영하기 좋습니다.",
       tags: ["단체", "룸블록", "후불 정산"],
-      originalPrice: 210000,
       price: 168000,
-      discountLabel: "20%",
       translations: {
         en: { title: "Group Room Block Reservation", subtitle: "Events · Corporate groups", location: "Multiple major Goyang hotels", dateText: "20+ rooms inquiry", posterLabel: "GROUP", summary: "A room block reservation for event groups.", tags: ["Group", "Room Block", "Post-payment"], options: [{ id: "block-standard", label: "Basic Room Block", benefits: ["Group list management"] }, { id: "block-premium", label: "Premium Room Block", benefits: ["Shuttle", "Post-payment settlement"] }] },
         ja: { title: "団体客室ブロック予約", subtitle: "イベント·企業グループ", location: "高陽主要ホテル連携", dateText: "20室以上問い合わせ", posterLabel: "GROUP", summary: "行事団体のための客室ブロック予約商品。", tags: ["団体", "ルームブロック", "後払い"], options: [{ id: "block-standard", label: "基本ルームブロック", benefits: ["グループ名簿管理"] }, { id: "block-premium", label: "プレミアムルームブロック", benefits: ["シャトル", "後払い精算"] }] },
@@ -686,9 +670,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "전시 참가자와 바이어 미팅에 맞춘 코스 다이닝 상품입니다. 룸 좌석, 통역 동선, 식단 조정, 세금계산서 발행까지 연결할 수 있습니다.",
       tags: ["비즈니스", "코스 다이닝", "룸 좌석"],
-      originalPrice: 98000,
       price: 76000,
-      discountLabel: "22%",
       translations: {
         en: { title: "KINTEX Business Course Dining", subtitle: "For buyer meetings", location: "Premium restaurant near KINTEX", dateText: "Lunch/Dinner available", posterLabel: "DINING", summary: "Course dining ideal for buyer meetings and small business dinners.", tags: ["Business", "Course Dining", "Private Room"], options: [{ id: "lunch", label: "Lunch Course", benefits: ["Private room available"] }, { id: "dinner", label: "Dinner Course", benefits: ["Welcome drink included"] }] },
         ja: { title: "KINTEXビジネスコースダイニング", subtitle: "バイヤーミーティング専用", location: "KINTEX近隣プレミアムレストラン", dateText: "昼/夜選択可", posterLabel: "DINING", summary: "バイヤーミーティングや小規模ビジネス会食に最適なコースダイニング。", tags: ["ビジネス", "コース", "個室"], options: [{ id: "lunch", label: "ランチコース", benefits: ["個室利用可"] }, { id: "dinner", label: "ディナーコース", benefits: ["ウェルカムドリンク込み"] }] },
@@ -724,9 +706,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "상권 체류를 늘릴 수 있도록 로컬 인기 메뉴와 골목 공간 경험을 묶은 식사 상품입니다. 소규모 그룹과 개별 방문객 모두에게 적합합니다.",
       tags: ["로컬 미식", "상권 연계", "체류형"],
-      originalPrice: 42000,
       price: 32000,
-      discountLabel: "24%",
       translations: {
         en: { title: "Goyang Local Gourmet Table", subtitle: "Tourism-zone linked", location: "WonMount · La Festa area", dateText: "Daily", posterLabel: "LOCAL FOOD", summary: "A gourmet booking that lets you experience Goyang's local districts.", tags: ["Local Food", "District", "Stay-friendly"], options: [{ id: "set", label: "Local Set", benefits: ["Signature menu included"] }, { id: "special", label: "Special Course", benefits: ["Dessert included"] }] },
         ja: { title: "高陽ローカル美食テーブル", subtitle: "観光特区商圏連携", location: "ウォンマウント · ラフェスタ", dateText: "毎日運営", posterLabel: "LOCAL FOOD", summary: "高陽のローカル商圏を体験できる美食型予約商品。", tags: ["ローカル美食", "商圏", "滞在型"], options: [{ id: "set", label: "ローカルセット", benefits: ["代表メニュー込み"] }, { id: "special", label: "スペシャルコース", benefits: ["デザート込み"] }] },
@@ -762,9 +742,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "VIP 응대와 의전 흐름에 맞춰 설계된 만찬형 상품입니다. 공항픽업, 숙박, 티켓 초청과 연계하기 쉬운 구조입니다.",
       tags: ["VIP", "만찬", "프라이빗"],
-      originalPrice: 180000,
       price: 149000,
-      discountLabel: "17%",
       translations: {
         en: { title: "VIP Banquet Night", subtitle: "Private dining", location: "Goyang Private Dining Room", dateText: "Reservation required", posterLabel: "VIP", summary: "Private banquet product for premium invited guests.", tags: ["VIP", "Banquet", "Private"], options: [{ id: "private", label: "Private Dining", benefits: ["Private room", "Custom menu"] }, { id: "private-plus", label: "Private Dining Plus", benefits: ["Wine pairing", "Dedicated service"] }] },
         ja: { title: "VIP晩餐ナイト", subtitle: "プライベートダイニング", location: "高陽プライベートダイニングルーム", dateText: "事前予約制", posterLabel: "VIP", summary: "高級招待客のためのプライベート晩餐商品。", tags: ["VIP", "晩餐", "プライベート"], options: [{ id: "private", label: "プライベートダイニング", benefits: ["専用ルーム", "カスタムメニュー"] }, { id: "private-plus", label: "プライベートダイニングプラス", benefits: ["ワインペアリング", "専任対応"] }] },
@@ -800,9 +778,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "고양 로컬 식문화를 경험할 수 있는 한식형 테이블 상품입니다. 가족 행사와 소규모 단체 예약에 유용합니다.",
       tags: ["가족", "한식", "단체식"],
-      originalPrice: 36000,
       price: 28000,
-      discountLabel: "22%",
       translations: {
         en: { title: "Family Korean Table Reservation", subtitle: "Multi-generation meal", location: "Korean restaurant · Family spaces", dateText: "Weekday/Weekend", posterLabel: "FAMILY TABLE", summary: "Korean-style table reservation ideal for families and group gatherings.", tags: ["Family", "Korean", "Group Meal"], options: [{ id: "basic", label: "Basic Korean Table", benefits: ["Recommended for 4 persons"] }, { id: "premium", label: "Premium Korean Table", benefits: ["Seasonal menu included"] }] },
         ja: { title: "家族韓食テーブル予約", subtitle: "世代型食事商品", location: "高陽韓食店 · 家族集まり空間", dateText: "平日/週末運営", posterLabel: "FAMILY TABLE", summary: "家族訪問客と団体集まりに最適な韓食中心の食事予約。", tags: ["家族", "韓食", "団体食"], options: [{ id: "basic", label: "基本韓食テーブル", benefits: ["4名様推奨"] }, { id: "premium", label: "プレミアム韓食テーブル", benefits: ["季節メニュー込み"] }] },
@@ -840,9 +816,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "모닝 브런치, 감도 있는 공간, 가벼운 네트워킹을 함께 운영할 수 있는 라이프스타일 상품입니다. 여성 그룹과 소규모 방문객에게 적합합니다.",
       tags: ["브런치", "라운지", "라이프스타일"],
-      originalPrice: 32000,
       price: 24000,
-      discountLabel: "25%",
       translations: {
         en: { title: "Brunch Social Club Reservation", subtitle: "Morning lifestyle program", location: "Goyang Brunch Café Lounge", dateText: "Morning hours", posterLabel: "BRUNCH", summary: "Reservation combining brunch and local lifestyle space.", tags: ["Brunch", "Lounge", "Lifestyle"], options: [{ id: "single", label: "Brunch Single Pass", benefits: ["Signature menu included"] }, { id: "couple", label: "Brunch Couple Pass", benefits: ["Dessert included"] }] },
         ja: { title: "ブランチソーシャルクラブ予約", subtitle: "ライフスタイル午前プログラム", location: "高陽ブランチカフェラウンジ", dateText: "午前タイム運営", posterLabel: "BRUNCH", summary: "ブランチとローカルライフスタイル空間体験を組み合わせた予約商品。", tags: ["ブランチ", "ラウンジ", "ライフスタイル"], options: [{ id: "single", label: "ブランチ1名チケット", benefits: ["代表メニュー込み"] }, { id: "couple", label: "ブランチ2名チケット", benefits: ["デザート込み"] }] },
@@ -878,9 +852,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "고양 로컬의 개성 있는 카페들을 연결해 취향 중심 동선을 제안하는 상품입니다. 여행상품과 결합해 반일 코스로 운영하기 좋습니다.",
       tags: ["카페투어", "로컬 공간", "반일 코스"],
-      originalPrice: 38000,
       price: 29000,
-      discountLabel: "24%",
       translations: {
         en: { title: "Goyang Local Cafe Hopping Tour", subtitle: "Taste-based half-day course", location: "Haengju · Ilsan Local Cafés", dateText: "Afternoon focus", posterLabel: "CAFE HOP", summary: "A lifestyle tour connecting café reservations with routes.", tags: ["Café Tour", "Local Space", "Half-day"], options: [{ id: "hop-basic", label: "2-Café Course", benefits: ["2 drinks included"] }, { id: "hop-plus", label: "3-Café Course", benefits: ["Dessert included"] }] },
         ja: { title: "高陽ローカルカフェホッピングツアー", subtitle: "趣向ベース半日コース", location: "幸州山城 · 一山ローカルカフェ", dateText: "午後集中運営", posterLabel: "CAFE HOP", summary: "カフェ予約と移動動線を組み合わせたライフスタイルツアー。", tags: ["カフェツアー", "ローカル空間", "半日コース"], options: [{ id: "hop-basic", label: "カフェ2店舗コース", benefits: ["ドリンク2杯込み"] }, { id: "hop-plus", label: "カフェ3店舗コース", benefits: ["デザート込み"] }] },
@@ -916,9 +888,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "브랜드 미팅, 소규모 워크숍, 창작 모임에 적합한 공간 예약 상품입니다. 음료 패키지와 간단한 케이터링 옵션을 함께 선택할 수 있습니다.",
       tags: ["공간대여", "미팅", "창작"],
-      originalPrice: 54000,
       price: 42000,
-      discountLabel: "22%",
       translations: {
         en: { title: "Creative Work Lounge", subtitle: "Small meetings · Creative gatherings", location: "Goyang Lifestyle Studio", dateText: "Weekday/Weekend time slots", posterLabel: "WORK LOUNGE", summary: "Space reservation for work, conversations and meetings.", tags: ["Space Rental", "Meeting", "Creative"], options: [{ id: "space-only", label: "Space Rental", benefits: ["2-hour rental"] }, { id: "space-drink", label: "Space + Drink Package", benefits: ["Welcome drink included"] }] },
         ja: { title: "クリエイティブワークラウンジ", subtitle: "小規模ミーティング·創作集まり", location: "高陽ライフスタイルスタジオ", dateText: "平日/週末時間選択", posterLabel: "WORK LOUNGE", summary: "作業·対話·ミーティングが可能な感度の高い空間予約サービス。", tags: ["空間レンタル", "ミーティング", "創作"], options: [{ id: "space-only", label: "スペース利用券", benefits: ["2時間貸し切り"] }, { id: "space-drink", label: "スペース＋ドリンクパッケージ", benefits: ["ウェルカムドリンク込み"] }] },
@@ -954,9 +924,7 @@ export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]
       description:
         "공연 이후나 가벼운 2차 동선으로 추천하는 야간형 카페 상품입니다. 티켓 상품과 연결하기에도 좋은 구조입니다.",
       tags: ["루프탑", "야간", "감성 체류"],
-      originalPrice: 36000,
       price: 28000,
-      discountLabel: "22%",
       translations: {
         en: { title: "Sunset Rooftop Cafe Reservation", subtitle: "Night-vibe stay", location: "Goyang Rooftop Café", dateText: "Fri/Sat Night", posterLabel: "ROOFTOP", summary: "Rooftop cafe reservation enjoying night views, drinks and music.", tags: ["Rooftop", "Night", "Emotional Stay"], options: [{ id: "sunset", label: "Sunset Package", benefits: ["2 drinks included"] }, { id: "sunset-plus", label: "Sunset Platter", benefits: ["Brunch platter included"] }] },
         ja: { title: "サンセットルーフトップカフェ予約", subtitle: "夜間感性滞在型", location: "高陽ルーフトップカフェ", dateText: "金·土夜間運営", posterLabel: "ROOFTOP", summary: "夜景·ドリンク·音楽を楽しむルーフトップカフェ予約商品。", tags: ["ルーフトップ", "夜間", "感性滞在"], options: [{ id: "sunset", label: "サンセットパッケージ", benefits: ["ドリンク2杯込み"] }, { id: "sunset-plus", label: "サンセットプラッター", benefits: ["ブランチプラッター込み"] }] },
