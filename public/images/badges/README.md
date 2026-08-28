@@ -1,5 +1,8 @@
 # 카드 중앙 배지 이미지 (AI 생성 · 투명 PNG)
 
+> **압축 상태**: 현재 커밋된 6장은 `sharp` 로 1024×1024 · palette PNG 로 최적화된 압축본(각 ~400KB, 총 2.38MB). 원본 고해상도 파일은 별도 보관.
+
+
 `components/home/CuratedGridSection.tsx` 가 카드 중앙 대형 배지를 이 폴더의 파일로 자동 렌더합니다. 파일이 있으면 이미지로, 없으면 자체 SVG 엠블럼(`components/emblem/Emblem.tsx` size=L) 로 자동 폴백. **빈 자리 금지**.
 
 `public/images/cards/` (배경 사진) 와는 **독립적** 으로 폴백 판정이 이뤄지므로:
