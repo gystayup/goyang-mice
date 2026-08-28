@@ -96,7 +96,8 @@ export function Emblem({ category, size, locale, className }: EmblemProps) {
       )}
 
       {/* 4. 중앙 고양이 아이콘 (카테고리 색 단색 실루엣) */}
-      <IconComponent color={color} />
+      {/* size 를 넘겨 S/XS 에서 아이콘이 뭉치지 않도록 subtle stroke 를 얹음 */}
+      <IconComponent color={color} size={size} />
 
       {/* 5. 하단 알약형 리본 — L·M·S 에서만 (XS 는 생략) */}
       {showRibbon && (
