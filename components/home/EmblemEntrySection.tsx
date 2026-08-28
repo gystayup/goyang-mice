@@ -19,6 +19,7 @@ const CATEGORIES: EmblemCategory[] = [
   "culture",
   "kculture",
   "history",
+  "family",
 ];
 
 const HEADLINE: Record<LocaleKey, string> = {
@@ -37,6 +38,7 @@ const CATEGORY_HREF: Record<EmblemCategory, string> = {
   culture: "#story-culture",
   kculture: "#story-kculture",
   history: "#story-history",
+  family: "#story-family",
 };
 
 export default function EmblemEntrySection({ locale }: { locale: string }) {

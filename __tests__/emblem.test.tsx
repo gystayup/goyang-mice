@@ -23,6 +23,7 @@ const CATEGORIES: EmblemCategory[] = [
   "culture",
   "kculture",
   "history",
+  "family",
 ];
 const SIZES: EmblemSize[] = ["L", "M", "S", "XS"];
 const LOCALES: EmblemLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
@@ -35,6 +36,7 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     culture: "문화",
     kculture: "K컬처",
     history: "역사",
+    family: "가족·체험",
   },
   en: {
     walk: "Walks",
@@ -42,6 +44,7 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     culture: "Culture",
     kculture: "K-culture",
     history: "History",
+    family: "Family",
   },
   ja: {
     walk: "さんぽ",
@@ -49,6 +52,7 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     culture: "文化",
     kculture: "Kカルチャー",
     history: "歴史",
+    family: "ファミリー",
   },
   "zh-CN": {
     walk: "漫步",
@@ -56,6 +60,7 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     culture: "文化",
     kculture: "K文化",
     history: "历史",
+    family: "亲子",
   },
   "zh-TW": {
     walk: "漫步",
@@ -63,6 +68,7 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     culture: "文化",
     kculture: "K文化",
     history: "歷史",
+    family: "親子",
   },
 };
 

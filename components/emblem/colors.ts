@@ -7,7 +7,8 @@ export type EmblemCategory =
   | "food"
   | "culture"
   | "kculture"
-  | "history";
+  | "history"
+  | "family";
 
 export type EmblemSize = "L" | "M" | "S" | "XS";
 
@@ -20,6 +21,7 @@ export const EMBLEM_COLORS: Record<EmblemCategory | "cream", string> = {
   culture: "#7C3AED",
   kculture: "#F5258C",
   history: "#1D4ED8",
+  family: "#06B6D4",
   cream: "#FFF8EF",
 } as const;
 
@@ -57,6 +59,7 @@ export const EMBLEM_RIBBON_TEXT: Record<
     culture: "문화",
     kculture: "K컬처",
     history: "역사",
+    family: "가족·체험",
   },
   en: {
     walk: "Walks",
@@ -64,6 +67,7 @@ export const EMBLEM_RIBBON_TEXT: Record<
     culture: "Culture",
     kculture: "K-culture",
     history: "History",
+    family: "Family",
   },
   ja: {
     walk: "さんぽ",
@@ -71,6 +75,7 @@ export const EMBLEM_RIBBON_TEXT: Record<
     culture: "文化",
     kculture: "Kカルチャー",
     history: "歴史",
+    family: "ファミリー",
   },
   "zh-CN": {
     walk: "漫步",
@@ -78,6 +83,7 @@ export const EMBLEM_RIBBON_TEXT: Record<
     culture: "文化",
     kculture: "K文化",
     history: "历史",
+    family: "亲子",
   },
   "zh-TW": {
     walk: "漫步",
@@ -85,5 +91,6 @@ export const EMBLEM_RIBBON_TEXT: Record<
     culture: "文化",
     kculture: "K文化",
     history: "歷史",
+    family: "親子",
   },
 } as const;
