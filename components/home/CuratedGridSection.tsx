@@ -8,7 +8,11 @@
 //   3. 중앙 대형 배지 (next/image, src=/images/badges/badge-<category>.png)
 //      · 파일 부재/로드 실패 시 자체 SVG 엠블럼(size=L) 폴백 (onError)
 //      · 사진 폴백과 배지 폴백은 서로 독립 — 4가지 조합 모두 정상 렌더
-//   4. 하단 좌측: 흰색 카테고리 레이블 + "고양 BEST N선" 흰색 대형 헤드라인
+//      · 폭 72% · object-contain (잘림 방지) · 세로 중앙보다 살짝 위 (-translate-y 6%)
+//   4. 하단 좌측 텍스트 — 배지 유형에 따라 분기:
+//      · 배지 이미지 O → 이미 GOYANG BEST 텍스트가 배지에 있으므로
+//        하단은 작은 "카테고리 · N선" 만 (중복 방지)
+//      · SVG 폴백 O → 기존 대형 헤드라인 유지 (배지에 텍스트 없어 필요)
 //
 // 그리드: 데스크톱 3열 · 태블릿 2열 · 모바일 1열 (6장이 3×2 배치)
 // 헤드라인 N선 숫자는 card props(count), 미지정 시 로케일별 "큐레이션" 문구.
@@ -65,6 +69,18 @@ const HEADLINE_CURATED: Record<LocaleKey, string> = {
   ja: "高陽ベストキュレーション",
   "zh-CN": "高阳BEST精选",
   "zh-TW": "高陽BEST精選",
+};
+
+/**
+ * 배지 이미지 있을 때 하단에 작게 표시할 카운트 단위.
+ * 예) ko 10선 / en 10 best / ja 10選 / zh-CN 10选 / zh-TW 10選
+ */
+const COUNT_UNIT: Record<LocaleKey, (n: number) => string> = {
+  ko: (n) => `${n}선`,
+  en: (n) => `${n} best`,
+  ja: (n) => `${n}選`,
+  "zh-CN": (n) => `${n}选`,
+  "zh-TW": (n) => `${n}選`,
 };
 
 // TODO(content): 카드별 count 는 실 큐레이션 데이터가 확정되면 서버/CMS 로 이관.
@@ -190,15 +206,18 @@ function CuratedCard({
           }}
         />
 
-        {/* 3. 중앙 대형 배지 — 이미지 우선, 실패 시 자체 SVG 엠블럼 폴백 */}
+        {/* 3. 중앙 대형 배지 — 이미지 우선, 실패 시 자체 SVG 엠블럼 폴백
+             · 폭 72% · 세로 중앙보다 살짝 위 (-translate-y 6%)
+             · 헤드라인 영역(하단 40% 스크림) 과 안 겹치도록 위쪽으로 시프트
+             · object-contain 으로 잘림 방지 */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="relative aspect-square w-[55%]">
+          <div className="relative aspect-square w-[72%] -translate-y-[6%]">
             {!badgeBroken ? (
               <Image
                 src={badgeSrc(category)}
                 alt=""
                 fill
-                sizes="(max-width: 640px) 55vw, (max-width: 1024px) 27vw, 18vw"
+                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 36vw, 24vw"
                 className="object-contain"
                 onError={() => setBadgeBroken(true)}
               />
@@ -213,14 +232,30 @@ function CuratedCard({
           </div>
         </div>
 
-        {/* 4. 하단 텍스트 블록 — 흰색 카테고리 레이블 + 대형 헤드라인 */}
+        {/* 4. 하단 텍스트 블록 — 배지 유형에 따라 분기 */}
         <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/90">
-            {ribbonLabel}
-          </div>
-          <h3 className="mt-1 text-xl font-black leading-tight tracking-[-0.02em] text-white drop-shadow-sm sm:text-2xl">
-            {headline}
-          </h3>
+          {badgeBroken ? (
+            /* SVG 폴백일 때: 기존 대형 헤드라인 유지 (배지에 텍스트 없어 필요) */
+            <>
+              <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/90">
+                {ribbonLabel}
+              </div>
+              <h3 className="mt-1 text-xl font-black leading-tight tracking-[-0.02em] text-white drop-shadow-sm sm:text-2xl">
+                {headline}
+              </h3>
+            </>
+          ) : (
+            /* 배지 이미지 있을 때: 배지에 이미 GOYANG BEST 텍스트가 있으므로
+               하단은 작은 "카테고리 · N선" 정도만 (중복 방지) */
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-white drop-shadow-sm">
+              <span>{ribbonLabel}</span>
+              {typeof count === "number" && (
+                <span className="ml-2 font-black opacity-90">
+                  · {COUNT_UNIT[locale](count)}
+                </span>
+              )}
+            </h3>
+          )}
         </div>
       </article>
     </a>
