@@ -17,8 +17,8 @@ const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
 const heroCopy: Record<LocaleKey, LocaleCopy> = {
   ko: {
-    badgeEyebrow: "고양 방문경험 연구·연계 플랫폼",
-    badgeTitle: "고양 방문경험 연구·연계 플랫폼",
+    badgeEyebrow: "서울 옆, 공항 앞",
+    badgeTitle: "고양에서 만나는 경험",
     cards: [
       { eyebrow: "Research", title: "고양특례시 문화·관광·마이스 전략 연구", desc: "도시 자산 분석과 방문객 여정 설계를 기반으로 실행 가능한 기획 구조를 만듭니다.", tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]", borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]", icon: BookOpen },
       { eyebrow: "DMC", title: "현장을 움직이는 로컬 운영 서비스", desc: "공연, 전시, VIP, 단체 방문객을 위한 일정 설계와 현장 대응을 통합 지원합니다.", tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]", borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]", icon: MapPin },
@@ -32,8 +32,8 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     ],
   },
   en: {
-    badgeEyebrow: "Goyang Visit Experience Platform",
-    badgeTitle: "Goyang Visit Experience Research & Connection Platform",
+    badgeEyebrow: "Next to Seoul, by the airport",
+    badgeTitle: "Experiences you'll find in Goyang",
     cards: [
       { eyebrow: "Research", title: "Strategic research for culture, tourism and MICE", desc: "We build practical strategies based on city assets and visitor journey design.", tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]", borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]", icon: BookOpen },
       { eyebrow: "DMC", title: "Local operations that keep experiences moving", desc: "We support schedules, logistics and on-site coordination for events, buyers, VIPs and groups.", tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]", borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]", icon: MapPin },
@@ -47,8 +47,8 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     ],
   },
   ja: {
-    badgeEyebrow: "高陽市訪問体験研究・連携プラットフォーム",
-    badgeTitle: "高陽市訪問体験研究・連携プラットフォーム",
+    badgeEyebrow: "ソウルの隣、空港のそば",
+    badgeTitle: "高陽で出会う体験",
     cards: [
       { eyebrow: "Research", title: "文化・観光・MICEの戦略研究", desc: "都市資産分析と訪問者ジャーニー設計に基づいた実行可能な企画構造を構築します。", tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]", borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]", icon: BookOpen },
       { eyebrow: "DMC", title: "現場を動かすローカル運営サービス", desc: "公演・展示・VIP・団体訪問客向けのスケジュール設計と現場対応を統合サポートします。", tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]", borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]", icon: MapPin },
@@ -62,8 +62,8 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     ],
   },
   "zh-CN": {
-    badgeEyebrow: "高阳市访客体验研究与连接平台",
-    badgeTitle: "高阳市访客体验研究与连接平台",
+    badgeEyebrow: "首尔近旁，机场之侧",
+    badgeTitle: "在高阳遇见的体验",
     cards: [
       { eyebrow: "Research", title: "文化·旅游·MICE战略研究", desc: "基于城市资产分析和访客旅程设计，构建可执行的规划结构。", tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]", borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]", icon: BookOpen },
       { eyebrow: "DMC", title: "驱动现场的本地运营服务", desc: "为演出、展览、VIP及团体访客提供行程设计与现场协调的一体化支持。", tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]", borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]", icon: MapPin },
@@ -77,8 +77,8 @@ const heroCopy: Record<LocaleKey, LocaleCopy> = {
     ],
   },
   "zh-TW": {
-    badgeEyebrow: "高陽市訪客體驗研究與連接平台",
-    badgeTitle: "高陽市訪客體驗研究與連接平台",
+    badgeEyebrow: "首爾近旁，機場之側",
+    badgeTitle: "在高陽遇見的體驗",
     cards: [
       { eyebrow: "Research", title: "文化·旅遊·MICE策略研究", desc: "基於城市資產分析與訪客旅程設計，構建可執行的規劃結構。", tone: "bg-gradient-to-br from-[#fffbee] to-[#fff4da]", iconTone: "bg-[#ffe8a0] text-[#9b7a00]", borderGlow: "hover:shadow-[0_0_24px_rgba(255,233,139,0.45)]", icon: BookOpen },
       { eyebrow: "DMC", title: "驅動現場的在地運營服務", desc: "為演出、展覽、VIP及團體訪客提供行程設計與現場協調的一體化支援。", tone: "bg-gradient-to-br from-[#f0fdf8] to-[#e8fbf3]", iconTone: "bg-[#b7f0d8] text-[#0a6b48]", borderGlow: "hover:shadow-[0_0_24px_rgba(141,240,207,0.45)]", icon: MapPin },
