@@ -1,21 +1,17 @@
-// 고양 BEST 큐레이션 카드 그리드 — 완성형 (사진 배경 + 이미지 배지 · Time Out 식).
+// 고양 BEST 큐레이션 카드 그리드 — Time Out 정석 (사진 배경 + 코너 배지 도장).
 //
 // 카드 6장(walk/food/culture/kculture/history/family) · 4:3 · radius 20.
 // 레이어 (아래→위):
-//   1. 사진 배경 (next/image, src=/images/cards/card-<category>.jpg)
+//   1. 사진 배경 (next/image, src=/images/cards/card-<category>.jpg, object-cover 꽉 채움)
 //      · 파일 부재/로드 실패 시 카테고리 색 gradient 폴백 (onError)
-//   2. 하단 스크림 (투명 → 검정 0.7, 하단 40%)
-//   3. 중앙 대형 배지 (next/image, src=/images/badges/badge-<category>.png)
-//      · 파일 부재/로드 실패 시 자체 SVG 엠블럼(size=L) 폴백 (onError)
-//      · 사진 폴백과 배지 폴백은 서로 독립 — 4가지 조합 모두 정상 렌더
-//      · 폭 72% · object-contain (잘림 방지) · 세로 중앙보다 살짝 위 (-translate-y 6%)
-//   4. 하단 좌측 텍스트 — 배지 유형에 따라 분기:
-//      · 배지 이미지 O → 이미 GOYANG BEST 텍스트가 배지에 있으므로
-//        하단은 작은 "카테고리 · N선" 만 (중복 방지)
-//      · SVG 폴백 O → 기존 대형 헤드라인 유지 (배지에 텍스트 없어 필요)
+//   2. 하단 스크림 (투명 → 검정 0.6, 하단 50%) — 헤드라인 대비 확보
+//   3. 좌상단 코너 배지 도장 (폭 30%, 모서리 16px 이격)
+//      · next/image src=/images/badges/badge-<category>.png (투명 PNG)
+//      · 파일 부재/로드 실패 시 자체 SVG 엠블럼(size=L) 폴백
+//   4. 하단 좌측 텍스트: 흰색 카테고리 레이블 + "고양 BEST N선" 흰색 대형 헤드라인
+//      · 배지가 작아졌으므로 배지의 텍스트는 보조, 헤드라인이 카드 타이틀
 //
-// 그리드: 데스크톱 3열 · 태블릿 2열 · 모바일 1열 (6장이 3×2 배치)
-// 헤드라인 N선 숫자는 card props(count), 미지정 시 로케일별 "큐레이션" 문구.
+// 그리드: 데스크톱 3열 · 태블릿 2열 · 모바일 1열 (6장 = 3×2)
 // 카드 링크는 앵커 플레이스홀더 — TODO(routing) 로 카테고리 랜딩 준비 후 갱신.
 
 "use client";
@@ -71,18 +67,6 @@ const HEADLINE_CURATED: Record<LocaleKey, string> = {
   "zh-TW": "高陽BEST精選",
 };
 
-/**
- * 배지 이미지 있을 때 하단에 작게 표시할 카운트 단위.
- * 예) ko 10선 / en 10 best / ja 10選 / zh-CN 10选 / zh-TW 10選
- */
-const COUNT_UNIT: Record<LocaleKey, (n: number) => string> = {
-  ko: (n) => `${n}선`,
-  en: (n) => `${n} best`,
-  ja: (n) => `${n}選`,
-  "zh-CN": (n) => `${n}选`,
-  "zh-TW": (n) => `${n}選`,
-};
-
 // TODO(content): 카드별 count 는 실 큐레이션 데이터가 확정되면 서버/CMS 로 이관.
 const CARD_COUNT: Record<EmblemCategory, number | undefined> = {
   walk: 10,
@@ -108,13 +92,12 @@ function photoSrc(cat: EmblemCategory): string {
   return `/images/cards/card-${cat}.jpg`;
 }
 
-// 중앙 배지 파일: public/images/badges/badge-<category>.png (투명 PNG, 512×512+)
+// 좌상단 배지 파일: public/images/badges/badge-<category>.png (투명 PNG, 512×512+)
 function badgeSrc(cat: EmblemCategory): string {
   return `/images/badges/badge-${cat}.png`;
 }
 
-// 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진에만 priority
-// (배지 이미지는 파일 부재 가능성이 있어 priority 미지정으로 preload 경고 회피)
+// 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진에 priority
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
   "walk",
   "food",
@@ -165,7 +148,7 @@ function CuratedCard({
     typeof count === "number"
       ? HEADLINE_WITH_COUNT[locale](count)
       : HEADLINE_CURATED[locale];
-  // 사진 배경 · 배지 이미지는 서로 독립적으로 폴백 판정
+  // 사진 배경 · 배지 이미지 각각 독립 폴백
   const [photoBroken, setPhotoBroken] = useState(false);
   const [badgeBroken, setBadgeBroken] = useState(false);
 
@@ -183,7 +166,7 @@ function CuratedCard({
             : undefined
         }
       >
-        {/* 1. 사진 배경 — 부재/실패 시 gradient 폴백 */}
+        {/* 1. 사진 배경 (object-cover 로 카드 꽉 채움) — 부재/실패 시 gradient 폴백 */}
         {!photoBroken && (
           <Image
             src={photoSrc(category)}
@@ -196,66 +179,47 @@ function CuratedCard({
           />
         )}
 
-        {/* 2. 하단 스크림 — 투명 → 검정 0.7 (하단 40%) */}
+        {/* 2. 하단 스크림 — 투명 → 검정 0.6 (하단 50%) — 헤드라인 대비용 */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
+              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)",
           }}
         />
 
-        {/* 3. 중앙 대형 배지 — 이미지 우선, 실패 시 자체 SVG 엠블럼 폴백
-             · 폭 72% · 세로 중앙보다 살짝 위 (-translate-y 6%)
-             · 헤드라인 영역(하단 40% 스크림) 과 안 겹치도록 위쪽으로 시프트
-             · object-contain 으로 잘림 방지 */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="relative aspect-square w-[72%] -translate-y-[6%]">
-            {!badgeBroken ? (
-              <Image
-                src={badgeSrc(category)}
-                alt=""
-                fill
-                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 36vw, 24vw"
-                className="object-contain"
-                onError={() => setBadgeBroken(true)}
-              />
-            ) : (
-              <Emblem
-                category={category}
-                size="L"
-                locale={locale}
-                className="h-full w-full"
-              />
-            )}
-          </div>
+        {/* 3. 좌상단 코너 배지 도장 (폭 카드의 30%, 모서리 16px 이격, min/max 클램프)
+             · w-[30%] 는 카드(부모 article)의 가로 30% → 정사각 배지
+             · min-w 70 / max-w 140 으로 모바일·데스크톱 크기 방지 */}
+        <div className="pointer-events-none absolute left-4 top-4 aspect-square w-[30%] min-w-[70px] max-w-[140px]">
+          {!badgeBroken ? (
+            <Image
+              src={badgeSrc(category)}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 30vw, (max-width: 1024px) 15vw, 10vw"
+              className="object-contain drop-shadow-md"
+              onError={() => setBadgeBroken(true)}
+            />
+          ) : (
+            <Emblem
+              category={category}
+              size="L"
+              locale={locale}
+              className="h-full w-full drop-shadow-md"
+            />
+          )}
         </div>
 
-        {/* 4. 하단 텍스트 블록 — 배지 유형에 따라 분기 */}
+        {/* 4. 하단 텍스트: 흰색 카테고리 레이블 + "고양 BEST N선" 흰색 대형 헤드라인 */}
         <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-          {badgeBroken ? (
-            /* SVG 폴백일 때: 기존 대형 헤드라인 유지 (배지에 텍스트 없어 필요) */
-            <>
-              <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/90">
-                {ribbonLabel}
-              </div>
-              <h3 className="mt-1 text-xl font-black leading-tight tracking-[-0.02em] text-white drop-shadow-sm sm:text-2xl">
-                {headline}
-              </h3>
-            </>
-          ) : (
-            /* 배지 이미지 있을 때: 배지에 이미 GOYANG BEST 텍스트가 있으므로
-               하단은 작은 "카테고리 · N선" 정도만 (중복 방지) */
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-white drop-shadow-sm">
-              <span>{ribbonLabel}</span>
-              {typeof count === "number" && (
-                <span className="ml-2 font-black opacity-90">
-                  · {COUNT_UNIT[locale](count)}
-                </span>
-              )}
-            </h3>
-          )}
+          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 drop-shadow-sm">
+            {ribbonLabel}
+          </div>
+          <h3 className="mt-1 text-xl font-black leading-tight tracking-[-0.02em] text-white drop-shadow-md sm:text-2xl">
+            {headline}
+          </h3>
         </div>
       </article>
     </a>
