@@ -1,32 +1,31 @@
 // components/home/HeroSlider.tsx
-// 홈 최상단 Hero — 6 카테고리 순환 Ken Burns 슬라이더.
+// 홈 최상단 Hero — 6 카테고리 순환 Ken Burns 슬라이더 (Time Out 폴리시).
 //
 // 슬라이드 6장: walk / food / culture / kculture / history / family
 //   · 배경 사진 (public/images/cards/card-<cat>.jpg)
 //   · Ken Burns: scale 1 → 1.14, 12s ease-out infinite alternate
-//     · transformOrigin 카테고리마다 다른 방향(좌상/우중/상중/우하/좌하/하중)
+//     · transformOrigin 카테고리마다 다른 방향
 //     · @media (prefers-reduced-motion: reduce) 시 애니메이션 자동 비활성
 //
-// 오버레이:
-//   · 하단 스크림 (linear-gradient 상단 투명 → 하단 rgba(0,0,0,0.72))
-//   · 좌상 라벨 pill ({로케일 카테고리명}, 카테고리 컬러 화이트 톤)
-//   · 헤드라인 "고양 BEST {카테고리}" (흰색 대형)
-//   · 배지 (badge-<cat>.png) 헤드라인 오른쪽 (sm+ 만 표시, 모바일은 숨김)
-//   · 서브 문구 1문장 (CuratedGridSection 카피 재사용, 5로케일)
-//   · CTA "자세히 보기 →" — 앵커 #story-<cat> 로 이동 (CuratedGrid 카드로 스크롤)
+// 오버레이 (Time Out 폴리시):
+//   · 다중 스크림 — 좌 강→우 약 (다이애그널) + 하단 강 (텍스트 대비 확보)
+//   · 우상단 코너: 배지 (badge-<cat>.png, 축소 · 헤드라인과 물리적 분리)
+//   · 좌측 정렬: 라벨 pill → 대형 헤드라인 → 서브 → CTA (수직 리듬)
+//   · 헤드라인: text-4xl sm:text-6xl lg:text-7xl, font-black, tracking-[-0.03em],
+//               leading-[1.02] (WHY 섹션 수준의 무게감)
+//   · CTA "자세히 보기 →" — 앵커 #story-<cat>
+//   · 하단 카테고리 프리뷰 (Time Out식): 얇은 라인 + 카테고리명 6개,
+//     현재 슬라이드 강조 (흰색), 나머지는 옅게 (white/50)
+//   · 좌/우 화살표: 우하단 코너 (배지·프리뷰와 안 겹침)
 //
-// 컨트롤:
-//   · 하단 도트 인디케이터 6개, 현재 슬라이드 강조 (w-8 vs w-2)
-//   · 좌/우 화살표 버튼
-//   · 자동 순환 6초 (수동 전환 시 시각 리셋 — useEffect deps 에 index)
+// 폰트: globals.css 의 --font-sans (SUIT Variable → Pretendard Variable → Noto Sans KR)
+//       fallback stack 을 상속 — WHY 섹션과 동일 서체 라인 (일관성).
+//       (next/font 실 파일 로드는 별도 오더 스코프)
 //
-// 성능·접근성:
-//   · 첫 슬라이드(walk) 사진 priority, 나머지 lazy
-//   · 배지는 현재 슬라이드용만 렌더 (조건부)
-//   · 도트/화살표 aria-label, aria-current
-//   · prefers-reduced-motion CSS 미디어로 자동 처리 (JS 감지 불필요)
+// 접근성: 카드 링크 aria-label, 카테고리 프리뷰 aria-current,
+//         화살표·라벨 aria-label 5로케일. prefers-reduced-motion CSS 자동.
 //
-// 판매 소구어 0 (안내 톤). i18n 키 구조 무접촉 (컴포넌트 내부 상수만 사용).
+// 판매 소구어 0. i18n 키 구조 무접촉 (컴포넌트 내부 상수만 사용).
 
 "use client";
 
@@ -34,6 +33,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { Emblem } from "@/components/emblem/Emblem";
 import {
   type EmblemCategory,
   type EmblemLocale,
@@ -50,7 +50,7 @@ const CATEGORIES: EmblemCategory[] = [
 ];
 const SLIDE_DURATION_MS = 6000;
 
-/** 카테고리 짧은 로케일 라벨 (Hero 헤드라인·인디케이터·라벨 pill 용). */
+/** 카테고리 짧은 로케일 라벨 (헤드라인·프리뷰·라벨 pill 용). */
 const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
   ko: {
     walk: "산책",
@@ -94,7 +94,7 @@ const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
   },
 };
 
-/** "고양 BEST {카테고리}" 로케일 헤드라인 템플릿 (Hero용 짧은 버전, N선 없음). */
+/** "고양 BEST {카테고리}" 로케일 헤드라인 템플릿. */
 const HERO_HEADLINE: Record<EmblemLocale, (l: string) => string> = {
   ko: (l) => `고양 BEST ${l}`,
   en: (l) => `Goyang Best ${l}`,
@@ -170,7 +170,7 @@ const NEXT_LABEL: Record<EmblemLocale, string> = {
   "zh-TW": "下一張",
 };
 
-/** Ken Burns 방향 (카테고리마다 다른 transform-origin 으로 이동 방향 다양성 확보). */
+/** Ken Burns transform-origin (카테고리마다 다른 방향). */
 const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
   walk: "left top",
   food: "right center",
@@ -190,6 +190,38 @@ function anchorHref(cat: EmblemCategory) {
   return `#story-${cat}`;
 }
 
+/**
+ * 우상단 배지 (SlideBadge) — 카테고리별 배지 이미지, 실패 시 SVG 엠블럼 폴백.
+ * 부모에서 key={currentCat} 로 렌더하면 카테고리 전환 시 컴포넌트 리마운트되어
+ * 폴백 상태(broken)가 자연 초기화됨 → useEffect(setState) 불필요.
+ */
+function SlideBadge({
+  category,
+  locale,
+}: {
+  category: EmblemCategory;
+  locale: EmblemLocale;
+}) {
+  const [broken, setBroken] = useState(false);
+  return !broken ? (
+    <Image
+      src={badgeSrc(category)}
+      alt=""
+      fill
+      sizes="(max-width: 640px) 56px, (max-width: 1024px) 80px, 96px"
+      className="object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.45)]"
+      onError={() => setBroken(true)}
+    />
+  ) : (
+    <Emblem
+      category={category}
+      size="L"
+      locale={locale}
+      className="h-full w-full drop-shadow-[0_8px_22px_rgba(0,0,0,0.45)]"
+    />
+  );
+}
+
 export default function HeroSlider({ locale }: { locale: string }) {
   const activeLocale: EmblemLocale = (
     LOCALES.includes(locale as EmblemLocale) ? locale : "ko"
@@ -205,7 +237,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
     []
   );
 
-  // 자동 순환 6초 (수동 전환 시 index 변경으로 타이머 리셋)
+  // 자동 순환 (index 변경 시 타이머 리셋)
   useEffect(() => {
     const timer = window.setTimeout(goToNext, SLIDE_DURATION_MS);
     return () => window.clearTimeout(timer);
@@ -219,7 +251,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-white/70 bg-slate-950 text-white shadow-[0_22px_60px_rgba(16,32,58,0.16)] sm:rounded-[34px]">
-      {/* Ken Burns 애니메이션 CSS + prefers-reduced-motion 자동 대응 */}
+      {/* Ken Burns CSS + prefers-reduced-motion 자동 대응 */}
       <style>{`
         @keyframes hero-slider-kb {
           0% { transform: scale(1); }
@@ -234,7 +266,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
         }
       `}</style>
 
-      {/* 배경 슬라이드 6장 겹치기 (opacity 크로스페이드) */}
+      {/* 배경 슬라이드 6장 (opacity 크로스페이드) */}
       <div className="absolute inset-0">
         {CATEGORIES.map((cat, i) => (
           <div
@@ -258,82 +290,125 @@ export default function HeroSlider({ locale }: { locale: string }) {
             </div>
           </div>
         ))}
-        {/* 하단 스크림 (헤드라인·서브 가독성 확보) */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.32)_55%,_rgba(0,0,0,0.72)_100%)]" />
+        {/*
+          강화 스크림 (텍스트 대비 확보):
+          1. 다이애그널 좌 강 → 우 약 (헤드라인 좌측 정렬 대비)
+          2. 하단 강 → 상단 약 (하단 콘텐츠·프리뷰 대비)
+        */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(100deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.18) 55%, transparent 80%)",
+          }}
+        />
       </div>
 
-      {/* 콘텐츠 오버레이 */}
-      <div className="relative flex min-h-[22rem] flex-col justify-end p-5 sm:min-h-[30rem] sm:p-7 lg:min-h-[38rem] lg:p-10">
-        <div className="max-w-2xl">
-          <div className="mb-3 inline-block rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur">
+      {/* 우상단 코너 배지 (헤드라인과 물리적 분리, 축소)
+          key={currentCat} 로 카테고리 전환 시 컴포넌트 리마운트 → 폴백 상태 자연 초기화 */}
+      <div className="pointer-events-none absolute right-5 top-5 z-20 sm:right-8 sm:top-8">
+        <div className="relative aspect-square h-14 w-14 sm:h-20 sm:w-20 lg:h-24 lg:w-24">
+          <SlideBadge key={currentCat} category={currentCat} locale={activeLocale} />
+        </div>
+      </div>
+
+      {/* 콘텐츠 오버레이 (좌측 정렬, 여백 넉넉) */}
+      <div className="relative flex min-h-[28rem] flex-col justify-end p-6 sm:min-h-[36rem] sm:p-10 lg:min-h-[42rem] lg:p-14">
+        <div className="max-w-3xl">
+          {/* 라벨 pill */}
+          <div className="mb-5 inline-block rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur">
             {label}
           </div>
 
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-black leading-tight tracking-tight text-white [text-wrap:balance] sm:text-4xl lg:text-5xl lg:leading-[1.1]">
-              {headline}
-            </h2>
-            {/* 배지: sm+ 만 표시 (모바일은 텍스트 공간 확보 위해 숨김) */}
-            <div className="relative hidden aspect-square shrink-0 sm:block sm:h-20 sm:w-20 lg:h-28 lg:w-28">
-              <Image
-                src={badgeSrc(currentCat)}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 80px, 112px"
-                className="object-contain drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)]"
-              />
-            </div>
-          </div>
+          {/* 대형 헤드라인 (WHY 섹션 수준의 무게감) */}
+          <h2 className="text-4xl font-black leading-[1.02] tracking-[-0.03em] text-white [text-wrap:balance] sm:text-6xl lg:text-7xl">
+            {headline}
+          </h2>
 
-          <p className="mt-4 max-w-xl text-sm leading-7 text-white/85 sm:text-base">
+          {/* 서브 */}
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85 sm:mt-6 sm:text-lg">
             {desc}
           </p>
 
+          {/* CTA */}
           <a
             href={anchorHref(currentCat)}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-950 shadow-lg transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-950 shadow-[0_10px_28px_rgba(0,0,0,0.25)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:mt-8 sm:px-7 sm:py-3 sm:text-base"
           >
             {readMore}
           </a>
         </div>
 
-        {/* 하단 컨트롤: 카테고리 인디케이터 + 좌/우 화살표 */}
-        <div className="mt-8 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {CATEGORIES.map((cat, i) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setIndex(i)}
-                aria-label={CATEGORY_LABEL[activeLocale][cat]}
-                aria-current={i === index}
-                className={`transition-all duration-300 rounded-full ${
-                  i === index
-                    ? "h-2 w-8 bg-white"
-                    : "h-2 w-2 bg-white/40 hover:bg-white/70"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={goToPrev}
-              aria-label={PREV_LABEL[activeLocale]}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={goToNext}
-              aria-label={NEXT_LABEL[activeLocale]}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
+        {/*
+          하단 카테고리 프리뷰 (Time Out식):
+          6개 가로 배치, 얇은 라인 + 카테고리명, 현재 강조.
+          기존 도트 인디케이터 대체.
+        */}
+        <div className="mt-10 border-t border-white/15 pt-5 sm:mt-14">
+          <div className="grid grid-cols-6 gap-2 sm:gap-4">
+            {CATEGORIES.map((cat, i) => {
+              const active = i === index;
+              const catLabel = CATEGORY_LABEL[activeLocale][cat];
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={catLabel}
+                  aria-current={active}
+                  className="group/cat text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                >
+                  <div
+                    className={`h-0.5 w-full rounded-full transition-colors duration-300 ${
+                      active
+                        ? "bg-white"
+                        : "bg-white/25 group-hover/cat:bg-white/55"
+                    }`}
+                  />
+                  <div
+                    className={`mt-2 truncate text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-300 sm:text-[11px] ${
+                      active
+                        ? "text-white"
+                        : "text-white/50 group-hover/cat:text-white/85"
+                    }`}
+                  >
+                    {catLabel}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
+      </div>
+
+      {/*
+        좌/우 화살표 — 우하단 코너 (배지·프리뷰와 안 겹치도록 위치 분리).
+        pointer-events: 컨테이너 none, 버튼 auto.
+      */}
+      <div className="pointer-events-none absolute bottom-6 right-6 z-20 flex gap-2 sm:bottom-10 sm:right-10">
+        <button
+          type="button"
+          onClick={goToPrev}
+          aria-label={PREV_LABEL[activeLocale]}
+          className="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white backdrop-blur transition hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={goToNext}
+          aria-label={NEXT_LABEL[activeLocale]}
+          className="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white backdrop-blur transition hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
       </div>
     </div>
   );
