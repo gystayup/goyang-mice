@@ -1,7 +1,7 @@
 
 import { BookOpen, MapPin, Sparkles } from "lucide-react";
 
-import HeroMediaCarousel from "@/components/home/HeroMediaCarousel";
+import HeroSlider from "@/components/home/HeroSlider";
 import ExpandableStats from "@/components/home/ExpandableStats";
 
 type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
@@ -104,9 +104,9 @@ export default async function HeroSection({ locale }: { locale: string }) {
       <div className="pointer-events-none absolute -right-20 top-16 h-72 w-72 rounded-full bg-[#a4d8ff] opacity-25 blur-[90px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-[#ffb58f] opacity-18 blur-[70px]" />
 
-      {/* 캐러셀 */}
+      {/* 6 카테고리 Ken Burns 슬라이더 (호수공원·미식·문화·K컬처·역사·가족 순환) */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <HeroMediaCarousel />
+        <HeroSlider locale={locale} />
       </div>
 
       {/* 콘텐츠 카드 영역 */}
