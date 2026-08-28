@@ -129,6 +129,35 @@ function HistoryIcon({ color, size }: IconProps) {
   );
 }
 
+/** family — 얼굴 + 풍선 (가족·체험 임시 실루엣) */
+function FamilyIcon({ color, size }: IconProps) {
+  return (
+    <g {...groupProps(color, size)}>
+      <path d={FACE_D} />
+      {/* balloon 1 — 위쪽 */}
+      <ellipse cx="150" cy="60" rx="11" ry="13" />
+      {/* balloon 1 매듭 */}
+      <path d="M 148 72 L 152 72 L 150 76 Z" />
+      {/* balloon 1 실 — 얼굴 옆까지 곡선 */}
+      <path
+        d="M 150 76 C 150 90 138 96 132 108"
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+      />
+      {/* balloon 2 — 아래쪽 (작음) */}
+      <ellipse cx="160" cy="90" rx="8" ry="9" />
+      <path d="M 158 98 L 162 98 L 160 101 Z" />
+      <path
+        d="M 160 101 C 160 110 148 114 138 118"
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+      />
+    </g>
+  );
+}
+
 export const EMBLEM_ICONS: Record<
   EmblemCategory,
   (props: IconProps) => ReactElement
@@ -138,4 +167,5 @@ export const EMBLEM_ICONS: Record<
   culture: CultureIcon,
   kculture: KcultureIcon,
   history: HistoryIcon,
+  family: FamilyIcon,
 };
