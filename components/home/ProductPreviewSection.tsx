@@ -23,11 +23,11 @@ const categoryIcons: Record<CategoryKey, typeof Compass> = {
 
 type MainCopy = { eyebrow: string; title: string; viewAll: string; medicalEyebrow: string; medicalTitle: string };
 const copyMap: Record<LocaleKey, MainCopy> = {
-  ko:      { eyebrow: "MICE 안내", title: "고양시 방문·체류·이벤트 정보 한눈에",                                      viewAll: "전체 안내 보기",   medicalEyebrow: "Healthcare Guide", medicalTitle: "고양 의료기관 안내 — 종합병원·미용의료·재활의료 정보" },
-  en:      { eyebrow: "MICE Guide", title: "Guides for Goyang visits, stays, tourism and events",                      viewAll: "View all guides",   medicalEyebrow: "Healthcare Guide", medicalTitle: "Goyang Healthcare Guide — hospitals, aesthetic clinics and rehabilitation" },
-  ja:      { eyebrow: "MICEガイド", title: "高陽市訪問・滞在観光・イベントのご案内",                                    viewAll: "全ての案内を見る", medicalEyebrow: "Healthcare Guide", medicalTitle: "高陽 医療機関ガイド — 総合病院・美容医療・リハビリの情報" },
-  "zh-CN": { eyebrow: "MICE 指南",  title: "高阳市访问·滞留·活动信息一览",                                              viewAll: "查看全部指南",     medicalEyebrow: "Healthcare Guide", medicalTitle: "高阳医疗机构信息 — 综合医院·美容医疗·康复信息" },
-  "zh-TW": { eyebrow: "MICE 指南",  title: "高陽市訪問·滯留·活動資訊一覽",                                              viewAll: "查看全部指南",     medicalEyebrow: "Healthcare Guide", medicalTitle: "高陽醫療機構資訊 — 綜合醫院·美容醫療·復健資訊" },
+  ko:      { eyebrow: "MICE 안내", title: "고양일산 방문·체류·이벤트 정보 한눈에",                                    viewAll: "전체 안내 보기",   medicalEyebrow: "Healthcare Guide", medicalTitle: "고양일산 의료기관 안내 — 종합병원·미용의료·재활의료 정보" },
+  en:      { eyebrow: "MICE Guide", title: "Guides for Goyang-Ilsan visits, stays, tourism and events",                viewAll: "View all guides",   medicalEyebrow: "Healthcare Guide", medicalTitle: "Goyang-Ilsan Healthcare Guide — hospitals, aesthetic clinics and rehabilitation" },
+  ja:      { eyebrow: "MICEガイド", title: "高陽・一山 訪問・滞在観光・イベントのご案内",                              viewAll: "全ての案内を見る", medicalEyebrow: "Healthcare Guide", medicalTitle: "高陽・一山 医療機関ガイド — 総合病院・美容医療・リハビリの情報" },
+  "zh-CN": { eyebrow: "MICE 指南",  title: "高阳·一山访问·滞留·活动信息一览",                                          viewAll: "查看全部指南",     medicalEyebrow: "Healthcare Guide", medicalTitle: "高阳·一山医疗机构信息 — 综合医院·美容医疗·康复信息" },
+  "zh-TW": { eyebrow: "MICE 指南",  title: "高陽·一山訪問·滯留·活動資訊一覽",                                          viewAll: "查看全部指南",     medicalEyebrow: "Healthcare Guide", medicalTitle: "高陽·一山醫療機構資訊 — 綜合醫院·美容醫療·復健資訊" },
 };
 
 type CatItem = { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string };
@@ -39,7 +39,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "라이프스타일",   gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "티켓 예매",      gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "공항픽업 안내",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
-    medical:    { title: "고양 의료기관 안내", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
+    medical:    { title: "고양일산 의료기관 안내", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   en: {
     tour:       { title: "Travel Guide",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -48,7 +48,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "Lifestyle",       gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "Ticket Booking",  gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "Airport Access",  gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
-    medical:    { title: "Goyang Healthcare Guide", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
+    medical:    { title: "Goyang-Ilsan Healthcare Guide", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   ja: {
     tour:       { title: "旅行商品案内",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -57,7 +57,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "ライフスタイル",  gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "チケット予約",    gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "空港送迎案内",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
-    medical:    { title: "高陽 医療機関ガイド", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
+    medical:    { title: "高陽・一山 医療機関ガイド", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-CN": {
     tour:       { title: "旅游产品指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -66,7 +66,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "生活方式",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "票务预约",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "机场接送指南",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
-    medical:    { title: "高阳医疗机构信息", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
+    medical:    { title: "高阳·一山医疗机构信息", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-TW": {
     tour:       { title: "旅遊產品指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
@@ -75,7 +75,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     cafe:       { title: "生活風格",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
     ticket:     { title: "票務預約",        gradFrom: "#f2fdf9", gradTo: "#eef8f5", iconBg: "bg-[#a8e8da]", iconColor: "text-[#0a6b5a]", glow: "rgba(100,220,200,0.4)" },
     airport:    { title: "機場接送指南",    gradFrom: "#fff8f2", gradTo: "#fff4e9", iconBg: "bg-[#ffd5b0]", iconColor: "text-[#9b5200]", glow: "rgba(255,200,140,0.5)" },
-    medical:    { title: "高陽醫療機構資訊", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
+    medical:    { title: "高陽·一山醫療機構資訊", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
 };
 
