@@ -7,23 +7,23 @@ import {
 
 const TITLES: Record<string, { title: string; subtitle: string }> = {
   ko: {
-    title: "SNS 에서 만나는 고양",
+    title: "SNS 에서 만나는 고양일산",
     subtitle: "유튜브 · 인스타그램 · 틱톡에서 최신 소식을 확인하세요",
   },
   en: {
-    title: "Goyang on Social Media",
+    title: "Goyang-Ilsan on Social Media",
     subtitle: "Latest updates on YouTube, Instagram, and TikTok",
   },
   ja: {
-    title: "SNSで会う高陽",
+    title: "SNSで会う高陽・一山",
     subtitle: "YouTube・Instagram・TikTokで最新情報をチェック",
   },
   "zh-CN": {
-    title: "社交媒体上的高阳",
+    title: "社交媒体上的高阳·一山",
     subtitle: "在 YouTube、Instagram、TikTok 查看最新动态",
   },
   "zh-TW": {
-    title: "社群媒體上的高陽",
+    title: "社群媒體上的高陽·一山",
     subtitle: "在 YouTube、Instagram、TikTok 查看最新動態",
   },
 };
