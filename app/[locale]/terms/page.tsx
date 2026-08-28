@@ -36,7 +36,7 @@ const authoritativeNotice: Partial<Record<LocaleKey, string>> = {
   en: "This is a reference translation. The Korean-language Terms prevail in case of any conflict.",
   ja: "本ページは参考訳です。相違がある場合は韓国語版が優先します。",
   "zh-CN": "本页面为参考译文。如有出入，以韩语版本为准。",
-  "zh-TW": "本頁面為参考译文。如有出入，以韩语版本为准。",
+  "zh-TW": "本頁面為參考譯文。如有出入，以韓語版本為準。",
 };
 
 // ─── 이용약관 본문 (한국어 정본, 제1조~제15조 + 부칙) ────────────────────────

@@ -35,7 +35,7 @@ const authoritativeNotice: Partial<Record<LocaleKey, string>> = {
   en: "This is a reference translation. The Korean-language Terms prevail in case of any conflict.",
   ja: "本ページは参考訳です。相違がある場合は韓国語版が優先します。",
   "zh-CN": "本页面为参考译文。如有出入，以韩语版本为准。",
-  "zh-TW": "本頁面為参考译文。如有出入，以韩语版本为准。",
+  "zh-TW": "本頁面為參考譯文。如有出入，以韓語版本為準。",
 };
 
 // ─── 개인정보 처리방침 본문 (한국어 정본, 제1조~제13조) ─────────────────────
@@ -47,7 +47,6 @@ type Article = { no: string; title: string; paragraphs: string[] };
 
 // TODO(legal): 아래 자리표시자는 배포 전 확정 필요
 //   - 제6조 ②: 수탁자 / 위탁업무 / 국외이전 여부 및 이전 국가 — 운영사 확정 후 기재
-//   - 제11조 ①: 개인정보 보호책임자 성명 — 사업자정보 게재값과 동일하게 기재
 //   - 제13조: 시행일 "2026년 ○○월 ○○일" — 서비스 시행 일자로 대체
 const articles: Article[] = [
   {
@@ -150,7 +149,7 @@ const articles: Article[] = [
     title: "개인정보 보호책임자",
     paragraphs: [
       "① 회사는 개인정보 처리에 관한 업무를 총괄하는 개인정보 보호책임자를 다음과 같이 지정합니다.",
-      "- 개인정보 보호책임자: [성명 — 사업자정보 게재값과 동일하게 기재]",
+      "- 개인정보 보호책임자: 심송학",
       "- 연락처: onesaebom1@gmail.com, 010-8851-1274",
       "② 정보주체는 개인정보 보호 관련 문의를 위 연락처로 할 수 있습니다.",
     ],
