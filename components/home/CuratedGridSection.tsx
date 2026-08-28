@@ -1,11 +1,13 @@
-// 고양 BEST 큐레이션 카드 그리드 — 완성형 (사진 위 대형 엠블럼 · Time Out 식).
+// 고양 BEST 큐레이션 카드 그리드 — 완성형 (사진 배경 + 이미지 배지 · Time Out 식).
 //
 // 카드 6장(walk/food/culture/kculture/history/family) · 4:3 · radius 20.
 // 레이어 (아래→위):
-//   1. 사진 (next/image, src=/images/cards/card-<category>.jpg)
-//      · 파일 부재 시 카테고리 색 gradient 폴백 (onError)
+//   1. 사진 배경 (next/image, src=/images/cards/card-<category>.jpg)
+//      · 파일 부재/로드 실패 시 카테고리 색 gradient 폴백 (onError)
 //   2. 하단 스크림 (투명 → 검정 0.7, 하단 40%)
-//   3. 중앙 대형 엠블럼 (size=L, 폭 55%)
+//   3. 중앙 대형 배지 (next/image, src=/images/badges/badge-<category>.png)
+//      · 파일 부재/로드 실패 시 자체 SVG 엠블럼(size=L) 폴백 (onError)
+//      · 사진 폴백과 배지 폴백은 서로 독립 — 4가지 조합 모두 정상 렌더
 //   4. 하단 좌측: 흰색 카테고리 레이블 + "고양 BEST N선" 흰색 대형 헤드라인
 //
 // 그리드: 데스크톱 3열 · 태블릿 2열 · 모바일 1열 (6장이 3×2 배치)
@@ -85,12 +87,18 @@ const STORY_HREF: Record<EmblemCategory, string> = {
   family: "#",
 };
 
-// 사진 파일 규격: public/images/cards/card-<category>.jpg (1200×900+, 4:3)
+// 사진 배경 파일: public/images/cards/card-<category>.jpg (1200×900+, 4:3)
 function photoSrc(cat: EmblemCategory): string {
   return `/images/cards/card-${cat}.jpg`;
 }
 
-// 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → priority
+// 중앙 배지 파일: public/images/badges/badge-<category>.png (투명 PNG, 512×512+)
+function badgeSrc(cat: EmblemCategory): string {
+  return `/images/badges/badge-${cat}.png`;
+}
+
+// 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진에만 priority
+// (배지 이미지는 파일 부재 가능성이 있어 priority 미지정으로 preload 경고 회피)
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
   "walk",
   "food",
@@ -141,7 +149,9 @@ function CuratedCard({
     typeof count === "number"
       ? HEADLINE_WITH_COUNT[locale](count)
       : HEADLINE_CURATED[locale];
+  // 사진 배경 · 배지 이미지는 서로 독립적으로 폴백 판정
   const [photoBroken, setPhotoBroken] = useState(false);
+  const [badgeBroken, setBadgeBroken] = useState(false);
 
   return (
     <a
@@ -157,7 +167,7 @@ function CuratedCard({
             : undefined
         }
       >
-        {/* 1. 사진 — 파일 부재 시 onError 로 gradient 폴백 */}
+        {/* 1. 사진 배경 — 부재/실패 시 gradient 폴백 */}
         {!photoBroken && (
           <Image
             src={photoSrc(category)}
@@ -180,15 +190,26 @@ function CuratedCard({
           }}
         />
 
-        {/* 3. 중앙 대형 엠블럼 (size=L, 카드 폭의 55%) */}
+        {/* 3. 중앙 대형 배지 — 이미지 우선, 실패 시 자체 SVG 엠블럼 폴백 */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="w-[55%]">
-            <Emblem
-              category={category}
-              size="L"
-              locale={locale}
-              className="h-auto w-full"
-            />
+          <div className="relative aspect-square w-[55%]">
+            {!badgeBroken ? (
+              <Image
+                src={badgeSrc(category)}
+                alt=""
+                fill
+                sizes="(max-width: 640px) 55vw, (max-width: 1024px) 27vw, 18vw"
+                className="object-contain"
+                onError={() => setBadgeBroken(true)}
+              />
+            ) : (
+              <Emblem
+                category={category}
+                size="L"
+                locale={locale}
+                className="h-full w-full"
+              />
+            )}
           </div>
         </div>
 
