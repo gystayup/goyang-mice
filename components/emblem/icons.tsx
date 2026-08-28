@@ -5,18 +5,44 @@
 
 import type { ReactElement } from "react";
 
-import type { EmblemCategory } from "@/components/emblem/colors";
+import type {
+  EmblemCategory,
+  EmblemSize,
+} from "@/components/emblem/colors";
 
-type IconProps = { color: string };
+type IconProps = { color: string; size?: EmblemSize };
+
+/**
+ * S/XS 사이즈에서 실루엣이 얇아 뭉쳐 보이는 문제 완화용 스트로크.
+ * L/M 은 0 (기존 렌더 유지 → 스냅샷 계약 그대로).
+ */
+function iconStrokeWidth(size?: EmblemSize): number {
+  if (size === "XS") return 5;
+  if (size === "S") return 3;
+  return 0;
+}
+
+function groupProps(color: string, size?: EmblemSize) {
+  const sw = iconStrokeWidth(size);
+  return sw > 0
+    ? {
+        fill: color,
+        stroke: color,
+        strokeWidth: sw,
+        strokeLinejoin: "round" as const,
+        strokeLinecap: "round" as const,
+      }
+    : { fill: color };
+}
 
 /** 얼굴 실루엣 base — food/culture/kculture/history 공통 */
 const FACE_D =
   "M 100 76 L 88 60 L 94 78 C 78 82 74 100 74 108 C 74 122 88 128 100 128 C 112 128 126 122 126 108 C 126 100 122 82 106 78 L 112 60 Z";
 
 /** walk — 걷는 옆모습 + 꼬리 */
-function WalkIcon({ color }: IconProps) {
+function WalkIcon({ color, size }: IconProps) {
   return (
-    <g fill={color}>
+    <g {...groupProps(color, size)}>
       {/* body ellipse */}
       <ellipse cx="98" cy="108" rx="30" ry="12" />
       {/* head (side) */}
@@ -36,9 +62,9 @@ function WalkIcon({ color }: IconProps) {
 }
 
 /** food — 얼굴 + 포크 */
-function FoodIcon({ color }: IconProps) {
+function FoodIcon({ color, size }: IconProps) {
   return (
-    <g fill={color}>
+    <g {...groupProps(color, size)}>
       <path d={FACE_D} />
       {/* fork stem */}
       <rect x="146" y="82" width="4" height="40" rx="1.5" />
@@ -52,7 +78,7 @@ function FoodIcon({ color }: IconProps) {
 }
 
 /** culture — 얼굴 + 별 2개 */
-function CultureIcon({ color }: IconProps) {
+function CultureIcon({ color, size }: IconProps) {
   const star = (cx: number, cy: number, r: number) => {
     // 5-point star centered at (cx,cy), outer radius r, inner r*0.4
     const pts: string[] = [];
@@ -64,7 +90,7 @@ function CultureIcon({ color }: IconProps) {
     return pts.join(" ");
   };
   return (
-    <g fill={color}>
+    <g {...groupProps(color, size)}>
       <path d={FACE_D} />
       <polygon points={star(58, 70, 10)} />
       <polygon points={star(142, 70, 10)} />
@@ -73,9 +99,9 @@ function CultureIcon({ color }: IconProps) {
 }
 
 /** kculture — 얼굴 + 마이크 */
-function KcultureIcon({ color }: IconProps) {
+function KcultureIcon({ color, size }: IconProps) {
   return (
-    <g fill={color}>
+    <g {...groupProps(color, size)}>
       <path d={FACE_D} />
       {/* mic head */}
       <ellipse cx="148" cy="78" rx="10" ry="12" />
@@ -88,9 +114,9 @@ function KcultureIcon({ color }: IconProps) {
 }
 
 /** history — 얼굴 + 갓 + 갓끈 */
-function HistoryIcon({ color }: IconProps) {
+function HistoryIcon({ color, size }: IconProps) {
   return (
-    <g fill={color}>
+    <g {...groupProps(color, size)}>
       <path d={FACE_D} />
       {/* gat brim (넓은 챙) */}
       <rect x="62" y="58" width="76" height="5" rx="2.5" />
