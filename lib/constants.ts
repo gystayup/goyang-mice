@@ -5,7 +5,7 @@
 
 // ============ 상수 ============
 export const SITE_NAME = '고양 문화관광·MICE 연구소';
-export const SITE_DESCRIPTION = '고양의 문화관광·MICE 경쟁력을 이끄는 최고의 전략 플랫폼. 투어·숙박·음식점·티켓·공항픽업 예약 서비스를 한 곳에서.';
+export const SITE_DESCRIPTION = '호수·킨텍스·미식·문화·역사를 한 흐름으로 안내하는 고양 방문 경험 플랫폼.';
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://goyang-mice.vercel.app';
 export const SITE_OG_IMAGE = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://goyang-mice.vercel.app'}/og-image.png`;
 export const SITE_LOGO = '/logo.svg';

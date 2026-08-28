@@ -192,7 +192,7 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
   ko: {
     badge: "고양 MICE 플랫폼",
     title: "고양의 문화, 관광, MICE, 로컬 라이프스타일을 연결하는 도시 플랫폼",
-    desc: "연구, 기획, 예약, 운영, 체류 경험을 하나의 DMC 구조로 연결해 고양 방문 경험을 설계합니다.",
+    desc: "호수·킨텍스·미식·문화·역사를 한 흐름으로 안내하는 고양 방문 경험 플랫폼.",
     navigate: "바로가기",
     focus: "주요 영역",
     collaborate: "협력 제안",
@@ -203,7 +203,7 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
   en: {
     badge: "Goyang MICE Platform",
     title: "A city platform connecting culture, tourism, MICE and local lifestyle in Goyang",
-    desc: "We connect research, planning, bookings, operations and stay experiences in one DMC structure built for Goyang.",
+    desc: "A guide to Goyang across lakes, KINTEX, food, culture and history — one flow, one platform.",
     navigate: "Navigate",
     focus: "Focus",
     collaborate: "Collaborate",
@@ -214,7 +214,7 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
   ja: {
     badge: "高陽 MICEプラットフォーム",
     title: "高陽市の文化・観光・MICE・ローカルライフスタイルをつなぐ都市プラットフォーム",
-    desc: "研究・企画・予約・運営・滞在体験を一つのDMC構造でつなぎ、高陽訪問体験を設計します。",
+    desc: "湖水公園・KINTEX・グルメ・文化・歴史を一つの流れでご案内する高陽訪問体験プラットフォーム。",
     navigate: "ナビゲーション",
     focus: "主要領域",
     collaborate: "連携提案",
@@ -225,7 +225,7 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
   "zh-CN": {
     badge: "高阳 MICE平台",
     title: "连接高阳市文化、旅游、MICE与本地生活方式的城市平台",
-    desc: "将研究、策划、预约、运营与滞留体验整合为一个DMC结构，全面设计高阳访客体验。",
+    desc: "湖水公园、KINTEX、美食、文化与历史一气连贯——高阳访问体验指南平台。",
     navigate: "快速导航",
     focus: "主要领域",
     collaborate: "合作提案",
@@ -236,7 +236,7 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
   "zh-TW": {
     badge: "高陽 MICE平台",
     title: "連結高陽市文化、旅遊、MICE與在地生活風格的城市平台",
-    desc: "將研究、策劃、預約、運營與滯留體驗整合為一個DMC結構，全面設計高陽訪客體驗。",
+    desc: "湖水公園、KINTEX、美食、文化與歷史一氣連貫——高陽訪問體驗指南平台。",
     navigate: "快速導覽",
     focus: "主要領域",
     collaborate: "合作提案",
