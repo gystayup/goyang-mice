@@ -176,6 +176,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // Vercel 배포 호스트를 명시적으로 신뢰. VERCEL=1 자동 감지가 동작하지 않는
+  // 엣지 케이스(엣지↔노드 런타임, redirect proxy 등)에서도 UntrustedHost 를 예방.
+  trustHost: true,
+  // 프로덕션 HTTPS 에서 쿠키 이름 접두사(`__Secure-`)를 결정론적으로 고정.
+  // middleware.ts 의 getToken({secureCookie: NODE_ENV === "production"}) 와
+  // 완전히 동일한 조건 → auth handler 쓰기·middleware 읽기·auth() 서버 세션
+  // 조회가 모두 `__Secure-authjs.session-token` 한 이름으로 정렬됨.
+  useSecureCookies: process.env.NODE_ENV === 'production',
 });
 
 /** 관리자(SUPER_ADMIN/OPERATOR) 접근 확인 */
