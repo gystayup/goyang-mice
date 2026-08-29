@@ -43,11 +43,11 @@ const CATEGORIES: EmblemCategory[] = [
 ];
 
 const SECTION_HEADLINE: Record<LocaleKey, string> = {
-  ko: "이번 주 고양 BEST",
-  en: "This Week's Goyang Best",
-  ja: "今週の高陽ベスト",
-  "zh-CN": "本周高阳BEST",
-  "zh-TW": "本週高陽BEST",
+  ko: "이번 주 고양일산 BEST",
+  en: "This Week's Goyang-Ilsan Best",
+  ja: "今週の高陽・一山ベスト",
+  "zh-CN": "本周高阳·一山BEST",
+  "zh-TW": "本週高陽·一山BEST",
 };
 
 /** 카테고리 짧은 로케일 라벨 (하단 텍스트 블록 헤드라인·태그용). */
