@@ -203,9 +203,14 @@ const COPY: Record<LocaleKey, Copy> = {
 };
 
 /**
- * 방사형 노드 좌표 — viewBox 1200x700 기준.
- * 허브 중심 (450, 340). 노드 카드는 %-based 절대 위치로 오버레이,
- * SVG 연결선 좌표와 동기화되도록 계산 (leftPct = x/1200, topPct = y/700).
+ * 방사형 노드 좌표 — viewBox 1200x600 (2:1 flat) 기준.
+ * 허브 중심 (600, 300). 배치 규칙 (오더 #2-R2):
+ *   · 상단 2 (KINTEX top-left, 인천공항 top-right)
+ *   · 좌 2 (일산호수공원 mid-left, 파주 DMZ bottom-left)
+ *   · 우 1 (서울 확장 카드 mid-right)
+ *   · 하단 1 (김포공항 bottom-center)
+ * Seoul 카드는 궤도 반경 안쪽에 정렬(중심 x=1020) — 우측 경계 잘림 없음.
+ * 노드 카드는 %-based 절대 위치로 오버레이, SVG 좌표와 동기화 (leftPct = x/1200, topPct = y/600).
  */
 type NodeKey = "kintex" | "dmz" | "lake" | "gimpo" | "incheon";
 type NodeSpec = {
@@ -216,17 +221,17 @@ type NodeSpec = {
   delayMs: number;
 };
 
-const HUB_X = 450;
-const HUB_Y = 340;
+const HUB_X = 600;
+const HUB_Y = 300;
 
 const SMALL_NODES: NodeSpec[] = [
-  { key: "kintex", icon: Building2, x: 450, y: 90, delayMs: 100 },
-  { key: "dmz", icon: Mountain, x: 130, y: 130, delayMs: 200 },
-  { key: "lake", icon: Trees, x: 100, y: 340, delayMs: 300 },
-  { key: "gimpo", icon: Plane, x: 130, y: 550, delayMs: 400 },
-  { key: "incheon", icon: Plane, x: 450, y: 610, delayMs: 500 },
+  { key: "kintex", icon: Building2, x: 270, y: 105, delayMs: 100 },
+  { key: "incheon", icon: Plane, x: 930, y: 105, delayMs: 200 },
+  { key: "lake", icon: Trees, x: 140, y: 250, delayMs: 300 },
+  { key: "dmz", icon: Mountain, x: 200, y: 460, delayMs: 400 },
+  { key: "gimpo", icon: Plane, x: 600, y: 520, delayMs: 500 },
 ];
-const SEOUL_XY = { x: 950, y: 340 };
+const SEOUL_XY = { x: 1010, y: 300 };
 
 function pct(value: number, total: number): string {
   return `${(value / total) * 100}%`;
@@ -239,8 +244,8 @@ export default function AccessHubSection({ locale }: { locale: string }) {
   const copy = COPY[active];
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18">
-      <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(140deg,_#080e1a_0%,_#0e1c35_40%,_#152a52_75%,_#1a3468_100%)] p-6 shadow-[0_28px_70px_rgba(8,14,26,0.35)] sm:rounded-[40px] sm:p-10 lg:p-14">
+    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+      <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(140deg,_#080e1a_0%,_#0e1c35_40%,_#152a52_75%,_#1a3468_100%)] p-6 shadow-[0_28px_70px_rgba(8,14,26,0.35)] sm:rounded-[40px] sm:p-8 lg:p-10">
         <style>{`
           @keyframes access-line-draw {
             from { stroke-dashoffset: 1; }
@@ -274,27 +279,27 @@ export default function AccessHubSection({ locale }: { locale: string }) {
           <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#ffe98b]/90">
             {EYEBROW}
           </div>
-          <h2 className="mt-3 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
+          <h2 className="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
             {copy.head}
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
             {copy.sub}
           </p>
         </div>
 
-        {/* 데스크톱 방사형 다이어그램 */}
-        <div className="relative mt-10 hidden aspect-[12/7] w-full md:block">
+        {/* 데스크톱 방사형 다이어그램 (2:1 flat · 최대 폭 1080px → 최대 높이 540px, lg+에서만 활성) */}
+        <div className="relative mx-auto mt-6 hidden aspect-[2/1] w-full max-w-[1080px] lg:block">
           {/* 연결선 (SVG 레이어) */}
           <svg
-            viewBox="0 0 1200 700"
+            viewBox="0 0 1200 600"
             className="absolute inset-0 h-full w-full"
             aria-hidden="true"
             preserveAspectRatio="none"
           >
             <defs>
               <linearGradient id="access-line-grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#ffe98b" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#ffb58f" stopOpacity="0.55" />
+                <stop offset="0%" stopColor="#ffe98b" stopOpacity="1" />
+                <stop offset="100%" stopColor="#ffb58f" stopOpacity="0.85" />
               </linearGradient>
             </defs>
             {[
@@ -308,7 +313,7 @@ export default function AccessHubSection({ locale }: { locale: string }) {
                 x2={l.x}
                 y2={l.y}
                 stroke="url(#access-line-grad)"
-                strokeWidth="1.4"
+                strokeWidth="2.6"
                 strokeLinecap="round"
                 pathLength="1"
                 strokeDasharray="1"
@@ -326,7 +331,7 @@ export default function AccessHubSection({ locale }: { locale: string }) {
               className="absolute"
               style={{
                 left: pct(HUB_X, 1200),
-                top: pct(HUB_Y, 700),
+                top: pct(HUB_Y, 600),
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -343,10 +348,10 @@ export default function AccessHubSection({ locale }: { locale: string }) {
 
             {/* 서울 (확장 카드) */}
             <div
-              className="absolute w-[300px]"
+              className="absolute w-[260px] xl:w-[280px]"
               style={{
                 left: pct(SEOUL_XY.x, 1200),
-                top: pct(SEOUL_XY.y, 700),
+                top: pct(SEOUL_XY.y, 600),
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -385,7 +390,7 @@ export default function AccessHubSection({ locale }: { locale: string }) {
                   className="absolute w-[168px]"
                   style={{
                     left: pct(node.x, 1200),
-                    top: pct(node.y, 700),
+                    top: pct(node.y, 600),
                     transform: "translate(-50%, -50%)",
                   }}
                 >
@@ -410,8 +415,8 @@ export default function AccessHubSection({ locale }: { locale: string }) {
           </div>
         </div>
 
-        {/* 모바일 세로 리스트 (억지 축소 없이 각 카드 full-width) */}
-        <div className="relative mt-8 space-y-2.5 md:hidden">
+        {/* 모바일·태블릿 세로 리스트 (억지 축소 없이 각 카드 full-width) — lg 미만에서 활성 */}
+        <div className="relative mt-8 space-y-2.5 lg:hidden">
           {/* 허브 바 */}
           <div className="rounded-2xl border border-[#ffe98b]/40 bg-[#080e1a]/70 px-4 py-3 text-center">
             <div className="text-sm font-black tracking-[0.06em] text-[#ffe98b]">
@@ -469,12 +474,12 @@ export default function AccessHubSection({ locale }: { locale: string }) {
         </div>
 
         {/* 캡션 */}
-        <p className="relative mt-6 text-xs leading-relaxed text-white/60 sm:text-sm">
+        <p className="relative mt-4 text-xs leading-relaxed text-white/60 sm:text-sm">
           {copy.caption}
         </p>
 
         {/* 하단 강점 바 (4항목) */}
-        <div className="relative mt-10 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-2 lg:grid-cols-4">
           {copy.strengths.map((s, i) => (
             <div key={i} className="flex items-start gap-3">
               <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#ffe98b]/40 bg-[#ffe98b]/10 text-[10px] font-bold text-[#ffe98b]">
@@ -488,7 +493,7 @@ export default function AccessHubSection({ locale }: { locale: string }) {
         </div>
 
         {/* 마감 카피 (영문 고정) */}
-        <div className="relative mt-8 text-center">
+        <div className="relative mt-6 text-center">
           <div className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-[#ffb58f] sm:text-xs">
             {CLOSER}
           </div>
