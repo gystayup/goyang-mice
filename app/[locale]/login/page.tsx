@@ -6,7 +6,7 @@ import LoginPanel from "@/components/auth/LoginPanel";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "로그인 | 고양특례시 고양이즘",
+  title: "로그인 | 고양특례시 GOYANG DMC",
   description:
     "카카오·구글·네이버로 간편하게 로그인하고 예약·문의 이력을 관리하세요.",
 };
