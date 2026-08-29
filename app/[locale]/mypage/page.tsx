@@ -9,7 +9,7 @@ import { findVisitorById } from "@/lib/visitors-db";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "마이페이지 | 고양특례시 고양이즘",
+  title: "마이페이지 | 고양특례시 GOYANG DMC",
 };
 
 export default async function MyPage({

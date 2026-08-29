@@ -1,7 +1,6 @@
 // Header — 브랜드 리프레시 (오더 #R2). 차콜 베이스 + 골드 포인트.
 //
 // 로고: "GOYANG DMC" 한 줄 (5로케일 공통 영문 고정, DMC 골드 강조).
-//   오더 #BRAND3: BEST → DMC. #BRAND4: 하단 GOYANGISM 서브 제거 → 한 줄만.
 // 네비 위계 (data/navigation.ts 5항목):
 //   · 방문객 (dmc, products)     — 밝게 (text-white)
 //   · 액션   (contact)           — 중간 (text-white/75)
@@ -25,7 +24,7 @@ type HeaderCopy = {
   closeLabel: string;
 };
 
-// 5로케일 헤더 문구 — 로고 서브 라인(GOYANGISM) 은 오더 #BRAND4 로 제거됨.
+// 5로케일 헤더 문구 (menuLabel / closeLabel).
 const copyMap: Record<LocaleKey, HeaderCopy> = {
   ko: {
     menuLabel: "메뉴 열기",
