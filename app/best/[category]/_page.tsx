@@ -29,6 +29,7 @@ import {
   CARD_COUNT,
   CARD_DESC,
   HEADLINE,
+  INSIDER_TAGLINE,
   isCuratedCategory,
 } from "@/data/curated-categories";
 import { getCuratedStory } from "@/data/curated-stories";
@@ -36,6 +37,9 @@ import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
+
+// 5로케일 공통 브랜드 라벨 (영문 고정).
+const INSIDERS_BRAND = "GOYANG INSIDERS";
 
 const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   ko: "전체",
@@ -105,17 +109,20 @@ export default async function BestCategoryPage({
   const n = CARD_COUNT[cat];
   const headline = HEADLINE[locale](label, n);
   const desc = CARD_DESC[locale][cat];
+  const insiderTagline = INSIDER_TAGLINE[locale][cat];
   const color = EMBLEM_COLORS[cat];
   const story = getCuratedStory(cat);
   const orderedRegions = [...regions].sort((a, b) => a.order - b.order);
 
   return (
     <Shell>
-      {/* Hero — card-{cat}.jpg 배경 + 반투명 어두운 오버레이 + 문안 */}
+      {/* Hero — hero-{cat}.jpg 풍경 배경 + 어두운 스크림 + 문안 (오더 #BEST2-fix).
+          card-{cat}.jpg (배지 통짜) 대신 이미 존재하는 hero 풍경 이미지 재사용:
+          텍스트 대비 확보 + 배지 통짜가 화면을 다 먹는 문제 해소. */}
       <section className="relative overflow-hidden">
         <div className="relative aspect-[16/9] max-h-[520px] w-full">
           <Image
-            src={`/images/cards/card-${cat}.jpg`}
+            src={`/images/hero/hero-${cat}.jpg`}
             alt=""
             fill
             className="object-cover"
@@ -127,12 +134,16 @@ export default async function BestCategoryPage({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.88) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.65) 55%, rgba(0,0,0,0.92) 100%)",
             }}
           />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:pb-14 lg:pb-16">
             <div className="mx-auto max-w-6xl">
-              <div className="flex items-center gap-3">
+              {/* GOYANG INSIDERS 브랜드 라벨 (5로케일 공통 영문 고정) */}
+              <div className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#ffe98b] sm:text-[11px]">
+                {INSIDERS_BRAND}
+              </div>
+              <div className="mt-3 flex items-center gap-3">
                 <Emblem
                   category={cat}
                   size="M"
@@ -149,6 +160,10 @@ export default async function BestCategoryPage({
               <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
                 {headline}
               </h1>
+              {/* Insider 태그라인 — h1 아래, 안내 톤 앞의 저자 목소리 */}
+              <p className="mt-2 text-sm font-semibold italic text-[#ffe98b]/95 sm:text-base">
+                {insiderTagline}
+              </p>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
                 {desc}
               </p>
