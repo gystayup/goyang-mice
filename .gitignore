@@ -61,3 +61,6 @@ next-env.d.ts
 
 # lighthouse reports
 *.report.html
+
+# high-res source originals kept out of repo (see /originals/README)
+/originals/
