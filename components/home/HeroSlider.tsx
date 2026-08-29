@@ -2,7 +2,7 @@
 // 홈 최상단 Hero — 6 카테고리 순환 Ken Burns 슬라이더 (Time Out 폴리시).
 //
 // 슬라이드 6장: walk / food / culture / kculture / history / family
-//   · 배경 사진 (public/images/cards/card-<cat>.jpg)
+//   · 배경 사진 (public/images/hero/hero-<cat>.jpg — 순수 풍경, 카드용 통짜 배지 이미지와 분리)
 //   · Ken Burns: scale 1 → 1.14, 12s ease-out infinite alternate
 //     · transformOrigin 카테고리마다 다른 방향
 //     · @media (prefers-reduced-motion: reduce) 시 애니메이션 자동 비활성
@@ -181,7 +181,7 @@ const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
 };
 
 function photoSrc(cat: EmblemCategory) {
-  return `/images/cards/card-${cat}.jpg`;
+  return `/images/hero/hero-${cat}.jpg`;
 }
 function badgeSrc(cat: EmblemCategory) {
   return `/images/badges/badge-${cat}.png`;
