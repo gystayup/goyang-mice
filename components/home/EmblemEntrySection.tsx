@@ -23,11 +23,11 @@ const CATEGORIES: EmblemCategory[] = [
 ];
 
 const HEADLINE: Record<LocaleKey, string> = {
-  ko: "고양, 무엇부터 볼까",
-  en: "Where to start in Goyang",
-  ja: "高陽、何から見る？",
-  "zh-CN": "高阳，从哪里开始",
-  "zh-TW": "高陽，從哪裡開始",
+  ko: "고양일산, 무엇부터 볼까",
+  en: "Where to start in Goyang-Ilsan",
+  ja: "高陽・一山、何から見る？",
+  "zh-CN": "高阳·一山，从哪里开始",
+  "zh-TW": "高陽·一山，從哪裡開始",
 };
 
 // TODO(routing): 카테고리별 랜딩 라우트 준비되면 아래 map 을 실제 경로로 갱신.

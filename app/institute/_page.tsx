@@ -6,6 +6,13 @@ import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
 
+// 홈에서 이관된 5개 섹션 (a→b→c→d→e→NewsSection) — 홈은 B2C 방문객 가이드 전용으로 정리.
+import HeroSection from "@/components/home/HeroSection";
+import WhyGoyangSection from "@/components/home/WhyGoyangSection";
+import ProductPreviewSection from "@/components/home/ProductPreviewSection";
+import ContactCtaSection from "@/components/home/ContactCtaSection";
+import NewsSection from "@/components/home/NewsSection";
+
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
 function getInstituteCopy(locale: PageLocale) {
@@ -207,7 +214,7 @@ export function getInstituteMetadata(locale: PageLocale): Metadata {
 
 export const metadata = getInstituteMetadata("ko");
 
-export default function InstitutePage({ locale = "ko" }: { locale?: PageLocale }) {
+export default async function InstitutePage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getInstituteCopy(locale);
 
   return (
@@ -280,6 +287,14 @@ export default function InstitutePage({ locale = "ko" }: { locale?: PageLocale }
           </Link>
         </div>
       </div>
+
+      {/* 홈에서 이관된 섹션 — a→b→c→d→e→NewsSection 순서.
+          각 컴포넌트는 자체 <section> 컨테이너·패딩을 가지므로 max-w-7xl 랩퍼 밖으로 배치. */}
+      <HeroSection locale={locale} />
+      <WhyGoyangSection locale={locale} />
+      <ProductPreviewSection locale={locale} />
+      <ContactCtaSection locale={locale} />
+      <NewsSection locale={locale} />
     </Shell>
   );
 }

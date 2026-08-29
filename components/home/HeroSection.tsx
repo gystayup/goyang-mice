@@ -1,7 +1,8 @@
+// "고양일산에서 만나는 경험" 소개 섹션 — 배지 배너 + Research/DMC/Experience 3카드 + 통계 4개.
+// (본래 홈 Hero 하부에 있었으나 refactor/home-lab-split 로 연구소 페이지 하부로 이동. 슬라이더는 홈에 별도로 유지.)
 
 import { BookOpen, MapPin, Sparkles } from "lucide-react";
 
-import HeroSlider from "@/components/home/HeroSlider";
 import ExpandableStats from "@/components/home/ExpandableStats";
 
 type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
@@ -103,11 +104,6 @@ export default async function HeroSection({ locale }: { locale: string }) {
       <div className="pointer-events-none absolute -left-24 top-8 h-64 w-64 rounded-full bg-[#8df0cf] opacity-20 blur-[80px]" />
       <div className="pointer-events-none absolute -right-20 top-16 h-72 w-72 rounded-full bg-[#a4d8ff] opacity-25 blur-[90px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-[#ffb58f] opacity-18 blur-[70px]" />
-
-      {/* 6 카테고리 Ken Burns 슬라이더 (호수공원·미식·문화·K컬처·역사·가족 순환) */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <HeroSlider locale={locale} />
-      </div>
 
       {/* 콘텐츠 카드 영역 */}
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:mt-10 sm:px-6 lg:mt-12">
