@@ -1,27 +1,31 @@
 // components/home/AccessHubSection.tsx
-// 홈 · Access Hub 섹션 (CuratedGridSection 과 SocialSection 사이).
+// 홈 · Access Hub 섹션 — 배경 이미지 + 균일 스크림 + 5로케일 코드 오버레이 (오더 #2-R4 최종).
 //
-// SVG 코드 빌드 다이어그램 (이전 이미지 버전에서 전환):
-//   · 다크 네이비 배경 + 골드·오렌지 포인트 (Design OS 2.0 토큰)
-//   · 데스크톱: 방사형 허브 다이어그램 (SVG 연결선 + HTML 노드 카드 오버레이)
-//   · 모바일: 세로 리스트 (서울은 4개 세부 행을 들여쓴 형태)
-//   · Ken Burns 없음. 연결선 draw 애니메이션·허브 pulse·카드 fade-in
-//     모두 prefers-reduced-motion 시 즉시 정지.
-//   · 외부 라이브러리 사용 없음 (아이콘만 lucide-react — 이미 프로젝트 표준).
+// 배경: public/images/access/access-bg.jpg (bg-cover · bg-center · 크롭 허용).
+//   · 이미지 원본은 한국어 텍스트가 하드코딩된 인포그래픽 →
+//     전면 균일 그라디언트 스크림(네이비 상→하 진하게)으로 판독 불가 수준까지 가라앉힘.
+//   · 정보 텍스트는 전부 코드 오버레이(5로케일). 로케일별 이미지 불필요.
+//   · 지점별 뱃지 스크림 없음. WCAG AA 이상 대비 유지.
 //
-// 5로케일 텍스트 (헤더/서브/캡션 + 다이어그램 내부 지명·시간 라벨 + 강점 바):
-//   messages/*.json 키 추가 없음. EmblemEntrySection 방식 준용.
-//   "GOYANG·ILSAN" / "Gateway to Korea" / "STAY IN GOYANG. EXPERIENCE MORE OF KOREA."
-//   3문안은 영문 고정 (컴포넌트 상수).
+// 오버레이:
+//   상단: eyebrow "ACCESS HUB" + 헤드라인 + 서브 (5로케일)
+//   중하단: 목적지 6칩 (서울 13–17분 GTX-A · 김포 9분 · KINTEX 15분 ·
+//           DMZ 30분 · 호수공원 5분 · 인천공항 직결) + 서울 세부 1줄
+//           (홍대 20 · 경복궁 30 · 강남 40 · 성수 1h)
+//   하단: 강점 4항목 + STAY IN GOYANG. EXPERIENCE MORE OF KOREA. (영문 고정)
+//   시간 숫자는 골드 강조 (#ffe98b).
 //
-// 무접촉: DB / 카드·hero·badge 자산 / 다른 섹션. 판매 소구어 0.
+// 모바일: 배경 유지, 세로 스택으로 잘림 없이. Ken Burns/애니메이션 없음
+// (필요 시 prefers-reduced-motion 자동 대응 필요 없음 — 정적 오버레이).
+//
+// 무접촉: DB / card·hero·badge 자산 / 다른 섹션 / messages/*.json. 판매 소구어 0.
 
 import {
   Building2,
   Landmark,
   Mountain,
   Plane,
-  Train,
+  Sparkles,
   Trees,
 } from "lucide-react";
 
@@ -36,7 +40,8 @@ type Copy = {
   seoul: {
     label: string;
     mainLine: string;
-    subs: Array<{ label: string; time: string }>;
+    subsInline: string; // "홍대 20 · 경복궁 30 · 강남 40 · 성수 1h" — 로케일별 완성문
+    subsPrefix: string; // "Seoul details" 류 라벨
   };
   nodes: {
     gimpo: NodeCopy;
@@ -48,11 +53,8 @@ type Copy = {
   strengths: [string, string, string, string];
 };
 
-// 영문 고정 문안 (다이어그램 심볼·마감 카피).
-const HUB_NAME = "GOYANG·ILSAN";
-const HUB_TAG = "Gateway to Korea";
-const CLOSER = "STAY IN GOYANG. EXPERIENCE MORE OF KOREA.";
 const EYEBROW = "ACCESS HUB";
+const CLOSER = "STAY IN GOYANG. EXPERIENCE MORE OF KOREA.";
 
 const COPY: Record<LocaleKey, Copy> = {
   ko: {
@@ -62,13 +64,9 @@ const COPY: Record<LocaleKey, Copy> = {
       "서울 13–17분(GTX-A) · 김포공항 9분(대곡역 기준) · 파주 DMZ 30분 · 인천공항 직결",
     seoul: {
       label: "서울",
-      mainLine: "서울역 13–17분 GTX-A",
-      subs: [
-        { label: "홍대", time: "20분" },
-        { label: "경복궁", time: "30분" },
-        { label: "강남", time: "40분" },
-        { label: "성수", time: "1시간" },
-      ],
+      mainLine: "13–17분 GTX-A",
+      subsPrefix: "서울 상세",
+      subsInline: "홍대 20분 · 경복궁 30분 · 강남 40분 · 성수 1시간",
     },
     nodes: {
       gimpo: { label: "김포공항", time: "9분" },
@@ -91,13 +89,10 @@ const COPY: Record<LocaleKey, Copy> = {
       "Seoul 13–17 min (GTX-A) · Gimpo Airport 9 min (from Daegok) · Paju DMZ 30 min · Direct to Incheon Airport",
     seoul: {
       label: "Seoul",
-      mainLine: "Seoul Station 13–17 min via GTX-A",
-      subs: [
-        { label: "Hongdae", time: "20 min" },
-        { label: "Gyeongbokgung Palace", time: "30 min" },
-        { label: "Gangnam", time: "40 min" },
-        { label: "Seongsu", time: "1 hr" },
-      ],
+      mainLine: "13–17 min via GTX-A",
+      subsPrefix: "Seoul in detail",
+      subsInline:
+        "Hongdae 20 min · Gyeongbokgung 30 min · Gangnam 40 min · Seongsu 1 hr",
     },
     nodes: {
       gimpo: { label: "Gimpo Airport", time: "9 min" },
@@ -120,13 +115,9 @@ const COPY: Record<LocaleKey, Copy> = {
       "ソウル13–17分（GTX-A）・金浦空港9分（大谷駅基準）・坡州DMZ30分・仁川空港直結",
     seoul: {
       label: "ソウル",
-      mainLine: "ソウル駅 13–17分 GTX-A",
-      subs: [
-        { label: "弘大", time: "20分" },
-        { label: "景福宮", time: "30分" },
-        { label: "江南", time: "40分" },
-        { label: "聖水", time: "1時間" },
-      ],
+      mainLine: "13–17分 GTX-A",
+      subsPrefix: "ソウル詳細",
+      subsInline: "弘大 20分 · 景福宮 30分 · 江南 40分 · 聖水 1時間",
     },
     nodes: {
       gimpo: { label: "金浦空港", time: "9分" },
@@ -149,13 +140,9 @@ const COPY: Record<LocaleKey, Copy> = {
       "首尔13–17分钟（GTX-A）· 金浦机场9分钟（自大谷站）· 坡州DMZ 30分钟 · 直达仁川机场",
     seoul: {
       label: "首尔",
-      mainLine: "首尔站 13–17分钟 GTX-A",
-      subs: [
-        { label: "弘大", time: "20分钟" },
-        { label: "景福宫", time: "30分钟" },
-        { label: "江南", time: "40分钟" },
-        { label: "圣水", time: "1小时" },
-      ],
+      mainLine: "13–17分钟 GTX-A",
+      subsPrefix: "首尔详情",
+      subsInline: "弘大 20分钟 · 景福宫 30分钟 · 江南 40分钟 · 圣水 1小时",
     },
     nodes: {
       gimpo: { label: "金浦机场", time: "9分钟" },
@@ -178,13 +165,9 @@ const COPY: Record<LocaleKey, Copy> = {
       "首爾13–17分鐘（GTX-A）· 金浦機場9分鐘（自大谷站）· 坡州DMZ 30分鐘 · 直達仁川機場",
     seoul: {
       label: "首爾",
-      mainLine: "首爾站 13–17分鐘 GTX-A",
-      subs: [
-        { label: "弘大", time: "20分鐘" },
-        { label: "景福宮", time: "30分鐘" },
-        { label: "江南", time: "40分鐘" },
-        { label: "聖水", time: "1小時" },
-      ],
+      mainLine: "13–17分鐘 GTX-A",
+      subsPrefix: "首爾詳情",
+      subsInline: "弘大 20分鐘 · 景福宮 30分鐘 · 江南 40分鐘 · 聖水 1小時",
     },
     nodes: {
       gimpo: { label: "金浦機場", time: "9分鐘" },
@@ -202,39 +185,47 @@ const COPY: Record<LocaleKey, Copy> = {
   },
 };
 
-/**
- * 방사형 노드 좌표 — viewBox 1200x600 (2:1 flat) 기준.
- * 허브 중심 (600, 300). 배치 규칙 (오더 #2-R2):
- *   · 상단 2 (KINTEX top-left, 인천공항 top-right)
- *   · 좌 2 (일산호수공원 mid-left, 파주 DMZ bottom-left)
- *   · 우 1 (서울 확장 카드 mid-right)
- *   · 하단 1 (김포공항 bottom-center)
- * Seoul 카드는 궤도 반경 안쪽에 정렬(중심 x=1020) — 우측 경계 잘림 없음.
- * 노드 카드는 %-based 절대 위치로 오버레이, SVG 좌표와 동기화 (leftPct = x/1200, topPct = y/600).
- */
-type NodeKey = "kintex" | "dmz" | "lake" | "gimpo" | "incheon";
-type NodeSpec = {
-  key: NodeKey;
+type ChipSpec = {
+  key: "seoul" | "kintex" | "dmz" | "lake" | "gimpo" | "incheon";
   icon: typeof Plane;
-  x: number;
-  y: number;
-  delayMs: number;
 };
-
-const HUB_X = 600;
-const HUB_Y = 300;
-
-const SMALL_NODES: NodeSpec[] = [
-  { key: "kintex", icon: Building2, x: 270, y: 105, delayMs: 100 },
-  { key: "incheon", icon: Plane, x: 930, y: 105, delayMs: 200 },
-  { key: "lake", icon: Trees, x: 140, y: 250, delayMs: 300 },
-  { key: "dmz", icon: Mountain, x: 200, y: 460, delayMs: 400 },
-  { key: "gimpo", icon: Plane, x: 600, y: 520, delayMs: 500 },
+// 6칩 진열 순서 (허브에서 시작해 서쪽·북쪽·남쪽으로 균형있게).
+const CHIPS: ChipSpec[] = [
+  { key: "seoul", icon: Landmark },
+  { key: "kintex", icon: Building2 },
+  { key: "dmz", icon: Mountain },
+  { key: "lake", icon: Trees },
+  { key: "gimpo", icon: Plane },
+  { key: "incheon", icon: Plane },
 ];
-const SEOUL_XY = { x: 1010, y: 300 };
 
-function pct(value: number, total: number): string {
-  return `${(value / total) * 100}%`;
+function ChipRow({ copy }: { copy: Copy }) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      {CHIPS.map(({ key, icon: Icon }) => {
+        const label = key === "seoul" ? copy.seoul.label : copy.nodes[key].label;
+        const time =
+          key === "seoul" ? copy.seoul.mainLine : copy.nodes[key].time;
+        return (
+          <div
+            key={key}
+            className="flex items-center gap-2.5 rounded-xl border border-white/12 bg-black/35 px-3.5 py-2.5 backdrop-blur-sm"
+          >
+            <Icon
+              className="h-4 w-4 shrink-0 text-[#ffb58f]"
+              aria-hidden="true"
+            />
+            <div className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
+              {label}
+            </div>
+            <div className="shrink-0 text-sm font-black tracking-tight text-[#ffe98b] sm:text-base">
+              {time}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export default function AccessHubSection({ locale }: { locale: string }) {
@@ -245,257 +236,81 @@ export default function AccessHubSection({ locale }: { locale: string }) {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-      <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(140deg,_#080e1a_0%,_#0e1c35_40%,_#152a52_75%,_#1a3468_100%)] p-6 shadow-[0_28px_70px_rgba(8,14,26,0.35)] sm:rounded-[40px] sm:p-8 lg:p-10">
-        <style>{`
-          @keyframes access-line-draw {
-            from { stroke-dashoffset: 1; }
-            to   { stroke-dashoffset: 0; }
-          }
-          @keyframes access-pulse {
-            0%,100% { box-shadow: 0 10px 40px rgba(255,233,139,0.20); }
-            50%     { box-shadow: 0 10px 60px rgba(255,233,139,0.45); }
-          }
-          @keyframes access-card-in {
-            from { opacity: 0; transform: translateY(6px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-          .access-line  { animation: access-line-draw 1.2s ease-out forwards; }
-          .access-pulse { animation: access-pulse 4s ease-in-out infinite; }
-          .access-card  { animation: access-card-in 700ms ease-out backwards; }
-          @media (prefers-reduced-motion: reduce) {
-            .access-line, .access-pulse, .access-card {
-              animation: none !important;
-            }
-            .access-line { stroke-dashoffset: 0 !important; }
-          }
-        `}</style>
+      <div
+        className="relative overflow-hidden rounded-[32px] shadow-[0_28px_70px_rgba(8,14,26,0.35)] sm:rounded-[40px]"
+        style={{
+          backgroundImage: "url('/images/access/access-bg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* 균일 스크림 (네이비 상→하 진하게) —
+            이미지 자체 텍스트·수치는 판독 불가 수준으로 가라앉히고
+            오버레이 흰색 텍스트 WCAG AA 대비를 확보. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(8,14,26,0.86) 0%, rgba(14,28,53,0.90) 45%, rgba(8,14,26,0.94) 100%)",
+          }}
+        />
 
-        {/* 배경 글로우 */}
-        <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full bg-[#ffe98b]/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-[#ffb58f]/10 blur-3xl" />
+        {/* 배경 글로우 (스크림 위에서 미묘) */}
+        <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full bg-[#ffe98b]/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-[#ffb58f]/8 blur-3xl" />
 
-        {/* 헤더 */}
-        <div className="relative">
-          <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#ffe98b]/90">
-            {EYEBROW}
+        <div className="relative p-6 sm:p-8 lg:p-10">
+          {/* 헤더 */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#ffe98b]/95">
+              {EYEBROW}
+            </div>
+            <h2 className="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
+              {copy.head}
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/85 sm:text-base">
+              {copy.sub}
+            </p>
           </div>
-          <h2 className="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
-            {copy.head}
-          </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-            {copy.sub}
-          </p>
-        </div>
 
-        {/* 데스크톱 방사형 다이어그램 (2:1 flat · 최대 폭 1080px → 최대 높이 540px, lg+에서만 활성) */}
-        <div className="relative mx-auto mt-6 hidden aspect-[2/1] w-full max-w-[1080px] lg:block">
-          {/* 연결선 (SVG 레이어) */}
-          <svg
-            viewBox="0 0 1200 600"
-            className="absolute inset-0 h-full w-full"
-            aria-hidden="true"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="access-line-grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#ffe98b" stopOpacity="1" />
-                <stop offset="100%" stopColor="#ffb58f" stopOpacity="0.85" />
-              </linearGradient>
-            </defs>
-            {[
-              ...SMALL_NODES.map((n) => ({ x: n.x, y: n.y, delay: n.delayMs })),
-              { x: SEOUL_XY.x, y: SEOUL_XY.y, delay: 600 },
-            ].map((l, i) => (
-              <line
-                key={i}
-                x1={HUB_X}
-                y1={HUB_Y}
-                x2={l.x}
-                y2={l.y}
-                stroke="url(#access-line-grad)"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                pathLength="1"
-                strokeDasharray="1"
-                strokeDashoffset="1"
-                className="access-line"
-                style={{ animationDelay: `${l.delay}ms` }}
+          {/* 6 목적지 칩 */}
+          <div className="mt-6 sm:mt-7">
+            <ChipRow copy={copy} />
+          </div>
+
+          {/* 서울 세부 인라인 */}
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/10 bg-black/25 px-3.5 py-2 text-xs text-white/85 backdrop-blur-sm sm:text-sm">
+            <div className="flex items-center gap-1.5">
+              <Sparkles
+                className="h-3.5 w-3.5 text-[#ffe98b]"
+                aria-hidden="true"
               />
+              <span className="font-bold uppercase tracking-[0.14em] text-[#ffe98b]">
+                {copy.seoul.subsPrefix}
+              </span>
+            </div>
+            <span className="text-white/85">{copy.seoul.subsInline}</span>
+          </div>
+
+          {/* 하단 강점 4항목 + 마감 카피 */}
+          <div className="mt-6 grid gap-3 border-t border-white/12 pt-5 sm:grid-cols-2 lg:grid-cols-4">
+            {copy.strengths.map((s, i) => (
+              <div key={i} className="flex items-start gap-2.5">
+                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#ffe98b]/50 bg-[#ffe98b]/12 text-[10px] font-bold text-[#ffe98b]">
+                  {i + 1}
+                </div>
+                <div className="text-[13px] font-medium leading-snug text-white/90 sm:text-sm">
+                  {s}
+                </div>
+              </div>
             ))}
-          </svg>
-
-          {/* 노드 카드 (HTML 오버레이) */}
-          <div className="absolute inset-0">
-            {/* 중심 허브 */}
-            <div
-              className="absolute"
-              style={{
-                left: pct(HUB_X, 1200),
-                top: pct(HUB_Y, 600),
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <div className="access-pulse flex h-40 w-40 flex-col items-center justify-center rounded-full border-2 border-[#ffe98b]/60 bg-[#080e1a]/90 text-center">
-                <Train className="h-4 w-4 text-[#ffe98b]" aria-hidden="true" />
-                <div className="mt-1.5 text-[13px] font-black tracking-[0.06em] text-[#ffe98b]">
-                  {HUB_NAME}
-                </div>
-                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">
-                  {HUB_TAG}
-                </div>
-              </div>
-            </div>
-
-            {/* 서울 (확장 카드) */}
-            <div
-              className="absolute w-[260px] xl:w-[280px]"
-              style={{
-                left: pct(SEOUL_XY.x, 1200),
-                top: pct(SEOUL_XY.y, 600),
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <div
-                className="access-card rounded-2xl border border-[#ffe98b]/25 bg-white/[0.07] px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur"
-                style={{ animationDelay: "600ms" }}
-              >
-                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#ffe98b]/90">
-                  <Landmark className="h-3.5 w-3.5" aria-hidden="true" />
-                  {copy.seoul.label}
-                </div>
-                <div className="mt-2 text-[15px] font-black leading-snug text-white">
-                  {copy.seoul.mainLine}
-                </div>
-                <div className="mt-3 space-y-1.5 border-t border-white/10 pt-3">
-                  {copy.seoul.subs.map((s) => (
-                    <div
-                      key={s.label}
-                      className="flex items-center justify-between text-[12px]"
-                    >
-                      <span className="text-white/70">{s.label}</span>
-                      <span className="font-bold text-[#ffe98b]">{s.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* 5 작은 노드 */}
-            {SMALL_NODES.map((node) => {
-              const Icon = node.icon;
-              const nc = copy.nodes[node.key];
-              return (
-                <div
-                  key={node.key}
-                  className="absolute w-[168px]"
-                  style={{
-                    left: pct(node.x, 1200),
-                    top: pct(node.y, 600),
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  <div
-                    className="access-card rounded-2xl border border-white/12 bg-white/[0.06] px-3.5 py-3 text-center shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur"
-                    style={{ animationDelay: `${node.delayMs}ms` }}
-                  >
-                    <div className="flex items-center justify-center gap-1.5 text-[11px] font-semibold text-white/85">
-                      <Icon
-                        className="h-3.5 w-3.5 text-[#ffb58f]"
-                        aria-hidden="true"
-                      />
-                      <span className="truncate">{nc.label}</span>
-                    </div>
-                    <div className="mt-1 text-lg font-black tracking-tight text-[#ffe98b]">
-                      {nc.time}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 모바일·태블릿 세로 리스트 (억지 축소 없이 각 카드 full-width) — lg 미만에서 활성 */}
-        <div className="relative mt-8 space-y-2.5 lg:hidden">
-          {/* 허브 바 */}
-          <div className="rounded-2xl border border-[#ffe98b]/40 bg-[#080e1a]/70 px-4 py-3 text-center">
-            <div className="text-sm font-black tracking-[0.06em] text-[#ffe98b]">
-              {HUB_NAME}
-            </div>
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">
-              {HUB_TAG}
-            </div>
           </div>
 
-          {/* 서울 (확장) */}
-          <div className="rounded-2xl border border-[#ffe98b]/25 bg-white/[0.07] px-4 py-3">
-            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#ffe98b]/90">
-              <Landmark className="h-3.5 w-3.5" aria-hidden="true" />
-              {copy.seoul.label}
+          <div className="mt-5 text-center">
+            <div className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-[#ffb58f] sm:text-xs">
+              {CLOSER}
             </div>
-            <div className="mt-1.5 text-sm font-black leading-snug text-white">
-              {copy.seoul.mainLine}
-            </div>
-            <div className="mt-2 space-y-1 border-l-2 border-[#ffe98b]/30 pl-3">
-              {copy.seoul.subs.map((s) => (
-                <div
-                  key={s.label}
-                  className="flex items-center justify-between text-xs"
-                >
-                  <span className="text-white/70">{s.label}</span>
-                  <span className="font-bold text-[#ffe98b]">{s.time}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 5 작은 노드 */}
-          {SMALL_NODES.map((node) => {
-            const Icon = node.icon;
-            const nc = copy.nodes[node.key];
-            return (
-              <div
-                key={node.key}
-                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3"
-              >
-                <div className="flex items-center gap-2 text-sm text-white/90">
-                  <Icon
-                    className="h-4 w-4 text-[#ffb58f]"
-                    aria-hidden="true"
-                  />
-                  {nc.label}
-                </div>
-                <div className="text-sm font-bold text-[#ffe98b]">
-                  {nc.time}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* 캡션 */}
-        <p className="relative mt-4 text-xs leading-relaxed text-white/60 sm:text-sm">
-          {copy.caption}
-        </p>
-
-        {/* 하단 강점 바 (4항목) */}
-        <div className="relative mt-6 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-2 lg:grid-cols-4">
-          {copy.strengths.map((s, i) => (
-            <div key={i} className="flex items-start gap-3">
-              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#ffe98b]/40 bg-[#ffe98b]/10 text-[10px] font-bold text-[#ffe98b]">
-                {i + 1}
-              </div>
-              <div className="text-sm font-medium leading-snug text-white/85">
-                {s}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* 마감 카피 (영문 고정) */}
-        <div className="relative mt-6 text-center">
-          <div className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-[#ffb58f] sm:text-xs">
-            {CLOSER}
           </div>
         </div>
       </div>
