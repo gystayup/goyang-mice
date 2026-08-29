@@ -1,51 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import {
-  BriefcaseBusiness,
-  CalendarRange,
-  Coffee,
-  HeartPulse,
-  Hotel,
-  Landmark,
-  Plane,
-  Sparkles,
-  Stethoscope,
-  Ticket,
-  UtensilsCrossed,
-} from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, CalendarRange } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
-import { readDmcCategoryMediaMap } from "@/lib/dmc-category-media";
-import { readDmcCustomCategories } from "@/lib/dmc-custom-categories";
 import { readDmcHeroMedia } from "@/lib/dmc-hero-media";
 import { Link } from "@/lib/navigation";
 
 export const dynamic = "force-dynamic";
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
-
-type CategoryItem = {
-  key:
-    | "tour"
-    | "stay"
-    | "restaurant"
-    | "cafe"
-    | "ticket"
-    | "airport"
-    | "medical-treatment"
-    | "medical-beauty"
-    | "medical-recovery";
-  eyebrow: string;
-  title: string;
-  description: string;
-  tags: string[];
-  href: string;
-  icon: typeof Landmark;
-  theme: string;
-};
 
 type DmcCopy = {
   metadata: Metadata;
@@ -66,14 +32,7 @@ type DmcCopy = {
     title: string;
     items: Array<{ title: string; description: string }>;
   };
-  categories: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    cta: string;
-    booking: string;
-    items: CategoryItem[];
-  };
+  catalogViewAll: string;
   useCases: {
     eyebrow: string;
     title: string;
@@ -153,114 +112,7 @@ const koreanCopy: DmcCopy = {
       },
     ],
   },
-  categories: {
-    eyebrow: "안내 카테고리",
-    title: "원스톱 지역 정보 안내",
-    description: "원하는 서비스를 바로 선택하고 안내를 확인하세요",
-    cta: "더 알아보기",
-    booking: "안내 문의",
-    items: [
-      {
-        key: "tour",
-        eyebrow: "REGIONAL PROGRAMS",
-        title: "지역 프로그램 안내",
-        description:
-          "공연 전후 관광과 로컬 체험을 연결하는 지역 프로그램 안내 서비스입니다.",
-        tags: ["도심 탐방", "로컬 체험", "가족형 코스"],
-        href: "/products/tour-experience-platform/reservation",
-        icon: Landmark,
-        theme: "from-[#d9ecff] via-[#fff3db] to-[#f8d8ff]",
-      },
-      {
-        key: "stay",
-        eyebrow: "ACCOMMODATION",
-        title: "숙박 안내",
-        description:
-          "KINTEX·공연장·MICE 연계 거점 방문객을 위한 체류형 숙박 안내 서비스입니다.",
-        tags: ["호텔", "레지던스", "단체 숙박"],
-        href: "/products/stay-reservation-platform/reservation",
-        icon: Hotel,
-        theme: "from-[#e2eaff] via-[#ffffff] to-[#ffe8cb]",
-      },
-      {
-        key: "restaurant",
-        eyebrow: "RESTAURANT",
-        title: "음식점 안내",
-        description:
-          "단체 식사와 지역 미식 경험을 연결하는 다이닝 안내 서비스입니다.",
-        tags: ["단체 식사", "코스 다이닝", "VIP 만찬"],
-        href: "/products/restaurant-booking-platform/reservation",
-        icon: UtensilsCrossed,
-        theme: "from-[#fff1df] via-[#fffaf5] to-[#ffe0d4]",
-      },
-      {
-        key: "cafe",
-        eyebrow: "LIFESTYLE",
-        title: "라이프스타일 안내",
-        description:
-          "브런치·감성 카페·미팅 공간을 연결하는 라이프스타일 안내 서비스입니다.",
-        tags: ["브런치", "디저트", "미팅 공간"],
-        href: "/products/cafe-booking-platform/reservation",
-        icon: Coffee,
-        theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]",
-      },
-      {
-        key: "ticket",
-        eyebrow: "TICKET BOOKING",
-        title: "티켓 예매",
-        description:
-          "공연, 전시, 체험 프로그램의 예매와 입장 흐름을 연결하는 서비스입니다.",
-        tags: ["공연", "전시", "체험"],
-        href: "/products/ticket-agency-platform/reservation",
-        icon: Ticket,
-        theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]",
-      },
-      {
-        key: "airport",
-        eyebrow: "AIRPORT ACCESS",
-        title: "공항 접근 안내",
-        description:
-          "공항 도착부터 호텔과 행사장 이동까지 연결하는 교통 안내 서비스입니다.",
-        tags: ["인천공항", "김포공항", "VIP 이동"],
-        href: "/products/airport-pickup-platform/reservation",
-        icon: Plane,
-        theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]",
-      },
-      {
-        key: "medical-treatment",
-        eyebrow: "MEDICAL / TREATMENT",
-        title: "질병치료형 안내",
-        description:
-          "암·중증질환·여성질환·정밀치료 진료 안내와 공항 접근·숙박·통역·사후관리를 통합 안내합니다.",
-        tags: ["암·중증질환", "여성질환", "정밀치료"],
-        href: "/products/medical-treatment-platform/reservation",
-        icon: Stethoscope,
-        theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]",
-      },
-      {
-        key: "medical-beauty",
-        eyebrow: "MEDICAL / K-BEAUTY",
-        title: "건강미용 증진형 안내",
-        description:
-          "성형·피부·웰니스 프로그램을 프리미엄 스테이와 다국어 응대 기반으로 안내합니다.",
-        tags: ["성형", "피부", "웰니스"],
-        href: "/products/medical-beauty-platform/reservation",
-        icon: Sparkles,
-        theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]",
-      },
-      {
-        key: "medical-recovery",
-        eyebrow: "MEDICAL / RECOVERY",
-        title: "회복·재활 안내",
-        description:
-          "회복체류, 재활, 보호자 동반 서비스와 식이·의료일정·심리상담까지 연결합니다.",
-        tags: ["회복체류", "재활", "보호자 동반"],
-        href: "/products/medical-recovery-platform/reservation",
-        icon: HeartPulse,
-        theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]",
-      },
-    ],
-  },
+  catalogViewAll: "카탈로그 전체 보기",
   useCases: {
     eyebrow: "추천 대상",
     title: "이런 방문객에게 추천합니다",
@@ -397,105 +249,7 @@ const englishCopy: DmcCopy = {
       },
     ],
   },
-  categories: {
-    eyebrow: "Guide Categories",
-    title: "One-stop Regional Information Guide",
-    description: "Select the service you need and see the guide right away.",
-    cta: "Learn More",
-    booking: "Contact for Info",
-    items: [
-      {
-        key: "tour",
-        eyebrow: "REGIONAL PROGRAMS",
-        title: "Regional Programs Guide",
-        description: "Guide for regional programs that connect sightseeing and local experiences before and after events.",
-        tags: ["City Walk", "Local Experience", "Family Course"],
-        href: "/products/tour-experience-platform/reservation",
-        icon: Landmark,
-        theme: "from-[#d9ecff] via-[#fff3db] to-[#f8d8ff]",
-      },
-      {
-        key: "stay",
-        eyebrow: "ACCOMMODATION",
-        title: "Stay Guide",
-        description: "Stay guide for visitors to KINTEX, venues, and MICE-linked hubs in Goyang.",
-        tags: ["Hotel", "Residence", "Group Stay"],
-        href: "/products/stay-reservation-platform/reservation",
-        icon: Hotel,
-        theme: "from-[#e2eaff] via-[#ffffff] to-[#ffe8cb]",
-      },
-      {
-        key: "restaurant",
-        eyebrow: "RESTAURANT",
-        title: "Restaurant Guide",
-        description: "Dining guide connecting group meals and local culinary experiences.",
-        tags: ["Group Dining", "Course Dining", "VIP Dinner"],
-        href: "/products/restaurant-booking-platform/reservation",
-        icon: UtensilsCrossed,
-        theme: "from-[#fff1df] via-[#fffaf5] to-[#ffe0d4]",
-      },
-      {
-        key: "cafe",
-        eyebrow: "LIFESTYLE",
-        title: "Lifestyle Guide",
-        description: "Cafe, brunch, and local lifestyle guide for rest and small gatherings.",
-        tags: ["Brunch", "Dessert", "Meeting Space"],
-        href: "/products/cafe-booking-platform/reservation",
-        icon: Coffee,
-        theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]",
-      },
-      {
-        key: "ticket",
-        eyebrow: "TICKET BOOKING",
-        title: "Ticket Booking",
-        description: "Ticket services for performances, exhibitions, and activity programs.",
-        tags: ["Performance", "Exhibition", "Activity"],
-        href: "/products/ticket-agency-platform/reservation",
-        icon: Ticket,
-        theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]",
-      },
-      {
-        key: "airport",
-        eyebrow: "AIRPORT ACCESS",
-        title: "Airport Access Guide",
-        description: "Guide connecting airport arrival to hotels, venues, and city movement.",
-        tags: ["Incheon Airport", "Gimpo Airport", "VIP Transfer"],
-        href: "/products/airport-pickup-platform/reservation",
-        icon: Plane,
-        theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]",
-      },
-      {
-        key: "medical-treatment",
-        eyebrow: "MEDICAL / TREATMENT",
-        title: "Treatment-Focused Guide",
-        description: "Integrated guide for cancer, severe illness, women's health, and precision care alongside airport access, stay, interpretation, and aftercare.",
-        tags: ["Cancer & Severe", "Women's Health", "Precision Care"],
-        href: "/products/medical-treatment-platform/reservation",
-        icon: Stethoscope,
-        theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]",
-      },
-      {
-        key: "medical-beauty",
-        eyebrow: "MEDICAL / K-BEAUTY",
-        title: "Health & Beauty Guide",
-        description: "Plastic surgery, dermatology, and wellness programs introduced alongside premium stay and multilingual support.",
-        tags: ["Plastic Surgery", "Dermatology", "Wellness"],
-        href: "/products/medical-beauty-platform/reservation",
-        icon: Sparkles,
-        theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]",
-      },
-      {
-        key: "medical-recovery",
-        eyebrow: "MEDICAL / RECOVERY",
-        title: "Recovery & Rehabilitation Guide",
-        description: "Recovery stays, rehabilitation, and caregiver-companion services connected with diet, medical schedule, and counseling support.",
-        tags: ["Recovery Stay", "Rehabilitation", "Caregiver"],
-        href: "/products/medical-recovery-platform/reservation",
-        icon: HeartPulse,
-        theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]",
-      },
-    ],
-  },
+  catalogViewAll: "See all in the catalog",
   useCases: {
     eyebrow: "Recommended Use Cases",
     title: "Recommended for these visitors",
@@ -615,24 +369,7 @@ const japaneseCopy: DmcCopy = {
       { title: "ローカル連携サービス", description: "ホテル、飲食店、カフェ、チケット、空港アクセスなどのパートナーをひとつの構造でつなぎます。" },
     ],
   },
-  categories: {
-    eyebrow: "案内カテゴリ",
-    title: "ワンストップ地域情報案内",
-    description: "以下のカテゴリを選択すると、サービス詳細と案内ページへ直接移動できます。",
-    cta: "詳しく見る",
-    booking: "案内お問い合わせ",
-    items: [
-      { key: "tour", eyebrow: "REGIONAL PROGRAMS", title: "地域プログラム案内", description: "公演前後の観光とローカル体験をつなぐ地域プログラム案内サービスです。", tags: ["都心散策", "ローカル体験", "ファミリーコース"], href: "/products/tour-experience-platform/reservation", icon: Landmark, theme: "from-[#d9ecff] via-[#fff3db] to-[#f8d8ff]" },
-      { key: "stay", eyebrow: "ACCOMMODATION", title: "宿泊案内", description: "KINTEX・公演場・MICE連携拠点への訪問者向け滞在型宿泊案内サービスです。", tags: ["ホテル", "レジデンス", "団体宿泊"], href: "/products/stay-reservation-platform/reservation", icon: Hotel, theme: "from-[#e2eaff] via-[#ffffff] to-[#ffe8cb]" },
-      { key: "restaurant", eyebrow: "RESTAURANT", title: "飲食店案内", description: "団体食事と地域グルメ体験をつなぐダイニング案内サービスです。", tags: ["団体食事", "コースダイニング", "VIPディナー"], href: "/products/restaurant-booking-platform/reservation", icon: UtensilsCrossed, theme: "from-[#fff1df] via-[#fffaf5] to-[#ffe0d4]" },
-      { key: "cafe", eyebrow: "LIFESTYLE", title: "ライフスタイル案内", description: "ブランチ、カフェ、ミーティングスペースをつなぐライフスタイル案内サービスです。", tags: ["ブランチ", "デザート", "ミーティングスペース"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
-      { key: "ticket", eyebrow: "TICKET BOOKING", title: "チケット予約", description: "公演、展示、体験プログラムの予約と入場フローをつなぐサービスです。", tags: ["公演", "展示", "体験"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
-      { key: "airport", eyebrow: "AIRPORT ACCESS", title: "空港アクセス案内", description: "空港到着からホテルと会場への移動をつなぐ交通案内サービスです。", tags: ["仁川空港", "金浦空港", "VIP移動"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
-      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治療型案内", description: "がん・重症疾患・女性疾患・精密治療の診療案内に、空港アクセス・宿泊・通訳・アフターケアを統合します。", tags: ["がん・重症", "女性疾患", "精密治療"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
-      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容増進型案内", description: "美容整形・皮膚科・ウェルネスプログラムをプレミアムステイと多言語対応でご案内します。", tags: ["美容整形", "皮膚科", "ウェルネス"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
-      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "回復・リハビリ案内", description: "回復滞在、リハビリ、同行者サービスに食事・医療日程・カウンセリングまで連携します。", tags: ["回復滞在", "リハビリ", "同行者"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
-    ],
-  },
+  catalogViewAll: "カタログをすべて見る",
   useCases: {
     eyebrow: "おすすめの対象",
     title: "このような訪問者におすすめします",
@@ -700,24 +437,7 @@ const chineseSimplifiedCopy: DmcCopy = {
       { title: "本地联动服务", description: "将酒店、餐厅、咖啡厅、票务及机场接送等高阳合作伙伴整合为一体化网络。" },
     ],
   },
-  categories: {
-    eyebrow: "指南类别",
-    title: "一站式地区信息指南",
-    description: "选择以下类别，可直接跳转至服务详情与指南页面。",
-    cta: "了解更多",
-    booking: "咨询指南",
-    items: [
-      { key: "tour", eyebrow: "REGIONAL PROGRAMS", title: "地区节目指南", description: "连接演出前后观光与本地体验的地区节目指南服务。", tags: ["城市漫游", "本地体验", "家庭路线"], href: "/products/tour-experience-platform/reservation", icon: Landmark, theme: "from-[#d9ecff] via-[#fff3db] to-[#f8d8ff]" },
-      { key: "stay", eyebrow: "ACCOMMODATION", title: "住宿指南", description: "为KINTEX、演出场馆、MICE联动据点访客提供的驻留型住宿指南服务。", tags: ["酒店", "公寓式酒店", "团体住宿"], href: "/products/stay-reservation-platform/reservation", icon: Hotel, theme: "from-[#e2eaff] via-[#ffffff] to-[#ffe8cb]" },
-      { key: "restaurant", eyebrow: "RESTAURANT", title: "餐厅指南", description: "连接团体用餐与本地美食体验的餐饮指南服务。", tags: ["团体用餐", "套餐餐厅", "VIP晚宴"], href: "/products/restaurant-booking-platform/reservation", icon: UtensilsCrossed, theme: "from-[#fff1df] via-[#fffaf5] to-[#ffe0d4]" },
-      { key: "cafe", eyebrow: "LIFESTYLE", title: "生活方式指南", description: "连接早午餐、咖啡馆及会议空间的生活方式指南服务。", tags: ["早午餐", "甜品", "会议空间"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
-      { key: "ticket", eyebrow: "TICKET BOOKING", title: "票务预约", description: "连接演出、展览及体验项目预约与入场流程的服务。", tags: ["演出", "展览", "体验"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
-      { key: "airport", eyebrow: "AIRPORT ACCESS", title: "机场接送指南", description: "从机场抵达到酒店及活动场馆的交通接送指南服务。", tags: ["仁川机场", "金浦机场", "VIP接送"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
-      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治疗型指南", description: "整合癌症·重症·女性疾病·精密治疗的诊疗指南与机场接送·住宿·翻译·后续护理。", tags: ["癌症·重症", "女性疾病", "精密治疗"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
-      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容增进型指南", description: "将整形·皮肤·健康管理项目与高端住宿及多语言服务一同介绍。", tags: ["整形", "皮肤", "健康管理"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
-      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "恢复·康复指南", description: "将恢复驻留、康复治疗、陪护服务与饮食·医疗行程·心理咨询整合连接。", tags: ["恢复驻留", "康复治疗", "陪护同行"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
-    ],
-  },
+  catalogViewAll: "查看完整目录",
   useCases: {
     eyebrow: "推荐对象",
     title: "适合以下类型的访客",
@@ -785,24 +505,7 @@ const chineseTraditionalCopy: DmcCopy = {
       { title: "在地聯動服務", description: "將飯店、餐廳、咖啡廳、票務及機場接送等高陽合作夥伴整合為一體化網絡。" },
     ],
   },
-  categories: {
-    eyebrow: "指南類別",
-    title: "一站式地區資訊指南",
-    description: "選擇以下類別，可直接跳轉至服務詳情與指南頁面。",
-    cta: "了解更多",
-    booking: "諮詢指南",
-    items: [
-      { key: "tour", eyebrow: "REGIONAL PROGRAMS", title: "地區節目指南", description: "連結演出前後觀光與在地體驗的地區節目指南服務。", tags: ["城市漫遊", "在地體驗", "家庭路線"], href: "/products/tour-experience-platform/reservation", icon: Landmark, theme: "from-[#d9ecff] via-[#fff3db] to-[#f8d8ff]" },
-      { key: "stay", eyebrow: "ACCOMMODATION", title: "住宿指南", description: "為KINTEX、演出場館、MICE聯動據點訪客提供的駐留型住宿指南服務。", tags: ["飯店", "公寓式酒店", "團體住宿"], href: "/products/stay-reservation-platform/reservation", icon: Hotel, theme: "from-[#e2eaff] via-[#ffffff] to-[#ffe8cb]" },
-      { key: "restaurant", eyebrow: "RESTAURANT", title: "餐廳指南", description: "連結團體用餐與在地美食體驗的餐飲指南服務。", tags: ["團體用餐", "套餐餐廳", "VIP晚宴"], href: "/products/restaurant-booking-platform/reservation", icon: UtensilsCrossed, theme: "from-[#fff1df] via-[#fffaf5] to-[#ffe0d4]" },
-      { key: "cafe", eyebrow: "LIFESTYLE", title: "生活風格指南", description: "連結早午餐、咖啡廳及會議空間的生活風格指南服務。", tags: ["早午餐", "甜品", "會議空間"], href: "/products/cafe-booking-platform/reservation", icon: Coffee, theme: "from-[#ecfff4] via-[#fff8eb] to-[#e6f5ff]" },
-      { key: "ticket", eyebrow: "TICKET BOOKING", title: "票務預約", description: "連結演出、展覽及體驗方案預約與入場流程的服務。", tags: ["演出", "展覽", "體驗"], href: "/products/ticket-agency-platform/reservation", icon: Ticket, theme: "from-[#e7efff] via-[#fff6e4] to-[#ffd8df]" },
-      { key: "airport", eyebrow: "AIRPORT ACCESS", title: "機場接送指南", description: "從機場抵達到飯店及活動場館的交通接送指南服務。", tags: ["仁川機場", "金浦機場", "VIP接送"], href: "/products/airport-pickup-platform/reservation", icon: Plane, theme: "from-[#dff6ff] via-[#ffffff] to-[#dce9ff]" },
-      { key: "medical-treatment", eyebrow: "MEDICAL / TREATMENT", title: "疾病治療型指南", description: "整合癌症·重症·女性疾病·精密治療的診療指南與機場接送·住宿·翻譯·後續照護。", tags: ["癌症·重症", "女性疾病", "精密治療"], href: "/products/medical-treatment-platform/reservation", icon: Stethoscope, theme: "from-[#e9f1ff] via-[#ffffff] to-[#f2f7ff]" },
-      { key: "medical-beauty", eyebrow: "MEDICAL / K-BEAUTY", title: "健康美容增進型指南", description: "將整形·皮膚·健康管理方案與高端住宿及多語言服務一同介紹。", tags: ["整形", "皮膚", "健康管理"], href: "/products/medical-beauty-platform/reservation", icon: Sparkles, theme: "from-[#f2f7ff] via-[#fff5f5] to-[#fff0ea]" },
-      { key: "medical-recovery", eyebrow: "MEDICAL / RECOVERY", title: "恢復·復健指南", description: "將恢復駐留、復健治療、陪護服務與飲食·醫療行程·心理諮詢整合連結。", tags: ["恢復駐留", "復健治療", "陪護同行"], href: "/products/medical-recovery-platform/reservation", icon: HeartPulse, theme: "from-[#eef7ff] via-[#f5f9ff] to-[#e6f0ff]" },
-    ],
-  },
+  catalogViewAll: "查看完整目錄",
   useCases: {
     eyebrow: "推薦對象",
     title: "適合以下類型的訪客",
@@ -911,8 +614,6 @@ export default async function DmcPage({
 }) {
   const copy = getCopy(locale);
   const heroMedia = await readDmcHeroMedia();
-  const categoryMediaMap = await readDmcCategoryMediaMap();
-  const customCategories = await readDmcCustomCategories();
 
   return (
     <Shell>
@@ -1019,138 +720,15 @@ export default async function DmcPage({
         </div>
       </section>
 
-      <section id="booking-categories" className="space-y-8">
-        <SectionTitle
-          eyebrow={copy.categories.eyebrow}
-          title={copy.categories.title}
-          desc={copy.categories.description}
-        />
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {copy.categories.items.map((item) => {
-            const Icon = item.icon;
-            const media = (categoryMediaMap as Record<string, { src?: string } | undefined>)[item.key];
-
-            return (
-              <article
-                key={item.key}
-                className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-white/80 bg-white/80 shadow-[0_8px_28px_rgba(16,32,58,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(16,32,58,0.13)]"
-              >
-                <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${item.theme}`}>
-                  {media?.src ? (
-                    <Image
-                      src={media.src}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      unoptimized
-                    />
-                  ) : (
-                    <div className="flex h-full items-start justify-between p-7">
-                      <span className="rounded-full bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-slate-700 backdrop-blur">
-                        {item.eyebrow}
-                      </span>
-                      <div className="rounded-full bg-slate-950/90 p-4 text-white shadow-lg backdrop-blur">
-                        <Icon className="h-6 w-6" />
-                      </div>
-                    </div>
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 to-transparent p-6">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/75">
-                      {item.eyebrow}
-                    </div>
-                    <div className="mt-2 text-2xl font-black tracking-[-0.03em] text-white">
-                      {item.title}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-1 flex-col p-7">
-                  <p className="min-h-[5.5rem] text-[15px] leading-7 text-slate-500">
-                    {item.description}
-                  </p>
-
-                  <div className="mt-5 flex min-h-[3.5rem] flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/70 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="mt-auto flex gap-3 pt-7">
-                    <Link
-                      href={`/products#section-${item.key}`}
-                      className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-white"
-                    >
-                      {copy.categories.cta}
-                    </Link>
-                    <Link
-                      href={`/products#section-${item.key}`}
-                      className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 py-3 text-sm font-bold text-white transition hover:brightness-110"
-                    >
-                      {copy.categories.booking}
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-
-          {/* 사용자 정의 카테고리 (관리자에서 추가한 항목) */}
-          {customCategories.map((custom) => (
-            <article
-              key={`custom-${custom.slug}`}
-              className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-white/80 bg-white/80 shadow-[0_8px_28px_rgba(16,32,58,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(16,32,58,0.13)]"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#eef2ff] via-[#ffffff] to-[#f1f5f9]">
-                {custom.src ? (
-                  <Image
-                    src={custom.src}
-                    alt={custom.label}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center text-slate-400">
-                    <Landmark className="h-12 w-12" />
-                  </div>
-                )}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 to-transparent p-6">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/75">
-                    CUSTOM
-                  </div>
-                  <div className="mt-2 text-2xl font-black tracking-[-0.03em] text-white">
-                    {custom.label}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-1 flex-col p-7">
-                <p className="min-h-[5.5rem] text-[15px] leading-7 text-slate-500">
-                  {custom.description ?? "관리자에서 설정한 맞춤 카테고리입니다."}
-                </p>
-                <div className="mt-auto flex gap-3 pt-7">
-                  <Link
-                    href={`/contact`}
-                    className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-white"
-                  >
-                    {copy.categories.cta}
-                  </Link>
-                  <Link
-                    href={`/contact`}
-                    className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-5 py-3 text-sm font-bold text-white transition hover:brightness-110"
-                  >
-                    {copy.categories.booking}
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+      {/* ── Catalog Bridge ── (DP2 리팩터: 카탈로그는 /products가 담당 · /dmc는 순수 소개) */}
+      <section className="flex justify-center">
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+        >
+          {copy.catalogViewAll}
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </section>
 
       {/* ── Use Cases ── */}
@@ -1209,12 +787,12 @@ export default async function DmcPage({
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
-          <a
-            href="#booking-categories"
+          <Link
+            href="/products"
             className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
           >
             {copy.steps.ctas.booking}
-          </a>
+          </Link>
           <LinkButton href="/contact" variant="secondary">
             {copy.steps.ctas.consult}
           </LinkButton>
@@ -1277,12 +855,12 @@ export default async function DmcPage({
         </PremiumCard>
 
         <div className="flex flex-wrap gap-3 lg:col-span-2">
-          <a
-            href="#booking-categories"
+          <Link
+            href="/products"
             className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
           >
             {copy.operations.booking}
-          </a>
+          </Link>
           <LinkButton href="/contact" variant="secondary">
             {copy.operations.inquiry}
           </LinkButton>
