@@ -146,6 +146,55 @@ export const CARD_DESC: Record<
   },
 };
 
+/** GOYANG INSIDERS — 카테고리별 Insider 태그라인 (5로케일). 톤: 아는 사람의 추천.
+ *  구조: "{Type} Insider · {짧은 태그라인}". Type 부분(Local/Culture 등)은
+ *  브랜드성 영문 라벨로 5로케일 공통 유지, 뒤 · 이하만 로케일화. */
+export const INSIDER_TAGLINE: Record<
+  CuratedLocale,
+  Record<EmblemCategory, string>
+> = {
+  ko: {
+    walk: "Local Insider · 고양 산책 명소를 아는 사람",
+    food: "Local Food Insider · 고양 20년 주민이 고르는 맛집",
+    culture: "Culture Insider · 이번 시즌 공연·전시",
+    kculture: "K-Culture Insider · 현장을 아는 사람의 추천",
+    history: "History Insider · 행주산성부터 고양의 시간",
+    family: "Family Insider · 아이와 가기 좋은 곳",
+  },
+  en: {
+    walk: "Local Insider · Where locals walk in Goyang",
+    food: "Local Food Insider · Picks from 20-year Goyang residents",
+    culture: "Culture Insider · This season's stages and exhibitions",
+    kculture: "K-Culture Insider · Recommended by those who know the scene",
+    history: "History Insider · Goyang's timeline, from Haengju Fortress",
+    family: "Family Insider · Places to go with the kids",
+  },
+  ja: {
+    walk: "Local Insider · 高陽の散策スポットを知る人",
+    food: "Local Food Insider · 高陽20年住民が選ぶ名店",
+    culture: "Culture Insider · 今シーズンの公演・展示",
+    kculture: "K-Culture Insider · 現場を知る人の推薦",
+    history: "History Insider · 幸州山城から高陽の時間",
+    family: "Family Insider · 子どもと行きたい場所",
+  },
+  "zh-CN": {
+    walk: "Local Insider · 熟悉高阳散步路线的人",
+    food: "Local Food Insider · 高阳20年老居民推荐的餐厅",
+    culture: "Culture Insider · 本季演出与展览",
+    kculture: "K-Culture Insider · 熟知现场的人的推荐",
+    history: "History Insider · 从幸州山城开始的高阳时间",
+    family: "Family Insider · 适合带孩子去的地方",
+  },
+  "zh-TW": {
+    walk: "Local Insider · 熟悉高陽散步路線的人",
+    food: "Local Food Insider · 高陽20年老居民推薦的餐廳",
+    culture: "Culture Insider · 本季演出與展覽",
+    kculture: "K-Culture Insider · 熟知現場的人的推薦",
+    history: "History Insider · 從幸州山城開始的高陽時間",
+    family: "Family Insider · 適合帶孩子去的地方",
+  },
+};
+
 /** 문자열이 유효한 카테고리 키인지 판정. 상세 페이지의 notFound() 분기용. */
 export function isCuratedCategory(value: string): value is EmblemCategory {
   return (CURATED_CATEGORIES as readonly string[]).includes(value);

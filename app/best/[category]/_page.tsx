@@ -29,6 +29,7 @@ import {
   CARD_COUNT,
   CARD_DESC,
   HEADLINE,
+  INSIDER_TAGLINE,
   isCuratedCategory,
 } from "@/data/curated-categories";
 import { getCuratedStory } from "@/data/curated-stories";
@@ -36,6 +37,9 @@ import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
+
+// 5로케일 공통 브랜드 라벨 (영문 고정).
+const INSIDERS_BRAND = "GOYANG INSIDERS";
 
 const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   ko: "전체",
@@ -105,6 +109,7 @@ export default async function BestCategoryPage({
   const n = CARD_COUNT[cat];
   const headline = HEADLINE[locale](label, n);
   const desc = CARD_DESC[locale][cat];
+  const insiderTagline = INSIDER_TAGLINE[locale][cat];
   const color = EMBLEM_COLORS[cat];
   const story = getCuratedStory(cat);
   const orderedRegions = [...regions].sort((a, b) => a.order - b.order);
@@ -132,7 +137,11 @@ export default async function BestCategoryPage({
           />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:pb-14 lg:pb-16">
             <div className="mx-auto max-w-6xl">
-              <div className="flex items-center gap-3">
+              {/* GOYANG INSIDERS 브랜드 라벨 (5로케일 공통 영문 고정) */}
+              <div className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#ffe98b] sm:text-[11px]">
+                {INSIDERS_BRAND}
+              </div>
+              <div className="mt-3 flex items-center gap-3">
                 <Emblem
                   category={cat}
                   size="M"
@@ -149,6 +158,10 @@ export default async function BestCategoryPage({
               <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
                 {headline}
               </h1>
+              {/* Insider 태그라인 — h1 아래, 안내 톤 앞의 저자 목소리 */}
+              <p className="mt-2 text-sm font-semibold italic text-[#ffe98b]/95 sm:text-base">
+                {insiderTagline}
+              </p>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
                 {desc}
               </p>
