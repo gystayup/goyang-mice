@@ -1,10 +1,12 @@
 export type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
+// 방문객 앞 · 기관 뒤 원칙: dmc → products → institute → research → contact
+// (오더 #N — Header/Footer 통일 소스. 두 컴포넌트 모두 이 파일을 참조.)
 export type NavigationKey =
-  | "about"
-  | "research"
   | "dmc"
   | "products"
+  | "institute"
+  | "research"
   | "contact";
 
 export interface NavigationItem {
@@ -13,50 +15,50 @@ export interface NavigationItem {
 }
 
 export const navigation: NavigationItem[] = [
-  { key: "about", href: "/about" },
-  { key: "research", href: "/research" },
   { key: "dmc", href: "/dmc" },
   { key: "products", href: "/products" },
+  { key: "institute", href: "/institute" },
+  { key: "research", href: "/research" },
   { key: "contact", href: "/contact" },
 ];
 
 const koLabels: Record<NavigationKey, string> = {
-  about: "연구소 소개",
-  research: "연구 분야",
-  dmc: "DMC 서비스",
+  dmc: "고양 여행·체험",
   products: "서비스 안내",
+  institute: "연구소 소개",
+  research: "연구 분야",
   contact: "문의하기",
 };
 
 const enLabels: Record<NavigationKey, string> = {
-  about: "About",
-  research: "Research",
-  dmc: "DMC Services",
+  dmc: "Goyang Experiences",
   products: "Services",
+  institute: "About the Institute",
+  research: "Research",
   contact: "Contact",
 };
 
 const jaLabels: Record<NavigationKey, string> = {
-  about: "研究所紹介",
-  research: "研究分野",
-  dmc: "DMCサービス",
+  dmc: "高陽の旅・体験",
   products: "サービス案内",
+  institute: "研究所紹介",
+  research: "研究分野",
   contact: "お問い合わせ",
 };
 
 const zhCNLabels: Record<NavigationKey, string> = {
-  about: "研究所介绍",
-  research: "研究领域",
-  dmc: "DMC服务",
+  dmc: "高阳旅行·体验",
   products: "服务指南",
+  institute: "研究所介绍",
+  research: "研究领域",
   contact: "联系我们",
 };
 
 const zhTWLabels: Record<NavigationKey, string> = {
-  about: "研究所介紹",
-  research: "研究領域",
-  dmc: "DMC服務",
+  dmc: "高陽旅行·體驗",
   products: "服務指南",
+  institute: "研究所介紹",
+  research: "研究領域",
   contact: "聯絡我們",
 };
 
