@@ -7,23 +7,24 @@
 //     · transformOrigin 카테고리마다 다른 방향
 //     · @media (prefers-reduced-motion: reduce) 시 애니메이션 자동 비활성
 //
-// 오버레이 (Time Out 폴리시):
+// 오버레이:
 //   · 다중 스크림 — 좌 강→우 약 (다이애그널) + 하단 강 (텍스트 대비 확보)
-//   · 우상단 코너: 배지 (badge-<cat>.png, 축소 · 헤드라인과 물리적 분리)
-//   · 좌측 정렬: 라벨 pill → 대형 헤드라인 → 서브 → CTA (수직 리듬)
-//   · 헤드라인: text-4xl sm:text-6xl lg:text-7xl, font-black, tracking-[-0.03em],
-//               leading-[1.02] (WHY 섹션 수준의 무게감)
-//   · CTA "자세히 보기 →" — 앵커 #story-<cat>
-//   · 하단 카테고리 프리뷰 (Time Out식): 얇은 라인 + 카테고리명 6개,
+//   · 좌측 정렬 수직 리듬:
+//       (1) 상단 고정 태그라인 "Goyang·Ilsan — Korea's Best Destination City"
+//           · "Goyang·Ilsan" 골드(amber-300), 나머지 흰색, 작은 크기·트래킹 넓게
+//       (2) 대형 영문 헤드라인 (카테고리별, text-4xl→7xl, font-black, tracking-tight)
+//       (3) 한글 서브 (카테고리·로케일별, CuratedGridSection.CARD_DESC 와 문안 일관)
+//       (4) CTA "자세히 보기 →" — 앵커 #story-<cat>
+//   · 하단 카테고리 프리뷰 (Time Out식): 얇은 라인 + 카테고리명 6개(한글),
 //     현재 슬라이드 강조 (흰색), 나머지는 옅게 (white/50)
-//   · 좌/우 화살표: 우하단 코너 (배지·프리뷰와 안 겹침)
+//   · 좌/우 화살표: 우하단 코너 (프리뷰와 안 겹침)
+//   · 우상단 코너 배지 없음 (배경이 순수 풍경이라 텍스트만 깔끔 노출)
 //
 // 폰트: globals.css 의 --font-sans (SUIT Variable → Pretendard Variable → Noto Sans KR)
 //       fallback stack 을 상속 — WHY 섹션과 동일 서체 라인 (일관성).
-//       (next/font 실 파일 로드는 별도 오더 스코프)
 //
-// 접근성: 카드 링크 aria-label, 카테고리 프리뷰 aria-current,
-//         화살표·라벨 aria-label 5로케일. prefers-reduced-motion CSS 자동.
+// 접근성: 카테고리 프리뷰 aria-current·aria-label, 화살표 aria-label 5로케일,
+//         prefers-reduced-motion CSS 자동.
 //
 // 판매 소구어 0. i18n 키 구조 무접촉 (컴포넌트 내부 상수만 사용).
 
@@ -33,7 +34,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { Emblem } from "@/components/emblem/Emblem";
 import {
   type EmblemCategory,
   type EmblemLocale,
@@ -50,7 +50,7 @@ const CATEGORIES: EmblemCategory[] = [
 ];
 const SLIDE_DURATION_MS = 6000;
 
-/** 카테고리 짧은 로케일 라벨 (헤드라인·프리뷰·라벨 pill 용). */
+/** 카테고리 짧은 로케일 라벨 (하단 프리뷰 인디케이터 용). */
 const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
   ko: {
     walk: "산책",
@@ -94,56 +94,58 @@ const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
   },
 };
 
-/** "고양 BEST {카테고리}" 로케일 헤드라인 템플릿. */
-const HERO_HEADLINE: Record<EmblemLocale, (l: string) => string> = {
-  ko: (l) => `고양 BEST ${l}`,
-  en: (l) => `Goyang Best ${l}`,
-  ja: (l) => `高陽ベスト${l}`,
-  "zh-CN": (l) => `高阳${l}BEST`,
-  "zh-TW": (l) => `高陽${l}BEST`,
+/** 대형 영문 헤드라인 (모든 로케일 공통, uppercase). */
+const HEADLINE_EN: Record<EmblemCategory, string> = {
+  walk: "BREATHE THE CITY",
+  food: "EAT LIKE A LOCAL",
+  culture: "FEEL THE STAGE",
+  kculture: "FEEL THE K-WAVE",
+  history: "WALK THROUGH HISTORY",
+  family: "PLAY ALL DAY",
 };
 
-/** Hero 서브 문구 (CuratedGridSection.CARD_DESC 와 문안 일관). 안내 톤. */
+/** Hero 서브 문구 (5로케일 · 카테고리별). CuratedGridSection.CARD_DESC 문안 라인 일관.
+ *  history/family: 서오릉·원마운트 먼저 언급, "고양일산" 브랜딩 통일. */
 const HERO_DESC: Record<EmblemLocale, Record<EmblemCategory, string>> = {
   ko: {
     walk: "일산호수공원부터 정발산까지, 사계절 걷기 좋은 길",
     food: "일산 카페거리부터 백석 맛집까지, 놓치면 아쉬운 한 끼",
     culture: "아람누리·꽃누리에서 만나는 이번 시즌 공연·전시",
     kculture: "킨텍스에서 열리는 K-POP·팬 이벤트의 중심",
-    history: "행주산성부터 서오릉까지, 걸으며 만나는 고양의 시간",
-    family: "스타필드·원마운트, 아이와 하루가 짧은 곳",
+    history: "서오릉부터 행주산성까지, 걸으며 만나는 고양일산의 시간",
+    family: "원마운트·스타필드, 아이와 하루가 짧은 곳",
   },
   en: {
     walk: "From Ilsan Lake Park to Jeongbalsan — trails made for every season.",
     food: "From Ilsan's cafe streets to Baekseok's kitchens — a meal worth the trip.",
     culture: "This season's stages and exhibitions at Aram Nuri and Kkot Nuri.",
     kculture: "KINTEX — the hub of K-POP concerts and fan events.",
-    history: "From Haengju Fortress to Seooreung — Goyang's story, on foot.",
-    family: "Starfield and OneMount — where a day with the kids is never long enough.",
+    history: "From Seooreung to Haengju Fortress — Goyang-Ilsan's story, on foot.",
+    family: "OneMount and Starfield — where a day with the kids is never long enough.",
   },
   ja: {
     walk: "一山湖水公園から鼎鉢山まで、四季を通じて歩きたい道。",
     food: "一山カフェ通りから白石の名店まで、逃したくない一食。",
     culture: "アラムヌリ・コッヌリで出会う、今シーズンの舞台と展示。",
     kculture: "KINTEXで開かれるK-POP・ファンイベントの中心地。",
-    history: "幸州山城から西五陵まで、歩いて出会う高陽の時間。",
-    family: "Starfield・OneMount、子どもと過ごす一日が短い場所。",
+    history: "西五陵から幸州山城まで、歩いて出会う高陽・一山の時間。",
+    family: "OneMount・Starfield、子どもと過ごす一日が短い場所。",
   },
   "zh-CN": {
     walk: "从一山湖水公园到鼎钵山，四季皆宜的漫步路线。",
     food: "从一山咖啡街到白石名店，一顿不容错过的美味。",
     culture: "在阿蓝努里·花努里，遇见本季演出与展览。",
     kculture: "KINTEX——K-POP与粉丝活动的中心。",
-    history: "从幸州山城到西五陵，步行走进高阳的历史。",
-    family: "Starfield·OneMount，与孩子共度的一天总嫌短。",
+    history: "从西五陵到幸州山城，步行走进高阳·一山的历史。",
+    family: "OneMount·Starfield，与孩子共度的一天总嫌短。",
   },
   "zh-TW": {
     walk: "從一山湖水公園到鼎缽山，四季皆宜的漫步路線。",
     food: "從一山咖啡街到白石名店，一頓不容錯過的美味。",
     culture: "在阿藍努里·花努里，遇見本季演出與展覽。",
     kculture: "KINTEX——K-POP與粉絲活動的中心。",
-    history: "從幸州山城到西五陵，步行走進高陽的歷史。",
-    family: "Starfield·OneMount，與孩子共度的一天總嫌短。",
+    history: "從西五陵到幸州山城，步行走進高陽·一山的歷史。",
+    family: "OneMount·Starfield，與孩子共度的一天總嫌短。",
   },
 };
 
@@ -183,43 +185,8 @@ const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
 function photoSrc(cat: EmblemCategory) {
   return `/images/hero/hero-${cat}.jpg`;
 }
-function badgeSrc(cat: EmblemCategory) {
-  return `/images/badges/badge-${cat}.png`;
-}
 function anchorHref(cat: EmblemCategory) {
   return `#story-${cat}`;
-}
-
-/**
- * 우상단 배지 (SlideBadge) — 카테고리별 배지 이미지, 실패 시 SVG 엠블럼 폴백.
- * 부모에서 key={currentCat} 로 렌더하면 카테고리 전환 시 컴포넌트 리마운트되어
- * 폴백 상태(broken)가 자연 초기화됨 → useEffect(setState) 불필요.
- */
-function SlideBadge({
-  category,
-  locale,
-}: {
-  category: EmblemCategory;
-  locale: EmblemLocale;
-}) {
-  const [broken, setBroken] = useState(false);
-  return !broken ? (
-    <Image
-      src={badgeSrc(category)}
-      alt=""
-      fill
-      sizes="(max-width: 640px) 56px, (max-width: 1024px) 80px, 96px"
-      className="object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.45)]"
-      onError={() => setBroken(true)}
-    />
-  ) : (
-    <Emblem
-      category={category}
-      size="L"
-      locale={locale}
-      className="h-full w-full drop-shadow-[0_8px_22px_rgba(0,0,0,0.45)]"
-    />
-  );
 }
 
 export default function HeroSlider({ locale }: { locale: string }) {
@@ -244,8 +211,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
   }, [index, goToNext]);
 
   const currentCat = CATEGORIES[index];
-  const label = CATEGORY_LABEL[activeLocale][currentCat];
-  const headline = HERO_HEADLINE[activeLocale](label);
+  const headlineEn = HEADLINE_EN[currentCat];
   const desc = HERO_DESC[activeLocale][currentCat];
   const readMore = READ_MORE[activeLocale];
 
@@ -311,33 +277,27 @@ export default function HeroSlider({ locale }: { locale: string }) {
         />
       </div>
 
-      {/* 우상단 코너 배지 (헤드라인과 물리적 분리, 축소)
-          key={currentCat} 로 카테고리 전환 시 컴포넌트 리마운트 → 폴백 상태 자연 초기화 */}
-      <div className="pointer-events-none absolute right-5 top-5 z-20 sm:right-8 sm:top-8">
-        <div className="relative aspect-square h-14 w-14 sm:h-20 sm:w-20 lg:h-24 lg:w-24">
-          <SlideBadge key={currentCat} category={currentCat} locale={activeLocale} />
-        </div>
-      </div>
-
       {/* 콘텐츠 오버레이 (좌측 정렬, 여백 넉넉) */}
       <div className="relative flex min-h-[28rem] flex-col justify-end p-6 sm:min-h-[36rem] sm:p-10 lg:min-h-[42rem] lg:p-14">
         <div className="max-w-3xl">
-          {/* 라벨 pill */}
-          <div className="mb-5 inline-block rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur">
-            {label}
+          {/* (1) 상단 고정 태그라인 — 모든 슬라이드 공통, 흰색/골드 */}
+          <div className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] sm:mb-6 sm:text-xs">
+            <span className="text-amber-300">Goyang·Ilsan</span>
+            <span className="mx-2 text-white/45">—</span>
+            <span className="text-white/85">Korea&apos;s Best Destination City</span>
           </div>
 
-          {/* 대형 헤드라인 (WHY 섹션 수준의 무게감) */}
-          <h2 className="text-4xl font-black leading-[1.02] tracking-[-0.03em] text-white [text-wrap:balance] sm:text-6xl lg:text-7xl">
-            {headline}
+          {/* (2) 대형 영문 헤드라인 (카테고리별) */}
+          <h2 className="text-4xl font-black uppercase leading-[1.02] tracking-[-0.03em] text-white [text-wrap:balance] sm:text-6xl lg:text-7xl">
+            {headlineEn}
           </h2>
 
-          {/* 서브 */}
+          {/* (3) 한글/로케일별 서브 */}
           <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85 sm:mt-6 sm:text-lg">
             {desc}
           </p>
 
-          {/* CTA */}
+          {/* (4) CTA */}
           <a
             href={anchorHref(currentCat)}
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-950 shadow-[0_10px_28px_rgba(0,0,0,0.25)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:mt-8 sm:px-7 sm:py-3 sm:text-base"
@@ -348,8 +308,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
 
         {/*
           하단 카테고리 프리뷰 (Time Out식):
-          6개 가로 배치, 얇은 라인 + 카테고리명, 현재 강조.
-          기존 도트 인디케이터 대체.
+          6개 가로 배치, 얇은 라인 + 카테고리명(한글), 현재 강조.
         */}
         <div className="mt-10 border-t border-white/15 pt-5 sm:mt-14">
           <div className="grid grid-cols-6 gap-2 sm:gap-4">
@@ -389,7 +348,7 @@ export default function HeroSlider({ locale }: { locale: string }) {
       </div>
 
       {/*
-        좌/우 화살표 — 우하단 코너 (배지·프리뷰와 안 겹치도록 위치 분리).
+        좌/우 화살표 — 우하단 코너 (프리뷰와 안 겹치도록 위치 분리).
         pointer-events: 컨테이너 none, 버튼 auto.
       */}
       <div className="pointer-events-none absolute bottom-6 right-6 z-20 flex gap-2 sm:bottom-10 sm:right-10">
