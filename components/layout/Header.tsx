@@ -1,6 +1,6 @@
 // Header — 브랜드 리프레시 (오더 #R2). 차콜 베이스 + 골드 포인트.
 //
-// 로고: "GOYANG BEST" (5로케일 공통 영문 고정, BEST 골드 강조).
+// 로고: "GOYANG DMC" (5로케일 공통 영문 고정, DMC 골드 강조) — 오더 #BRAND3.
 // 네비 위계 (data/navigation.ts 5항목):
 //   · 방문객 (dmc, products)     — 밝게 (text-white)
 //   · 액션   (contact)           — 중간 (text-white/75)
@@ -74,7 +74,7 @@ function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
   return "institutional"; // institute, research
 }
 
-/** 로고 텍스트 — 5로케일 공통 영문 고정. BEST 만 골드. */
+/** 로고 텍스트 — 5로케일 공통 영문 고정. DMC 만 골드 (오더 #BRAND3). */
 function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
   const sizeClass =
     size === "md"
@@ -82,7 +82,7 @@ function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
       : "text-[9px] tracking-[0.22em] md:text-[10px] md:tracking-[0.28em]";
   return (
     <span className={`relative font-black uppercase text-white ${sizeClass}`}>
-      GOYANG <span className="text-[var(--gold)]">BEST</span>
+      GOYANG <span className="text-[var(--gold)]">DMC</span>
     </span>
   );
 }
