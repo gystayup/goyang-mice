@@ -3,11 +3,9 @@
 // 카드 6장(walk/food/culture/kculture/history/family) · aspect-[4/5] · rounded 20.
 // 카드 = 상단 이미지 블록(65%) + 하단 텍스트 블록(35%) 상하 분할.
 //
-// [상단 — 이미지 블록]
-//   1. 사진 배경 (부재/실패 시 카테고리 gradient 폴백)
-//   2. 중앙 배지 50% (배지 이미지에 타이틀 텍스트 포함, drop-shadow-lg)
-//      · 파일 부재/실패 시 자체 SVG 엠블럼(size=L) 폴백
-//      · 사진 위 텍스트·스크림 없음 (사진 그대로 노출)
+// [상단 — 이미지 블록] (통짜 이미지)
+//   · card-{cat}.jpg 한 장 (배지·타이틀 이미지에 포함, object-cover)
+//   · 부재/실패 시 카테고리 gradient 폴백
 //
 // [하단 — 텍스트 블록] (bg-white)
 //   · 카테고리 레이블 ({로케일 라벨} · {영문 태그}, 엠블럼 색, 11px bold uppercase)
@@ -17,7 +15,6 @@
 //
 // 접근성: 카드 <a aria-label={{레이블} — {헤드라인}}> — 스크린리더 대응.
 // 판매 소구어 0 (안내 톤만).
-// 무접촉: 배지·엠블럼·사진 자체 무접촉, 다른 섹션 무접촉.
 //
 // 그리드: 3열/2열/1열 (6장 = 3×2). 카드 링크는 앵커 플레이스홀더 (TODO routing).
 
@@ -26,7 +23,6 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { Emblem } from "@/components/emblem/Emblem";
 import {
   EMBLEM_COLORS,
   type EmblemCategory,
@@ -190,14 +186,10 @@ const STORY_HREF: Record<EmblemCategory, string> = {
   family: "#",
 };
 
-// 사진 배경 파일: public/images/cards/card-<category>.jpg
+// 통짜 카드 이미지 파일: public/images/cards/card-<category>.jpg
+// (배지·타이틀이 이미지 안에 포함된 완성본)
 function photoSrc(cat: EmblemCategory): string {
   return `/images/cards/card-${cat}.jpg`;
-}
-
-// 중앙 배지 파일: public/images/badges/badge-<category>.png (투명 PNG, 타이틀 텍스트 포함)
-function badgeSrc(cat: EmblemCategory): string {
-  return `/images/badges/badge-${cat}.png`;
 }
 
 // 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진 priority
@@ -248,9 +240,8 @@ function CuratedCard({
   const headline = HEADLINE[locale](label, CARD_COUNT[category]);
   const description = CARD_DESC[locale][category];
   const readMore = READ_MORE[locale];
-  // 사진 배경 · 배지 이미지 각각 독립 폴백
+  // 통짜 카드 이미지 폴백: 부재/실패 시 카테고리 gradient
   const [photoBroken, setPhotoBroken] = useState(false);
-  const [badgeBroken, setBadgeBroken] = useState(false);
 
   return (
     <a
@@ -260,7 +251,7 @@ function CuratedCard({
       className="group block scroll-mt-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
     >
       <article className="grid aspect-[4/5] grid-rows-[13fr_7fr] overflow-hidden rounded-[20px] bg-white ring-1 ring-slate-200/70 transition-shadow group-hover:shadow-md">
-        {/* [상단 — 이미지 블록] 사진 배경 + 중앙 배지 (텍스트·스크림 없음) */}
+        {/* [상단 — 이미지 블록] 통짜 이미지 (배지·타이틀 포함) */}
         <div
           className="relative overflow-hidden"
           style={
@@ -280,31 +271,6 @@ function CuratedCard({
               onError={() => setPhotoBroken(true)}
             />
           )}
-
-          {/* 중앙 배지 (상단 폭의 50%, min 120 / max 220px)
-              · 배지 이미지에 타이틀 텍스트 포함 → SVG 폴백 시 배지 아래 텍스트 넣지 않음
-                (하단 텍스트 블록에 이미 있어 중복 제거) */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="relative aspect-square w-[50%] min-w-[120px] max-w-[220px]">
-              {!badgeBroken ? (
-                <Image
-                  src={badgeSrc(category)}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 17vw"
-                  className="object-contain drop-shadow-lg"
-                  onError={() => setBadgeBroken(true)}
-                />
-              ) : (
-                <Emblem
-                  category={category}
-                  size="L"
-                  locale={locale}
-                  className="h-full w-full drop-shadow-lg"
-                />
-              )}
-            </div>
-          </div>
         </div>
 
         {/* [하단 — 텍스트 블록] 레이블 + 헤드라인 + 설명 + 자세히 보기 */}
