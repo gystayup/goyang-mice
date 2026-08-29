@@ -16,7 +16,7 @@
 //       (3) 한글 서브 (카테고리·로케일별, CuratedGridSection.CARD_DESC 와 문안 일관)
 //       (4) CTA "자세히 보기 →" — 앵커 #story-<cat>
 //   · 하단 카테고리 프리뷰 (Time Out식): 얇은 라인 + 카테고리명 6개(한글),
-//     현재 슬라이드 강조 (흰색), 나머지는 옅게 (white/50)
+//     현재 슬라이드 강조 (강조색 #FF2D55 · 라인 두께↑ + glow), 나머지는 옅게 (white/50)
 //   · 좌/우 화살표: 우하단 코너 (프리뷰와 안 겹침)
 //   · 우상단 코너 배지 없음 (배경이 순수 풍경이라 텍스트만 깔끔 노출)
 //
@@ -309,6 +309,8 @@ export default function HeroSlider({ locale }: { locale: string }) {
         {/*
           하단 카테고리 프리뷰 (Time Out식):
           6개 가로 배치, 얇은 라인 + 카테고리명(한글), 현재 강조.
+          활성 슬라이드: 상단 라인 두께↑ + 카테고리명을 강조색(#FF2D55)으로.
+          비활성: 흰색/반투명 유지.
         */}
         <div className="mt-10 border-t border-white/15 pt-5 sm:mt-14">
           <div className="grid grid-cols-6 gap-2 sm:gap-4">
@@ -325,16 +327,16 @@ export default function HeroSlider({ locale }: { locale: string }) {
                   className="group/cat text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                 >
                   <div
-                    className={`h-0.5 w-full rounded-full transition-colors duration-300 ${
+                    className={`w-full rounded-full transition-all duration-300 ${
                       active
-                        ? "bg-white"
-                        : "bg-white/25 group-hover/cat:bg-white/55"
+                        ? "h-[3px] bg-[#FF2D55] shadow-[0_0_12px_rgba(255,45,85,0.55)]"
+                        : "h-0.5 bg-white/25 group-hover/cat:bg-white/55"
                     }`}
                   />
                   <div
                     className={`mt-2 truncate text-[10px] font-bold uppercase tracking-[0.14em] transition-colors duration-300 sm:text-[11px] ${
                       active
-                        ? "text-white"
+                        ? "text-[#FF2D55]"
                         : "text-white/50 group-hover/cat:text-white/85"
                     }`}
                   >
