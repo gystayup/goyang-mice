@@ -13,10 +13,10 @@
 //   · 설명 1문장 (카테고리·로케일별, slate-600, 2줄 제한)
 //   · "자세히 보기 →" (slate-500, group-hover 시 slate-950)
 //
-// 접근성: 카드 <a aria-label={{레이블} — {헤드라인}}> — 스크린리더 대응.
+// 접근성: 카드 <Link aria-label={{레이블} — {헤드라인}}> — 스크린리더 대응.
 // 판매 소구어 0 (안내 톤만).
 //
-// 그리드: 3열/2열/1열 (6장 = 3×2). 카드 링크는 앵커 플레이스홀더 (TODO routing).
+// 그리드: 3열/2열/1열 (6장 = 3×2). 카드 링크 목적지 = /best/{cat} (오더 #BEST1).
 
 "use client";
 
@@ -28,19 +28,21 @@ import {
   type EmblemCategory,
   type EmblemLocale,
 } from "@/components/emblem/colors";
+import {
+  CURATED_CATEGORIES,
+  CATEGORY_LABEL,
+  CATEGORY_TAG,
+  HEADLINE,
+  CARD_COUNT,
+  CARD_DESC,
+} from "@/data/curated-categories";
+import { Link } from "@/lib/navigation";
 
 type LocaleKey = EmblemLocale;
 
 const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
-const CATEGORIES: EmblemCategory[] = [
-  "walk",
-  "food",
-  "culture",
-  "kculture",
-  "history",
-  "family",
-];
+const CATEGORIES: EmblemCategory[] = CURATED_CATEGORIES;
 
 const SECTION_HEADLINE: Record<LocaleKey, string> = {
   ko: "이번 주 고양일산 BEST",
@@ -48,123 +50,6 @@ const SECTION_HEADLINE: Record<LocaleKey, string> = {
   ja: "今週の高陽・一山ベスト",
   "zh-CN": "本周高阳·一山BEST",
   "zh-TW": "本週高陽·一山BEST",
-};
-
-/** 카테고리 짧은 로케일 라벨 (하단 텍스트 블록 헤드라인·태그용). */
-const CATEGORY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
-  ko: {
-    walk: "산책",
-    food: "미식",
-    culture: "문화",
-    kculture: "K컬처",
-    history: "역사",
-    family: "가족",
-  },
-  en: {
-    walk: "Walks",
-    food: "Food",
-    culture: "Culture",
-    kculture: "K-Culture",
-    history: "History",
-    family: "Family",
-  },
-  ja: {
-    walk: "散策",
-    food: "美食",
-    culture: "文化",
-    kculture: "K文化",
-    history: "歴史",
-    family: "ファミリー",
-  },
-  "zh-CN": {
-    walk: "散步",
-    food: "美食",
-    culture: "文化",
-    kculture: "K文化",
-    history: "历史",
-    family: "亲子",
-  },
-  "zh-TW": {
-    walk: "散步",
-    food: "美食",
-    culture: "文化",
-    kculture: "K文化",
-    history: "歷史",
-    family: "親子",
-  },
-};
-
-/** 카테고리 영문 태그 (모든 로케일 공통, 라벨 뒤 " · TAG" 형태로 붙음). */
-const CATEGORY_TAG: Record<EmblemCategory, string> = {
-  walk: "NATURE",
-  food: "FOOD",
-  culture: "CULTURE",
-  kculture: "K-CULTURE",
-  history: "HISTORY",
-  family: "FAMILY",
-};
-
-/** "고양 BEST {카테고리} N선" 로케일 헤드라인 템플릿. */
-const HEADLINE: Record<LocaleKey, (label: string, n: number) => string> = {
-  ko: (l, n) => `고양 BEST ${l} ${n}선`,
-  en: (l, n) => `Goyang's ${n} Best ${l}`,
-  ja: (l, n) => `高陽ベスト${l}${n}選`,
-  "zh-CN": (l, n) => `高阳${l}BEST ${n}选`,
-  "zh-TW": (l, n) => `高陽${l}BEST ${n}選`,
-};
-
-// TODO(content): 큐레이션 데이터 확정 시 서버/CMS 이관.
-const CARD_COUNT: Record<EmblemCategory, number> = {
-  walk: 10,
-  food: 10,
-  culture: 10,
-  kculture: 10,
-  history: 10,
-  family: 10,
-};
-
-/** 카드 설명 1문장 (카테고리·로케일별). 판매 소구어 0 — 안내 톤만. */
-const CARD_DESC: Record<LocaleKey, Record<EmblemCategory, string>> = {
-  ko: {
-    walk: "일산호수공원부터 정발산까지, 사계절 걷기 좋은 길",
-    food: "일산 카페거리부터 백석 맛집까지, 놓치면 아쉬운 한 끼",
-    culture: "아람누리·꽃누리에서 만나는 이번 시즌 공연·전시",
-    kculture: "킨텍스에서 열리는 K-POP·팬 이벤트의 중심",
-    history: "행주산성부터 서오릉까지, 걸으며 만나는 고양의 시간",
-    family: "스타필드·원마운트, 아이와 하루가 짧은 곳",
-  },
-  en: {
-    walk: "From Ilsan Lake Park to Jeongbalsan — trails made for every season.",
-    food: "From Ilsan's cafe streets to Baekseok's kitchens — a meal worth the trip.",
-    culture: "This season's stages and exhibitions at Aram Nuri and Kkot Nuri.",
-    kculture: "KINTEX — the hub of K-POP concerts and fan events.",
-    history: "From Haengju Fortress to Seooreung — Goyang's story, on foot.",
-    family: "Starfield and OneMount — where a day with the kids is never long enough.",
-  },
-  ja: {
-    walk: "一山湖水公園から鼎鉢山まで、四季を通じて歩きたい道。",
-    food: "一山カフェ通りから白石の名店まで、逃したくない一食。",
-    culture: "アラムヌリ・コッヌリで出会う、今シーズンの舞台と展示。",
-    kculture: "KINTEXで開かれるK-POP・ファンイベントの中心地。",
-    history: "幸州山城から西五陵まで、歩いて出会う高陽の時間。",
-    family: "Starfield・OneMount、子どもと過ごす一日が短い場所。",
-  },
-  "zh-CN": {
-    walk: "从一山湖水公园到鼎钵山，四季皆宜的漫步路线。",
-    food: "从一山咖啡街到白石名店，一顿不容错过的美味。",
-    culture: "在阿蓝努里·花努里，遇见本季演出与展览。",
-    kculture: "KINTEX——K-POP与粉丝活动的中心。",
-    history: "从幸州山城到西五陵，步行走进高阳的历史。",
-    family: "Starfield·OneMount，与孩子共度的一天总嫌短。",
-  },
-  "zh-TW": {
-    walk: "從一山湖水公園到鼎缽山，四季皆宜的漫步路線。",
-    food: "從一山咖啡街到白石名店，一頓不容錯過的美味。",
-    culture: "在阿藍努里·花努里，遇見本季演出與展覽。",
-    kculture: "KINTEX——K-POP與粉絲活動的中心。",
-    history: "從幸州山城到西五陵，步行走進高陽的歷史。",
-    family: "Starfield·OneMount，與孩子共度的一天總嫌短。",
-  },
 };
 
 /** "자세히 보기" 링크 문구 (로케일별). */
@@ -176,14 +61,15 @@ const READ_MORE: Record<LocaleKey, string> = {
   "zh-TW": "查看詳情 →",
 };
 
-// TODO(routing): 카테고리별 상세 라우트 준비되면 갱신.
+// 카테고리 상세 라우트 (오더 #BEST1). id="story-{cat}" 앵커는
+// EmblemEntrySection 이 홈 내 스크롤 진입에도 사용하므로 유지.
 const STORY_HREF: Record<EmblemCategory, string> = {
-  walk: "#",
-  food: "#",
-  culture: "#",
-  kculture: "#",
-  history: "#",
-  family: "#",
+  walk: "/best/walk",
+  food: "/best/food",
+  culture: "/best/culture",
+  kculture: "/best/kculture",
+  history: "/best/history",
+  family: "/best/family",
 };
 
 // 통짜 카드 이미지 파일: public/images/cards/card-<category>.jpg
@@ -244,7 +130,7 @@ function CuratedCard({
   const [photoBroken, setPhotoBroken] = useState(false);
 
   return (
-    <a
+    <Link
       id={`story-${category}`}
       href={STORY_HREF[category]}
       aria-label={`${label} — ${headline}`}
@@ -294,6 +180,6 @@ function CuratedCard({
           </div>
         </div>
       </article>
-    </a>
+    </Link>
   );
 }
