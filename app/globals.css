@@ -23,6 +23,9 @@
   --butter: #ffe98b;
   --sky: #a4d8ff;
   --rose: #ffdbd4;
+  /* Brand refresh (오더 #R2) — 차콜 베이스 + 골드 포인트. 헤더·푸터·Hero 슬로건. */
+  --charcoal: #232322;
+  --gold: #d4af37;
 }
 
 html {

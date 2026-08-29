@@ -176,9 +176,9 @@ export default function Footer() {
 
   return (
     <footer className="px-4 pb-24 pt-10 sm:px-5 lg:px-6 lg:pb-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_50%,_#102040_100%)] text-slate-300 shadow-[0_28px_80px_rgba(8,14,26,0.26)]">
-        {/* 상단 네온 라인 */}
-        <div className="h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[var(--charcoal)] text-white/70 shadow-[0_28px_80px_rgba(35,35,34,0.35)]">
+        {/* 상단 골드 라인 (오더 #R2 브랜드 리프레시) */}
+        <div className="h-[3px] bg-[var(--gold)]" />
         {/* 격자 배경 */}
         <div
           className="pointer-events-none absolute inset-0 rounded-[32px] opacity-[0.03]"
@@ -186,23 +186,23 @@ export default function Footer() {
         />
         <div className="grid gap-8 px-5 py-8 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
           <div>
-            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#ffe98b)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-slate-950">
+            <div className="inline-flex rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[var(--charcoal)]">
               {copy.badge}
             </div>
             <h2 className="mt-4 text-[1.3rem] font-black leading-[1.2] tracking-[-0.04em] text-white sm:text-[1.55rem]">
               {copy.title}
             </h2>
-            <p className="mt-3 text-sm leading-6 text-slate-400">{copy.desc}</p>
+            <p className="mt-3 text-sm leading-6 text-white/60">{copy.desc}</p>
           </div>
 
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fff0b0]">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--gold)]">
               {copy.navigate}
             </div>
             <ul className="mt-5 space-y-3">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-slate-400 transition hover:text-white">
+                  <Link href={item.href} className="text-sm text-white/60 transition hover:text-[var(--gold)]">
                     {navigationLabels[activeLocale][item.key]}
                   </Link>
                 </li>
@@ -212,67 +212,67 @@ export default function Footer() {
         </div>
 
         {/* 사업자 정보 블록 — 통신판매업 법정 필수 항목 전량 유지, 표기만 축소 (F2 오더) */}
-        <div className="border-t border-white/10 px-5 py-4 text-[10px] leading-4 text-slate-400 sm:px-6 lg:px-8">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+        <div className="border-t border-white/10 px-5 py-4 text-[10px] leading-4 text-white/60 sm:px-6 lg:px-8">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
             {bLabels.sectionTitle}
           </div>
           <dl className="mt-2 grid gap-x-5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.companyName}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.companyName}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.companyName}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.companyName}</dd>
             </div>
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.ceo}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.ceo}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.ceo}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.ceo}</dd>
             </div>
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.bizRegNo}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.bizRegNo}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.bizRegNo}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.bizRegNo}</dd>
             </div>
             <div className="flex gap-1.5 sm:col-span-2 lg:col-span-2">
-              <dt className="shrink-0 text-slate-500">{bLabels.ecomRegNo}</dt>
-              <dd className="text-slate-300">
+              <dt className="shrink-0 text-white/45">{bLabels.ecomRegNo}</dt>
+              <dd className="text-white/80">
                 {BUSINESS_INFO.ecomRegNo}
-                <span className="ml-1 text-slate-500">({bLabels.changePending})</span>
+                <span className="ml-1 text-white/45">({bLabels.changePending})</span>
               </dd>
             </div>
             <div className="flex gap-1.5 sm:col-span-2 lg:col-span-3">
-              <dt className="shrink-0 text-slate-500">{bLabels.address}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.address}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.address}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.address}</dd>
             </div>
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.phone}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.phone}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.phone}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.phone}</dd>
             </div>
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.email}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.email}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.email}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.email}</dd>
             </div>
             <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.privacyOfficer}</dt>
-              <dd className="text-slate-300">{BUSINESS_INFO.privacyOfficer}</dd>
+              <dt className="shrink-0 text-white/45">{bLabels.privacyOfficer}</dt>
+              <dd className="text-white/80">{BUSINESS_INFO.privacyOfficer}</dd>
             </div>
           </dl>
         </div>
 
         {/* 법적 면책 문구 — 티켓 예외 명시 (F2 압축: 2문장 → 1문장) */}
-        <div className="border-t border-white/10 px-5 py-4 text-[11px] leading-5 text-slate-400 sm:px-6 lg:px-8">
-          <span className="mr-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+        <div className="border-t border-white/10 px-5 py-4 text-[11px] leading-5 text-white/60 sm:px-6 lg:px-8">
+          <span className="mr-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
             {disclaimerHeadings[activeLocale]}
           </span>
-          <span className="text-slate-400">{disclaimers[activeLocale]}</span>
+          <span className="text-white/60">{disclaimers[activeLocale]}</span>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-white/50 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <div>
             © {year} Goyang MICE Platform. All rights reserved.
-            <span className="ml-2 text-slate-600">
+            <span className="ml-2 text-white/40">
               · {bLabels.operatedBy}: {BUSINESS_INFO.companyName}
             </span>
           </div>
           <div className="flex flex-wrap gap-4">
             {policies.map((item) => (
-              <Link key={item.href} href={item.href} className="transition hover:text-white">
+              <Link key={item.href} href={item.href} className="transition hover:text-[var(--gold)]">
                 {item.label}
               </Link>
             ))}

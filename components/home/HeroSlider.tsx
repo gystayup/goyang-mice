@@ -10,8 +10,10 @@
 // 오버레이:
 //   · 다중 스크림 — 좌 강→우 약 (다이애그널) + 하단 강 (텍스트 대비 확보)
 //   · 좌측 정렬 수직 리듬:
-//       (1) 상단 고정 태그라인 "Goyang·Ilsan — Korea's Best Destination City"
-//           · "Goyang·Ilsan" 골드(amber-300), 나머지 흰색, 작은 크기·트래킹 넓게
+//       (1) 상단 고정 슬로건 — 오더 #R2 브랜드 리프레시.
+//           · 5로케일 (SLOGAN 상수), 골드 강조(var(--gold)) + 흰색 조합
+//           · ko: "그냥 보는 여행이 아니라, 제대로 아는 여행"
+//           · en: "Don't Just Visit Goyang. Know How to Experience It."
 //       (2) 대형 영문 헤드라인 (카테고리별, text-4xl→7xl, font-black, tracking-tight)
 //       (3) 한글 서브 (카테고리·로케일별, CuratedGridSection.CARD_DESC 와 문안 일관)
 //       (4) CTA "자세히 보기 →" — 앵커 #story-<cat>
@@ -92,6 +94,20 @@ const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     history: "歷史",
     family: "親子",
   },
+};
+
+/** 상단 고정 슬로건 (5로케일). 오더 #R2 브랜드 리프레시.
+ *  구조: {before} + {gold} — 골드 강조 부분은 var(--gold) 로 하이라이트. */
+type SloganPart = { before: string; gold: string };
+const SLOGAN: Record<EmblemLocale, SloganPart> = {
+  ko: { before: "그냥 보는 여행이 아니라, ", gold: "제대로 아는 여행" },
+  en: {
+    before: "Don't Just Visit Goyang. ",
+    gold: "Know How to Experience It.",
+  },
+  ja: { before: "ただ訪れるのではなく、", gold: "本当に知る旅" },
+  "zh-CN": { before: "不只是走马观花，", gold: "而是懂得体验的旅程" },
+  "zh-TW": { before: "不只是走馬看花，", gold: "而是懂得體驗的旅程" },
 };
 
 /** 대형 영문 헤드라인 (모든 로케일 공통, uppercase). */
@@ -280,11 +296,10 @@ export default function HeroSlider({ locale }: { locale: string }) {
       {/* 콘텐츠 오버레이 (좌측 정렬, 여백 넉넉) */}
       <div className="relative flex min-h-[28rem] flex-col justify-end p-6 sm:min-h-[36rem] sm:p-10 lg:min-h-[42rem] lg:p-14">
         <div className="max-w-3xl">
-          {/* (1) 상단 고정 태그라인 — 모든 슬라이드 공통, 흰색/골드 */}
-          <div className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] sm:mb-6 sm:text-xs">
-            <span className="text-amber-300">Goyang·Ilsan</span>
-            <span className="mx-2 text-white/45">—</span>
-            <span className="text-white/85">Korea&apos;s Best Destination City</span>
+          {/* (1) 상단 고정 슬로건 (오더 #R2) — 5로케일, 흰색 + 골드 강조 */}
+          <div className="mb-5 max-w-2xl text-sm font-semibold leading-snug tracking-tight sm:mb-6 sm:text-base">
+            <span className="text-white/85">{SLOGAN[activeLocale].before}</span>
+            <span className="text-[var(--gold)]">{SLOGAN[activeLocale].gold}</span>
           </div>
 
           {/* (2) 대형 영문 헤드라인 (카테고리별) */}
