@@ -1,6 +1,5 @@
 "use client";
 
-import { MapPin } from "lucide-react";
 import { useLocale } from "next-intl";
 
 import { type LocaleKey, navigation, navigationLabels } from "@/data/navigation";
@@ -21,7 +20,6 @@ type CopyEntry = {
   title: string;
   desc: string;
   navigate: string;
-  location: string;
 };
 
 // 통신판매업 필수 게재 정보 — 값은 5개 로케일 공통 (한국 사업자 실제 명칭·번호)
@@ -118,29 +116,13 @@ const businessLabels: Record<LocaleKey, BusinessLabels> = {
   },
 };
 
-// 법적 면책 문구 — 관광진흥법·의료법상 여행업·외국인환자 유치업 미해당 고지
-// 소개형 카테고리(숙박·음식·카페·투어·의료)에 대한 비판매·비알선·비유치 명시
-const disclaimers: Record<LocaleKey, readonly [string, string]> = {
-  ko: [
-    "본 플랫폼은 관광정보 제공 및 연구·기획 서비스를 제공하며, 여행상품의 판매·알선 및 외국인환자 유치행위를 하지 않습니다.",
-    "티켓 외 카테고리(숙박·음식·카페·투어·의료 등)의 정보는 안내 목적이며, 실제 계약·거래는 표시된 각 사업자와 이용자 간에 직접 성립합니다.",
-  ],
-  en: [
-    "This platform provides tourism information and research and planning services only. It does not sell or broker travel products, nor engage in the recruitment of foreign patients.",
-    "Information on non-ticket categories (accommodation, dining, cafés, tours, medical, etc.) is provided for guidance only; any actual contract or transaction is concluded directly between the listed business and the user.",
-  ],
-  ja: [
-    "本プラットフォームは観光情報の提供および研究・企画サービスを提供するものであり、旅行商品の販売・斡旋および外国人患者の誘致行為は行いません。",
-    "チケット以外のカテゴリー（宿泊・飲食・カフェ・ツアー・医療等）の情報は案内を目的とし、実際の契約・取引は表示された各事業者と利用者との間で直接成立します。",
-  ],
-  "zh-CN": [
-    "本平台仅提供旅游信息及研究、策划服务，不从事旅游产品的销售、中介及外国患者招揽行为。",
-    "门票以外类别（住宿、餐饮、咖啡、旅游、医疗等）的信息仅供参考，实际合同、交易由所示各经营者与用户直接达成。",
-  ],
-  "zh-TW": [
-    "本平台僅提供觀光資訊及研究、企劃服務，不從事旅遊商品之銷售、仲介及外國病患招攬行為。",
-    "門票以外類別（住宿、餐飲、咖啡、旅遊、醫療等）之資訊僅供參考，實際合約、交易由所示各業者與使用者直接成立。",
-  ],
+// 법적 면책 문구 — 티켓 예외 명시. 5로케일 각 1문장.
+const disclaimers: Record<LocaleKey, string> = {
+  ko: "본 플랫폼은 정보 소개 서비스를 제공하며, 티켓(공연·전시)을 제외한 상품의 판매·알선·중개를 하지 않습니다. 티켓 외 카테고리의 실제 계약·거래는 각 사업자와 이용자 간에 직접 성립합니다.",
+  en: "This platform provides information and guidance services; it does not sell, broker or intermediate any products other than tickets (performances and exhibitions). For non-ticket categories, any actual contract or transaction is concluded directly between the listed business and the user.",
+  ja: "本プラットフォームは情報案内サービスを提供するものであり、チケット（公演・展示）を除く商品の販売・斡旋・仲介は行いません。チケット以外のカテゴリーにおける実際の契約・取引は、表示された各事業者と利用者との間で直接成立します。",
+  "zh-CN": "本平台仅提供信息介绍服务，不从事门票（演出·展览）以外商品的销售、中介或代理。门票以外类别的实际合同与交易，由所示各经营者与用户之间直接达成。",
+  "zh-TW": "本平台僅提供資訊介紹服務，不從事門票（演出·展覽）以外商品之銷售、仲介或代理。門票以外類別之實際合約與交易，由所示各業者與使用者之間直接成立。",
 };
 
 const disclaimerHeadings: Record<LocaleKey, string> = {
@@ -157,35 +139,30 @@ const copyMap: Record<LocaleKey, CopyEntry> = {
     title: "고양의 문화, 관광, MICE, 로컬 라이프스타일을 연결하는 도시 플랫폼",
     desc: "호수·킨텍스·미식·문화·역사를 한 흐름으로 안내하는 고양 방문 경험 플랫폼.",
     navigate: "바로가기",
-    location: "경기도 고양시 · 일산 권역 · KINTEX 연계 거점",
   },
   en: {
     badge: "Goyang MICE Platform",
     title: "A city platform connecting culture, tourism, MICE and local lifestyle in Goyang",
     desc: "A guide to Goyang across lakes, KINTEX, food, culture and history — one flow, one platform.",
     navigate: "Navigate",
-    location: "Goyang, Gyeonggi-do · Ilsan district · KINTEX linked zone",
   },
   ja: {
     badge: "高陽 MICEプラットフォーム",
     title: "高陽市の文化・観光・MICE・ローカルライフスタイルをつなぐ都市プラットフォーム",
     desc: "湖水公園・KINTEX・グルメ・文化・歴史を一つの流れでご案内する高陽訪問体験プラットフォーム。",
     navigate: "ナビゲーション",
-    location: "京畿道高陽市 · 一山エリア · KINTEX連携拠点",
   },
   "zh-CN": {
     badge: "高阳 MICE平台",
     title: "连接高阳市文化、旅游、MICE与本地生活方式的城市平台",
     desc: "湖水公园、KINTEX、美食、文化与历史一气连贯——高阳访问体验指南平台。",
     navigate: "快速导航",
-    location: "京畿道高阳市 · 一山区域 · KINTEX联动据点",
   },
   "zh-TW": {
     badge: "高陽 MICE平台",
     title: "連結高陽市文化、旅遊、MICE與在地生活風格的城市平台",
     desc: "湖水公園、KINTEX、美食、文化與歷史一氣連貫——高陽訪問體驗指南平台。",
     navigate: "快速導覽",
-    location: "京畿道高陽市 · 一山區域 · KINTEX聯動據點",
   },
 };
 
@@ -216,10 +193,6 @@ export default function Footer() {
               {copy.title}
             </h2>
             <p className="mt-3 text-sm leading-6 text-slate-400">{copy.desc}</p>
-            <div className="mt-5 flex items-start gap-3 text-sm">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
-              <span>{copy.location}</span>
-            </div>
           </div>
 
           <div>
@@ -238,62 +211,56 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 사업자 정보 블록 — 통신판매업 필수 게재 */}
-        <div className="border-t border-white/10 px-5 py-6 text-xs leading-6 text-slate-400 sm:px-6 lg:px-8">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+        {/* 사업자 정보 블록 — 통신판매업 법정 필수 항목 전량 유지, 표기만 축소 (F2 오더) */}
+        <div className="border-t border-white/10 px-5 py-4 text-[10px] leading-4 text-slate-400 sm:px-6 lg:px-8">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
             {bLabels.sectionTitle}
           </div>
-          <dl className="mt-3 grid gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="flex gap-2">
+          <dl className="mt-2 grid gap-x-5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.companyName}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.companyName}</dd>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.ceo}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.ceo}</dd>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.bizRegNo}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.bizRegNo}</dd>
             </div>
-            <div className="flex gap-2 sm:col-span-2 lg:col-span-2">
+            <div className="flex gap-1.5 sm:col-span-2 lg:col-span-2">
               <dt className="shrink-0 text-slate-500">{bLabels.ecomRegNo}</dt>
               <dd className="text-slate-300">
                 {BUSINESS_INFO.ecomRegNo}
                 <span className="ml-1 text-slate-500">({bLabels.changePending})</span>
               </dd>
             </div>
-            <div className="flex gap-2 sm:col-span-2 lg:col-span-3">
+            <div className="flex gap-1.5 sm:col-span-2 lg:col-span-3">
               <dt className="shrink-0 text-slate-500">{bLabels.address}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.address}</dd>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.phone}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.phone}</dd>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.email}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.email}</dd>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <dt className="shrink-0 text-slate-500">{bLabels.privacyOfficer}</dt>
               <dd className="text-slate-300">{BUSINESS_INFO.privacyOfficer}</dd>
             </div>
           </dl>
         </div>
 
-        {/* 법적 면책 문구 — 여행업·외국인환자 유치업 미해당 고지 */}
-        <div className="border-t border-white/10 px-5 py-6 text-xs leading-6 text-slate-400 sm:px-6 lg:px-8">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+        {/* 법적 면책 문구 — 티켓 예외 명시 (F2 압축: 2문장 → 1문장) */}
+        <div className="border-t border-white/10 px-5 py-4 text-[11px] leading-5 text-slate-400 sm:px-6 lg:px-8">
+          <span className="mr-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
             {disclaimerHeadings[activeLocale]}
-          </div>
-          <div className="mt-3 space-y-2">
-            {disclaimers[activeLocale].map((sentence, i) => (
-              <p key={i} className="text-slate-400">
-                {sentence}
-              </p>
-            ))}
-          </div>
+          </span>
+          <span className="text-slate-400">{disclaimers[activeLocale]}</span>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
