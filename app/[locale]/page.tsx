@@ -14,7 +14,7 @@ export async function generateMetadata({
 
   if (locale === "en") {
     return {
-      title: "Goyang Special City K-Culture Platform",
+      title: "Goyang Special City GOYANGISM",
       description:
         "A platform connecting K-culture, tourism, MICE and local lifestyle experiences in Goyang.",
       alternates: {
@@ -24,9 +24,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: "고양특례시 K-컬처플랫폼",
+    title: "고양특례시 고양이즘",
     description:
-      "고양의 문화, 관광, 마이스, 라이프스타일 경험을 연결하는 고양특례시 K-컬처플랫폼 홈페이지입니다.",
+      "고양의 문화, 관광, 마이스, 라이프스타일 경험을 연결하는 고양특례시 고양이즘 홈페이지입니다.",
     alternates: {
       canonical: "/ko",
     },
