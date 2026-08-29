@@ -1,6 +1,7 @@
 // Header — 브랜드 리프레시 (오더 #R2). 차콜 베이스 + 골드 포인트.
 //
-// 로고: "GOYANG BEST" (5로케일 공통 영문 고정, BEST 골드 강조).
+// 로고: "GOYANG DMC" 한 줄 (5로케일 공통 영문 고정, DMC 골드 강조).
+//   오더 #BRAND3: BEST → DMC. #BRAND4: 하단 GOYANGISM 서브 제거 → 한 줄만.
 // 네비 위계 (data/navigation.ts 5항목):
 //   · 방문객 (dmc, products)     — 밝게 (text-white)
 //   · 액션   (contact)           — 중간 (text-white/75)
@@ -20,36 +21,29 @@ import { Link, usePathname } from "@/lib/navigation";
 import HeaderUserMenu from "@/components/layout/HeaderUserMenu";
 
 type HeaderCopy = {
-  titleLine2: string;
   menuLabel: string;
   closeLabel: string;
 };
 
-// 서브 브랜드 (오더 #BRAND2): 5로케일 모두 영문 "GOYANGISM" 고정.
-// (오더 #BRAND1 의 한글·카타카나 혼용 표기 → 전 로케일 영문 통일)
+// 5로케일 헤더 문구 — 로고 서브 라인(GOYANGISM) 은 오더 #BRAND4 로 제거됨.
 const copyMap: Record<LocaleKey, HeaderCopy> = {
   ko: {
-    titleLine2: "GOYANGISM",
     menuLabel: "메뉴 열기",
     closeLabel: "메뉴 닫기",
   },
   en: {
-    titleLine2: "GOYANGISM",
     menuLabel: "Open menu",
     closeLabel: "Close menu",
   },
   ja: {
-    titleLine2: "GOYANGISM",
     menuLabel: "メニューを開く",
     closeLabel: "メニューを閉じる",
   },
   "zh-CN": {
-    titleLine2: "GOYANGISM",
     menuLabel: "打开菜单",
     closeLabel: "关闭菜单",
   },
   "zh-TW": {
-    titleLine2: "GOYANGISM",
     menuLabel: "開啟選單",
     closeLabel: "關閉選單",
   },
@@ -74,7 +68,7 @@ function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
   return "institutional"; // institute, research
 }
 
-/** 로고 텍스트 — 5로케일 공통 영문 고정. BEST 만 골드. */
+/** 로고 텍스트 — 5로케일 공통 영문 고정. DMC 만 골드 (오더 #BRAND3). */
 function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
   const sizeClass =
     size === "md"
@@ -82,7 +76,7 @@ function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
       : "text-[9px] tracking-[0.22em] md:text-[10px] md:tracking-[0.28em]";
   return (
     <span className={`relative font-black uppercase text-white ${sizeClass}`}>
-      GOYANG <span className="text-[var(--gold)]">BEST</span>
+      GOYANG <span className="text-[var(--gold)]">DMC</span>
     </span>
   );
 }
@@ -159,7 +153,7 @@ export default function Header() {
         {/* ── 데스크탑 헤더 ── */}
         <div className="hidden lg:grid lg:grid-cols-[minmax(0,16rem)_auto_minmax(0,1fr)_auto] lg:items-center lg:gap-4 xl:grid-cols-[minmax(0,18rem)_auto_minmax(0,1fr)_auto] xl:gap-5">
 
-          {/* 로고 + 타이틀 */}
+          {/* 로고 (한 줄) — 오더 #BRAND4 로 하단 서브 라인 제거 */}
           <Link href="/" className="min-w-0 group">
             <div className="relative inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-1.5 backdrop-blur-md transition-all duration-300 group-hover:border-[var(--gold)]/50 group-hover:bg-white/[0.10] group-hover:shadow-[0_6px_20px_rgba(212,175,55,0.15)]">
               <span className="relative flex h-1.5 w-1.5 shrink-0">
@@ -167,9 +161,6 @@ export default function Header() {
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
               </span>
               <BrandLogo size="md" />
-            </div>
-            <div className="mt-2 whitespace-nowrap text-[1.2rem] font-black leading-[1.15] tracking-[-0.03em] text-white/90">
-              {copy.titleLine2}
             </div>
           </Link>
 
