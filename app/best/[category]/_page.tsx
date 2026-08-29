@@ -116,11 +116,13 @@ export default async function BestCategoryPage({
 
   return (
     <Shell>
-      {/* Hero — card-{cat}.jpg 배경 + 반투명 어두운 오버레이 + 문안 */}
+      {/* Hero — hero-{cat}.jpg 풍경 배경 + 어두운 스크림 + 문안 (오더 #BEST2-fix).
+          card-{cat}.jpg (배지 통짜) 대신 이미 존재하는 hero 풍경 이미지 재사용:
+          텍스트 대비 확보 + 배지 통짜가 화면을 다 먹는 문제 해소. */}
       <section className="relative overflow-hidden">
         <div className="relative aspect-[16/9] max-h-[520px] w-full">
           <Image
-            src={`/images/cards/card-${cat}.jpg`}
+            src={`/images/hero/hero-${cat}.jpg`}
             alt=""
             fill
             className="object-cover"
@@ -132,7 +134,7 @@ export default async function BestCategoryPage({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.88) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.65) 55%, rgba(0,0,0,0.92) 100%)",
             }}
           />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:pb-14 lg:pb-16">
