@@ -25,29 +25,36 @@ type HeaderCopy = {
   closeLabel: string;
 };
 
+// 서브 브랜드 (오더 #BRAND1): "K-컬처플랫폼" → "고양이즘 / GOYANGISM".
+// 로케일별 표기 판단:
+//   · ko:    "고양이즘" (한글 브랜드 원표기)
+//   · en:    "GOYANGISM" (로마자만)
+//   · ja:    "고양이즘(ゴヤンイズム)" (한글 원표기 + 카타카나 발음 병기)
+//   · zh-CN: "GOYANGISM" (한자 표기 없이 로마자)
+//   · zh-TW: "GOYANGISM"
 const copyMap: Record<LocaleKey, HeaderCopy> = {
   ko: {
-    titleLine2: "K-컬처플랫폼",
+    titleLine2: "고양이즘",
     menuLabel: "메뉴 열기",
     closeLabel: "메뉴 닫기",
   },
   en: {
-    titleLine2: "K-Culture Platform",
+    titleLine2: "GOYANGISM",
     menuLabel: "Open menu",
     closeLabel: "Close menu",
   },
   ja: {
-    titleLine2: "K-カルチャープラットフォーム",
+    titleLine2: "고양이즘(ゴヤンイズム)",
     menuLabel: "メニューを開く",
     closeLabel: "メニューを閉じる",
   },
   "zh-CN": {
-    titleLine2: "K-文化平台",
+    titleLine2: "GOYANGISM",
     menuLabel: "打开菜单",
     closeLabel: "关闭菜单",
   },
   "zh-TW": {
-    titleLine2: "K-文化平台",
+    titleLine2: "GOYANGISM",
     menuLabel: "開啟選單",
     closeLabel: "關閉選單",
   },
