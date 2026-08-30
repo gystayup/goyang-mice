@@ -27,7 +27,7 @@ const productPageCopy: Record<string, ProductPageCopy> = {
     },
   },
   "stay-reservation-platform": {
-    eyebrow: { ko: "숙박예약", en: "Accommodation Booking", ja: "宿泊予約", "zh-CN": "住宿预约", "zh-TW": "住宿預約" },
+    eyebrow: { ko: "숙박", en: "Accommodation", ja: "宿泊", "zh-CN": "住宿", "zh-TW": "住宿" },
     title: { ko: "고양 숙박예약 운영 플랫폼", en: "Goyang Accommodation Booking Platform", ja: "高陽 宿泊予約運営プラットフォーム", "zh-CN": "高阳住宿预约运营平台", "zh-TW": "高陽住宿預約營運平台" },
     description: {
       ko: "KINTEX, 공연장, 관광 거점을 방문하는 고객을 위한 객실 예약과 체류 운영을 함께 지원합니다.",
@@ -45,7 +45,7 @@ const productPageCopy: Record<string, ProductPageCopy> = {
     },
   },
   "restaurant-booking-platform": {
-    eyebrow: { ko: "음식점예약", en: "Restaurant Booking", ja: "飲食店予約", "zh-CN": "餐厅预约", "zh-TW": "餐廳預約" },
+    eyebrow: { ko: "음식점", en: "Restaurant", ja: "飲食店", "zh-CN": "餐厅", "zh-TW": "餐廳" },
     title: { ko: "고양 음식점예약 플랫폼", en: "Goyang Restaurant Booking Platform", ja: "高陽 飲食店予約プラットフォーム", "zh-CN": "高阳餐厅预约平台", "zh-TW": "高陽餐廳預約平台" },
     description: {
       ko: "단체 식사, 로컬 미식, VIP 다이닝을 시간대와 목적에 맞춰 예약하고 운영합니다.",
@@ -63,7 +63,7 @@ const productPageCopy: Record<string, ProductPageCopy> = {
     },
   },
   "cafe-booking-platform": {
-    eyebrow: { ko: "라이프스타일 예약", en: "Lifestyle Booking", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
+    eyebrow: { ko: "라이프스타일", en: "Lifestyle", ja: "ライフスタイル", "zh-CN": "生活方式", "zh-TW": "生活風格" },
     title: { ko: "라이프스타일 예약 플랫폼", en: "Lifestyle Booking Platform", ja: "ライフスタイル予約プラットフォーム", "zh-CN": "生活方式预约平台", "zh-TW": "生活風格預約平台" },
     description: {
       ko: "브런치, 카페, 감성 공간, 미팅 장소까지 한 번에 연결되는 라이프스타일 예약 서비스입니다.",
@@ -99,7 +99,7 @@ const productPageCopy: Record<string, ProductPageCopy> = {
     },
   },
   "airport-pickup-platform": {
-    eyebrow: { ko: "공항픽업예약", en: "Airport Pickup Booking", ja: "空港送迎予約", "zh-CN": "机场接送预约", "zh-TW": "機場接送預約" },
+    eyebrow: { ko: "공항픽업", en: "Airport Pickup", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
     title: { ko: "공항픽업예약 플랫폼", en: "Airport Pickup Booking Platform", ja: "空港送迎予約プラットフォーム", "zh-CN": "机场接送预约平台", "zh-TW": "機場接送預約平台" },
     description: {
       ko: "인천공항과 김포공항에서 고양 주요 거점까지 바로 연결되는 픽업·샌딩 서비스입니다.",
