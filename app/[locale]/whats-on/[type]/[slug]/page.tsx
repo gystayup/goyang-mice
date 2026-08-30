@@ -236,13 +236,16 @@ export default async function WhatsOnDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* 1. 대형 사진 (fallback 시 캡션 표기) */}
+        {/* 1. 대형 사진 (fallback 시 캡션 표기).
+            오더 #P9-k [3]: 실사진 배너에는 제목·날짜 텍스트가 포함되어
+            잘림 방지를 위해 object-contain + 차콜 배경. fallback 은
+            풍경/장소 사진이라 잘림 무방하므로 object-cover 유지. */}
         <section className="relative aspect-[16/9] max-h-[600px] w-full bg-[#232322]">
           <Image
             src={image.src}
             alt={event.title[active]}
             fill
-            className="object-cover"
+            className={image.isFallback ? "object-cover" : "object-contain"}
             sizes="100vw"
             priority
           />
