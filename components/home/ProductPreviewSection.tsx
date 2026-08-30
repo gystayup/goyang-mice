@@ -33,7 +33,7 @@ const copyMap: Record<LocaleKey, MainCopy> = {
 type CatItem = { title: string; gradFrom: string; gradTo: string; iconBg: string; iconColor: string; glow: string };
 const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
   ko: {
-    tour:       { title: "여행상품 안내",  gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    tour:       { title: "투어·체험 안내",  gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "숙박 안내",      gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
     restaurant: { title: "음식점 안내",    gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
     cafe:       { title: "라이프스타일",   gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
@@ -42,7 +42,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     medical:    { title: "고양일산 의료기관 안내", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   en: {
-    tour:       { title: "Travel Guide",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    tour:       { title: "Tours & Experiences",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "Stay Guide",      gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
     restaurant: { title: "Restaurants",     gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
     cafe:       { title: "Lifestyle",       gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
@@ -51,7 +51,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     medical:    { title: "Goyang-Ilsan Healthcare Guide", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   ja: {
-    tour:       { title: "旅行商品案内",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    tour:       { title: "ツアー・体験案内",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "宿泊案内",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
     restaurant: { title: "レストラン案内",  gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
     cafe:       { title: "ライフスタイル",  gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
@@ -60,7 +60,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     medical:    { title: "高陽・一山 医療機関ガイド", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-CN": {
-    tour:       { title: "旅游产品指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    tour:       { title: "旅游·体验指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "住宿指南",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
     restaurant: { title: "餐厅指南",        gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
     cafe:       { title: "生活方式",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },
@@ -69,7 +69,7 @@ const categoryCopy: Record<LocaleKey, Record<CategoryKey, CatItem>> = {
     medical:    { title: "高阳·一山医疗机构信息", gradFrom: "#f2f7ff", gradTo: "#e9f1ff", iconBg: "bg-[#c7d8ff]", iconColor: "text-[#234ca6]", glow: "rgba(120,160,240,0.4)" },
   },
   "zh-TW": {
-    tour:       { title: "旅遊產品指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
+    tour:       { title: "旅遊·體驗指南",    gradFrom: "#fffbee", gradTo: "#fff4da", iconBg: "bg-[#ffe8a0]", iconColor: "text-[#9b7a00]", glow: "rgba(255,233,139,0.5)" },
     stay:       { title: "住宿指南",        gradFrom: "#f0fdf8", gradTo: "#e9fbf4", iconBg: "bg-[#b7f0d8]", iconColor: "text-[#0a6b48]", glow: "rgba(141,240,207,0.5)" },
     restaurant: { title: "餐廳指南",        gradFrom: "#fff7f2", gradTo: "#fff2e5", iconBg: "bg-[#ffd5a8]", iconColor: "text-[#9b4800]", glow: "rgba(255,181,143,0.5)" },
     cafe:       { title: "生活風格",        gradFrom: "#f8f4ff", gradTo: "#f2ecff", iconBg: "bg-[#dcc8ff]", iconColor: "text-[#6b3dbf]", glow: "rgba(160,100,255,0.4)" },

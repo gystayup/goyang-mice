@@ -9,7 +9,7 @@ type ProductPageCopy = {
 
 const productPageCopy: Record<string, ProductPageCopy> = {
   "tour-experience-platform": {
-    eyebrow: { ko: "여행상품", en: "Travel Products", ja: "旅行商品", "zh-CN": "旅游产品", "zh-TW": "旅遊產品" },
+    eyebrow: { ko: "투어·체험", en: "Tours & Experiences", ja: "ツアー・体験", "zh-CN": "旅游·体验", "zh-TW": "旅遊·體驗" },
     title: { ko: "고양 여행상품예약 플랫폼", en: "Goyang Travel Product Booking Platform", ja: "高陽 旅行商品予約プラットフォーム", "zh-CN": "高阳旅游产品预约平台", "zh-TW": "高陽旅遊產品預約平台" },
     description: {
       ko: "고양의 문화, 관광, 공연, 체험 자산을 하나의 여행상품 구조로 연결해 예약과 운영을 함께 관리하는 서비스입니다.",

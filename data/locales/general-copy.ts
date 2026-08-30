@@ -5,7 +5,7 @@ import type { TicketCategory } from "@/data/ticket-booking";
 import { pick, type LocalizedText, type PageLocale } from "./types";
 
 const categoryLabels: Record<DmcCategoryKey, LocalizedText> = {
-  tour: { ko: "여행상품예약", en: "Travel Products", ja: "旅行商品予約", "zh-CN": "旅游产品预约", "zh-TW": "旅遊產品預約" },
+  tour: { ko: "투어·체험 예약", en: "Tours & Experiences", ja: "ツアー・体験予約", "zh-CN": "旅游·体验预约", "zh-TW": "旅遊·體驗預約" },
   stay: { ko: "숙박예약", en: "Accommodation", ja: "宿泊予約", "zh-CN": "住宿预约", "zh-TW": "住宿預約" },
   restaurant: { ko: "음식점예약", en: "Restaurant", ja: "レストラン予約", "zh-CN": "餐厅预约", "zh-TW": "餐廳預約" },
   cafe: { ko: "라이프스타일 예약", en: "Lifestyle", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
@@ -15,7 +15,7 @@ const categoryLabels: Record<DmcCategoryKey, LocalizedText> = {
 };
 
 const categoryEyebrows: Record<DmcCategoryKey, LocalizedText> = {
-  tour: { ko: "여행상품", en: "Tour / Experience", ja: "旅行商品", "zh-CN": "旅游产品", "zh-TW": "旅遊產品" },
+  tour: { ko: "투어·체험", en: "Tours & Experiences", ja: "ツアー・体験", "zh-CN": "旅游·体验", "zh-TW": "旅遊·體驗" },
   stay: { ko: "숙박예약", en: "Stay / Room Block", ja: "宿泊予約", "zh-CN": "住宿预约", "zh-TW": "住宿預約" },
   restaurant: { ko: "음식점예약", en: "Dining / Reservation", ja: "レストラン予約", "zh-CN": "餐厅预约", "zh-TW": "餐廳預約" },
   cafe: { ko: "라이프스타일 예약", en: "Lifestyle Booking", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
