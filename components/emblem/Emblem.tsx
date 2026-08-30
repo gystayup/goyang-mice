@@ -35,9 +35,14 @@ export interface EmblemProps {
   locale: EmblemLocale;
   /** 선택적 오버라이드용 className (예: 여백/그림자). SVG 자체 색상은 건드리지 않는 것을 권장. */
   className?: string;
+  /**
+   * 하단 리본(카테고리명) 렌더 스킵 (오더 #A2 [2]).
+   * 외부 라벨과 중복 방지용. 기본 false 라 기존 사용처는 무영향.
+   */
+  hideRibbon?: boolean;
 }
 
-export function Emblem({ category, size, locale, className }: EmblemProps) {
+export function Emblem({ category, size, locale, className, hideRibbon = false }: EmblemProps) {
   const diameter = EMBLEM_DIAMETERS[size];
   const color = EMBLEM_COLORS[category];
   const cream = EMBLEM_COLORS.cream;
@@ -46,7 +51,7 @@ export function Emblem({ category, size, locale, className }: EmblemProps) {
   const IconComponent = EMBLEM_ICONS[category];
 
   const showArcText = size === "L" || size === "M";
-  const showRibbon = size !== "XS";
+  const showRibbon = size !== "XS" && !hideRibbon;
 
   const arcId = useId();
   const arcPathId = `emblem-arc-${arcId.replace(/[:]/g, "")}`;
