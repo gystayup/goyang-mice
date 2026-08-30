@@ -36,14 +36,10 @@ import { Link } from "@/lib/navigation";
 const LOCALES: WhatsOnLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 const ROW_KEYS: WhatsOnEventType[] = ["performance", "festival", "exhibition"];
 
+// 오더 #P9-m [1]: 섹션 headline "이번 달 고양일산" (5로케일) 삭제.
+// 이브로우와 행 라벨 사이에서 중복 · 노출 행사가 9~11월이라 "이번 달"과 불일치.
+// eyebrow "WHAT'S ON IN GOYANG" 만 유지.
 const SECTION_EYEBROW = "WHAT'S ON IN GOYANG"; // 5로케일 공통 영문
-const SECTION_HEADLINE: Record<WhatsOnLocale, string> = {
-  ko: "이번 달 고양일산",
-  en: "This Month in Goyang-Ilsan",
-  ja: "今月の高陽・一山",
-  "zh-CN": "本月的高阳·一山",
-  "zh-TW": "本月的高陽·一山",
-};
 
 const ROW_LABEL: Record<WhatsOnEventType, Record<WhatsOnLocale, string>> = {
   performance: { ko: "공연", en: "Performance", ja: "公演", "zh-CN": "演出", "zh-TW": "演出" },
@@ -91,20 +87,17 @@ export default function WhatsOnSection({ locale }: { locale: string }) {
   const rows = resolveRows();
   if (rows.length === 0) return null;
 
-  // 오더 #P9-g [1]: max-w-7xl · px-4 sm:px-6 컨테이너는 CuratedGridSection(BEST)
-  // 과 동일. 세로 padding(py-24/28)은 WhatsOn 고유 디자인 제약(#P9 [3] 96px+)
-  // 이므로 유지.
+  // 오더 #P9-g [1]: max-w-7xl · px-4 sm:px-6 컨테이너는 CuratedGridSection(BEST) 정합.
+  // 오더 #P9-m [3]: 세로 padding py-24/28 → py-16/20 축소, 행 간격 space-y-24 → space-y-16
+  // (약 2/3), eyebrow → 첫 행 gap mt-16 → mt-8 (제목 삭제 반영).
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
           {SECTION_EYEBROW}
         </div>
-        <h2 className="mt-3 text-2xl font-black leading-tight tracking-[-0.03em] text-[#232322] sm:text-3xl">
-          {SECTION_HEADLINE[active]}
-        </h2>
 
-        <div className="mt-16 space-y-24">
+        <div className="mt-8 space-y-16">
           {rows.map((row) => (
             <WhatsOnRow key={row.key} row={row} locale={active} />
           ))}
@@ -176,11 +169,11 @@ function WhatsOnCard({
 
   return (
     <Link href={detailHref(event.type, event.slug)} className="group block">
-      {/* 오더 #P9-g [1]: 사진 aspect = 16/13 (BEST 이미지 블록과 정합).
-          오더 #P9-k [1]: 실사진(imageUrl) 은 배너에 제목·날짜 텍스트가
-          포함되어 있어 잘림 방지를 위해 object-contain + 차콜 배경. fallback
-          이미지는 풍경/장소 사진이라 잘림 무방하므로 object-cover 유지. */}
-      <div className="relative aspect-[16/13] w-full overflow-hidden bg-[#232322]">
+      {/* 오더 #P9-m [2]: aspect 16/13 → 16/9 (WhatsOn 만; BEST 무접촉).
+          배너 원본이 16:9~2:1 이라 16/9 에서 letterbox 가 거의 사라진다.
+          오더 #P9-k [1]: 실사진(imageUrl) 은 object-contain + 차콜 배경 유지.
+          fallback 은 object-cover 유지. */}
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#232322]">
         <Image
           src={image.src}
           alt={event.title[locale]}
