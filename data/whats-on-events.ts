@@ -49,6 +49,12 @@ export interface WhatsOnEvent {
   imageUrl?: string;
   /** 실사진에 대한 © 크레딧. imageUrl 있을 때만 의미. */
   imageCredit?: string;
+  /**
+   * 도로명 주소 (오더 #P9-e [8]). 지도 링크·한국어 원문 카드에서 사용.
+   * 값 없으면 지도 블록 미렌더 (틀린 위치를 보여주느니 안 보여주는 편이 낫다).
+   * venue 문자열 검색은 부정확 사례 발생 — address 기준으로 조회한다.
+   */
+  address?: string;
   /** 주최·주관. 어댑터 이벤트는 미지정될 수 있음. */
   host?: I18nText;
   free: boolean;
@@ -63,13 +69,14 @@ export interface WhatsOnEvent {
 // ─── native events ────────────────────────────────────────────────────────────
 
 /**
- * GSAF — 고양호수예술축제 2026 (오더 #P9-b [2]).
- * 사실 근거: gylaf.kr 공식 사이트에 공개된 항목만 기재.
- *   · 주제: "예술, 거리에서 놀다 — Rhythm of the Street"
- *   · 거리예술 공연 100여 회
- *   · 일산호수공원 일원, 사흘간 진행
- *   · 주최 고양시 · 주관 고양문화재단, 무료 관람
+ * GSAF — 고양호수예술축제 2026 (오더 #P9-b [2] · P9-f [3][4][5]).
+ * 사실 근거: gylaf.kr + 배너 확인분.
+ *   · 해외 6팀 · 국내 40팀 · 100여 회 공연 · 사흘간
+ *   · 폐막공연 신승훈 · 야간 불꽃드론쇼 + 불꽃놀이
+ *   · 일산호수공원 일원, 무료 관람
+ *   · 주최 고양특례시 · 주관 고양문화재단
  * 프로그램 세부·출연진 등 미확인 정보는 추가하지 않음.
+ * 이미지 imageUrl 설정 시 fallback 캡션 미적용 — imageCredit 로 크레딧.
  */
 const gsaf2026: WhatsOnEvent = {
   id: "goyang-lake-arts-festival-2026",
@@ -77,7 +84,7 @@ const gsaf2026: WhatsOnEvent = {
   type: "festival",
   title: {
     ko: "2026 고양호수예술축제",
-    en: "Goyang Lake Park Arts Festival 2026",
+    en: "Goyang Lake Arts Festival 2026",
     ja: "2026 高陽湖水芸術祭",
     "zh-CN": "2026 高阳湖水艺术节",
     "zh-TW": "2026 高陽湖水藝術節",
@@ -92,20 +99,23 @@ const gsaf2026: WhatsOnEvent = {
   startDate: "2026-09-18",
   endDate: "2026-09-20",
   summary: {
-    ko: "‘예술, 거리에서 놀다 — Rhythm of the Street’를 주제로 한 거리예술 축제입니다. 일산호수공원 일원에서 사흘간 열리며, 거리예술 공연이 100여 회 진행됩니다.",
-    en: "A street arts festival under the theme ‘Art at Play on the Street — Rhythm of the Street’. Held over three days across Ilsan Lake Park, the festival features around 100 street arts performances.",
-    ja: "テーマ「芸術、街で遊ぶ — Rhythm of the Street」の下で開催される街頭芸術祭。一山湖水公園一帯で3日間開かれ、約100本の街頭芸術公演が行われます。",
-    "zh-CN": "以“艺术，在街头玩耍 — Rhythm of the Street”为主题的街头艺术节。在一山湖水公园一带持续三天，共举办约100场街头艺术表演。",
-    "zh-TW": "以「藝術，在街頭玩耍 — Rhythm of the Street」為主題的街頭藝術節。於一山湖水公園一帶連續三天舉行，共有約100場街頭藝術演出。",
+    ko: "해외 거리예술 6개 팀과 국내 40개 팀이 참여해 100여 회 공연이 사흘간 열립니다. 폐막공연 신승훈, 야간 불꽃드론쇼와 불꽃놀이가 함께 진행됩니다.",
+    en: "Six international street-arts companies and 40 Korean teams present around 100 performances over three days. The closing night features vocalist Shin Seung-hun and a night-time fireworks and drone show.",
+    ja: "海外の街頭芸術6チームと韓国の40チームが参加し、3日間で約100本の公演が行われます。閉幕公演にはシン・スンフンが登場し、夜間の花火とドローンショーも実施されます。",
+    "zh-CN": "海外街头艺术团队6组与韩国团队40组参加，为期三天举办约100场演出。闭幕演出由申胜勋登台，夜间还将同步呈现烟花与无人机秀。",
+    "zh-TW": "海外街頭藝術團隊6組與韓國團隊40組參加，為期三天舉辦約100場演出。閉幕演出由申勝勳登台，夜間並同步呈現煙火與無人機秀。",
   },
   host: {
-    ko: "주최 고양시 · 주관 고양문화재단",
-    en: "Hosted by Goyang City · Organized by Goyang Cultural Foundation",
-    ja: "主催 高陽市 · 主管 高陽文化財団",
-    "zh-CN": "主办 高阳市 · 主管 高阳文化财团",
-    "zh-TW": "主辦 高陽市 · 主管 高陽文化財團",
+    ko: "주최 고양특례시 · 주관 고양문화재단",
+    en: "Hosted by Goyang Special City · Organized by Goyang Cultural Foundation",
+    ja: "主催 高陽特例市 · 主管 高陽文化財団",
+    "zh-CN": "主办 高阳特例市 · 主管 高阳文化财团",
+    "zh-TW": "主辦 高陽特例市 · 主管 高陽文化財團",
   },
   officialUrl: "https://www.gylaf.kr/",
+  address: "경기도 고양시 일산동구 호수로 595",
+  imageUrl: "/images/events/goyang-lake-arts-festival-2026.jpg",
+  imageCredit: "이미지: 고양문화관광·MICE 연구소",
   free: true,
   verified: true,
 };
@@ -141,19 +151,117 @@ const garminRun2026: WhatsOnEvent = {
   startDate: "2026-11-15",
   endDate: "2026-11-15",
   summary: {
-    ko: "하프(21K)와 10K 두 종목으로 진행되며 고양종합운동장에서 출발합니다. 참가 신청은 공식 사이트에서 진행되며 현재 접수 마감 상태입니다.",
-    en: "A running event with a half marathon (21K) and 10K, starting from Goyang Stadium. Registration is handled on the official site and is currently closed.",
-    ja: "ハーフ(21K)と10Kの2種目で行われ、高陽総合運動場からスタートします。参加申込は公式サイトで行われており、現在受付は終了しています。",
-    "zh-CN": "分为半程马拉松（21K）和10K两个组别，从高阳综合运动场出发。报名通过官方网站进行，目前报名已截止。",
-    "zh-TW": "分為半程馬拉松（21K）與10K兩個組別，從高陽綜合運動場出發。報名透過官方網站進行，目前報名已截止。",
+    ko: "하프(21K)와 10K 두 종목으로 진행되며 오전 8시 고양종합운동장에서 출발합니다. 참가 신청은 공식 사이트에서 진행되며 현재 접수 마감 상태입니다.",
+    en: "A running event with a half marathon (21K) and 10K, starting at 8:00 a.m. from Goyang Stadium. Registration is handled on the official site and is currently closed.",
+    ja: "ハーフ(21K)と10Kの2種目で行われ、午前8時に高陽総合運動場からスタートします。参加申込は公式サイトで行われており、現在受付は終了しています。",
+    "zh-CN": "分为半程马拉松（21K）和10K两个组别，上午8点从高阳综合运动场出发。报名通过官方网站进行，目前报名已截止。",
+    "zh-TW": "分為半程馬拉松（21K）與10K兩個組別，上午8點從高陽綜合運動場出發。報名透過官方網站進行，目前報名已截止。",
   },
   host: replicate("Garmin Korea"),
   officialUrl: "https://discover.garmin.com/ko-KR/event/2026/garmin-run/",
+  address: "경기도 고양시 일산서구 중앙로 1601",
+  imageUrl: "/images/events/garmin-run-korea-2026.jpg",
+  imageCredit: "이미지: 고양문화관광·MICE 연구소",
   free: false,
   verified: true,
 };
 
-export const nativeWhatsOnEvents: WhatsOnEvent[] = [gsaf2026, garminRun2026];
+/**
+ * 임영웅 콘서트 IM HERO — THE STADIUM 2 (오더 #P9-e [7-1]).
+ * 근거: 포스터 확인 — 2026-09-04~06 · 고양종합운동장 · 오후 6:30 시작.
+ * 예매처는 공식 예매처 안내로만. 셋리스트·게스트·좌석·가격 미기재
+ * (판매 소구 0 · 확인된 사실만).
+ */
+const imHeroStadium2026: WhatsOnEvent = {
+  id: "im-hero-the-stadium-2-2026",
+  slug: "im-hero-the-stadium-2-2026",
+  type: "performance",
+  title: {
+    ko: "임영웅 콘서트 IM HERO — THE STADIUM 2",
+    en: "Lim Young-woong Concert: IM HERO — THE STADIUM 2",
+    ja: "イム・ヨンウン コンサート IM HERO — THE STADIUM 2",
+    "zh-CN": "林英雄演唱会 IM HERO — THE STADIUM 2",
+    "zh-TW": "林英雄演唱會 IM HERO — THE STADIUM 2",
+  },
+  venue: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
+  startDate: "2026-09-04",
+  endDate: "2026-09-06",
+  summary: {
+    ko: "고양종합운동장에서 사흘간 진행되는 스타디움 공연입니다. 공연 시작은 오후 6시 30분입니다. 예매는 공식 예매처에서 진행됩니다.",
+    en: "A three-day stadium concert at Goyang Stadium. Performances start at 6:30 p.m. Ticketing is handled by the official channels.",
+    ja: "高陽総合運動場で3日間行われるスタジアム公演です。開演は午後6時30分。チケットは公式販売元をご確認ください。",
+    "zh-CN": "在高阳综合运动场连续三天举行的体育场演唱会。演出于下午6点30分开始。购票请前往官方售票渠道。",
+    "zh-TW": "於高陽綜合運動場連續三天舉行的體育場演唱會。演出於下午6點30分開始。購票請前往官方售票渠道。",
+  },
+  host: {
+    ko: "공식 예매처 안내",
+    en: "See official ticketing",
+    ja: "公式チケット販売元をご確認ください",
+    "zh-CN": "详见官方售票处",
+    "zh-TW": "詳見官方售票處",
+  },
+  address: "경기도 고양시 일산서구 중앙로 1601",
+  free: false,
+  verified: true,
+};
+
+/**
+ * Charlie Puth — Whatever's Clever! World Tour in Goyang (오더 #P9-e [7-2]).
+ * 근거: 포스터 확인 — 2026-10-11 · 고양종합운동장 · Live Nation 주관.
+ * officialUrl·ticketUrl·imageUrl 없음. 아티스트 사진·포스터 사용 금지 —
+ * fallback 이미지만 (고양종합운동장 → hero-kculture.jpg).
+ */
+const charliePuthGoyang2026: WhatsOnEvent = {
+  id: "charlie-puth-goyang-2026",
+  slug: "charlie-puth-goyang-2026",
+  type: "performance",
+  title: {
+    ko: "찰리 푸스 내한공연 Whatever’s Clever! World Tour",
+    en: "Charlie Puth — Whatever’s Clever! World Tour in Goyang",
+    ja: "チャーリー・プース来韓公演 Whatever’s Clever! World Tour",
+    "zh-CN": "查理·普斯访韩演唱会 Whatever’s Clever! World Tour",
+    "zh-TW": "查理·普斯訪韓演唱會 Whatever’s Clever! World Tour",
+  },
+  venue: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
+  startDate: "2026-10-11",
+  endDate: "2026-10-11",
+  summary: {
+    ko: "고양종합운동장에서 열리는 월드투어 내한 공연입니다. 예매는 공식 예매처에서 진행됩니다.",
+    en: "A world-tour stop at Goyang Stadium. Ticketing is handled by the official channels.",
+    ja: "高陽総合運動場で行われるワールドツアーの来韓公演です。チケットは公式販売元をご確認ください。",
+    "zh-CN": "在高阳综合运动场举行的世界巡演访韩场。购票请前往官方售票渠道。",
+    "zh-TW": "於高陽綜合運動場舉行的世界巡演訪韓場。購票請前往官方售票渠道。",
+  },
+  host: {
+    ko: "주관 Live Nation",
+    en: "Presented by Live Nation",
+    ja: "主催 Live Nation",
+    "zh-CN": "主办 Live Nation",
+    "zh-TW": "主辦 Live Nation",
+  },
+  address: "경기도 고양시 일산서구 중앙로 1601",
+  free: false,
+  verified: true,
+};
+
+export const nativeWhatsOnEvents: WhatsOnEvent[] = [
+  gsaf2026,
+  garminRun2026,
+  imHeroStadium2026,
+  charliePuthGoyang2026,
+];
 
 // ─── ticket-booking.ts → WhatsOnEvent adapter ────────────────────────────────
 
@@ -284,12 +392,14 @@ const FALLBACK_SUBJECT: Record<FallbackKind, I18nText> = {
     "zh-CN": "一山湖水公园",
     "zh-TW": "一山湖水公園",
   },
+  // 오더 #P9-f [1]: 실물이 특정 식당 실내라 "라페스타"(야외 쇼핑스트리트)와
+  // 불일치. 특정 업체 지목 없는 카테고리형 라벨로 전환.
   food: {
-    ko: "라페스타",
-    en: "La Festa",
-    ja: "ラフェスタ",
-    "zh-CN": "拉菲斯塔",
-    "zh-TW": "拉菲斯塔",
+    ko: "고양 미식",
+    en: "Goyang Dining",
+    ja: "高陽グルメ",
+    "zh-CN": "高阳美食",
+    "zh-TW": "高陽美食",
   },
   culture: {
     ko: "고양아람누리",
@@ -298,7 +408,17 @@ const FALLBACK_SUBJECT: Record<FallbackKind, I18nText> = {
     "zh-CN": "高阳阿蓝努里",
     "zh-TW": "高陽阿藍努里",
   },
-  kculture: replicate("KINTEX"),
+  // 오더 #P9-e [6-2]: 실물 확인 결과 hero-kculture.jpg 은 옥외 스타디움
+  // 야간 공연 사진 (KINTEX 실내 컨벤션 아님). 캡션을 실제 피사체(고양종합
+  // 운동장)로 교정. 이로써 종합운동장 keyword → kculture → hero-kculture.jpg
+  // → "사진: 고양종합운동장" 이 사진·캡션·venue 모두 일치.
+  kculture: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
   history: {
     ko: "서오릉",
     en: "Seooreung Royal Tombs",
@@ -334,7 +454,9 @@ const PHOTO_PREFIX: I18nText = {
  */
 function pickFallbackKind(e: WhatsOnEvent): FallbackKind {
   const venueKo = e.venue.ko;
-  if (/KINTEX|킨텍스/i.test(venueKo)) return "kculture";
+  // 오더 #P9-f [2]: KINTEX 매핑 제거. hero-kculture.jpg 가 이제
+  // 고양종합운동장 사진(P9-f [6-2])이라 KINTEX venue → kculture 는
+  // 사진·캡션·venue 3자 불일치가 재발한다. KINTEX 전용 사진 확보 시 재도입.
   if (/K-?POP\s*아레나|아레나/i.test(venueKo)) return "kculture";
   if (/아람누리|꽃누리/.test(venueKo)) return "culture";
   if (/어울림누리/.test(venueKo)) return "culture";
@@ -346,6 +468,16 @@ function pickFallbackKind(e: WhatsOnEvent): FallbackKind {
   return "walk";
 }
 
+/**
+ * 실사진 카드 크롭 위치 (오더 #P9-f [3-3]).
+ * 원본이 가로형(≈16:9)이라 카드 aspect-[4/3] 에서 좌우 크롭이 발생 —
+ * 슬러그별로 어느 쪽을 살릴지 지정한다. 상세 페이지는 원본 비율 유지(크롭 최소).
+ */
+const CARD_OBJECT_POSITION: Record<string, string> = {
+  "garmin-run-korea-2026": "center right",
+  "goyang-lake-arts-festival-2026": "center",
+};
+
 export type ResolvedEventImage = {
   src: string;
   isFallback: boolean;
@@ -355,6 +487,8 @@ export type ResolvedEventImage = {
    * 그 외 null.
    */
   captionText: (locale: WhatsOnLocale) => string | null;
+  /** 카드용 object-position CSS 값. 미지정 시 undefined 반환. */
+  cardObjectPosition?: string;
 };
 
 export function resolveEventImage(e: WhatsOnEvent): ResolvedEventImage {
@@ -364,6 +498,7 @@ export function resolveEventImage(e: WhatsOnEvent): ResolvedEventImage {
       src: e.imageUrl,
       isFallback: false,
       captionText: () => (credit ? `© ${credit}` : null),
+      cardObjectPosition: CARD_OBJECT_POSITION[e.slug],
     };
   }
   const kind = pickFallbackKind(e);
