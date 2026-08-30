@@ -51,19 +51,19 @@ const categoryCopy = {
           "시티투어, 로컬 체험, 가족 코스, K-컬처 코스를 하나의 예약 흐름으로 운영합니다.",
       },
       stay: {
-        label: "숙박예약",
+        label: "숙박",
         promoTitle: "행사와 체류를 연결하는 숙박 예약 서비스",
         promoDesc:
           "KINTEX와 공연장, 관광 거점을 잇는 호텔과 레지던스를 예약 구조로 운영합니다.",
       },
       restaurant: {
-        label: "음식점예약",
+        label: "음식점",
         promoTitle: "단체 식사와 미식 경험을 연결하는 음식점 예약",
         promoDesc:
           "단체식, 코스 다이닝, VIP 만찬, 로컬 미식을 시간대별로 연결합니다.",
       },
       cafe: {
-        label: "라이프스타일 예약",
+        label: "라이프스타일",
         promoTitle: "카페와 감성 공간을 연결하는 라이프스타일 예약",
         promoDesc:
           "브런치, 디저트, 미팅 공간, 감성 카페를 예약형 서비스로 운영합니다.",
@@ -81,7 +81,7 @@ const categoryCopy = {
           "질병치료형, 건강미용 증진형, 회복·재활형을 진료·체류·사후관리까지 한 번의 예약 흐름으로 운영합니다.",
       },
       airport: {
-        label: "공항픽업예약",
+        label: "공항픽업",
         promoTitle: "공항에서 고양까지 연결하는 픽업·샌딩 예약",
         promoDesc:
           "인천공항, 김포공항, VIP 이동, 단체 차량 예약을 하나의 구조로 운영합니다.",
@@ -128,13 +128,13 @@ const categoryCopy = {
           "Hotels and residences linked to KINTEX, venues, and tourism hubs in one stay structure.",
       },
       restaurant: {
-        label: "Restaurant Booking",
+        label: "Restaurant",
         promoTitle: "Dining reservations connecting group meals and culinary experiences",
         promoDesc:
           "Group dining, course dining, VIP dinner, and local food experiences are linked in one flow.",
       },
       cafe: {
-        label: "Lifestyle Booking",
+        label: "Lifestyle",
         promoTitle: "Lifestyle reservations connecting cafes and curated spaces",
         promoDesc:
           "Brunch, dessert, meeting spaces, and trendy cafes are offered as one bookable service.",
@@ -179,11 +179,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     },
     categories: {
       tour: { label: "ツアー・体験", promoTitle: "高陽の観光とローカル体験をつなぐツアー・体験予約", promoDesc: "シティツアー、ローカル体験、ファミリーコース、K-カルチャーコースをひとつの予約フローで運営します。" },
-      stay: { label: "宿泊予約", promoTitle: "イベントと滞在をつなぐ宿泊予約サービス", promoDesc: "KINTEXや公演場、観光拠点に近いホテルとレジデンスを予約構造で運営します。" },
-      restaurant: { label: "飲食店予約", promoTitle: "団体食事とグルメ体験をつなぐ飲食店予約", promoDesc: "団体食、コースダイニング、VIPディナー、ローカルグルメを時間帯別につなぎます。" },
-      cafe: { label: "ライフスタイル予約", promoTitle: "カフェと感性空間をつなぐライフスタイル予約", promoDesc: "ブランチ、デザート、ミーティングスペース、感性カフェを予約型サービスで提供します。" },
+      stay: { label: "宿泊", promoTitle: "イベントと滞在をつなぐ宿泊予約サービス", promoDesc: "KINTEXや公演場、観光拠点に近いホテルとレジデンスを予約構造で運営します。" },
+      restaurant: { label: "飲食店", promoTitle: "団体食事とグルメ体験をつなぐ飲食店予約", promoDesc: "団体食、コースダイニング、VIPディナー、ローカルグルメを時間帯別につなぎます。" },
+      cafe: { label: "ライフスタイル", promoTitle: "カフェと感性空間をつなぐライフスタイル予約", promoDesc: "ブランチ、デザート、ミーティングスペース、感性カフェを予約型サービスで提供します。" },
       ticket: { label: "チケット予約", promoTitle: "公演と展示をつなぐチケット予約サービス", promoDesc: "公演、展示、体験プログラムを検索して詳細説明と決済へスムーズに進めます。" },
-      airport: { label: "空港送迎予約", promoTitle: "空港から高陽へつなぐ送迎予約", promoDesc: "仁川空港、金浦空港、VIP移動、団体車両予約をひとつの構造で運営します。" },
+      airport: { label: "空港送迎", promoTitle: "空港から高陽へつなぐ送迎予約", promoDesc: "仁川空港、金浦空港、VIP移動、団体車両予約をひとつの構造で運営します。" },
       medical: { label: "高陽メディカルツアー", promoTitle: "治療・美容・回復をつなぐ高陽メディカルツアー予約", promoDesc: "疾病治療型、健康美容増進型、回復・リハビリ型を相談から滞在・アフターケアまで一つの流れで運営します。" },
     },
   },
@@ -204,11 +204,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     },
     categories: {
       tour: { label: "旅游·体验", promoTitle: "连接高阳观光与本地体验的旅游·体验预约", promoDesc: "城市游览、本地体验、家庭路线及K-文化路线，在统一预约流程中运营。" },
-      stay: { label: "住宿预约", promoTitle: "连接活动与城市驻留的住宿预约服务", promoDesc: "毗邻KINTEX、演出场馆及旅游据点的酒店与公寓，统一在预约结构中运营。" },
-      restaurant: { label: "餐厅预约", promoTitle: "连接团体用餐与美食体验的餐厅预约", promoDesc: "团体用餐、套餐餐厅、VIP晚宴及本地美食，按时段相互衔接。" },
-      cafe: { label: "生活方式预约", promoTitle: "连接咖啡馆与精选空间的生活方式预约", promoDesc: "早午餐、甜品、会议空间及网红咖啡馆，以可预约服务形式提供。" },
+      stay: { label: "住宿", promoTitle: "连接活动与城市驻留的住宿预约服务", promoDesc: "毗邻KINTEX、演出场馆及旅游据点的酒店与公寓，统一在预约结构中运营。" },
+      restaurant: { label: "餐厅", promoTitle: "连接团体用餐与美食体验的餐厅预约", promoDesc: "团体用餐、套餐餐厅、VIP晚宴及本地美食，按时段相互衔接。" },
+      cafe: { label: "生活方式", promoTitle: "连接咖啡馆与精选空间的生活方式预约", promoDesc: "早午餐、甜品、会议空间及网红咖啡馆，以可预约服务形式提供。" },
       ticket: { label: "票务预约", promoTitle: "连接演出与展览的票务预约服务", promoDesc: "搜索演出、展览及体验项目，直接跳转至详情说明与支付流程。" },
-      airport: { label: "机场接送预约", promoTitle: "连接机场与高阳的接送预约", promoDesc: "仁川机场、金浦机场、VIP接送及团体用车预约，统一在一套结构中运营。" },
+      airport: { label: "机场接送", promoTitle: "连接机场与高阳的接送预约", promoDesc: "仁川机场、金浦机场、VIP接送及团体用车预约，统一在一套结构中运营。" },
       medical: { label: "高阳医疗旅游", promoTitle: "连接治疗·美容·康复的高阳医疗旅游预约", promoDesc: "疾病治疗型、健康美容增进型与恢复·康复型，从咨询到驻留与后续管理在一体化预约流程中运营。" },
     },
   },
@@ -229,11 +229,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     },
     categories: {
       tour: { label: "旅遊·體驗", promoTitle: "連結高陽觀光與在地體驗的旅遊·體驗預約", promoDesc: "城市遊覽、在地體驗、家庭路線及K-文化路線，在統一預約流程中營運。" },
-      stay: { label: "住宿預約", promoTitle: "連結活動與城市駐留的住宿預約服務", promoDesc: "毗鄰KINTEX、演出場館及旅遊據點的飯店與公寓，統一在預約結構中營運。" },
-      restaurant: { label: "餐廳預約", promoTitle: "連結團體用餐與美食體驗的餐廳預約", promoDesc: "團體用餐、套餐餐廳、VIP晚宴及在地美食，按時段相互銜接。" },
-      cafe: { label: "生活風格預約", promoTitle: "連結咖啡廳與精選空間的生活風格預約", promoDesc: "早午餐、甜品、會議空間及網紅咖啡廳，以可預約服務形式提供。" },
+      stay: { label: "住宿", promoTitle: "連結活動與城市駐留的住宿預約服務", promoDesc: "毗鄰KINTEX、演出場館及旅遊據點的飯店與公寓，統一在預約結構中營運。" },
+      restaurant: { label: "餐廳", promoTitle: "連結團體用餐與美食體驗的餐廳預約", promoDesc: "團體用餐、套餐餐廳、VIP晚宴及在地美食，按時段相互銜接。" },
+      cafe: { label: "生活風格", promoTitle: "連結咖啡廳與精選空間的生活風格預約", promoDesc: "早午餐、甜品、會議空間及網紅咖啡廳，以可預約服務形式提供。" },
       ticket: { label: "票務預約", promoTitle: "連結演出與展覽的票務預約服務", promoDesc: "搜尋演出、展覽及體驗方案，直接跳轉至詳情說明與支付流程。" },
-      airport: { label: "機場接送預約", promoTitle: "連結機場與高陽的接送預約", promoDesc: "仁川機場、金浦機場、VIP接送及團體用車預約，統一在一套結構中營運。" },
+      airport: { label: "機場接送", promoTitle: "連結機場與高陽的接送預約", promoDesc: "仁川機場、金浦機場、VIP接送及團體用車預約，統一在一套結構中營運。" },
       medical: { label: "高陽醫療旅遊", promoTitle: "連結治療·美容·復健的高陽醫療旅遊預約", promoDesc: "疾病治療型、健康美容增進型與恢復·復健型，從諮詢到駐留與後續管理在一體化預約流程中營運。" },
     },
   },

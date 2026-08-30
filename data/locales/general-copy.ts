@@ -4,23 +4,25 @@ import type { TicketCategory } from "@/data/ticket-booking";
 
 import { pick, type LocalizedText, type PageLocale } from "./types";
 
+// 오더 #P4-c: 티켓 외 카테고리 라벨에서 예약 표현 제거 (판매 불가 카테고리 톤 통일).
+// 티켓 카테고리는 예약/발권 표현 유지 (판매 가능).
 const categoryLabels: Record<DmcCategoryKey, LocalizedText> = {
-  tour: { ko: "투어·체험 예약", en: "Tours & Experiences", ja: "ツアー・体験予約", "zh-CN": "旅游·体验预约", "zh-TW": "旅遊·體驗預約" },
-  stay: { ko: "숙박예약", en: "Accommodation", ja: "宿泊予約", "zh-CN": "住宿预约", "zh-TW": "住宿預約" },
-  restaurant: { ko: "음식점예약", en: "Restaurant", ja: "レストラン予約", "zh-CN": "餐厅预约", "zh-TW": "餐廳預約" },
-  cafe: { ko: "라이프스타일 예약", en: "Lifestyle", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
+  tour: { ko: "투어·체험", en: "Tours & Experiences", ja: "ツアー・体験", "zh-CN": "旅游·体验", "zh-TW": "旅遊·體驗" },
+  stay: { ko: "숙박", en: "Accommodation", ja: "宿泊", "zh-CN": "住宿", "zh-TW": "住宿" },
+  restaurant: { ko: "음식점", en: "Restaurant", ja: "レストラン", "zh-CN": "餐厅", "zh-TW": "餐廳" },
+  cafe: { ko: "라이프스타일", en: "Lifestyle", ja: "ライフスタイル", "zh-CN": "生活方式", "zh-TW": "生活風格" },
   ticket: { ko: "티켓예약", en: "Ticket", ja: "チケット予約", "zh-CN": "票务预约", "zh-TW": "票務預約" },
-  airport: { ko: "공항픽업예약", en: "Airport Pickup", ja: "空港送迎予約", "zh-CN": "机场接送预约", "zh-TW": "機場接送預約" },
+  airport: { ko: "공항픽업", en: "Airport Pickup", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
   medical: { ko: "고양메디컬투어", en: "Goyang Medical Tour", ja: "高陽メディカルツアー", "zh-CN": "高阳医疗旅游", "zh-TW": "高陽醫療旅遊" },
 };
 
 const categoryEyebrows: Record<DmcCategoryKey, LocalizedText> = {
   tour: { ko: "투어·체험", en: "Tours & Experiences", ja: "ツアー・体験", "zh-CN": "旅游·体验", "zh-TW": "旅遊·體驗" },
-  stay: { ko: "숙박예약", en: "Stay / Room Block", ja: "宿泊予約", "zh-CN": "住宿预约", "zh-TW": "住宿預約" },
-  restaurant: { ko: "음식점예약", en: "Dining / Reservation", ja: "レストラン予約", "zh-CN": "餐厅预约", "zh-TW": "餐廳預約" },
-  cafe: { ko: "라이프스타일 예약", en: "Lifestyle Booking", ja: "ライフスタイル予約", "zh-CN": "生活方式预约", "zh-TW": "生活風格預約" },
+  stay: { ko: "숙박", en: "Stay / Room Block", ja: "宿泊", "zh-CN": "住宿", "zh-TW": "住宿" },
+  restaurant: { ko: "음식점", en: "Dining", ja: "レストラン", "zh-CN": "餐厅", "zh-TW": "餐廳" },
+  cafe: { ko: "라이프스타일", en: "Lifestyle", ja: "ライフスタイル", "zh-CN": "生活方式", "zh-TW": "生活風格" },
   ticket: { ko: "티켓예약", en: "Ticket Booking", ja: "チケット予約", "zh-CN": "票务预约", "zh-TW": "票務預約" },
-  airport: { ko: "공항픽업예약", en: "Airport Transfer", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
+  airport: { ko: "공항픽업", en: "Airport Transfer", ja: "空港送迎", "zh-CN": "机场接送", "zh-TW": "機場接送" },
   medical: { ko: "메디컬투어", en: "Medical Tour", ja: "メディカルツアー", "zh-CN": "医疗旅游", "zh-TW": "醫療旅遊" },
 };
 
