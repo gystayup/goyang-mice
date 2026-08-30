@@ -176,9 +176,10 @@ function WhatsOnCard({
 
   return (
     <Link href={detailHref(event.type, event.slug)} className="group block">
-      {/* 오더 #P9-g [1]: 사진 aspect 를 BEST 이미지 블록(aspect-[4/5] 카드 안 13/20)
-          과 정확히 일치. 계산: (4/5) × (20/13) = 16/13 ≈ 1.231. 3열 그리드에서
-          동일 폭이면 두 섹션 카드가 픽셀 단위로 정렬된다. */}
+      {/* 오더 #P9-g [1]: 사진 aspect = 16/13 (BEST 이미지 블록과 정합).
+          오더 #P9-k [1]: 실사진(imageUrl) 은 배너에 제목·날짜 텍스트가
+          포함되어 있어 잘림 방지를 위해 object-contain + 차콜 배경. fallback
+          이미지는 풍경/장소 사진이라 잘림 무방하므로 object-cover 유지. */}
       <div className="relative aspect-[16/13] w-full overflow-hidden bg-[#232322]">
         <Image
           src={image.src}
@@ -186,11 +187,15 @@ function WhatsOnCard({
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           style={
-            image.cardObjectPosition
+            // contain 은 배너 전체 노출용이라 object-position 지정 불필요.
+            // fallback(cover) 항목만 slug 별 초점 적용.
+            image.isFallback && image.cardObjectPosition
               ? { objectPosition: image.cardObjectPosition }
               : undefined
           }
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          className={`transition-transform duration-500 group-hover:scale-[1.02] ${
+            image.isFallback ? "object-cover" : "object-contain"
+          }`}
         />
       </div>
 
