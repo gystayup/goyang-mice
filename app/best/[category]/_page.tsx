@@ -32,8 +32,9 @@ import {
   INSIDER_TAGLINE,
   isCuratedCategory,
 } from "@/data/curated-categories";
-import { getCuratedStory } from "@/data/curated-stories";
+import { getCuratedStory, type CuratedItem } from "@/data/curated-stories";
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
+import { hasSpot } from "@/data/spots";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
@@ -196,7 +197,15 @@ export default async function BestCategoryPage({
       <section className="mx-auto max-w-6xl px-6 py-10 sm:py-14">
         {story.items.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Phase 4: items 렌더 자리 (id/rank/name/desc/photo/tags/links) */}
+            {/* 오더 #P7 [4] 링크 배선: item.id 로 Spot 존재 여부 확인 후
+                존재할 때만 /dmc/{id} 링크. 데이터 없는 항목은 무링크 카드 유지. */}
+            {story.items.map((item) => (
+              <BestListCard
+                key={item.id}
+                item={item}
+                spotLinked={hasSpot(item.id)}
+              />
+            ))}
           </div>
         ) : (
           <div
@@ -227,4 +236,56 @@ export default async function BestCategoryPage({
       </section>
     </Shell>
   );
+}
+
+/**
+ * BEST 리스트 카드 (오더 #P7 [4]).
+ * item.id ↔ Spot.slug 매칭. 소개층(Spot) 이 있으면 /dmc/{id} 로 링크,
+ * 없으면 링크 없는 정보 카드 (링크 파손 0 원칙).
+ */
+function BestListCard({
+  item,
+  spotLinked,
+}: {
+  item: CuratedItem;
+  spotLinked: boolean;
+}) {
+  const inner = (
+    <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200 bg-white transition group-hover:border-slate-950">
+      {item.photoUrl ? (
+        <div className="relative aspect-[4/3] w-full bg-slate-100">
+          <Image
+            src={item.photoUrl}
+            alt={item.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
+      ) : null}
+      <div className="flex flex-1 flex-col gap-2 p-5">
+        <p className="text-base font-black leading-tight tracking-tight text-slate-950 sm:text-lg">
+          {typeof item.rank === "number" ? (
+            <span className="mr-2 text-xs text-slate-500">
+              {String(item.rank).padStart(2, "0")}
+            </span>
+          ) : null}
+          {item.name}
+        </p>
+        {item.desc ? (
+          <p className="line-clamp-3 text-sm text-slate-600">{item.desc}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  if (spotLinked) {
+    return (
+      <Link href={`/dmc/${item.id}`} className="group block">
+        {inner}
+      </Link>
+    );
+  }
+  // Spot 데이터가 아직 없는 항목: 링크 미생성 (오더 #P7 [4]).
+  return <div className="group block">{inner}</div>;
 }
