@@ -49,6 +49,12 @@ export interface WhatsOnEvent {
   imageUrl?: string;
   /** 실사진에 대한 © 크레딧. imageUrl 있을 때만 의미. */
   imageCredit?: string;
+  /**
+   * 도로명 주소 (오더 #P9-e [8]). 지도 링크·한국어 원문 카드에서 사용.
+   * 값 없으면 지도 블록 미렌더 (틀린 위치를 보여주느니 안 보여주는 편이 낫다).
+   * venue 문자열 검색은 부정확 사례 발생 — address 기준으로 조회한다.
+   */
+  address?: string;
   /** 주최·주관. 어댑터 이벤트는 미지정될 수 있음. */
   host?: I18nText;
   free: boolean;
@@ -106,6 +112,7 @@ const gsaf2026: WhatsOnEvent = {
     "zh-TW": "主辦 高陽市 · 主管 高陽文化財團",
   },
   officialUrl: "https://www.gylaf.kr/",
+  address: "경기도 고양시 일산동구 호수로 731",
   free: true,
   verified: true,
 };
@@ -149,11 +156,107 @@ const garminRun2026: WhatsOnEvent = {
   },
   host: replicate("Garmin Korea"),
   officialUrl: "https://discover.garmin.com/ko-KR/event/2026/garmin-run/",
+  address: "경기도 고양시 일산서구 중앙로 1601",
   free: false,
   verified: true,
 };
 
-export const nativeWhatsOnEvents: WhatsOnEvent[] = [gsaf2026, garminRun2026];
+/**
+ * 임영웅 콘서트 IM HERO — THE STADIUM 2 (오더 #P9-e [7-1]).
+ * 근거: 포스터 확인 — 2026-09-04~06 · 고양종합운동장 · 오후 6:30 시작.
+ * 예매처는 공식 예매처 안내로만. 셋리스트·게스트·좌석·가격 미기재
+ * (판매 소구 0 · 확인된 사실만).
+ */
+const imHeroStadium2026: WhatsOnEvent = {
+  id: "im-hero-the-stadium-2-2026",
+  slug: "im-hero-the-stadium-2-2026",
+  type: "performance",
+  title: {
+    ko: "임영웅 콘서트 IM HERO — THE STADIUM 2",
+    en: "Lim Young-woong Concert: IM HERO — THE STADIUM 2",
+    ja: "イム・ヨンウン コンサート IM HERO — THE STADIUM 2",
+    "zh-CN": "林英雄演唱会 IM HERO — THE STADIUM 2",
+    "zh-TW": "林英雄演唱會 IM HERO — THE STADIUM 2",
+  },
+  venue: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
+  startDate: "2026-09-04",
+  endDate: "2026-09-06",
+  summary: {
+    ko: "고양종합운동장에서 사흘간 진행되는 스타디움 공연입니다. 공연 시작은 오후 6시 30분입니다. 예매는 공식 예매처에서 진행됩니다.",
+    en: "A three-day stadium concert at Goyang Stadium. Performances start at 6:30 p.m. Ticketing is handled by the official channels.",
+    ja: "高陽総合運動場で3日間行われるスタジアム公演です。開演は午後6時30分。チケットは公式販売元をご確認ください。",
+    "zh-CN": "在高阳综合运动场连续三天举行的体育场演唱会。演出于下午6点30分开始。购票请前往官方售票渠道。",
+    "zh-TW": "於高陽綜合運動場連續三天舉行的體育場演唱會。演出於下午6點30分開始。購票請前往官方售票渠道。",
+  },
+  host: {
+    ko: "공식 예매처 안내",
+    en: "See official ticketing",
+    ja: "公式チケット販売元をご確認ください",
+    "zh-CN": "详见官方售票处",
+    "zh-TW": "詳見官方售票處",
+  },
+  address: "경기도 고양시 일산서구 중앙로 1601",
+  free: false,
+  verified: true,
+};
+
+/**
+ * Charlie Puth — Whatever's Clever! World Tour in Goyang (오더 #P9-e [7-2]).
+ * 근거: 포스터 확인 — 2026-10-11 · 고양종합운동장 · Live Nation 주관.
+ * officialUrl·ticketUrl·imageUrl 없음. 아티스트 사진·포스터 사용 금지 —
+ * fallback 이미지만 (고양종합운동장 → hero-kculture.jpg).
+ */
+const charliePuthGoyang2026: WhatsOnEvent = {
+  id: "charlie-puth-goyang-2026",
+  slug: "charlie-puth-goyang-2026",
+  type: "performance",
+  title: {
+    ko: "찰리 푸스 내한공연 Whatever’s Clever! World Tour",
+    en: "Charlie Puth — Whatever’s Clever! World Tour in Goyang",
+    ja: "チャーリー・プース来韓公演 Whatever’s Clever! World Tour",
+    "zh-CN": "查理·普斯访韩演唱会 Whatever’s Clever! World Tour",
+    "zh-TW": "查理·普斯訪韓演唱會 Whatever’s Clever! World Tour",
+  },
+  venue: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
+  startDate: "2026-10-11",
+  endDate: "2026-10-11",
+  summary: {
+    ko: "고양종합운동장에서 열리는 월드투어 내한 공연입니다. 예매는 공식 예매처에서 진행됩니다.",
+    en: "A world-tour stop at Goyang Stadium. Ticketing is handled by the official channels.",
+    ja: "高陽総合運動場で行われるワールドツアーの来韓公演です。チケットは公式販売元をご確認ください。",
+    "zh-CN": "在高阳综合运动场举行的世界巡演访韩场。购票请前往官方售票渠道。",
+    "zh-TW": "於高陽綜合運動場舉行的世界巡演訪韓場。購票請前往官方售票渠道。",
+  },
+  host: {
+    ko: "주관 Live Nation",
+    en: "Presented by Live Nation",
+    ja: "主催 Live Nation",
+    "zh-CN": "主办 Live Nation",
+    "zh-TW": "主辦 Live Nation",
+  },
+  address: "경기도 고양시 일산서구 중앙로 1601",
+  free: false,
+  verified: true,
+};
+
+export const nativeWhatsOnEvents: WhatsOnEvent[] = [
+  gsaf2026,
+  garminRun2026,
+  imHeroStadium2026,
+  charliePuthGoyang2026,
+];
 
 // ─── ticket-booking.ts → WhatsOnEvent adapter ────────────────────────────────
 
@@ -298,7 +401,17 @@ const FALLBACK_SUBJECT: Record<FallbackKind, I18nText> = {
     "zh-CN": "高阳阿蓝努里",
     "zh-TW": "高陽阿藍努里",
   },
-  kculture: replicate("KINTEX"),
+  // 오더 #P9-e [6-2]: 실물 확인 결과 hero-kculture.jpg 은 옥외 스타디움
+  // 야간 공연 사진 (KINTEX 실내 컨벤션 아님). 캡션을 실제 피사체(고양종합
+  // 운동장)로 교정. 이로써 종합운동장 keyword → kculture → hero-kculture.jpg
+  // → "사진: 고양종합운동장" 이 사진·캡션·venue 모두 일치.
+  kculture: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
   history: {
     ko: "서오릉",
     en: "Seooreung Royal Tombs",

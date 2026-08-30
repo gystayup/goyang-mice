@@ -22,7 +22,13 @@ export type SpotCategory = EmblemCategory;
 export type SpotType = "list" | "course";
 
 /** ACCESS 3거점 고정 (한글 원문). */
-export type SpotAccessHub = "KINTEX" | "일산역" | "서울역";
+/**
+ * ACCESS 3거점 (오더 #P9-e [10]).
+ * 이전: 'KINTEX' | '일산역' | '서울역' — 일산역(경의중앙선)은 킨텍스·호수공원
+ * 권역과 거리가 있어 방문객 기준점으로 부적절.
+ * 이제: 실제 하차역 기준 (GTX 킨텍스역 · 3호선 대화역 · 서울역).
+ */
+export type SpotAccessHub = "GTX 킨텍스역" | "3호선 대화역" | "서울역";
 
 export interface SpotLeg {
   /** 구간 시작점 (한글 원문). */

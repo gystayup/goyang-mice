@@ -92,14 +92,47 @@ const LABEL_NEARBY: Record<WhatsOnLocale, string> = {
   "zh-CN": "附近推荐", "zh-TW": "附近推薦",
 };
 
-/** ACCESS 3개 고정 거점 (KINTEX·일산역·서울역). 정적 문안. */
+/**
+ * ACCESS 3개 고정 거점 (오더 #P9-e [10]).
+ * 이전: 'KINTEX' | '일산역' | '서울역' — 일산역은 경의중앙선으로 킨텍스·
+ * 호수공원 권역과 거리가 있어 방문객 기준점으로 부적절.
+ * 이제: 실제 하차역 기준 — GTX 킨텍스역 · 3호선 대화역 · 서울역.
+ * 소요시간 값은 별도 지시로 확정 (임의 값 금지).
+ */
 const ACCESS_POINTS: ReadonlyArray<{
-  key: "kintex" | "ilsan" | "seoul";
+  key: "gtx-kintex" | "daehwa" | "seoul";
   labels: Record<WhatsOnLocale, string>;
 }> = [
-  { key: "kintex", labels: { ko: "KINTEX", en: "KINTEX", ja: "KINTEX", "zh-CN": "KINTEX", "zh-TW": "KINTEX" } },
-  { key: "ilsan", labels: { ko: "일산역", en: "Ilsan Station", ja: "一山駅", "zh-CN": "一山站", "zh-TW": "一山站" } },
-  { key: "seoul", labels: { ko: "서울역", en: "Seoul Station", ja: "ソウル駅", "zh-CN": "首尔站", "zh-TW": "首爾站" } },
+  {
+    key: "gtx-kintex",
+    labels: {
+      ko: "GTX 킨텍스역",
+      en: "GTX Kintex Stn.",
+      ja: "GTX キンテックス駅",
+      "zh-CN": "GTX 韩国国际展览中心站",
+      "zh-TW": "GTX 韓國國際展覽中心站",
+    },
+  },
+  {
+    key: "daehwa",
+    labels: {
+      ko: "3호선 대화역",
+      en: "Daehwa Stn. (Line 3)",
+      ja: "3号線 大化駅",
+      "zh-CN": "3号线 大化站",
+      "zh-TW": "3號線 大化站",
+    },
+  },
+  {
+    key: "seoul",
+    labels: {
+      ko: "서울역",
+      en: "Seoul Stn.",
+      ja: "ソウル駅",
+      "zh-CN": "首尔站",
+      "zh-TW": "首爾站",
+    },
+  },
 ];
 
 /** "이 근처에서" — /best 3개 링크. */
@@ -192,7 +225,11 @@ export default async function WhatsOnDetailPage({
   const heroCaption = image.captionText(active);
   const intro = pickIntroSentences(event.summary[active]);
   const dateText = formatDateRange(event.startDate, event.endDate);
-  const kakaoMapUrl = `https://map.kakao.com/?q=${encodeURIComponent(event.venue.ko)}`;
+  // 오더 #P9-e [8-2]: 지도 링크는 address 기준. address 없으면 지도 미렌더
+  // (틀린 위치를 보여주느니 안 보여주는 편이 낫다 — venue 문자열 검색은 부정확).
+  const kakaoMapUrl = event.address
+    ? `https://map.kakao.com/?q=${encodeURIComponent(event.address)}`
+    : null;
   const cta = resolveCta(event);
   const isExternalCta = cta.kind === "official";
 
@@ -286,7 +323,9 @@ export default async function WhatsOnDetailPage({
           </section>
         )}
 
-        {/* 7. 한국어 원문 카드 · 8. 지도 */}
+        {/* 7. 한국어 원문 카드 · 8. 지도 (오더 #P9-e [8-2/8-3]).
+            address 있으면 카드에 주소도 표기하고 지도 링크 렌더.
+            address 없으면 지도 버튼 미렌더 (틀린 위치 노출 방지). */}
         <section className="mx-auto max-w-4xl px-6 pb-24 sm:pb-28">
           <div className="border border-[#232322]/20 p-6 sm:p-8">
             <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
@@ -295,14 +334,19 @@ export default async function WhatsOnDetailPage({
             <p className="mt-3 text-xl font-black leading-tight sm:text-2xl">
               {event.venue.ko}
             </p>
-            <a
-              href={kakaoMapUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-block border border-[#232322] px-5 py-2.5 text-sm font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
-            >
-              🗺️ {LABEL_MAP[active]}
-            </a>
+            {event.address && (
+              <p className="mt-2 text-sm text-[#232322]/70">{event.address}</p>
+            )}
+            {kakaoMapUrl && (
+              <a
+                href={kakaoMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block border border-[#232322] px-5 py-2.5 text-sm font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+              >
+                🗺️ {LABEL_MAP[active]}
+              </a>
+            )}
           </div>
         </section>
 
