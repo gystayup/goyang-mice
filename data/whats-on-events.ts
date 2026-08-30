@@ -185,60 +185,70 @@ export function isCurrentOrUpcoming(e: WhatsOnEvent): boolean {
   return end >= todayZero;
 }
 
-// ─── image fallback ──────────────────────────────────────────────────────────
+// ─── image fallback (오더 #P9-c) ────────────────────────────────────────────
+//
+// 원칙: 캡션은 venue 가 아니라 "실제 사용된 이미지의 피사체" 를 표기한다.
+// 이전 코드는 이미지와 캡션을 서로 다른 근거(카테고리 vs venue)로 생성해,
+// 프로덕션에 사진·캡션 불일치가 노출되었다 (예: hero-history.jpg=서오릉
+// 사진에 "사진: 고양종합운동장" 캡션).
+//
+// 이제:
+//   1. FALLBACK_SUBJECT — 이미지 파일별 피사체 라벨 (5로케일).
+//      캡션은 반드시 이 라벨을 사용한다.
+//   2. pickFallbackKind — venue.ko 를 명시 키워드 표로 매핑. 어느 키워드
+//      에도 걸리지 않으면 walk (일산호수공원) 를 기본값.
+//   3. imageUrl 이 실제로 설정된 항목은 credit 을 그대로 쓰고, 이 fallback
+//      캡션은 적용하지 않는다.
 
-/**
- * public/images/ 하위 실파일 fallback.
- * 외부 이미지 직접 링크 금지 (저작권). fallback 사용 시 카드/상세에
- * "사진: {장소}" 캡션 표기 (행사 사진으로 오인 방지).
- */
-type FallbackKind = "lake-park" | "kintex" | "aramnuri" | "eoullim" | "stadium" | "goyang-city";
+/** hero-{kind}.jpg 파일 basename 과 동일. */
+type FallbackKind = "walk" | "food" | "culture" | "kculture" | "history" | "family";
 
 const FALLBACK_SRC: Record<FallbackKind, string> = {
-  "lake-park": "/images/hero/hero-walk.jpg",
-  kintex: "/images/hero/hero-kculture.jpg",
-  aramnuri: "/images/hero/hero-culture.jpg",
-  eoullim: "/images/hero/hero-family.jpg",
-  stadium: "/images/hero/hero-history.jpg",
-  "goyang-city": "/images/hero/hero-food.jpg",
+  walk: "/images/hero/hero-walk.jpg",
+  food: "/images/hero/hero-food.jpg",
+  culture: "/images/hero/hero-culture.jpg",
+  kculture: "/images/hero/hero-kculture.jpg",
+  history: "/images/hero/hero-history.jpg",
+  family: "/images/hero/hero-family.jpg",
 };
 
-const FALLBACK_LOCATION_LABEL: Record<FallbackKind, I18nText> = {
-  "lake-park": {
+/** 이미지 파일별 피사체 라벨 (오더 #P9-c [1]). */
+const FALLBACK_SUBJECT: Record<FallbackKind, I18nText> = {
+  walk: {
     ko: "일산호수공원",
     en: "Ilsan Lake Park",
     ja: "一山湖水公園",
     "zh-CN": "一山湖水公园",
     "zh-TW": "一山湖水公園",
   },
-  kintex: replicate("KINTEX"),
-  aramnuri: {
+  food: {
+    ko: "라페스타",
+    en: "La Festa",
+    ja: "ラフェスタ",
+    "zh-CN": "拉菲斯塔",
+    "zh-TW": "拉菲斯塔",
+  },
+  culture: {
     ko: "고양아람누리",
-    en: "Goyang Aramnuri",
+    en: "Goyang Aram Nuri",
     ja: "高陽アラムヌリ",
     "zh-CN": "高阳阿蓝努里",
     "zh-TW": "高陽阿藍努里",
   },
-  eoullim: {
-    ko: "고양어울림누리",
-    en: "Goyang Eoullim Nuri",
-    ja: "高陽オウルリムヌリ",
-    "zh-CN": "高阳欧拉利姆努里",
-    "zh-TW": "高陽歐拉利姆努里",
+  kculture: replicate("KINTEX"),
+  history: {
+    ko: "서오릉",
+    en: "Seooreung Royal Tombs",
+    ja: "西五陵",
+    "zh-CN": "西五陵",
+    "zh-TW": "西五陵",
   },
-  stadium: {
-    ko: "고양종합운동장",
-    en: "Goyang Sports Complex",
-    ja: "高陽総合運動場",
-    "zh-CN": "高阳综合运动场",
-    "zh-TW": "高陽綜合運動場",
-  },
-  "goyang-city": {
-    ko: "고양시",
-    en: "Goyang City",
-    ja: "高陽市",
-    "zh-CN": "高阳市",
-    "zh-TW": "高陽市",
+  family: {
+    ko: "스타필드 고양",
+    en: "Starfield Goyang",
+    ja: "スターフィールド高陽",
+    "zh-CN": "星光广场 高阳",
+    "zh-TW": "星光廣場 高陽",
   },
 };
 
@@ -250,24 +260,37 @@ const PHOTO_PREFIX: I18nText = {
   "zh-TW": "照片",
 };
 
+/**
+ * venue.ko 기준 명시 키워드 매핑 (오더 #P9-c [2] · 보강 [1]).
+ * 위에서부터 순차 매치 — 표 밖의 매치는 만들지 않는다.
+ * 어느 키워드에도 걸리지 않으면 walk (기본값).
+ *
+ * 카테고리 카탈로그와 실제 venue 문자열 간극을 좁히기 위해 어울림누리·
+ * 종합운동장·K-POP 아레나·문화광장 등을 실제 사진 자산이 있는 이미지에
+ * 명시 매핑. 캡션은 여전히 이미지 피사체 기준(카테고리 카탈로그 아님).
+ */
 function pickFallbackKind(e: WhatsOnEvent): FallbackKind {
   const venueKo = e.venue.ko;
-  if (/호수공원|Lake Park/i.test(venueKo)) return "lake-park";
-  if (/KINTEX|아레나|K-?POP/i.test(venueKo)) return "kintex";
-  if (/아람누리/.test(venueKo)) return "aramnuri";
-  if (/어울림/.test(venueKo)) return "eoullim";
-  if (/종합운동장|Stadium/i.test(venueKo)) return "stadium";
-  if (/문화광장/.test(venueKo)) return "goyang-city";
-  // 최종 폴백은 type 기준.
-  if (e.type === "performance") return "kintex";
-  if (e.type === "festival") return "lake-park";
-  return "aramnuri";
+  if (/KINTEX|킨텍스/i.test(venueKo)) return "kculture";
+  if (/K-?POP\s*아레나|아레나/i.test(venueKo)) return "kculture";
+  if (/아람누리|꽃누리/.test(venueKo)) return "culture";
+  if (/어울림누리/.test(venueKo)) return "culture";
+  if (/종합운동장|스타디움/.test(venueKo)) return "kculture";
+  if (/문화광장|라페스타|웨스턴돔/.test(venueKo)) return "food";
+  if (/호수공원/.test(venueKo)) return "walk";
+  if (/서오릉|서삼릉|행주산성/.test(venueKo)) return "history";
+  if (/스타필드|원마운트/.test(venueKo)) return "family";
+  return "walk";
 }
 
 export type ResolvedEventImage = {
   src: string;
   isFallback: boolean;
-  /** true 이면 "사진: {장소}", false 이고 credit 있으면 "© {credit}", 그 외 null. */
+  /**
+   * fallback 이면 "사진: {피사체}" (이미지 기준),
+   * imageUrl 실사진 + credit 있으면 "© {credit}",
+   * 그 외 null.
+   */
   captionText: (locale: WhatsOnLocale) => string | null;
 };
 
@@ -286,6 +309,6 @@ export function resolveEventImage(e: WhatsOnEvent): ResolvedEventImage {
     src,
     isFallback: true,
     captionText: (locale) =>
-      `${PHOTO_PREFIX[locale]}: ${FALLBACK_LOCATION_LABEL[kind][locale]}`,
+      `${PHOTO_PREFIX[locale]}: ${FALLBACK_SUBJECT[kind][locale]}`,
   };
 }
