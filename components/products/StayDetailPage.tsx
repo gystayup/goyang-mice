@@ -687,36 +687,14 @@ export default function StayDetailPage({
       )}
 
       {/* ── 하단 고정 바 ── */}
+      {/* 오더 #P4: 숙박은 티켓 외 카테고리 → 가격 표시 렌더 차단, CTA 는 "안내 보기". */}
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 px-4 py-4 shadow-[0_-2px_20px_rgba(0,0,0,0.1)] backdrop-blur-md">
-        <div className="mx-auto flex max-w-2xl items-center gap-4">
-          <div className="flex-1">
-            {selectedOption ? (
-              <>
-                <p className="text-[11px] font-bold text-slate-700 truncate">{selectedOption.label}</p>
-                <p className="text-xl font-black text-slate-950">
-                  {selectedOption.price > 0
-                    ? selectedOption.price.toLocaleString("ko-KR")
-                    : (minPrice > 0 ? minPrice.toLocaleString("ko-KR") : "문의")}
-                  {(selectedOption.price > 0 || minPrice > 0) && (
-                    <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>
-                  )}
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-[10px] font-semibold text-slate-400">1박 최저가</p>
-                <p className="text-xl font-black text-slate-950">
-                  {minPrice > 0 ? minPrice.toLocaleString("ko-KR") : "문의"}
-                  {minPrice > 0 && <span className="ml-0.5 text-sm font-semibold text-slate-500">원~</span>}
-                </p>
-              </>
-            )}
-          </div>
+        <div className="mx-auto flex max-w-2xl items-center justify-end gap-4">
           <Link
             href={selectedReservationUrl}
             className="rounded-2xl bg-slate-950 px-10 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-slate-800 active:scale-95"
           >
-            예약하기
+            안내 보기
           </Link>
         </div>
       </div>
@@ -836,19 +814,8 @@ function RoomCard({
               ))}
             </div>
           </div>
-          {/* 가격 */}
-          {opt.price > 0 && (
-            <div className="text-right">
-              <p className="text-[10px] text-slate-400">1박</p>
-              <p className="text-lg font-black text-slate-950">
-                {opt.price.toLocaleString("ko-KR")}
-                <span className="text-xs font-semibold text-slate-500">원</span>
-              </p>
-              {nights > 1 && (
-                <p className="text-[10px] text-slate-400">{nights}박 {total.toLocaleString("ko-KR")}원</p>
-              )}
-            </div>
-          )}
+          {/* 가격 — 오더 #P4: 숙박(티켓 외 카테고리) 렌더 차단.
+              opt.price / nights / total 데이터 필드는 유지 (되돌리기 대비). */}
         </div>
       </div>
     </button>

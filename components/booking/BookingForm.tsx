@@ -169,16 +169,8 @@ export default function BookingForm({ product }: BookingFormProps) {
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl bg-white/8 px-5 py-5">
-        <div className="text-sm text-slate-300">예상 견적</div>
-        <div className="mt-2 text-3xl font-black">
-          ₩{estimatedPrice.toLocaleString("ko-KR")}
-        </div>
-        <p className="mt-2 text-xs leading-6 text-slate-400">
-          실제 금액은 서브카테고리, 일정, 인원, 추가 옵션에 따라 조정될 수
-          있습니다.
-        </p>
-      </div>
+      {/* 오더 #P4: 티켓 외 카테고리 → 예상 견적 렌더 차단.
+          estimatedPrice / product.price 데이터·계산은 유지 (되돌리기 대비). */}
 
       <div className="mt-6 space-y-3">
         <input

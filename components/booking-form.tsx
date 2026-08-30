@@ -270,7 +270,7 @@ export function BookingForm({ productId, productTitle, onSuccess }: BookingFormP
         disabled={isLoading}
         className="w-full px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 disabled:bg-slate-400 transition"
       >
-        {isLoading ? '처리 중...' : '예약 신청하기'}
+        {isLoading ? '처리 중...' : '안내 보기'}
       </button>
     </form>
   );
