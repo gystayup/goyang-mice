@@ -29,6 +29,11 @@ export interface TicketProduct {
   subtitle: string;
   venue: string;
   dateText: string;
+  /**
+   * ISO YYYY-MM-DD. 오더 #P9: WhatsOnSection 의 "지난 이벤트 자동 숨김" 훅.
+   * dateText 자유 파싱 대신 명시적 필드. 값 없으면 상시 노출 취급.
+   */
+  endDate?: string;
   imageTone: string;
   summary: string;
   description: string;
@@ -41,6 +46,10 @@ export interface TicketProduct {
   images?: string[];
   duration?: string;
   ageLimit?: string;
+  /**
+   * 사진 크레딧 문자열 (오더 #P9). 값 없거나 빈 문자열이면 렌더 자체 스킵.
+   */
+  credit?: string;
   // 상세페이지 탭 콘텐츠
   tabNotice?: string;
   tabCasting?: string;
@@ -70,6 +79,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "고양형 K-POP 연계 공연",
     venue: "고양 K-POP 아레나",
     dateText: "2026.05.14 - 2026.05.16",
+    endDate: "2026-05-16",
     imageTone: "from-cyan-200 via-fuchsia-200 to-sky-300",
     posterLabel: "ARENA",
     summary: "고양 공연 인프라의 시작을 알리는 대표 K-POP 라이브 시리즈입니다.",
@@ -109,6 +119,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "도시 라이프스타일 뮤직 페스티벌",
     venue: "일산 문화광장",
     dateText: "2026.06.20 - 2026.06.21",
+    endDate: "2026-06-21",
     imageTone: "from-yellow-100 via-cyan-200 to-lime-200",
     posterLabel: "FEST",
     summary: "음악, 푸드, 야간체험을 함께 즐기는 여름 시즌 야외 페스티벌입니다.",
@@ -134,6 +145,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "미디어아트 + 야간 전시",
     venue: "고양아람누리 전시관",
     dateText: "2026.05.01 - 2026.05.30",
+    endDate: "2026-05-30",
     imageTone: "from-stone-200 via-indigo-200 to-pink-200",
     posterLabel: "ART",
     summary: "야간 관람과 전시 체험 프로그램을 결합한 몰입형 전시 티켓입니다.",
@@ -159,6 +171,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "아동/가족 체험 공연",
     venue: "고양어울림누리",
     dateText: "2026.07.03 - 2026.07.12",
+    endDate: "2026-07-12",
     imageTone: "from-pink-100 via-amber-100 to-sky-200",
     posterLabel: "FAMILY",
     summary: "아이와 가족이 함께 즐기는 체험형 공연과 워크숍 프로그램입니다.",
@@ -185,6 +198,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "보컬/밴드 큐레이션 공연",
     venue: "고양아람누리 아람극장",
     dateText: "2026.04.24 - 2026.04.25",
+    endDate: "2026-04-25",
     imageTone: "from-slate-800 via-slate-700 to-neutral-700",
     posterLabel: "LIVE",
     summary: "보컬과 밴드 중심으로 구성된 고양형 라이브 시리즈입니다.",
@@ -210,6 +224,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "비즈니스 연계 스페셜 퍼포먼스",
     venue: "KINTEX 야외무대",
     dateText: "2026.09.12",
+    endDate: "2026-09-12",
     imageTone: "from-sky-200 via-blue-200 to-indigo-300",
     posterLabel: "MICE",
     summary: "전시 참가자와 VIP를 위한 스페셜 퍼포먼스 티켓입니다.",
@@ -235,6 +250,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "로컬 크리에이터 야외 라이브",
     venue: "일산호수공원 야외무대",
     dateText: "2026.08.08 - 2026.08.09",
+    endDate: "2026-08-09",
     imageTone: "from-emerald-100 via-cyan-100 to-blue-200",
     posterLabel: "LOCAL",
     summary: "고양 로컬 브랜드와 크리에이터가 함께 만드는 야외 공연 프로그램입니다.",
@@ -260,6 +276,7 @@ export const ticketProducts: TicketProduct[] = [
     subtitle: "야간 러닝 + 공연 결합 티켓",
     venue: "고양종합운동장",
     dateText: "2026.10.02",
+    endDate: "2026-10-02",
     imageTone: "from-violet-200 via-fuchsia-200 to-indigo-300",
     posterLabel: "RUN",
     summary: "야간 러닝 이벤트와 메인 공연을 함께 즐기는 복합형 티켓입니다.",
