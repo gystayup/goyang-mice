@@ -160,6 +160,11 @@ function WhatsOnCard({
           alt={event.title[locale]}
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
+          style={
+            image.cardObjectPosition
+              ? { objectPosition: image.cardObjectPosition }
+              : undefined
+          }
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
       </div>
