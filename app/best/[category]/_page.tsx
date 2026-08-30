@@ -38,10 +38,10 @@ import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
 
-// 5로케일 공통 브랜드 라벨 (영문 고정).
-const INSIDERS_BRAND = "GOYANG INSIDERS";
+// 5로케일 공통 브랜드 라벨 (영문 고정). /best 인덱스에서도 재사용 (오더 #P1-f).
+export const INSIDERS_BRAND = "GOYANG INSIDERS";
 
-const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
+export const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   ko: "전체",
   en: "All",
   ja: "すべて",
