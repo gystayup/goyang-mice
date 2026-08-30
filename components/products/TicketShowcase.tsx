@@ -23,7 +23,11 @@ export default function TicketShowcase({
   product: Product;
   items?: TicketProduct[];
 }) {
-  const allTickets = itemsProp ?? staticTicketProducts;
+  // 오더 #P9-d [2]: verified === true 인 실재 확인 티켓만 노출.
+  // 시드 8건은 verified 미설정 → false → 여기서 걸러진다.
+  const allTickets = (itemsProp ?? staticTicketProducts).filter(
+    (t) => t.verified === true
+  );
   const [activeCategory, setActiveCategory] = useState<TicketCategory | "all">("all");
   const [featuredTicketId, setFeaturedTicketId] = useState(allTickets[0]?.id ?? "");
 
@@ -31,6 +35,23 @@ export default function TicketShowcase({
     if (activeCategory === "all") return allTickets;
     return allTickets.filter((ticket) => ticket.category === activeCategory);
   }, [activeCategory, allTickets]);
+
+  // 오더 #P9-d [2]: verified 티켓이 하나도 없으면 그리드·featured 자체를
+  // 렌더하지 않는다 (fallback 이 미검증 시드로 새는 것을 방지).
+  if (allTickets.length === 0) {
+    return (
+      <div className="mt-10">
+        <section className="rounded-[36px] border border-slate-200 bg-white px-6 py-10 text-center shadow-soft md:px-8">
+          <div className="text-3xl font-black tracking-tight text-slate-950">
+            <span className="text-sky-600">GOYANG</span> ticket
+          </div>
+          <p className="mt-4 text-sm leading-7 text-slate-500">
+            현재 확인된 티켓 예매 항목이 없습니다. 실재 확인된 행사가 등록되면 이 자리에 표시됩니다.
+          </p>
+        </section>
+      </div>
+    );
+  }
 
   const featuredTicket =
     allTickets.find((t) => t.id === featuredTicketId) ?? getTicketProduct(featuredTicketId);

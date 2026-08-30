@@ -52,6 +52,12 @@ export interface WhatsOnEvent {
   /** 주최·주관. 어댑터 이벤트는 미지정될 수 있음. */
   host?: I18nText;
   free: boolean;
+  /**
+   * 실재 확인된 행사인지 (오더 #P9-d).
+   * false 인 항목은 홈·상세 라우트·generateStaticParams 에서 전부 비노출.
+   * 시드 상태 티켓 8건은 전부 false; 사실 확인된 항목만 true 로 표시.
+   */
+  verified: boolean;
 }
 
 // ─── native events ────────────────────────────────────────────────────────────
@@ -101,9 +107,53 @@ const gsaf2026: WhatsOnEvent = {
   },
   officialUrl: "https://www.gylaf.kr/",
   free: true,
+  verified: true,
 };
 
-export const nativeWhatsOnEvents: WhatsOnEvent[] = [gsaf2026];
+/**
+ * 2026 Garmin Run Korea (오더 #P9-d [3]).
+ * 사실 근거: discover.garmin.com/ko-KR/event/2026/garmin-run/ 공식 페이지.
+ *   · 하프(21K)·10K 두 종목
+ *   · 고양종합운동장 출발
+ *   · 참가 신청은 공식 사이트, 현재 접수 마감 상태
+ * ticketUrl 없음 — 우리는 판매하지 않음. type 은 3분류(공연·축제·전시)에
+ * 스포츠가 없어 festival 로 편입 (분류 신설 없음).
+ * 코스·시상·기념품 등 미확인 정보는 추가하지 않음.
+ */
+const garminRun2026: WhatsOnEvent = {
+  id: "garmin-run-korea-2026",
+  slug: "garmin-run-korea-2026",
+  type: "festival",
+  title: {
+    ko: "2026 가민런 코리아",
+    en: "Garmin Run Korea 2026",
+    ja: "2026 ガーミンラン コリア",
+    "zh-CN": "2026 佳明跑 韩国",
+    "zh-TW": "2026 佳明跑 韓國",
+  },
+  venue: {
+    ko: "고양종합운동장",
+    en: "Goyang Stadium",
+    ja: "高陽総合運動場",
+    "zh-CN": "高阳综合运动场",
+    "zh-TW": "高陽綜合運動場",
+  },
+  startDate: "2026-11-15",
+  endDate: "2026-11-15",
+  summary: {
+    ko: "하프(21K)와 10K 두 종목으로 진행되며 고양종합운동장에서 출발합니다. 참가 신청은 공식 사이트에서 진행되며 현재 접수 마감 상태입니다.",
+    en: "A running event with a half marathon (21K) and 10K, starting from Goyang Stadium. Registration is handled on the official site and is currently closed.",
+    ja: "ハーフ(21K)と10Kの2種目で行われ、高陽総合運動場からスタートします。参加申込は公式サイトで行われており、現在受付は終了しています。",
+    "zh-CN": "分为半程马拉松（21K）和10K两个组别，从高阳综合运动场出发。报名通过官方网站进行，目前报名已截止。",
+    "zh-TW": "分為半程馬拉松（21K）與10K兩個組別，從高陽綜合運動場出發。報名透過官方網站進行，目前報名已截止。",
+  },
+  host: replicate("Garmin Korea"),
+  officialUrl: "https://discover.garmin.com/ko-KR/event/2026/garmin-run/",
+  free: false,
+  verified: true,
+};
+
+export const nativeWhatsOnEvents: WhatsOnEvent[] = [gsaf2026, garminRun2026];
 
 // ─── ticket-booking.ts → WhatsOnEvent adapter ────────────────────────────────
 
@@ -159,18 +209,31 @@ function ticketToEvent(t: TicketProduct): WhatsOnEvent {
     imageUrl: t.imageUrl,
     imageCredit: t.credit,
     free: false,
+    // 오더 #P9-d: TicketProduct.verified 를 그대로 승계. 시드 8건은 미설정 →
+    // false 로 정규화되어 비노출.
+    verified: t.verified === true,
   };
 }
 
 // ─── combined view ───────────────────────────────────────────────────────────
 
-/** 네이티브 + 어댑터 티켓 이벤트를 합친 전체 목록. */
+/** 네이티브 + 어댑터 티켓 이벤트를 합친 전체 목록 (verified 무관). */
 export function getAllWhatsOnEvents(): WhatsOnEvent[] {
   return [...nativeWhatsOnEvents, ...ticketProducts.map(ticketToEvent)];
 }
 
+/**
+ * 사용자 노출 대상만 (오더 #P9-d [2]).
+ * 홈 WhatsOnSection · 상세 라우트 · generateStaticParams 는 이 함수를 사용.
+ * verified === false 인 시드 항목은 여기서 걸러진다.
+ */
+export function getVisibleWhatsOnEvents(): WhatsOnEvent[] {
+  return getAllWhatsOnEvents().filter((e) => e.verified === true);
+}
+
+/** verified 항목만 매칭. 미검증 slug 로 접근 시 null 반환 → 페이지에서 notFound(). */
 export function getWhatsOnEvent(type: string, slug: string): WhatsOnEvent | null {
-  const list = getAllWhatsOnEvents();
+  const list = getVisibleWhatsOnEvents();
   const match = list.find((e) => e.slug === slug && e.type === type);
   return match ?? null;
 }

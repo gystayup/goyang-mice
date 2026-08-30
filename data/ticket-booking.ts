@@ -34,6 +34,12 @@ export interface TicketProduct {
    * dateText 자유 파싱 대신 명시적 필드. 값 없으면 상시 노출 취급.
    */
   endDate?: string;
+  /**
+   * 실재 확인된 행사인지 (오더 #P9-d). 미지정=false=미검증 취급.
+   * 미검증 항목은 홈 WHAT'S ON · 상세 라우트 · /products 티켓 그리드에서 전부 비노출.
+   * 데이터는 삭제하지 않고 플래그로만 숨겨 복구 가능성을 남긴다.
+   */
+  verified?: boolean;
   imageTone: string;
   summary: string;
   description: string;
