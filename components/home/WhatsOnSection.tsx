@@ -134,11 +134,22 @@ function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }
         </Link>
       </div>
 
-      {/* 오더 #P9-g [1]: 3열 통일 (BEST와 동일 grid·gap). 모바일 1열 유지.
-          행에 1~2건만 있으면 왼쪽부터 채우고 나머지 열은 비운다 (카드를 늘리지 않음). */}
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {row.items.map((item) => (
-          <WhatsOnCard key={item.id} event={item} locale={locale} />
+      {/* 오더 #P9-i [1]: 카드 폭은 3열 그리드의 셀 폭과 동일하게 고정
+          (BEST 카드 폭과 일치). 행 컨테이너는 flex-wrap 이라 2개면 2칸만
+          왼쪽에 렌더되고 빈칸이 생기지 않는다. 최대 3개까지 노출, 나머지는
+          "전체 보기 →" 링크로 유도 (헤더에 이미 노출됨).
+          카드 폭 계산 = (100% − gap × (n−1)) / n. gap-6 = 24px.
+            모바일  1열: 100%
+            sm(≥640)  2열: calc((100% − 24px) / 2)
+            lg(≥1024) 3열: calc((100% − 48px) / 3) */}
+      <div className="mt-8 flex flex-wrap gap-6">
+        {row.items.slice(0, 3).map((item) => (
+          <div
+            key={item.id}
+            className="w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)]"
+          >
+            <WhatsOnCard event={item} locale={locale} />
+          </div>
         ))}
       </div>
     </div>

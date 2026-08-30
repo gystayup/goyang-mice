@@ -47,8 +47,12 @@ export interface WhatsOnEvent {
   /** 내부(예: /products/…/reservation?ticket=…) 또는 외부. 있으면 CTA "티켓 예매". */
   ticketUrl?: string;
   imageUrl?: string;
-  /** 실사진에 대한 © 크레딧. imageUrl 있을 때만 의미. */
-  imageCredit?: string;
+  /**
+   * 실사진에 대한 © 크레딧 (오더 #P9-i [2]). 5로케일.
+   * imageUrl 있을 때만 의미. 어댑터 티켓은 원본이 문자열 하나뿐이라
+   * replicate() 로 5로케일 동일값을 채운다.
+   */
+  imageCredit?: I18nText;
   /**
    * 도로명 주소 (오더 #P9-e [8]). 지도 링크·한국어 원문 카드에서 사용.
    * 값 없으면 지도 블록 미렌더 (틀린 위치를 보여주느니 안 보여주는 편이 낫다).
@@ -115,7 +119,13 @@ const gsaf2026: WhatsOnEvent = {
   officialUrl: "https://www.gylaf.kr/",
   address: "경기도 고양시 일산동구 호수로 595",
   imageUrl: "/images/events/goyang-lake-arts-festival-2026.jpg",
-  imageCredit: "이미지: 고양문화관광·MICE 연구소",
+  imageCredit: {
+    ko: "이미지: 고양문화관광·MICE 연구소",
+    en: "Image: Goyang Culture Tourism & MICE Institute",
+    ja: "画像: 高陽文化観光・MICE研究所",
+    "zh-CN": "图片: 高阳文化观光·MICE研究所",
+    "zh-TW": "圖片: 高陽文化觀光·MICE研究所",
+  },
   free: true,
   verified: true,
 };
@@ -161,7 +171,13 @@ const garminRun2026: WhatsOnEvent = {
   officialUrl: "https://discover.garmin.com/ko-KR/event/2026/garmin-run/",
   address: "경기도 고양시 일산서구 중앙로 1601",
   imageUrl: "/images/events/garmin-run-korea-2026.jpg",
-  imageCredit: "이미지: 고양문화관광·MICE 연구소",
+  imageCredit: {
+    ko: "이미지: 고양문화관광·MICE 연구소",
+    en: "Image: Goyang Culture Tourism & MICE Institute",
+    ja: "画像: 高陽文化観光・MICE研究所",
+    "zh-CN": "图片: 高阳文化观光·MICE研究所",
+    "zh-TW": "圖片: 高陽文化觀光·MICE研究所",
+  },
   free: false,
   verified: true,
 };
@@ -208,7 +224,13 @@ const imHeroStadium2026: WhatsOnEvent = {
   },
   address: "경기도 고양시 일산서구 중앙로 1601",
   imageUrl: "/images/events/im-hero-the-stadium-2-2026.jpg",
-  imageCredit: "이미지: 고양문화관광·MICE 연구소",
+  imageCredit: {
+    ko: "이미지: 고양문화관광·MICE 연구소",
+    en: "Image: Goyang Culture Tourism & MICE Institute",
+    ja: "画像: 高陽文化観光・MICE研究所",
+    "zh-CN": "图片: 高阳文化观光·MICE研究所",
+    "zh-TW": "圖片: 高陽文化觀光·MICE研究所",
+  },
   free: false,
   verified: true,
 };
@@ -317,7 +339,10 @@ function ticketToEvent(t: TicketProduct): WhatsOnEvent {
     // 그 결제 진입점 URL 로 라우팅.
     ticketUrl: `/products/ticket-agency-platform/reservation?ticket=${t.id}`,
     imageUrl: t.imageUrl,
-    imageCredit: t.credit,
+    // 오더 #P9-i [2]: WhatsOnEvent.imageCredit 은 I18nText. 어댑터 티켓의
+    // credit 은 문자열 하나뿐이라 5로케일 동일값으로 확장. 어댑터 이벤트는
+    // 전부 verified=false 라 현재 렌더되지 않음 — 타입 정합성만 유지.
+    imageCredit: t.credit ? replicate(t.credit) : undefined,
     free: false,
     // 오더 #P9-d: TicketProduct.verified 를 그대로 승계. 시드 8건은 미설정 →
     // false 로 정규화되어 비노출.
@@ -496,11 +521,15 @@ export type ResolvedEventImage = {
 
 export function resolveEventImage(e: WhatsOnEvent): ResolvedEventImage {
   if (e.imageUrl) {
-    const credit = e.imageCredit?.trim();
+    // 오더 #P9-i [2]: imageCredit 이 I18nText 로 확장. 로케일별 크레딧 반환.
+    const credit = e.imageCredit;
     return {
       src: e.imageUrl,
       isFallback: false,
-      captionText: () => (credit ? `© ${credit}` : null),
+      captionText: (locale) => {
+        const value = credit?.[locale]?.trim();
+        return value ? `© ${value}` : null;
+      },
       cardObjectPosition: CARD_OBJECT_POSITION[e.slug],
     };
   }
