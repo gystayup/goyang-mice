@@ -207,6 +207,8 @@ const imHeroStadium2026: WhatsOnEvent = {
     "zh-TW": "詳見官方售票處",
   },
   address: "경기도 고양시 일산서구 중앙로 1601",
+  imageUrl: "/images/events/im-hero-the-stadium-2-2026.jpg",
+  imageCredit: "이미지: 고양문화관광·MICE 연구소",
   free: false,
   verified: true,
 };
@@ -476,6 +478,7 @@ function pickFallbackKind(e: WhatsOnEvent): FallbackKind {
 const CARD_OBJECT_POSITION: Record<string, string> = {
   "garmin-run-korea-2026": "center right",
   "goyang-lake-arts-festival-2026": "center",
+  "im-hero-the-stadium-2-2026": "center",
 };
 
 export type ResolvedEventImage = {
