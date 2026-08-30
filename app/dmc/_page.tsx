@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { ArrowRight, BriefcaseBusiness, CalendarRange } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
@@ -52,15 +52,18 @@ type DmcCopy = {
     title: string;
     description: string;
     button: string;
-    tags: string[];
   };
-  operations: {
-    leftTitle: string;
-    leftDescription: string;
-    rightTitle: string;
-    rightDescription: string;
-    booking: string;
-    inquiry: string;
+  places: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    placeholder: string;
+  };
+  move: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    placeholder: string;
   };
   final: {
     title: string;
@@ -79,9 +82,9 @@ const koreanCopy: DmcCopy = {
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "고양시 MICE 안내 서비스는 이렇습니다",
+    title: "고양을 어떻게 경험할까",
     description:
-      "고양을 찾는 개인 방문객, 가족, 단체, 기업고객, 전시참여자에게 지역 프로그램·숙박·음식점·카페·티켓·공항 접근 정보를 연계하여 편리한 방문과 체류를 지원합니다.",
+      "고양일산의 장소를 하나씩 소개하고, 방문객 유형에 맞는 안내를 연결합니다.",
     buttons: {
       booking: "안내 카테고리 보기",
       inquiry: "기업 / 단체 문의",
@@ -171,37 +174,27 @@ const koreanCopy: DmcCopy = {
   },
   partners: {
     eyebrow: "파트너 네트워크",
-    title: "고양의 장소와 서비스를 연결합니다",
+    title: "고양의 사업자와 함께합니다",
     description:
       "고양 MICE 안내는 숙박·다이닝·교통·공연장·전시장·로컬 공간·MICE 연계 거점을 연결하여 방문자의 이동과 체류, 지역 경험이 자연스럽게 이어지도록 설계합니다.",
     button: "제휴 문의하기",
-    tags: [
-      "호텔",
-      "레지던스",
-      "음식점",
-      "카페",
-      "공연장",
-      "전시장",
-      "교통",
-      "로컬 공간",
-      "쇼핑",
-      "MICE 연계 거점",
-    ],
   },
-  operations: {
-    leftTitle: "서비스는 하나의 안내 구조 안에서 확장됩니다",
-    leftDescription:
-      "지역 프로그램·숙박·다이닝·티켓·공항 접근이 같은 사용자 경험 구조 안에서 운영되어 카테고리 확장이 쉽습니다.",
-    rightTitle: "안내와 운영은 하나의 통합 시스템으로 연결됩니다",
-    rightDescription:
-      "안내·일정·티켓 결제·운영이 하나의 관리자 구조로 연결되어 사용자에게는 간단하고 운영자에게는 효율적인 서비스가 됩니다.",
-    booking: "안내 카테고리 보기",
-    inquiry: "제휴 / 운영 문의",
+  places: {
+    eyebrow: "PLACES",
+    title: "고양일산의 장소",
+    desc: "인사이더가 고른 장소를 한 곳씩 소개합니다.",
+    placeholder: "곧 이 자리에서 만나요",
+  },
+  move: {
+    eyebrow: "GOYANG MOVE",
+    title: "공항에서 고양까지",
+    desc: "인천·김포공항에서 고양일산까지 가는 방법을 단계별로 안내합니다.",
+    placeholder: "곧 이 자리에서 만나요",
   },
   final: {
-    title: "지금 바로 고양의 MICE 안내 서비스를 시작해 보세요",
+    title: "고양에서 무엇을 할지 함께 찾아드립니다",
     description:
-      "개인 안내부터 기업 / 단체 운영, 그리고 로컬 파트너 협업까지 고양의 문화관광 MICE 여정을 더 쉽게 연결합니다.",
+      "방문 목적과 일정에 맞는 안내를 연결해 드립니다.",
     booking: "지금 안내 받기",
     inquiry: "단체 문의",
     partner: "제휴 제안",
@@ -216,9 +209,9 @@ const englishCopy: DmcCopy = {
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "This is how Goyang's MICE guide works",
+    title: "How to Experience Goyang",
     description:
-      "We support easier visits and stays in Goyang by connecting regional programs, accommodation, restaurants, cafes, tickets, and airport access for individual visitors, families, groups, corporate clients, and exhibition participants.",
+      "We introduce Goyang-Ilsan's places one by one and connect each visitor with the right guidance.",
     buttons: {
       booking: "View Guide Categories",
       inquiry: "Corporate / Group Inquiry",
@@ -308,37 +301,27 @@ const englishCopy: DmcCopy = {
   },
   partners: {
     eyebrow: "Partner Network",
-    title: "Connecting Goyang's places and services",
+    title: "Working with Goyang Businesses",
     description:
       "Goyang's MICE Guide connects stay, dining, transport, venues, exhibition halls, local places, and MICE-linked hubs so visitor movement, stay, and regional experience flow naturally.",
     button: "Partnership Inquiry",
-    tags: [
-      "Hotel",
-      "Residence",
-      "Restaurant",
-      "Cafe",
-      "Venue",
-      "Exhibition Hall",
-      "Transport",
-      "Local Space",
-      "Shopping",
-      "MICE-linked Hub",
-    ],
   },
-  operations: {
-    leftTitle: "Services expand within one guide structure",
-    leftDescription:
-      "Regional programs, accommodation, dining, tickets, and airport access share one user experience structure, making expansion easier.",
-    rightTitle: "Guide and operations are managed in one integrated system",
-    rightDescription:
-      "Inquiries, schedules, ticket payments, and operations are connected in one admin structure for easier user experience and efficient operations.",
-    booking: "View Guide Categories",
-    inquiry: "Partnership & Operations Inquiry",
+  places: {
+    eyebrow: "PLACES",
+    title: "Places in Goyang-Ilsan",
+    desc: "Places chosen by insiders, introduced one at a time.",
+    placeholder: "Coming soon",
+  },
+  move: {
+    eyebrow: "GOYANG MOVE",
+    title: "From the Airport to Goyang",
+    desc: "Step-by-step guidance from Incheon and Gimpo airports to Goyang-Ilsan.",
+    placeholder: "Coming soon",
   },
   final: {
-    title: "Start using Goyang's MICE Guide today",
+    title: "Let us help you find what to do in Goyang",
     description:
-      "From individual inquiries to corporate group operations and local partner collaboration, Goyang's MICE journey becomes more connected.",
+      "We connect you with guidance that fits your purpose and schedule.",
     booking: "Get the Guide",
     inquiry: "Group Inquiry",
     partner: "Partnership Proposal",
@@ -353,9 +336,9 @@ const japaneseCopy: DmcCopy = {
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高陽市MICE案内サービスをご紹介します",
+    title: "高陽をどう楽しむか",
     description:
-      "高陽を訪れる個人訪問者、家族、団体、法人のお客様、展示参加者に、地域プログラム・宿泊・飲食店・カフェ・チケット・空港アクセス情報を組み合わせてご案内し、快適な訪問と滞在をサポートします。",
+      "高陽・一山の場所を一つずつ紹介し、訪問者に合った案内をつなぎます。",
     buttons: { booking: "案内カテゴリを見る", inquiry: "法人 / 団体のお問い合わせ", partner: "提携のご提案" },
     mediaTitle: "メインメディアエリア",
     mediaDescription: "管理者ページからアップロードした画像または動画が表示され、高陽MICE案内サービスをビジュアルで紹介します。",
@@ -393,22 +376,25 @@ const japaneseCopy: DmcCopy = {
   },
   partners: {
     eyebrow: "Partner Network",
-    title: "高陽の場所とサービスをつなぎます",
+    title: "高陽の事業者とともに",
     description: "高陽MICE案内は宿泊・飲食・交通・公演場・展示場・ローカル空間・MICE連携拠点をつなぎ、訪問者の動きと消費、地域体験を自然な流れにします。",
     button: "提携のお問い合わせ",
-    tags: ["ホテル", "レジデンス", "飲食店", "カフェ", "公演場", "展示場", "交通", "ローカル空間", "ショッピング", "MICE連携拠点"],
   },
-  operations: {
-    leftTitle: "サービスはひとつの案内構造の中で拡張されます",
-    leftDescription: "地域プログラム・宿泊・飲食・チケット・空港アクセスがひとつのユーザー体験を共有し、拡張が容易になります。",
-    rightTitle: "案内と運営はひとつの統合システムで管理されます",
-    rightDescription: "案内・スケジュール・チケット決済・運営がひとつの管理者構造でつながり、ユーザーには簡単で、運営者には効率的なサービスになります。",
-    booking: "案内カテゴリを見る",
-    inquiry: "提携 / 運営のお問い合わせ",
+  places: {
+    eyebrow: "PLACES",
+    title: "高陽・一山の場所",
+    desc: "インサイダーが選んだ場所を一つずつ紹介します。",
+    placeholder: "まもなく公開します",
+  },
+  move: {
+    eyebrow: "GOYANG MOVE",
+    title: "空港から高陽まで",
+    desc: "仁川・金浦空港から高陽・一山までの行き方を段階別に案内します。",
+    placeholder: "まもなく公開します",
   },
   final: {
-    title: "今すぐ高陽のMICE案内を始めましょう",
-    description: "個人案内から法人・団体運営、ローカルパートナー協業まで、高陽の文化観光MICEの旅をより簡単につなぎます。",
+    title: "高陽での過ごし方を一緒に探します",
+    description: "訪問の目的と日程に合った案内をおつなぎします。",
     booking: "案内を受ける",
     inquiry: "団体のお問い合わせ",
     partner: "提携のご提案",
@@ -422,8 +408,8 @@ const chineseSimplifiedCopy: DmcCopy = {
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高阳市MICE指南服务介绍",
-    description: "为前来高阳的个人访客、家庭、团体、企业客户及展览参展者，提供地区节目·住宿·餐厅·咖啡厅·票务及机场接送信息一体化指南，助力便捷访问与舒适驻留。",
+    title: "如何体验高阳",
+    description: "逐一介绍高阳·一山的场所，并为每位访客连接合适的指引。",
     buttons: { booking: "查看指南类别", inquiry: "企业/团体咨询", partner: "合作提案" },
     mediaTitle: "主要媒体区域",
     mediaDescription: "此处展示从管理员页面上传的图片或视频，以视觉方式介绍高阳MICE指南服务。",
@@ -461,22 +447,25 @@ const chineseSimplifiedCopy: DmcCopy = {
   },
   partners: {
     eyebrow: "Partner Network",
-    title: "连接高阳的场所与服务",
+    title: "与高阳商家同行",
     description: "高阳MICE指南整合住宿、餐饮、交通、演出场馆、展览馆、本地空间与MICE联动据点，让访客的出行、驻留与地区体验自然流畅。",
     button: "合作咨询",
-    tags: ["酒店", "公寓式酒店", "餐厅", "咖啡厅", "演出场馆", "展览馆", "交通", "本地空间", "购物", "MICE联动据点"],
   },
-  operations: {
-    leftTitle: "服务在统一指南结构中扩展",
-    leftDescription: "地区节目、住宿、餐饮、票务与机场接送共享同一用户体验，便于灵活扩展。",
-    rightTitle: "指南与运营在一套集成系统中统一管理",
-    rightDescription: "咨询、日程、票务支付与运营通过一套管理员结构相互连接，对用户简便，对运营者高效。",
-    booking: "查看指南类别",
-    inquiry: "合作/运营咨询",
+  places: {
+    eyebrow: "PLACES",
+    title: "高阳·一山的场所",
+    desc: "逐一介绍内行人精选的场所。",
+    placeholder: "敬请期待",
+  },
+  move: {
+    eyebrow: "GOYANG MOVE",
+    title: "从机场到高阳",
+    desc: "分步介绍从仁川·金浦机场前往高阳·一山的方式。",
+    placeholder: "敬请期待",
   },
   final: {
-    title: "立即开启高阳MICE指南体验",
-    description: "从个人咨询到企业团体运营，再到本地合作伙伴协作，让高阳文化旅游MICE旅程更加便捷相连。",
+    title: "一起找到在高阳的玩法",
+    description: "为您连接符合出行目的与日程的指引。",
     booking: "立即获取指南",
     inquiry: "团体咨询",
     partner: "合作提案",
@@ -490,8 +479,8 @@ const chineseTraditionalCopy: DmcCopy = {
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高陽市MICE指南服務介紹",
-    description: "為前來高陽的個人訪客、家庭、團體、企業客戶及展覽參展者，提供地區節目·住宿·餐廳·咖啡廳·票務及機場接送資訊一體化指南，助力便捷訪問與舒適駐留。",
+    title: "如何體驗高陽",
+    description: "逐一介紹高陽·一山的場所，並為每位訪客連接合適的指引。",
     buttons: { booking: "查看指南類別", inquiry: "企業/團體諮詢", partner: "合作提案" },
     mediaTitle: "主要媒體區域",
     mediaDescription: "此處展示從管理員頁面上傳的圖片或影片，以視覺方式介紹高陽MICE指南服務。",
@@ -529,22 +518,25 @@ const chineseTraditionalCopy: DmcCopy = {
   },
   partners: {
     eyebrow: "Partner Network",
-    title: "連結高陽的場所與服務",
+    title: "與高陽商家同行",
     description: "高陽MICE指南整合住宿、餐飲、交通、演出場館、展覽館、在地空間與MICE聯動據點，讓訪客的出行、駐留與地區體驗自然流暢。",
     button: "合作諮詢",
-    tags: ["飯店", "公寓式酒店", "餐廳", "咖啡廳", "演出場館", "展覽館", "交通", "在地空間", "購物", "MICE聯動據點"],
   },
-  operations: {
-    leftTitle: "服務在統一指南結構中擴展",
-    leftDescription: "地區節目、住宿、餐飲、票務與機場接送共享同一使用者體驗，便於靈活擴展。",
-    rightTitle: "指南與營運在一套整合系統中統一管理",
-    rightDescription: "諮詢、日程、票務支付與營運透過一套管理員結構相互連結，對使用者簡便，對營運者高效。",
-    booking: "查看指南類別",
-    inquiry: "合作/營運諮詢",
+  places: {
+    eyebrow: "PLACES",
+    title: "高陽·一山的場所",
+    desc: "逐一介紹內行人精選的場所。",
+    placeholder: "敬請期待",
+  },
+  move: {
+    eyebrow: "GOYANG MOVE",
+    title: "從機場到高陽",
+    desc: "分步介紹從仁川·金浦機場前往高陽·一山的方式。",
+    placeholder: "敬請期待",
   },
   final: {
-    title: "立即開啟高陽MICE指南體驗",
-    description: "從個人諮詢到企業團體營運，再到在地合作夥伴協作，讓高陽文化旅遊MICE旅程更加便捷相連。",
+    title: "一起找到在高陽的玩法",
+    description: "為您連接符合出行目的與日程的指引。",
     booking: "立即獲取指南",
     inquiry: "團體諮詢",
     partner: "合作提案",
@@ -684,6 +676,16 @@ export default async function DmcPage({
         </div>
       </section>
 
+      {/* ── PLACES (신설 A · 오더 #P3 [1]) ── PremiumCard 재사용, spots 0건이므로 placeholder만 렌더. */}
+      <section className="space-y-6">
+        <SectionTitle eyebrow={copy.places.eyebrow} title={copy.places.title} desc={copy.places.desc} />
+        <PremiumCard className="p-8 text-center">
+          <p className="text-base font-black tracking-tight text-slate-950 sm:text-lg">
+            {copy.places.placeholder}
+          </p>
+        </PremiumCard>
+      </section>
+
       {/* ── Pillars ── */}
       <section className="space-y-8">
         <SectionTitle
@@ -718,17 +720,6 @@ export default async function DmcPage({
             );
           })}
         </div>
-      </section>
-
-      {/* ── Catalog Bridge ── (DP2 리팩터: 카탈로그는 /products가 담당 · /dmc는 순수 소개) */}
-      <section className="flex justify-center">
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
-        >
-          {copy.catalogViewAll}
-          <ArrowRight className="h-4 w-4" />
-        </Link>
       </section>
 
       {/* ── Use Cases ── */}
@@ -799,6 +790,17 @@ export default async function DmcPage({
         </div>
       </section>
 
+      {/* ── GOYANG MOVE (신설 B · 오더 #P3 [1]) ── 헤더+설명+placeholder만.
+          8단계 UX 구현 금지 (R7 소관, 버스 데이터 병목). */}
+      <section className="space-y-6">
+        <SectionTitle eyebrow={copy.move.eyebrow} title={copy.move.title} desc={copy.move.desc} />
+        <PremiumCard className="p-8 text-center">
+          <p className="text-base font-black tracking-tight text-slate-950 sm:text-lg">
+            {copy.move.placeholder}
+          </p>
+        </PremiumCard>
+      </section>
+
       {/* ── Partners ── */}
       <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 px-7 py-10 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
         <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
@@ -807,16 +809,8 @@ export default async function DmcPage({
           title={copy.partners.title}
           desc={copy.partners.description}
         />
-        <div className="mt-6 flex flex-wrap gap-2.5">
-          {copy.partners.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:bg-white hover:shadow-md"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        {/* 오더 #P3 [1]: 카테고리 태그 10개 삭제 — /best 6카테고리와 축이 겹쳐
+            발견층 중복. 헤더·설명·제휴 문의 CTA만 유지. */}
         <div className="mt-6">
           <LinkButton href="/contact" variant="secondary">
             {copy.partners.button}
@@ -824,47 +818,15 @@ export default async function DmcPage({
         </div>
       </section>
 
-      {/* ── Operations ── */}
-      <section className="grid gap-5 lg:grid-cols-2">
-        <PremiumCard className="p-8">
-          <div className="flex items-start gap-4">
-            <div className="rounded-2xl bg-[linear-gradient(135deg,_#fffbee,_#fff4da)] p-3 shadow-sm">
-              <CalendarRange className="h-5 w-5 text-[#9b7a00]" />
-            </div>
-            <div className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">
-              {copy.operations.leftTitle}
-            </div>
-          </div>
-          <p className="mt-5 text-[15px] leading-7 text-slate-500">
-            {copy.operations.leftDescription}
-          </p>
-        </PremiumCard>
-
-        <PremiumCard className="p-8">
-          <div className="flex items-start gap-4">
-            <div className="rounded-2xl bg-[linear-gradient(135deg,_#f0fdf8,_#e8fbf3)] p-3 shadow-sm">
-              <BriefcaseBusiness className="h-5 w-5 text-[#0a6b48]" />
-            </div>
-            <div className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950 leading-[1.3]">
-              {copy.operations.rightTitle}
-            </div>
-          </div>
-          <p className="mt-5 text-[15px] leading-7 text-slate-500">
-            {copy.operations.rightDescription}
-          </p>
-        </PremiumCard>
-
-        <div className="flex flex-wrap gap-3 lg:col-span-2">
-          <Link
-            href="/products"
-            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
-          >
-            {copy.operations.booking}
-          </Link>
-          <LinkButton href="/contact" variant="secondary">
-            {copy.operations.inquiry}
-          </LinkButton>
-        </div>
+      {/* ── Catalog Bridge (오더 #P3 [1] 배치: Partners 뒤 · Final CTA 앞) ── */}
+      <section className="flex justify-center">
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+        >
+          {copy.catalogViewAll}
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </section>
 
       {/* ── Final CTA ── */}
