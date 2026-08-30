@@ -1,7 +1,7 @@
-// 홈 최종 구성 (오더 #P1-f 반영):
+// 홈 최종 구성 (오더 #P9 반영):
 //   1. HeroSlider              (Ken Burns 6카테고리)
 //   2. EmblemEntrySection      (엠블럼 6종 진입부)
-//   3. WeeklyExhibitionsSection (이번 주 전시·축제·이벤트 · 슬롯 0건이면 자동 축소)
+//   3. WhatsOnSection          (WHAT'S ON · 공연·축제·전시 3분할 · 이달 이벤트)
 //   4. CuratedGridSection      (고양일산 BEST · 홈 티저 3장 + 전체 보기 CTA)
 //   5. AccessHubSection        (교통 접근성 인포그래픽)
 //   6. AfterKintexBridgeSection (KINTEX 후 하루 서사 · 5스텝 타임라인)
@@ -15,7 +15,7 @@
 import HeroSlider from "@/components/home/HeroSlider";
 import EmblemEntrySection from "@/components/home/EmblemEntrySection";
 import CuratedGridSection from "@/components/home/CuratedGridSection";
-import WeeklyExhibitionsSection from "@/components/home/WeeklyExhibitionsSection";
+import WhatsOnSection from "@/components/home/WhatsOnSection";
 import AccessHubSection from "@/components/home/AccessHubSection";
 import AfterKintexBridgeSection from "@/components/home/AfterKintexBridgeSection";
 import SocialSection from "@/components/home/SocialSection";
@@ -35,7 +35,7 @@ export default function HomePageContent({ locale }: { locale: string }) {
         </div>
       </section>
       <EmblemEntrySection locale={locale} />
-      <WeeklyExhibitionsSection locale={locale} />
+      <WhatsOnSection locale={locale} />
       <CuratedGridSection
         locale={locale}
         categories={HOME_TEASER_CATEGORIES}
