@@ -241,7 +241,7 @@ export default function AirportTransferBooking({
               className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-7 py-3.5 text-base font-black text-white shadow-lg transition hover:bg-amber-400 active:scale-95"
             >
               <ArrowRight className="h-5 w-5" />
-              빠른 예약하기
+              안내 보기
             </button>
           </div>
 
@@ -384,14 +384,10 @@ export default function AirportTransferBooking({
                     {isPickup ? "↓ 픽업 (도착)" : "↑ 샌딩 (출발)"}
                   </span>
                 </div>
-                {/* 카드 하단 */}
+                {/* 카드 하단 — 오더 #P4: 공항픽업(티켓 외) 가격 표시 렌더 차단, CTA "안내 보기" */}
                 <div className="flex flex-1 flex-col justify-between px-4 py-4">
                   <p className="text-xs text-slate-500 line-clamp-2">{route.desc}</p>
                   <div>
-                    <p className="mt-3 text-lg font-black text-amber-600">
-                      {minPrice.toLocaleString("ko-KR")}원~
-                    </p>
-                    <p className="text-[10px] text-slate-400">1인 기준</p>
                     <div className="mt-3 flex gap-2">
                       <button
                         type="button"
@@ -403,7 +399,7 @@ export default function AirportTransferBooking({
                         }}
                         className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-amber-500 px-2 py-2 text-xs font-black text-white hover:bg-amber-400"
                       >
-                        <Users className="h-3 w-3" /> 예약하기
+                        <Users className="h-3 w-3" /> 안내 보기
                       </button>
                     </div>
                   </div>
@@ -711,16 +707,8 @@ export default function AirportTransferBooking({
                 </div>
 
                 <div className="md:text-right">
-                  <div
-                    className={`text-xs font-semibold uppercase tracking-[0.18em] ${
-                      selectedVehicleId === vehicle.id ? "text-cyan-100" : "text-slate-500"
-                    }`}
-                  >
-                    예약가
-                  </div>
-                  <div className="mt-2 text-3xl font-black tracking-tight">
-                    ₩ {vehicle.price.toLocaleString("ko-KR")}
-                  </div>
+                  {/* 오더 #P4: 공항픽업(티켓 외) 예약가 · vehicle.price 렌더 차단.
+                      vehicle.price 데이터 필드는 유지. */}
                   <p
                     className={`mt-2 text-sm ${
                       selectedVehicleId === vehicle.id ? "text-slate-200" : "text-slate-500"
@@ -837,14 +825,8 @@ export default function AirportTransferBooking({
           <SummaryRow label="탑승객" value={`${search.passengers}명`} />
           {form.flightNumber && <SummaryRow label="항공편명" value={form.flightNumber} />}
           <SummaryRow label="수하물" value={`${form.baggageCount}개`} />
-          <SummaryRow
-            label="예약 금액"
-            value={
-              selectedVehicle
-                ? `₩ ${selectedVehicle.price.toLocaleString("ko-KR")}`
-                : "-"
-            }
-          />
+          {/* 오더 #P4: 공항픽업(티켓 외) 예약 금액 렌더 차단.
+              selectedVehicle.price 데이터 필드는 유지. */}
         </div>
 
         <div className="mt-6 space-y-3">

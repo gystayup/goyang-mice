@@ -88,16 +88,8 @@ export default function CategoryServiceReservation({
               <p className="mt-0.5 text-base font-black text-slate-950">{item.title}</p>
               <p className="text-xs text-slate-500">{item.location}</p>
             </div>
-            <div className="text-right">
-              {item.originalPrice && (
-                <p className="text-[11px] text-slate-400 line-through">{item.originalPrice.toLocaleString("ko-KR")}원</p>
-              )}
-              <p className="text-lg font-black text-slate-950">
-                {(selectedOption?.price ?? 0) > 0
-                  ? `${(selectedOption!.price).toLocaleString("ko-KR")}원~`
-                  : "문의"}
-              </p>
-            </div>
+            {/* 오더 #P4: 티켓 외 카테고리(ServiceCatalogCategory ∌ ticket) → 가격 렌더 차단.
+                item.originalPrice / selectedOption.price 데이터 필드는 유지. */}
           </div>
 
           {/* 날짜 + 인원 (2열) */}
@@ -142,11 +134,7 @@ export default function CategoryServiceReservation({
                     <p className={`mt-0.5 text-[11px] ${selectedOptionId === opt.id ? "text-slate-300" : "text-slate-500"}`}>
                       {opt.benefits.join(" · ")}
                     </p>
-                    {opt.price > 0 && (
-                      <p className={`mt-1 text-base font-black ${selectedOptionId === opt.id ? "text-white" : "text-slate-950"}`}>
-                        {opt.price.toLocaleString("ko-KR")}원
-                      </p>
-                    )}
+                    {/* 오더 #P4: 티켓 외 카테고리 → 옵션 가격 렌더 차단. opt.price 필드는 유지. */}
                   </button>
                 ))}
               </div>
@@ -267,14 +255,8 @@ export default function CategoryServiceReservation({
             </div>
           </div>
 
-          {/* 합계 요약 */}
-          <div className="flex items-center justify-between rounded-[18px] bg-white/10 px-4 py-3">
-            <div>
-              <p className="text-[11px] text-slate-400">총 결제 금액</p>
-              <p className="text-2xl font-black">
-                {totalAmount > 0 ? `${totalAmount.toLocaleString("ko-KR")}원` : "문의"}
-              </p>
-            </div>
+          {/* 요약 — 오더 #P4: 티켓 외 카테고리 → 결제 금액 렌더 차단. totalAmount 는 유지. */}
+          <div className="flex items-center justify-end rounded-[18px] bg-white/10 px-4 py-3">
             <div className="text-right text-[11px] text-slate-400 space-y-0.5">
               <p className="font-semibold text-slate-200">{selectedOption?.label}</p>
               <p>{quantity}명 · {reservationDate}</p>

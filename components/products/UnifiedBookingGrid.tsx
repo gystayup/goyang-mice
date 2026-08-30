@@ -157,8 +157,8 @@ function ItemCard({ item }: { item: UnifiedItem }) {
               {item.categoryLabel}
             </span>
           </div>
-          {/* 할인 배지 */}
-          {item.discountLabel && (
+          {/* 할인 배지 — 티켓 카테고리에서만 (오더 #P4) */}
+          {item.category === "ticket" && item.discountLabel && (
             <div className="absolute right-2 top-2">
               <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-black text-white">
                 {item.discountLabel}
@@ -182,20 +182,23 @@ function ItemCard({ item }: { item: UnifiedItem }) {
               <span className="truncate">{item.dateText}</span>
             </div>
           </div>
-          <div className="mt-2 flex items-baseline gap-1.5">
-            {item.originalPrice ? (
-              <span className="text-[11px] text-slate-400 line-through">
-                {item.originalPrice.toLocaleString("ko-KR")}
-              </span>
-            ) : null}
-            {item.minPrice > 0 ? (
-              <span className="text-sm font-black text-slate-950">
-                {item.minPrice.toLocaleString("ko-KR")}원~
-              </span>
-            ) : (
-              <span className="text-sm font-bold text-sky-600">예약 문의</span>
-            )}
-          </div>
+          {/* 가격 — 티켓 카테고리에서만 (오더 #P4). 데이터 필드는 유지, 렌더만 차단. */}
+          {item.category === "ticket" && (
+            <div className="mt-2 flex items-baseline gap-1.5">
+              {item.originalPrice ? (
+                <span className="text-[11px] text-slate-400 line-through">
+                  {item.originalPrice.toLocaleString("ko-KR")}
+                </span>
+              ) : null}
+              {item.minPrice > 0 ? (
+                <span className="text-sm font-black text-slate-950">
+                  {item.minPrice.toLocaleString("ko-KR")}원~
+                </span>
+              ) : (
+                <span className="text-sm font-bold text-sky-600">예약 문의</span>
+              )}
+            </div>
+          )}
         </div>
       </article>
     </Link>
