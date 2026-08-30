@@ -28,7 +28,7 @@ const categoryCopy = {
       signals: [
         {
           title: "6개 카테고리",
-          desc: "여행상품, 숙박, 음식점, 라이프스타일, 티켓, 공항픽업을 하나의 구조로 연결합니다.",
+          desc: "투어·체험, 숙박, 음식점, 라이프스타일, 티켓, 공항픽업을 하나의 구조로 연결합니다.",
         },
         {
           title: "예약과 운영",
@@ -45,8 +45,8 @@ const categoryCopy = {
     },
     categories: {
       tour: {
-        label: "여행상품",
-        promoTitle: "고양의 관광과 로컬 체험을 연결하는 여행상품 예약",
+        label: "투어·체험",
+        promoTitle: "고양의 관광과 로컬 체험을 연결하는 투어·체험 예약",
         promoDesc:
           "시티투어, 로컬 체험, 가족 코스, K-컬처 코스를 하나의 예약 흐름으로 운영합니다.",
       },
@@ -99,7 +99,7 @@ const categoryCopy = {
       signals: [
         {
           title: "6 Categories",
-          desc: "Travel, stay, dining, lifestyle, ticketing, and airport pickup are connected in one structure.",
+          desc: "Tours & Experiences, stay, dining, lifestyle, ticketing, and airport pickup are connected in one structure.",
         },
         {
           title: "Booking & Operations",
@@ -116,8 +116,8 @@ const categoryCopy = {
     },
     categories: {
       tour: {
-        label: "Travel Products",
-        promoTitle: "Travel booking that connects sightseeing and local experiences in Goyang",
+        label: "Tours & Experiences",
+        promoTitle: "Tours & Experiences that connect sightseeing and local experiences in Goyang",
         promoDesc:
           "City tours, local experiences, family courses, and K-culture routes are managed in one booking flow.",
       },
@@ -166,11 +166,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     all: "全サービス",
     hero: {
       badge: "DMC Service Program",
-      title: "旅行商品から空港送迎まで6つの予約サービスをひとつの流れで運営します",
+      title: "ツアー・体験から空港送迎まで6つの予約サービスをひとつの流れで運営します",
       paymentsLabel: "お支払い方法",
       payments: ["💳 クレジットカード", "💬 KakaoPay", "🏦 銀行振込"],
       signals: [
-        { title: "6カテゴリ", desc: "旅行商品、宿泊、飲食店、ライフスタイル、チケット、空港送迎をひとつの構造でつなぎます。" },
+        { title: "6カテゴリ", desc: "ツアー・体験、宿泊、飲食店、ライフスタイル、チケット、空港送迎をひとつの構造でつなぎます。" },
         { title: "予約と運営", desc: "日程、人数、オプション、リクエストを同じ構造の中で管理できます。" },
         { title: "決済と精算", desc: "前払い、法人請求、団体精算まで拡張可能なフローで設計しています。" },
       ],
@@ -178,7 +178,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       mapDesc: "6つのカテゴリが予約・運営・管理・決済のフローの中で自然につながるよう整理しています。",
     },
     categories: {
-      tour: { label: "旅行商品", promoTitle: "高陽の観光とローカル体験をつなぐ旅行商品予約", promoDesc: "シティツアー、ローカル体験、ファミリーコース、K-カルチャーコースをひとつの予約フローで運営します。" },
+      tour: { label: "ツアー・体験", promoTitle: "高陽の観光とローカル体験をつなぐツアー・体験予約", promoDesc: "シティツアー、ローカル体験、ファミリーコース、K-カルチャーコースをひとつの予約フローで運営します。" },
       stay: { label: "宿泊予約", promoTitle: "イベントと滞在をつなぐ宿泊予約サービス", promoDesc: "KINTEXや公演場、観光拠点に近いホテルとレジデンスを予約構造で運営します。" },
       restaurant: { label: "飲食店予約", promoTitle: "団体食事とグルメ体験をつなぐ飲食店予約", promoDesc: "団体食、コースダイニング、VIPディナー、ローカルグルメを時間帯別につなぎます。" },
       cafe: { label: "ライフスタイル予約", promoTitle: "カフェと感性空間をつなぐライフスタイル予約", promoDesc: "ブランチ、デザート、ミーティングスペース、感性カフェを予約型サービスで提供します。" },
@@ -191,11 +191,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     all: "全部服务",
     hero: {
       badge: "DMC Service Program",
-      title: "从旅游产品到机场接送，在一体化流程中运营6大预约服务",
+      title: "从旅游·体验到机场接送，在一体化流程中运营6大预约服务",
       paymentsLabel: "支付方式",
       payments: ["💳 信用卡", "💬 KakaoPay", "🏦 银行转账"],
       signals: [
-        { title: "6大类别", desc: "旅游产品、住宿、餐厅、生活方式、票务与机场接送整合为一套结构。" },
+        { title: "6大类别", desc: "旅游·体验、住宿、餐厅、生活方式、票务与机场接送整合为一套结构。" },
         { title: "预约与运营", desc: "日程、人数、选项与需求，均可在同一结构内统一管理。" },
         { title: "支付与结算", desc: "设计为支持预付款、企业账单及团体结算的可扩展流程。" },
       ],
@@ -203,7 +203,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       mapDesc: "6大服务类别在预约、运营、管理与支付流程中自然衔接。",
     },
     categories: {
-      tour: { label: "旅游产品", promoTitle: "连接高阳观光与本地体验的旅游产品预约", promoDesc: "城市游览、本地体验、家庭路线及K-文化路线，在统一预约流程中运营。" },
+      tour: { label: "旅游·体验", promoTitle: "连接高阳观光与本地体验的旅游·体验预约", promoDesc: "城市游览、本地体验、家庭路线及K-文化路线，在统一预约流程中运营。" },
       stay: { label: "住宿预约", promoTitle: "连接活动与城市驻留的住宿预约服务", promoDesc: "毗邻KINTEX、演出场馆及旅游据点的酒店与公寓，统一在预约结构中运营。" },
       restaurant: { label: "餐厅预约", promoTitle: "连接团体用餐与美食体验的餐厅预约", promoDesc: "团体用餐、套餐餐厅、VIP晚宴及本地美食，按时段相互衔接。" },
       cafe: { label: "生活方式预约", promoTitle: "连接咖啡馆与精选空间的生活方式预约", promoDesc: "早午餐、甜品、会议空间及网红咖啡馆，以可预约服务形式提供。" },
@@ -216,11 +216,11 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
     all: "全部服務",
     hero: {
       badge: "DMC Service Program",
-      title: "從旅遊產品到機場接送，在一體化流程中營運6大預約服務",
+      title: "從旅遊·體驗到機場接送，在一體化流程中營運6大預約服務",
       paymentsLabel: "付款方式",
       payments: ["💳 信用卡", "💬 KakaoPay", "🏦 銀行轉帳"],
       signals: [
-        { title: "6大類別", desc: "旅遊產品、住宿、餐廳、生活風格、票務與機場接送整合為一套結構。" },
+        { title: "6大類別", desc: "旅遊·體驗、住宿、餐廳、生活風格、票務與機場接送整合為一套結構。" },
         { title: "預約與營運", desc: "日程、人數、選項與需求，均可在同一結構內統一管理。" },
         { title: "支付與結算", desc: "設計為支援預付款、企業帳單及團體結算的可擴展流程。" },
       ],
@@ -228,7 +228,7 @@ const extraLocaleCopy: Record<"ja" | "zh-CN" | "zh-TW", Record<string, unknown>>
       mapDesc: "6大服務類別在預約、營運、管理與支付流程中自然銜接。",
     },
     categories: {
-      tour: { label: "旅遊產品", promoTitle: "連結高陽觀光與在地體驗的旅遊產品預約", promoDesc: "城市遊覽、在地體驗、家庭路線及K-文化路線，在統一預約流程中營運。" },
+      tour: { label: "旅遊·體驗", promoTitle: "連結高陽觀光與在地體驗的旅遊·體驗預約", promoDesc: "城市遊覽、在地體驗、家庭路線及K-文化路線，在統一預約流程中營運。" },
       stay: { label: "住宿預約", promoTitle: "連結活動與城市駐留的住宿預約服務", promoDesc: "毗鄰KINTEX、演出場館及旅遊據點的飯店與公寓，統一在預約結構中營運。" },
       restaurant: { label: "餐廳預約", promoTitle: "連結團體用餐與美食體驗的餐廳預約", promoDesc: "團體用餐、套餐餐廳、VIP晚宴及在地美食，按時段相互銜接。" },
       cafe: { label: "生活風格預約", promoTitle: "連結咖啡廳與精選空間的生活風格預約", promoDesc: "早午餐、甜品、會議空間及網紅咖啡廳，以可預約服務形式提供。" },
