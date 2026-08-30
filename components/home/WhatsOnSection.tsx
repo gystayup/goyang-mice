@@ -1,27 +1,30 @@
 // components/home/WhatsOnSection.tsx
-// 홈 · WHAT'S ON IN GOYANG (오더 #P9 · 데이터 소스 재구성은 오더 #P9-b).
+// 홈 · WHAT'S ON IN GOYANG (오더 #P9 · 데이터 오더 #P9-b · #P9-c · #P9-d).
 //
 // 구조:
 //   섹션 헤더 (WHAT'S ON IN GOYANG · 이번 달 고양일산)
 //   3개 행: 공연 (performance) · 축제 (festival) · 전시 (exhibition)
-//     각 행: 행 헤더 (라벨 + "전체 보기 →") + 대형1 + 소형2
+//     각 행: 행 헤더 (라벨 + "전체 보기 →") + 균등 2열 카드 (오더 #P9-d [4])
 //     노출분 0 → 그 행 전체 숨김. 3개 행 전부 0 → 섹션 자체 return null.
 //
-// 데이터: data/whats-on-events.ts (native + ticket-booking 어댑터 통합).
+// 데이터: data/whats-on-events.ts.
+//   getVisibleWhatsOnEvents() — verified 항목만 노출 (오더 #P9-d [2]).
 //   endDate 오늘 이전이면 자동 비노출.
 //
 // 카드 4요소만: 사진 / 제목 / 한 줄(장소) / 날짜.
 //   태그 칩 없음. 카테고리색 테두리 없음. 그림자 없음.
 //   색 3종 통일: 차콜 #232322 + 골드 #D4AF37 + 사진.
+//   사진 비율 · 타이포 위계 · 카드 사이즈 전 카드 동일 (오더 #P9-d [4]).
 //
-// 사진 fallback (오더 #P9-b [3]):
-//   imageUrl 있으면 그대로. 없으면 venue/type 기준 장소 사진으로 대체 +
-//   "사진: {장소}" 캡션 표기 (행사 사진 오인 방지).
+// 레이아웃 (오더 #P9-d [4]):
+//   데스크톱 lg:grid-cols-2 · 모바일 grid-cols-1.
+//   행에 1건만 있으면 카드 1장이 열 절반 폭 · 나머지 절반 비움
+//   (grid 컨테이너의 기본 동작 — 카드를 폭 전체로 늘리지 않음).
 
 import Image from "next/image";
 
 import {
-  getAllWhatsOnEvents,
+  getVisibleWhatsOnEvents,
   isCurrentOrUpcoming,
   resolveEventImage,
   type WhatsOnEvent,
@@ -74,7 +77,7 @@ type ResolvedRow = {
 };
 
 function resolveRows(): ResolvedRow[] {
-  const all = getAllWhatsOnEvents().filter(isCurrentOrUpcoming);
+  const all = getVisibleWhatsOnEvents().filter(isCurrentOrUpcoming);
   return ROW_KEYS.map((key) => ({
     key,
     items: all.filter((e) => e.type === key),
@@ -109,9 +112,6 @@ export default function WhatsOnSection({ locale }: { locale: string }) {
 }
 
 function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }) {
-  const [large, ...smalls] = row.items;
-  const smallList = smalls.slice(0, 2);
-
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4 border-b border-[#232322]/15 pb-4">
@@ -131,17 +131,12 @@ function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }
         </Link>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <WhatsOnCard event={large} locale={locale} size="lg" />
-        </div>
-        {smallList.length > 0 && (
-          <div className="grid grid-cols-1 gap-6 lg:col-span-5 sm:grid-cols-2 lg:grid-cols-1">
-            {smallList.map((item) => (
-              <WhatsOnCard key={item.id} event={item} locale={locale} size="sm" />
-            ))}
-          </div>
-        )}
+      {/* 균등 2열 (오더 #P9-d [4]) — 사진 비율·타이포 위계 전 카드 동일.
+          행에 1건만 있으면 카드 1장이 열 절반 폭을 차지하고 나머지 절반은 비움. */}
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {row.items.map((item) => (
+          <WhatsOnCard key={item.id} event={item} locale={locale} />
+        ))}
       </div>
     </div>
   );
@@ -150,29 +145,21 @@ function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }
 function WhatsOnCard({
   event,
   locale,
-  size,
 }: {
   event: WhatsOnEvent;
   locale: WhatsOnLocale;
-  size: "lg" | "sm";
 }) {
   const image = resolveEventImage(event);
   const caption = image.captionText(locale);
-  const aspect = size === "lg" ? "aspect-[16/10]" : "aspect-[4/3]";
-  const titleSize = size === "lg" ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl";
 
   return (
     <Link href={detailHref(event.type, event.slug)} className="group block">
-      <div className={`relative w-full overflow-hidden bg-[#232322] ${aspect}`}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#232322]">
         <Image
           src={image.src}
           alt={event.title[locale]}
           fill
-          sizes={
-            size === "lg"
-              ? "(max-width: 1024px) 100vw, 60vw"
-              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 30vw"
-          }
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />
       </div>
@@ -184,9 +171,7 @@ function WhatsOnCard({
       )}
 
       <div className="mt-4">
-        <h3
-          className={`font-black leading-tight tracking-[-0.02em] text-[#232322] transition-colors group-hover:text-[#D4AF37] ${titleSize}`}
-        >
+        <h3 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] transition-colors group-hover:text-[#D4AF37] sm:text-2xl">
           {event.title[locale]}
         </h3>
         <p className="mt-2 text-sm text-[#232322]/70">{event.venue[locale]}</p>

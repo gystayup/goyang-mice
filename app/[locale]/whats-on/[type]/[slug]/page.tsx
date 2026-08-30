@@ -24,7 +24,7 @@ import { notFound } from "next/navigation";
 
 import Shell from "@/components/layout/Shell";
 import {
-  getAllWhatsOnEvents,
+  getVisibleWhatsOnEvents,
   getWhatsOnEvent,
   isCurrentOrUpcoming,
   resolveEventImage,
@@ -138,7 +138,8 @@ function isoToShort(iso: string): string {
 }
 
 export function generateStaticParams() {
-  const events = getAllWhatsOnEvents();
+  // 오더 #P9-d [2]: 미검증(verified=false) 이벤트는 정적 경로 자체를 생성하지 않는다.
+  const events = getVisibleWhatsOnEvents();
   return WHATS_ON_LOCALES.flatMap((locale) =>
     events.map((e) => ({ locale, type: e.type, slug: e.slug }))
   );

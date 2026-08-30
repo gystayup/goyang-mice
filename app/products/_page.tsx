@@ -484,8 +484,10 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     }
   }
 
-  // 티켓 아이템 — locale별 번역 직접 맵에서 적용
-  for (const ticket of tickets) {
+  // 티켓 아이템 — locale별 번역 직접 맵에서 적용.
+  // 오더 #P9-d [2]: verified === true 인 실재 확인 티켓만 카드로 노출한다.
+  // 시드 8건은 verified 미설정 → false → 여기서 걸러진다. admin 은 무접촉.
+  for (const ticket of tickets.filter((t) => t.verified === true)) {
     const minPrice =
       ticket.options.length > 0
         ? Math.min(...ticket.options.map((o) => o.price))
