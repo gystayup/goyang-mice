@@ -91,9 +91,12 @@ export default function WhatsOnSection({ locale }: { locale: string }) {
   const rows = resolveRows();
   if (rows.length === 0) return null;
 
+  // 오더 #P9-g [1]: max-w-7xl · px-4 sm:px-6 컨테이너는 CuratedGridSection(BEST)
+  // 과 동일. 세로 padding(py-24/28)은 WhatsOn 고유 디자인 제약(#P9 [3] 96px+)
+  // 이므로 유지.
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-28">
         <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
           {SECTION_EYEBROW}
         </div>
@@ -131,9 +134,9 @@ function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }
         </Link>
       </div>
 
-      {/* 균등 2열 (오더 #P9-d [4]) — 사진 비율·타이포 위계 전 카드 동일.
-          행에 1건만 있으면 카드 1장이 열 절반 폭을 차지하고 나머지 절반은 비움. */}
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+      {/* 오더 #P9-g [1]: 3열 통일 (BEST와 동일 grid·gap). 모바일 1열 유지.
+          행에 1~2건만 있으면 왼쪽부터 채우고 나머지 열은 비운다 (카드를 늘리지 않음). */}
+      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {row.items.map((item) => (
           <WhatsOnCard key={item.id} event={item} locale={locale} />
         ))}
@@ -154,12 +157,15 @@ function WhatsOnCard({
 
   return (
     <Link href={detailHref(event.type, event.slug)} className="group block">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#232322]">
+      {/* 오더 #P9-g [1]: 사진 aspect 를 BEST 이미지 블록(aspect-[4/5] 카드 안 13/20)
+          과 정확히 일치. 계산: (4/5) × (20/13) = 16/13 ≈ 1.231. 3열 그리드에서
+          동일 폭이면 두 섹션 카드가 픽셀 단위로 정렬된다. */}
+      <div className="relative aspect-[16/13] w-full overflow-hidden bg-[#232322]">
         <Image
           src={image.src}
           alt={event.title[locale]}
           fill
-          sizes="(max-width: 1024px) 100vw, 50vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           style={
             image.cardObjectPosition
               ? { objectPosition: image.cardObjectPosition }
