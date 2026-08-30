@@ -6,11 +6,11 @@ import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
 
-// 홈에서 이관된 5개 섹션 (a→b→c→d→e→NewsSection) — 홈은 B2C 방문객 가이드 전용으로 정리.
-import HeroSection from "@/components/home/HeroSection";
-import WhyGoyangSection from "@/components/home/WhyGoyangSection";
-import ProductPreviewSection from "@/components/home/ProductPreviewSection";
-import ContactCtaSection from "@/components/home/ContactCtaSection";
+// /institute 는 "누가 하는가" 만 담는다. 홈에서 이관되어 있던 방문객·상품
+// 카탈로그 5블록 중 4블록(HeroSection · WhyGoyangSection ·
+// ProductPreviewSection · ContactCtaSection)은 오더 #P2 [1] 로 제거.
+// 상품 정보는 /products 링크 하나로 유도.
+// NewsSection 은 "연구소 소식" 이라 정체성 블록으로 유지.
 import NewsSection from "@/components/home/NewsSection";
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
@@ -40,6 +40,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["文化・観光・MICEをつなぐ戦略研究", "ローカルライフスタイル基盤のコンテンツ・プログラム企画", "訪問者ジャーニー設計と地域産業連携", "DMCサービス提案と現場運営構造設計"],
       },
       ctas: { research: "研究分野を見る", contact: "お問い合わせ" },
+      productsLink: "高陽の事業者・商品を見る →",
     };
   }
 
@@ -67,6 +68,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["连接文化·旅游·MICE的战略研究", "基于在地生活方式的内容·项目策划", "访客旅程设计与地区产业联动", "DMC服务提案与现场运营结构设计"],
       },
       ctas: { research: "查看研究领域", contact: "联系我们" },
+      productsLink: "查看高阳商家·产品 →",
     };
   }
 
@@ -94,6 +96,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["連結文化·旅遊·MICE的策略研究", "基於在地生活風格的內容·方案規劃", "訪客旅程設計與地區產業聯動", "DMC服務提案與現場營運結構設計"],
       },
       ctas: { research: "查看研究領域", contact: "聯絡我們" },
+      productsLink: "查看高陽商家·產品 →",
     };
   }
 
@@ -146,6 +149,7 @@ function getInstituteCopy(locale: PageLocale) {
         research: "View Research",
         contact: "Contact Us",
       },
+      productsLink: "Browse Goyang Businesses →",
     };
   }
 
@@ -197,6 +201,7 @@ function getInstituteCopy(locale: PageLocale) {
       research: "연구 분야 보기",
       contact: "문의하기",
     },
+    productsLink: "고양 업체·상품 보기 →",
   };
 }
 
@@ -288,13 +293,20 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
         </div>
       </div>
 
-      {/* 홈에서 이관된 섹션 — a→b→c→d→e→NewsSection 순서.
-          각 컴포넌트는 자체 <section> 컨테이너·패딩을 가지므로 max-w-7xl 랩퍼 밖으로 배치. */}
-      <HeroSection locale={locale} />
-      <WhyGoyangSection locale={locale} />
-      <ProductPreviewSection locale={locale} />
-      <ContactCtaSection locale={locale} />
+      {/* 연구소 소식 — 자체 <section> 컨테이너·패딩을 가지므로 max-w-7xl 랩퍼 밖으로 배치. */}
       <NewsSection locale={locale} />
+
+      {/* B1~B4 삭제 자리 — /products 진입점 하나만 (오더 #P2 [1]). */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="flex justify-center">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            {copy.productsLink}
+          </Link>
+        </div>
+      </section>
     </Shell>
   );
 }
