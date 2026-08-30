@@ -261,16 +261,23 @@ const PHOTO_PREFIX: I18nText = {
 };
 
 /**
- * venue.ko 기준 명시 키워드 매핑 (오더 #P9-c [2]).
- * 추정 매칭 금지 — 표 밖의 매치는 만들지 않는다.
+ * venue.ko 기준 명시 키워드 매핑 (오더 #P9-c [2] · 보강 [1]).
+ * 위에서부터 순차 매치 — 표 밖의 매치는 만들지 않는다.
  * 어느 키워드에도 걸리지 않으면 walk (기본값).
+ *
+ * 카테고리 카탈로그와 실제 venue 문자열 간극을 좁히기 위해 어울림누리·
+ * 종합운동장·K-POP 아레나·문화광장 등을 실제 사진 자산이 있는 이미지에
+ * 명시 매핑. 캡션은 여전히 이미지 피사체 기준(카테고리 카탈로그 아님).
  */
 function pickFallbackKind(e: WhatsOnEvent): FallbackKind {
   const venueKo = e.venue.ko;
-  if (/호수공원/.test(venueKo)) return "walk";
   if (/KINTEX|킨텍스/i.test(venueKo)) return "kculture";
+  if (/K-?POP\s*아레나|아레나/i.test(venueKo)) return "kculture";
   if (/아람누리|꽃누리/.test(venueKo)) return "culture";
-  if (/라페스타|웨스턴돔/.test(venueKo)) return "food";
+  if (/어울림누리/.test(venueKo)) return "culture";
+  if (/종합운동장|스타디움/.test(venueKo)) return "kculture";
+  if (/문화광장|라페스타|웨스턴돔/.test(venueKo)) return "food";
+  if (/호수공원/.test(venueKo)) return "walk";
   if (/서오릉|서삼릉|행주산성/.test(venueKo)) return "history";
   if (/스타필드|원마운트/.test(venueKo)) return "family";
   return "walk";
