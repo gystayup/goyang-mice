@@ -134,24 +134,32 @@ function WhatsOnRow({ row, locale }: { row: ResolvedRow; locale: WhatsOnLocale }
         </Link>
       </div>
 
-      {/* 오더 #P9-i [1]: 카드 폭은 3열 그리드의 셀 폭과 동일하게 고정
-          (BEST 카드 폭과 일치). 행 컨테이너는 flex-wrap 이라 2개면 2칸만
-          왼쪽에 렌더되고 빈칸이 생기지 않는다. 최대 3개까지 노출, 나머지는
-          "전체 보기 →" 링크로 유도 (헤더에 이미 노출됨).
-          카드 폭 계산 = (100% − gap × (n−1)) / n. gap-6 = 24px.
-            모바일  1열: 100%
-            sm(≥640)  2열: calc((100% − 24px) / 2)
-            lg(≥1024) 3열: calc((100% − 48px) / 3) */}
-      <div className="mt-8 flex flex-wrap gap-6">
-        {row.items.slice(0, 3).map((item) => (
-          <div
-            key={item.id}
-            className="w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)]"
-          >
-            <WhatsOnCard event={item} locale={locale} />
+      {/* 오더 #P9-j [1]: BEST 섹션과 좌우 끝선 동일 (max-w-7xl · px-4 sm:px-6 ·
+          gap-6). 행 컨테이너는 flex-wrap. 카드 폭은 항목 수에 따라 동적으로
+          BEST 폭을 나눠 채운다 (빈칸 생성 금지).
+            n=1 → 100%
+            n=2 → sm/lg 각 (100% − 24px) / 2  (BEST 좌우 끝선 유지, 2열 균등)
+            n=3 → sm 여전히 2열, lg (100% − 48px) / 3  (BEST 3열 그리드와 동일)
+          gap-6 = 24px. 최대 3개 캡, 나머지는 헤더 "전체 보기 →" 링크로. */}
+      {(() => {
+        const displayed = row.items.slice(0, 3);
+        const count = displayed.length;
+        const widthClass =
+          count === 1
+            ? "w-full"
+            : count === 2
+              ? "w-full sm:w-[calc((100%-24px)/2)]"
+              : "w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)]";
+        return (
+          <div className="mt-8 flex flex-wrap gap-6">
+            {displayed.map((item) => (
+              <div key={item.id} className={widthClass}>
+                <WhatsOnCard event={item} locale={locale} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        );
+      })()}
     </div>
   );
 }
