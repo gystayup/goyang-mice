@@ -61,8 +61,8 @@ const READ_MORE: Record<LocaleKey, string> = {
   "zh-TW": "查看詳情 →",
 };
 
-// 카테고리 상세 라우트 (오더 #BEST1). id="story-{cat}" 앵커는
-// EmblemEntrySection 이 홈 내 스크롤 진입에도 사용하므로 유지.
+// 카테고리 상세 라우트 (오더 #BEST1). 오더 #P1 로 홈의 앵커 진입
+// (#story-<cat>) 는 폐지되어 target id 도 제거됨.
 const STORY_HREF: Record<EmblemCategory, string> = {
   walk: "/best/walk",
   food: "/best/food",
@@ -131,7 +131,6 @@ function CuratedCard({
 
   return (
     <Link
-      id={`story-${category}`}
       href={STORY_HREF[category]}
       aria-label={`${label} — ${headline}`}
       className="group block scroll-mt-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
