@@ -60,9 +60,9 @@ const localeButtons: { locale: LocaleKey; label: string }[] = [
 const localeButtonClass =
   "inline-flex min-h-8 min-w-8 items-center justify-center rounded-full px-2.5 text-[11px] font-bold transition";
 
-/** 네비 항목별 위계 톤 결정 (오더 #R2). */
+/** 네비 항목별 위계 톤 결정 (오더 #R2 · #P1 로 best 추가). */
 function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
-  if (key === "dmc" || key === "products") return "visitor";
+  if (key === "best" || key === "products" || key === "dmc") return "visitor";
   if (key === "contact") return "action";
   return "institutional"; // institute, research
 }

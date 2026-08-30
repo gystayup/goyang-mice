@@ -1,13 +1,13 @@
 // 고양 BEST 카테고리 진입부 (Time Out 리뉴얼 3차 · Section B).
-// Hero 아래, 큐레이션 그리드(Section C) 위. 5개 엠블럼 가로 배열.
-// 각 엠블럼 클릭 시 같은 페이지의 해당 카테고리 카드로 스크롤(#story-<cat>).
-// 카테고리 랜딩 라우트가 준비되면 아래 TODO 지점의 href 만 갱신.
+// Hero 아래, 큐레이션 그리드(Section C) 위. 6개 엠블럼 가로 배열.
+// 각 엠블럼 클릭 시 해당 카테고리 상세 라우트 /best/{cat} 로 진입 (오더 #P1).
 
 import { Emblem } from "@/components/emblem/Emblem";
 import type {
   EmblemCategory,
   EmblemLocale,
 } from "@/components/emblem/colors";
+import { Link } from "@/lib/navigation";
 
 type LocaleKey = EmblemLocale;
 
@@ -30,15 +30,14 @@ const HEADLINE: Record<LocaleKey, string> = {
   "zh-TW": "高陽·一山，從哪裡開始",
 };
 
-// TODO(routing): 카테고리별 랜딩 라우트 준비되면 아래 map 을 실제 경로로 갱신.
-// 현재는 같은 페이지의 큐레이션 카드로 스크롤하는 앵커 (#story-<cat>).
+// 카테고리별 상세 라우트 (오더 #P1). 로케일 prefix 는 next-intl Link 가 자동 처리.
 const CATEGORY_HREF: Record<EmblemCategory, string> = {
-  walk: "#story-walk",
-  food: "#story-food",
-  culture: "#story-culture",
-  kculture: "#story-kculture",
-  history: "#story-history",
-  family: "#story-family",
+  walk: "/best/walk",
+  food: "/best/food",
+  culture: "/best/culture",
+  kculture: "/best/kculture",
+  history: "/best/history",
+  family: "/best/family",
 };
 
 export default function EmblemEntrySection({ locale }: { locale: string }) {
@@ -56,12 +55,12 @@ export default function EmblemEntrySection({ locale }: { locale: string }) {
       <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-10">
         {CATEGORIES.map((cat) => (
           <li key={cat}>
-            <a
+            <Link
               href={CATEGORY_HREF[cat]}
               className="inline-block rounded-full transition duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
             >
               <Emblem category={cat} size="M" locale={activeLocale} />
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

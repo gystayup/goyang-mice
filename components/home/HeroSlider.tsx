@@ -16,7 +16,7 @@
 //           · en: "Don't Just Visit Goyang. Know How to Experience It."
 //       (2) 대형 영문 헤드라인 (카테고리별, text-4xl→7xl, font-black, tracking-tight)
 //       (3) 한글 서브 (카테고리·로케일별, CuratedGridSection.CARD_DESC 와 문안 일관)
-//       (4) CTA "자세히 보기 →" — 앵커 #story-<cat>
+//       (4) CTA "자세히 보기 →" — 카테고리 상세 /best/<cat> (오더 #P1)
 //   · 하단 카테고리 프리뷰 (Time Out식): 얇은 라인 + 카테고리명 6개(한글),
 //     현재 슬라이드 강조 (강조색 #FF2D55 · 라인 두께↑ + glow), 나머지는 옅게 (white/50)
 //   · 좌/우 화살표: 우하단 코너 (프리뷰와 안 겹침)
@@ -40,6 +40,7 @@ import {
   type EmblemCategory,
   type EmblemLocale,
 } from "@/components/emblem/colors";
+import { Link } from "@/lib/navigation";
 
 const LOCALES: EmblemLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 const CATEGORIES: EmblemCategory[] = [
@@ -201,8 +202,8 @@ const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
 function photoSrc(cat: EmblemCategory) {
   return `/images/hero/hero-${cat}.jpg`;
 }
-function anchorHref(cat: EmblemCategory) {
-  return `#story-${cat}`;
+function detailHref(cat: EmblemCategory) {
+  return `/best/${cat}`;
 }
 
 export default function HeroSlider({ locale }: { locale: string }) {
@@ -312,13 +313,13 @@ export default function HeroSlider({ locale }: { locale: string }) {
             {desc}
           </p>
 
-          {/* (4) CTA */}
-          <a
-            href={anchorHref(currentCat)}
+          {/* (4) CTA — /best/{cat} 상세 라우트 (오더 #P1) */}
+          <Link
+            href={detailHref(currentCat)}
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-950 shadow-[0_10px_28px_rgba(0,0,0,0.25)] transition hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:mt-8 sm:px-7 sm:py-3 sm:text-base"
           >
             {readMore}
-          </a>
+          </Link>
         </div>
 
         {/*
