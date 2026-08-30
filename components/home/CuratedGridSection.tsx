@@ -16,7 +16,12 @@
 // 접근성: 카드 <Link aria-label={{레이블} — {헤드라인}}> — 스크린리더 대응.
 // 판매 소구어 0 (안내 톤만).
 //
-// 그리드: 3열/2열/1열 (6장 = 3×2). 카드 링크 목적지 = /best/{cat} (오더 #BEST1).
+// 그리드: 3열/2열/1열. 카드 링크 목적지 = /best/{cat} (오더 #BEST1).
+//
+// Props (오더 #P1-f 로 추가):
+//   · categories  — 렌더할 카테고리 목록. 기본 = 전체 6장.
+//   · showHeadline — 섹션 상단 SECTION_HEADLINE 노출 여부. 기본 = true.
+//   · ctaHref     — 지정 시 그리드 하단에 "고양 BEST 전체 보기 →" CTA 링크.
 
 "use client";
 
@@ -42,14 +47,12 @@ type LocaleKey = EmblemLocale;
 
 const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
-const CATEGORIES: EmblemCategory[] = CURATED_CATEGORIES;
-
 const SECTION_HEADLINE: Record<LocaleKey, string> = {
-  ko: "이번 주 고양일산 BEST",
-  en: "This Week's Goyang-Ilsan Best",
-  ja: "今週の高陽・一山ベスト",
-  "zh-CN": "本周高阳·一山BEST",
-  "zh-TW": "本週高陽·一山BEST",
+  ko: "고양일산 BEST",
+  en: "Goyang-Ilsan Best",
+  ja: "高陽・一山ベスト",
+  "zh-CN": "高阳·一山BEST",
+  "zh-TW": "高陽·一山BEST",
 };
 
 /** "자세히 보기" 링크 문구 (로케일별). */
@@ -59,6 +62,15 @@ const READ_MORE: Record<LocaleKey, string> = {
   ja: "詳しく見る →",
   "zh-CN": "查看详情 →",
   "zh-TW": "查看詳情 →",
+};
+
+/** "전체 보기" 하단 CTA 문구 (오더 #P1-f, 홈 티저용). */
+const VIEW_ALL_CTA: Record<LocaleKey, string> = {
+  ko: "고양 BEST 전체 보기 →",
+  en: "See all Goyang Best →",
+  ja: "高陽ベストをすべて見る →",
+  "zh-CN": "查看全部高阳精选 →",
+  "zh-TW": "查看全部高陽精選 →",
 };
 
 // 카테고리 상세 라우트 (오더 #BEST1). 오더 #P1 로 홈의 앵커 진입
@@ -85,20 +97,38 @@ const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
   "culture",
 ]);
 
-export default function CuratedGridSection({ locale }: { locale: string }) {
+export default function CuratedGridSection({
+  locale,
+  categories,
+  showHeadline = true,
+  ctaHref,
+}: {
+  locale: string;
+  categories?: EmblemCategory[];
+  showHeadline?: boolean;
+  ctaHref?: string;
+}) {
   const activeLocale: LocaleKey = (
     LOCALES.includes(locale as LocaleKey) ? locale : "ko"
   ) as LocaleKey;
   const sectionHeadline = SECTION_HEADLINE[activeLocale];
+  const renderCategories = categories ?? CURATED_CATEGORIES;
+  const viewAllLabel = VIEW_ALL_CTA[activeLocale];
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18">
-      <h2 className="text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-2xl">
-        {sectionHeadline}
-      </h2>
+      {showHeadline && (
+        <h2 className="text-xl font-black tracking-[-0.03em] text-slate-950 sm:text-2xl">
+          {sectionHeadline}
+        </h2>
+      )}
 
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {CATEGORIES.map((cat) => (
+      <div
+        className={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ${
+          showHeadline ? "mt-8" : ""
+        }`}
+      >
+        {renderCategories.map((cat) => (
           <CuratedCard
             key={cat}
             category={cat}
@@ -107,6 +137,17 @@ export default function CuratedGridSection({ locale }: { locale: string }) {
           />
         ))}
       </div>
+
+      {ctaHref && (
+        <div className="mt-8 flex justify-center">
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
+          >
+            {viewAllLabel}
+          </Link>
+        </div>
+      )}
     </section>
   );
 }
