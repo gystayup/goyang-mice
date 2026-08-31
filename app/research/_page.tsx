@@ -65,32 +65,24 @@ function getResearchCopy(locale: PageLocale) {
           season: "2026 SPRING",
           title: "Goyang K-Culture Visitor Journey Study",
           desc: "A study organizing arrival, stay, and spending structures around performances and exhibitions.",
-          gradient:
-            "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(16,32,58,0.16)), linear-gradient(135deg, #ffe98b 0%, #ffb58f 36%, #ff8f7e 100%)",
         },
         {
           issue: "VOL.02",
           season: "2026 SUMMER",
           title: "Connected Stay Program Brief",
           desc: "A brief outlining stay-based tourism programs linked to event districts and local places.",
-          gradient:
-            "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #8df0cf 0%, #7fd7ff 42%, #567df0 100%)",
         },
         {
           issue: "VOL.03",
           season: "2026 FALL",
           title: "Lifestyle City Strategy Memo",
           desc: "A strategy note linking family experiences, cafes, dining, and shopping to city stay value.",
-          gradient:
-            "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)",
         },
         {
           issue: "VOL.04",
           season: "2026 WINTER",
           title: "Operations Brief Archive",
           desc: "A collection of operational materials connecting booking, schedules, partners, and field response.",
-          gradient:
-            "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)",
         },
       ],
       tracks: {
@@ -99,12 +91,12 @@ function getResearchCopy(locale: PageLocale) {
         desc: "",
       },
       areas: [
-        { icon: Building2,  title: "Citywide MICE Zone Research",    desc: "Designing connected MICE zones that link venues, performances, tourism, and stay.",                     tone: "bg-[#fff3df]" },
-        { icon: Navigation, title: "Visitor Journey Design",          desc: "Planning how visitors move, spend, stay, and return across the city.",                                 tone: "bg-[#eafbf4]" },
-        { icon: Network,    title: "Tourism District Models",         desc: "Creating stay-oriented program models linked to tourism districts and local commercial areas.",          tone: "bg-[#eef2ff]" },
-        { icon: Layers3,    title: "Regional Industry Linkage",       desc: "Connecting culture, tourism, shopping, dining, and accommodation into one working structure.",          tone: "bg-[#ffe7df]" },
-        { icon: TrendingUp, title: "Program Impact Measurement",      desc: "Building structures for tracking satisfaction, stay extension, and local economic effects.",            tone: "bg-[#f7f1ff]" },
-        { icon: FileText,   title: "Policy & Operations Briefing",    desc: "Converting research outcomes into policy notes and field-ready briefs.",                               tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "Citywide MICE Zone Research",    desc: "Designing connected MICE zones that link venues, performances, tourism, and stay." },
+        { icon: Navigation, title: "Visitor Journey Design",          desc: "Planning how visitors move, spend, stay, and return across the city." },
+        { icon: Network,    title: "Tourism District Models",         desc: "Creating stay-oriented program models linked to tourism districts and local commercial areas." },
+        { icon: Layers3,    title: "Regional Industry Linkage",       desc: "Connecting culture, tourism, shopping, dining, and accommodation into one working structure." },
+        { icon: TrendingUp, title: "Program Impact Measurement",      desc: "Building structures for tracking satisfaction, stay extension, and local economic effects." },
+        { icon: FileText,   title: "Policy & Operations Briefing",    desc: "Converting research outcomes into policy notes and field-ready briefs." },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -168,19 +160,15 @@ function getResearchCopy(locale: PageLocale) {
       ],
       archive: { eyebrow: "Research Archive", title: "研究資料とブリーフを一目で確認できます" },
       archiveItems: [
-        { issue: "VOL.01", season: "2026 SPRING", title: "高陽K-カルチャー訪問者ジャーニー研究", desc: "公演と展示を中心に、到着・滞在・消費の流れを整理した研究資料です。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(16,32,58,0.16)), linear-gradient(135deg, #ffe98b 0%, #ffb58f 36%, #ff8f7e 100%)" },
-        { issue: "VOL.02", season: "2026 SUMMER", title: "観光特区連携・滞在型プログラムブリーフ", desc: "会場と観光特区、ローカル空間をつなぐ滞在型プログラム構造を整理しました。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #8df0cf 0%, #7fd7ff 42%, #567df0 100%)" },
-        { issue: "VOL.03", season: "2026 FALL", title: "ライフスタイル都市戦略メモ", desc: "家族体験、カフェ、グルメ、ショッピングを含む高陽型ライフスタイル戦略メモです。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
-        { issue: "VOL.04", season: "2026 WINTER", title: "現場運営実行ブリーフアーカイブ", desc: "予約、スケジュール、パートナー運営、現場対応まで連携する実行資料集です。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
       tracks: { eyebrow: "Research Tracks", title: "2026年 コア研究トラック", desc: "" },
       areas: [
-        { icon: Building2,  title: "都市型MICE圏域研究",    desc: "展示場、公演場、観光、宿泊資源をひとつのMICE圏域構造で連結します。",                 tone: "bg-[#fff3df]" },
-        { icon: Navigation, title: "訪問者ジャーニー設計",  desc: "到着、消費、滞在、再訪問までつながる訪問者フローを設計します。",                     tone: "bg-[#eafbf4]" },
-        { icon: Network,    title: "観光特区連携モデル開発", desc: "観光特区と地域商圏を組み合わせた滞在型プログラムモデルを構築します。",               tone: "bg-[#eef2ff]" },
-        { icon: Layers3,    title: "地域産業連携構造",      desc: "文化、観光、ショッピング、グルメ、宿泊産業が共に機能する構造を設計します。",         tone: "bg-[#ffe7df]" },
-        { icon: TrendingUp, title: "プログラム効果測定",    desc: "満足度、滞在拡大、地域経済効果を測定可能な構造へ変換します。",                       tone: "bg-[#f7f1ff]" },
-        { icon: FileText,   title: "政策と現場実行ブリーフ", desc: "研究結果を現場運営や提案書作成に活用できる形で整理します。",                        tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "都市型MICE圏域研究",    desc: "展示場、公演場、観光、宿泊資源をひとつのMICE圏域構造で連結します。" },
+        { icon: Navigation, title: "訪問者ジャーニー設計",  desc: "到着、消費、滞在、再訪問までつながる訪問者フローを設計します。" },
+        { icon: Network,    title: "観光特区連携モデル開発", desc: "観光特区と地域商圏を組み合わせた滞在型プログラムモデルを構築します。" },
+        { icon: Layers3,    title: "地域産業連携構造",      desc: "文化、観光、ショッピング、グルメ、宿泊産業が共に機能する構造を設計します。" },
+        { icon: TrendingUp, title: "プログラム効果測定",    desc: "満足度、滞在拡大、地域経済効果を測定可能な構造へ変換します。" },
+        { icon: FileText,   title: "政策と現場実行ブリーフ", desc: "研究結果を現場運営や提案書作成に活用できる形で整理します。" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -219,19 +207,15 @@ function getResearchCopy(locale: PageLocale) {
       ],
       archive: { eyebrow: "Research Archive", title: "一站式浏览研究资料与简报" },
       archiveItems: [
-        { issue: "VOL.01", season: "2026 SPRING", title: "高阳K-文化访客旅程研究", desc: "以演出与展览为中心，梳理到达、停留与消费流程的研究资料。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(16,32,58,0.16)), linear-gradient(135deg, #ffe98b 0%, #ffb58f 36%, #ff8f7e 100%)" },
-        { issue: "VOL.02", season: "2026 SUMMER", title: "旅游特区联动驻留型项目简报", desc: "整理了连接活动场地、旅游特区与本地空间的驻留型项目结构。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #8df0cf 0%, #7fd7ff 42%, #567df0 100%)" },
-        { issue: "VOL.03", season: "2026 FALL", title: "生活方式城市战略备忘录", desc: "包含家庭体验、咖啡馆、美食、购物的高阳型生活方式战略备忘录。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
-        { issue: "VOL.04", season: "2026 WINTER", title: "现场运营执行简报档案", desc: "涵盖预约、日程、合作伙伴运营与现场应对的执行资料集。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
       tracks: { eyebrow: "Research Tracks", title: "2026年 核心研究方向", desc: "" },
       areas: [
-        { icon: Building2,  title: "城市型MICE区域研究",   desc: "将展览馆、演出场馆、旅游、住宿资源整合为统一的MICE区域结构。",       tone: "bg-[#fff3df]" },
-        { icon: Navigation, title: "访客旅程设计",         desc: "规划从到达、消费、停留到再次访问的访客流程。",                       tone: "bg-[#eafbf4]" },
-        { icon: Network,    title: "旅游特区联动模型开发", desc: "构建将旅游特区与当地商圈结合的驻留型项目模型。",                     tone: "bg-[#eef2ff]" },
-        { icon: Layers3,    title: "地区产业联动结构",     desc: "设计文化、旅游、购物、餐饮、住宿产业协同运作的整体结构。",           tone: "bg-[#ffe7df]" },
-        { icon: TrendingUp, title: "项目效益评估",         desc: "将满意度、停留延长、地区经济效益转化为可量化的评估结构。",           tone: "bg-[#f7f1ff]" },
-        { icon: FileText,   title: "政策与现场执行简报",   desc: "将研究成果整理为可直接用于现场运营与提案撰写的材料。",               tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "城市型MICE区域研究",   desc: "将展览馆、演出场馆、旅游、住宿资源整合为统一的MICE区域结构。" },
+        { icon: Navigation, title: "访客旅程设计",         desc: "规划从到达、消费、停留到再次访问的访客流程。" },
+        { icon: Network,    title: "旅游特区联动模型开发", desc: "构建将旅游特区与当地商圈结合的驻留型项目模型。" },
+        { icon: Layers3,    title: "地区产业联动结构",     desc: "设计文化、旅游、购物、餐饮、住宿产业协同运作的整体结构。" },
+        { icon: TrendingUp, title: "项目效益评估",         desc: "将满意度、停留延长、地区经济效益转化为可量化的评估结构。" },
+        { icon: FileText,   title: "政策与现场执行简报",   desc: "将研究成果整理为可直接用于现场运营与提案撰写的材料。" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -270,19 +254,15 @@ function getResearchCopy(locale: PageLocale) {
       ],
       archive: { eyebrow: "Research Archive", title: "一站式瀏覽研究資料與簡報" },
       archiveItems: [
-        { issue: "VOL.01", season: "2026 SPRING", title: "高陽K-文化訪客旅程研究", desc: "以演出與展覽為中心，梳理到達、停留與消費流程的研究資料。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(16,32,58,0.16)), linear-gradient(135deg, #ffe98b 0%, #ffb58f 36%, #ff8f7e 100%)" },
-        { issue: "VOL.02", season: "2026 SUMMER", title: "觀光特區聯動駐留型方案簡報", desc: "整理了連結活動場地、觀光特區與在地空間的駐留型方案結構。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #8df0cf 0%, #7fd7ff 42%, #567df0 100%)" },
-        { issue: "VOL.03", season: "2026 FALL", title: "生活風格城市策略備忘錄", desc: "包含家庭體驗、咖啡廳、美食、購物的高陽型生活風格策略備忘錄。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)" },
-        { issue: "VOL.04", season: "2026 WINTER", title: "現場營運執行簡報檔案", desc: "涵蓋預約、日程、合作夥伴營運與現場應對的執行資料集。", gradient: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)" },
       ],
       tracks: { eyebrow: "Research Tracks", title: "2026年 核心研究方向", desc: "" },
       areas: [
-        { icon: Building2,  title: "城市型MICE區域研究",   desc: "將展覽館、演出場館、旅遊、住宿資源整合為統一的MICE區域結構。",       tone: "bg-[#fff3df]" },
-        { icon: Navigation, title: "訪客旅程設計",         desc: "規劃從到達、消費、停留到再次造訪的訪客流程。",                       tone: "bg-[#eafbf4]" },
-        { icon: Network,    title: "觀光特區聯動模型開發", desc: "構建將觀光特區與當地商圈結合的駐留型方案模型。",                     tone: "bg-[#eef2ff]" },
-        { icon: Layers3,    title: "地區產業聯動結構",     desc: "設計文化、旅遊、購物、餐飲、住宿產業協同運作的整體結構。",           tone: "bg-[#ffe7df]" },
-        { icon: TrendingUp, title: "方案效益評估",         desc: "將滿意度、停留延長、地區經濟效益轉化為可量化的評估結構。",           tone: "bg-[#f7f1ff]" },
-        { icon: FileText,   title: "政策與現場執行簡報",   desc: "將研究成果整理為可直接用於現場營運與提案撰寫的材料。",               tone: "bg-[#eef8ff]" },
+        { icon: Building2,  title: "城市型MICE區域研究",   desc: "將展覽館、演出場館、旅遊、住宿資源整合為統一的MICE區域結構。" },
+        { icon: Navigation, title: "訪客旅程設計",         desc: "規劃從到達、消費、停留到再次造訪的訪客流程。" },
+        { icon: Network,    title: "觀光特區聯動模型開發", desc: "構建將觀光特區與當地商圈結合的駐留型方案模型。" },
+        { icon: Layers3,    title: "地區產業聯動結構",     desc: "設計文化、旅遊、購物、餐飲、住宿產業協同運作的整體結構。" },
+        { icon: TrendingUp, title: "方案效益評估",         desc: "將滿意度、停留延長、地區經濟效益轉化為可量化的評估結構。" },
+        { icon: FileText,   title: "政策與現場執行簡報",   desc: "將研究成果整理為可直接用於現場營運與提案撰寫的材料。" },
       ],
       perspective: {
         eyebrow: "Research Perspective",
@@ -345,32 +325,24 @@ function getResearchCopy(locale: PageLocale) {
         season: "2026 SPRING",
         title: "고양 K-컬쳐 방문자 여정 연구",
         desc: "공연과 전시를 중심으로 도착, 체류, 소비 흐름을 정리한 연구 자료입니다.",
-        gradient:
-          "linear-gradient(180deg, rgba(255,255,255,0.18), rgba(16,32,58,0.16)), linear-gradient(135deg, #ffe98b 0%, #ffb58f 36%, #ff8f7e 100%)",
       },
       {
         issue: "VOL.02",
         season: "2026 SUMMER",
         title: "관광특구 연계 체류형 프로그램 브리프",
         desc: "행사장과 관광특구, 로컬 공간을 연결하는 체류형 프로그램 구조를 정리했습니다.",
-        gradient:
-          "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #8df0cf 0%, #7fd7ff 42%, #567df0 100%)",
       },
       {
         issue: "VOL.03",
         season: "2026 FALL",
         title: "라이프스타일 도시 전략 메모",
         desc: "가족 체험, 카페, 미식, 쇼핑을 포함한 고양형 라이프스타일 전략 메모입니다.",
-        gradient:
-          "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(16,32,58,0.18)), linear-gradient(135deg, #ffc4cf 0%, #f7a8ff 34%, #7d82ff 100%)",
       },
       {
         issue: "VOL.04",
         season: "2026 WINTER",
         title: "현장 운영 실행 브리프 아카이브",
         desc: "예약, 일정, 파트너 운영, 현장 대응까지 연결되는 실행 자료 모음입니다.",
-        gradient:
-          "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(16,32,58,0.22)), linear-gradient(135deg, #d8f4ff 0%, #a4d8ff 32%, #3556a8 100%)",
       },
     ],
     tracks: {
@@ -379,12 +351,12 @@ function getResearchCopy(locale: PageLocale) {
       desc: "",
     },
     areas: [
-      { icon: Building2,   title: "도시형 MICE 권역 연구",     desc: "전시장, 공연장, 관광, 숙박 자원을 하나의 MICE 권역 구조로 연결합니다.",          tone: "bg-[#fff3df]" },
-      { icon: Navigation,  title: "방문객 여정 설계",           desc: "도착, 소비, 체류, 재방문까지 이어지는 방문객 흐름을 설계합니다.",                tone: "bg-[#eafbf4]" },
-      { icon: Network,     title: "관광특구 연계 모델 개발",    desc: "관광특구와 지역 상권을 연결한 체류형 프로그램 모델을 구축합니다.",                tone: "bg-[#eef2ff]" },
-      { icon: Layers3,     title: "지역 산업 연계 구조",        desc: "문화, 관광, 쇼핑, 미식, 숙박 산업이 함께 작동하는 구조를 설계합니다.",           tone: "bg-[#ffe7df]" },
-      { icon: TrendingUp,  title: "프로그램 효과 측정",         desc: "만족도, 체류 확대, 지역경제 효과를 측정 가능한 구조로 전환합니다.",               tone: "bg-[#f7f1ff]" },
-      { icon: FileText,    title: "정책과 현장 실행 브리프",    desc: "연구 결과를 실제 현장 운영과 제안서 작성에 활용할 수 있도록 정리합니다.",        tone: "bg-[#eef8ff]" },
+      { icon: Building2,   title: "도시형 MICE 권역 연구",     desc: "전시장, 공연장, 관광, 숙박 자원을 하나의 MICE 권역 구조로 연결합니다." },
+      { icon: Navigation,  title: "방문객 여정 설계",           desc: "도착, 소비, 체류, 재방문까지 이어지는 방문객 흐름을 설계합니다." },
+      { icon: Network,     title: "관광특구 연계 모델 개발",    desc: "관광특구와 지역 상권을 연결한 체류형 프로그램 모델을 구축합니다." },
+      { icon: Layers3,     title: "지역 산업 연계 구조",        desc: "문화, 관광, 쇼핑, 미식, 숙박 산업이 함께 작동하는 구조를 설계합니다." },
+      { icon: TrendingUp,  title: "프로그램 효과 측정",         desc: "만족도, 체류 확대, 지역경제 효과를 측정 가능한 구조로 전환합니다." },
+      { icon: FileText,    title: "정책과 현장 실행 브리프",    desc: "연구 결과를 실제 현장 운영과 제안서 작성에 활용할 수 있도록 정리합니다." },
     ],
     perspective: {
       eyebrow: "Research Perspective",
@@ -446,7 +418,8 @@ type ArchiveCard = {
   season: string;
   title: string;
   desc: string;
-  gradient: string;
+  /** 오더 #G2 [1] 판정 2: 렌더에서 사용 안 함 (그라디언트 배경 제거). DB 이관본 호환용으로 optional 유지. */
+  gradient?: string;
   posterUrl?: string;
   fileUrl?: string;
   fileName?: string;
@@ -532,29 +505,24 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
   return (
     <Shell>
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 pb-20 pt-10">
-        {/* ── Hero ── */}
-        <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_40%,_#102040_70%,_#1a3060_100%)] px-6 py-10 text-white shadow-[0_28px_70px_rgba(8,14,26,0.22)] lg:px-10 lg:py-12">
-          {/* 도트 그리드 */}
-          <div className="pointer-events-none absolute inset-0 opacity-[0.045]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
-          {/* 글로우 오브 */}
-          <div className="pointer-events-none absolute -left-12 -top-12 h-64 w-64 rounded-full bg-[#8df0cf]/14 blur-[70px]" />
-          <div className="pointer-events-none absolute -bottom-12 right-0 h-72 w-72 rounded-full bg-[#a4d8ff]/14 blur-[80px]" />
-          {/* 상단 네온 라인 */}
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+        {/* ── Hero (오더 #G2 [1] 판정 3): 다크 네이비 그라디언트 → 차콜 단색. */}
+        <section className="relative overflow-hidden rounded-[40px] bg-[#232322] px-6 py-10 text-white lg:px-10 lg:py-12">
+          {/* 상단 라인: 골드 단색 (판정 5) */}
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-[#D4AF37]" />
 
           <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#8df0cf]/25 bg-[#8df0cf]/10 px-3.5 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#8df0cf]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#8df0cf]/90">{copy.hero.eyebrow}</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3.5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">{copy.hero.eyebrow}</span>
               </div>
               <h1 className="mt-5 max-w-4xl text-2xl font-black leading-[1.18] tracking-[-0.04em] text-white [text-wrap:balance] sm:text-3xl lg:text-[3rem] lg:leading-[1.1]">
                 {copy.hero.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-400">
+              <p className="mt-6 max-w-2xl text-base leading-8 text-white/70">
                 {copy.hero.desc}
               </p>
-              <div className="mt-7 h-px w-full bg-gradient-to-r from-[#8df0cf]/30 via-[#ffe98b]/20 to-transparent" />
+              <div className="mt-7 h-px w-full bg-white/20" />
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
@@ -563,15 +531,15 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                 return (
                   <div
                     key={item.value}
-                    className="rounded-[22px] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm transition duration-300 hover:bg-white/[0.10]"
+                    className="rounded-[22px] border border-white/10 bg-white/[0.06] p-5"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/12">
-                      <Icon className="h-5 w-5 text-[#ffe98b]" />
+                      <Icon className="h-5 w-5 text-[#D4AF37]" />
                     </div>
                     <div className="mt-4 text-xl font-black tracking-[-0.03em] text-white">
                       {item.value}
                     </div>
-                    <p className="mt-2 text-sm leading-7 text-slate-400">{item.label}</p>
+                    <p className="mt-2 text-sm leading-7 text-white/70">{item.label}</p>
                   </div>
                 );
               })}
@@ -579,9 +547,10 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        {/* ── Archive (horizontal grid - 4 columns) ── */}
-        <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/65 px-6 py-8 shadow-[0_16px_48px_rgba(16,32,58,0.09)] backdrop-blur-xl lg:px-8">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+        {/* ── Archive (오더 #G2 [1] 판정 2·4): 그라디언트·그림자·backdrop-blur 제거,
+            보더 차콜/15, 배경 흰색. VOL 그라디언트 → 차콜 텍스트 + 번호로만 구분. */}
+        <section className="relative overflow-hidden rounded-[36px] border border-[#232322]/15 bg-white px-6 py-8 lg:px-8">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-[#D4AF37]" />
           <SectionTitle eyebrow={copy.archive.eyebrow} title={copy.archive.title} />
 
           <div className="relative mt-6 grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
@@ -598,8 +567,8 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                     type="button"
                     onClick={() => hasFile && handleDownload(item)}
                     disabled={!hasFile}
-                    className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-slate-200 shadow-sm ${
-                      hasFile ? "cursor-pointer transition hover:-translate-y-0.5 hover:shadow-lg" : "cursor-default"
+                    className={`relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-[#232322]/15 ${
+                      hasFile ? "cursor-pointer" : "cursor-default"
                     }`}
                     aria-label={hasFile ? labels.download : item.title}
                   >
@@ -607,13 +576,10 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img src={item.posterUrl} alt={item.title} className="h-full w-full object-cover" />
                     ) : (
-                      <div
-                        className="flex h-full w-full flex-col justify-end p-4 text-white"
-                        style={{ background: item.gradient }}
-                      >
-                        <div className="text-[10px] font-bold tracking-[0.22em] opacity-80 uppercase">{item.season}</div>
+                      <div className="flex h-full w-full flex-col justify-end bg-white p-4 text-[#232322]">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#232322]/60">{item.season}</div>
                         <div className="mt-1 text-2xl font-black tracking-[-0.03em]">{item.issue}</div>
-                        <div className="mt-2 text-[10px] font-black leading-tight tracking-[-0.02em]">
+                        <div className="mt-2 text-[10px] font-black leading-tight tracking-[-0.02em] text-[#232322]/70">
                           RESEARCH
                           <br />
                           ARCHIVE
@@ -626,26 +592,26 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                   <div className="mt-3 flex min-w-0 flex-1 flex-col">
                     <div className="flex flex-wrap items-center gap-1.5">
                       {item.categoryTag && (
-                        <span className="rounded-md bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                        <span className="rounded-md bg-[#D4AF37] px-2 py-0.5 text-[10px] font-bold text-[#232322]">
                           {item.categoryTag}
                         </span>
                       )}
                       {!item.categoryTag && item.issue && (
-                        <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                        <span className="rounded-md bg-[#232322]/5 px-2 py-0.5 text-[10px] font-bold text-[#232322]/80">
                           {item.issue}
                         </span>
                       )}
                     </div>
-                    <h3 className="mt-2 line-clamp-2 text-sm font-black tracking-[-0.02em] text-slate-950 sm:text-[15px]">
+                    <h3 className="mt-2 line-clamp-2 text-sm font-black tracking-[-0.02em] text-[#232322] sm:text-[15px]">
                       {item.title}
                     </h3>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-x-2 text-[11px] text-slate-500">
-                      <span className="font-semibold text-rose-600">{labels.nonSale}</span>
-                      {item.publishDate && <span className="text-slate-400">|</span>}
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-2 text-[11px] text-[#232322]/60">
+                      <span className="font-semibold text-[#232322]/80">{labels.nonSale}</span>
+                      {item.publishDate && <span className="text-[#232322]/50">|</span>}
                       {item.publishDate && <span>{item.publishDate}</span>}
                     </div>
                     {item.authors && (
-                      <p className="mt-1 line-clamp-1 text-[11px] text-slate-600">{item.authors}</p>
+                      <p className="mt-1 line-clamp-1 text-[11px] text-[#232322]/70">{item.authors}</p>
                     )}
 
                     {hasFile && (
@@ -653,7 +619,7 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
                         <button
                           type="button"
                           onClick={() => handleDownload(item)}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-800 shadow-sm transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-[#232322]/20 bg-white px-3 py-1.5 text-[11px] font-semibold text-[#232322]/85 transition-colors hover:border-[#232322] hover:bg-[#232322] hover:text-white"
                         >
                           {isLoggedIn ? (
                             <>
@@ -683,33 +649,24 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
             title={copy.tracks.title}
             desc={copy.tracks.desc}
           />
+          {/* 오더 #G2 [1] 판정 2: 파스텔 tone 배경 6종 제거, bg-white + 얇은 골드 라인.
+              판정 4: shadow · hover translate · boxShadow · backdrop-blur 전부 제거. */}
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {copy.areas.map((item) => {
               const Icon = item.icon;
-              const toneGlow: Record<string, string> = {
-                "bg-[#fff3df]": "rgba(255,233,139,0.45)",
-                "bg-[#eafbf4]": "rgba(141,240,207,0.45)",
-                "bg-[#eef2ff]": "rgba(100,130,255,0.4)",
-                "bg-[#ffe7df]": "rgba(255,143,126,0.45)",
-                "bg-[#f7f1ff]": "rgba(160,100,255,0.4)",
-                "bg-[#eef8ff]": "rgba(100,180,255,0.4)",
-              };
               return (
                 <div
                   key={item.title}
-                  className={`group relative overflow-hidden rounded-[26px] border border-white/80 p-7 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1 ${item.tone}`}
-                  style={{ boxShadow: undefined }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = `0 0 32px ${toneGlow[item.tone] ?? "rgba(16,32,58,0.1)"}` }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "" }}
+                  className="group relative overflow-hidden rounded-[26px] border border-[#232322]/15 bg-white p-7 transition-colors"
                 >
-                  <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[26px] bg-gradient-to-r from-current/20 to-transparent opacity-60" />
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 shadow-sm backdrop-blur">
-                    <Icon className="h-6 w-6 text-slate-700" />
+                  <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[26px] bg-[#D4AF37]" />
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#232322]/5">
+                    <Icon className="h-6 w-6 text-[#232322]/80" />
                   </div>
-                  <div className="text-xl font-black leading-[1.25] tracking-[-0.03em] text-slate-950 sm:text-2xl">
+                  <div className="text-xl font-black leading-[1.25] tracking-[-0.03em] text-[#232322] sm:text-2xl">
                     {item.title}
                   </div>
-                  <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                  <p className="mt-3 text-[15px] leading-7 text-[#232322]/70">
                     {item.desc}
                   </p>
                 </div>
@@ -718,22 +675,21 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        {/* ── Perspective ── */}
+        {/* ── Perspective (오더 #G2 [1] 판정 3·4·5): 다크 네이비 → 차콜,
+            shadow·backdrop-blur·글로우 오브 제거, 3px 라인 골드, 아이콘 배경 골드 톤 */}
         <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-          <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(145deg,_#080e1a_0%,_#0d1a30_50%,_#1a3060_100%)] p-8 text-white shadow-[0_24px_60px_rgba(8,14,26,0.20)]">
-            <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#8df0cf]/14 blur-[60px]" />
-            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+          <div className="relative overflow-hidden rounded-[32px] bg-[#232322] p-8 text-white">
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-[#D4AF37]" />
             <div className="relative">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#ffe98b]/25 bg-[#ffe98b]/10 px-3 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ffe98b]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#ffe98b]/90">{copy.perspective.eyebrow}</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">{copy.perspective.eyebrow}</span>
               </div>
               <h2 className="mt-5 text-[1.5rem] font-black leading-[1.25] tracking-[-0.035em] text-white [text-wrap:balance] sm:text-2xl lg:text-[1.8rem]">
                 {copy.perspective.title}
               </h2>
-              <div className="mt-5 h-px w-full bg-gradient-to-r from-[#8df0cf]/30 to-transparent" />
-              <p className="mt-5 text-[15px] leading-8 text-slate-400">
+              <div className="mt-5 h-px w-full bg-white/20" />
+              <p className="mt-5 text-[15px] leading-8 text-white/70">
                 {copy.perspective.desc}
               </p>
             </div>
@@ -745,14 +701,14 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
               return (
                 <PremiumCard key={item.title} className="p-6">
                   <div className="flex items-center gap-3">
-                    <div className="rounded-2xl bg-[linear-gradient(135deg,_#eef3ff,_#e8fbf3)] p-3">
-                      <Icon className="h-5 w-5 text-slate-700" />
+                    <div className="rounded-2xl bg-[#232322]/5 p-3">
+                      <Icon className="h-5 w-5 text-[#232322]/80" />
                     </div>
-                    <div className="text-[1.1rem] font-black tracking-[-0.03em] text-slate-950">
+                    <div className="text-[1.1rem] font-black tracking-[-0.03em] text-[#232322]">
                       {item.title}
                     </div>
                   </div>
-                  <p className="mt-4 text-sm leading-7 text-slate-500">
+                  <p className="mt-4 text-sm leading-7 text-[#232322]/60">
                     {item.desc}
                   </p>
                 </PremiumCard>
@@ -761,22 +717,22 @@ export default function ResearchPage({ locale = "ko" }: { locale?: PageLocale })
           </div>
         </section>
 
-        {/* ── Process ── */}
+        {/* ── Process (오더 #G2 [1] 판정 5): 스텝 번호 배지 민트↔하늘 그라디언트 → 골드 단색. */}
         <section className="space-y-6">
           <SectionTitle eyebrow={copy.process.eyebrow} title={copy.process.title} />
           <div className="grid gap-5 md:grid-cols-3">
             {copy.process.steps.map((item, index) => (
               <PremiumCard key={item.step} className="p-7">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#a4d8ff)] text-sm font-black text-slate-950">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D4AF37] text-sm font-black text-[#232322]">
                     {index + 1}
                   </div>
-                  <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">{item.step}</div>
+                  <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#232322]/50">{item.step}</div>
                 </div>
-                <div className="mt-4 text-[1.3rem] font-black tracking-[-0.03em] text-slate-950">
+                <div className="mt-4 text-[1.3rem] font-black tracking-[-0.03em] text-[#232322]">
                   {item.title}
                 </div>
-                <p className="mt-3 text-[15px] leading-7 text-slate-500">
+                <p className="mt-3 text-[15px] leading-7 text-[#232322]/60">
                   {item.desc}
                 </p>
               </PremiumCard>
