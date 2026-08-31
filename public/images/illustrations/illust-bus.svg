@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="공항버스">
+  <!-- 정류장 표지판 -->
+  <path d="M46 240 V128"/>
+  <path d="M22 96 h48 v32 h-48 z"/>
+  <path d="M32 112 h28"/>
+  <circle cx="46" cy="86" r="5"/>
+
+  <!-- 버스 본체 -->
+  <path d="M104 108 h248 a14 14 0 0 1 14 14 v88 a10 10 0 0 1 -10 10 h-256 a10 10 0 0 1 -10 -10 v-88 a14 14 0 0 1 14 -14 z"/>
+  <!-- 전면 행선판 -->
+  <path d="M116 122 h74 v20 h-74 z"/>
+  <!-- 창문 -->
+  <path d="M206 122 h44 v34 h-44 z"/>
+  <path d="M262 122 h44 v34 h-44 z"/>
+  <path d="M318 122 h34 v34 h-34 z"/>
+  <!-- 문 -->
+  <path d="M116 158 h50 v62 h-50 z"/>
+  <path d="M141 158 V220"/>
+  <!-- 짐칸 -->
+  <path d="M206 176 h146 v30 h-146 z"/>
+  <!-- 바퀴 -->
+  <circle cx="160" cy="220" r="18"/>
+  <circle cx="160" cy="220" r="7"/>
+  <circle cx="318" cy="220" r="18"/>
+  <circle cx="318" cy="220" r="7"/>
+
+  <!-- 지면 -->
+  <path d="M18 246 h364"/>
+
+  <!-- 고양이 (손 흔들며 탑승) -->
+  <g transform="translate(66 196)">
+    <!-- 꼬리 -->
+    <path d="M22 26 C42 26 46 8 38 0"/>
+    <!-- 몸통 -->
+    <path d="M-20 28 C-24 8 -14 -6 0 -6 C14 -6 24 8 20 28"/>
+    <!-- 다리 -->
+    <path d="M-8 28 V44 M8 28 V44"/>
+    <!-- 든 앞발 -->
+    <path d="M14 2 L28 -12"/>
+    <circle cx="31" cy="-15" r="4.4"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-26" r="17"/>
+    <path d="M-12 -36 L-15 -50 L-1 -43"/>
+    <path d="M12 -36 L15 -50 L1 -43"/>
+    <path d="M-10 -23 L-24 -26 M-10 -18 L-24 -16"/>
+    <path d="M10 -23 L24 -26 M10 -18 L24 -16"/>
+    <path d="M-3 -18 L0 -15 L3 -18"/>
+    <circle cx="-6" cy="-28" r="1.7" fill="currentColor" stroke="none"/>
+    <circle cx="6" cy="-28" r="1.7" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

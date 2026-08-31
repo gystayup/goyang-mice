@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="교통카드">
+  <!-- 대형 카드 -->
+  <path d="M92 96 h216 a14 14 0 0 1 14 14 v96 a14 14 0 0 1 -14 14 h-216 a14 14 0 0 1 -14 -14 v-96 a14 14 0 0 1 14 -14 z"/>
+  <!-- IC 칩 -->
+  <path d="M108 124 h34 v26 h-34 z"/>
+  <path d="M108 137 h34 M125 124 v26"/>
+  <!-- 전파 마크 -->
+  <path d="M164 128 C176 140 176 156 164 168"/>
+  <path d="M180 120 C196 138 196 158 180 176"/>
+  <!-- 카드 문구 라인 -->
+  <path d="M108 178 h72 M108 194 h44"/>
+  <!-- 잔액 -->
+  <path d="M228 178 h64 M252 194 h40"/>
+
+  <!-- 동전 -->
+  <circle cx="52" cy="222" r="19"/>
+  <path d="M46 222 h12 M52 214 v16"/>
+  <circle cx="80" cy="250" r="14"/>
+  <path d="M75 250 h10"/>
+
+  <!-- 지폐 -->
+  <path d="M300 236 h72 v38 h-72 z"/>
+  <circle cx="336" cy="255" r="9"/>
+  <path d="M310 244 h8 M354 266 h8"/>
+
+  <!-- 고양이 (카드 들고 있음) -->
+  <g transform="translate(292 154)">
+    <!-- 꼬리 -->
+    <path d="M22 26 C42 24 46 6 38 -2"/>
+    <!-- 몸통 -->
+    <path d="M-20 28 C-24 8 -14 -6 0 -6 C14 -6 24 8 20 28"/>
+    <path d="M-20 28 h40"/>
+    <!-- 앞발 -->
+    <path d="M-8 28 V18 M8 28 V18"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-26" r="17"/>
+    <path d="M-12 -36 L-15 -50 L-1 -43"/>
+    <path d="M12 -36 L15 -50 L1 -43"/>
+    <path d="M-10 -23 L-24 -26 M-10 -18 L-24 -16"/>
+    <path d="M10 -23 L24 -26 M10 -18 L24 -16"/>
+    <path d="M-3 -18 L0 -15 L3 -18"/>
+    <circle cx="-6" cy="-28" r="1.7" fill="currentColor" stroke="none"/>
+    <circle cx="6" cy="-28" r="1.7" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

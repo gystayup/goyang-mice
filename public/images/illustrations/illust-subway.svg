@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="지하철 개찰구">
+  <!-- 역명판 -->
+  <path d="M112 30 h176 v40 h-176 z"/>
+  <path d="M132 50 h44 M196 50 h60"/>
+  <path d="M148 70 v14 M252 70 v14"/>
+
+  <!-- 좌측 개찰구 -->
+  <path d="M56 152 h56 v96 h-56 z"/>
+  <path d="M56 152 C56 138 68 130 84 130 C100 130 112 138 112 152"/>
+  <!-- 태그 패드 -->
+  <circle cx="84" cy="166" r="13"/>
+  <path d="M84 166 m-5 0 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"/>
+  <!-- 전파 -->
+  <path d="M100 152 C108 144 108 132 100 124"/>
+  <path d="M110 158 C122 146 122 130 110 118"/>
+
+  <!-- 우측 개찰구 -->
+  <path d="M288 152 h56 v96 h-56 z"/>
+  <path d="M288 152 C288 138 300 130 316 130 C332 130 344 138 344 152"/>
+  <circle cx="316" cy="166" r="13"/>
+  <path d="M316 166 m-5 0 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"/>
+
+  <!-- 차단 날개 -->
+  <path d="M112 196 h56 M288 196 h-56"/>
+
+  <!-- 화살표 (통과 방향) -->
+  <path d="M180 232 h40 M212 224 l8 8 l-8 8"/>
+
+  <!-- 지면 -->
+  <path d="M18 262 h364"/>
+
+  <!-- 고양이 (카드 태그 중) -->
+  <g transform="translate(200 176)">
+    <!-- 꼬리 -->
+    <path d="M-20 30 C-40 30 -44 12 -36 4"/>
+    <!-- 몸통 -->
+    <path d="M-20 32 C-24 12 -14 -2 0 -2 C14 -2 24 12 20 32"/>
+    <!-- 다리 -->
+    <path d="M-8 32 V50 M8 32 V50"/>
+    <!-- 카드 든 앞발 -->
+    <path d="M16 8 L34 0"/>
+    <path d="M32 -8 h20 v14 h-20 z"/>
+    <path d="M36 -3 h8"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-22" r="17"/>
+    <path d="M-12 -32 L-15 -46 L-1 -39"/>
+    <path d="M12 -32 L15 -46 L1 -39"/>
+    <path d="M-10 -19 L-24 -22 M-10 -14 L-24 -12"/>
+    <path d="M10 -19 L24 -22 M10 -14 L24 -12"/>
+    <path d="M-3 -14 L0 -11 L3 -14"/>
+    <circle cx="-6" cy="-24" r="1.7" fill="currentColor" stroke="none"/>
+    <circle cx="6" cy="-24" r="1.7" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

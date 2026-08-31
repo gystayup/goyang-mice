@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="고양 K-컬처 공연">
+  <!-- 스타디움 지붕 -->
+  <path d="M28 176 C28 108 106 68 200 68 C294 68 372 108 372 176"/>
+  <path d="M56 176 C56 122 122 92 200 92 C278 92 344 122 344 176"/>
+  <!-- 지붕 기둥 -->
+  <path d="M28 176 V210 M92 148 V210 M200 132 V210 M308 148 V210 M372 176 V210"/>
+
+  <!-- 조명탑 -->
+  <path d="M64 76 V30 M336 76 V30"/>
+  <path d="M46 30 h36 v16 h-36 z"/>
+  <path d="M318 30 h36 v16 h-36 z"/>
+  <path d="M52 52 L40 68 M64 52 L64 70 M76 52 L88 68"/>
+  <path d="M324 52 L312 68 M336 52 L336 70 M348 52 L360 68"/>
+
+  <!-- 무대 -->
+  <path d="M132 210 h136 v18 h-136 z"/>
+  <path d="M148 210 V194 h104 v16"/>
+
+  <!-- 관중석 -->
+  <path d="M20 246 h360"/>
+  <path d="M20 272 h360"/>
+  <path d="M44 246 v-12 M84 246 v-12 M316 246 v-12 M356 246 v-12"/>
+  <path d="M64 272 v-12 M104 272 v-12 M296 272 v-12 M336 272 v-12"/>
+
+  <!-- 응원봉 (좌우) -->
+  <path d="M60 232 V200"/>
+  <circle cx="60" cy="192" r="9"/>
+  <path d="M60 176 v-8 M48 182 l-7 -5 M72 182 l7 -5"/>
+  <path d="M344 236 V204"/>
+  <circle cx="344" cy="196" r="9"/>
+  <path d="M344 180 v-8 M332 186 l-7 -5 M356 186 l7 -5"/>
+
+  <!-- 고양이 (응원, 앞발 들기) -->
+  <g transform="translate(200 178)">
+    <!-- 꼬리 -->
+    <path d="M26 26 C48 26 54 6 44 -4"/>
+    <!-- 몸통 -->
+    <path d="M-24 28 C-28 6 -16 -8 0 -8 C16 -8 28 6 24 28"/>
+    <!-- 들어올린 앞발 -->
+    <path d="M-16 0 L-34 -18 M16 0 L34 -18"/>
+    <circle cx="-37" cy="-22" r="5"/>
+    <circle cx="37" cy="-22" r="5"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-30" r="20"/>
+    <path d="M-14 -42 L-18 -59 L-1 -50"/>
+    <path d="M14 -42 L18 -59 L1 -50"/>
+    <path d="M-3 -21 L0 -18 L3 -21"/>
+    <circle cx="-7" cy="-32" r="1.9" fill="currentColor" stroke="none"/>
+    <circle cx="7" cy="-32" r="1.9" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

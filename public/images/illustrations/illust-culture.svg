@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="고양아람누리 공연·전시">
+  <!-- 곡선 지붕 공연장 -->
+  <path d="M46 200 C46 128 106 84 200 84 C294 84 354 128 354 200"/>
+  <path d="M46 200 H354"/>
+  <path d="M78 200 C78 148 128 116 200 116 C272 116 322 148 322 200"/>
+  <!-- 지붕 리브 -->
+  <path d="M124 200 C124 166 156 140 200 140"/>
+  <path d="M276 200 C276 166 244 140 200 140"/>
+  <path d="M200 84 V116"/>
+
+  <!-- 출입구 -->
+  <path d="M172 200 v-38 a28 28 0 0 1 56 0 v38"/>
+  <path d="M200 162 V200"/>
+
+  <!-- 무대 조명 -->
+  <path d="M36 60 L58 88 M36 60 L20 92 M36 60 L54 60"/>
+  <circle cx="32" cy="52" r="9"/>
+  <path d="M364 60 L342 88 M364 60 L380 92 M364 60 L346 60"/>
+  <circle cx="368" cy="52" r="9"/>
+
+  <!-- 음표 -->
+  <path d="M120 60 V32 L146 26 V54"/>
+  <ellipse cx="114" cy="62" rx="7" ry="5.5"/>
+  <ellipse cx="140" cy="56" rx="7" ry="5.5"/>
+
+  <!-- 좌석 열 -->
+  <path d="M24 240 h352"/>
+  <path d="M24 264 h352"/>
+  <path d="M64 240 v-12 M120 240 v-12 M280 240 v-12 M336 240 v-12"/>
+  <path d="M52 264 v-12 M108 264 v-12 M292 264 v-12 M348 264 v-12"/>
+
+  <!-- 고양이 (관람 자세, 뒷모습에서 고개 든) -->
+  <g transform="translate(200 236)">
+    <!-- 꼬리 -->
+    <path d="M26 22 C46 22 52 4 42 -6"/>
+    <!-- 몸통 -->
+    <path d="M-24 24 C-28 2 -16 -12 0 -12 C16 -12 28 2 24 24"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-34" r="20"/>
+    <path d="M-14 -46 L-18 -63 L-1 -54"/>
+    <path d="M14 -46 L18 -63 L1 -54"/>
+    <path d="M-12 -31 L-30 -34 M-12 -25 L-30 -23"/>
+    <path d="M12 -31 L30 -34 M12 -25 L30 -23"/>
+    <path d="M-3 -25 L0 -22 L3 -25"/>
+    <circle cx="-7" cy="-36" r="1.9" fill="currentColor" stroke="none"/>
+    <circle cx="7" cy="-36" r="1.9" fill="currentColor" stroke="none"/>
+  </g>
+</svg>
