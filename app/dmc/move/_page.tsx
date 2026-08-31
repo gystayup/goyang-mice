@@ -6,6 +6,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { MovePrep } from "@/components/dmc/MovePrep";
 import { MoveTabs } from "@/components/dmc/MoveTabs";
 import Shell from "@/components/layout/Shell";
 import {
@@ -54,6 +55,9 @@ export default function DmcMovePage({
             {header.lead[active]}
           </p>
         </section>
+
+        {/* 준비물 섹션 (오더 #A6) — 방향 토글 위, 방향과 무관하게 항상 노출. */}
+        <MovePrep locale={active} />
 
         {/* 방향 토글 + 탭/OUT 스위처 (클라이언트).
             useSearchParams 는 Suspense 안이어야 SSG 통과. */}
