@@ -309,6 +309,11 @@ type MedicalStatic = {
   venues: Record<PageLocale, string>;
   dates: Record<PageLocale, string>;
   tags: Record<PageLocale, string[]>;
+  /**
+   * 실 계약 여부 (오더 #H1). 미지정=false=미검증 취급. 렌더에서 걸러짐.
+   * 데이터 삭제 없이 플래그로만 숨긴다.
+   */
+  verified?: boolean;
 };
 
 const MEDICAL_STATIC_ITEMS: MedicalStatic[] = [
@@ -433,11 +438,13 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
   const CATEGORY_LABELS = CATEGORY_LABELS_MAP[locale];
   const items: UnifiedItem[] = [];
 
-  // 서비스 카탈로그 아이템 (투어/숙박/음식점/라이프스타일/공항픽업) — locale 적용
+  // 서비스 카탈로그 아이템 (투어/숙박/음식점/라이프스타일/공항픽업) — locale 적용.
+  // 오더 #H1 [2]: verified === true 인 실 계약 업체만 카드로 노출.
+  // 시드 19건은 verified 미설정 → false → 여기서 전부 걸러진다. admin 무접촉.
   for (const [cat, catItems] of Object.entries(catalog)) {
     const category = cat as ServiceCatalogCategory;
     const productId = CATEGORY_PRODUCT_IDS[category];
-    for (const rawItem of catItems) {
+    for (const rawItem of catItems.filter((it) => it.verified === true)) {
       const item = getLocalizedServiceItem(rawItem, locale);
       // 모든 카테고리 카드는 상세 페이지로 이동 → 상세에서 예약 CTA로 이동하는 플로우 통일
       const reservationUrl = `/products/${productId}/detail?item=${item.id}`;
@@ -519,8 +526,9 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
     });
   }
 
-  // 메디컬 카드 3장 (DB 없이 정적 데이터 기반)
-  for (const med of MEDICAL_STATIC_ITEMS) {
+  // 메디컬 카드 3장 (DB 없이 정적 데이터 기반).
+  // 오더 #H1 [2]: verified === true 인 실 계약만 노출. 시드 3건은 미설정 → 걸러짐.
+  for (const med of MEDICAL_STATIC_ITEMS.filter((m) => m.verified === true)) {
     items.push({
       id: `medical-${med.id}`,
       category: "medical",

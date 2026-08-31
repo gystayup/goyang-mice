@@ -42,12 +42,22 @@ const SEE_ALL_LABEL: Record<SupportedLocale, string> = {
   "zh-TW": "查看全部",
 };
 
+// 오더 #H1 [3]: 전 카테고리 0건 안내 문구 — 표에서 그대로. 임의 의역 금지.
 const NO_ITEMS_LABEL: Record<SupportedLocale, string> = {
-  ko: "등록된 상품이 없습니다.",
-  en: "No products available.",
-  ja: "登録された商品がありません。",
-  "zh-CN": "暂无商品。",
-  "zh-TW": "暫無商品。",
+  ko: "준비 중입니다. 고양의 업체를 하나씩 소개할 예정입니다.",
+  en: "Coming soon. We are preparing to introduce Goyang businesses one by one.",
+  ja: "準備中です。高陽の事業者を一つずつご紹介する予定です。",
+  "zh-CN": "正在准备中，将逐一介绍高阳的商家。",
+  "zh-TW": "正在準備中，將逐一介紹高陽的商家。",
+};
+
+// 오더 #H1 [4]: 빈 상태 아래 /contact 링크 라벨 — 표에서 그대로.
+const INQUIRY_CTA_LABEL: Record<SupportedLocale, string> = {
+  ko: "업체 등록 문의",
+  en: "List your business",
+  ja: "事業者登録のお問い合わせ",
+  "zh-CN": "商家登记咨询",
+  "zh-TW": "商家登記諮詢",
 };
 
 const BOOKING_INQUIRY_LABEL: Record<SupportedLocale, string> = {
@@ -112,9 +122,17 @@ export default function SectionedBookingGrid({ items }: { items: UnifiedItem[] }
   const activeCats = categories.filter((c) => grouped.has(c.key));
 
   if (activeCats.length === 0) {
+    // 오더 #H1 [3][4]: 전 카테고리 노출 0건 시 준비 중 안내 + /contact CTA 1개.
     return (
-      <div className="py-20 text-center text-sm text-slate-400">
-        {NO_ITEMS_LABEL[activeLocale]}
+      <div className="py-20 text-center">
+        <p className="text-sm text-slate-500">{NO_ITEMS_LABEL[activeLocale]}</p>
+        <Link
+          href="/contact"
+          className="mt-6 inline-flex items-center gap-1 rounded-full border border-[#232322]/20 bg-white px-5 py-2 text-sm font-semibold text-[#232322] transition hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        >
+          {INQUIRY_CTA_LABEL[activeLocale]}
+          <ChevronRight className="h-3.5 w-3.5" />
+        </Link>
       </div>
     );
   }

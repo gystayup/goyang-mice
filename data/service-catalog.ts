@@ -76,6 +76,12 @@ export interface ServiceCatalogItem {
   // 병원 소개형 슬롯 (Phase 4-A): 없으면 렌더 생략
   departments?: string[];             // 진료과 (예: ["내과", "정형외과"])
   languagesSupported?: ServiceLocale[]; // 통역 지원 언어 (en/ja/zh-CN/zh-TW)
+  /**
+   * 실 계약 업체 여부 (오더 #H1). 미지정=false=미검증 취급.
+   * false 인 항목은 /products 목록·상세·generateStaticParams 에서 전부 비노출.
+   * 데이터는 삭제하지 않고 플래그로만 숨겨 복구 가능성을 남긴다.
+   */
+  verified?: boolean;
 }
 
 export const serviceCatalog: Record<ServiceCatalogCategory, ServiceCatalogItem[]> = {
