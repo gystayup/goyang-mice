@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="유심 개통">
+  <!-- 스마트폰 -->
+  <path d="M132 54 h116 a16 16 0 0 1 16 16 v176 a16 16 0 0 1 -16 16 h-116 a16 16 0 0 1 -16 -16 v-176 a16 16 0 0 1 16 -16 z"/>
+  <path d="M172 68 h36"/>
+  <path d="M116 92 h148 M116 224 h148"/>
+  <!-- 화면 안 신호 막대 -->
+  <path d="M148 196 V178 M168 196 V166 M188 196 V152 M208 196 V138"/>
+  <!-- 화면 안 안테나 -->
+  <path d="M190 120 C198 112 198 100 190 92"/>
+  <path d="M202 126 C214 112 214 96 202 82"/>
+  <path d="M178 120 C170 112 170 100 178 92"/>
+  <path d="M166 126 C154 112 154 96 166 82"/>
+  <circle cx="184" cy="106" r="6"/>
+
+  <!-- SIM 카드 -->
+  <path d="M296 100 h58 a10 10 0 0 1 10 10 v52 a10 10 0 0 1 -10 10 h-58 a10 10 0 0 1 -10 -10 v-40 z"/>
+  <path d="M286 122 L308 100"/>
+  <path d="M304 128 h42 v26 h-42 z"/>
+  <path d="M304 141 h42 M325 128 v26"/>
+
+  <!-- 여권 -->
+  <path d="M28 172 h64 v78 h-64 z"/>
+  <path d="M28 172 v78"/>
+  <circle cx="60" cy="204" r="12"/>
+  <path d="M48 204 h24 M60 192 v24"/>
+  <path d="M42 232 h36"/>
+
+  <!-- 고양이 (폰 보는 자세) -->
+  <g transform="translate(320 216)">
+    <!-- 꼬리 -->
+    <path d="M-20 24 C-40 22 -44 4 -36 -4"/>
+    <!-- 몸통 -->
+    <path d="M-18 26 C-22 8 -12 -4 0 -4 C12 -4 22 8 18 26"/>
+    <path d="M-18 26 h36"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-22" r="16"/>
+    <path d="M-11 -32 L-14 -45 L-1 -38"/>
+    <path d="M11 -32 L14 -45 L1 -38"/>
+    <path d="M-9 -19 L-22 -22 M-9 -14 L-22 -12"/>
+    <path d="M9 -19 L22 -22 M9 -14 L22 -12"/>
+    <path d="M-3 -14 L0 -11 L3 -14"/>
+    <circle cx="-5.5" cy="-24" r="1.7" fill="currentColor" stroke="none"/>
+    <circle cx="5.5" cy="-24" r="1.7" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="고양 역사 유적">
+  <!-- 한옥 정자 (중앙 상단) -->
+  <path d="M132 128 C160 100 240 100 268 128"/>
+  <path d="M122 130 h156"/>
+  <path d="M148 118 C168 102 232 102 252 118"/>
+  <path d="M200 100 V92"/>
+  <path d="M148 130 V182 M200 130 V182 M252 130 V182"/>
+  <path d="M136 182 h128"/>
+  <path d="M172 182 V152 h56 v30"/>
+
+  <!-- 왕릉 봉분 (좌) -->
+  <path d="M22 216 C22 184 46 166 70 166 C94 166 118 184 118 216"/>
+  <path d="M14 216 h112"/>
+  <!-- 석물 -->
+  <path d="M36 216 V196 h8 v20"/>
+  <path d="M100 216 V198 h8 v18"/>
+
+  <!-- 왕릉 봉분 (우) -->
+  <path d="M290 220 C290 194 310 178 330 178 C350 178 370 194 370 220"/>
+  <path d="M282 220 h96"/>
+
+  <!-- 성곽 -->
+  <path d="M18 250 h364"/>
+  <path d="M18 250 V232 h16 v-12 h16 v12 h16 v-12 h16 v12 h16"/>
+  <path d="M282 250 V232 h16 v-12 h16 v12 h16 v-12 h16 v12 h16 v18"/>
+
+  <!-- 소나무 -->
+  <path d="M336 178 V150"/>
+  <path d="M336 160 C322 158 318 148 322 140"/>
+  <path d="M336 166 C350 164 356 154 352 146"/>
+
+  <!-- 고양이 (앉아서 둘러보는 자세, 좌향) -->
+  <g transform="translate(196 208)">
+    <!-- 꼬리 -->
+    <path d="M28 30 C50 32 56 10 46 0"/>
+    <!-- 몸통 -->
+    <path d="M-26 32 C-30 8 -18 -8 0 -8 C18 -8 30 8 26 32"/>
+    <path d="M-26 32 h52"/>
+    <!-- 앞발 -->
+    <path d="M-10 32 v-10 M8 32 v-10"/>
+    <!-- 머리 -->
+    <circle cx="0" cy="-30" r="20"/>
+    <path d="M-14 -42 L-18 -59 L-1 -50"/>
+    <path d="M14 -42 L18 -59 L1 -50"/>
+    <path d="M-12 -27 L-30 -30 M-12 -21 L-30 -19"/>
+    <path d="M12 -27 L30 -30 M12 -21 L30 -19"/>
+    <path d="M-3 -21 L0 -18 L3 -21"/>
+    <circle cx="-7" cy="-32" r="1.9" fill="currentColor" stroke="none"/>
+    <circle cx="7" cy="-32" r="1.9" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

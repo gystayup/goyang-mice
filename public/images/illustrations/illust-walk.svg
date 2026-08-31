@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="일산호수공원 산책">
+  <!-- 나무 (좌) -->
+  <path d="M52 208 V162"/>
+  <path d="M52 178 L38 166"/>
+  <path d="M52 186 L66 174"/>
+  <circle cx="52" cy="146" r="24"/>
+  <circle cx="34" cy="156" r="14"/>
+  <circle cx="70" cy="156" r="14"/>
+
+  <!-- 호수 수면 -->
+  <path d="M22 232 H378"/>
+  <path d="M60 246 q14 -7 28 0 q14 7 28 0"/>
+  <path d="M244 250 q14 -7 28 0 q14 7 28 0"/>
+  <path d="M150 262 q14 -7 28 0 q14 7 28 0"/>
+
+  <!-- 분수 -->
+  <path d="M300 232 V196"/>
+  <path d="M300 196 C288 176 286 158 290 142"/>
+  <path d="M300 196 C312 176 314 158 310 142"/>
+  <path d="M300 196 C300 172 300 154 300 134"/>
+  <circle cx="290" cy="132" r="2.6"/>
+  <circle cx="300" cy="124" r="2.6"/>
+  <circle cx="311" cy="132" r="2.6"/>
+
+  <!-- 원경 스카이라인 -->
+  <path d="M330 232 V182 h20 v50"/>
+  <path d="M356 232 V200 h16 v32"/>
+  <path d="M336 196 h8 M336 208 h8 M360 212 h6"/>
+
+  <!-- 산책로 -->
+  <path d="M18 268 C110 254 250 254 384 268"/>
+
+  <!-- 고양이 (걷는 자세) -->
+  <g transform="translate(150 168)">
+    <!-- 꼬리 -->
+    <path d="M-30 24 C-52 22 -58 -2 -44 -12"/>
+    <!-- 몸통 -->
+    <path d="M-30 26 C-34 6 -20 -6 2 -6 C22 -6 32 6 30 26"/>
+    <!-- 다리 -->
+    <path d="M-20 26 V44"/>
+    <path d="M-4 26 V46"/>
+    <path d="M14 26 V44"/>
+    <path d="M26 26 V46"/>
+    <!-- 머리 -->
+    <circle cx="30" cy="-22" r="19"/>
+    <path d="M17 -34 L14 -50 L30 -41"/>
+    <path d="M43 -34 L47 -50 L31 -41"/>
+    <path d="M40 -20 L56 -23 M40 -14 L56 -12"/>
+    <path d="M20 -20 L6 -23 M20 -14 L6 -12"/>
+    <path d="M27 -14 L30 -11 L33 -14"/>
+    <circle cx="24" cy="-25" r="1.9" fill="currentColor" stroke="none"/>
+    <circle cx="37" cy="-25" r="1.9" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="GTX 전철">
+  <!-- 속도선 -->
+  <path d="M22 112 h44 M14 132 h34 M26 152 h38"/>
+
+  <!-- 열차 본체 (앞이 뾰족한 고속열차) -->
+  <path d="M96 200 V128 C96 112 118 96 152 92 L340 82 a20 20 0 0 1 20 20 v98 z"/>
+  <!-- 전면 유리 -->
+  <path d="M110 132 C112 118 128 108 152 105 L176 103 V138 h-66 z"/>
+  <!-- 객실 창 -->
+  <path d="M196 104 h44 v36 h-44 z"/>
+  <path d="M254 102 h44 v38 h-44 z"/>
+  <path d="M312 100 h38 v40 h-38 z"/>
+  <!-- 문 -->
+  <path d="M196 156 h34 v44 h-34 z"/>
+  <path d="M254 154 h34 v46 h-34 z"/>
+  <path d="M213 156 V200 M271 154 V200"/>
+  <!-- 하부 -->
+  <path d="M96 200 h264"/>
+
+  <!-- 선로 -->
+  <path d="M18 224 h364"/>
+  <path d="M18 240 h364"/>
+  <path d="M52 224 V240 M120 224 V240 M188 224 V240 M256 224 V240 M324 224 V240"/>
+
+  <!-- 표지 -->
+  <path d="M356 66 v-24"/>
+  <path d="M330 20 h52 v22 h-52 z"/>
+  <path d="M340 31 h32"/>
+
+  <!-- 고양이 (창밖 내다보기) -->
+  <g transform="translate(218 122)">
+    <circle cx="0" cy="0" r="16"/>
+    <path d="M-11 -10 L-14 -23 L-1 -17"/>
+    <path d="M11 -10 L14 -23 L1 -17"/>
+    <path d="M-9 2 L-22 -1 M-9 7 L-22 9"/>
+    <path d="M9 2 L22 -1 M9 7 L22 9"/>
+    <path d="M-3 7 L0 10 L3 7"/>
+    <circle cx="-5.5" cy="-2" r="1.7" fill="currentColor" stroke="none"/>
+    <circle cx="5.5" cy="-2" r="1.7" fill="currentColor" stroke="none"/>
+    <!-- 창턱에 얹은 앞발 -->
+    <path d="M-13 16 h-6 M13 16 h6"/>
+  </g>
+</svg>

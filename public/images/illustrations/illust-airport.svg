@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="인천공항 도착">
+  <!-- 관제탑 -->
+  <path d="M44 214 V150"/>
+  <path d="M32 150 h24"/>
+  <path d="M30 150 L44 128 L58 150"/>
+  <path d="M36 128 h16 v-12 h-16 z"/>
+  <path d="M44 116 v-10"/>
+
+  <!-- 터미널 지붕 (곡선) -->
+  <path d="M84 172 C132 138 268 138 316 172"/>
+  <path d="M84 172 h232"/>
+  <path d="M84 172 V214 M316 172 V214"/>
+  <!-- 유리창 -->
+  <path d="M108 186 h32 v20 h-32 z"/>
+  <path d="M156 186 h32 v20 h-32 z"/>
+  <path d="M212 186 h32 v20 h-32 z"/>
+  <path d="M260 186 h32 v20 h-32 z"/>
+  <path d="M124 186 v20 M172 186 v20 M228 186 v20 M276 186 v20"/>
+
+  <!-- 비행기 -->
+  <path d="M300 92 L356 76 C368 73 376 78 372 88 L354 132"/>
+  <path d="M318 88 L288 62 L272 66 L296 96"/>
+  <path d="M330 116 L308 138 L318 141 L342 122"/>
+  <path d="M352 82 L376 76 L380 84 L358 90"/>
+
+  <!-- 지면 -->
+  <path d="M18 246 h364"/>
+  <path d="M60 262 h44 M132 262 h44 M224 262 h44 M296 262 h44"/>
+
+  <!-- 고양이 (캐리어 끌기) -->
+  <g transform="translate(176 200)">
+    <!-- 캐리어 -->
+    <path d="M22 12 h30 v34 h-30 z"/>
+    <path d="M30 12 V2 h14 v10"/>
+    <path d="M22 26 h30"/>
+    <circle cx="29" cy="50" r="3.4"/>
+    <circle cx="45" cy="50" r="3.4"/>
+    <!-- 꼬리 -->
+    <path d="M-26 22 C-46 20 -50 0 -40 -8"/>
+    <!-- 몸통 -->
+    <path d="M-24 24 C-28 4 -16 -8 0 -8 C14 -8 24 4 22 24"/>
+    <!-- 다리 -->
+    <path d="M-14 24 V42 M-2 24 V44 M10 24 V42"/>
+    <!-- 손잡이 잡은 앞발 -->
+    <path d="M16 4 L30 0"/>
+    <!-- 머리 -->
+    <circle cx="20" cy="-26" r="18"/>
+    <path d="M8 -37 L5 -52 L20 -44"/>
+    <path d="M32 -37 L35 -52 L20 -44"/>
+    <path d="M30 -24 L44 -27 M30 -19 L44 -17"/>
+    <path d="M10 -24 L-4 -27 M10 -19 L-4 -17"/>
+    <path d="M17 -19 L20 -16 L23 -19"/>
+    <circle cx="14" cy="-29" r="1.8" fill="currentColor" stroke="none"/>
+    <circle cx="26" cy="-29" r="1.8" fill="currentColor" stroke="none"/>
+  </g>
+</svg>
