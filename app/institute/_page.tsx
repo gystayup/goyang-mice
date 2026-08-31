@@ -229,13 +229,13 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <PremiumCard>
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
               {copy.leadership.eyebrow}
             </div>
-            <blockquote className="mt-5 text-2xl font-black leading-snug tracking-tight text-slate-950">
+            <blockquote className="mt-5 text-2xl font-black leading-snug tracking-tight text-[#232322]">
               {copy.leadership.quote}
             </blockquote>
-            <p className="mt-5 text-sm leading-8 text-slate-600">
+            <p className="mt-5 text-sm leading-8 text-[#232322]/70">
               {copy.leadership.desc}
             </p>
           </PremiumCard>
@@ -243,10 +243,10 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
           <div className="grid gap-4">
             {copy.principles.map((item) => (
               <PremiumCard key={item.title}>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#232322]/50">
                   {item.title}
                 </div>
-                <div className="mt-3 text-lg font-black tracking-tight text-slate-950">
+                <div className="mt-3 text-lg font-black tracking-tight text-[#232322]">
                   {item.text}
                 </div>
               </PremiumCard>
@@ -256,19 +256,19 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           <PremiumCard>
-            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+            <h2 className="text-2xl font-black tracking-tight text-[#232322]">
               {copy.direction.title}
             </h2>
-            <p className="mt-4 text-sm leading-8 text-slate-600">
+            <p className="mt-4 text-sm leading-8 text-[#232322]/70">
               {copy.direction.desc}
             </p>
           </PremiumCard>
 
           <PremiumCard>
-            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+            <h2 className="text-2xl font-black tracking-tight text-[#232322]">
               {copy.functions.title}
             </h2>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[#232322]/70">
               {copy.functions.items.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
@@ -279,14 +279,14 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/research"
-            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-full bg-[#232322] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#232322]/85"
           >
             {copy.ctas.research}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="inline-flex items-center gap-2 rounded-full border border-[#232322]/20 px-6 py-3 text-sm font-semibold text-[#232322]/80 transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
           >
             {copy.ctas.contact}
           </Link>
@@ -301,7 +301,7 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
         <div className="flex justify-center">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="inline-flex items-center gap-2 rounded-full border border-[#232322]/20 px-6 py-3 text-sm font-semibold text-[#232322]/80 transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
           >
             {copy.productsLink}
           </Link>
