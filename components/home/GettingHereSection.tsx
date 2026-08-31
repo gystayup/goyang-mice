@@ -54,6 +54,8 @@ type Step = {
   sub: Record<LocaleKey, [string, string]>;
   /** 우측 상단 lucide 아이콘. */
   icon: LucideIcon;
+  /** /dmc/move?from={key} 탭 진입 키 (오더 #A4 [2]). */
+  from: "incheon" | "gimpo" | "seoul" | "metro" | "other";
 };
 
 /**
@@ -78,6 +80,7 @@ const STEPS: Step[] = [
       "zh-TW": ["3300·5600路", "機場鐵路換乘"],
     },
     icon: Bus,
+    from: "incheon",
   },
   {
     title: {
@@ -95,6 +98,7 @@ const STEPS: Step[] = [
       "zh-TW": ["西海線·150路", "計程車"],
     },
     icon: Car,
+    from: "gimpo",
   },
   {
     title: {
@@ -112,6 +116,7 @@ const STEPS: Step[] = [
       "zh-TW": ["GTX-A 20分鐘", "大谷·韓國國際展覽中心站"],
     },
     icon: TrainFront,
+    from: "seoul",
   },
   {
     title: {
@@ -129,6 +134,7 @@ const STEPS: Step[] = [
       "zh-TW": ["3號線 大化站", "京義中央線"],
     },
     icon: Train,
+    from: "metro",
   },
   {
     title: {
@@ -146,6 +152,7 @@ const STEPS: Step[] = [
       "zh-TW": ["市內公車", "機場接送"],
     },
     icon: MoreHorizontal,
+    from: "other",
   },
 ];
 
@@ -186,7 +193,7 @@ export default function GettingHereSection({ locale }: { locale: string }) {
             return (
               <li key={title} className="relative">
                 <Link
-                  href="/dmc"
+                  href={`/dmc/move?from=${step.from}`}
                   aria-label={label}
                   className="group flex h-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 transition hover:border-[var(--gold)]/40 hover:bg-white/[0.08] lg:flex-col lg:items-start lg:gap-3"
                 >
