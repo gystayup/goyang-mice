@@ -32,6 +32,7 @@ import {
 import {
   getNearbySpots,
   getSpot,
+  spots,
   SPOT_LOCALES,
   type Spot,
   type SpotAccessPoint,
@@ -187,12 +188,19 @@ export async function generateSpotDetailMetadata(
   };
 }
 
-// 데이터 0건 → 빈 배열 (렌더 규칙 1). notFound() 방어 유지.
+// 오더 #C1 [2]: spots 배열에서 5로케일 × slug 정적 파라미터 파생.
+//   spots 가 0건이면 빈 배열 (notFound 방어 유지, dynamicParams=true 로 지연 렌더).
 export function generateSpotDetailStaticParams(): Array<{
   locale: PageLocale;
   slug: string;
 }> {
-  return [];
+  const params: Array<{ locale: PageLocale; slug: string }> = [];
+  for (const spot of spots) {
+    for (const locale of SPOT_LOCALES) {
+      params.push({ locale, slug: spot.slug });
+    }
+  }
+  return params;
 }
 
 // ─── page ────────────────────────────────────────────────────────────────────
@@ -563,7 +571,12 @@ function AccessQuad({
           <div key={h.key} className="border border-[#232322]/15 p-4">
             <div className="text-sm font-black">{h.label[locale]}</div>
             <div className="mt-1 text-xs text-[#232322]/70">
-              {match ? `${match.mode} · ${match.minutes}${walkMinSuffix(locale)}` : DASH}
+              {/* 오더 #C1 [3]: minutes null → 시간·모드 미표시, 역 이름만 (label). */}
+              {match
+                ? match.minutes != null
+                  ? `${match.mode} · ${match.minutes}${walkMinSuffix(locale)}`
+                  : null
+                : DASH}
             </div>
           </div>
         );
