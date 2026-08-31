@@ -110,7 +110,8 @@ export default async function ProductDetailServerPage(props: {
     try {
       const catalog = await readServiceCatalog();
       const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport" | "medical";
-      catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
+      // 오더 #H1 [2]: verified === true 인 항목만 상세 진입 허용. 미검증은 undefined 반환 → 아래 "찾을 수 없음" 처리.
+      catalogItem = catalog[catKey]?.find((i) => i.id === itemId && i.verified === true);
     } catch {
       // ignore
     }

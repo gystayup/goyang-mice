@@ -84,9 +84,13 @@ export default async function ProductDetailPage(props: {
   const catalog = showcaseCategories.has(product.categoryKey)
     ? await readServiceCatalog().catch(() => null)
     : null;
+  // 오더 #H1 [2]: verified === true 인 실 계약 업체만 카테고리 상세에 노출.
+  //   미검증 항목은 목록/상세/정적 파라미터 어디에도 뜨지 않는다.
   const catalogItems =
     catalog && showcaseCategories.has(product.categoryKey)
-      ? catalog[product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"]
+      ? catalog[product.categoryKey as "tour" | "stay" | "restaurant" | "cafe"]?.filter(
+          (it) => it.verified === true,
+        )
       : undefined;
 
   // 티켓 DB 데이터 로드
