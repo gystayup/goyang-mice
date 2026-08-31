@@ -37,7 +37,7 @@ export default function DmcMovePage({
   locale?: PageLocale;
 }) {
   const active = toPageLocale(locale);
-  const { header, tabs } = dmcMoveData;
+  const { header } = dmcMoveData;
 
   return (
     <Shell>
@@ -55,10 +55,11 @@ export default function DmcMovePage({
           </p>
         </section>
 
-        {/* 탭 스위처 (클라이언트) — useSearchParams 는 Suspense 안이어야 SSG 통과. */}
+        {/* 방향 토글 + 탭/OUT 스위처 (클라이언트).
+            useSearchParams 는 Suspense 안이어야 SSG 통과. */}
         <section className="mx-auto max-w-4xl px-6 pb-24">
           <Suspense fallback={null}>
-            <MoveTabs tabs={tabs} locale={active} />
+            <MoveTabs data={dmcMoveData} locale={active} />
           </Suspense>
         </section>
       </article>

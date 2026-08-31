@@ -90,13 +90,46 @@ export interface MoveTab {
   methods: Method[];
 }
 
+/**
+ * 오더 #A5 [4] · move-data-out.md D1~D3.
+ * IN 데이터와 달리 각 노선도에 별도 제목·비고가 붙는다.
+ * 소스 헤더가 한국어만 제공하므로 5로케일 모두 한국어 원문 그대로 (transit
+ * 관례 · 임의 번역 금지).
+ */
+export interface OutDiagram {
+  id: string;
+  titleKo: string;
+  diagram: LineDiagramData;
+  note: I18nText;
+}
+
+export interface Destination {
+  id: string;
+  name: I18nText;
+  duration: I18nText;
+  route: I18nText;
+}
+
 export interface DmcMoveData {
   header: {
     eyebrow: string;
     title: I18nText;
     lead: I18nText;
   };
+  /** 오더 #A5 [1] 방향 토글 라벨 (5로케일). */
+  directions: {
+    in: I18nText;
+    out: I18nText;
+  };
+  /** IN 탭들 (기존 #A4). */
   tabs: MoveTab[];
+  /** OUT 콘텐츠 (신설 #A5). */
+  out: {
+    lead: I18nText;
+    destinations: Destination[];
+    diagrams: OutDiagram[];
+    koCard: KoCard;
+  };
 }
 
 // ─── 재사용 문구 ────────────────────────────────────────────────────────────
@@ -249,6 +282,45 @@ const DIAGRAM_4_2: LineDiagramData = {
 
 // ─── 데이터 본체 ────────────────────────────────────────────────────────────
 
+// ─── OUT 노선도 데이터 (오더 #A5 [4]) ──────────────────────────────────────
+
+const OUT_DIAGRAM_D1: LineDiagramData = {
+  stations: [
+    { name: "대화역", variant: "endpoint" },
+    { name: "대곡", variant: "transit", incomingColor: LINE_COLORS.line3 },
+    { name: "연신내 30분", variant: "transit", incomingColor: LINE_COLORS.line3 },
+    { name: "경복궁 40분", variant: "transit", incomingColor: LINE_COLORS.line3 },
+    { name: "종로3가 45분", variant: "transit", incomingColor: LINE_COLORS.line3 },
+    { name: "강남 60분", variant: "endpoint", incomingColor: LINE_COLORS.line3 },
+  ],
+};
+
+const OUT_DIAGRAM_D2: LineDiagramData = {
+  stations: [
+    { name: "킨텍스역", variant: "endpoint" },
+    { name: "연신내", variant: "transit", incomingColor: LINE_COLORS.gtxA },
+    { name: "서울역 20분", variant: "endpoint", incomingColor: LINE_COLORS.gtxA },
+  ],
+};
+
+const OUT_DIAGRAM_D3: LineDiagramData = {
+  stations: [
+    { name: "일산역", variant: "endpoint" },
+    {
+      name: "홍대입구 20분",
+      variant: "transfer",
+      incomingColor: LINE_COLORS.gyeongui,
+      incomingLineName: "경의중앙선",
+    },
+    {
+      name: "성수 60분",
+      variant: "endpoint",
+      incomingColor: LINE_COLORS.line2,
+      incomingLineName: "2호선 환승",
+    },
+  ],
+};
+
 export const dmcMoveData: DmcMoveData = {
   header: {
     eyebrow: "GOYANG MOVE",
@@ -265,6 +337,22 @@ export const dmcMoveData: DmcMoveData = {
       ja: "空港とソウルから高陽・一山までの経路を手段別にご案内します。目的地によって利用する路線が異なるため、行き先をまずご確認ください。",
       "zh-CN": "介绍从机场和首尔前往高阳·一山的各种交通方式。不同目的地对应的线路不同，请先确认您的到达地。",
       "zh-TW": "介紹從機場和首爾前往高陽·一山的各種交通方式。不同目的地對應的路線不同，請先確認您的到達地。",
+    },
+  },
+  directions: {
+    in: {
+      ko: "오는 길",
+      en: "Getting Here",
+      ja: "来る道",
+      "zh-CN": "前往高阳",
+      "zh-TW": "前往高陽",
+    },
+    out: {
+      ko: "나가는 길",
+      en: "Going Out",
+      ja: "出かける道",
+      "zh-CN": "前往首尔",
+      "zh-TW": "前往首爾",
     },
   },
   tabs: [
@@ -752,6 +840,233 @@ export const dmcMoveData: DmcMoveData = {
       ],
     },
   ],
+  out: {
+    lead: {
+      ko: "고양·일산에서 서울 주요 지역으로 가는 경로입니다. 3호선은 환승 없이 도심과 강남까지 이어집니다.",
+      en: "Routes from Goyang-Ilsan to central Seoul. Line 3 runs straight through downtown and on to Gangnam without a transfer.",
+      ja: "高陽・一山からソウル主要地域への経路です。3号線は乗り換えなしで都心と江南までつながります。",
+      "zh-CN": "从高阳·一山前往首尔主要地区的路线。3号线无需换乘即可直达市中心和江南。",
+      "zh-TW": "從高陽·一山前往首爾主要地區的路線。3號線無需換乘即可直達市中心和江南。",
+    },
+    destinations: [
+      {
+        id: "O1",
+        name: {
+          ko: "서울역",
+          en: "Seoul Station",
+          ja: "ソウル駅",
+          "zh-CN": "首尔站",
+          "zh-TW": "首爾站",
+        },
+        duration: {
+          ko: "20분",
+          en: "20 min",
+          ja: "20分",
+          "zh-CN": "20分钟",
+          "zh-TW": "20分鐘",
+        },
+        route: {
+          ko: "GTX-A 킨텍스역",
+          en: "GTX-A from Kintex",
+          ja: "GTX-A キンテックス駅",
+          "zh-CN": "GTX-A 韩国国际展览中心站",
+          "zh-TW": "GTX-A 韓國國際展覽中心站",
+        },
+      },
+      {
+        id: "O2",
+        name: {
+          ko: "홍대입구",
+          en: "Hongdae",
+          ja: "弘大入口",
+          "zh-CN": "弘大入口",
+          "zh-TW": "弘大入口",
+        },
+        duration: {
+          ko: "20분",
+          en: "20 min",
+          ja: "20分",
+          "zh-CN": "20分钟",
+          "zh-TW": "20分鐘",
+        },
+        route: {
+          ko: "경의중앙선",
+          en: "Gyeongui-Jungang Line",
+          ja: "京義中央線",
+          "zh-CN": "京义中央线",
+          "zh-TW": "京義中央線",
+        },
+      },
+      {
+        id: "O3",
+        name: {
+          ko: "연신내",
+          en: "Yeonsinnae",
+          ja: "延新内",
+          "zh-CN": "延新内",
+          "zh-TW": "延新內",
+        },
+        duration: {
+          ko: "30분",
+          en: "30 min",
+          ja: "30分",
+          "zh-CN": "30分钟",
+          "zh-TW": "30分鐘",
+        },
+        route: {
+          ko: "3호선 직결",
+          en: "Line 3 direct",
+          ja: "3号線直通",
+          "zh-CN": "3号线直达",
+          "zh-TW": "3號線直達",
+        },
+      },
+      {
+        id: "O4",
+        name: {
+          ko: "경복궁",
+          en: "Gyeongbokgung",
+          ja: "景福宮",
+          "zh-CN": "景福宫",
+          "zh-TW": "景福宮",
+        },
+        duration: {
+          ko: "40분",
+          en: "40 min",
+          ja: "40分",
+          "zh-CN": "40分钟",
+          "zh-TW": "40分鐘",
+        },
+        route: {
+          ko: "3호선 직결",
+          en: "Line 3 direct",
+          ja: "3号線直通",
+          "zh-CN": "3号线直达",
+          "zh-TW": "3號線直達",
+        },
+      },
+      {
+        id: "O5",
+        name: {
+          ko: "종로3가",
+          en: "Jongno 3-ga",
+          ja: "鍾路3街",
+          "zh-CN": "钟路3街",
+          "zh-TW": "鍾路3街",
+        },
+        duration: {
+          ko: "45분",
+          en: "45 min",
+          ja: "45分",
+          "zh-CN": "45分钟",
+          "zh-TW": "45分鐘",
+        },
+        route: {
+          ko: "3호선 직결",
+          en: "Line 3 direct",
+          ja: "3号線直通",
+          "zh-CN": "3号线直达",
+          "zh-TW": "3號線直達",
+        },
+      },
+      {
+        id: "O6",
+        name: {
+          ko: "강남",
+          en: "Gangnam",
+          ja: "江南",
+          "zh-CN": "江南",
+          "zh-TW": "江南",
+        },
+        duration: {
+          ko: "60분",
+          en: "60 min",
+          ja: "60分",
+          "zh-CN": "60分钟",
+          "zh-TW": "60分鐘",
+        },
+        route: {
+          ko: "3호선 · GTX-A 수서",
+          en: "Line 3 · GTX-A via Suseo",
+          ja: "3号線 · GTX-A 水西",
+          "zh-CN": "3号线 · GTX-A 水西",
+          "zh-TW": "3號線 · GTX-A 水西",
+        },
+      },
+      {
+        id: "O7",
+        name: {
+          ko: "성수",
+          en: "Seongsu",
+          ja: "聖水",
+          "zh-CN": "圣水",
+          "zh-TW": "聖水",
+        },
+        duration: {
+          ko: "60분",
+          en: "60 min",
+          ja: "60分",
+          "zh-CN": "60分钟",
+          "zh-TW": "60分鐘",
+        },
+        route: {
+          ko: "경의중앙선 + 2호선",
+          en: "Gyeongui-Jungang + Line 2",
+          ja: "京義中央線 + 2号線",
+          "zh-CN": "京义中央线 + 2号线",
+          "zh-TW": "京義中央線 + 2號線",
+        },
+      },
+    ],
+    diagrams: [
+      {
+        id: "D1",
+        titleKo: "3호선 한 줄로 가는 곳",
+        diagram: OUT_DIAGRAM_D1,
+        note: {
+          ko: "환승 없이 서울 도심과 강남까지 이어집니다. 외국인에게 가장 안내하기 쉬운 노선입니다.",
+          en: "A single ride to downtown Seoul and on to Gangnam. The easiest route to explain to visitors.",
+          ja: "乗り換えなしでソウル都心と江南までつながります。訪問者に最も案内しやすい路線です。",
+          "zh-CN": "无需换乘直达首尔市中心与江南，是最便于向访客说明的线路。",
+          "zh-TW": "無需換乘直達首爾市中心與江南，是最便於向訪客說明的路線。",
+        },
+      },
+      {
+        id: "D2",
+        titleKo: "GTX-A 가장 빠름",
+        diagram: OUT_DIAGRAM_D2,
+        note: {
+          ko: "고양에서 서울 도심까지 가장 빠른 수단입니다.",
+          en: "The fastest way from Goyang into central Seoul.",
+          ja: "高陽からソウル都心まで最も速い手段です。",
+          "zh-CN": "从高阳前往首尔市中心最快的方式。",
+          "zh-TW": "從高陽前往首爾市中心最快的方式。",
+        },
+      },
+      {
+        id: "D3",
+        titleKo: "경의중앙선 홍대·성수",
+        diagram: OUT_DIAGRAM_D3,
+        note: {
+          ko: "홍대입구에서 2호선으로 갈아타면 성수까지 이어집니다.",
+          en: "Transfer to Line 2 at Hongdae to reach Seongsu.",
+          ja: "弘大入口で2号線に乗り換えると聖水まで行けます。",
+          "zh-CN": "在弘大入口换乘2号线即可前往圣水。",
+          "zh-TW": "在弘大入口換乘2號線即可前往聖水。",
+        },
+      },
+    ],
+    koCard: {
+      label: {
+        ko: "역무원에게 보여주세요",
+        en: "Show this to station staff",
+        ja: "駅員にお見せください",
+        "zh-CN": "请出示给站务员",
+        "zh-TW": "請出示給站務員",
+      },
+      sentenceKo: "서울역 가는 표 어떻게 사요?",
+    },
+  },
 };
 
 export const MOVE_TAB_KEYS: TabKey[] = dmcMoveData.tabs.map((t) => t.key);
