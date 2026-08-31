@@ -110,11 +110,42 @@ export interface Destination {
   route: I18nText;
 }
 
+/**
+ * 오더 #A6 준비물 블록.
+ * 블록 1(T-money) 은 steps 3개, 블록 2(SIM) 은 infoRows.
+ * T-money 외 다른 교통카드 미언급 (원문 규칙 8).
+ */
+export interface PrepStep {
+  /** 항목명 (5로케일). "어디서 사나 / 얼마나 넣나 / 어떻게 쓰나". */
+  label: I18nText;
+  /** 본문 (5로케일). */
+  body: I18nText;
+}
+
+export interface PrepBlock {
+  id: "tmoney" | "sim";
+  /** SVG 경로 (public/images/…). 파일 없으면 렌더 생략. currentColor 렌더 대상. */
+  illustration?: string;
+  title: I18nText;
+  oneline: I18nText;
+  steps?: PrepStep[];
+  infoRows?: InfoRow[];
+  notice: I18nText;
+  koCard: KoCard;
+}
+
 export interface DmcMoveData {
   header: {
     eyebrow: string;
     title: I18nText;
     lead: I18nText;
+  };
+  /** 오더 #A6 준비물 섹션 (페이지 최상단, 방향 토글 위). */
+  prep: {
+    eyebrow: string;
+    title: I18nText;
+    lead: I18nText;
+    blocks: PrepBlock[];
   };
   /** 오더 #A5 [1] 방향 토글 라벨 (5로케일). */
   directions: {
@@ -338,6 +369,227 @@ export const dmcMoveData: DmcMoveData = {
       "zh-CN": "介绍从机场和首尔前往高阳·一山的各种交通方式。不同目的地对应的线路不同，请先确认您的到达地。",
       "zh-TW": "介紹從機場和首爾前往高陽·一山的各種交通方式。不同目的地對應的路線不同，請先確認您的到達地。",
     },
+  },
+  prep: {
+    eyebrow: "BEFORE YOU RIDE",
+    title: {
+      ko: "출발 전에 준비하세요",
+      en: "Before You Ride",
+      ja: "出発前に準備しましょう",
+      "zh-CN": "出发前请准备",
+      "zh-TW": "出發前請準備",
+    },
+    lead: {
+      ko: "대중교통을 이용하려면 교통카드가 필요합니다. 인터넷을 쓰려면 유심이나 eSIM을 준비하세요.",
+      en: "You need a transit card to use public transport. For internet access, get a SIM or eSIM.",
+      ja: "公共交通機関を利用するには交通カードが必要です。インターネットにはSIMまたはeSIMをご用意ください。",
+      "zh-CN": "使用公共交通需要交通卡。上网请准备SIM卡或eSIM。",
+      "zh-TW": "使用大眾運輸需要交通卡。上網請準備SIM卡或eSIM。",
+    },
+    blocks: [
+      {
+        id: "tmoney",
+        illustration: "/images/illustrations/illust-tmoney.svg",
+        title: {
+          ko: "교통카드 T-money",
+          en: "T-money Transit Card",
+          ja: "交通カード T-money",
+          "zh-CN": "交通卡 T-money",
+          "zh-TW": "交通卡 T-money",
+        },
+        oneline: {
+          ko: "지하철·버스를 모두 이 카드 한 장으로 탑니다.",
+          en: "One card for both subway and bus.",
+          ja: "地下鉄もバスもこのカード1枚で乗れます。",
+          "zh-CN": "地铁和公交，一张卡搞定。",
+          "zh-TW": "地鐵和公車，一張卡搞定。",
+        },
+        steps: [
+          {
+            label: {
+              ko: "어디서 사나",
+              en: "Where to buy",
+              ja: "どこで買うか",
+              "zh-CN": "在哪里购买",
+              "zh-TW": "在哪裡購買",
+            },
+            body: {
+              ko: "공항·시내 편의점, 지하철역 자판기. 신분증이나 가입 절차가 필요 없습니다.",
+              en: "Convenience stores at the airport and in the city, and vending machines in subway stations. No ID or sign-up needed.",
+              ja: "空港・市内のコンビニ、地下鉄駅の自動販売機。身分証や登録は不要です。",
+              "zh-CN": "机场和市区的便利店、地铁站自动售货机。无需身份证或注册。",
+              "zh-TW": "機場和市區的便利商店、地鐵站自動售票機。無需身分證或註冊。",
+            },
+          },
+          {
+            label: {
+              ko: "얼마나 넣나",
+              en: "How much to load",
+              ja: "いくら入れるか",
+              "zh-CN": "充值多少",
+              "zh-TW": "儲值多少",
+            },
+            body: {
+              ko: "처음에 3~4만원이면 넉넉합니다. 부족하면 편의점이나 역에서 언제든 추가할 수 있습니다.",
+              en: "30,000–40,000 KRW is enough to start. You can top up anytime at a store or station.",
+              ja: "最初は3〜4万ウォンで十分です。足りなければコンビニや駅でいつでも追加できます。",
+              "zh-CN": "首次充值3～4万韩元即可。不足时可随时在便利店或车站充值。",
+              "zh-TW": "首次儲值3～4萬韓元即可。不足時可隨時在便利商店或車站加值。",
+            },
+          },
+          {
+            label: {
+              ko: "어떻게 쓰나",
+              en: "How to use",
+              ja: "使い方",
+              "zh-CN": "如何使用",
+              "zh-TW": "如何使用",
+            },
+            body: {
+              ko: "탈 때와 내릴 때 단말기에 카드를 대세요. 잔액은 화면에 표시됩니다.",
+              en: "Tap the card on the reader when you board and when you get off. The balance appears on the screen.",
+              ja: "乗るときと降りるときに端末にカードをタッチしてください。残高が画面に表示されます。",
+              "zh-CN": "上车和下车时将卡片贴近读卡器，余额会显示在屏幕上。",
+              "zh-TW": "上車和下車時將卡片貼近讀卡機，餘額會顯示在螢幕上。",
+            },
+          },
+        ],
+        notice: {
+          ko: "편의점과 역 충전기는 원화 현금만 받습니다. 해외 카드로 충전하려면 모바일 티머니 앱을 이용하세요. 마스터·아멕스·유니온페이는 등록되지만 비자는 지원하지 않습니다.",
+          en: "Convenience stores and station machines take Korean won in cash only. To top up with a foreign card, use the Mobile T-money app — Mastercard, Amex and UnionPay work, but Visa is not supported.",
+          ja: "コンビニと駅のチャージ機はウォン現金のみ受け付けます。海外カードでチャージするにはモバイルT-moneyアプリをご利用ください。マスター・アメックス・ユニオンペイは登録できますが、ビザは非対応です。",
+          "zh-CN": "便利店和车站充值机仅收韩元现金。用境外卡充值请使用手机T-money应用，可注册万事达、美国运通、银联，但不支持Visa。",
+          "zh-TW": "便利商店和車站加值機僅收韓元現金。用境外卡加值請使用手機T-money應用程式，可註冊萬事達、美國運通、銀聯，但不支援Visa。",
+        },
+        koCard: {
+          label: {
+            ko: "점원에게 보여주세요",
+            en: "Show this to the store clerk",
+            ja: "店員にお見せください",
+            "zh-CN": "请出示给店员",
+            "zh-TW": "請出示給店員",
+          },
+          sentenceKo: "티머니 카드 주세요. 3만원 충전해 주세요.",
+        },
+      },
+      {
+        id: "sim",
+        illustration: "/images/illustrations/illust-sim.svg",
+        title: {
+          ko: "유심·eSIM",
+          en: "SIM and eSIM",
+          ja: "SIM・eSIM",
+          "zh-CN": "SIM卡·eSIM",
+          "zh-TW": "SIM卡·eSIM",
+        },
+        oneline: {
+          ko: "인천공항 입국장에서 바로 개통할 수 있습니다.",
+          en: "You can activate one right at the Incheon Airport arrival hall.",
+          ja: "仁川空港の入国フロアですぐに開通できます。",
+          "zh-CN": "可在仁川机场入境大厅直接开通。",
+          "zh-TW": "可在仁川機場入境大廳直接開通。",
+        },
+        infoRows: [
+          {
+            label: {
+              ko: "위치",
+              en: "Location",
+              ja: "場所",
+              "zh-CN": "位置",
+              "zh-TW": "位置",
+            },
+            value: {
+              ko: "인천공항 도착층 통신사 부스 (T1 13번 출구 · T2 3번 게이트 인근)",
+              en: "Carrier booths in the arrival hall (near T1 Exit 13 and T2 Gate 3)",
+              ja: "仁川空港到着フロアの通信会社ブース(T1 13番出口・T2 3番ゲート付近)",
+              "zh-CN": "仁川机场到达层运营商柜台(T1 13号出口·T2 3号登机口附近)",
+              "zh-TW": "仁川機場到達層電信業者櫃檯(T1 13號出口·T2 3號登機門附近)",
+            },
+          },
+          {
+            label: {
+              ko: "운영",
+              en: "Hours",
+              ja: "営業",
+              "zh-CN": "运营",
+              "zh-TW": "營業",
+            },
+            value: {
+              ko: "24시간",
+              en: "Open 24 hours",
+              ja: "24時間",
+              "zh-CN": "24小时",
+              "zh-TW": "24小時",
+            },
+          },
+          {
+            label: {
+              ko: "통신사",
+              en: "Carriers",
+              ja: "通信会社",
+              "zh-CN": "运营商",
+              "zh-TW": "電信業者",
+            },
+            value: {
+              ko: "SK텔레콤 · KT · LG유플러스",
+              en: "SK Telecom · KT · LG U+",
+              ja: "SKテレコム・KT・LG U+",
+              "zh-CN": "SK电讯·KT·LG U+",
+              "zh-TW": "SK電訊·KT·LG U+",
+            },
+          },
+          {
+            label: {
+              ko: "준비물",
+              en: "Bring",
+              ja: "持ち物",
+              "zh-CN": "所需物品",
+              "zh-TW": "所需物品",
+            },
+            value: {
+              ko: "실물 유심은 여권 필수",
+              en: "Passport required for a physical SIM",
+              ja: "実物SIMはパスポートが必要",
+              "zh-CN": "实体SIM卡需出示护照",
+              "zh-TW": "實體SIM卡需出示護照",
+            },
+          },
+          {
+            label: {
+              ko: "가격",
+              en: "Price",
+              ja: "価格",
+              "zh-CN": "价格",
+              "zh-TW": "價格",
+            },
+            value: {
+              ko: "유심 1일권 약 6,600원부터 · eSIM 3일권 약 6달러부터",
+              en: "From about 6,600 KRW for a 1-day SIM; from about USD 6 for a 3-day eSIM",
+              ja: "SIM1日券約6,600ウォンから・eSIM3日券約6ドルから",
+              "zh-CN": "SIM卡1日券约6,600韩元起·eSIM 3日券约6美元起",
+              "zh-TW": "SIM卡1日券約6,600韓元起·eSIM 3日券約6美元起",
+            },
+          },
+        ],
+        notice: {
+          ko: "여권 한 장으로 통신사마다 한 번만 개통할 수 있습니다. eSIM은 iPhone XR·XS 이후 모델에서 쓸 수 있으나 중국 본토판 iPhone은 대부분 지원하지 않습니다.",
+          en: "One passport allows a single activation per carrier. eSIM works on iPhone XR/XS and later, but most mainland-China iPhones do not support it.",
+          ja: "パスポート1枚につき通信会社ごとに1回のみ開通できます。eSIMはiPhone XR・XS以降で利用できますが、中国本土版iPhoneはほとんど非対応です。",
+          "zh-CN": "一本护照在每家运营商仅可开通一次。eSIM支持iPhone XR/XS及以后机型，但中国大陆版iPhone大多不支持。",
+          "zh-TW": "一本護照在每家電信業者僅可開通一次。eSIM支援iPhone XR/XS及以後機型，但中國大陸版iPhone大多不支援。",
+        },
+        koCard: {
+          label: {
+            ko: "직원에게 보여주세요",
+            en: "Show this to the staff",
+            ja: "係員にお見せください",
+            "zh-CN": "请出示给工作人员",
+            "zh-TW": "請出示給工作人員",
+          },
+          sentenceKo: "여행자용 유심 주세요. 며칠짜리가 있나요?",
+        },
+      },
+    ],
   },
   directions: {
     in: {
