@@ -64,7 +64,21 @@ export interface CuratedStory {
 }
 
 export const curatedStories: Record<CuratedCategory, CuratedStory> = {
-  walk: { category: "walk", items: [] },
+  // 오더 #C2: /best/walk 배선. name·desc 는 data/spots.ts 의
+  //   ilsan-lake-park 스팟에서 그대로 가져옴 (title.ko + subtitle.ko). 새 문안 생성 없음.
+  //   region 은 regions.ts key 규칙으로 "ilsan-east" (spot.region 라벨 "일산동구" 대응 key).
+  //   translations 는 아직 미설정 — Phase 4 카드 다국어 렌더 도입 시 채운다.
+  walk: {
+    category: "walk",
+    items: [
+      {
+        id: "ilsan-lake-park",
+        name: "일산호수공원",
+        desc: "도심 한가운데 호수를 한 바퀴 도는 길",
+        region: "ilsan-east",
+      },
+    ],
+  },
   food: { category: "food", items: [] },
   culture: { category: "culture", items: [] },
   kculture: { category: "kculture", items: [] },
