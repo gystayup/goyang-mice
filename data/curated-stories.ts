@@ -124,6 +124,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     },
   },
   // 오더 #C8 [2][3]: 미식 6. name/desc = spots.ts title.ko/subtitle.ko 그대로.
+  // 오더 #FD1 [1]: TourAPI 실데이터 6건 추가 (총 12). A안 — 신규 6건은 subtitle 첫 문장 원문 그대로,
+  //   4로케일 translations 는 ko 복제 (다국어 번역은 후속 별도 오더).
   food: {
     category: "food",
     items: [
@@ -133,6 +135,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "hwajeong-rodeo", name: "화정 로데오거리", desc: "덕양구의 대표 상권", region: "deokyang" },
       { id: "ilsan-traditional-market", name: "일산 전통시장", desc: "시장 안에서 먹는 한 끼", region: "ilsan-west" },
       { id: "daehwa-cafes", name: "대화동 카페 밀집구역", desc: "호수공원 산책 뒤에 들르는 곳", region: "ilsan-west" },
+      // 오더 #FD1 [1]: TourAPI 실데이터 6건.
+      { id: "neungwon-galbi", name: "능원숯불갈비", desc: "능원숯불갈비는 고양시 용두동, 서오릉 정문 앞에 있는 숯불구이 전문점이다.", region: "deokyang" },
+      { id: "neunggok-halmeoni-bugeotang", name: "능곡할머니북어탕", desc: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다.", region: "deokyang" },
+      { id: "gobongsan-siraegi", name: "고봉산시래기", desc: "고봉산 시래기는 일산동구 고봉산 아래에 있는 생선구이와 가마솥 밥 전문점이다.", region: "ilsan-east" },
+      { id: "gom-taco", name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다.", region: "ilsan-east" },
+      { id: "the-nurungji", name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다.", region: "ilsan-west" },
+      { id: "gaya-milmyeon-ilsan", name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다.", region: "ilsan-west" },
     ],
     translations: {
       en: {
@@ -142,6 +151,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "hwajeong-rodeo": { name: "Hwajeong Rodeo Street", desc: "The main commercial strip in Deokyang" },
         "ilsan-traditional-market": { name: "Ilsan Traditional Market", desc: "A meal inside the market" },
         "daehwa-cafes": { name: "Daehwa Cafe Cluster", desc: "Where to stop after a lake park walk" },
+        // 오더 #FD1 [1]: A안 — ko 복제.
+        "neungwon-galbi": { name: "능원숯불갈비", desc: "능원숯불갈비는 고양시 용두동, 서오릉 정문 앞에 있는 숯불구이 전문점이다." },
+        "neunggok-halmeoni-bugeotang": { name: "능곡할머니북어탕", desc: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다." },
+        "gobongsan-siraegi": { name: "고봉산시래기", desc: "고봉산 시래기는 일산동구 고봉산 아래에 있는 생선구이와 가마솥 밥 전문점이다." },
+        "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
+        "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
+        "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
       },
       ja: {
         "lafesta": { name: "ラフェスタ", desc: "夜遅くまで続くストリート型商圏" },
@@ -150,6 +166,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "hwajeong-rodeo": { name: "花井ロデオ通り", desc: "徳陽区を代表する商圏" },
         "ilsan-traditional-market": { name: "一山伝統市場", desc: "市場の中で食べる一食" },
         "daehwa-cafes": { name: "大化洞カフェ密集エリア", desc: "湖水公園の散策後に立ち寄る場所" },
+        // 오더 #FD1 [1]: A안 — ko 복제.
+        "neungwon-galbi": { name: "능원숯불갈비", desc: "능원숯불갈비는 고양시 용두동, 서오릉 정문 앞에 있는 숯불구이 전문점이다." },
+        "neunggok-halmeoni-bugeotang": { name: "능곡할머니북어탕", desc: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다." },
+        "gobongsan-siraegi": { name: "고봉산시래기", desc: "고봉산 시래기는 일산동구 고봉산 아래에 있는 생선구이와 가마솥 밥 전문점이다." },
+        "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
+        "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
+        "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
       },
       "zh-CN": {
         "lafesta": { name: "拉斐斯塔", desc: "热闹至深夜的街区商圈" },
@@ -158,6 +181,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "hwajeong-rodeo": { name: "花井罗迪欧街", desc: "德阳区的代表商圈" },
         "ilsan-traditional-market": { name: "一山传统市场", desc: "在市场里吃的一餐" },
         "daehwa-cafes": { name: "大化洞咖啡聚集区", desc: "湖水公园散步后的落脚处" },
+        // 오더 #FD1 [1]: A안 — ko 복제.
+        "neungwon-galbi": { name: "능원숯불갈비", desc: "능원숯불갈비는 고양시 용두동, 서오릉 정문 앞에 있는 숯불구이 전문점이다." },
+        "neunggok-halmeoni-bugeotang": { name: "능곡할머니북어탕", desc: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다." },
+        "gobongsan-siraegi": { name: "고봉산시래기", desc: "고봉산 시래기는 일산동구 고봉산 아래에 있는 생선구이와 가마솥 밥 전문점이다." },
+        "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
+        "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
+        "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
       },
       "zh-TW": {
         "lafesta": { name: "拉斐斯塔", desc: "熱鬧至深夜的街區商圈" },
@@ -166,6 +196,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "hwajeong-rodeo": { name: "花井羅迪歐街", desc: "德陽區的代表商圈" },
         "ilsan-traditional-market": { name: "一山傳統市場", desc: "在市場裡吃的一餐" },
         "daehwa-cafes": { name: "大化洞咖啡聚集區", desc: "湖水公園散步後的落腳處" },
+        // 오더 #FD1 [1]: A안 — ko 복제.
+        "neungwon-galbi": { name: "능원숯불갈비", desc: "능원숯불갈비는 고양시 용두동, 서오릉 정문 앞에 있는 숯불구이 전문점이다." },
+        "neunggok-halmeoni-bugeotang": { name: "능곡할머니북어탕", desc: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다." },
+        "gobongsan-siraegi": { name: "고봉산시래기", desc: "고봉산 시래기는 일산동구 고봉산 아래에 있는 생선구이와 가마솥 밥 전문점이다." },
+        "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
+        "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
+        "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
       },
     },
   },
