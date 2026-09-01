@@ -217,11 +217,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     },
   },
 
-  // 오더 #C8 [2][3] · #E1 [2]: K컬처 5 (goyang-tourist-center 추가).
+  // 오더 #C8 [2][3] · #E1 [2] · #E2 [1]: K컬처 7 (learn·after-dark 추가).
   kculture: {
     category: "kculture",
     items: [
       { id: "goyang-tourist-center", name: "고양관광정보센터", desc: "벽화가 있는 정발산역 앞 안내소", region: "ilsan-east" },
+      { id: "learn-kculture", name: "고양에서 배우는 K컬처", desc: "보는 것에서 해보는 것으로", region: "ilsan-east" },
+      { id: "goyang-after-dark", name: "고양의 밤", desc: "한국 사람들이 저녁에 실제로 노는 방법", region: "ilsan-east" },
       { id: "goyang-stadium", name: "고양종합운동장", desc: "K팝 스타디움 공연이 열리는 곳", region: "ilsan-west" },
       { id: "kintex-kpop", name: "킨텍스 K팝 이벤트", desc: "팬 이벤트와 콘서트가 열리는 실내 무대", region: "ilsan-west" },
       { id: "hallyu-world", name: "한류월드", desc: "K컬처를 주제로 조성된 구역", region: "ilsan-west" },
@@ -230,6 +232,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     translations: {
       en: {
         "goyang-tourist-center": { name: "Goyang Tourist Information Center", desc: "The information center with the mural, by Jeongbalsan Station" },
+        "learn-kculture": { name: "Learn K-Culture in Goyang", desc: "From watching to doing" },
+        "goyang-after-dark": { name: "Goyang After Dark", desc: "How Koreans actually spend an evening" },
         "goyang-stadium": { name: "Goyang Stadium", desc: "Where K-pop stadium shows happen" },
         "kintex-kpop": { name: "K-pop Events at KINTEX", desc: "Indoor stages for fan events and concerts" },
         "hallyu-world": { name: "Hallyu World", desc: "A district built around Korean pop culture" },
@@ -237,6 +241,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       },
       ja: {
         "goyang-tourist-center": { name: "高陽観光情報センター", desc: "壁画のある鼎鉢山駅前の案内所" },
+        "learn-kculture": { name: "高陽で学ぶKカルチャー", desc: "見ることから、やってみることへ" },
+        "goyang-after-dark": { name: "高陽の夜", desc: "韓国の人が夕方に実際に遊ぶ方法" },
         "goyang-stadium": { name: "高陽総合運動場", desc: "K-POPスタジアム公演が開かれる場所" },
         "kintex-kpop": { name: "キンテックスK-POPイベント", desc: "ファンイベントとコンサートの屋内ステージ" },
         "hallyu-world": { name: "韓流ワールド", desc: "K-カルチャーをテーマにした区域" },
@@ -244,6 +250,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       },
       "zh-CN": {
         "goyang-tourist-center": { name: "高阳旅游信息中心", desc: "鼎钵山站前设有壁画的服务中心" },
+        "learn-kculture": { name: "在高阳学习韩流文化", desc: "从观看到亲身体验" },
+        "goyang-after-dark": { name: "高阳之夜", desc: "韩国人傍晚真正的消遣方式" },
         "goyang-stadium": { name: "高阳综合运动场", desc: "举办K-pop体育场演唱会之地" },
         "kintex-kpop": { name: "韩国国际展览中心K-pop活动", desc: "举办粉丝活动与演唱会的室内舞台" },
         "hallyu-world": { name: "韩流世界", desc: "以韩流文化为主题的区域" },
@@ -251,6 +259,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       },
       "zh-TW": {
         "goyang-tourist-center": { name: "高陽旅遊資訊中心", desc: "鼎缽山站前設有壁畫的服務中心" },
+        "learn-kculture": { name: "在高陽學習韓流文化", desc: "從觀看到親身體驗" },
+        "goyang-after-dark": { name: "高陽之夜", desc: "韓國人傍晚真正的消遣方式" },
         "goyang-stadium": { name: "高陽綜合運動場", desc: "舉辦K-pop體育場演唱會之地" },
         "kintex-kpop": { name: "韓國國際展覽中心K-pop活動", desc: "舉辦粉絲活動與演唱會的室內舞台" },
         "hallyu-world": { name: "韓流世界", desc: "以韓流文化為主題的區域" },

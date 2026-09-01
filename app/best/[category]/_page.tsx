@@ -39,6 +39,7 @@ import {
 } from "@/data/curated-stories";
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
+import { historyHeader, historyOutro, historyStories } from "@/data/history-stories";
 import { getSpot, hasSpot } from "@/data/spots";
 import { resolveSpotAutoPhoto } from "@/lib/spot-photos";
 import { Link } from "@/lib/navigation";
@@ -187,6 +188,9 @@ export default async function BestCategoryPage({
           </div>
         </div>
       </section>
+
+      {/* 오더 #E2 [2]: history 카테고리에서만 상단 GOYANG IN 10 STORIES. */}
+      {cat === "history" && <HistoryStoriesSection locale={locale} />}
 
       {/* 지역 필터 (Phase 1: 시각 뼈대만, 동작은 Phase 2 이후) */}
       <section className="mx-auto max-w-6xl px-6 pt-8">
@@ -369,4 +373,45 @@ function BestListCard({
   }
   // Spot 데이터가 아직 없는 항목: 링크 미생성 (오더 #P7 [4]).
   return <div className="group block">{inner}</div>;
+}
+
+// ─── 오더 #E2 [2]: GOYANG IN 10 STORIES — /best/history 상단 ────────────
+// open:null 챕터는 렌더 X (렌더 규칙 유지). 이미지·포스터·배우명 없음.
+function HistoryStoriesSection({ locale }: { locale: PageLocale }) {
+  const visible = historyStories.filter((c) => c.open !== null);
+  return (
+    <section className="mx-auto max-w-6xl px-6 pt-10">
+      <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        GOYANG IN 10 STORIES
+      </div>
+      <h2 className="mt-3 text-2xl font-black leading-snug tracking-[-0.02em] sm:text-3xl">
+        {historyHeader.title[locale]}
+      </h2>
+      <p className="mt-3 max-w-3xl text-base leading-relaxed text-[#232322]/85">
+        {historyHeader.lead[locale]}
+      </p>
+      <div className="mt-8 space-y-8">
+        {visible.map((c, i) => (
+          <article key={i} className="border-l-2 border-[#D4AF37] pl-4">
+            <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+              {c.eyebrow}
+            </div>
+            <p className="mt-1 text-xs font-black uppercase tracking-[0.2em] text-[#D4AF37]">
+              {c.theme[locale]}
+            </p>
+            <h3 className="mt-2 text-lg font-black leading-snug tracking-[-0.02em]">
+              {c.title[locale]}
+            </h3>
+            <p className="mt-1 text-sm text-[#232322]/70">→ {c.site[locale]}</p>
+            <p className="mt-3 text-sm leading-relaxed text-[#232322]/85">
+              {c.body[locale]}
+            </p>
+          </article>
+        ))}
+      </div>
+      <p className="mt-8 border-t border-[#232322]/10 pt-6 text-base font-black italic text-[#232322]/70">
+        {historyOutro[locale]}
+      </p>
+    </section>
+  );
 }
