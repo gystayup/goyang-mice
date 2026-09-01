@@ -32,7 +32,11 @@ import {
   INSIDER_TAGLINE,
   isCuratedCategory,
 } from "@/data/curated-categories";
-import { getCuratedStory, type CuratedItem } from "@/data/curated-stories";
+import {
+  getCuratedStory,
+  getLocalizedCuratedItem,
+  type CuratedItem,
+} from "@/data/curated-stories";
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { hasSpot } from "@/data/spots";
 import { Link } from "@/lib/navigation";
@@ -198,11 +202,12 @@ export default async function BestCategoryPage({
         {story.items.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* 오더 #P7 [4] 링크 배선: item.id 로 Spot 존재 여부 확인 후
-                존재할 때만 /dmc/{id} 링크. 데이터 없는 항목은 무링크 카드 유지. */}
+                존재할 때만 /dmc/{id} 링크. 데이터 없는 항목은 무링크 카드 유지.
+                오더 #C3 [1]: locale 에 맞춰 name/desc 스왑 (translations override → ko 폴백). */}
             {story.items.map((item) => (
               <BestListCard
                 key={item.id}
-                item={item}
+                item={getLocalizedCuratedItem(item, story, locale)}
                 spotLinked={hasSpot(item.id)}
               />
             ))}
