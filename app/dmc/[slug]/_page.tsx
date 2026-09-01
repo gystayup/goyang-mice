@@ -19,7 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -32,6 +32,7 @@ import {
 import {
   getNearbySpots,
   getSpot,
+  hasSpot,
   spots,
   SPOT_LOCALES,
   type Spot,
@@ -101,6 +102,20 @@ const LABEL_COMING_SOON: Record<PageLocale, string> = {
   ja: "まもなく公開します",
   "zh-CN": "敬请期待",
   "zh-TW": "敬請期待",
+};
+
+// ─── 오더 #E1: THE STORY · 한복 · 공지 라벨 (5로케일) ──────────────────────
+const STORY_TITLE = "THE STORY";
+// 한복 안내 카드 헤더.
+const HANBOK_TITLE: Record<PageLocale, string> = {
+  ko: "한복 무료입장", en: "Free Entry in Hanbok", ja: "韓服無料入場", "zh-CN": "着韩服免费入场", "zh-TW": "著韓服免費入場",
+};
+const HANBOK_CAUTION_LABEL: Record<PageLocale, string> = {
+  ko: "주의", en: "Notes", ja: "注意", "zh-CN": "注意事项", "zh-TW": "注意事項",
+};
+// 공지 배너 헤더.
+const NOTICE_LABEL: Record<PageLocale, string> = {
+  ko: "안내", en: "Notice", ja: "お知らせ", "zh-CN": "公告", "zh-TW": "公告",
 };
 
 // ─── 오더 #C9: FIND YOUR WALK 섹션 라벨 (5로케일) ───────────────────────────
@@ -282,6 +297,9 @@ export default async function SpotDetailPage({
           title={spot.title[locale]}
           locale={locale}
         />
+
+        {/* 오더 #E1 [4]: 공지 배너 — 갤러리 바로 아래. 없으면 미렌더. */}
+        <NoticeBanner spot={spot} locale={locale} />
 
         <section className="mx-auto max-w-6xl px-6 pt-10">
           <CategoryLabel category={spot.category} locale={locale} />
@@ -514,12 +532,14 @@ function OverviewTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         {/* 모바일: 인사이더 박스를 아이콘 4칸 바로 아래 (오더 렌더 규칙 11) */}
         <div className="lg:hidden">{insiderNode}</div>
         <AboutBlock spot={spot} locale={locale} />
-        {/* 오더 #C9 [3]: FIND YOUR WALK — About 아래, ON SCREEN 위.
-            spot.walks 없으면 컴포넌트 내부에서 미렌더 반환. */}
+        {/* 오더 #C9 [3] · #E1 [4]: 렌더 순서
+            About → WALKS → THE STORY → ON SCREEN → AROUND (nearby) → HANBOK.
+            기존 NearbySection 은 페이지 하단 "이 근처에서(같은 카테고리 spot 3)" 로 유지. */}
         <WalksSection spot={spot} locale={locale} />
-        {/* 오더 #D4 [3]: ON SCREEN 섹션 — About 아래, 한국어 원문 카드 위.
-            spot.onScreen 없으면 컴포넌트 내부에서 미렌더 반환. */}
+        <StorySection spot={spot} locale={locale} />
         <OnScreenSection spot={spot} locale={locale} />
+        <AroundSection spot={spot} locale={locale} />
+        <HanbokSection spot={spot} locale={locale} />
         {/* 모바일: 광고를 본문 중간에 (오더 렌더 규칙 11) */}
         {spot.adSlot !== null && (
           <div className="lg:hidden">
@@ -668,65 +688,76 @@ function WalksSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
 // open:false 항목은 회색·투명도로 시각 구분 + "현재 비공개 구역입니다" 5로케일 병기.
 function OnScreenSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   const os = spot.onScreen;
-  if (!os) return null;
+  // works·courses 둘 다 비면 섹션 미렌더.
+  const hasWorks = !!os?.works && os.works.length > 0;
+  const hasCourses = !!os?.courses && os.courses.length > 0;
+  if (!os || (!hasWorks && !hasCourses)) return null;
   return (
     <section className="border-t border-[#232322]/10 pt-8">
       <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
         {ON_SCREEN_TITLE}
       </div>
-      <p className="mt-2 text-base leading-relaxed text-[#232322]/85 sm:text-lg">
-        {ON_SCREEN_SUBTITLE[locale]}
-      </p>
-      <ul className="mt-6 space-y-6">
-        {os.works.map((w, i) => {
-          const Icon = w.type === "drama" ? Tv : Clapperboard;
-          const closed = !w.open;
-          return (
-            <li
-              key={i}
-              className={`border-l-2 pl-4 ${
-                closed
-                  ? "border-[#232322]/25 opacity-60"
-                  : "border-[#D4AF37]"
-              }`}
-            >
-              <div className="flex items-center gap-2 text-sm font-bold text-[#232322]">
-                <Icon
-                  className={`h-4 w-4 shrink-0 ${closed ? "text-[#232322]/50" : "text-[#D4AF37]"}`}
-                  aria-hidden="true"
-                />
-                <span>
-                  {w.titleKo} / {w.titleEn}
-                  {w.broadcaster ? ` · ${w.broadcaster}` : ""} · {w.year}
-                </span>
-              </div>
-              <p className="mt-2 text-sm text-[#232322]/85">
-                {w.characters[locale]}
-              </p>
-              <p className="mt-1 text-sm text-[#232322]/70">
-                → {w.site[locale]}
-              </p>
-              {w.note && (
-                <p className="mt-1 text-xs text-[#232322]/60">
-                  {w.note[locale]}
+      {hasWorks && (
+        <p className="mt-2 text-base leading-relaxed text-[#232322]/85 sm:text-lg">
+          {ON_SCREEN_SUBTITLE[locale]}
+        </p>
+      )}
+      {hasWorks && (
+        <ul className="mt-6 space-y-6">
+          {os.works.map((w, i) => {
+            // 오더 #E1 [1]: music → Music 아이콘.
+            const Icon = w.type === "drama" ? Tv : w.type === "film" ? Clapperboard : Music;
+            const closed = !w.open;
+            // music: broadcaster 대신 artist 표시.
+            const meta = w.type === "music"
+              ? [w.artist, w.album, w.year].filter(Boolean).join(" · ")
+              : `${w.broadcaster ? `${w.broadcaster} · ` : ""}${w.year}`;
+            return (
+              <li
+                key={i}
+                className={`border-l-2 pl-4 ${
+                  closed
+                    ? "border-[#232322]/25 opacity-60"
+                    : "border-[#D4AF37]"
+                }`}
+              >
+                <div className="flex items-center gap-2 text-sm font-bold text-[#232322]">
+                  <Icon
+                    className={`h-4 w-4 shrink-0 ${closed ? "text-[#232322]/50" : "text-[#D4AF37]"}`}
+                    aria-hidden="true"
+                  />
+                  <span>
+                    {w.titleKo} / {w.titleEn} · {meta}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-[#232322]/85">
+                  {w.characters[locale]}
                 </p>
-              )}
-              {closed && (
-                <p className="mt-2 text-xs font-semibold text-[#232322]/60">
-                  ※ {ON_SCREEN_CLOSED[locale]}
+                <p className="mt-1 text-sm text-[#232322]/70">
+                  → {w.site[locale]}
                 </p>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      {os.courses && os.courses.length > 0 && (
-        <div className="mt-8 border border-[#232322]/15 p-5">
+                {w.note && (
+                  <p className="mt-1 text-xs text-[#232322]/60">
+                    {w.note[locale]}
+                  </p>
+                )}
+                {closed && (
+                  <p className="mt-2 text-xs font-semibold text-[#232322]/60">
+                    ※ {ON_SCREEN_CLOSED[locale]}
+                  </p>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {hasCourses && (
+        <div className={`${hasWorks ? "mt-8" : "mt-6"} border border-[#232322]/15 p-5`}>
           <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
             {ON_SCREEN_COURSE_LABEL[locale]}
           </div>
           <ul className="mt-4 space-y-3">
-            {os.courses.map((c, i) => (
+            {os.courses!.map((c, i) => (
               <li key={i}>
                 <div className="text-sm font-black text-[#232322]">
                   {c.name[locale]}
@@ -739,6 +770,190 @@ function OnScreenSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
           </ul>
         </div>
       )}
+    </section>
+  );
+}
+
+// ─── 오더 #E1 [3][4][5]: THE STORY 섹션 ────────────────────────────────────
+// open:null 챕터는 렌더 X (게이트). open:false 는 회색 + 비공개 문구.
+// 금지: 포스터/스틸/배우명/대사/방송사 로고.
+function StorySection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const stories = spot.stories;
+  if (!stories || stories.length === 0) return null;
+  // 오더 [5]: open:null 챕터 완전 배제.
+  const visible = stories.filter((c) => c.open !== null);
+  if (visible.length === 0) return null;
+  const header = spot.storiesHeader;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <BookOpen className="h-4 w-4" aria-hidden="true" />
+        <span>{STORY_TITLE}</span>
+      </div>
+      {header && (
+        <>
+          <h3 className="mt-3 text-xl font-black leading-snug tracking-[-0.02em] sm:text-2xl">
+            {header.title[locale]}
+          </h3>
+          <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+            {header.lead[locale]}
+          </p>
+        </>
+      )}
+      <div className="mt-6 space-y-8">
+        {visible.map((c, i) => {
+          const closed = c.open === false;
+          return (
+            <article
+              key={i}
+              className={`border-l-2 pl-4 ${closed ? "border-[#232322]/25 opacity-60" : "border-[#D4AF37]"}`}
+            >
+              <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+                {c.eyebrow}
+              </div>
+              <p className={`mt-1 text-xs font-black uppercase tracking-[0.2em] ${closed ? "text-[#232322]/60" : "text-[#D4AF37]"}`}>
+                {c.theme[locale]}
+              </p>
+              <h4 className="mt-2 text-lg font-black leading-snug tracking-[-0.02em]">
+                {c.title[locale]}
+              </h4>
+              {c.people && (
+                <p className="mt-2 text-sm font-semibold text-[#232322]/85">
+                  {c.people[locale]}
+                </p>
+              )}
+              <p className="mt-1 text-sm text-[#232322]/70">
+                → {c.site[locale]}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-[#232322]/85">
+                {c.body[locale]}
+              </p>
+              {c.onScreen && c.onScreen.length > 0 && (
+                <ul className="mt-3 space-y-1">
+                  {c.onScreen.map((w, wi) => {
+                    const WI = w.type === "drama" ? Tv : w.type === "film" ? Clapperboard : Music;
+                    return (
+                      <li key={wi} className="flex items-center gap-1.5 text-xs text-[#232322]/70">
+                        <WI className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+                        <span>
+                          {w.titleKo} / {w.titleEn}
+                          {w.broadcaster ? ` · ${w.broadcaster}` : ""} · {w.year}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+              {c.note && (
+                <p className="mt-2 text-xs text-[#232322]/60">
+                  {c.note[locale]}
+                </p>
+              )}
+              {closed && (
+                <p className="mt-2 text-xs font-semibold text-[#232322]/60">
+                  ※ {ON_SCREEN_CLOSED[locale]}
+                </p>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// ─── 오더 #E1 [3][4]: AROUND (nearby) 섹션 — 전시장에서 걸어서 등. ────────
+function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const nb = spot.nearby;
+  if (!nb || nb.items.length === 0) return null;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <Compass className="h-4 w-4" aria-hidden="true" />
+        <span>{nb.eyebrow}</span>
+      </div>
+      <h3 className="mt-3 text-xl font-black leading-snug tracking-[-0.02em] sm:text-2xl">
+        {nb.title[locale]}
+      </h3>
+      <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+        {nb.lead[locale]}
+      </p>
+      <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {nb.items.map((it, i) => {
+          const inner = (
+            <div className="flex h-full flex-col gap-2 border border-[#232322]/15 p-4 transition-colors group-hover:border-[#D4AF37]">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-black leading-snug text-[#232322]">
+                  {it.name[locale]}
+                </p>
+                {it.distance && (
+                  <span className="shrink-0 text-xs text-[#232322]/60">{it.distance}</span>
+                )}
+              </div>
+              <p className="text-xs leading-relaxed text-[#232322]/70">
+                {it.tag[locale]}
+              </p>
+            </div>
+          );
+          return (
+            <li key={i}>
+              {it.slug && hasSpot(it.slug) ? (
+                <Link href={`/dmc/${it.slug}`} className="group block h-full">
+                  {inner}
+                </Link>
+              ) : (
+                <div className="group block h-full">{inner}</div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+// ─── 오더 #E1 [3][4]: 한복 안내 카드. ─────────────────────────────────────
+function HanbokSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const h = spot.hanbok;
+  if (!h) return null;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <Shirt className="h-4 w-4" aria-hidden="true" />
+        <span>{HANBOK_TITLE[locale]}</span>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-[#232322]/85">
+        {h.note[locale]}
+      </p>
+      <div className="mt-4 border border-[#232322]/15 p-4">
+        <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#232322]/60">
+          {HANBOK_CAUTION_LABEL[locale]}
+        </div>
+        <p className="mt-2 text-xs leading-relaxed text-[#232322]/70">
+          {h.caution[locale]}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ─── 오더 #E1 [4]: 공지 배너 — 갤러리 바로 아래. ──────────────────────────
+function NoticeBanner({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const n = spot.notice;
+  if (!n) return null;
+  return (
+    <section className="mx-auto mt-4 max-w-6xl px-6">
+      <div className="flex items-start gap-3 border border-[#D4AF37]/40 bg-[#D4AF37]/10 p-4">
+        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+        <div className="min-w-0">
+          <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#232322]/70">
+            {NOTICE_LABEL[locale]}
+          </div>
+          <p className="mt-1 text-sm leading-relaxed text-[#232322]/85">
+            {n.body[locale]}
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
