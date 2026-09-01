@@ -340,6 +340,11 @@ export interface Spot {
   nearby?: SpotNearby;
   /** 오더 #E1 [1]: 갤러리 아래 임시 안내 배너. */
   notice?: SpotNotice;
+  /**
+   * 오더 #E2 [1]: 제휴 문의 CTA (스팟 하단, /contact 링크).
+   *   광고 유치 목적의 배너. 없으면 미렌더.
+   */
+  partnerCta?: I18nText;
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.
@@ -2764,6 +2769,332 @@ export const spots: Spot[] = [
           ],
         },
       ],
+    },
+  },
+
+  // ─── 오더 #E2 [1]: 신규 스팟 — 배우는 K컬처 (kculture · course) ─────────
+  //   개별 학원·스튜디오 상호 게재 금지 → nearby(공공 프로그램) 항목은
+  //   전부 「확인필요」라 미설정. 제휴 CTA 로 마무리.
+  {
+    slug: "learn-kculture",
+    category: "kculture",
+    type: "course",
+    region: "일산동구",
+    title: {
+      ko: "고양에서 배우는 K컬처",
+      en: "Learn K-Culture in Goyang",
+      ja: "高陽で学ぶKカルチャー",
+      "zh-CN": "在高阳学习韩流文化",
+      "zh-TW": "在高陽學習韓流文化",
+    },
+    title_en_display: "LEARN K-CULTURE",
+    subtitle: {
+      ko: "보는 것에서 해보는 것으로",
+      en: "From watching to doing",
+      ja: "見ることから、やってみることへ",
+      "zh-CN": "从观看到亲身体验",
+      "zh-TW": "從觀看到親身體驗",
+    },
+    lead: {
+      ko: "서울에서는 K팝을 보고, 고양에서는 해봅니다. 라페스타와 웨스턴돔 일대에는 댄스 스튜디오와 연기 학원이 걸어서 닿는 거리에 모여 있습니다. 원래 한국 학생들이 입시와 오디션을 준비하러 다니던 곳입니다. 방송 제작시설이 이 도시에 모여 있기 때문에 생긴 구조입니다.",
+      en: "In Seoul you watch K-pop. In Goyang you can try it. Around Lafesta and Western Dom, dance studios and acting academies sit within walking distance of one another. They exist for Korean students preparing for auditions and arts-school entrance exams — a consequence of the broadcast production facilities concentrated in this city.",
+      ja: "ソウルではK-POPを観て、高陽ではやってみます。ラフェスタとウエスタンドム一帯には、ダンススタジオと演技学院が徒歩圏に集まっています。もともと韓国の学生が入試やオーディションの準備に通う場所です。放送制作施設がこの都市に集まっているために生まれた構造です。",
+      "zh-CN": "在首尔观看K-pop，在高阳则可亲身尝试。拉斐斯塔与西部圆顶一带，舞蹈工作室与表演学院步行可达。这些原本是韩国学生备考艺考与选秀之处——这一格局源于本市集中的广播制作设施。",
+      "zh-TW": "在首爾觀看K-pop，在高陽則可親身嘗試。拉斐斯塔與西部圓頂一帶，舞蹈工作室與表演學院步行可達。這些原本是韓國學生備考藝考與選秀之處——這一格局源於本市集中的廣播製作設施。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "라페스타 · 웨스턴돔 일대", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "half_day", admission: "varies", access: "inquiry" },
+    highlights: [
+      { ko: "라페스타 일대에 밀집", en: "Clustered around Lafesta", ja: "ラフェスタ一帯に密集", "zh-CN": "集中于拉斐斯塔一带", "zh-TW": "集中於拉斐斯塔一帶" },
+      { ko: "방송 제작시설이 모인 도시", en: "A city of broadcast facilities", ja: "放送制作施設が集まる都市", "zh-CN": "广播制作设施汇聚之城", "zh-TW": "廣播製作設施匯聚之城" },
+      { ko: "공공 프로그램도 운영", en: "Public programmes also available", ja: "公共プログラムも運営", "zh-CN": "亦有公共项目", "zh-TW": "亦有公共項目" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    best_selected: false,
+    storiesHeader: {
+      title: {
+        ko: "왜 고양에 학원이 많은가",
+        en: "Why So Many Studios Are Here",
+        ja: "なぜ高陽に学院が多いのか",
+        "zh-CN": "为何高阳有这么多学院",
+        "zh-TW": "為何高陽有這麼多學院",
+      },
+      lead: {
+        ko: "이 도시에 학원이 몰린 이유는 방송국이 먼저 왔기 때문입니다.",
+        en: "The reason so many academies are here is that the broadcasters arrived first.",
+        ja: "この街に学院が集まった理由は、放送局が先に来たからです。",
+        "zh-CN": "此地学院聚集，源于电视台先行落址。",
+        "zh-TW": "此地學院聚集，源於電視台先行落址。",
+      },
+    },
+    stories: [
+      {
+        eyebrow: "CHAPTER 1",
+        theme: { ko: "방송의 도시", en: "BROADCAST CITY", ja: "放送の都市", "zh-CN": "广播之城", "zh-TW": "廣播之城" },
+        title: {
+          ko: "방송국이 모이자 학원이 따라왔다",
+          en: "The Studios Followed the Broadcasters",
+          ja: "放送局が集まると学院が続いた",
+          "zh-CN": "电视台聚集，学院随之而来",
+          "zh-TW": "電視台聚集，學院隨之而來",
+        },
+        site: { ko: "일산 일대", en: "The Ilsan area", ja: "一山一帯", "zh-CN": "一山一带", "zh-TW": "一山一帶" },
+        open: true,
+        body: {
+          ko: "1995년 SBS가 탄현에 제작센터를 세운 뒤 MBC 드림센터가 들어왔고, 2017년에는 EBS 본사가 서울을 떠나 이곳으로 옮겨왔습니다. 전국네트워크 방송사 중 본사가 서울 밖에 있는 첫 사례입니다. 2019년 JTBC 스튜디오, 2022년 MBN 본사가 뒤따랐고, 정부가 운영하는 종합방송지원센터도 이 도시에 있습니다. 제작시설이 모이면서 그곳을 목표로 하는 사람들과 그들을 가르치는 곳도 함께 모였습니다.",
+          en: "After SBS built its production centre in Tanhyeon in 1995, MBC's Dream Center followed, and in 2017 EBS moved its headquarters out of Seoul to this city — the first national network to base its head office outside the capital. A JTBC studio came in 2019 and MBN's headquarters in 2022, and the government-run broadcast support centre is here as well. As production facilities gathered, so did the people aiming for them, and the places that train them.",
+          ja: "1995年にSBSが炭峴に制作センターを建てた後、MBCドリームセンターが入り、2017年にはEBS本社がソウルを離れてここへ移ってきました。全国ネットワーク放送局のうち本社がソウル外にある初の事例です。2019年にJTBCスタジオ、2022年にMBN本社が続き、政府が運営する総合放送支援センターもこの都市にあります。制作施設が集まるにつれ、そこを目指す人々と、その人々を教える場所も一緒に集まりました。",
+          "zh-CN": "1995年SBS在炭岘建立制作中心后，MBC梦想中心随之进驻；2017年EBS总部离开首尔迁至此地，成为全国网络电视台中首个总部设于首都之外的案例。2019年JTBC演播室、2022年MBN总部相继落成，政府运营的综合广播支援中心亦设于此。随着制作设施聚集，怀抱志向的人们与培养他们的场所也一同汇聚而来。",
+          "zh-TW": "1995年SBS在炭峴建立製作中心後，MBC夢想中心隨之進駐；2017年EBS總部離開首爾遷至此地，成為全國網絡電視台中首個總部設於首都之外的案例。2019年JTBC攝影棚、2022年MBN總部相繼落成，政府營運的綜合廣播支援中心亦設於此。隨著製作設施聚集，懷抱志向的人們與培養他們的場所也一同匯聚而來。",
+        },
+      },
+    ],
+    onScreen: {
+      works: [],
+      courses: [
+        {
+          name: {
+            ko: "하루 K팝 댄서",
+            en: "K-Pop Dancer for a Day",
+            ja: "一日K-POPダンサー",
+            "zh-CN": "一日K-pop舞者",
+            "zh-TW": "一日K-pop舞者",
+          },
+          stops: [
+            { ko: "안무 배우기", en: "Learn the choreography", ja: "振付を学ぶ", "zh-CN": "学习编舞", "zh-TW": "學習編舞" },
+            { ko: "동선·표정·카메라", en: "positioning, expression, camera", ja: "動線·表情·カメラ", "zh-CN": "走位·表情·镜头", "zh-TW": "走位·表情·鏡頭" },
+            { ko: "스타일링", en: "styling", ja: "スタイリング", "zh-CN": "造型", "zh-TW": "造型" },
+            { ko: "스튜디오 촬영", en: "studio filming", ja: "スタジオ撮影", "zh-CN": "录影棚拍摄", "zh-TW": "攝影棚拍攝" },
+            { ko: "라페스타에서 편집", en: "editing at Lafesta", ja: "ラフェスタで編集", "zh-CN": "在拉斐斯塔剪辑", "zh-TW": "在拉斐斯塔剪輯" },
+          ],
+        },
+        {
+          name: {
+            ko: "두 시간 K드라마 배우",
+            en: "K-Drama Actor for Two Hours",
+            ja: "二時間のKドラマ俳優",
+            "zh-CN": "两小时K剧演员",
+            "zh-TW": "兩小時K劇演員",
+          },
+          stops: [
+            { ko: "대본 받기", en: "Receive a script", ja: "台本を受け取る", "zh-CN": "领取剧本", "zh-TW": "領取劇本" },
+            { ko: "대사 발음", en: "pronunciation", ja: "セリフの発音", "zh-CN": "台词发音", "zh-TW": "台詞發音" },
+            { ko: "감정 연기", en: "emotional work", ja: "感情演技", "zh-CN": "情绪表演", "zh-TW": "情緒表演" },
+            { ko: "카메라 연기", en: "acting for camera", ja: "カメラ演技", "zh-CN": "镜头表演", "zh-TW": "鏡頭表演" },
+            { ko: "짧은 장면 촬영", en: "film a short scene", ja: "短いシーンの撮影", "zh-CN": "拍摄短场景", "zh-TW": "拍攝短場景" },
+          ],
+        },
+      ],
+    },
+    partnerCta: {
+      ko: "체험 프로그램을 운영하시나요? 제휴 문의",
+      en: "Do you run a programme? Partner with us",
+      ja: "体験プログラムを運営されていますか? 提携のお問い合わせ",
+      "zh-CN": "您经营体验项目吗？合作咨询",
+      "zh-TW": "您經營體驗項目嗎？合作諮詢",
+    },
+  },
+
+  // ─── 오더 #E2 [1]: 신규 스팟 — 고양의 밤 (kculture · course) ────────────
+  //   업체 상호·평점·후기수·가격 게재 금지. nearby 10 · onScreen.courses 3 · 제휴 CTA.
+  {
+    slug: "goyang-after-dark",
+    category: "kculture",
+    type: "course",
+    region: "일산동구",
+    title: { ko: "고양의 밤", en: "Goyang After Dark", ja: "高陽の夜", "zh-CN": "高阳之夜", "zh-TW": "高陽之夜" },
+    title_en_display: "GOYANG AFTER DARK",
+    subtitle: {
+      ko: "한국 사람들이 저녁에 실제로 노는 방법",
+      en: "How Koreans actually spend an evening",
+      ja: "韓国の人が夕方に実際に遊ぶ方法",
+      "zh-CN": "韩国人傍晚真正的消遣方式",
+      "zh-TW": "韓國人傍晚真正的消遣方式",
+    },
+    lead: {
+      ko: "서울의 밤은 관광지가 되었지만, 고양의 밤은 아직 생활입니다. 퇴근한 사람들이 저녁을 먹고, 스크린골프를 치고, 노래방에 가고, 카페에서 늦게까지 앉아 있습니다. 관광객을 위해 만든 것이 아니라 원래 그렇게 살아온 방식입니다.",
+      en: "Seoul's nightlife has become a destination; Goyang's is still just life. People finish work, eat dinner, play screen golf, go to a noraebang, sit in a cafe until late. None of it was built for visitors — it is simply how people here have always spent an evening.",
+      ja: "ソウルの夜は観光地になりましたが、高陽の夜はまだ生活です。仕事を終えた人が夕食を食べ、スクリーンゴルフを打ち、カラオケに行き、カフェで遅くまで座っています。観光客のためにつくられたものではなく、もともとそう暮らしてきた形です。",
+      "zh-CN": "首尔的夜晚已成为旅游目的地，高阳的夜晚仍是生活本身。下班的人吃晚餐、打室内高尔夫、去练歌房、在咖啡馆坐到很晚。这些并非为游客而设，而是此地原本的生活方式。",
+      "zh-TW": "首爾的夜晚已成為旅遊目的地，高陽的夜晚仍是生活本身。下班的人吃晚餐、打室內高爾夫、去練歌房、在咖啡館坐到很晚。這些並非為遊客而設，而是此地原本的生活方式。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "라페스타 · 웨스턴돔 일대", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "half_day", admission: "varies", access: "inquiry" },
+    highlights: [
+      { ko: "관광용이 아닌 생활 문화", en: "Everyday life, not a tourist product", ja: "観光用ではない生活文化", "zh-CN": "生活文化而非旅游产品", "zh-TW": "生活文化而非旅遊產品" },
+      { ko: "라페스타·웨스턴돔 도보권", en: "Walkable around Lafesta and Western Dom", ja: "ラフェスタ·ウエスタンドム徒歩圏", "zh-CN": "拉斐斯塔与西部圆顶步行可达", "zh-TW": "拉斐斯塔與西部圓頂步行可達" },
+      { ko: "늦게까지 여는 곳이 많음", en: "Many places stay open late", ja: "遅くまで開いている店が多い", "zh-CN": "多数场所营业至深夜", "zh-TW": "多數場所營業至深夜" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    best_selected: false,
+    // 오더 #E2 [1]: nearby 10건. distance 미설정. slug 있는 항목은 자동 링크.
+    //   zh-CN 항목3(K-BBQ) 오타 "добавить" → "续添" 로 수정 반영.
+    nearby: {
+      eyebrow: "TEN WAYS TO SPEND THE EVENING",
+      title: {
+        ko: "저녁을 보내는 열 가지 방법",
+        en: "Ten Ways to Spend the Evening",
+        ja: "夕方の過ごし方 十通り",
+        "zh-CN": "度过夜晚的十种方式",
+        "zh-TW": "度過夜晚的十種方式",
+      },
+      lead: {
+        ko: "어느 하나만 골라도 되고, 몇 개를 이어도 됩니다.",
+        en: "Pick one, or string several together.",
+        ja: "どれか一つでも、いくつかつなげても構いません。",
+        "zh-CN": "择其一，或数项相连，皆可。",
+        "zh-TW": "擇其一，或數項相連，皆可。",
+      },
+      items: [
+        {
+          name: { ko: "스크린골프", en: "Screen Golf", ja: "スクリーンゴルフ", "zh-CN": "室内高尔夫", "zh-TW": "室內高爾夫" },
+          tag: {
+            ko: "방 하나를 빌려 골프 시뮬레이터로 9홀을 칩니다. 실제 코스를 화면으로 옮겨놓은 것이고, 클럽은 빌려 씁니다. 두세 시간 동안 이야기하며 노는 자리에 가깝습니다. 날씨와 상관없고 밤늦게까지 엽니다.",
+            en: "You book a room and play nine holes on a golf simulator. Real courses are rendered on screen and clubs are provided. It is closer to a two- or three-hour hangout than a round of golf. Weather does not matter and many places stay open late.",
+            ja: "部屋を一つ借りてゴルフシミュレーターで9ホールを打ちます。実際のコースを画面に移したもので、クラブは借りて使います。2〜3時間話しながら遊ぶ場に近いです。天気に左右されず、夜遅くまで開いています。",
+            "zh-CN": "包一间房，用高尔夫模拟器打九洞。真实球场以屏幕呈现，球杆现场租借。与其说是打球，更接近两三小时的聚会。不受天气影响，多营业至深夜。",
+            "zh-TW": "包一間房，用高爾夫模擬器打九洞。真實球場以螢幕呈現，球桿現場租借。與其說是打球，更接近兩三小時的聚會。不受天氣影響，多營業至深夜。",
+          },
+        },
+        {
+          name: { ko: "노래방", en: "Noraebang", ja: "カラオケ", "zh-CN": "练歌房", "zh-TW": "練歌房" },
+          tag: {
+            ko: "방을 시간 단위로 빌려 노래를 부릅니다. 일행끼리만 들어가므로 무대에 서는 부담이 없습니다. 외국곡이 들어 있는 곳도 많습니다.",
+            en: "You rent a room by the hour and sing. Only your own group is inside, so there is no stage to face. Many places carry foreign-language songs.",
+            ja: "部屋を時間単位で借りて歌います。同行者だけで入るので、舞台に立つ負担がありません。外国曲が入っている店も多いです。",
+            "zh-CN": "按小时包房歌唱，仅同行者入内，无需面对舞台。不少店家备有外语歌曲。",
+            "zh-TW": "按小時包廂歌唱，僅同行者入內，無需面對舞台。不少店家備有外語歌曲。",
+          },
+        },
+        {
+          name: { ko: "고깃집", en: "Korean BBQ", ja: "焼肉店", "zh-CN": "烤肉店", "zh-TW": "烤肉店" },
+          tag: {
+            ko: "테이블에서 직접 구워 먹습니다. 반찬은 대개 추가 요금 없이 다시 채워줍니다. 저녁 시간에 가장 붐빕니다.",
+            en: "You grill at the table yourself. Side dishes are usually refilled at no extra charge. Evenings are the busiest.",
+            ja: "テーブルで自分で焼いて食べます。おかずはたいてい追加料金なしでおかわりできます。夕方が最も混みます。",
+            // zh-CN 오타 수정: "续добавить" → "续添".
+            "zh-CN": "在餐桌上自行烤制。小菜通常可免费续添。傍晚时段最为拥挤。",
+            "zh-TW": "在餐桌上自行烤製。小菜通常可免費續添。傍晚時段最為擁擠。",
+          },
+        },
+        {
+          name: { ko: "치킨과 맥주", en: "Chicken and Beer", ja: "チキンとビール", "zh-CN": "炸鸡配啤酒", "zh-TW": "炸雞配啤酒" },
+          tag: {
+            ko: "치킨에 맥주를 곁들이는 조합을 줄여 치맥이라 부릅니다. 늦은 시간까지 여는 곳이 많고 포장해서 숙소로 가져가도 됩니다.",
+            en: "The pairing of fried chicken with beer is shortened to chimaek. Many places are open late, and you can take it back to your accommodation.",
+            ja: "チキンにビールを合わせる組み合わせを縮めてチメクと呼びます。遅くまで開いている店が多く、持ち帰って宿で食べることもできます。",
+            "zh-CN": "炸鸡配啤酒的组合简称「chimaek」。多数店家营业至深夜，亦可打包带回住处。",
+            "zh-TW": "炸雞配啤酒的組合簡稱「chimaek」。多數店家營業至深夜，亦可打包帶回住處。",
+          },
+        },
+        {
+          name: { ko: "늦게까지 여는 카페", en: "Late-Night Cafes", ja: "遅くまで開くカフェ", "zh-CN": "深夜咖啡馆", "zh-TW": "深夜咖啡館" },
+          tag: {
+            ko: "식사 뒤에 카페로 자리를 옮기는 것이 보통입니다. 밤 열한 시, 열두 시까지 여는 곳이 있고 디저트를 함께 파는 곳도 많습니다.",
+            en: "Moving to a cafe after a meal is the norm. Some stay open until eleven or midnight, and many serve desserts as well.",
+            ja: "食事の後にカフェへ移るのが普通です。夜11時や12時まで開く店があり、デザートを一緒に出す店も多いです。",
+            "zh-CN": "餐后转往咖啡馆是常态。有些营业至晚上十一点或午夜，许多也供应甜点。",
+            "zh-TW": "餐後轉往咖啡館是常態。有些營業至晚上十一點或午夜，許多也供應甜點。",
+          },
+        },
+        {
+          name: { ko: "영화관", en: "Cinema", ja: "映画館", "zh-CN": "电影院", "zh-TW": "電影院" },
+          tag: {
+            ko: "웨스턴돔과 라페스타 안에 영화관이 있습니다. 자막 여부는 상영관마다 다르니 예매 전에 확인하세요.",
+            en: "There are cinemas inside Western Dom and Lafesta. Subtitling varies by screening, so check before booking.",
+            ja: "ウエスタンドムとラフェスタの中に映画館があります。字幕の有無は上映ごとに異なるため、予約前にご確認ください。",
+            "zh-CN": "西部圆顶与拉斐斯塔内设有影院。字幕情况因场次而异，订票前请先确认。",
+            "zh-TW": "西部圓頂與拉斐斯塔內設有影院。字幕情況因場次而異，訂票前請先確認。",
+          },
+        },
+        {
+          name: { ko: "볼링", en: "Bowling", ja: "ボウリング", "zh-CN": "保龄球", "zh-TW": "保齡球" },
+          tag: {
+            ko: "신발을 빌려 게임 단위로 칩니다. 여럿이 갈 때 무난한 선택입니다.",
+            en: "Shoes are rented and you pay by the game. A straightforward choice for a group.",
+            ja: "靴を借りてゲーム単位で投げます。大人数で行くときに無難な選択です。",
+            "zh-CN": "租鞋后按局计费，多人同行时是稳妥之选。",
+            "zh-TW": "租鞋後按局計費，多人同行時是穩妥之選。",
+          },
+        },
+        {
+          name: { ko: "공연", en: "Performances", ja: "公演", "zh-CN": "演出", "zh-TW": "演出" },
+          tag: {
+            ko: "아람누리와 어울림누리에서 저녁 공연이 열립니다. 대형 콘서트는 고양종합운동장과 킨텍스에서 열립니다.",
+            en: "Evening performances run at Aram Nuri and Eoullim Nuri. Larger concerts take place at Goyang Stadium and KINTEX.",
+            ja: "アラムヌリとオウルリムヌリで夜の公演が開かれます。大型コンサートは高陽総合運動場とキンテックスで行われます。",
+            "zh-CN": "阿蓝世界与和谐世界有晚间演出。大型演唱会则在高阳综合运动场与韩国国际展览中心举行。",
+            "zh-TW": "阿藍世界與和諧世界有晚間演出。大型演唱會則在高陽綜合運動場與韓國國際展覽中心舉行。",
+          },
+        },
+        {
+          name: { ko: "호수 야경", en: "The Lake at Night", ja: "湖の夜景", "zh-CN": "湖畔夜景", "zh-TW": "湖畔夜景" },
+          slug: "ilsan-lake-park",
+          tag: {
+            ko: "일산호수공원은 밤에도 걸을 수 있습니다. 애수교에서 물에 비친 도시 불빛을 볼 수 있고, 주말에는 노래하는분수대가 가동됩니다.",
+            en: "Ilsan Lake Park can be walked at night. From Aesugyo Bridge the city lights reflect on the water, and the Singing Fountain runs at weekends.",
+            ja: "一山湖水公園は夜も歩けます。哀愁橋から水面に映る街の灯りが見え、週末には歌う噴水台が稼働します。",
+            "zh-CN": "一山湖水公园夜间亦可漫步。自哀愁桥可见湖面倒映的城市灯火，周末歌唱喷泉开放。",
+            "zh-TW": "一山湖水公園夜間亦可漫步。自哀愁橋可見湖面倒映的城市燈火，週末歌唱噴泉開放。",
+          },
+        },
+        {
+          name: { ko: "시장의 저녁", en: "The Market in the Evening", ja: "市場の夕方", "zh-CN": "市场的傍晚", "zh-TW": "市場的傍晚" },
+          slug: "ilsan-traditional-market",
+          tag: {
+            ko: "전통시장 안이나 주변에 저녁까지 여는 식당이 있습니다. 신도시 상권과는 분위기가 다르고 가격대가 낮습니다.",
+            en: "Inside and around the traditional market, some restaurants stay open into the evening. The atmosphere differs from the new-town districts, and prices are lower.",
+            ja: "伝統市場の中や周辺に、夕方まで開いている食堂があります。新都市の商圏とは雰囲気が異なり、価格帯も低めです。",
+            "zh-CN": "传统市场内外有营业至傍晚的餐馆。氛围与新城商圈不同，价格也较低。",
+            "zh-TW": "傳統市場內外有營業至傍晚的餐館。氛圍與新城商圈不同，價格也較低。",
+          },
+        },
+      ],
+    },
+    onScreen: {
+      works: [],
+      courses: [
+        {
+          name: { ko: "처음이라면", en: "If It Is Your First Evening", ja: "初めてなら", "zh-CN": "若是初次", "zh-TW": "若是初次" },
+          stops: [
+            { ko: "라페스타에서 고깃집", en: "Korean BBQ at Lafesta", ja: "ラフェスタで焼肉", "zh-CN": "拉斐斯塔烤肉", "zh-TW": "拉斐斯塔烤肉" },
+            { ko: "웨스턴돔 카페", en: "a cafe at Western Dom", ja: "ウエスタンドムのカフェ", "zh-CN": "西部圆顶咖啡馆", "zh-TW": "西部圓頂咖啡館" },
+            { ko: "일산호수공원 야경", en: "the lake park at night", ja: "一山湖水公園の夜景", "zh-CN": "一山湖水公园夜景", "zh-TW": "一山湖水公園夜景" },
+          ],
+        },
+        {
+          name: { ko: "한국식으로 놀아보기", en: "The Korean Way", ja: "韓国式に遊ぶ", "zh-CN": "韩式玩法", "zh-TW": "韓式玩法" },
+          stops: [
+            { ko: "저녁 식사", en: "Dinner", ja: "夕食", "zh-CN": "晚餐", "zh-TW": "晚餐" },
+            { ko: "스크린골프 두세 시간", en: "two or three hours of screen golf", ja: "スクリーンゴルフ2〜3時間", "zh-CN": "室内高尔夫两三小时", "zh-TW": "室內高爾夫兩三小時" },
+            { ko: "치맥으로 마무리", en: "chimaek to finish", ja: "チメクで締め", "zh-CN": "以炸鸡啤酒作结", "zh-TW": "以炸雞啤酒作結" },
+          ],
+        },
+        {
+          name: { ko: "전시가 끝난 뒤", en: "After the Exhibition", ja: "展示が終わった後", "zh-CN": "展会结束后", "zh-TW": "展會結束後" },
+          stops: [
+            { ko: "킨텍스", en: "KINTEX", ja: "キンテックス", "zh-CN": "韩国国际展览中心", "zh-TW": "韓國國際展覽中心" },
+            { ko: "현대백화점 식사", en: "dinner at the department store", ja: "百貨店で食事", "zh-CN": "百货商场用餐", "zh-TW": "百貨商場用餐" },
+            { ko: "호수공원 야경", en: "the lake park at night", ja: "湖水公園の夜景", "zh-CN": "湖水公园夜景", "zh-TW": "湖水公園夜景" },
+            { ko: "라페스타", en: "Lafesta", ja: "ラフェスタ", "zh-CN": "拉斐斯塔", "zh-TW": "拉斐斯塔" },
+          ],
+        },
+      ],
+    },
+    partnerCta: {
+      ko: "저녁 프로그램을 운영하시나요? 제휴 문의",
+      en: "Do you run an evening programme? Partner with us",
+      ja: "夜のプログラムを運営されていますか? 提携のお問い合わせ",
+      "zh-CN": "您经营夜间项目吗？合作咨询",
+      "zh-TW": "您經營夜間項目嗎？合作諮詢",
     },
   },
 ];

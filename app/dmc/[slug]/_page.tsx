@@ -540,6 +540,8 @@ function OverviewTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         <OnScreenSection spot={spot} locale={locale} />
         <AroundSection spot={spot} locale={locale} />
         <HanbokSection spot={spot} locale={locale} />
+        {/* 오더 #E2 [1]: 제휴 CTA 배너 — 스팟 하단, /contact 링크. */}
+        <PartnerCta spot={spot} locale={locale} />
         {/* 모바일: 광고를 본문 중간에 (오더 렌더 규칙 11) */}
         {spot.adSlot !== null && (
           <div className="lg:hidden">
@@ -933,6 +935,22 @@ function HanbokSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
           {h.caution[locale]}
         </p>
       </div>
+    </section>
+  );
+}
+
+// ─── 오더 #E2 [1]: 제휴 CTA — 스팟 하단, /contact 링크. ──────────────────
+function PartnerCta({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const cta = spot.partnerCta;
+  if (!cta) return null;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <Link
+        href="/contact"
+        className="inline-flex items-center gap-2 border border-[#D4AF37] px-5 py-3 text-sm font-bold text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-white"
+      >
+        {cta[locale]}
+      </Link>
     </section>
   );
 }

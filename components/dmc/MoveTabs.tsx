@@ -1,13 +1,19 @@
 "use client";
-// GOYANG MOVE 탭 스위처 (오더 #A4 [2] · #A5 [1][2] 확장).
-// URL 쿼리로 방향(dir=in|out) + IN 탭(from=…) 을 파생. 로컬 state·useEffect 없음.
+// GOYANG MOVE 탭 스위처 (오더 #A4 [2] · #A5 [1][2] · #E2 [3][4] 확장).
+// URL 쿼리로 방향(dir=in|out|essentials) + IN 탭(from=…) 을 파생. 로컬 state·useEffect 없음.
 //
 // - dir 미지정 또는 dir=in → IN 뷰 (5탭 + 활성 탭 메소드)
 // - dir=out              → OUT 뷰 (목적지 카드 그리드 + 노선도 3개 + koCard)
-// - 홈 GETTING HERE 카드 링크 /dmc/move?from={key} 는 dir 미지정이라 기본 IN.
+// - dir=essentials       → 알아두기 뷰 (13 items + PLAN YOUR TRIP)  ← #E2
 
 import { useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  Toilet, Trash2, Store, Droplet, HandCoins, Footprints, CreditCard,
+  Phone, Info as InfoIcon, CalendarDays, Wifi, ShieldCheck, Stethoscope,
+  Compass, Accessibility, HelpCircle,
+} from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
 
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
 import { LineDiagram } from "@/components/dmc/LineDiagram";
@@ -20,8 +26,25 @@ import {
   type OutDiagram,
   type TabKey,
 } from "@/data/dmc-move";
+import {
+  essentialsHeader,
+  essentialsItems,
+  planHeader,
+  planFirstTime,
+  planAccessibility,
+  planFaq,
+  type EssentialIcon,
+} from "@/data/essentials";
+import { spots, type Spot } from "@/data/spots";
+import { Link } from "@/lib/navigation";
 
-type Direction = "in" | "out";
+type Direction = "in" | "out" | "essentials";
+
+// 오더 #E2 [3][5]: 알아두기 탭 라벨.
+const ESSENTIALS_LABEL: Record<MoveLocale, string> = {
+  ko: "알아두기", en: "Good to Know", ja: "知っておく",
+  "zh-CN": "了解一下", "zh-TW": "了解一下",
+};
 
 const COPY_LABEL_FALLBACK: Record<MoveLocale, string> = {
   ko: "복사",
@@ -51,7 +74,10 @@ export function MoveTabs({
 
   // 상태는 URL 이 단일 진실원.
   const dirParam = searchParams?.get("dir");
-  const dir: Direction = dirParam === "out" ? "out" : "in";
+  const dir: Direction =
+    dirParam === "out" ? "out"
+    : dirParam === "essentials" ? "essentials"
+    : "in";
 
   const fromParam = searchParams?.get("from");
   const activeTabKey: TabKey =
@@ -68,6 +94,9 @@ export function MoveTabs({
       if (next === "out") {
         params.set("dir", "out");
         params.delete("from"); // OUT 은 from 무의미
+      } else if (next === "essentials") {
+        params.set("dir", "essentials");
+        params.delete("from");
       } else {
         params.delete("dir"); // in 은 기본값 → URL 청결 유지
       }
@@ -96,8 +125,11 @@ export function MoveTabs({
         aria-label="direction"
         className="flex flex-wrap gap-2"
       >
-        {(["in", "out"] as const).map((d) => {
+        {(["in", "out", "essentials"] as const).map((d) => {
           const selected = d === dir;
+          // 오더 #E2 [3]: essentials 는 dmc-move.ts data.directions 미포함 → 별도 라벨.
+          const label =
+            d === "essentials" ? ESSENTIALS_LABEL[locale] : data.directions[d][locale];
           return (
             <button
               key={d}
@@ -111,7 +143,7 @@ export function MoveTabs({
                   : "border border-[#232322]/20 bg-white px-5 py-2.5 text-sm font-black uppercase tracking-[0.16em] text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
               }
             >
-              {data.directions[d][locale]}
+              {label}
             </button>
           );
         })}
@@ -126,15 +158,191 @@ export function MoveTabs({
           copyLabel={copyLabel}
           copiedLabel={copiedLabel}
         />
-      ) : (
+      ) : dir === "out" ? (
         <OutView
           out={data.out}
           locale={locale}
           copyLabel={copyLabel}
           copiedLabel={copiedLabel}
         />
+      ) : (
+        <EssentialsView locale={locale} />
       )}
     </>
+  );
+}
+
+// ─── 오더 #E2 [3][4]: 알아두기 뷰 ─────────────────────────────────────────
+const ICON_MAP: Record<EssentialIcon, ComponentType<SVGProps<SVGSVGElement>>> = {
+  Toilet, Trash2, Store, Droplet, HandCoins, Footprints, CreditCard,
+  Phone, Info: InfoIcon, CalendarDays, Wifi, ShieldCheck, Stethoscope,
+};
+
+function EssentialsView({ locale }: { locale: MoveLocale }) {
+  return (
+    <div className="mt-10 space-y-20">
+      {/* ESSENTIALS 항목 13개 */}
+      <section>
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+          {essentialsHeader.eyebrow}
+        </div>
+        <h2 className="mt-3 text-2xl font-black leading-snug tracking-[-0.02em] sm:text-3xl">
+          {essentialsHeader.title[locale]}
+        </h2>
+        <p className="mt-2 max-w-3xl text-base leading-relaxed text-[#232322]/85">
+          {essentialsHeader.lead[locale]}
+        </p>
+        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {essentialsItems.map((it) => {
+            const Icon = ICON_MAP[it.icon];
+            return (
+              <li key={it.id} className="border border-[#232322]/15 p-5">
+                <div className="flex items-center gap-2 text-sm font-black text-[#232322]">
+                  <Icon className="h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+                  <span>{it.title[locale]}</span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-[#232322]/85">
+                  {it.body[locale]}
+                </p>
+                {it.sub && (
+                  <p className="mt-2 text-xs leading-relaxed text-[#232322]/60">
+                    {it.sub[locale]}
+                  </p>
+                )}
+                {it.slug && (
+                  <Link
+                    href={`/dmc/${it.slug}`}
+                    className="mt-3 inline-block text-xs font-bold text-[#D4AF37] hover:underline"
+                  >
+                    → {it.title[locale]}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* PLAN YOUR TRIP */}
+      <section>
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+          {planHeader.eyebrow}
+        </div>
+        <h2 className="mt-3 text-2xl font-black leading-snug tracking-[-0.02em] sm:text-3xl">
+          {planHeader.title[locale]}
+        </h2>
+
+        {/* 처음이라면 */}
+        <div className="mt-8 border-t border-[#232322]/10 pt-8">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+            <Compass className="h-4 w-4" aria-hidden="true" />
+            <span>{planFirstTime.title[locale]}</span>
+          </div>
+          <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+            {planFirstTime.lead[locale]}
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {planFirstTime.courses.map((c, i) => (
+              <article key={i} className="border border-[#232322]/15 p-5">
+                <div className="text-sm font-black text-[#232322]">
+                  {c.name[locale]}
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-[#232322]/85">
+                  {c.stops[locale]}
+                </p>
+                {c.note && (
+                  <p className="mt-2 text-xs text-[#232322]/60">
+                    {c.note[locale]}
+                  </p>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {/* 접근성 — spots.ts info.access 3분류 집계 */}
+        <AccessibilityBlock locale={locale} />
+
+        {/* FAQ */}
+        <div className="mt-10 border-t border-[#232322]/10 pt-8">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+            <HelpCircle className="h-4 w-4" aria-hidden="true" />
+            <span>
+              {locale === "ko" ? "자주 묻는 질문"
+                : locale === "en" ? "Frequently Asked Questions"
+                : locale === "ja" ? "よくある質問"
+                : locale === "zh-CN" ? "常见问题"
+                : "常見問題"}
+            </span>
+          </div>
+          <ul className="mt-6 space-y-6">
+            {planFaq.map((f, i) => (
+              <li key={i} className="border-l-2 border-[#D4AF37] pl-4">
+                <p className="text-sm font-black text-[#232322]">
+                  Q. {f.q[locale]}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[#232322]/85">
+                  {f.a[locale]}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function AccessibilityBlock({ locale }: { locale: MoveLocale }) {
+  // 오더 #E2 [4]: spot.info.access 값 3분류로 집계. 새 데이터 만들지 않음.
+  const buckets: Record<"wheelchair" | "partial" | "inquiry", Spot[]> = {
+    wheelchair: [], partial: [], inquiry: [],
+  };
+  for (const s of spots) {
+    const k = s.info?.access;
+    if (k === "wheelchair" || k === "partial" || k === "inquiry") {
+      buckets[k].push(s);
+    }
+  }
+  const order: Array<"wheelchair" | "partial" | "inquiry"> = ["wheelchair", "partial", "inquiry"];
+  return (
+    <div className="mt-10 border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+        <Accessibility className="h-4 w-4" aria-hidden="true" />
+        <span>{planAccessibility.title[locale]}</span>
+      </div>
+      <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+        {planAccessibility.lead[locale]}
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-[#232322]/70">
+        {planAccessibility.transportNote[locale]}
+      </p>
+      <div className="mt-6 space-y-6">
+        {order.map((k) => {
+          const list = buckets[k];
+          if (list.length === 0) return null;
+          return (
+            <div key={k}>
+              <div className="text-sm font-black text-[#232322]">
+                {planAccessibility.labels[k][locale]} ({list.length})
+              </div>
+              <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                {list.map((s) => (
+                  <li key={s.slug} className="text-sm">
+                    <Link
+                      href={`/dmc/${s.slug}`}
+                      className="text-[#232322]/85 hover:text-[#D4AF37] hover:underline"
+                    >
+                      {s.title[locale]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
