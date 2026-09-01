@@ -715,7 +715,7 @@ export const spots: Spot[] = [
     },
   },
 
-  // ─── 오더 #C5: 산책 10선 02~10 (spots-walk-02-10.md 그대로) ─────────────
+  // ─── 오더 #C5: 산책 02~10 (spots-walk-02-10.md 그대로) ─────────────
   // 공통: gallery/insider 미설정, adSlot=null, credits=[], access=[] (md 에 access
   //   hub 미명시 → 임의 생성 금지), map/practical 미설정, ko_card.address_ko=null
   //   (「확인필요」), official_url 미설정 (「확인필요」).
@@ -1997,7 +1997,9 @@ export const spots: Spot[] = [
     know: [
       { ko: "삼겹살 — 돼지 뱃살을 구워 먹는 한국식 구이입니다. 상추에 싸서 먹습니다.", en: "Samgyeopsal — grilled pork belly, usually wrapped in lettuce.", ja: "サムギョプサル — 豚バラ肉を焼いて食べる韓国式の焼肉。サンチュに包んで食べます。", "zh-CN": "五花肉 — 韩式烤猪腩肉，通常用生菜包裹食用。", "zh-TW": "五花肉 — 韓式烤豬腩肉，通常用生菜包裹食用。" },
     ],
-    ko_card: [{ name_ko: "라페스타", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 1144856 주소.
+    ko_card: [{ name_ko: "라페스타", address_ko: "경기도 고양시 일산동구 무궁화로 20-11 (장항동)" }],
+    map: [{ lat: 37.6618866056, lng: 126.7675570226, label: "라페스타" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "wheelchair" },
     highlights: [
@@ -2055,7 +2057,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "웨스턴돔", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 2914203 주소.
+    ko_card: [{ name_ko: "웨스턴돔", address_ko: "경기도 고양시 일산동구 정발산로 24 (장항동)" }],
+    map: [{ lat: 37.6558964094856, lng: 126.772038816453, label: "웨스턴돔" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "wheelchair" },
     highlights: [
@@ -2256,7 +2260,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "고양아람누리", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 2892126 (아람누리) 주소.
+    ko_card: [{ name_ko: "고양아람누리", address_ko: "경기도 고양시 일산동구 중앙로 1286 고양아람누리" }],
+    map: [{ lat: 37.660973360108, lng: 126.772797186522, label: "고양아람누리" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "wheelchair" },
     highlights: [
@@ -2266,6 +2272,7 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    official_url: "https://www.artgy.or.kr/",
     best_selected: false,
   },
 
@@ -2315,7 +2322,10 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "현대 모터스튜디오 고양", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 2660801 detailCommon2 로 주소 보강.
+    ko_card: [{ name_ko: "현대 모터스튜디오 고양", address_ko: "경기도 고양시 일산서구 킨텍스로 217-6" }],
+    // 오더 #F0 [4]: TourAPI 좌표.
+    map: [{ lat: 37.6662056038, lng: 126.7476828283, label: "현대 모터스튜디오 고양" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "free", access: "wheelchair" },
     highlights: [
@@ -2324,8 +2334,17 @@ export const spots: Spot[] = [
       { ko: "킨텍스 바로 옆", en: "Right beside KINTEX", ja: "キンテックスのすぐ隣", "zh-CN": "紧邻韩国国际展览中心", "zh-TW": "緊鄰韓國國際展覽中心" },
     ],
     adSlot: null,
+    // 오더 #F0 [3]: TourAPI Type1 3장 (contentid 2660801).
+    gallery: [
+      { url: "/images/spots/hyundai-motorstudio-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/hyundai-motorstudio-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/hyundai-motorstudio-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
+    // 오더 #F0 [4]: TourAPI homepage.
+    official_url: "https://motorstudio.hyundai.com/",
     best_selected: false,
+    tourapi: { contentid: "2660801", overview_ko: "" },
   },
 
   {
@@ -2345,7 +2364,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "중남미문화원", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 129897.
+    ko_card: [{ name_ko: "중남미문화원", address_ko: "경기도 고양시 덕양구 대양로285번길 33-15 (고양동)" }],
+    map: [{ lat: 37.7035987299, lng: 126.8952679691, label: "중남미문화원" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "paid", access: "partial" },
     highlights: [
@@ -2354,8 +2375,17 @@ export const spots: Spot[] = [
       { ko: "이국적인 건축", en: "Distinctly foreign architecture", ja: "異国的な建築", "zh-CN": "异国情调建筑", "zh-TW": "異國情調建築" },
     ],
     adSlot: null,
+    // 오더 #F0 [3]: TourAPI Type1 3장.
+    gallery: [
+      { url: "/images/spots/latin-america-museum-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/latin-america-museum-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/latin-america-museum-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     nearest_station: { name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" }, walk_min: null },
+    // 오더 #F0 [4]: 공식 사이트 (TourAPI 응답 첫 URL).
+    official_url: "http://www.latina.or.kr",
     best_selected: false,
+    tourapi: { contentid: "129897", overview_ko: "" },
   },
 
   {
@@ -2375,7 +2405,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "아람미술관", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 2892126 (아람누리 = 아람미술관 상위) 주소.
+    ko_card: [{ name_ko: "아람미술관", address_ko: "경기도 고양시 일산동구 중앙로 1286 고양아람누리" }],
+    map: [{ lat: 37.660973360108, lng: 126.772797186522, label: "아람미술관" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1h", admission: "varies", access: "wheelchair" },
     highlights: [
@@ -2600,7 +2632,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "킨텍스", address_ko: null }],
+    // 오더 #F0 [4]: TourAPI 250465 (킨텍스) 주소.
+    ko_card: [{ name_ko: "킨텍스", address_ko: "경기도 고양시 일산서구 킨텍스로 217-60" }],
+    map: [{ lat: 37.6689357879, lng: 126.7455635138, label: "킨텍스" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "half_day", admission: "paid", access: "wheelchair" },
     highlights: [
@@ -2610,6 +2644,7 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
+    official_url: "http://www.kintex.com",
     best_selected: false,
   },
 
@@ -2660,7 +2695,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
+    // 오더 #F0 [4]: 기존 address 유지 (오더 지시 "덮어쓰지 말 것"), 좌표만 신규.
     ko_card: [{ name_ko: "원마운트", address_ko: "경기도 고양시 일산서구 한류월드로 300" }],
+    map: [{ lat: 37.6645540981816, lng: 126.754526582068, label: "원마운트" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "half_day", admission: "paid", access: "wheelchair" },
     highlights: [
@@ -2713,7 +2750,17 @@ export const spots: Spot[] = [
       { ko: "관광 자료·시티투어 안내", en: "Maps and city tour information", ja: "観光資料・シティツアー案内", "zh-CN": "旅游资料与城市观光咨询", "zh-TW": "旅遊資料與城市觀光諮詢" },
     ],
     adSlot: null,
+    // 오더 #F0 [3]: TourAPI Type1 3장 (contentid 2946746).
+    gallery: [
+      { url: "/images/spots/goyang-tourist-center-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/goyang-tourist-center-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/goyang-tourist-center-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
+    // 오더 #F0 [4]: TourAPI 좌표.
+    map: [{ lat: 37.6595397482, lng: 126.7727121731, label: "고양관광정보센터" }],
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    // 오더 #F0 [4]: 공식 사이트 (비짓고양).
+    official_url: "https://www.goyang.go.kr/",
     best_selected: false,
     tourapi: { contentid: "2946746", overview_ko: "" },
     // 오더 #E1 [3]: onScreen (Ma City) + courses (MA CITY WALK).

@@ -57,12 +57,13 @@ export const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   "zh-TW": "全部",
 };
 
+// 오더 #F0 [1]: N선/N選 표기 제거. 실제 항목 수와 무관한 일반 안내로.
 const PLACEHOLDER: Record<PageLocale, string> = {
-  ko: "10선 콘텐츠를 정성껏 준비하고 있습니다.",
-  en: "The curated ten are being prepared with care.",
-  ja: "10選コンテンツを準備中です。",
-  "zh-CN": "十选内容正在精心准备中。",
-  "zh-TW": "十選內容正在精心準備中。",
+  ko: "콘텐츠를 정성껏 준비하고 있습니다.",
+  en: "Curated content is being prepared with care.",
+  ja: "コンテンツを準備中です。",
+  "zh-CN": "内容正在精心准备中。",
+  "zh-TW": "內容正在精心準備中。",
 };
 
 const PLACEHOLDER_SUB: Record<PageLocale, string> = {
