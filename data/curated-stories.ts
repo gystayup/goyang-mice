@@ -78,6 +78,34 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         region: "ilsan-east",
       },
     ],
+    // 오더 #C3 [2]: name/desc 5로케일. data/spots.ts 의 ilsan-lake-park
+    //   title/subtitle 에서 그대로 가져옴. 새 문안 작성 없음.
+    translations: {
+      en: {
+        "ilsan-lake-park": {
+          name: "Ilsan Lake Park",
+          desc: "A loop around the lake in the middle of the city",
+        },
+      },
+      ja: {
+        "ilsan-lake-park": {
+          name: "一山湖水公園",
+          desc: "都心の真ん中で湖を一周する道",
+        },
+      },
+      "zh-CN": {
+        "ilsan-lake-park": {
+          name: "一山湖水公园",
+          desc: "环绕城市中心湖泊的步道",
+        },
+      },
+      "zh-TW": {
+        "ilsan-lake-park": {
+          name: "一山湖水公園",
+          desc: "環繞城市中心湖泊的步道",
+        },
+      },
+    },
   },
   food: { category: "food", items: [] },
   culture: { category: "culture", items: [] },
@@ -88,4 +116,29 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
 
 export function getCuratedStory(cat: CuratedCategory): CuratedStory {
   return curatedStories[cat];
+}
+
+/**
+ * 오더 #C3: 카드 렌더용 로케일 스왑.
+ *   ko 는 item 원본. 그 외 로케일은 story.translations[locale][item.id] 로 필드 override.
+ *   해당 로케일 override 가 없거나 필드가 비면 ko 값으로 폴백 (빈 값 회피).
+ *   구조: 얕은 병합 (name/desc/subtitle/address/hours/tags 만 override 대상 필드).
+ */
+export function getLocalizedCuratedItem(
+  item: CuratedItem,
+  story: CuratedStory,
+  locale: EmblemLocale,
+): CuratedItem {
+  if (locale === "ko") return item;
+  const override = story.translations?.[locale]?.[item.id];
+  if (!override) return item;
+  return {
+    ...item,
+    name: override.name ?? item.name,
+    subtitle: override.subtitle ?? item.subtitle,
+    desc: override.desc ?? item.desc,
+    address: override.address ?? item.address,
+    hours: override.hours ?? item.hours,
+    tags: override.tags ?? item.tags,
+  };
 }
