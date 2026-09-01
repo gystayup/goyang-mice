@@ -36,6 +36,7 @@ import {
   SPOT_LOCALES,
   type Spot,
   type SpotAccessPoint,
+  type SpotGalleryImage,
   type SpotInfoAccess,
   type SpotInfoAdmission,
   type SpotInfoDuration,
@@ -100,6 +101,25 @@ const LABEL_COMING_SOON: Record<PageLocale, string> = {
   ja: "まもなく公開します",
   "zh-CN": "敬请期待",
   "zh-TW": "敬請期待",
+};
+
+// 오더 #D3 [4] 판정 4: 이미지 저작권 크레딧 5로케일. cpyrht 값 기반 자동 표시.
+//   Type1 (공공누리 1유형, 자유이용) / Type3 (공공누리 3유형, 원본유지).
+const CREDIT_LABEL: Record<"Type1" | "Type3", Record<PageLocale, string>> = {
+  Type1: {
+    ko: "출처: 한국관광공사 (공공누리 제1유형)",
+    en: "Source: Korea Tourism Organization (KOGL Type 1)",
+    ja: "出典: 韓国観光公社（KOGL 第1類型）",
+    "zh-CN": "来源: 韩国观光公社（KOGL 第1类型）",
+    "zh-TW": "來源: 韓國觀光公社（KOGL 第1類型）",
+  },
+  Type3: {
+    ko: "출처: 한국관광공사 (공공누리 제3유형·원본유지)",
+    en: "Source: Korea Tourism Organization (KOGL Type 3 · No modification)",
+    ja: "出典: 韓国観光公社（KOGL 第3類型・原本維持）",
+    "zh-CN": "来源: 韩国观光公社（KOGL 第3类型·原本保持）",
+    "zh-TW": "來源: 韓國觀光公社（KOGL 第3類型·原本維持）",
+  },
 };
 
 const TAB_LABEL: Record<PageLocale, { overview: string; location: string }> = {
@@ -219,10 +239,12 @@ export default async function SpotDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* 오더 #C5-b [2]: spot.gallery 없으면 public/images/spots/{slug}.{ext} 자동 감지. */}
+        {/* 오더 #C5-b [2] + #D3 [4]: spot.gallery 우선, 없으면
+            public/images/spots/{slug}(-1).{ext} 자동 감지. Type1/Type3 분기는 Gallery 내부. */}
         <Gallery
           images={resolveSpotGallery(spot.gallery, spot.slug, spot.title.ko)}
           title={spot.title[locale]}
+          locale={locale}
         />
 
         <section className="mx-auto max-w-6xl px-6 pt-10">
@@ -251,34 +273,104 @@ export default async function SpotDetailPage({
 }
 
 // ─── 1. 갤러리 ──────────────────────────────────────────────────────────────
+//
+// 오더 #D3 [4] 판정 1: Type1/Type3 렌더 분기.
+//   · Type1 (+ cpyrht 미설정) — 크롭 그리드로 배치.
+//   · Type3 — 원본 비율(object-contain) 단독 배치. 크롭·필터 금지.
+//   · 각 이미지 하단에 크레딧 (cpyrht 이 있으면 5로케일 매핑, 없으면 credit 필드).
+
+function resolveCredit(img: SpotGalleryImage, locale: PageLocale): string | null {
+  if (img.cpyrht) return CREDIT_LABEL[img.cpyrht][locale];
+  return img.credit ?? null;
+}
+
+function Caption({ text }: { text: string | null }) {
+  if (!text) return null;
+  return (
+    <p className="mt-1 px-2 text-[11px] leading-relaxed text-[#232322]/55">{text}</p>
+  );
+}
 
 function Gallery({
   images,
   title,
+  locale,
 }: {
   images: NonNullable<Spot["gallery"]>;
   title: string;
+  locale: PageLocale;
+}) {
+  // 오더 #D3 [1] 판정 1: Type3 는 카드/그리드에서 분리, 상세에서만 원본 비율 단독.
+  const cropable = images.filter((im) => im.cpyrht !== "Type3");
+  const originalOnly = images.filter((im) => im.cpyrht === "Type3");
+
+  if (images.length === 0) return null;
+
+  return (
+    <section>
+      {cropable.length > 0 && <GalleryCrop images={cropable} title={title} locale={locale} />}
+      {originalOnly.length > 0 && (
+        <div className="mx-auto max-w-6xl px-6 py-8 space-y-8">
+          {originalOnly.map((img, i) => (
+            <figure key={i}>
+              {/* Type3: object-contain, 크롭/필터/오버레이 금지. */}
+              <div className="relative w-full bg-[#232322]/5">
+                <Image
+                  src={img.url}
+                  alt={title}
+                  width={1600}
+                  height={1067}
+                  className="mx-auto h-auto w-full object-contain"
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                />
+              </div>
+              <Caption text={resolveCredit(img, locale)} />
+            </figure>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/** Type1 (또는 cpyrht 미지정) 이미지들을 크롭 그리드로 배치. */
+function GalleryCrop({
+  images,
+  title,
+  locale,
+}: {
+  images: SpotGalleryImage[];
+  title: string;
+  locale: PageLocale;
 }) {
   const n = images.length;
-  if (n === 0) return null; // 렌더 규칙 3
 
   if (n === 1) {
+    const img = images[0];
     return (
-      <section className="relative aspect-[16/9] max-h-[600px] w-full bg-[#232322]">
-        <Image src={images[0].url} alt={title} fill className="object-cover" sizes="100vw" priority />
-      </section>
+      <>
+        <div className="relative aspect-[16/9] max-h-[600px] w-full bg-[#232322]">
+          <Image src={img.url} alt={title} fill className="object-cover" sizes="100vw" priority />
+        </div>
+        <div className="mx-auto max-w-6xl px-6">
+          <Caption text={resolveCredit(img, locale)} />
+        </div>
+      </>
     );
   }
 
   if (n === 2 || n === 3) {
     return (
-      <section className={`grid gap-2 ${n === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
+      <div className={`grid gap-2 ${n === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
         {images.map((img, i) => (
-          <div key={i} className="relative aspect-[4/3] w-full bg-[#232322]">
-            <Image src={img.url} alt={title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" priority={i === 0} />
-          </div>
+          <figure key={i}>
+            <div className="relative aspect-[4/3] w-full bg-[#232322]">
+              <Image src={img.url} alt={title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" priority={i === 0} />
+            </div>
+            <Caption text={resolveCredit(img, locale)} />
+          </figure>
         ))}
-      </section>
+      </div>
     );
   }
 
@@ -286,8 +378,8 @@ function Gallery({
   const [hero, ...rest] = images;
   const smalls = rest.slice(0, 3);
   return (
-    <section>
-      {/* Desktop: 4-column × 3-row grid, hero 대형(col-span-3 row-span-3), 소형 3장 우측 세로 */}
+    <>
+      {/* Desktop */}
       <div className="hidden sm:grid sm:grid-cols-4 sm:grid-rows-3 sm:gap-2">
         <div className="relative aspect-auto bg-[#232322] sm:col-span-3 sm:row-span-3">
           <Image src={hero.url} alt={title} fill className="object-cover" sizes="66vw" priority />
@@ -298,7 +390,7 @@ function Gallery({
           </div>
         ))}
       </div>
-      {/* Mobile: 대형1 + 소형 가로 스크롤 */}
+      {/* Mobile */}
       <div className="sm:hidden">
         <div className="relative aspect-[16/9] w-full bg-[#232322]">
           <Image src={hero.url} alt={title} fill className="object-cover" sizes="100vw" priority />
@@ -311,7 +403,10 @@ function Gallery({
           ))}
         </div>
       </div>
-    </section>
+      <div className="mx-auto max-w-6xl px-6">
+        <Caption text={resolveCredit(hero, locale)} />
+      </div>
+    </>
   );
 }
 
