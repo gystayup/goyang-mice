@@ -518,6 +518,10 @@ export const spots: Spot[] = [
       { ko: "유네스코 세계유산 조선왕릉", en: "Part of the UNESCO Royal Tombs of Joseon", ja: "ユネスコ世界遺産・朝鮮王陵", "zh-CN": "联合国教科文组织世界遗产朝鲜王陵", "zh-TW": "聯合國教科文組織世界遺產朝鮮王陵" },
     ],
     adSlot: null,
+    // 오더 #C5-b [1]: hero-history.jpg 를 서오릉 사진으로 승인. 갤러리 1장.
+    gallery: [
+      { url: "/images/hero/hero-history.jpg", credit: "사진: 서오릉" },
+    ],
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
       walk_min: null,
@@ -715,6 +719,10 @@ export const spots: Spot[] = [
       { ko: "공연 전후 산책", en: "A walk before or after a performance", ja: "公演前後の散策", "zh-CN": "观演前后散步", "zh-TW": "觀演前後散步" },
     ],
     adSlot: null,
+    // 오더 #C5-b [1]: hero-culture.jpg 를 아람누리 사진으로 승인. 갤러리 1장.
+    gallery: [
+      { url: "/images/hero/hero-culture.jpg", credit: "사진: 고양아람누리" },
+    ],
     nearest_station: {
       name: {
         ko: "3호선 정발산역",

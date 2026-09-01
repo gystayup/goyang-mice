@@ -40,6 +40,7 @@ import {
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { getSpot, hasSpot } from "@/data/spots";
+import { resolveSpotAutoPhoto } from "@/lib/spot-photos";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
@@ -279,8 +280,16 @@ function BestListCard({
   spotLinked: boolean;
   locale: PageLocale;
 }) {
-  // 사진 우선순위: item.photoUrl → spot.gallery[0].url → 없음(일러스트 폴백)
-  const photoUrl = item.photoUrl ?? spot?.gallery?.[0]?.url ?? null;
+  // 사진 우선순위 (오더 #C5-b [2]):
+  //   1) item.photoUrl (CuratedItem 수동 지정)
+  //   2) spot.gallery[0].url (spot 데이터 수동 지정)
+  //   3) public/images/spots/{slug}.{jpg|png|webp} 자동 감지
+  //   4) 없음 → CategoryIllustration 폴백
+  const autoPhoto = spot
+    ? resolveSpotAutoPhoto(spot.slug, spot.title.ko)
+    : null;
+  const photoUrl =
+    item.photoUrl ?? spot?.gallery?.[0]?.url ?? autoPhoto?.url ?? null;
   // 지역 라벨 (regions.ts key → locale 라벨)
   const regionLabel = item.region
     ? getRegionLabel(item.region, locale as RegionLocale)
