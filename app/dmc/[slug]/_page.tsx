@@ -612,7 +612,10 @@ function AccessQuad({
 function KoCardBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   const first = spot.ko_card?.[0];
   if (!first) return null;
-  const combined = `${first.name_ko}\n${first.address_ko}`;
+  // 오더 #C5: address_ko null 이면 주소 줄 렌더 생략. 복사 텍스트도 이름만.
+  const combined = first.address_ko
+    ? `${first.name_ko}\n${first.address_ko}`
+    : first.name_ko;
   return (
     <div className="border border-[#232322]/20 p-6 sm:p-8">
       <div className="flex items-start justify-between gap-4">
@@ -628,7 +631,9 @@ function KoCardBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
       <p className="mt-4 text-xl font-black leading-tight sm:text-2xl">
         {first.name_ko}
       </p>
-      <p className="mt-1 text-sm text-[#232322]/70">{first.address_ko}</p>
+      {first.address_ko && (
+        <p className="mt-1 text-sm text-[#232322]/70">{first.address_ko}</p>
+      )}
     </div>
   );
 }
