@@ -134,6 +134,38 @@ export interface SpotInsider {
   quote: I18nText;
 }
 
+// 오더 #D4 [1]: ON SCREEN — 드라마·영화에서 본 인물이 실제로 잠든 곳.
+//   spots-onscreen-royal-tombs.md 스키마 그대로. 포스터·스틸·배우명·대사·로고 금지.
+export interface SpotOnScreenWork {
+  /** drama → Tv 아이콘, film → Clapperboard */
+  type: "drama" | "film";
+  /** 한국어 원제 */
+  titleKo: string;
+  /** 영문 제목 */
+  titleEn: string;
+  /** MBC · SBS · JTBC · tvN 등 (영화는 미설정) */
+  broadcaster?: string;
+  year: string;
+  /** 등장 인물 — 실존 역사 인물명만 (배우명 금지) */
+  characters: I18nText;
+  /** 그 인물이 실제로 있는 능·원·묘 */
+  site: I18nText;
+  /** 해당 구역 공개 여부. false 면 "현재 비공개 구역입니다" 5로케일 병기 필수. */
+  open: boolean;
+  note?: I18nText;
+}
+
+export interface SpotOnScreenCourse {
+  name: I18nText;
+  /** 능 이름 순서 (문자열 → 화살표 렌더). */
+  stops: I18nText[];
+}
+
+export interface SpotOnScreen {
+  works: SpotOnScreenWork[];
+  courses?: SpotOnScreenCourse[];
+}
+
 export interface Spot {
   slug: string;
   category: SpotCategory;
@@ -193,6 +225,11 @@ export interface Spot {
    *   overview 는 참고·크레딧 표기용. UI 는 필요 시 별도 배치.
    */
   tourapi?: SpotTourApi;
+  /**
+   * 오더 #D4 [1]: ON SCREEN 섹션. works[] + optional courses[].
+   *   없으면 섹션 자체 미렌더. 포스터·스틸·배우명·대사·방송사 로고 금지.
+   */
+  onScreen?: SpotOnScreen;
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.
@@ -563,18 +600,22 @@ export const spots: Spot[] = [
       "zh-CN": "穿行于王陵之间的林间小路",
       "zh-TW": "穿行於王陵之間的林間小路",
     },
+    // 오더 #D4 [2]: lead 교체 (spots-onscreen-royal-tombs.md 그대로).
+    //   subtitle · highlights · info · gallery 는 무변경.
     lead: {
-      ko: "조선 왕실의 능이 모여 있는 곳입니다. 능과 능 사이로 숲길이 이어져 산책하기 좋고, 소나무가 많아 여름에도 그늘이 넉넉합니다. 유네스코 세계유산 조선왕릉에 포함됩니다.",
-      en: "A cluster of Joseon royal tombs. Forest paths link one tomb to the next, and the pine cover keeps the route shaded even in summer. It is part of the UNESCO-listed Royal Tombs of the Joseon Dynasty.",
-      ja: "朝鮮王室の陵が集まる場所です。陵と陵の間を森の道がつなぎ、松が多く夏でも日陰が十分にあります。ユネスコ世界遺産の朝鮮王陵に含まれます。",
-      "zh-CN": "朝鲜王室陵墓聚集之地。陵与陵之间以林间小路相连，松树成荫，夏日亦凉爽。属联合国教科文组织世界遗产朝鲜王陵。",
-      "zh-TW": "朝鮮王室陵墓聚集之地。陵與陵之間以林間小路相連，松樹成蔭，夏日亦涼爽。屬聯合國教科文組織世界遺產朝鮮王陵。",
+      ko: "조선 왕실의 능 다섯 기와 원·묘가 한 자리에 모인 곳입니다. 숙종과 인현왕후, 장희빈, 인수대비, 사도세자의 생모 영빈 이씨가 모두 이곳에 잠들어 있어, 한국 사극을 본 사람이라면 낯익은 이름을 여럿 만나게 됩니다. 능과 능 사이로 숲길이 이어져 걷기에도 좋습니다.",
+      en: "Five royal tombs of the Joseon dynasty, together with several smaller graves, share one wooded site. King Sukjong and Queen Inhyeon, Jang Hui-bin, Queen Insoo and Lady Yeongbin — the mother of Prince Sado — all rest here, so anyone who has watched Korean historical dramas will recognise the names. Forest paths link one tomb to the next.",
+      ja: "朝鮮王室の陵五基と園·墓が一か所に集まっています。粛宗と仁顕王后、張禧嬪、仁粋大妃、思悼世子の生母である暎嬪李氏がここに眠っており、韓国時代劇を見た方なら見覚えのある名前に何度も出会います。陵と陵の間を森の道がつないでいます。",
+      "zh-CN": "朝鲜王室五座王陵与数座园墓汇聚于此。肃宗与仁显王后、张禧嫔、仁粹大妃，以及思悼世子生母暎嫔李氏皆长眠于此，看过韩国古装剧的人会遇到许多熟悉的名字。陵与陵之间以林间小路相连。",
+      "zh-TW": "朝鮮王室五座王陵與數座園墓匯聚於此。肅宗與仁顯王后、張禧嬪、仁粹大妃，以及思悼世子生母暎嬪李氏皆長眠於此，看過韓國古裝劇的人會遇到許多熟悉的名字。陵與陵之間以林間小路相連。",
     },
     meta: { updated_at: "2026-09-01" },
     sections: [],
     access: [],
+    // 오더 #D4 [2]: know 항목 추가 (능·원·묘 구분 해설).
     know: [
       { ko: "조선왕릉 — 조선 왕과 왕비의 무덤으로, 40기가 유네스코 세계유산에 등재돼 있습니다.", en: "Royal Tombs of the Joseon Dynasty — 40 tombs of Joseon kings and queens, inscribed on the UNESCO World Heritage List.", ja: "朝鮮王陵 — 朝鮮の王と王妃の墓で、40基がユネスコ世界遺産に登録されています。", "zh-CN": "朝鲜王陵 — 朝鲜历代国王与王后的陵墓，共40座列入联合国教科文组织世界遗产。", "zh-TW": "朝鮮王陵 — 朝鮮歷代國王與王后的陵墓，共40座列入聯合國教科文組織世界遺產。" },
+      { ko: "능 · 원 · 묘 — 왕과 왕비의 무덤은 능, 세자와 후궁의 무덤은 원, 그 밖은 묘로 구분합니다.", en: "Neung, Won, Myo — tombs of kings and queens are called neung; those of crown princes and royal concubines, won; others, myo.", ja: "陵·園·墓 — 王と王妃の墓は陵、世子と側室の墓は園、それ以外は墓と区分します。", "zh-CN": "陵·园·墓 — 国王与王后之墓称陵，世子与嫔御之墓称园，其余称墓。", "zh-TW": "陵·園·墓 — 國王與王后之墓稱陵，世子與嬪御之墓稱園，其餘稱墓。" },
     ],
     // 오더 #D3 [2]: TourAPI 125552 주소.
     ko_card: [{ name_ko: "서오릉", address_ko: "경기도 고양시 덕양구 서오릉로 334-32" }],
@@ -608,6 +649,129 @@ export const spots: Spot[] = [
       overview_ko: "서오릉(西五陵)은 ‘서쪽에 있는 5기의 능’이라는 뜻으로 경릉(敬陵), 창릉(昌陵), 익릉(翼陵), 명릉(明陵), 홍릉(弘陵)의 다섯 능을 말한다. 서오릉은 구리 동구릉(東九陵) 다음으로 규모가 큰 조선왕실의 왕릉군이다. 1457년(세조 3) 세조의 첫째 아들 의경세자(추존 덕종)의 의묘(懿墓, 경릉)가 처음 조성되었고 1470년(성종 1) 예종의 창릉(昌陵)이 왕릉으로서 최초로 조성되었다. 이후 순회세자의 순창원(順昌園), 인경왕후의 익릉(翼陵), 숙종의 명릉(明陵), 정성왕후의 홍릉( 弘陵)이 차례로 조성되어 조선시대에는 5기의 능과 1기의 원이 조성되었다. 그러다가 1970년대 영빈 이씨의 수경원(綏慶園)과 옥산부대빈 장씨의 대빈묘(大嬪墓)가 옮겨져 지금의 서오릉이 되었다.",
       homepage: "https://royal.khs.go.kr",
     },
+    // 오더 #D4 [2]: ON SCREEN — 서오릉 (works 4건 + courses 2건).
+    //   md 그대로. 배우명·포스터·로고·대사 없음. 전 works 전 구역 공개.
+    onScreen: {
+      works: [
+        {
+          type: "drama",
+          titleKo: "동이",
+          titleEn: "Dong Yi",
+          broadcaster: "MBC",
+          year: "2010",
+          characters: {
+            ko: "숙종 · 인현왕후 · 희빈 장씨",
+            en: "King Sukjong · Queen Inhyeon · Jang Hui-bin",
+            ja: "粛宗 · 仁顕王后 · 禧嬪張氏",
+            "zh-CN": "肃宗 · 仁显王后 · 禧嫔张氏",
+            "zh-TW": "肅宗 · 仁顯王后 · 禧嬪張氏",
+          },
+          site: {
+            ko: "명릉(숙종·인현왕후) · 대빈묘(희빈 장씨)",
+            en: "Myeongneung (Sukjong, Inhyeon) · Daebinmyo (Jang Hui-bin)",
+            ja: "明陵(粛宗·仁顕王后) · 大嬪墓(禧嬪張氏)",
+            "zh-CN": "明陵(肃宗·仁显王后) · 大嫔墓(禧嫔张氏)",
+            "zh-TW": "明陵(肅宗·仁顯王后) · 大嬪墓(禧嬪張氏)",
+          },
+          open: true,
+        },
+        {
+          type: "film",
+          titleKo: "사도",
+          titleEn: "The Throne",
+          year: "2015",
+          characters: {
+            ko: "인원왕후 · 정성왕후 · 영빈 이씨",
+            en: "Queen Inwon · Queen Jeongseong · Lady Yeongbin",
+            ja: "仁元王后 · 貞聖王后 · 暎嬪李氏",
+            "zh-CN": "仁元王后 · 贞圣王后 · 暎嫔李氏",
+            "zh-TW": "仁元王后 · 貞聖王后 · 暎嬪李氏",
+          },
+          site: {
+            ko: "명릉(인원왕후) · 홍릉(정성왕후) · 수경원(영빈 이씨)",
+            en: "Myeongneung (Inwon) · Hongneung (Jeongseong) · Sugyeongwon (Lady Yeongbin)",
+            ja: "明陵(仁元王后) · 弘陵(貞聖王后) · 綏慶園(暎嬪李氏)",
+            "zh-CN": "明陵(仁元王后) · 弘陵(贞圣王后) · 绥庆园(暎嫔李氏)",
+            "zh-TW": "明陵(仁元王后) · 弘陵(貞聖王后) · 綏慶園(暎嬪李氏)",
+          },
+          open: true,
+          note: {
+            ko: "영화 속 세 여인이 모두 이곳에 있습니다",
+            en: "All three royal women from the film rest here",
+            ja: "映画に登場する三人の女性が全員ここにいます",
+            "zh-CN": "影片中的三位王室女性皆在此长眠",
+            "zh-TW": "影片中的三位王室女性皆在此長眠",
+          },
+        },
+        {
+          type: "drama",
+          titleKo: "인수대비",
+          titleEn: "Queen Insoo",
+          broadcaster: "JTBC",
+          year: "2011",
+          characters: {
+            ko: "소혜왕후(인수대비) · 덕종",
+            en: "Queen Insoo (Queen Sohye) · King Deokjong",
+            ja: "昭恵王后(仁粋大妃) · 徳宗",
+            "zh-CN": "昭惠王后(仁粹大妃) · 德宗",
+            "zh-TW": "昭惠王后(仁粹大妃) · 德宗",
+          },
+          site: { ko: "경릉", en: "Gyeongneung", ja: "敬陵", "zh-CN": "敬陵", "zh-TW": "敬陵" },
+          open: true,
+        },
+        {
+          type: "drama",
+          titleKo: "장옥정, 사랑에 살다",
+          titleEn: "Jang Ok-jung, Live in Love",
+          broadcaster: "SBS",
+          year: "2013",
+          characters: {
+            ko: "숙종 · 희빈 장씨 · 인현왕후",
+            en: "King Sukjong · Jang Hui-bin · Queen Inhyeon",
+            ja: "粛宗 · 禧嬪張氏 · 仁顕王后",
+            "zh-CN": "肃宗 · 禧嫔张氏 · 仁显王后",
+            "zh-TW": "肅宗 · 禧嬪張氏 · 仁顯王后",
+          },
+          site: {
+            ko: "명릉 · 대빈묘",
+            en: "Myeongneung · Daebinmyo",
+            ja: "明陵 · 大嬪墓",
+            "zh-CN": "明陵 · 大嫔墓",
+            "zh-TW": "明陵 · 大嬪墓",
+          },
+          open: true,
+        },
+      ],
+      courses: [
+        {
+          name: {
+            ko: "《사도》의 세 여인",
+            en: "The Three Women of The Throne",
+            ja: "『思悼』の三人の女性",
+            "zh-CN": "《思悼》的三位女性",
+            "zh-TW": "《思悼》的三位女性",
+          },
+          stops: [
+            { ko: "명릉", en: "Myeongneung", ja: "明陵", "zh-CN": "明陵", "zh-TW": "明陵" },
+            { ko: "홍릉", en: "Hongneung", ja: "弘陵", "zh-CN": "弘陵", "zh-TW": "弘陵" },
+            { ko: "수경원", en: "Sugyeongwon", ja: "綏慶園", "zh-CN": "绥庆园", "zh-TW": "綏慶園" },
+          ],
+        },
+        {
+          name: {
+            ko: "《동이》의 세 사람",
+            en: "The Three of Dong Yi",
+            ja: "『トンイ』の三人",
+            "zh-CN": "《同伊》中的三人",
+            "zh-TW": "《同伊》中的三人",
+          },
+          stops: [
+            { ko: "명릉", en: "Myeongneung", ja: "明陵", "zh-CN": "明陵", "zh-TW": "明陵" },
+            { ko: "대빈묘", en: "Daebinmyo", ja: "大嬪墓", "zh-CN": "大嫔墓", "zh-TW": "大嬪墓" },
+          ],
+        },
+      ],
+    },
   },
 
   {
@@ -630,17 +794,21 @@ export const spots: Spot[] = [
       "zh-CN": "适合静静漫步的王陵林地",
       "zh-TW": "適合靜靜漫步的王陵林地",
     },
+    // 오더 #D4 [2]: lead 교체 (spots-onscreen-royal-tombs.md 그대로).
     lead: {
-      ko: "서오릉과 함께 고양에 있는 조선 왕릉입니다. 방문객이 비교적 적어 조용하게 걸을 수 있고, 능역을 감싼 숲이 잘 보존돼 있습니다. 유네스코 세계유산 조선왕릉에 포함됩니다.",
-      en: "Along with Seooreung, one of two Joseon royal tomb sites in Goyang. It draws fewer visitors, so the walk stays quiet, and the woodland around the tombs is well preserved. Part of the UNESCO-listed Royal Tombs of the Joseon Dynasty.",
-      ja: "西五陵とともに高陽にある朝鮮王陵です。訪問者が比較的少なく静かに歩け、陵域を囲む森がよく保たれています。ユネスコ世界遺産の朝鮮王陵に含まれます。",
-      "zh-CN": "与西五陵同为高阳的朝鲜王陵。访客相对较少，可安静漫步，陵区周边林地保存良好。属联合国教科文组织世界遗产朝鲜王陵。",
-      "zh-TW": "與西五陵同為高陽的朝鮮王陵。訪客相對較少，可安靜漫步，陵區周邊林地保存良好。屬聯合國教科文組織世界遺產朝鮮王陵。",
+      ko: "조선 왕실의 능 세 기를 중심으로 원과 묘가 모인 곳입니다. 철종과 철인왕후, 장경왕후가 이곳에 잠들어 있습니다. 방문객이 비교적 적어 조용하게 걸을 수 있습니다.",
+      en: "A royal burial ground centred on three Joseon tombs, with several smaller graves nearby. King Cheoljong and Queen Cheorin, and Queen Janggyeong, rest here. It draws fewer visitors, so the walk stays quiet.",
+      ja: "朝鮮王室の陵三基を中心に園と墓が集まった場所です。哲宗と哲仁王后、章敬王后がここに眠っています。訪問者が比較的少なく静かに歩けます。",
+      "zh-CN": "以朝鲜王室三座王陵为中心，园墓聚集之地。哲宗与哲仁王后、章敬王后长眠于此。访客较少，可安静漫步。",
+      "zh-TW": "以朝鮮王室三座王陵為中心，園墓聚集之地。哲宗與哲仁王后、章敬王后長眠於此。訪客較少，可安靜漫步。",
     },
     meta: { updated_at: "2026-09-01" },
     sections: [],
     access: [],
-    know: [],
+    // 오더 #D4 [2]: know 항목 추가 (조선왕릉·서오릉·서삼릉 유네스코 포함).
+    know: [
+      { ko: "조선왕릉 — 조선의 왕과 왕비 무덤 40기가 유네스코 세계유산에 등재돼 있습니다. 서오릉과 서삼릉은 모두 여기에 포함됩니다.", en: "Royal Tombs of the Joseon Dynasty — 40 tombs inscribed on the UNESCO World Heritage List, including both Seooreung and Seosamneung.", ja: "朝鮮王陵 — 朝鮮の王と王妃の墓40基がユネスコ世界遺産に登録されており、西五陵と西三陵はいずれも含まれます。", "zh-CN": "朝鲜王陵 — 40座朝鲜国王与王后陵墓列入联合国教科文组织世界遗产，西五陵与西三陵均在其中。", "zh-TW": "朝鮮王陵 — 40座朝鮮國王與王后陵墓列入聯合國教科文組織世界遺產，西五陵與西三陵均在其中。" },
+    ],
     // 오더 #D3 [2]: TourAPI 125551 주소.
     ko_card: [{ name_ko: "서삼릉", address_ko: "경기도 고양시 덕양구 서삼릉길 233-126 (원당동)" }],
     // 오더 #D3 [2]: TourAPI 좌표.
@@ -667,6 +835,95 @@ export const spots: Spot[] = [
       contentid: "125551",
       overview_ko: "서삼릉(西三陵)은 ‘서쪽에 있는 3기의 능’이라는 뜻으로 경기 고양시에 위치한 조선왕릉 중 서오릉 다음으로 큰 왕릉군이다. 1537년(중종 32) 중종의 두 번째 왕비 장경왕후의 희릉(禧陵)이 현 서울 서초구 헌릉과 인릉 서쪽 언덕에서 현재의 자리로 옮겨졌고, 1545년(인종 1) 중종의 정릉이 희릉 서쪽 언덕에 조성되자 능의 이름을 희릉과 합쳐 정릉이라 하였다. 그러나 1562년(명종 17) 정릉이 현 서울 강남구로 옮겨지면서 다시 희릉이 되었다. 이후 인종의 효릉(孝陵), 소현세자의 소현묘(昭顯墓, 이후 소경원(昭慶園)), 철종의 예릉(睿陵)이 조성되었다. 그러다가 일제강점기 때 전국에 있던 왕을 비롯한 왕실가족의 태실(胎室)과 왕자·왕녀·후궁의 묘와 문효세자의 효창원(孝昌園)이 서삼릉 경내로 옮겨졌다. 1945년 광복 후 의소세손의 의령원(懿寧園)이 옮겨졌고, 도시화 개발 시기에 왕실 후궁들의 묘와 폐비 윤씨의 회묘(懷墓)가 경내로 옮겨지면서 지금의 서삼릉이 되었다.",
       homepage: "https://royal.khs.go.kr",
+    },
+    // 오더 #D4 [2][4]: ON SCREEN — 서삼릉 (works 4건, courses 없음).
+    //   《올빼미》·《연인》 두 작품은 소경원 비공개 → open:false, 필수 병기.
+    onScreen: {
+      works: [
+        {
+          type: "drama",
+          titleKo: "철인왕후",
+          titleEn: "Mr. Queen",
+          broadcaster: "tvN",
+          year: "2020",
+          characters: {
+            ko: "철종 · 철인왕후",
+            en: "King Cheoljong · Queen Cheorin",
+            ja: "哲宗 · 哲仁王后",
+            "zh-CN": "哲宗 · 哲仁王后",
+            "zh-TW": "哲宗 · 哲仁王后",
+          },
+          site: { ko: "예릉", en: "Yeneung", ja: "睿陵", "zh-CN": "睿陵", "zh-TW": "睿陵" },
+          open: true,
+          note: {
+            ko: "드라마의 두 주인공이 실제로 함께 잠든 곳입니다",
+            en: "The drama's two leads actually rest here together",
+            ja: "ドラマの二人の主人公が実際に共に眠る場所です",
+            "zh-CN": "剧中两位主角实际合葬于此",
+            "zh-TW": "劇中兩位主角實際合葬於此",
+          },
+        },
+        {
+          type: "drama",
+          titleKo: "여인천하",
+          titleEn: "Ladies of the Palace",
+          broadcaster: "SBS",
+          year: "2001",
+          characters: {
+            ko: "장경왕후 · 인종 · 인성왕후",
+            en: "Queen Janggyeong · King Injong · Queen Inseong",
+            ja: "章敬王后 · 仁宗 · 仁聖王后",
+            "zh-CN": "章敬王后 · 仁宗 · 仁圣王后",
+            "zh-TW": "章敬王后 · 仁宗 · 仁聖王后",
+          },
+          site: {
+            ko: "희릉(장경왕후) · 효릉(인종·인성왕후)",
+            en: "Huireung (Janggyeong) · Hyoreung (Injong, Inseong)",
+            ja: "禧陵(章敬王后) · 孝陵(仁宗·仁聖王后)",
+            "zh-CN": "禧陵(章敬王后) · 孝陵(仁宗·仁圣王后)",
+            "zh-TW": "禧陵(章敬王后) · 孝陵(仁宗·仁聖王后)",
+          },
+          open: true,
+          note: {
+            ko: "효릉은 예약제로 제한 공개됩니다",
+            en: "Hyoreung is open by reservation only",
+            ja: "孝陵は予約制で限定公開です",
+            "zh-CN": "孝陵采预约制限量开放",
+            "zh-TW": "孝陵採預約制限量開放",
+          },
+        },
+        {
+          type: "film",
+          titleKo: "올빼미",
+          titleEn: "The Night Owl",
+          year: "2022",
+          characters: {
+            ko: "소현세자",
+            en: "Crown Prince Sohyeon",
+            ja: "昭顕世子",
+            "zh-CN": "昭显世子",
+            "zh-TW": "昭顯世子",
+          },
+          site: { ko: "소경원", en: "Sogyeongwon", ja: "昭慶園", "zh-CN": "昭庆园", "zh-TW": "昭慶園" },
+          open: false,
+        },
+        {
+          type: "drama",
+          titleKo: "연인",
+          titleEn: "My Dearest",
+          broadcaster: "MBC",
+          year: "2023",
+          characters: {
+            ko: "소현세자",
+            en: "Crown Prince Sohyeon",
+            ja: "昭顕世子",
+            "zh-CN": "昭显世子",
+            "zh-TW": "昭顯世子",
+          },
+          site: { ko: "소경원", en: "Sogyeongwon", ja: "昭慶園", "zh-CN": "昭庆园", "zh-TW": "昭慶園" },
+          open: false,
+        },
+      ],
     },
   },
 

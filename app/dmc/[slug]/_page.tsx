@@ -19,7 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -101,6 +101,32 @@ const LABEL_COMING_SOON: Record<PageLocale, string> = {
   ja: "まもなく公開します",
   "zh-CN": "敬请期待",
   "zh-TW": "敬請期待",
+};
+
+// ─── 오더 #D4: ON SCREEN 섹션 라벨 (5로케일) ────────────────────────────────
+// ON SCREEN 은 섹션 제목으로 5로케일 공통 영문 (spec).
+const ON_SCREEN_TITLE = "ON SCREEN";
+const ON_SCREEN_SUBTITLE: Record<PageLocale, string> = {
+  ko: "드라마와 영화에서 본 그 사람들이 실제로 잠든 곳",
+  en: "The people you saw on screen actually rest here",
+  ja: "ドラマや映画で見たあの人たちが実際に眠る場所",
+  "zh-CN": "剧中与影片里见过的人物，真实长眠于此",
+  "zh-TW": "劇中與影片裡見過的人物，真實長眠於此",
+};
+// 오더 #D4 [4]: open:false 항목 필수 병기 문구.
+const ON_SCREEN_CLOSED: Record<PageLocale, string> = {
+  ko: "현재 비공개 구역입니다",
+  en: "This area is currently closed to visitors",
+  ja: "現在非公開区域です",
+  "zh-CN": "该区域目前不对外开放",
+  "zh-TW": "該區域目前不對外開放",
+};
+const ON_SCREEN_COURSE_LABEL: Record<PageLocale, string> = {
+  ko: "걸어서 도는 코스",
+  en: "Walking route",
+  ja: "歩いて回るコース",
+  "zh-CN": "步行路线",
+  "zh-TW": "步行路線",
 };
 
 // 오더 #D3 [4] 판정 4: 이미지 저작권 크레딧 5로케일. cpyrht 값 기반 자동 표시.
@@ -478,6 +504,9 @@ function OverviewTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         {/* 모바일: 인사이더 박스를 아이콘 4칸 바로 아래 (오더 렌더 규칙 11) */}
         <div className="lg:hidden">{insiderNode}</div>
         <AboutBlock spot={spot} locale={locale} />
+        {/* 오더 #D4 [3]: ON SCREEN 섹션 — About 아래, 한국어 원문 카드 위.
+            spot.onScreen 없으면 컴포넌트 내부에서 미렌더 반환. */}
+        <OnScreenSection spot={spot} locale={locale} />
         {/* 모바일: 광고를 본문 중간에 (오더 렌더 규칙 11) */}
         {spot.adSlot !== null && (
           <div className="lg:hidden">
@@ -569,6 +598,87 @@ function AboutBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         </div>
       ))}
     </div>
+  );
+}
+
+// ─── ON SCREEN (오더 #D4 [3]) ────────────────────────────────────────────────
+// 상세 페이지 About 아래에 배치. spot.onScreen 없으면 미렌더.
+// 금지: 포스터·스틸컷·배우 사진·배우명·대사·방송사 로고 (렌더 코드 어디에도 X).
+// open:false 항목은 회색·투명도로 시각 구분 + "현재 비공개 구역입니다" 5로케일 병기.
+function OnScreenSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const os = spot.onScreen;
+  if (!os) return null;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        {ON_SCREEN_TITLE}
+      </div>
+      <p className="mt-2 text-base leading-relaxed text-[#232322]/85 sm:text-lg">
+        {ON_SCREEN_SUBTITLE[locale]}
+      </p>
+      <ul className="mt-6 space-y-6">
+        {os.works.map((w, i) => {
+          const Icon = w.type === "drama" ? Tv : Clapperboard;
+          const closed = !w.open;
+          return (
+            <li
+              key={i}
+              className={`border-l-2 pl-4 ${
+                closed
+                  ? "border-[#232322]/25 opacity-60"
+                  : "border-[#D4AF37]"
+              }`}
+            >
+              <div className="flex items-center gap-2 text-sm font-bold text-[#232322]">
+                <Icon
+                  className={`h-4 w-4 shrink-0 ${closed ? "text-[#232322]/50" : "text-[#D4AF37]"}`}
+                  aria-hidden="true"
+                />
+                <span>
+                  {w.titleKo} / {w.titleEn}
+                  {w.broadcaster ? ` · ${w.broadcaster}` : ""} · {w.year}
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-[#232322]/85">
+                {w.characters[locale]}
+              </p>
+              <p className="mt-1 text-sm text-[#232322]/70">
+                → {w.site[locale]}
+              </p>
+              {w.note && (
+                <p className="mt-1 text-xs text-[#232322]/60">
+                  {w.note[locale]}
+                </p>
+              )}
+              {closed && (
+                <p className="mt-2 text-xs font-semibold text-[#232322]/60">
+                  ※ {ON_SCREEN_CLOSED[locale]}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {os.courses && os.courses.length > 0 && (
+        <div className="mt-8 border border-[#232322]/15 p-5">
+          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+            {ON_SCREEN_COURSE_LABEL[locale]}
+          </div>
+          <ul className="mt-4 space-y-3">
+            {os.courses.map((c, i) => (
+              <li key={i}>
+                <div className="text-sm font-black text-[#232322]">
+                  {c.name[locale]}
+                </div>
+                <div className="mt-1 text-sm text-[#232322]/70">
+                  {c.stops.map((s) => s[locale]).join(" → ")}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
   );
 }
 
