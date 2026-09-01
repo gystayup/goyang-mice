@@ -166,6 +166,23 @@ export interface SpotOnScreen {
   courses?: SpotOnScreenCourse[];
 }
 
+// 오더 #C9 [1]: FIND YOUR WALK — 한 스팟에서 고를 수 있는 여러 산책 코스.
+//   방문객이 살던 도시의 산책과 연결하도록 "이 산책이 닮은 순간" 을 hook 으로 제시.
+//   없으면 섹션 자체 미렌더 ([4]).
+export interface SpotWalk {
+  /** kebab-case (예: "morning-walk"). key/앵커용. */
+  id: string;
+  /** 5로케일 공통 영문 (예: "MORNING WALK"). */
+  eyebrow: string;
+  title: I18nText;
+  /** "이 산책이 닮은 순간". */
+  hook: I18nText;
+  body: I18nText;
+  /** "지나는 곳" 한 줄. 화살표 그대로 포함. */
+  stops: I18nText;
+  bestTime: I18nText;
+}
+
 export interface Spot {
   slug: string;
   category: SpotCategory;
@@ -230,6 +247,11 @@ export interface Spot {
    *   없으면 섹션 자체 미렌더. 포스터·스틸·배우명·대사·방송사 로고 금지.
    */
   onScreen?: SpotOnScreen;
+  /**
+   * 오더 #C9 [1]: FIND YOUR WALK — 스팟 내 여러 산책 코스.
+   *   없으면 섹션 자체 미렌더 (렌더 규칙).
+   */
+  walks?: SpotWalk[];
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.
@@ -259,12 +281,14 @@ export const spots: Spot[] = [
       "zh-CN": "环绕城市中心湖泊的步道",
       "zh-TW": "環繞城市中心湖泊的步道",
     },
+    // 오더 #C9 [2]: lead 교체 (spot-ilsan-lake-park-walks.md 그대로).
+    //   "당신이 살던 도시의 산책을 여기서도" 콘셉트. subtitle/info/gallery 무변경.
     lead: {
-      ko: "일산신도시 한가운데 자리한 인공호수입니다. 호수를 한 바퀴 도는 산책로가 이어지고, 노래하는분수대와 장미원, 자연학습원이 길을 따라 배치돼 있어 걷는 동안 볼거리가 끊기지 않습니다. 매년 봄에는 고양국제꽃박람회가 이곳에서 열립니다.",
-      en: "A man-made lake in the middle of Ilsan New Town. A walking path circles the water, with the Singing Fountain, the Rose Garden and the Nature Study Center spaced along the way, so there is always something to look at. Each spring the park hosts the Goyang International Flower Festival.",
-      ja: "一山新都市の中心にある人工湖です。湖を一周する遊歩道が続き、歌う噴水台やバラ園、自然学習園が道沿いに配置されているため、歩く間も見どころが途切れません。毎年春にはここで高陽国際花博覧会が開かれます。",
-      "zh-CN": "位于一山新城中心的人工湖。环湖步道贯穿全园，歌唱喷泉、玫瑰园和自然学习园沿路分布，一路都有可看之处。每年春季，高阳国际花卉博览会在此举办。",
-      "zh-TW": "位於一山新城中心的人工湖。環湖步道貫穿全園，歌唱噴泉、玫瑰園和自然學習園沿路分布，一路都有可看之處。每年春季，高陽國際花卉博覽會在此舉辦。",
+      ko: "어느 도시에서 왔든 당신에게는 익숙한 산책이 있을 겁니다. 바르샤바의 와지엔키, 뉴욕의 센트럴파크, 런던의 하이드파크. 나무 사이를 걷고 물가에서 잠시 멈추고 도시가 깨어나는 모습을 바라보던 시간. 일산호수공원에도 그 시간이 있습니다. 9.1km 산책로가 국내 최대 인공호수를 따라 이어지고, 한쪽에는 물과 나무가, 다른 쪽에는 일산의 스카이라인이 보입니다.",
+      en: "Wherever you come from, you probably have a walk you know by heart. Łazienki in Warsaw. Central Park in New York. Hyde Park in London. Trees above you, water beside you, a city slowly waking up. Ilsan Lake Park holds that same hour. A 9.1 km path circles Korea's largest man-made lake, with water and trees on one side and the Ilsan skyline on the other.",
+      ja: "どの街から来た方にも、慣れ親しんだ散歩があるはずです。ワルシャワのワジェンキ、ニューヨークのセントラルパーク、ロンドンのハイドパーク。木々の間を歩き、水辺で少し立ち止まり、街が目を覚ますのを眺める時間。一山湖水公園にもその時間があります。9.1kmの遊歩道が国内最大の人工湖に沿って続き、片側には水と木が、もう片側には一山のスカイラインが広がります。",
+      "zh-CN": "无论你来自哪座城市，心中大概都有一段熟悉的散步。华沙的瓦金基、纽约的中央公园、伦敦的海德公园。走在树影之间，在水边稍作停留，看着城市慢慢苏醒。一山湖水公园也有这样的时光。9.1公里步道环绕韩国最大的人工湖，一侧是水与树，另一侧是一山的天际线。",
+      "zh-TW": "無論你來自哪座城市，心中大概都有一段熟悉的散步。華沙的瓦金基、紐約的中央公園、倫敦的海德公園。走在樹影之間，在水邊稍作停留，看著城市慢慢甦醒。一山湖水公園也有這樣的時光。9.1公里步道環繞韓國最大的人工湖，一側是水與樹，另一側是一山的天際線。",
     },
     meta: { updated_at: "2026-08-31" },
     sections: [
@@ -321,6 +345,21 @@ export const spots: Spot[] = [
         "zh-CN": "高阳国际花卉博览会 — 每年春季在此公园举办的花卉博览会。",
         "zh-TW": "高陽國際花卉博覽會 — 每年春季在此公園舉辦的花卉博覽會。",
       },
+      // 오더 #C9 [2]: know 2건 추가.
+      {
+        ko: "월파정 — 호수 가운데 달맞이섬에 세워진 팔각정입니다.",
+        en: "Wolpajeong — an octagonal pavilion on Dalmaji Island in the middle of the lake.",
+        ja: "月波亭 — 湖の中央、月波島に建てられた八角亭です。",
+        "zh-CN": "月波亭 — 建于湖心达迎岛上的八角亭。",
+        "zh-TW": "月波亭 — 建於湖心達迎島上的八角亭。",
+      },
+      {
+        ko: "메타세쿼이아 — 잎이 가늘고 키가 큰 낙엽 침엽수로, 가을에 붉게 물듭니다.",
+        en: "Metasequoia — a tall deciduous conifer with fine needles that turn rust-red in autumn.",
+        ja: "メタセコイア — 葉が細く背の高い落葉針葉樹で、秋に赤く色づきます。",
+        "zh-CN": "水杉 — 叶细而高大的落叶针叶树，秋季转为红褐色。",
+        "zh-TW": "水杉 — 葉細而高大的落葉針葉樹，秋季轉為紅褐色。",
+      },
     ],
     // 오더 #D3 [2]: TourAPI contentid 127197 detailCommon2 주소로 갱신.
     ko_card: [
@@ -339,27 +378,28 @@ export const spots: Spot[] = [
       admission: "free",
       access: "wheelchair",
     },
+    // 오더 #C9 [2]: highlights 3줄 교체 (walks 콘셉트 반영).
     highlights: [
       {
-        ko: "호수를 한 바퀴 도는 산책로",
-        en: "A walking path that circles the lake",
-        ja: "湖を一周する遊歩道",
-        "zh-CN": "环绕湖泊一周的步道",
-        "zh-TW": "環繞湖泊一周的步道",
+        ko: "호수를 한 바퀴 도는 9.1km 산책로",
+        en: "A 9.1 km path around the lake",
+        ja: "湖を一周する9.1kmの遊歩道",
+        "zh-CN": "环湖9.1公里步道",
+        "zh-TW": "環湖9.1公里步道",
       },
       {
-        ko: "노래하는분수대 · 장미원 · 자연학습원",
-        en: "Singing Fountain, Rose Garden and Nature Study Center",
-        ja: "歌う噴水台・バラ園・自然学習園",
-        "zh-CN": "歌唱喷泉·玫瑰园·自然学习园",
-        "zh-TW": "歌唱噴泉·玫瑰園·自然學習園",
+        ko: "다섯 가지 산책 코스",
+        en: "Five different walks",
+        ja: "五つの散歩コース",
+        "zh-CN": "五种散步路线",
+        "zh-TW": "五種散步路線",
       },
       {
-        ko: "입장료 없이 시간 제한 없이 개방",
-        en: "Free entry, open without time limits",
-        ja: "入場無料・時間制限なしで開放",
-        "zh-CN": "免费入园，无时间限制",
-        "zh-TW": "免費入園，無時間限制",
+        ko: "입장료 없이 연중무휴 개방",
+        en: "Free entry, open year-round",
+        ja: "入場無料・年中無休",
+        "zh-CN": "免费入园，全年开放",
+        "zh-TW": "免費入園，全年開放",
       },
     ],
     adSlot: null,
@@ -389,6 +429,178 @@ export const spots: Spot[] = [
       contentid: "127197",
       overview_ko: "일산호수공원은 일산신도시 택지개발사업과 연계하여 조성한 근린공원이다. 국내 최대의 인공호수를 만들어 도시인이 접할 수 없는 자연생태계를 재현하고 다양한 주변경관 및 호수를 이용한 레크레이션 공간을 제공하고 있다. 특히 호수를 중심으로 한 4.7㎞의 자전거도로와 메타세쿼이아길 등 9.1㎞의 산책로는 시민들이 특별히 좋아하는 장소이다. 이외에도 생태자연학습장, 조형예술품, 선인장전시관 등이 다양한 생태문화시설이 조성되어 있다. 또한 매년 고양국제꽃박람회, 가을꽃축제, 호수예술축제 등이 개최되는 등 국내는 물론 세계적인 명소로 자리 잡아가고 있는 공원이다.",
       homepage: "http://www.goyang.go.kr/park",
+    },
+    // 오더 #C9 [2][3]: FIND YOUR WALK 5 코스. About 아래 · ON SCREEN 위에 렌더.
+    walks: [
+      {
+        id: "morning-walk",
+        eyebrow: "MORNING WALK",
+        title: { ko: "아침 물안개", en: "The Morning Mist", ja: "朝の川霧", "zh-CN": "清晨水雾", "zh-TW": "清晨水霧" },
+        hook: {
+          ko: "조용한 아침을 걷던 사람에게",
+          en: "For those who walked their city before it woke",
+          ja: "静かな朝を歩いていた方へ",
+          "zh-CN": "献给习惯在清晨漫步的人",
+          "zh-TW": "獻給習慣在清晨漫步的人",
+        },
+        body: {
+          ko: "해가 뜨기 전 호숫가에는 물안개가 낮게 깔립니다. 사람이 적고 소리가 가라앉아 있어 걷는 속도가 저절로 느려집니다. 달맞이섬 쪽으로 건너가면 월파정이 물 위로 보입니다.",
+          en: "Before sunrise a low mist settles over the water. There are few people and little sound, and your pace slows without your deciding to. Cross toward Dalmaji Island and the Wolpajeong pavilion appears above the surface.",
+          ja: "日の出前、湖畔には低く川霧が立ちこめます。人は少なく音も沈み、歩く速度が自然と緩みます。月波島の方へ渡ると、月波亭が水の上に見えてきます。",
+          "zh-CN": "日出前，湖面上低垂着一层水雾。人少声静，脚步不自觉地慢了下来。走向达迎岛，月波亭便浮现于水面之上。",
+          "zh-TW": "日出前，湖面上低垂著一層水霧。人少聲靜，腳步不自覺地慢了下來。走向達迎島，月波亭便浮現於水面之上。",
+        },
+        stops: {
+          ko: "호수 북측 산책로 → 달맞이섬 → 월파정",
+          en: "North lakeside path → Dalmaji Island → Wolpajeong",
+          ja: "湖北側遊歩道 → 月波島 → 月波亭",
+          "zh-CN": "湖北侧步道 → 达迎岛 → 月波亭",
+          "zh-TW": "湖北側步道 → 達迎島 → 月波亭",
+        },
+        bestTime: { ko: "해뜨기 전후", en: "Around sunrise", ja: "日の出前後", "zh-CN": "日出前后", "zh-TW": "日出前後" },
+      },
+      {
+        id: "city-and-lake-walk",
+        eyebrow: "CITY & LAKE WALK",
+        title: { ko: "물과 스카이라인 사이", en: "Between Water and Skyline", ja: "水とスカイラインの間", "zh-CN": "水与天际线之间", "zh-TW": "水與天際線之間" },
+        hook: {
+          ko: "도시 한가운데서 도시를 벗어나던 사람에게",
+          en: "For those who left the city without leaving it",
+          ja: "街の真ん中で街を離れていた方へ",
+          "zh-CN": "献给在城市中心逃离城市的人",
+          "zh-TW": "獻給在城市中心逃離城市的人",
+        },
+        body: {
+          ko: "호수를 한 바퀴 도는 9.1km 코스입니다. 걷는 동안 한쪽에는 물과 나무가, 다른 쪽에는 아파트 스카이라인이 계속 따라옵니다. 자연 속에 있으면서 도시를 보고 있다는 감각이 이 공원의 특징입니다.",
+          en: "The full 9.1 km loop around the lake. As you walk, water and trees hold one side while the apartment skyline follows on the other. That double view — inside nature, still watching the city — is what defines this park.",
+          ja: "湖を一周する9.1kmのコースです。歩く間、片側には水と木が、もう片側にはマンションのスカイラインがずっとついてきます。自然の中にいながら街を眺めているという感覚が、この公園の特徴です。",
+          "zh-CN": "环湖一周的9.1公里路线。行走途中，一侧是水与树，另一侧是公寓天际线始终相随。身处自然却仍望着城市，这种双重感受正是这座公园的特色。",
+          "zh-TW": "環湖一周的9.1公里路線。行走途中，一側是水與樹，另一側是公寓天際線始終相隨。身處自然卻仍望著城市，這種雙重感受正是這座公園的特色。",
+        },
+        stops: {
+          ko: "한울광장 → 호수 일주 → 애수교",
+          en: "Hanul Square → full lake loop → Aesugyo Bridge",
+          ja: "ハヌル広場 → 湖一周 → 哀愁橋",
+          "zh-CN": "한울广场 → 环湖一周 → 哀愁桥",
+          "zh-TW": "한울廣場 → 環湖一周 → 哀愁橋",
+        },
+        bestTime: { ko: "오전 또는 늦은 오후", en: "Morning or late afternoon", ja: "午前または夕方近く", "zh-CN": "上午或傍晚前", "zh-TW": "上午或傍晚前" },
+      },
+      {
+        id: "forest-walk",
+        eyebrow: "FOREST WALK",
+        title: { ko: "메타세쿼이아길", en: "The Metasequoia Path", ja: "メタセコイア並木", "zh-CN": "水杉大道", "zh-TW": "水杉大道" },
+        hook: {
+          ko: "나무 그늘 아래를 걷던 사람에게",
+          en: "For those who walked beneath the trees",
+          ja: "木陰の下を歩いていた方へ",
+          "zh-CN": "献给习惯走在树荫下的人",
+          "zh-TW": "獻給習慣走在樹蔭下的人",
+        },
+        body: {
+          ko: "공원 안쪽으로 들어가면 메타세쿼이아가 줄지어 선 길이 나옵니다. 호숫가와 달리 시야가 좁아지고 소리가 달라집니다. 여름에는 그늘이 깊고 가을에는 잎이 붉게 물듭니다.",
+          en: "Deeper inside the park, a corridor of metasequoia trees closes in. Unlike the open lakeside, the view narrows and the sound changes. The shade is deep in summer; in autumn the needles turn rust-red.",
+          ja: "公園の奥へ入ると、メタセコイアが並ぶ道が現れます。湖畔とは違い視界が狭まり、音が変わります。夏は木陰が深く、秋には葉が赤く色づきます。",
+          "zh-CN": "走进公园深处，水杉列队而立的小径展开。与开阔的湖畔不同，视野收窄，声音也随之改变。夏日树荫浓密，秋天叶色转红。",
+          "zh-TW": "走進公園深處，水杉列隊而立的小徑展開。與開闊的湖畔不同，視野收窄，聲音也隨之改變。夏日樹蔭濃密，秋天葉色轉紅。",
+        },
+        stops: {
+          ko: "메타세쿼이아길 → 자연학습원",
+          en: "Metasequoia path → Nature Study Center",
+          ja: "メタセコイア並木 → 自然学習園",
+          "zh-CN": "水杉大道 → 自然学习园",
+          "zh-TW": "水杉大道 → 自然學習園",
+        },
+        bestTime: { ko: "한여름 낮 · 가을", en: "Midsummer days · autumn", ja: "真夏の日中・秋", "zh-CN": "盛夏白天·秋季", "zh-TW": "盛夏白天·秋季" },
+      },
+      {
+        id: "garden-walk",
+        eyebrow: "GARDEN WALK",
+        title: { ko: "장미원과 전통정원", en: "Rose Garden and Traditional Garden", ja: "バラ園と伝統庭園", "zh-CN": "玫瑰园与传统庭园", "zh-TW": "玫瑰園與傳統庭園" },
+        hook: {
+          ko: "정원을 걷던 사람에게",
+          en: "For those who walked in gardens",
+          ja: "庭園を歩いていた方へ",
+          "zh-CN": "献给习惯在庭园漫步的人",
+          "zh-TW": "獻給習慣在庭園漫步的人",
+        },
+        body: {
+          ko: "오뉴월이면 장미원에 수만 송이가 핍니다. 그 안쪽으로 연못과 정자가 있는 한국식 전통정원이, 호수 쪽으로는 중국식 정자 학괴정이 있습니다. 정원마다 성격이 달라 짧게 여러 곳을 볼 수 있습니다.",
+          en: "In May and June tens of thousands of roses open in the Rose Garden. Beyond it lies a Korean traditional garden with a pond and pavilion; toward the lake stands Hakgoejeong, a Chinese-style pavilion. Each garden has its own character, so several can be seen in a short walk.",
+          ja: "5〜6月になるとバラ園に数万本の花が咲きます。その奥には池と東屋のある韓国式伝統庭園が、湖側には中国式の東屋・鶴槐亭があります。庭園ごとに性格が異なり、短時間で複数を巡れます。",
+          "zh-CN": "五六月间，玫瑰园中数万朵花齐放。其内侧是设有池塘与亭阁的韩式传统庭园，靠湖一侧则有中式亭阁鹤槐亭。各庭园风格不同，短时间内可游览多处。",
+          "zh-TW": "五六月間，玫瑰園中數萬朵花齊放。其內側是設有池塘與亭閣的韓式傳統庭園，靠湖一側則有中式亭閣鶴槐亭。各庭園風格不同，短時間內可遊覽多處。",
+        },
+        stops: {
+          ko: "장미원 → 전통정원 → 학괴정",
+          en: "Rose Garden → Traditional Garden → Hakgoejeong",
+          ja: "バラ園 → 伝統庭園 → 鶴槐亭",
+          "zh-CN": "玫瑰园 → 传统庭园 → 鹤槐亭",
+          "zh-TW": "玫瑰園 → 傳統庭園 → 鶴槐亭",
+        },
+        bestTime: { ko: "5~6월", en: "May–June", ja: "5〜6月", "zh-CN": "五至六月", "zh-TW": "五至六月" },
+      },
+      {
+        id: "sunset-walk",
+        eyebrow: "SUNSET WALK",
+        title: { ko: "한울광장의 일몰", en: "Sunset at Hanul Square", ja: "ハヌル広場の日没", "zh-CN": "한울广场的日落", "zh-TW": "한울廣場的日落" },
+        hook: {
+          ko: "하루의 끝을 걷던 사람에게",
+          en: "For those who walked at the end of the day",
+          ja: "一日の終わりを歩いていた方へ",
+          "zh-CN": "献给习惯在日暮时分散步的人",
+          "zh-TW": "獻給習慣在日暮時分散步的人",
+        },
+        body: {
+          ko: "정발산역에서 육교를 건너면 바로 한울광장입니다. 해질 무렵 이곳에서 보는 일몰이 공원의 대표 풍경 중 하나입니다. 어두워지면 애수교에서 호수에 비친 도시 불빛을 볼 수 있고, 주말에는 노래하는분수대가 가동됩니다.",
+          en: "Cross the footbridge from Jeongbalsan Station and you arrive at Hanul Square. The sunset seen from here is one of the park's signature views. After dark, Aesugyo Bridge frames the city lights on the water, and on weekends the Singing Fountain runs.",
+          ja: "鼎鉢山駅から歩道橋を渡るとすぐハヌル広場です。夕暮れ時にここから見る日没は、この公園を代表する風景の一つです。暗くなると哀愁橋から湖面に映る街の灯りが見え、週末には歌う噴水台が稼働します。",
+          "zh-CN": "从鼎钵山站过天桥即达한울广场。傍晚在此观看的日落是公园代表性景致之一。天黑后可从哀愁桥望见湖面倒映的城市灯火，周末歌唱喷泉开放。",
+          "zh-TW": "從鼎缽山站過天橋即達한울廣場。傍晚在此觀看的日落是公園代表性景致之一。天黑後可從哀愁橋望見湖面倒映的城市燈火，週末歌唱噴泉開放。",
+        },
+        stops: {
+          ko: "한울광장 → 호숫가 → 애수교",
+          en: "Hanul Square → lakeside → Aesugyo Bridge",
+          ja: "ハヌル広場 → 湖畔 → 哀愁橋",
+          "zh-CN": "한울广场 → 湖畔 → 哀愁桥",
+          "zh-TW": "한울廣場 → 湖畔 → 哀愁橋",
+        },
+        bestTime: { ko: "일몰 전후", en: "Around sunset", ja: "日没前後", "zh-CN": "日落前后", "zh-TW": "日落前後" },
+      },
+    ],
+    // 오더 #C9 [2]: ON SCREEN 신설. 《대행사》 1건.
+    onScreen: {
+      works: [
+        {
+          type: "drama",
+          titleKo: "대행사",
+          titleEn: "Agency",
+          broadcaster: "JTBC",
+          year: "2023",
+          characters: {
+            ko: "촬영지",
+            en: "Filming location",
+            ja: "撮影地",
+            "zh-CN": "取景地",
+            "zh-TW": "取景地",
+          },
+          site: {
+            ko: "일산호수공원",
+            en: "Ilsan Lake Park",
+            ja: "一山湖水公園",
+            "zh-CN": "一山湖水公园",
+            "zh-TW": "一山湖水公園",
+          },
+          open: true,
+          note: {
+            ko: "한국관광공사 한류 여행 정보에 등재된 촬영지입니다",
+            en: "Listed as a filming location in the Korea Tourism Organization's Hallyu travel guide",
+            ja: "韓国観光公社の韓流旅行情報に登録された撮影地です",
+            "zh-CN": "已列入韩国观光公社韩流旅游信息的取景地",
+            "zh-TW": "已列入韓國觀光公社韓流旅遊資訊的取景地",
+          },
+        },
+      ],
     },
   },
 
