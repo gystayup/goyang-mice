@@ -92,9 +92,29 @@ export interface SpotCredit {
 // 오더 #B1 · spot-detail-data.md 「스키마 확장」 그대로.
 // 기존 필드 삭제 없음. price·booking·reservation 필드 신설 금지.
 
+// 오더 #D3 [1]: TourAPI 이미지 저작권 구분.
+//   Type1 (공공누리 제1유형, 자유이용) — 카드·상세 모두 사용, 크롭 허용.
+//   Type3 (공공누리 제3유형, 원본유지) — 상세 페이지에서 원본 비율 단독 배치.
+//                                         카드 사용 금지, 크롭·필터·오버레이 금지.
+export type SpotImageCpyrht = "Type1" | "Type3";
+
 export interface SpotGalleryImage {
   url: string;
   credit?: string;
+  /** 오더 #D3 [1]: 카드/상세 렌더 분기용. TourAPI 외 이미지는 미설정. */
+  cpyrht?: SpotImageCpyrht;
+}
+
+/**
+ * 오더 #D3 [1]: TourAPI (KorService2) 원본 데이터를 스팟에 붙인다.
+ *   overview_ko 는 detailCommon2 의 overview 필드 HTML 태그 strip 후 저장.
+ *   문안 대체 목적이 아니라 참조·크레딧용. UI 는 기존 lead/subtitle/highlights 유지.
+ */
+export interface SpotTourApi {
+  contentid: string;
+  overview_ko: string;
+  homepage?: string;
+  tel?: string;
 }
 
 export type SpotInfoHours = "always" | "varies" | "seasonal" | "inquiry";
@@ -167,6 +187,12 @@ export interface Spot {
   official_url?: string;
   /** 오더 #B1 [1] · GOYANG BEST 유료 슬롯 선정 여부. */
   best_selected?: boolean;
+  /**
+   * 오더 #D3 [1]: TourAPI 원본 데이터 (contentid, overview_ko, homepage, tel).
+   *   문안 대체용 아님 — 기존 lead/subtitle/highlights 는 그대로.
+   *   overview 는 참고·크레딧 표기용. UI 는 필요 시 별도 배치.
+   */
+  tourapi?: SpotTourApi;
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.
@@ -259,12 +285,15 @@ export const spots: Spot[] = [
         "zh-TW": "高陽國際花卉博覽會 — 每年春季在此公園舉辦的花卉博覽會。",
       },
     ],
+    // 오더 #D3 [2]: TourAPI contentid 127197 detailCommon2 주소로 갱신.
     ko_card: [
       {
         name_ko: "일산호수공원",
-        address_ko: "경기도 고양시 일산동구 호수로 595",
+        address_ko: "경기도 고양시 일산동구 호수로 595 (장항동)",
       },
     ],
+    // 오더 #D3 [2]: TourAPI 좌표 (mapy=lat, mapx=lng).
+    map: [{ lat: 37.657058, lng: 126.763855, label: "일산호수공원" }],
     credits: [],
     related: [],
     info: {
@@ -297,10 +326,11 @@ export const spots: Spot[] = [
       },
     ],
     adSlot: null,
-    // 오더 #C4 [1]: 상단 갤러리 1장 (풀폭 렌더 규칙). hero-walk.jpg 는
-    //   walk 카테고리 대표 이미지 = 호수공원 사진.
+    // 오더 #D3 [3]: TourAPI Type1 상위 3장 (다운로드 저장). hero-walk.jpg 대체.
     gallery: [
-      { url: "/images/hero/hero-walk.jpg", credit: "사진: 일산호수공원" },
+      { url: "/images/spots/ilsan-lake-park-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/ilsan-lake-park-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/ilsan-lake-park-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     // 오더 #C4 [3]: 카드 하단 「지역 · 최근접역」. spot-01 md 그대로.
     //   walk_min 은 실측 미확정 → null → 렌더 시 시간 미표시.
@@ -314,8 +344,15 @@ export const spots: Spot[] = [
       },
       walk_min: null,
     },
-    official_url: "https://www.goyang.go.kr/visitgoyang/",
+    // 오더 #D3 [2]: TourAPI homepage 로 official_url 갱신.
+    official_url: "http://www.goyang.go.kr/park",
     best_selected: false,
+    // 오더 #D3 [1][2]: TourAPI 원본 (문안 대체 아님).
+    tourapi: {
+      contentid: "127197",
+      overview_ko: "일산호수공원은 일산신도시 택지개발사업과 연계하여 조성한 근린공원이다. 국내 최대의 인공호수를 만들어 도시인이 접할 수 없는 자연생태계를 재현하고 다양한 주변경관 및 호수를 이용한 레크레이션 공간을 제공하고 있다. 특히 호수를 중심으로 한 4.7㎞의 자전거도로와 메타세쿼이아길 등 9.1㎞의 산책로는 시민들이 특별히 좋아하는 장소이다. 이외에도 생태자연학습장, 조형예술품, 선인장전시관 등이 다양한 생태문화시설이 조성되어 있다. 또한 매년 고양국제꽃박람회, 가을꽃축제, 호수예술축제 등이 개최되는 등 국내는 물론 세계적인 명소로 자리 잡아가고 있는 공원이다.",
+      homepage: "http://www.goyang.go.kr/park",
+    },
   },
 
   // ─── 오더 #C5: 산책 10선 02~10 (spots-walk-02-10.md 그대로) ─────────────
@@ -354,7 +391,10 @@ export const spots: Spot[] = [
     sections: [],
     access: [],
     know: [],
-    ko_card: [{ name_ko: "정발산근린공원", address_ko: null }],
+    // 오더 #D3 [2]: TourAPI 2733846 주소 (addr2=819 포함).
+    ko_card: [{ name_ko: "정발산근린공원", address_ko: "경기도 고양시 일산동구 마두동 819" }],
+    // 오더 #D3 [2]: TourAPI 좌표.
+    map: [{ lat: 37.663, lng: 126.7785, label: "정발산근린공원" }],
     credits: [],
     related: [],
     info: { hours: "always", duration: "1h", admission: "free", access: "partial" },
@@ -364,6 +404,12 @@ export const spots: Spot[] = [
       { ko: "정상에서 내려다보는 일산 시가지", en: "City views from the top", ja: "頂上から見渡す一山市街地", "zh-CN": "山顶俯瞰一山市区", "zh-TW": "山頂俯瞰一山市區" },
     ],
     adSlot: null,
+    // 오더 #D3 [3]: TourAPI Type1 상위 3장.
+    gallery: [
+      { url: "/images/spots/jeongbalsan-park-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/jeongbalsan-park-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/jeongbalsan-park-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     nearest_station: {
       name: {
         ko: "3호선 정발산역",
@@ -375,6 +421,11 @@ export const spots: Spot[] = [
       walk_min: null,
     },
     best_selected: false,
+    // 오더 #D3 [1][2]: TourAPI 원본. homepage 부재.
+    tourapi: {
+      contentid: "2733846",
+      overview_ko: "고양시 일산지역에 위치한 정발산은 해발 90m가 되지 않는 야트막한 산이다. 오래전 이 일대에 정 씨와 박 씨가 살아 정박산이 되었다가 후에 정발산이 되었다는 유래가 있다. 일산호수공원과 가까이 있어 산책을 하거나 데이트하기 좋고, 배드민턴장과 도서관, 전망대를 갖추고 있다. 산이라고 하지만 아이들도 즐길 수 있을 만큼 낮은 언덕으로 이루어진 공원이다.",
+    },
   },
 
   {
@@ -410,7 +461,10 @@ export const spots: Spot[] = [
     know: [
       { ko: "행주대첩 — 1593년 임진왜란 중 이곳에서 벌어진 전투입니다.", en: "Battle of Haengju — a 1593 engagement fought here during the Imjin War.", ja: "幸州大捷 — 1593年、壬辰倭乱中にここで行われた戦いです。", "zh-CN": "幸州大捷 — 1593年壬辰倭乱期间在此发生的战役。", "zh-TW": "幸州大捷 — 1593年壬辰倭亂期間在此發生的戰役。" },
     ],
-    ko_card: [{ name_ko: "행주산성", address_ko: null }],
+    // 오더 #D3 [2]: TourAPI 125562 주소.
+    ko_card: [{ name_ko: "행주산성", address_ko: "경기도 고양시 덕양구 행주로15번길 89" }],
+    // 오더 #D3 [2]: TourAPI 좌표.
+    map: [{ lat: 37.5960655816, lng: 126.8264548944, label: "행주산성" }],
     credits: [],
     related: [],
     info: { hours: "varies", duration: "1_2h", admission: "paid", access: "partial" },
@@ -420,11 +474,25 @@ export const spots: Spot[] = [
       { ko: "행주대첩 유적", en: "Site of the Battle of Haengju", ja: "幸州大捷の史跡", "zh-CN": "幸州大捷遗址", "zh-TW": "幸州大捷遺址" },
     ],
     adSlot: null,
+    // 오더 #D3 [3]: TourAPI Type1 상위 3장 (Type3 8장은 제외).
+    gallery: [
+      { url: "/images/spots/haengju-fortress-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/haengju-fortress-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/haengju-fortress-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
       walk_min: null,
     },
+    // 오더 #D3 [2]: TourAPI homepage.
+    official_url: "http://www.goyang.go.kr",
     best_selected: false,
+    // 오더 #D3 [1][2]: TourAPI 원본.
+    tourapi: {
+      contentid: "125562",
+      overview_ko: "행주산성은 경기도 고양시 덕양구 행주내동 덕양산의 7, 8부 능선에 쌓은 테뫼식[山頂式] 성으로 흙을 이용해서 쌓은 산성이다. 덕양산 정상부를 에워싼 소규모의 내성[內城]과 북쪽으로 뻗은 골짜기를 에워싼 외성[外城]의 이중구조로 강안의 험한 절벽을 이용하고 동, 북, 서로 전개된 넓은 평야를 감싸고 있다. 성안에서는 삼국시대의 적갈색 연질 토기와 회청색 경질토기 등의 조각을 비롯하여 어골문[魚骨文], 수지문[手指文]이 새겨진 기왓조각도 발견되고 있어 고려 시대까지도 사용된 것으로 보인다. 임진왜란 당시 권율[權慄] 장군이 의병과 승명을 포함한 2천3백 명과 함께 왜군 3만여 명을 크게 물리쳤다. 왜군을 격파하여 나라를 위기에서 벗어나게 하는데 큰 공을 세운 충장공 권율 도원수의 행주대첩을 기념하기 위한 매년 제례행사와 그 밖의 여러 가지 문화 행사가 개최되고 있다. 권율 도원수의 영정이 모셔져 있는 충장사에서 행해지는 이 제례에는 장군의 영혼을 불러들이기 위해 향을 피우고 제례를 지낸다. 선조들의 나라 사랑하는 마음과 지혜를 배울 수 있는 곳이다.",
+      homepage: "http://www.goyang.go.kr",
+    },
   },
 
   {
@@ -508,7 +576,10 @@ export const spots: Spot[] = [
     know: [
       { ko: "조선왕릉 — 조선 왕과 왕비의 무덤으로, 40기가 유네스코 세계유산에 등재돼 있습니다.", en: "Royal Tombs of the Joseon Dynasty — 40 tombs of Joseon kings and queens, inscribed on the UNESCO World Heritage List.", ja: "朝鮮王陵 — 朝鮮の王と王妃の墓で、40基がユネスコ世界遺産に登録されています。", "zh-CN": "朝鲜王陵 — 朝鲜历代国王与王后的陵墓，共40座列入联合国教科文组织世界遗产。", "zh-TW": "朝鮮王陵 — 朝鮮歷代國王與王后的陵墓，共40座列入聯合國教科文組織世界遺產。" },
     ],
-    ko_card: [{ name_ko: "서오릉", address_ko: null }],
+    // 오더 #D3 [2]: TourAPI 125552 주소.
+    ko_card: [{ name_ko: "서오릉", address_ko: "경기도 고양시 덕양구 서오릉로 334-32" }],
+    // 오더 #D3 [2]: TourAPI 좌표.
+    map: [{ lat: 37.6235552311, lng: 126.9007662973, label: "서오릉" }],
     credits: [],
     related: [],
     info: { hours: "varies", duration: "1_2h", admission: "paid", access: "partial" },
@@ -518,11 +589,25 @@ export const spots: Spot[] = [
       { ko: "유네스코 세계유산 조선왕릉", en: "Part of the UNESCO Royal Tombs of Joseon", ja: "ユネスコ世界遺産・朝鮮王陵", "zh-CN": "联合国教科文组织世界遗产朝鲜王陵", "zh-TW": "聯合國教科文組織世界遺產朝鮮王陵" },
     ],
     adSlot: null,
+    // 오더 #D3 [3]: TourAPI Type1 상위 3장 (hero-history.jpg 대체).
+    gallery: [
+      { url: "/images/spots/seooreung-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/seooreung-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/seooreung-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
       walk_min: null,
     },
+    // 오더 #D3 [2]: TourAPI homepage (문화재청 왕실).
+    official_url: "https://royal.khs.go.kr",
     best_selected: false,
+    // 오더 #D3 [1][2]: TourAPI 원본.
+    tourapi: {
+      contentid: "125552",
+      overview_ko: "서오릉(西五陵)은 ‘서쪽에 있는 5기의 능’이라는 뜻으로 경릉(敬陵), 창릉(昌陵), 익릉(翼陵), 명릉(明陵), 홍릉(弘陵)의 다섯 능을 말한다. 서오릉은 구리 동구릉(東九陵) 다음으로 규모가 큰 조선왕실의 왕릉군이다. 1457년(세조 3) 세조의 첫째 아들 의경세자(추존 덕종)의 의묘(懿墓, 경릉)가 처음 조성되었고 1470년(성종 1) 예종의 창릉(昌陵)이 왕릉으로서 최초로 조성되었다. 이후 순회세자의 순창원(順昌園), 인경왕후의 익릉(翼陵), 숙종의 명릉(明陵), 정성왕후의 홍릉( 弘陵)이 차례로 조성되어 조선시대에는 5기의 능과 1기의 원이 조성되었다. 그러다가 1970년대 영빈 이씨의 수경원(綏慶園)과 옥산부대빈 장씨의 대빈묘(大嬪墓)가 옮겨져 지금의 서오릉이 되었다.",
+      homepage: "https://royal.khs.go.kr",
+    },
   },
 
   {
@@ -556,7 +641,10 @@ export const spots: Spot[] = [
     sections: [],
     access: [],
     know: [],
-    ko_card: [{ name_ko: "서삼릉", address_ko: null }],
+    // 오더 #D3 [2]: TourAPI 125551 주소.
+    ko_card: [{ name_ko: "서삼릉", address_ko: "경기도 고양시 덕양구 서삼릉길 233-126 (원당동)" }],
+    // 오더 #D3 [2]: TourAPI 좌표.
+    map: [{ lat: 37.6630660206, lng: 126.8669756845, label: "서삼릉" }],
     credits: [],
     related: [],
     info: { hours: "varies", duration: "1h", admission: "paid", access: "partial" },
@@ -566,11 +654,20 @@ export const spots: Spot[] = [
       { ko: "유네스코 세계유산 조선왕릉", en: "Part of the UNESCO Royal Tombs of Joseon", ja: "ユネスコ世界遺産・朝鮮王陵", "zh-CN": "联合国教科文组织世界遗产朝鲜王陵", "zh-TW": "聯合國教科文組織世界遺產朝鮮王陵" },
     ],
     adSlot: null,
+    // 오더 #D3 [3]: TourAPI 이미지 0장 → 갤러리 미설정, 일러스트 유지.
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
       walk_min: null,
     },
+    // 오더 #D3 [2]: TourAPI homepage.
+    official_url: "https://royal.khs.go.kr",
     best_selected: false,
+    // 오더 #D3 [1][2]: TourAPI 원본.
+    tourapi: {
+      contentid: "125551",
+      overview_ko: "서삼릉(西三陵)은 ‘서쪽에 있는 3기의 능’이라는 뜻으로 경기 고양시에 위치한 조선왕릉 중 서오릉 다음으로 큰 왕릉군이다. 1537년(중종 32) 중종의 두 번째 왕비 장경왕후의 희릉(禧陵)이 현 서울 서초구 헌릉과 인릉 서쪽 언덕에서 현재의 자리로 옮겨졌고, 1545년(인종 1) 중종의 정릉이 희릉 서쪽 언덕에 조성되자 능의 이름을 희릉과 합쳐 정릉이라 하였다. 그러나 1562년(명종 17) 정릉이 현 서울 강남구로 옮겨지면서 다시 희릉이 되었다. 이후 인종의 효릉(孝陵), 소현세자의 소현묘(昭顯墓, 이후 소경원(昭慶園)), 철종의 예릉(睿陵)이 조성되었다. 그러다가 일제강점기 때 전국에 있던 왕을 비롯한 왕실가족의 태실(胎室)과 왕자·왕녀·후궁의 묘와 문효세자의 효창원(孝昌園)이 서삼릉 경내로 옮겨졌다. 1945년 광복 후 의소세손의 의령원(懿寧園)이 옮겨졌고, 도시화 개발 시기에 왕실 후궁들의 묘와 폐비 윤씨의 회묘(懷墓)가 경내로 옮겨지면서 지금의 서삼릉이 되었다.",
+      homepage: "https://royal.khs.go.kr",
+    },
   },
 
   {
