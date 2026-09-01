@@ -279,8 +279,10 @@ function BestListCard({
   spotLinked: boolean;
   locale: PageLocale;
 }) {
-  // 사진 우선순위: item.photoUrl → spot.gallery[0].url → 없음(일러스트 폴백)
-  const photoUrl = item.photoUrl ?? spot?.gallery?.[0]?.url ?? null;
+  // 오더 #D3 [4] 판정 1: 카드에는 Type3(원본유지) 이미지 사용 금지.
+  //   Type1 + cpyrht 미설정만 크롭 가능. spot.gallery 중 조건 통과 첫 장.
+  const cardGalleryFirst = spot?.gallery?.find((g) => g.cpyrht !== "Type3");
+  const photoUrl = item.photoUrl ?? cardGalleryFirst?.url ?? null;
   // 지역 라벨 (regions.ts key → locale 라벨)
   const regionLabel = item.region
     ? getRegionLabel(item.region, locale as RegionLocale)
