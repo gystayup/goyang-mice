@@ -135,20 +135,25 @@ export interface SpotInsider {
 }
 
 // 오더 #D4 [1]: ON SCREEN — 드라마·영화에서 본 인물이 실제로 잠든 곳.
-//   spots-onscreen-royal-tombs.md 스키마 그대로. 포스터·스틸·배우명·대사·로고 금지.
+// 오더 #E1 [1]: 'music' 타입 추가 (Ma City 등 곡). artist·album·year 로 표기.
+//   spots-onscreen-royal-tombs.md 스키마 그대로. 포스터·스틸·배우명·대사·로고·가사 금지.
 export interface SpotOnScreenWork {
-  /** drama → Tv 아이콘, film → Clapperboard */
-  type: "drama" | "film";
-  /** 한국어 원제 */
+  /** drama → Tv, film → Clapperboard, music → Music (lucide) */
+  type: "drama" | "film" | "music";
+  /** 한국어 원제 (드라마·영화) 또는 곡명 (music) */
   titleKo: string;
   /** 영문 제목 */
   titleEn: string;
-  /** MBC · SBS · JTBC · tvN 등 (영화는 미설정) */
+  /** MBC · SBS · JTBC · tvN 등 (영화·음악은 미설정) */
   broadcaster?: string;
+  /** music 전용: 아티스트명 (예: BTS) */
+  artist?: string;
+  /** music 전용: 앨범명 */
+  album?: string;
   year: string;
-  /** 등장 인물 — 실존 역사 인물명만 (배우명 금지) */
+  /** 등장 인물 (드라마·영화) 또는 언급된 장소 (music) — 실존 인물명만 (배우명 금지) */
   characters: I18nText;
-  /** 그 인물이 실제로 있는 능·원·묘 */
+  /** 그 인물/장소가 실제로 있는 곳 */
   site: I18nText;
   /** 해당 구역 공개 여부. false 면 "현재 비공개 구역입니다" 5로케일 병기 필수. */
   open: boolean;
@@ -164,6 +169,76 @@ export interface SpotOnScreenCourse {
 export interface SpotOnScreen {
   works: SpotOnScreenWork[];
   courses?: SpotOnScreenCourse[];
+}
+
+// 오더 #E1 [1]: THE STORY — 챕터 단위 인물·능·묘 서사.
+//   open: null 이면 「확인필요」 → 챕터 자체 렌더 X.
+//   open: false 면 렌더 O + 5로케일 비공개 문구 병기.
+export interface SpotStoryOnScreen {
+  titleKo: string;
+  titleEn: string;
+  type: "drama" | "film" | "music";
+  /** 영화·음악은 미설정 가능 */
+  broadcaster?: string;
+  year: string;
+}
+
+export interface SpotStoryChapter {
+  /** "CHAPTER 1" · "A BRIDGE" 등 5로케일 공통 영문 */
+  eyebrow: string;
+  /** LOVE · POWER 등 한 단어 주제 */
+  theme: I18nText;
+  title: I18nText;
+  /** 실존 인물 — 없으면 미설정 (예: 서오릉 CH6 유럽 관광객용 다리) */
+  people?: I18nText;
+  /** 능·원·묘 */
+  site: I18nText;
+  /** true=공개, false=비공개(회색+문구), null=확인필요(렌더 X) */
+  open: boolean | null;
+  /** 3~5문장 */
+  body: I18nText;
+  /** 관련 작품 (없으면 미설정) */
+  onScreen?: SpotStoryOnScreen[];
+  /** 추가 안내 (예: "효릉은 예약제") */
+  note?: I18nText;
+}
+
+export interface SpotStoriesHeader {
+  /** 5로케일 부제 (섹션 title 은 THE STORY 로 하드코딩). */
+  title: I18nText;
+  lead: I18nText;
+}
+
+// 오더 #E1 [1]: 한복 무료입장 안내.
+export interface SpotHanbok {
+  eligible: boolean;
+  note: I18nText;
+  caution: I18nText;
+}
+
+// 오더 #E1 [1]: AROUND KINTEX — 반경 안 시설 안내.
+export interface SpotNearbyItem {
+  name: I18nText;
+  /** "350m" 등. 없으면 생략. */
+  distance?: string;
+  tag: I18nText;
+  /** 우리 스팟이면 slug 로 링크. 없으면 미링크 카드. */
+  slug?: string;
+}
+
+export interface SpotNearby {
+  /** 5로케일 공통 영문 (예: "AROUND KINTEX") */
+  eyebrow: string;
+  title: I18nText;
+  lead: I18nText;
+  items: SpotNearbyItem[];
+}
+
+// 오더 #E1 [1]: 공사·임시 안내 배너 (갤러리 아래).
+export interface SpotNotice {
+  body: I18nText;
+  /** ISO YYYY-MM-DD. 없으면 무기한. */
+  until?: string;
 }
 
 // 오더 #C9 [1]: FIND YOUR WALK — 한 스팟에서 고를 수 있는 여러 산책 코스.
@@ -252,6 +327,19 @@ export interface Spot {
    *   없으면 섹션 자체 미렌더 (렌더 규칙).
    */
   walks?: SpotWalk[];
+  /**
+   * 오더 #E1 [1]: THE STORY — 챕터 배열. open:null 챕터는 렌더 제외.
+   *   없으면 섹션 자체 미렌더.
+   */
+  stories?: SpotStoryChapter[];
+  /** 오더 #E1 [1]: THE STORY 섹션 부제 (섹션 제목은 THE STORY 하드코딩). */
+  storiesHeader?: SpotStoriesHeader;
+  /** 오더 #E1 [1]: 한복 무료입장 안내 카드. */
+  hanbok?: SpotHanbok;
+  /** 오더 #E1 [1]: AROUND … 주변 시설 카드. */
+  nearby?: SpotNearby;
+  /** 오더 #E1 [1]: 갤러리 아래 임시 안내 배너. */
+  notice?: SpotNotice;
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.
@@ -599,6 +687,24 @@ export const spots: Spot[] = [
             "zh-CN": "已列入韩国观光公社韩流旅游信息的取景地",
             "zh-TW": "已列入韓國觀光公社韓流旅遊資訊的取景地",
           },
+        },
+        // 오더 #E1 [3]: 기존 《대행사》 유지, Ma City 1건 추가 (곡에 언급됨).
+        {
+          type: "music",
+          titleKo: "Ma City",
+          titleEn: "Ma City",
+          artist: "BTS",
+          album: "The Most Beautiful Moment in Life, Part 2",
+          year: "2015",
+          characters: { ko: "호수공원", en: "Ilsan Lake Park", ja: "湖水公園", "zh-CN": "湖水公园", "zh-TW": "湖水公園" },
+          site: {
+            ko: "이곳이 곡에 이름 그대로 등장합니다",
+            en: "This place appears in the song by name",
+            ja: "この場所が曲に名前のまま登場します",
+            "zh-CN": "此地在歌曲中以原名出现",
+            "zh-TW": "此地在歌曲中以原名出現",
+          },
+          open: true,
         },
       ],
     },
@@ -987,6 +1093,265 @@ export const spots: Spot[] = [
         },
       ],
     },
+    // 오더 #E1 [3]: 한복 무료입장 안내 (서오릉·서삼릉 동일).
+    hanbok: {
+      eligible: true,
+      note: {
+        ko: "한복을 입으면 입장료 없이 관람할 수 있습니다. 저고리와 치마 또는 바지를 함께 입은 경우에 해당하며, 전통한복과 생활한복 모두 인정됩니다. 외국인도 대상입니다.",
+        en: "Wear hanbok and admission is free. This applies when a jeogori (upper garment) is worn together with a skirt or trousers; both traditional and modern-style hanbok qualify. Foreign visitors are eligible.",
+        ja: "韓服を着用すると入場料なしで観覧できます。チョゴリとチマまたはパジを一緒に着用した場合が対象で、伝統韓服と生活韓服のいずれも認められます。外国人も対象です。",
+        "zh-CN": "身着韩服即可免费入场。须上衣（赤古里）与裙或裤同时穿着，传统韩服与生活韩服均可。外国游客同样适用。",
+        "zh-TW": "身著韓服即可免費入場。須上衣（赤古里）與裙或褲同時穿著，傳統韓服與生活韓服均可。外國遊客同樣適用。",
+      },
+      caution: {
+        ko: "원피스형 한복, 청바지에 저고리만, 티셔츠 형태의 상의는 인정되지 않습니다. 삼각대나 조명 등 촬영 장비를 들여오는 경우 별도 규정이 적용됩니다.",
+        en: "One-piece hanbok dresses, a jeogori worn over jeans, and T-shirt-style tops do not qualify. Bringing tripods, lighting or other equipment falls under separate rules.",
+        ja: "ワンピース型の韓服、ジーンズにチョゴリのみ、Tシャツ形態の上衣は認められません。三脚や照明など撮影機材を持ち込む場合は別途規定が適用されます。",
+        "zh-CN": "连衣裙式韩服、牛仔裤配赤古里、T恤式上衣均不符合。携带三脚架、灯光等拍摄器材另有规定。",
+        "zh-TW": "連衣裙式韓服、牛仔褲配赤古里、T恤式上衣均不符合。攜帶三腳架、燈光等拍攝器材另有規定。",
+      },
+    },
+    // 오더 #E1 [2][3]: THE STORY — 스토리파일 6챕터 + 왕가파일 3챕터 = 9.
+    storiesHeader: {
+      title: {
+        ko: "다섯 개의 능, 다섯 개의 이야기",
+        en: "Five Tombs, Five Stories",
+        ja: "五つの陵、五つの物語",
+        "zh-CN": "五座陵墓，五段故事",
+        "zh-TW": "五座陵墓，五段故事",
+      },
+      lead: {
+        ko: "한국 사극을 본 적이 있다면 이곳에 잠든 사람들의 이름을 이미 알고 계실지도 모릅니다. 왕의 사랑, 폐위된 왕비, 다시 뒤집힌 권력. 그 이야기의 주인공들이 거의 한 자리에 모여 있습니다.",
+        en: "If you have watched a Korean historical drama, you may already know the names of the people buried here. A king's affection, a deposed queen, power overturned again. Most of those figures rest within this one site.",
+        ja: "韓国時代劇をご覧になったことがあれば、ここに眠る人々の名前をすでにご存じかもしれません。王の寵愛、廃位された王妃、再び覆された権力。その物語の主人公たちがほぼ一か所に集まっています。",
+        "zh-CN": "若您看过韩国古装剧，或许早已知晓长眠于此者的名字。君王的宠爱、被废的王后、再度翻转的权力——那些故事的主角几乎都汇聚于此。",
+        "zh-TW": "若您看過韓國古裝劇，或許早已知曉長眠於此者的名字。君王的寵愛、被廢的王后、再度翻轉的權力——那些故事的主角幾乎都匯聚於此。",
+      },
+    },
+    stories: [
+      {
+        eyebrow: "CHAPTER 1",
+        theme: { ko: "사랑", en: "LOVE", ja: "愛", "zh-CN": "爱", "zh-TW": "愛" },
+        title: {
+          ko: "왕과 두 번 왕비가 된 여인",
+          en: "The King and the Queen Who Returned",
+          ja: "王と、二度王妃となった女性",
+          "zh-CN": "君王与两度成为王后的女子",
+          "zh-TW": "君王與兩度成為王后的女子",
+        },
+        people: {
+          ko: "숙종 · 인현왕후 · 인원왕후",
+          en: "King Sukjong · Queen Inhyeon · Queen Inwon",
+          ja: "粛宗 · 仁顕王后 · 仁元王后",
+          "zh-CN": "肃宗 · 仁显王后 · 仁元王后",
+          "zh-TW": "肅宗 · 仁顯王后 · 仁元王后",
+        },
+        site: { ko: "명릉", en: "Myeongneung", ja: "明陵", "zh-CN": "明陵", "zh-TW": "明陵" },
+        open: true,
+        body: {
+          ko: "숙종은 46년간 왕위에 있었습니다. 그의 왕비와 후궁을 둘러싼 일은 개인의 애정사가 아니라 당시 정치 세력이 뒤바뀌던 환국과 얽혀 있었습니다. 인현왕후는 폐위되었다가 다시 왕비가 되었습니다. 드라마에서 여러 번 그려진 그 관계의 두 사람이 지금 명릉에 함께 잠들어 있습니다.",
+          en: "Sukjong reigned for forty-six years. What happened around his queens and consorts was not a private matter of affection but tangled with the hwan-guk — the abrupt reversals of political factions. Queen Inhyeon was deposed and later restored. The two figures at the centre of that story, retold many times on screen, now lie together at Myeongneung.",
+          ja: "粛宗は46年間王位にありました。彼の王妃と側室をめぐる出来事は個人の恋愛史ではなく、当時政治勢力が入れ替わった換局と絡み合っていました。仁顕王后は廃位された後、再び王妃となりました。ドラマで幾度も描かれたその関係の二人が、今、明陵に共に眠っています。",
+          "zh-CN": "肃宗在位四十六年。围绕其王后与嫔御的种种，并非私人情感之事，而与当时政治势力更迭的换局交织在一起。仁显王后曾被废黜，后又复位。剧中屡屡描绘的这段关系中的两人，如今共眠于明陵。",
+          "zh-TW": "肅宗在位四十六年。圍繞其王后與嬪御的種種，並非私人情感之事，而與當時政治勢力更迭的換局交織在一起。仁顯王后曾被廢黜，後又復位。劇中屢屢描繪的這段關係中的兩人，如今共眠於明陵。",
+        },
+        onScreen: [
+          { titleKo: "동이", titleEn: "Dong Yi", type: "drama", broadcaster: "MBC", year: "2010" },
+          { titleKo: "장옥정, 사랑에 살다", titleEn: "Jang Ok-jung, Live in Love", type: "drama", broadcaster: "SBS", year: "2013" },
+        ],
+      },
+      {
+        eyebrow: "CHAPTER 2",
+        theme: { ko: "권력", en: "POWER", ja: "権力", "zh-CN": "权力", "zh-TW": "權力" },
+        title: {
+          ko: "60년 동안 반복해 그려진 인물",
+          en: "A Figure Retold for Sixty Years",
+          ja: "60年間繰り返し描かれた人物",
+          "zh-CN": "被反复演绎六十年的人物",
+          "zh-TW": "被反覆演繹六十年的人物",
+        },
+        people: { ko: "희빈 장씨", en: "Jang Hui-bin", ja: "禧嬪張氏", "zh-CN": "禧嫔张氏", "zh-TW": "禧嬪張氏" },
+        site: { ko: "대빈묘", en: "Daebinmyo", ja: "大嬪墓", "zh-CN": "大嫔墓", "zh-TW": "大嬪墓" },
+        open: true,
+        body: {
+          ko: "희빈 장씨는 한국 영화와 드라마에서 가장 여러 번 다시 만들어진 인물 가운데 하나입니다. 1961년 영화를 시작으로 지금까지 여러 세대의 배우가 같은 인물을 연기했습니다. 왕의 총애를 받아 왕비가 되었다가 다시 물러났고, 마지막은 알려진 대로입니다. 그가 잠든 대빈묘는 명릉에서 걸어서 갈 수 있습니다.",
+          en: "Jang Hui-bin is among the most frequently retold figures in Korean film and television. Beginning with a 1961 film, performers across several generations have played her. She rose to become queen under the king's favour, then lost that position; the ending is well known. Daebinmyo, where she rests, is a short walk from Myeongneung.",
+          ja: "禧嬪張氏は韓国の映画とドラマで最も繰り返し作り直された人物の一人です。1961年の映画を皮切りに、今日まで何世代もの俳優が同じ人物を演じてきました。王の寵愛を受けて王妃となり、再び退けられ、最期は知られている通りです。彼女が眠る大嬪墓は明陵から歩いて行けます。",
+          "zh-CN": "禧嫔张氏是韩国影视中被反复重塑最多的人物之一。自1961年的电影起，几代演员先后演绎过同一人物。她因君王宠爱而登上后位，又再度失势，结局众所周知。她长眠的大嫔墓，从明陵步行即可抵达。",
+          "zh-TW": "禧嬪張氏是韓國影視中被反覆重塑最多的人物之一。自1961年的電影起，幾代演員先後演繹過同一人物。她因君王寵愛而登上后位，又再度失勢，結局眾所周知。她長眠的大嬪墓，從明陵步行即可抵達。",
+        },
+        onScreen: [
+          { titleKo: "동이", titleEn: "Dong Yi", type: "drama", broadcaster: "MBC", year: "2010" },
+          { titleKo: "장옥정, 사랑에 살다", titleEn: "Jang Ok-jung, Live in Love", type: "drama", broadcaster: "SBS", year: "2013" },
+        ],
+      },
+      {
+        eyebrow: "CHAPTER 3",
+        theme: { ko: "첫 번째", en: "THE FIRST", ja: "最初の", "zh-CN": "最初", "zh-TW": "最初" },
+        title: {
+          ko: "드라마에 거의 나오지 않는 첫 왕비",
+          en: "The First Queen, Rarely Seen on Screen",
+          ja: "ドラマにほとんど登場しない最初の王妃",
+          "zh-CN": "剧中鲜少出现的第一位王后",
+          "zh-TW": "劇中鮮少出現的第一位王后",
+        },
+        people: { ko: "인경왕후", en: "Queen Ingyeong", ja: "仁敬王后", "zh-CN": "仁敬王后", "zh-TW": "仁敬王后" },
+        site: { ko: "익릉", en: "Ikneung", ja: "翼陵", "zh-CN": "翼陵", "zh-TW": "翼陵" },
+        open: true,
+        body: {
+          ko: "숙종의 첫 번째 왕비입니다. 인현왕후와 희빈 장씨의 이야기가 드라마의 중심이 되면서 인경왕후는 화면에 거의 등장하지 않습니다. 그러나 서오릉에서는 익릉이 명릉·대빈묘와 함께 있습니다. 이야기에서 밀려난 인물이 같은 자리에 있다는 점이 이 능의 특징입니다.",
+          en: "Sukjong's first queen. As the story of Queen Inhyeon and Jang Hui-bin came to dominate the screen, Queen Ingyeong all but disappeared from it. At Seooreung, however, Ikneung stands alongside Myeongneung and Daebinmyo. That the figure written out of the drama lies in the same grounds is what marks this tomb.",
+          ja: "粛宗の最初の王妃です。仁顕王后と禧嬪張氏の物語がドラマの中心となるにつれ、仁敬王后は画面にほとんど登場しなくなりました。しかし西五陵では、翼陵が明陵·大嬪墓とともにあります。物語から押し出された人物が同じ場所にいる——それがこの陵の特徴です。",
+          "zh-CN": "肃宗的第一位王后。随着仁显王后与禧嫔张氏的故事成为剧作中心，仁敬王后几乎从画面中消失。然而在西五陵，翼陵与明陵、大嫔墓同处一地。被故事推到一旁的人物，仍在同一片土地上——这正是此陵的特别之处。",
+          "zh-TW": "肅宗的第一位王后。隨著仁顯王后與禧嬪張氏的故事成為劇作中心，仁敬王后幾乎從畫面中消失。然而在西五陵，翼陵與明陵、大嬪墓同處一地。被故事推到一旁的人物，仍在同一片土地上——這正是此陵的特別之處。",
+        },
+      },
+      {
+        eyebrow: "CHAPTER 4",
+        theme: { ko: "반전", en: "THE TWIST", ja: "反転", "zh-CN": "反转", "zh-TW": "反轉" },
+        title: {
+          ko: "영화에서는 탐정이 된 왕",
+          en: "The King Who Became a Detective on Film",
+          ja: "映画では探偵になった王",
+          "zh-CN": "在影片中化身侦探的君王",
+          "zh-TW": "在影片中化身偵探的君王",
+        },
+        people: { ko: "예종 · 안순왕후", en: "King Yejong · Queen Ansun", ja: "睿宗 · 安順王后", "zh-CN": "睿宗 · 安顺王后", "zh-TW": "睿宗 · 安順王后" },
+        site: { ko: "창릉", en: "Changneung", ja: "昌陵", "zh-CN": "昌陵", "zh-TW": "昌陵" },
+        open: true,
+        body: {
+          ko: "조선 제8대 왕 예종은 짧게 재위했습니다. 그런데 2017년 영화 《임금님의 사건수첩》에서는 사건을 추적하는 인물로 완전히 다르게 그려집니다. 영화 속 모습과 실제 기록의 간격이 큰 편이라, 영화를 본 사람에게는 창릉이 색다르게 보입니다.",
+          en: "Yejong, the eighth king of Joseon, reigned only briefly. Yet in the 2017 film The King's Case Note he is drawn as an entirely different figure — one who chases down a case. The gap between the screen version and the record is wide, which makes Changneung read differently for anyone who has seen the film.",
+          ja: "朝鮮第8代王の睿宗は在位が短い王でした。ところが2017年の映画『王様の事件手帖』では、事件を追う人物としてまったく異なる姿で描かれます。映画の中の姿と実際の記録との隔たりが大きく、映画を観た方には昌陵が違って見えます。",
+          "zh-CN": "朝鲜第八代君王睿宗在位短暂。然而在2017年电影《君王的案件手册》中，他被塑造成追查案件的截然不同的形象。银幕形象与史实记载相去甚远，因此看过该片的人来到昌陵，感受会格外不同。",
+          "zh-TW": "朝鮮第八代君王睿宗在位短暫。然而在2017年電影《君王的案件手冊》中，他被塑造成追查案件的截然不同的形象。銀幕形象與史實記載相去甚遠，因此看過該片的人來到昌陵，感受會格外不同。",
+        },
+        onScreen: [{ titleKo: "임금님의 사건수첩", titleEn: "The King's Case Note", type: "film", year: "2017" }],
+      },
+      {
+        eyebrow: "CHAPTER 5",
+        theme: { ko: "왕좌의 뒤", en: "BEHIND THE THRONE", ja: "王座の後ろ", "zh-CN": "王座之后", "zh-TW": "王座之後" },
+        title: {
+          ko: "왕이 되지 않고 왕을 만든 사람",
+          en: "She Never Took the Throne. She Shaped Who Did.",
+          ja: "王にはならず、王をつくった人",
+          "zh-CN": "未曾登基，却塑造了君王",
+          "zh-TW": "未曾登基，卻塑造了君王",
+        },
+        people: {
+          ko: "소혜왕후(인수대비) · 덕종",
+          en: "Queen Sohye (Queen Insoo) · King Deokjong",
+          ja: "昭恵王后(仁粋大妃) · 徳宗",
+          "zh-CN": "昭惠王后(仁粹大妃) · 德宗",
+          "zh-TW": "昭惠王后(仁粹大妃) · 德宗",
+        },
+        site: { ko: "경릉", en: "Gyeongneung", ja: "敬陵", "zh-CN": "敬陵", "zh-TW": "敬陵" },
+        open: true,
+        body: {
+          ko: "남편이 왕위에 오르기 전 세상을 떠나면서 소혜왕후는 왕비가 되지 못했습니다. 그러나 아들이 왕이 되고 손자가 그 뒤를 이으면서 왕실 안에서 오래 영향력을 행사했습니다. 흔히 인수대비로 불립니다. 이 인물을 제목으로 삼은 드라마가 따로 만들어졌을 만큼 이야깃거리가 많은 사람입니다.",
+          en: "Because her husband died before taking the throne, Sohye never became queen consort. But her son became king and her grandson followed, and she held influence within the court for a long time. She is commonly known as Queen Insoo. A drama was made bearing her name alone — an indication of how much there is to tell.",
+          ja: "夫が王位に就く前に世を去ったため、昭恵王后は王妃にはなれませんでした。しかし息子が王となり孫がその後を継ぐ中で、王室内で長く影響力を持ちました。一般に仁粋大妃と呼ばれます。この人物を題名にしたドラマが別途作られたほど、語るべきことの多い人です。",
+          "zh-CN": "因丈夫在登基前离世，昭惠王后未能成为王后。但其子继位、其孙相承，她在宫廷内长期握有影响力，世称仁粹大妃。曾有以她之名为题的电视剧问世，可见其故事之丰富。",
+          "zh-TW": "因丈夫在登基前離世，昭惠王后未能成為王后。但其子繼位、其孫相承，她在宮廷內長期握有影響力，世稱仁粹大妃。曾有以她之名為題的電視劇問世，可見其故事之豐富。",
+        },
+        onScreen: [{ titleKo: "인수대비", titleEn: "Queen Insoo", type: "drama", broadcaster: "JTBC", year: "2011" }],
+      },
+      {
+        eyebrow: "A BRIDGE",
+        theme: { ko: "닮은 구조", en: "A FAMILIAR SHAPE", ja: "似た構造", "zh-CN": "相似的结构", "zh-TW": "相似的結構" },
+        title: {
+          ko: "앤 불린을 아신다면",
+          en: "If You Know Anne Boleyn",
+          ja: "アン・ブーリンをご存じなら",
+          "zh-CN": "若您知晓安妮·博林",
+          "zh-TW": "若您知曉安妮·博林",
+        },
+        // 유럽 관광객용 다리 — people 은 없음
+        site: { ko: "대빈묘", en: "Daebinmyo", ja: "大嬪墓", "zh-CN": "大嫔墓", "zh-TW": "大嬪墓" },
+        open: true,
+        body: {
+          ko: "왕의 총애를 받아 왕비가 된 여성, 궁정의 권력 다툼, 그리고 몰락. 이 구조는 여러 나라의 역사에서 되풀이됩니다. 유럽에서 앤 불린이 오페라로 기억된다면, 한국에서 희빈 장씨는 영화와 드라마로 기억됩니다. 같은 인물이라는 뜻은 아닙니다. 시대도 제도도 삶도 다릅니다. 다만 이야기의 모양이 닮아 있습니다.",
+          en: "A woman who rose to queen through a king's favour, a court struggle for power, and a fall. This shape recurs across many national histories. Where Europe remembers Anne Boleyn through opera, Korea remembers Jang Hui-bin through film and television. This is not to say they were the same. The eras, the institutions and the lives were entirely different. Only the shape of the story rhymes.",
+          ja: "王の寵愛を受けて王妃となった女性、宮廷の権力争い、そして没落。この構造は複数の国の歴史で繰り返されます。ヨーロッパでアン・ブーリンがオペラで記憶されるなら、韓国では禧嬪張氏が映画とドラマで記憶されます。同じ人物という意味ではありません。時代も制度も生涯も異なります。ただ物語の形が似ているのです。",
+          "zh-CN": "因君王宠爱而登上后位的女子、宫廷权力之争，以及最终的陨落。这一结构在多国历史中反复出现。若说欧洲以歌剧铭记安妮·博林，韩国则以影视铭记禧嫔张氏。这并非指两人相同——时代、制度与人生皆不相同，只是故事的形状彼此呼应。",
+          "zh-TW": "因君王寵愛而登上后位的女子、宮廷權力之爭，以及最終的殞落。這一結構在多國歷史中反覆出現。若說歐洲以歌劇銘記安妮·博林，韓國則以影視銘記禧嬪張氏。這並非指兩人相同——時代、制度與人生皆不相同，只是故事的形狀彼此呼應。",
+        },
+      },
+      // 왕가파일 3챕터 (수경원·홍릉·순창원)
+      {
+        eyebrow: "CHAPTER 7",
+        theme: { ko: "어머니의 선택", en: "A MOTHER'S CHOICE", ja: "母の選択", "zh-CN": "母亲的抉择", "zh-TW": "母親的抉擇" },
+        title: {
+          ko: "사도세자를 낳은 사람",
+          en: "The Woman Who Bore Prince Sado",
+          ja: "思悼世子を産んだ人",
+          "zh-CN": "生下思悼世子的人",
+          "zh-TW": "生下思悼世子的人",
+        },
+        people: { ko: "영빈 이씨", en: "Lady Yeongbin Yi", ja: "暎嬪李氏", "zh-CN": "暎嫔李氏", "zh-TW": "暎嬪李氏" },
+        site: { ko: "수경원", en: "Sugyeongwon", ja: "綏慶園", "zh-CN": "绥庆园", "zh-TW": "綏慶園" },
+        open: true,
+        body: {
+          ko: "영빈 이씨는 영조의 후궁이며 사도세자의 생모입니다. 사도세자를 둘러싼 일에서 그가 어떤 위치에 있었는지는 기록과 해석이 갈립니다. 영화 《사도》에도 이 인물이 등장합니다. 무덤은 1970년대에 서오릉으로 옮겨졌고, 옮기는 과정에서 나온 부장품 일부가 서오릉 역사문화관에 전시되고 있습니다.",
+          en: "Lady Yeongbin was a consort of King Yeongjo and the birth mother of Prince Sado. Where she stood in the events surrounding her son is a matter on which records and readings differ. She appears in the film The Throne. Her tomb was moved to Seooreung in the 1970s, and some of the burial goods recovered in the process are displayed at the Seooreung history museum.",
+          ja: "暎嬪李氏は英祖の側室であり、思悼世子の生母です。思悼世子をめぐる出来事において彼女がどの位置にいたかは、記録と解釈が分かれます。映画『思悼』にもこの人物が登場します。墓は1970年代に西五陵へ移され、移葬の過程で出土した副葬品の一部が西五陵歴史文化館に展示されています。",
+          "zh-CN": "暎嫔李氏是英祖的嫔御，思悼世子的生母。在围绕其子的事件中她处于何种位置，记载与解读各有不同。电影《思悼》中亦有此人物。其墓于1970年代迁至西五陵，迁葬过程中出土的部分随葬品现陈列于西五陵历史文化馆。",
+          "zh-TW": "暎嬪李氏是英祖的嬪御，思悼世子的生母。在圍繞其子的事件中她處於何種位置，記載與解讀各有不同。電影《思悼》中亦有此人物。其墓於1970年代遷至西五陵，遷葬過程中出土的部分隨葬品現陳列於西五陵歷史文化館。",
+        },
+        onScreen: [{ titleKo: "사도", titleEn: "The Throne", type: "film", year: "2015" }],
+      },
+      {
+        eyebrow: "CHAPTER 8",
+        theme: { ko: "비워진 자리", en: "THE EMPTY SPACE", ja: "空けられた場所", "zh-CN": "空置之位", "zh-TW": "空置之位" },
+        title: {
+          ko: "옆자리가 비어 있는 능",
+          en: "The Tomb with an Empty Space Beside It",
+          ja: "隣が空いたままの陵",
+          "zh-CN": "身旁空置的陵",
+          "zh-TW": "身旁空置的陵",
+        },
+        people: { ko: "정성왕후", en: "Queen Jeongseong", ja: "貞聖王后", "zh-CN": "贞圣王后", "zh-TW": "貞聖王后" },
+        site: { ko: "홍릉", en: "Hongneung", ja: "弘陵", "zh-CN": "弘陵", "zh-TW": "弘陵" },
+        open: true,
+        body: {
+          // md 「영조가 자리를 미리 마련했으나 다른 곳에 묻혔다」 → 검증 필요 표기.
+          //   확정 전이므로 그 문장을 제외하고 나머지만 사용.
+          ko: "정성왕후는 영조의 첫 번째 왕비입니다. 영화 《사도》에 이 인물이 등장하며, 영빈 이씨의 수경원도 같은 서오릉 안에 있습니다.",
+          en: "Queen Jeongseong was King Yeongjo's first queen. She appears in the film The Throne, and Sugyeongwon — Lady Yeongbin's grave — lies within the same grounds.",
+          ja: "貞聖王后は英祖の最初の王妃です。映画『思悼』にこの人物が登場し、暎嬪李氏の綏慶園も同じ西五陵内にあります。",
+          "zh-CN": "贞圣王后是英祖的第一位王后。电影《思悼》中有此人物，而暎嫔李氏的绥庆园亦在同一片西五陵内。",
+          "zh-TW": "貞聖王后是英祖的第一位王后。電影《思悼》中有此人物，而暎嬪李氏的綏慶園亦在同一片西五陵內。",
+        },
+        onScreen: [{ titleKo: "사도", titleEn: "The Throne", type: "film", year: "2015" }],
+      },
+      {
+        eyebrow: "CHAPTER 9",
+        theme: { ko: "이어지지 않은 왕위", en: "THE THRONE THAT PASSED", ja: "継がれなかった王位", "zh-CN": "未能继承的王位", "zh-TW": "未能繼承的王位" },
+        title: {
+          ko: "명종의 하나뿐인 아들",
+          en: "Myeongjong's Only Son",
+          ja: "明宗のただ一人の息子",
+          "zh-CN": "明宗唯一的儿子",
+          "zh-TW": "明宗唯一的兒子",
+        },
+        people: {
+          ko: "순회세자 · 공회빈 윤씨",
+          en: "Crown Prince Sunhoe · Lady Gonghoebin Yun",
+          ja: "順懐世子 · 恭懐嬪尹氏",
+          "zh-CN": "顺怀世子 · 恭怀嫔尹氏",
+          "zh-TW": "順懷世子 · 恭懷嬪尹氏",
+        },
+        site: { ko: "순창원", en: "Sunchangwon", ja: "順昌園", "zh-CN": "顺昌园", "zh-TW": "順昌園" },
+        open: true,
+        body: {
+          ko: "순회세자는 명종의 아들입니다. 어린 나이에 세상을 떠나면서 명종에게는 뒤를 이을 아들이 남지 않았고, 왕위는 다른 가계로 넘어갔습니다. 서오릉의 다른 능묘와 달리 이곳은 드라마에서 거의 다뤄지지 않습니다.",
+          en: "Sunhoe was the son of King Myeongjong. He died young, leaving Myeongjong without an heir, and the throne passed to another line. Unlike the other tombs at Seooreung, this one is almost never treated on screen.",
+          ja: "順懐世子は明宗の息子です。幼くして世を去り、明宗には跡を継ぐ息子が残らず、王位は別の家系に移りました。西五陵の他の陵墓と異なり、ここはドラマでほとんど扱われません。",
+          "zh-CN": "顺怀世子是明宗之子。他年幼离世，明宗因此再无子嗣继位，王位遂转入他系。与西五陵其他陵墓不同，此处几乎从未出现在影视中。",
+          "zh-TW": "順懷世子是明宗之子。他年幼離世，明宗因此再無子嗣繼位，王位遂轉入他系。與西五陵其他陵墓不同，此處幾乎從未出現在影視中。",
+        },
+      },
+    ],
   },
 
   {
@@ -1141,6 +1506,247 @@ export const spots: Spot[] = [
         },
       ],
     },
+    // 오더 #E1 [3]: 한복 무료입장 안내 (서오릉·서삼릉 동일 데이터).
+    hanbok: {
+      eligible: true,
+      note: {
+        ko: "한복을 입으면 입장료 없이 관람할 수 있습니다. 저고리와 치마 또는 바지를 함께 입은 경우에 해당하며, 전통한복과 생활한복 모두 인정됩니다. 외국인도 대상입니다.",
+        en: "Wear hanbok and admission is free. This applies when a jeogori (upper garment) is worn together with a skirt or trousers; both traditional and modern-style hanbok qualify. Foreign visitors are eligible.",
+        ja: "韓服を着用すると入場料なしで観覧できます。チョゴリとチマまたはパジを一緒に着用した場合が対象で、伝統韓服と生活韓服のいずれも認められます。外国人も対象です。",
+        "zh-CN": "身着韩服即可免费入场。须上衣（赤古里）与裙或裤同时穿着，传统韩服与生活韩服均可。外国游客同样适用。",
+        "zh-TW": "身著韓服即可免費入場。須上衣（赤古里）與裙或褲同時穿著，傳統韓服與生活韓服均可。外國遊客同樣適用。",
+      },
+      caution: {
+        ko: "원피스형 한복, 청바지에 저고리만, 티셔츠 형태의 상의는 인정되지 않습니다. 삼각대나 조명 등 촬영 장비를 들여오는 경우 별도 규정이 적용됩니다.",
+        en: "One-piece hanbok dresses, a jeogori worn over jeans, and T-shirt-style tops do not qualify. Bringing tripods, lighting or other equipment falls under separate rules.",
+        ja: "ワンピース型の韓服、ジーンズにチョゴリのみ、Tシャツ形態の上衣は認められません。三脚や照明など撮影機材を持ち込む場合は別途規定が適用されます。",
+        "zh-CN": "连衣裙式韩服、牛仔裤配赤古里、T恤式上衣均不符合。携带三脚架、灯光等拍摄器材另有规定。",
+        "zh-TW": "連衣裙式韓服、牛仔褲配赤古里、T恤式上衣均不符合。攜帶三腳架、燈光等拍攝器材另有規定。",
+      },
+    },
+    // 오더 #E1 [2][3]: 스토리파일 3챕터 + 왕가파일 4챕터. open:null 3건은 렌더 X.
+    storiesHeader: {
+      title: {
+        ko: "조용한 능역에 남은 이야기",
+        en: "Stories in a Quieter Ground",
+        ja: "静かな陵域に残る物語",
+        "zh-CN": "静谧陵域中留存的故事",
+        "zh-TW": "靜謐陵域中留存的故事",
+      },
+      lead: {
+        ko: "서오릉보다 방문객이 적고 조용합니다. 그러나 이곳에도 화면에서 여러 번 다뤄진 인물들이 잠들어 있습니다. 일부 구역은 공개되지 않으니 방문 전에 확인하세요.",
+        en: "Quieter and less visited than Seooreung. Yet figures who have appeared on screen many times rest here too. Some areas are not open to visitors, so check before you go.",
+        ja: "西五陵より訪問者が少なく静かです。しかしここにも画面で幾度も扱われた人物が眠っています。一部区域は公開されていないため、訪問前にご確認ください。",
+        "zh-CN": "比西五陵更为清静，访客较少。但此处同样长眠着多次登上银幕的人物。部分区域不对外开放，前往前请先确认。",
+        "zh-TW": "比西五陵更為清靜，訪客較少。但此處同樣長眠著多次登上銀幕的人物。部分區域不對外開放，前往前請先確認。",
+      },
+    },
+    stories: [
+      // 스토리파일 CH1 — 예릉
+      {
+        eyebrow: "CHAPTER 1",
+        theme: { ko: "왕과 왕비", en: "KING AND QUEEN", ja: "王と王妃", "zh-CN": "君王与王后", "zh-TW": "君王與王后" },
+        title: {
+          ko: "드라마의 두 주인공이 함께 잠든 곳",
+          en: "Where the Drama's Two Leads Rest Together",
+          ja: "ドラマの二人の主人公が共に眠る場所",
+          "zh-CN": "剧中两位主角合葬之处",
+          "zh-TW": "劇中兩位主角合葬之處",
+        },
+        people: { ko: "철종 · 철인왕후", en: "King Cheoljong · Queen Cheorin", ja: "哲宗 · 哲仁王后", "zh-CN": "哲宗 · 哲仁王后", "zh-TW": "哲宗 · 哲仁王后" },
+        site: { ko: "예릉", en: "Yeneung", ja: "睿陵", "zh-CN": "睿陵", "zh-TW": "睿陵" },
+        open: true,
+        body: {
+          ko: "철종은 왕이 될 준비 없이 왕위에 올랐습니다. 강화도에서 지내다 불려 왔고, 재위 중 실권은 다른 곳에 있었습니다. 2020년 드라마 《철인왕후》는 이 왕과 왕비를 두 주인공으로 삼았습니다. 예릉에는 그 두 사람이 실제로 함께 잠들어 있습니다.",
+          en: "Cheoljong came to the throne without preparation for it. He had been living on Ganghwa Island when he was summoned, and real power lay elsewhere during his reign. The 2020 drama Mr. Queen made this king and queen its two leads. At Yeneung the two of them lie together in fact.",
+          ja: "哲宗は王になる準備のないまま王位に就きました。江華島で暮らしていたところを呼ばれ、在位中の実権は別のところにありました。2020年のドラマ『哲仁王后』はこの王と王妃を二人の主人公にしました。睿陵にはその二人が実際に共に眠っています。",
+          "zh-CN": "哲宗未经准备便登上王位。他原居于江华岛，被召入宫，在位期间实权旁落。2020年电视剧《哲仁王后》以这位君王与王后为两位主角。而睿陵中，两人确实合葬于此。",
+          "zh-TW": "哲宗未經準備便登上王位。他原居於江華島，被召入宮，在位期間實權旁落。2020年電視劇《哲仁王后》以這位君王與王后為兩位主角。而睿陵中，兩人確實合葬於此。",
+        },
+        onScreen: [{ titleKo: "철인왕후", titleEn: "Mr. Queen", type: "drama", broadcaster: "tvN", year: "2020" }],
+      },
+      // 스토리파일 CH2 — 희릉·효릉
+      {
+        eyebrow: "CHAPTER 2",
+        theme: { ko: "어머니와 아들", en: "MOTHER AND SON", ja: "母と子", "zh-CN": "母与子", "zh-TW": "母與子" },
+        title: {
+          ko: "나란히 놓인 두 개의 능",
+          en: "Two Tombs Side by Side",
+          ja: "並んで置かれた二つの陵",
+          "zh-CN": "并列而立的两座陵",
+          "zh-TW": "並列而立的兩座陵",
+        },
+        people: {
+          ko: "장경왕후 · 인종 · 인성왕후",
+          en: "Queen Janggyeong · King Injong · Queen Inseong",
+          ja: "章敬王后 · 仁宗 · 仁聖王后",
+          "zh-CN": "章敬王后 · 仁宗 · 仁圣王后",
+          "zh-TW": "章敬王后 · 仁宗 · 仁聖王后",
+        },
+        site: {
+          ko: "희릉(장경왕후) · 효릉(인종·인성왕후)",
+          en: "Huireung (Janggyeong) · Hyoreung (Injong, Inseong)",
+          ja: "禧陵(章敬王后) · 孝陵(仁宗·仁聖王后)",
+          "zh-CN": "禧陵(章敬王后) · 孝陵(仁宗·仁圣王后)",
+          "zh-TW": "禧陵(章敬王后) · 孝陵(仁宗·仁聖王后)",
+        },
+        open: true,
+        body: {
+          ko: "장경왕후는 원자를 낳은 뒤 얼마 지나지 않아 세상을 떠났습니다. 그 아들이 뒷날 인종입니다. 서삼릉에는 어머니의 희릉과 아들 부부의 효릉이 함께 있습니다. 2001년 드라마 《여인천하》가 이 시기를 다뤘습니다.",
+          en: "Queen Janggyeong died not long after giving birth to a son. That son later became King Injong. At Seosamneung the mother's tomb, Huireung, stands together with Hyoreung, where her son and his queen lie. The 2001 drama Ladies of the Palace covered this period.",
+          ja: "章敬王后は元子を産んで間もなく世を去りました。その子が後の仁宗です。西三陵には母の禧陵と、息子夫妻の孝陵が共にあります。2001年のドラマ『女人天下』がこの時期を扱いました。",
+          "zh-CN": "章敬王后产下元子后不久便离世，那个孩子便是日后的仁宗。西三陵中，母亲的禧陵与其子夫妇的孝陵同处一地。2001年电视剧《女人天下》即描绘了这一时期。",
+          "zh-TW": "章敬王后產下元子後不久便離世，那個孩子便是日後的仁宗。西三陵中，母親的禧陵與其子夫婦的孝陵同處一地。2001年電視劇《女人天下》即描繪了這一時期。",
+        },
+        onScreen: [{ titleKo: "여인천하", titleEn: "Ladies of the Palace", type: "drama", broadcaster: "SBS", year: "2001" }],
+        note: {
+          ko: "효릉은 예약제로 제한 공개됩니다",
+          en: "Hyoreung is open by reservation only",
+          ja: "孝陵は予約制で限定公開です",
+          "zh-CN": "孝陵采预约制限量开放",
+          "zh-TW": "孝陵採預約制限量開放",
+        },
+      },
+      // 스토리파일 CH3 — 소경원 (open false)
+      {
+        eyebrow: "CHAPTER 3",
+        theme: { ko: "돌아온 세자", en: "THE PRINCE WHO RETURNED", ja: "帰ってきた世子", "zh-CN": "归来的世子", "zh-TW": "歸來的世子" },
+        title: {
+          ko: "8년 만에 돌아와 두 달 만에",
+          en: "Eight Years Away, Two Months Home",
+          ja: "八年ぶりに帰り、二か月で",
+          "zh-CN": "八年归来，两月而终",
+          "zh-TW": "八年歸來，兩月而終",
+        },
+        people: { ko: "소현세자", en: "Crown Prince Sohyeon", ja: "昭顕世子", "zh-CN": "昭显世子", "zh-TW": "昭顯世子" },
+        site: { ko: "소경원", en: "Sogyeongwon", ja: "昭慶園", "zh-CN": "昭庆园", "zh-TW": "昭慶園" },
+        open: false,
+        body: {
+          ko: "병자호란 뒤 소현세자는 청나라에 볼모로 갔습니다. 8년이 지나 돌아왔지만 얼마 지나지 않아 세상을 떠났고, 그 죽음을 둘러싼 기록은 지금도 여러 해석을 남깁니다. 영화 《올빼미》와 드라마 《연인》이 이 시기를 다뤘습니다.",
+          en: "After the Manchu invasion, Crown Prince Sohyeon was taken to Qing China as a hostage. He returned eight years later and died not long after; the records surrounding that death still admit of several readings. The film The Night Owl and the drama My Dearest both dealt with this period.",
+          ja: "丙子胡乱の後、昭顕世子は清に人質として送られました。八年を経て帰りましたが、まもなく世を去り、その死をめぐる記録は今も複数の解釈を残しています。映画『オクル』とドラマ『恋人』がこの時期を扱いました。",
+          "zh-CN": "丙子胡乱后，昭显世子被送往清朝为质。八年后归国，不久便离世，围绕其死因的记载至今仍有多种解读。电影《猫头鹰》与电视剧《恋人》皆描绘了这一时期。",
+          "zh-TW": "丙子胡亂後，昭顯世子被送往清朝為質。八年後歸國，不久便離世，圍繞其死因的記載至今仍有多種解讀。電影《貓頭鷹》與電視劇《戀人》皆描繪了這一時期。",
+        },
+        onScreen: [
+          { titleKo: "올빼미", titleEn: "The Night Owl", type: "film", year: "2022" },
+          { titleKo: "연인", titleEn: "My Dearest", type: "drama", broadcaster: "MBC", year: "2023" },
+        ],
+      },
+      // 왕가파일 CH4 — 태실 (open false, note 병기)
+      {
+        eyebrow: "CHAPTER 4",
+        theme: { ko: "모아진 것들", en: "THE GATHERED", ja: "集められたもの", "zh-CN": "被聚集之物", "zh-TW": "被聚集之物" },
+        title: {
+          ko: "전국에서 옮겨진 왕실의 태실",
+          en: "Royal Placenta Chambers Moved from Across the Country",
+          ja: "全国から移された王室の胎室",
+          "zh-CN": "自全国迁来的王室胎室",
+          "zh-TW": "自全國遷來的王室胎室",
+        },
+        people: {
+          ko: "조선 왕실",
+          en: "The Joseon royal house",
+          ja: "朝鮮王室",
+          "zh-CN": "朝鲜王室",
+          "zh-TW": "朝鮮王室",
+        },
+        site: { ko: "태실 54기", en: "54 placenta chambers", ja: "胎室54基", "zh-CN": "54座胎室", "zh-TW": "54座胎室" },
+        open: false,
+        body: {
+          ko: "조선 왕실은 아이가 태어나면 탯줄을 항아리에 담아 좋은 땅을 골라 묻었습니다. 이것을 태실이라 부르며 전국 각지에 흩어져 있었습니다. 일제강점기에 일본은 이 태실들을 원래 자리에서 파내 서삼릉 한 곳으로 모았습니다. 지금 이곳에는 54기가 줄지어 있습니다. 왕이 태어난 땅과 태실이 분리된 상태로 백 년 가까이 지났습니다.",
+          en: "When a child was born into the Joseon royal house, the umbilical cord was placed in a jar and buried in a carefully chosen site. These are called taesil — placenta chambers — and they were scattered across the country. During the colonial period the Japanese authorities dug them out of their original locations and gathered them here at Seosamneung. Fifty-four now stand in rows. Nearly a century has passed with the chambers separated from the ground where each king was born.",
+          ja: "朝鮮王室では子が生まれると、へその緒を壺に納め、良い土地を選んで埋めました。これを胎室と呼び、全国各地に散らばっていました。日本統治期に日本は、これらの胎室を元の場所から掘り出し、西三陵の一か所に集めました。今ここには54基が並んでいます。王が生まれた土地と胎室が切り離されたまま、百年近くが過ぎました。",
+          "zh-CN": "朝鲜王室每逢有子女降生，便将脐带盛入瓮中，择吉地埋藏，称为胎室，原本散布全国各地。日据时期，日本当局将这些胎室从原址掘出，集中迁至西三陵一处。如今此地排列着54座。国王出生之地与其胎室分离，已近百年。",
+          "zh-TW": "朝鮮王室每逢有子女降生，便將臍帶盛入甕中，擇吉地埋藏，稱為胎室，原本散布全國各地。日據時期，日本當局將這些胎室從原址掘出，集中遷至西三陵一處。如今此地排列著54座。國王出生之地與其胎室分離，已近百年。",
+        },
+        note: {
+          ko: "태실 권역은 예약제로 제한 공개됩니다",
+          en: "The taesil area is open by reservation only",
+          ja: "胎室区域は予約制で限定公開です",
+          "zh-CN": "胎室区域采预约制限量开放",
+          "zh-TW": "胎室區域採預約制限量開放",
+        },
+      },
+      // 왕가파일 CH5 — 효창원 (open null → 렌더 X, 데이터 보존)
+      //   zh-CN 본문 "early" 오타 → "年幼离世" 로 수정 반영.
+      {
+        eyebrow: "CHAPTER 5",
+        theme: { ko: "짧았던 생", en: "A SHORT LIFE", ja: "短かった生", "zh-CN": "短暂的一生", "zh-TW": "短暫的一生" },
+        title: {
+          ko: "정조가 오래 기다려 얻은 아들",
+          en: "The Son Jeongjo Waited Long For",
+          ja: "正祖が長く待って得た息子",
+          "zh-CN": "正祖久候而得的儿子",
+          "zh-TW": "正祖久候而得的兒子",
+        },
+        people: { ko: "문효세자", en: "Crown Prince Munhyo", ja: "文孝世子", "zh-CN": "文孝世子", "zh-TW": "文孝世子" },
+        site: { ko: "효창원", en: "Hyochangwon", ja: "孝昌園", "zh-CN": "孝昌园", "zh-TW": "孝昌園" },
+        open: null,
+        body: {
+          ko: "문효세자는 정조와 의빈 성씨 사이에서 태어난 맏아들입니다. 어린 나이에 세상을 떠났고, 그 뒤 어머니 의빈 성씨도 오래 살지 못했습니다. 원래 서울에 있던 무덤이 일제강점기에 서삼릉으로 옮겨졌습니다. 정조와 의빈 성씨의 이야기는 여러 드라마에서 다뤄졌습니다.",
+          en: "Crown Prince Munhyo was the eldest son born to King Jeongjo and Lady Uibin Seong. He died young, and his mother did not long outlive him. His tomb, originally in Seoul, was moved to Seosamneung during the colonial period. The story of Jeongjo and Lady Uibin has been told in several dramas.",
+          ja: "文孝世子は正祖と宜嬪成氏の間に生まれた長男です。幼くして世を去り、その後母の宜嬪成氏も長くは生きませんでした。もとはソウルにあった墓が日本統治期に西三陵へ移されました。正祖と宜嬪成氏の物語は複数のドラマで扱われています。",
+          "zh-CN": "文孝世子是正祖与宜嫔成氏所生的长子。他年幼离世，其后母亲宜嫔成氏亦未久活。原位于首尔的墓在日据时期迁至西三陵。正祖与宜嫔成氏的故事曾在多部电视剧中演绎。",
+          "zh-TW": "文孝世子是正祖與宜嬪成氏所生的長子。他年幼離世，其後母親宜嬪成氏亦未久活。原位於首爾的墓在日據時期遷至西三陵。正祖與宜嬪成氏的故事曾在多部電視劇中演繹。",
+        },
+        onScreen: [
+          { titleKo: "이산", titleEn: "Yi San", type: "drama", broadcaster: "MBC", year: "2007" },
+          { titleKo: "옷소매 붉은 끝동", titleEn: "The Red Sleeve", type: "drama", broadcaster: "MBC", year: "2021" },
+        ],
+      },
+      // 왕가파일 CH6 — 의령원 (open null → 렌더 X)
+      {
+        eyebrow: "CHAPTER 6",
+        theme: { ko: "이어지지 못한", en: "THE LINE THAT BROKE", ja: "続かなかったもの", "zh-CN": "未能延续", "zh-TW": "未能延續" },
+        title: {
+          ko: "사도세자의 맏아들",
+          en: "Prince Sado's Eldest Son",
+          ja: "思悼世子の長男",
+          "zh-CN": "思悼世子的长子",
+          "zh-TW": "思悼世子的長子",
+        },
+        people: { ko: "의소세손", en: "Royal Grandson Uiso", ja: "懿昭世孫", "zh-CN": "懿昭世孙", "zh-TW": "懿昭世孫" },
+        site: { ko: "의령원", en: "Uiryeongwon", ja: "懿寧園", "zh-CN": "懿宁园", "zh-TW": "懿寧園" },
+        open: null,
+        body: {
+          ko: "의소세손은 사도세자와 혜경궁 홍씨의 맏아들이며 영조의 손자입니다. 어린 나이에 세상을 떠났고, 그 뒤에 태어난 동생이 훗날 정조가 됩니다. 서울에 있던 무덤이 광복 이후 서삼릉으로 옮겨졌습니다.",
+          en: "Uiso was the eldest son of Prince Sado and Lady Hyegyeong, and a grandson of King Yeongjo. He died young; the younger brother born after him later became King Jeongjo. His tomb, once in Seoul, was moved to Seosamneung after liberation.",
+          ja: "懿昭世孫は思悼世子と恵慶宮洪氏の長男であり、英祖の孫です。幼くして世を去り、その後に生まれた弟が後の正祖となります。ソウルにあった墓が光復後に西三陵へ移されました。",
+          "zh-CN": "懿昭世孙是思悼世子与惠庆宫洪氏的长子，英祖之孙。他年幼离世，其后出生的弟弟即日后的正祖。原位于首尔的墓在光复后迁至西三陵。",
+          "zh-TW": "懿昭世孫是思悼世子與惠慶宮洪氏的長子，英祖之孫。他年幼離世，其後出生的弟弟即日後的正祖。原位於首爾的墓在光復後遷至西三陵。",
+        },
+        onScreen: [{ titleKo: "사도", titleEn: "The Throne", type: "film", year: "2015" }],
+      },
+      // 왕가파일 CH7 — 왕자·공주·후궁 46기 (open null → 렌더 X)
+      {
+        eyebrow: "CHAPTER 7",
+        theme: { ko: "이름 없는 자리", en: "NAMES WITHOUT STORIES", ja: "名の残らぬ場所", "zh-CN": "无名之处", "zh-TW": "無名之處" },
+        title: {
+          ko: "드라마에 나오지 않은 사람들",
+          en: "The Ones the Dramas Left Out",
+          ja: "ドラマに出てこなかった人々",
+          "zh-CN": "未曾入戏的人们",
+          "zh-TW": "未曾入戲的人們",
+        },
+        people: {
+          ko: "왕자 · 공주 · 옹주 · 후궁",
+          en: "Princes, princesses and royal consorts",
+          ja: "王子 · 公主 · 翁主 · 側室",
+          "zh-CN": "王子 · 公主 · 翁主 · 嫔御",
+          "zh-TW": "王子 · 公主 · 翁主 · 嬪御",
+        },
+        site: { ko: "묘 46기", en: "46 graves", ja: "墓46基", "zh-CN": "46座墓", "zh-TW": "46座墓" },
+        open: null,
+        body: {
+          ko: "서삼릉에는 왕릉과 원 외에도 왕자·공주·옹주·후궁의 묘 46기가 있습니다. 대부분 일제강점기에 다른 곳에서 옮겨온 것입니다. 이름이 남았지만 이야기는 남지 않은 사람들이 대부분입니다. 드라마의 주인공이 되지 못한 왕실 구성원이 이렇게 많았다는 사실이 이곳에서 보입니다.",
+          en: "Beyond the royal tombs and princely graves, Seosamneung holds 46 graves of princes, princesses and royal consorts. Most were moved here from elsewhere during the colonial period. For most of them a name survives but no story does. What this ground shows is how many members of the royal house never became the subject of a drama.",
+          ja: "西三陵には王陵と園のほかに、王子·公主·翁主·側室の墓46基があります。多くは日本統治期に他所から移されたものです。名は残っても物語は残らなかった人がほとんどです。ドラマの主人公になれなかった王室の人々がこれほど多かったという事実が、ここでは見えます。",
+          "zh-CN": "西三陵除王陵与园之外，还有王子、公主、翁主与嫔御之墓46座，多为日据时期自他处迁来。他们大多留下了名字，却未留下故事。未能成为剧中主角的王室成员竟有如此之多——在此地可以看见这一事实。",
+          "zh-TW": "西三陵除王陵與園之外，還有王子、公主、翁主與嬪御之墓46座，多為日據時期自他處遷來。他們大多留下了名字，卻未留下故事。未能成為劇中主角的王室成員竟有如此之多——在此地可以看見這一事實。",
+        },
+      },
+    ],
   },
 
   {
@@ -1397,6 +2003,28 @@ export const spots: Spot[] = [
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
     best_selected: false,
+    // 오더 #E1 [3]: Ma City 곡에 이 장소가 언급됨. 가사 인용·이미지 금지.
+    onScreen: {
+      works: [
+        {
+          type: "music",
+          titleKo: "Ma City",
+          titleEn: "Ma City",
+          artist: "BTS",
+          album: "The Most Beautiful Moment in Life, Part 2",
+          year: "2015",
+          characters: { ko: "라페스타", en: "Lafesta", ja: "ラフェスタ", "zh-CN": "拉斐斯塔", "zh-TW": "拉斐斯塔" },
+          site: {
+            ko: "이곳이 곡에 이름 그대로 등장합니다",
+            en: "This place appears in the song by name",
+            ja: "この場所が曲に名前のまま登場します",
+            "zh-CN": "此地在歌曲中以原名出现",
+            "zh-TW": "此地在歌曲中以原名出現",
+          },
+          open: true,
+        },
+      ],
+    },
   },
 
   {
@@ -1433,6 +2061,28 @@ export const spots: Spot[] = [
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
     best_selected: false,
+    // 오더 #E1 [3]: Ma City 곡에 언급.
+    onScreen: {
+      works: [
+        {
+          type: "music",
+          titleKo: "Ma City",
+          titleEn: "Ma City",
+          artist: "BTS",
+          album: "The Most Beautiful Moment in Life, Part 2",
+          year: "2015",
+          characters: { ko: "웨스턴돔", en: "Western Dom", ja: "ウエスタンドム", "zh-CN": "西部圆顶", "zh-TW": "西部圓頂" },
+          site: {
+            ko: "이곳이 곡에 이름 그대로 등장합니다",
+            en: "This place appears in the song by name",
+            ja: "この場所が曲に名前のまま登場します",
+            "zh-CN": "此地在歌曲中以原名出现",
+            "zh-TW": "此地在歌曲中以原名出現",
+          },
+          open: true,
+        },
+      ],
+    },
   },
 
   {
@@ -1741,26 +2391,161 @@ export const spots: Spot[] = [
     title: { ko: "킨텍스", en: "KINTEX", ja: "キンテックス", "zh-CN": "韩国国际展览中心", "zh-TW": "韓國國際展覽中心" },
     title_en_display: "KINTEX",
     subtitle: { ko: "국내 최대 규모의 전시장", en: "Korea's largest exhibition centre", ja: "国内最大規模の展示場", "zh-CN": "韩国最大规模展览中心", "zh-TW": "韓國最大規模展覽中心" },
+    // 오더 #E1 [3]: lead 교체 — 전시장이 아닌 「구역」 소개로 전환.
     lead: {
-      ko: "연중 각종 전시회와 박람회가 열리는 대형 전시장입니다. 제1·2전시장으로 나뉘어 있고, 방문 전 일정을 확인하는 것이 좋습니다.",
-      en: "A large exhibition centre hosting trade shows and fairs year-round, split into Halls 1 and 2. Check the schedule before you go.",
-      ja: "年間を通じて各種展示会や博覧会が開かれる大型展示場です。第1·第2展示場に分かれており、訪問前に日程確認をおすすめします。",
-      "zh-CN": "全年举办各类展会与博览会的大型展馆，分为第一、第二展馆。前往前建议先确认日程。",
-      "zh-TW": "全年舉辦各類展會與博覽會的大型展館，分為第一、第二展館。前往前建議先確認日程。",
+      ko: "연중 전시회와 박람회가 열리는 대형 전시장입니다. 제1·2전시장을 합쳐 10개 전시홀 규모이며, 국제회의와 대형 공연도 이곳에서 열립니다. 행사가 없는 날에는 건물 안에서 볼 것이 많지 않지만, 걸어서 닿는 거리에 자동차 전시관·수족관·백화점·호수공원이 모여 있어 전시 일정 앞뒤로 하루를 채울 수 있습니다.",
+      en: "A large exhibition centre hosting trade fairs and expos year-round, with ten halls across Halls 1 and 2, plus international conferences and large concerts. On days without an event there is not much to see inside the building itself — but an automotive gallery, an aquarium, a department store and a lake park all sit within walking distance, enough to fill the hours around a show.",
+      ja: "年間を通じて展示会や博覧会が開かれる大型展示場です。第1·第2展示場を合わせて10のホール規模で、国際会議や大型公演もここで行われます。行事のない日は建物内に見どころが多くありませんが、徒歩圏に自動車展示館·水族館·百貨店·湖水公園が集まっており、展示日程の前後に一日を埋められます。",
+      "zh-CN": "全年举办展会与博览会的大型展馆，第一、第二展馆共设十个展厅，国际会议与大型演出亦在此举行。无活动的日子馆内可看之处不多，但步行可达之处汇聚了汽车展馆、水族馆、百货商场与湖水公园，足以填满展会前后的时间。",
+      "zh-TW": "全年舉辦展會與博覽會的大型展館，第一、第二展館共設十個展廳，國際會議與大型演出亦在此舉行。無活動的日子館內可看之處不多，但步行可達之處匯聚了汽車展館、水族館、百貨商場與湖水公園，足以填滿展會前後的時間。",
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
     ko_card: [{ name_ko: "킨텍스", address_ko: null }],
     credits: [], related: [],
     info: { hours: "varies", duration: "half_day", admission: "varies", access: "wheelchair" },
+    // 오더 #E1 [3]: highlights 교체 (10홀 + 걷는 거리 + GTX).
     highlights: [
-      { ko: "연중 전시·박람회", en: "Shows and fairs year-round", ja: "年間を通じた展示·博覧会", "zh-CN": "全年展会与博览会", "zh-TW": "全年展會與博覽會" },
-      { ko: "제1·2전시장", en: "Halls 1 and 2", ja: "第1·第2展示場", "zh-CN": "第一、第二展馆", "zh-TW": "第一、第二展館" },
+      { ko: "제1·2전시장 10개 홀", en: "Ten halls across Halls 1 and 2", ja: "第1·第2展示場10ホール", "zh-CN": "第一、第二展馆共十个展厅", "zh-TW": "第一、第二展館共十個展廳" },
+      { ko: "걸어서 닿는 거리에 전시관·수족관·백화점", en: "A gallery, aquarium and department store within walking distance", ja: "徒歩圏に展示館·水族館·百貨店", "zh-CN": "步行可达展馆、水族馆与百货商场", "zh-TW": "步行可達展館、水族館與百貨商場" },
       { ko: "GTX 킨텍스역", en: "GTX Kintex Station", ja: "GTXキンテックス駅", "zh-CN": "GTX韩国国际展览中心站", "zh-TW": "GTX韓國國際展覽中心站" },
     ],
     adSlot: null,
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
     best_selected: false,
+    // 오더 #E1 [3]: notice — 제3전시장 공사. until 확인필요 → 미설정.
+    notice: {
+      body: {
+        ko: "제3전시장 신축 공사가 진행 중입니다. 제1전시장 주차장 일부가 영향을 받을 수 있으니 방문 전 확인하세요.",
+        en: "Construction of Hall 3 is under way. Part of the Hall 1 car park may be affected — check before you go.",
+        ja: "第3展示場の新築工事が進行中です。第1展示場の駐車場の一部が影響を受ける場合がありますので、訪問前にご確認ください。",
+        "zh-CN": "第三展馆新建工程正在进行，第一展馆部分停车场可能受影响，前往前请先确认。",
+        "zh-TW": "第三展館新建工程正在進行，第一展館部分停車場可能受影響，前往前請先確認。",
+      },
+    },
+    // 오더 #E1 [3]: nearby 6건 (전시관·수족관·원마운트·백화점·호수공원·한류월드).
+    //   distance 는 전부 「확인필요」 → 미설정.
+    nearby: {
+      eyebrow: "AROUND KINTEX",
+      title: {
+        ko: "전시장에서 걸어서",
+        en: "Within Walking Distance",
+        ja: "展示場から歩いて",
+        "zh-CN": "从展馆步行可达",
+        "zh-TW": "從展館步行可達",
+      },
+      lead: {
+        ko: "행사가 끝난 뒤 무엇을 할지 정해두면 하루가 달라집니다.",
+        en: "Decide in advance what comes after the show, and the day changes.",
+        ja: "行事の後に何をするか決めておくと、一日が変わります。",
+        "zh-CN": "若事先想好活动结束后做什么，一天将截然不同。",
+        "zh-TW": "若事先想好活動結束後做什麼，一天將截然不同。",
+      },
+      items: [
+        {
+          name: { ko: "현대 모터스튜디오 고양", en: "Hyundai Motorstudio Goyang", ja: "現代モータースタジオ高陽", "zh-CN": "现代汽车文化馆高阳", "zh-TW": "現代汽車文化館高陽" },
+          slug: "hyundai-motorstudio",
+          tag: {
+            ko: "자동차가 만들어지는 과정을 보는 상설 전시. 영어·중국어 안내 있음",
+            en: "A permanent exhibition on how cars are built. English and Chinese guidance available",
+            ja: "自動車がつくられる工程を見る常設展示。英語·中国語案内あり",
+            "zh-CN": "展示汽车制造过程的常设展览，提供英语与中文导览",
+            "zh-TW": "展示汽車製造過程的常設展覽，提供英語與中文導覽",
+          },
+        },
+        {
+          // slug 미확인이라 무링크 카드
+          name: { ko: "아쿠아플라넷 일산", en: "Aqua Planet Ilsan", ja: "アクアプラネット一山", "zh-CN": "一山水族馆", "zh-TW": "一山水族館" },
+          tag: {
+            ko: "수족관과 생태 프로그램. 아이를 동반한 방문에 적합",
+            en: "An aquarium with live programmes. Suited to visits with children",
+            ja: "水族館と生態プログラム。子ども連れの訪問に適する",
+            "zh-CN": "水族馆与生态项目，适合亲子造访",
+            "zh-TW": "水族館與生態項目，適合親子造訪",
+          },
+        },
+        {
+          name: { ko: "원마운트", en: "One Mount", ja: "ワンマウント", "zh-CN": "One Mount", "zh-TW": "One Mount" },
+          slug: "onemount",
+          tag: {
+            ko: "실내 스노우파크와 워터파크. 한여름에도 눈을 볼 수 있음",
+            en: "An indoor snow park and water park — snow even in midsummer",
+            ja: "屋内スノーパークとウォーターパーク。真夏でも雪が見られる",
+            "zh-CN": "室内雪世界与水上乐园，盛夏亦可赏雪",
+            "zh-TW": "室內雪世界與水上樂園，盛夏亦可賞雪",
+          },
+        },
+        {
+          name: { ko: "현대백화점 킨텍스점", en: "Hyundai Department Store Kintex", ja: "現代百貨店キンテックス店", "zh-CN": "现代百货韩国国际展览中心店", "zh-TW": "現代百貨韓國國際展覽中心店" },
+          tag: {
+            ko: "식사·쇼핑·화장품. 전시 사이에 들르기 좋은 위치",
+            en: "Meals, shopping and cosmetics — easy to fit between sessions",
+            ja: "食事·買い物·化粧品。展示の合間に立ち寄りやすい立地",
+            "zh-CN": "用餐、购物与化妆品，便于在展会间隙前往",
+            "zh-TW": "用餐、購物與化妝品，便於在展會間隙前往",
+          },
+        },
+        {
+          name: { ko: "일산호수공원", en: "Ilsan Lake Park", ja: "一山湖水公園", "zh-CN": "一山湖水公园", "zh-TW": "一山湖水公園" },
+          slug: "ilsan-lake-park",
+          tag: {
+            ko: "9.1km 산책로. 해질 무렵이 가장 좋음",
+            en: "A 9.1 km path. Best around sunset",
+            ja: "9.1kmの遊歩道。夕暮れ時が最も良い",
+            "zh-CN": "9.1公里步道，傍晚时分最佳",
+            "zh-TW": "9.1公里步道，傍晚時分最佳",
+          },
+        },
+        {
+          name: { ko: "한류월드", en: "Hallyu World", ja: "韓流ワールド", "zh-CN": "韩流世界", "zh-TW": "韓流世界" },
+          slug: "hallyu-world",
+          tag: {
+            ko: "EBS 본사와 방송 제작시설이 모인 구역",
+            en: "The district where EBS headquarters and broadcast facilities stand",
+            ja: "EBS本社と放送制作施設が集まる区域",
+            "zh-CN": "EBS总部与广播制作设施汇聚的区域",
+            "zh-TW": "EBS總部與廣播製作設施匯聚的區域",
+          },
+        },
+      ],
+    },
+    // 오더 #E1 [3]: 방문 코스 2건. onScreen.courses 를 재활용 (works 빈 배열).
+    onScreen: {
+      works: [],
+      courses: [
+        {
+          name: {
+            ko: "오전은 비즈니스, 오후는 고양",
+            en: "Business in the Morning, Goyang in the Afternoon",
+            ja: "午前はビジネス、午後は高陽",
+            "zh-CN": "上午办公事，下午看高阳",
+            "zh-TW": "上午辦公事，下午看高陽",
+          },
+          stops: [
+            { ko: "킨텍스 전시 관람", en: "KINTEX exhibition", ja: "キンテックス展示", "zh-CN": "参观展会", "zh-TW": "參觀展會" },
+            { ko: "현대 모터스튜디오", en: "Hyundai Motorstudio", ja: "現代モータースタジオ", "zh-CN": "现代汽车文化馆", "zh-TW": "現代汽車文化館" },
+            { ko: "현대백화점에서 식사", en: "lunch at the department store", ja: "百貨店で食事", "zh-CN": "百货商场用餐", "zh-TW": "百貨商場用餐" },
+            { ko: "일산호수공원", en: "Ilsan Lake Park", ja: "一山湖水公園", "zh-CN": "一山湖水公园", "zh-TW": "一山湖水公園" },
+            { ko: "한울광장 일몰", en: "sunset at Hanul Square", ja: "ハヌル広場の日没", "zh-CN": "한울广场日落", "zh-TW": "한울廣場日落" },
+          ],
+        },
+        {
+          name: {
+            ko: "아이와 함께라면",
+            en: "If You Are With Children",
+            ja: "子ども連れなら",
+            "zh-CN": "若与孩子同行",
+            "zh-TW": "若與孩子同行",
+          },
+          stops: [
+            { ko: "아쿠아플라넷 일산", en: "Aqua Planet Ilsan", ja: "アクアプラネット一山", "zh-CN": "一山水族馆", "zh-TW": "一山水族館" },
+            { ko: "원마운트", en: "One Mount", ja: "ワンマウント", "zh-CN": "One Mount", "zh-TW": "One Mount" },
+            { ko: "현대백화점", en: "department store", ja: "百貨店", "zh-CN": "百货商场", "zh-TW": "百貨商場" },
+            { ko: "일산호수공원", en: "Ilsan Lake Park", ja: "一山湖水公園", "zh-CN": "一山湖水公园", "zh-TW": "一山湖水公園" },
+          ],
+        },
+      ],
+    },
   },
 
   // ─── 오더 #C8: K컬처 4 ────────────────────────────────────────────────
@@ -1881,6 +2666,105 @@ export const spots: Spot[] = [
     adSlot: null,
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
     best_selected: false,
+  },
+
+  // ─── 오더 #E1 [2]: 신규 스팟 — 고양관광정보센터 (kculture) ─────────────
+  //   Ma City 곡 안내 스팟. TourAPI contentid 2946746. Ma City 가사 인용 금지.
+  {
+    slug: "goyang-tourist-center",
+    category: "kculture",
+    type: "list",
+    region: "일산동구",
+    title: {
+      ko: "고양관광정보센터",
+      en: "Goyang Tourist Information Center",
+      ja: "高陽観光情報センター",
+      "zh-CN": "高阳旅游信息中心",
+      "zh-TW": "高陽旅遊資訊中心",
+    },
+    title_en_display: "GOYANG TOURIST INFORMATION CENTER",
+    subtitle: {
+      ko: "벽화가 있는 정발산역 앞 안내소",
+      en: "The information center with the mural, by Jeongbalsan Station",
+      ja: "壁画のある鼎鉢山駅前の案内所",
+      "zh-CN": "鼎钵山站前设有壁画的服务中心",
+      "zh-TW": "鼎缽山站前設有壁畫的服務中心",
+    },
+    lead: {
+      ko: "정발산역 2번 출구 앞 관광안내소입니다. 고양시가 이 건물 외벽에 벽화를 그렸고, 인근 육교 아래에는 일산이 언급된 곡의 조형물이 설치돼 있습니다. 관광 자료를 받고 시티투어를 문의할 수 있는 곳이기도 합니다.",
+      en: "A tourist information center just outside Exit 2 of Jeongbalsan Station. The city painted a mural on the building's exterior wall, and beneath the nearby footbridge stands an installation for a song that names Ilsan. You can also pick up maps here and ask about city tours.",
+      ja: "鼎鉢山駅2番出口前の観光案内所です。高陽市がこの建物の外壁に壁画を描き、近くの歩道橋の下には一山が言及された曲の造形物が設置されています。観光資料を受け取り、シティツアーを問い合わせることもできます。",
+      "zh-CN": "位于鼎钵山站2号出口前的旅游服务中心。高阳市在建筑外墙绘制了壁画，附近天桥下设有一首提及一山的歌曲造形物。此处亦可索取旅游资料、咨询城市观光。",
+      "zh-TW": "位於鼎缽山站2號出口前的旅遊服務中心。高陽市在建築外牆繪製了壁畫，附近天橋下設有一首提及一山的歌曲造形物。此處亦可索取旅遊資料、諮詢城市觀光。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "고양관광정보센터", address_ko: "경기도 고양시 일산동구 중앙로 1271-1" }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "30min", admission: "free", access: "wheelchair" },
+    highlights: [
+      { ko: "고양시가 조성한 벽화", en: "A mural commissioned by the city", ja: "高陽市が造成した壁画", "zh-CN": "高阳市打造的壁画", "zh-TW": "高陽市打造的壁畫" },
+      { ko: "육교 아래 조형물", en: "An installation beneath the footbridge", ja: "歩道橋の下の造形物", "zh-CN": "天桥下的造形物", "zh-TW": "天橋下的造形物" },
+      { ko: "관광 자료·시티투어 안내", en: "Maps and city tour information", ja: "観光資料・シティツアー案内", "zh-CN": "旅游资料与城市观光咨询", "zh-TW": "旅遊資料與城市觀光諮詢" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    best_selected: false,
+    tourapi: { contentid: "2946746", overview_ko: "" },
+    // 오더 #E1 [3]: onScreen (Ma City) + courses (MA CITY WALK).
+    onScreen: {
+      works: [
+        {
+          type: "music",
+          titleKo: "Ma City",
+          titleEn: "Ma City",
+          artist: "BTS",
+          album: "The Most Beautiful Moment in Life, Part 2",
+          year: "2015",
+          characters: {
+            ko: "일산 · 라페스타 · 웨스턴돔 · 후곡 · 호수공원",
+            en: "Ilsan · Lafesta · Western Dom · Hugok · Ilsan Lake Park",
+            ja: "一山 · ラフェスタ · ウエスタンドム · 後谷 · 湖水公園",
+            "zh-CN": "一山 · 拉斐斯塔 · 西部圆顶 · 后谷 · 湖水公园",
+            "zh-TW": "一山 · 拉斐斯塔 · 西部圓頂 · 後谷 · 湖水公園",
+          },
+          site: {
+            ko: "정발산역 육교 아래 조형물",
+            en: "Installation beneath the Jeongbalsan Station footbridge",
+            ja: "鼎鉢山駅の歩道橋下の造形物",
+            "zh-CN": "鼎钵山站天桥下的造形物",
+            "zh-TW": "鼎缽山站天橋下的造形物",
+          },
+          open: true,
+          note: {
+            ko: "이 곡에는 고양시의 여러 장소가 이름 그대로 등장합니다. 아래 코스로 그 장소들을 걸어서 돌 수 있습니다.",
+            en: "Several places in Goyang appear in this song by name. The route below links them on foot.",
+            ja: "この曲には高陽市のいくつかの場所が名前のまま登場します。下記のコースで歩いて巡ることができます。",
+            "zh-CN": "这首歌中直接出现了高阳市的多个地名，可循下方路线步行走访。",
+            "zh-TW": "這首歌中直接出現了高陽市的多個地名，可循下方路線步行走訪。",
+          },
+        },
+      ],
+      courses: [
+        {
+          name: {
+            ko: "노래 속 장소를 걷는 길",
+            en: "Walking the Places in the Song",
+            ja: "歌の中の場所を歩く道",
+            "zh-CN": "走过歌中的地方",
+            "zh-TW": "走過歌中的地方",
+          },
+          stops: [
+            { ko: "정발산역 2번 출구", en: "Jeongbalsan Stn. Exit 2", ja: "鼎鉢山駅2番出口", "zh-CN": "鼎钵山站2号出口", "zh-TW": "鼎缽山站2號出口" },
+            { ko: "고양관광정보센터 벽화", en: "mural at the tourist center", ja: "観光情報センターの壁画", "zh-CN": "旅游中心壁画", "zh-TW": "旅遊中心壁畫" },
+            { ko: "육교 조형물", en: "footbridge installation", ja: "歩道橋の造形物", "zh-CN": "天桥造形物", "zh-TW": "天橋造形物" },
+            { ko: "라페스타", en: "Lafesta", ja: "ラフェスタ", "zh-CN": "拉斐斯塔", "zh-TW": "拉斐斯塔" },
+            { ko: "웨스턴돔", en: "Western Dom", ja: "ウエスタンドム", "zh-CN": "西部圆顶", "zh-TW": "西部圓頂" },
+            { ko: "일산호수공원", en: "Ilsan Lake Park", ja: "一山湖水公園", "zh-CN": "一山湖水公园", "zh-TW": "一山湖水公園" },
+          ],
+        },
+      ],
+    },
   },
 ];
 
