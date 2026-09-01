@@ -44,6 +44,7 @@ import {
   type SpotLocale,
 } from "@/data/spots";
 import { Link } from "@/lib/navigation";
+import { resolveSpotGallery } from "@/lib/spot-photos";
 
 export type PageLocale = SpotLocale;
 
@@ -238,7 +239,13 @@ export default async function SpotDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        <Gallery images={spot.gallery ?? []} title={spot.title[locale]} locale={locale} />
+        {/* 오더 #C5-b [2] + #D3 [4]: spot.gallery 우선, 없으면
+            public/images/spots/{slug}(-1).{ext} 자동 감지. Type1/Type3 분기는 Gallery 내부. */}
+        <Gallery
+          images={resolveSpotGallery(spot.gallery, spot.slug, spot.title.ko)}
+          title={spot.title[locale]}
+          locale={locale}
+        />
 
         <section className="mx-auto max-w-6xl px-6 pt-10">
           <CategoryLabel category={spot.category} locale={locale} />

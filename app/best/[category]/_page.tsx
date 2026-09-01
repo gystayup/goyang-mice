@@ -40,6 +40,7 @@ import {
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { getSpot, hasSpot } from "@/data/spots";
+import { resolveSpotAutoPhoto } from "@/lib/spot-photos";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
@@ -279,10 +280,23 @@ function BestListCard({
   spotLinked: boolean;
   locale: PageLocale;
 }) {
-  // 오더 #D3 [4] 판정 1: 카드에는 Type3(원본유지) 이미지 사용 금지.
-  //   Type1 + cpyrht 미설정만 크롭 가능. spot.gallery 중 조건 통과 첫 장.
+  // 오더 #C5-c [3] 사진 우선순위 통합:
+  //   1) item.photoUrl (CuratedItem 수동)
+  //   2) spot.gallery 중 cpyrht !== "Type3" 첫 장 (D3 저작권 필터)
+  //   3) public/images/spots/{slug}-1.{ext} (D3 다운로드 규칙)
+  //   4) public/images/spots/{slug}.{ext} (C5-b 자동 감지)
+  //   5) 없음 → CategoryIllustration
+  //   각 단계에서 Type3 자동 배제 (auto 감지 결과는 cpyrht 미상이지만
+  //   사장님 승인 후 배치되는 파일이므로 안전 처리로 카드에 허용).
   const cardGalleryFirst = spot?.gallery?.find((g) => g.cpyrht !== "Type3");
-  const photoUrl = item.photoUrl ?? cardGalleryFirst?.url ?? null;
+  const autoPhoto = spot
+    ? resolveSpotAutoPhoto(spot.slug, spot.title.ko)
+    : null;
+  const photoUrl =
+    item.photoUrl ??
+    cardGalleryFirst?.url ??
+    autoPhoto?.url ??
+    null;
   // 지역 라벨 (regions.ts key → locale 라벨)
   const regionLabel = item.region
     ? getRegionLabel(item.region, locale as RegionLocale)
