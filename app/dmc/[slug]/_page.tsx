@@ -19,7 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -101,6 +101,16 @@ const LABEL_COMING_SOON: Record<PageLocale, string> = {
   ja: "まもなく公開します",
   "zh-CN": "敬请期待",
   "zh-TW": "敬請期待",
+};
+
+// ─── 오더 #C9: FIND YOUR WALK 섹션 라벨 (5로케일) ───────────────────────────
+const WALKS_TITLE = "FIND YOUR WALK";
+const WALKS_SUBTITLE: Record<PageLocale, string> = {
+  ko: "다섯 가지 산책 중에서 오늘의 산책을 고르세요",
+  en: "Five walks. Pick the one that fits today.",
+  ja: "五つの散歩から、今日の一つを選んでください",
+  "zh-CN": "五种散步方式，选一个属于今天的",
+  "zh-TW": "五種散步方式，選一個屬於今天的",
 };
 
 // ─── 오더 #D4: ON SCREEN 섹션 라벨 (5로케일) ────────────────────────────────
@@ -504,6 +514,9 @@ function OverviewTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         {/* 모바일: 인사이더 박스를 아이콘 4칸 바로 아래 (오더 렌더 규칙 11) */}
         <div className="lg:hidden">{insiderNode}</div>
         <AboutBlock spot={spot} locale={locale} />
+        {/* 오더 #C9 [3]: FIND YOUR WALK — About 아래, ON SCREEN 위.
+            spot.walks 없으면 컴포넌트 내부에서 미렌더 반환. */}
+        <WalksSection spot={spot} locale={locale} />
         {/* 오더 #D4 [3]: ON SCREEN 섹션 — About 아래, 한국어 원문 카드 위.
             spot.onScreen 없으면 컴포넌트 내부에서 미렌더 반환. */}
         <OnScreenSection spot={spot} locale={locale} />
@@ -598,6 +611,54 @@ function AboutBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         </div>
       ))}
     </div>
+  );
+}
+
+// ─── FIND YOUR WALK (오더 #C9 [3][4]) ───────────────────────────────────────
+// 상세 페이지 About 아래·ON SCREEN 위. spot.walks 없으면 미렌더.
+// 색: 골드 #D4AF37 · 차콜 #232322 (3색 규범).
+function WalksSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const walks = spot.walks;
+  if (!walks || walks.length === 0) return null;
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <Footprints className="h-4 w-4" aria-hidden="true" />
+        <span>{WALKS_TITLE}</span>
+      </div>
+      <p className="mt-2 text-base leading-relaxed text-[#232322]/85 sm:text-lg">
+        {WALKS_SUBTITLE[locale]}
+      </p>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {walks.map((w) => (
+          <article
+            key={w.id}
+            className="flex flex-col gap-3 border border-[#232322]/15 p-5"
+          >
+            <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+              {w.eyebrow}
+            </div>
+            <h3 className="text-lg font-black leading-snug tracking-[-0.02em]">
+              {w.title[locale]}
+            </h3>
+            <p className="text-sm font-semibold leading-snug text-[#D4AF37]">
+              {w.hook[locale]}
+            </p>
+            <p className="text-sm leading-relaxed text-[#232322]/85">
+              {w.body[locale]}
+            </p>
+            <div className="mt-1 flex items-start gap-1.5 text-xs text-[#232322]/70">
+              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>{w.stops[locale]}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-[#232322]/70">
+              <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>{w.bestTime[locale]}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
