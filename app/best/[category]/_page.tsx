@@ -14,7 +14,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 
 import { Emblem } from "@/components/emblem/Emblem";
 import {
@@ -38,7 +38,8 @@ import {
   type CuratedItem,
 } from "@/data/curated-stories";
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
-import { hasSpot } from "@/data/spots";
+import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
+import { getSpot, hasSpot } from "@/data/spots";
 import { Link } from "@/lib/navigation";
 
 export type PageLocale = EmblemLocale;
@@ -76,6 +77,15 @@ const CATALOG_CTA: Record<PageLocale, string> = {
   ja: "カタログをすべて見る",
   "zh-CN": "查看完整目录",
   "zh-TW": "查看完整目錄",
+};
+
+// 오더 #C4 [3]: 카드 하단 "자세히 보기" CTA.
+const CARD_MORE_CTA: Record<PageLocale, string> = {
+  ko: "자세히 보기",
+  en: "Read more",
+  ja: "詳しく見る",
+  "zh-CN": "查看详情",
+  "zh-TW": "查看詳情",
 };
 
 export async function generateBestCategoryMetadata(
@@ -203,12 +213,18 @@ export default async function BestCategoryPage({
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* 오더 #P7 [4] 링크 배선: item.id 로 Spot 존재 여부 확인 후
                 존재할 때만 /dmc/{id} 링크. 데이터 없는 항목은 무링크 카드 유지.
-                오더 #C3 [1]: locale 에 맞춰 name/desc 스왑 (translations override → ko 폴백). */}
-            {story.items.map((item) => (
+                오더 #C3 [1]: locale 에 맞춰 name/desc 스왑 (translations override → ko 폴백).
+                오더 #C4 [3]: rank 를 items 배열 순서로 자동 부여 (index+1). */}
+            {story.items.map((item, i) => (
               <BestListCard
                 key={item.id}
-                item={getLocalizedCuratedItem(item, story, locale)}
+                item={{
+                  ...getLocalizedCuratedItem(item, story, locale),
+                  rank: item.rank ?? i + 1,
+                }}
+                spot={getSpot(item.id)}
                 spotLinked={hasSpot(item.id)}
+                locale={locale}
               />
             ))}
           </div>
@@ -244,41 +260,85 @@ export default async function BestCategoryPage({
 }
 
 /**
- * BEST 리스트 카드 (오더 #P7 [4]).
+ * BEST 리스트 카드 (오더 #P7 [4], #C4 [2][3] 보강).
  * item.id ↔ Spot.slug 매칭. 소개층(Spot) 이 있으면 /dmc/{id} 로 링크,
  * 없으면 링크 없는 정보 카드 (링크 파손 0 원칙).
+ *
+ * 카드 구성 (#C4 [3]):
+ *   사진(photoUrl → spot.gallery[0] → CategoryIllustration 폴백)
+ *   → 순번(01) → 제목 → 지역 · 최근접역 → 한 줄 → 자세히 보기 →
  */
 function BestListCard({
   item,
+  spot,
   spotLinked,
+  locale,
 }: {
   item: CuratedItem;
+  spot: import("@/data/spots").Spot | null;
   spotLinked: boolean;
+  locale: PageLocale;
 }) {
+  // 사진 우선순위: item.photoUrl → spot.gallery[0].url → 없음(일러스트 폴백)
+  const photoUrl = item.photoUrl ?? spot?.gallery?.[0]?.url ?? null;
+  // 지역 라벨 (regions.ts key → locale 라벨)
+  const regionLabel = item.region
+    ? getRegionLabel(item.region, locale as RegionLocale)
+    : null;
+  // 최근접역 (spot.nearest_station.name 5로케일 스왑)
+  const stationName = spot?.nearest_station?.name?.[locale] ?? null;
+  const metaParts = [regionLabel, stationName].filter(Boolean);
+  const rankStr =
+    typeof item.rank === "number" ? String(item.rank).padStart(2, "0") : null;
+
   const inner = (
     <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200 bg-white transition group-hover:border-slate-950">
-      {item.photoUrl ? (
-        <div className="relative aspect-[4/3] w-full bg-slate-100">
+      <div className="relative aspect-[4/3] w-full bg-slate-100">
+        {photoUrl ? (
           <Image
-            src={item.photoUrl}
+            src={photoUrl}
             alt={item.name}
             fill
             className="object-cover"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
-        </div>
-      ) : null}
+        ) : (
+          // 사진 없으면 카테고리 일러스트로 대체 (골드 currentColor)
+          <div className="flex h-full w-full items-center justify-center bg-slate-50">
+            {spot ? (
+              <CategoryIllustration
+                category={spot.category}
+                className="h-20 w-20"
+              />
+            ) : null}
+          </div>
+        )}
+      </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
+        {rankStr ? (
+          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">
+            {rankStr}
+          </div>
+        ) : null}
         <p className="text-base font-black leading-tight tracking-tight text-slate-950 sm:text-lg">
-          {typeof item.rank === "number" ? (
-            <span className="mr-2 text-xs text-slate-500">
-              {String(item.rank).padStart(2, "0")}
-            </span>
-          ) : null}
           {item.name}
         </p>
+        {metaParts.length > 0 ? (
+          <p className="flex items-center gap-1 text-xs text-slate-500">
+            <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+            <span>{metaParts.join(" · ")}</span>
+          </p>
+        ) : null}
         {item.desc ? (
           <p className="line-clamp-3 text-sm text-slate-600">{item.desc}</p>
+        ) : null}
+        {spotLinked ? (
+          <div className="mt-auto pt-2">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-950 group-hover:text-slate-700">
+              {CARD_MORE_CTA[locale]}
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+          </div>
         ) : null}
       </div>
     </div>

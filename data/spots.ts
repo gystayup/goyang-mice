@@ -153,8 +153,12 @@ export interface Spot {
   insider?: SpotInsider;
   /** 오더 #B1 [1] · R6 에서 채움. null 이면 광고 블록 미렌더. */
   adSlot: null;
-  /** 오더 #B1 [1] · 최근접 역 도보 분. 위치 한 줄 및 헤더에서 사용. */
-  nearest_station?: { name: string; walk_min: number };
+  /**
+   * 오더 #B1 [1] · 최근접 역 도보 분. 위치 한 줄 및 카드에서 사용.
+   * 오더 #C4 [3]: name 은 5로케일 스왑 필요 → I18nText 로 완화.
+   *   walk_min 은 「확인필요」 null 허용 (SpotAccessPoint.minutes 와 동일 원칙).
+   */
+  nearest_station?: { name: I18nText; walk_min: number | null };
   /** 오더 #B1 [1] · 지도 CTA·한국어 원문 카드용 공식 사이트 URL. */
   official_url?: string;
   /** 오더 #B1 [1] · GOYANG BEST 유료 슬롯 선정 여부. */
@@ -289,6 +293,23 @@ export const spots: Spot[] = [
       },
     ],
     adSlot: null,
+    // 오더 #C4 [1]: 상단 갤러리 1장 (풀폭 렌더 규칙). hero-walk.jpg 는
+    //   walk 카테고리 대표 이미지 = 호수공원 사진.
+    gallery: [
+      { url: "/images/hero/hero-walk.jpg", credit: "사진: 일산호수공원" },
+    ],
+    // 오더 #C4 [3]: 카드 하단 「지역 · 최근접역」. spot-01 md 그대로.
+    //   walk_min 은 실측 미확정 → null → 렌더 시 시간 미표시.
+    nearest_station: {
+      name: {
+        ko: "3호선 대화역",
+        en: "Daehwa Stn. (Line 3)",
+        ja: "3号線 大化駅",
+        "zh-CN": "3号线 大化站",
+        "zh-TW": "3號線 大化站",
+      },
+      walk_min: null,
+    },
     official_url: "https://www.goyang.go.kr/visitgoyang/",
     best_selected: false,
   },
