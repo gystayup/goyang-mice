@@ -1,4 +1,4 @@
-// 홈 BEST 카테고리별 "10선" 큐레이션 콘텐츠 (Phase 1: 골격만, items 전부 []).
+// 홈 BEST 카테고리별 큐레이션 콘텐츠 (Phase 1: 골격만, items 전부 []).
 //
 // Phase 4에서 각 카테고리 items 배열에 10곳씩 push 예정.
 // 로케일 번역은 translations 에 id 매핑으로 override.
@@ -18,7 +18,7 @@ export type CuratedItemLocale = Exclude<EmblemLocale, "ko">;
 export interface CuratedItem {
   /** URL·번역 오버라이드 참조용 kebab-case */
   id: string;
-  /** 10선 랭킹 (선택) */
+  /** 랭킹 순번 (선택, 카드 좌측 상단 표시용) */
   rank?: number;
   /** ko 기본 이름 (예: "일산호수공원") */
   name: string;

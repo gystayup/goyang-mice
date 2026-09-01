@@ -77,19 +77,26 @@ export const CATEGORY_TAG: Record<EmblemCategory, string> = {
   family: "FAMILY",
 };
 
-/** "고양 BEST {카테고리} N선" 로케일 헤드라인 템플릿. */
+/**
+ * "고양 BEST {카테고리}" 로케일 헤드라인 템플릿.
+ * 오더 #F0 [1]: 「N선/N Best/N選」 표기 전면 제거 — 실제 항목 수와 제목이
+ *   불일치하는 문제 해소. n 인자는 시그니처만 유지 (호출부 무변경).
+ */
 export const HEADLINE: Record<
   CuratedLocale,
   (label: string, n: number) => string
 > = {
-  ko: (l, n) => `고양 BEST ${l} ${n}선`,
-  en: (l, n) => `Goyang's ${n} Best ${l}`,
-  ja: (l, n) => `高陽ベスト${l}${n}選`,
-  "zh-CN": (l, n) => `高阳${l}BEST ${n}选`,
-  "zh-TW": (l, n) => `高陽${l}BEST ${n}選`,
+  ko: (l) => `고양 BEST ${l}`,
+  en: (l) => `Goyang Best ${l}`,
+  ja: (l) => `高陽ベスト${l}`,
+  "zh-CN": (l) => `高阳${l} BEST`,
+  "zh-TW": (l) => `高陽${l} BEST`,
 };
 
-/** 카테고리별 항목 개수 (10선). CMS 이관 후 상수 → 서버 값으로 대체. */
+/**
+ * 카테고리별 목표 항목 개수. 오더 #F0 [1] 이후 렌더 제목에는 등장하지 않지만,
+ * 데이터 상한/기획 참고값으로 상수 유지 (CMS 이관 시 서버 값으로 대체).
+ */
 export const CARD_COUNT: Record<EmblemCategory, number> = {
   walk: 10,
   food: 10,
