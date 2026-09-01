@@ -19,7 +19,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Clock, Hourglass, Ticket, Accessibility } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -340,7 +340,14 @@ function LocationLine({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   const parts: string[] = [];
   if (spot.region) parts.push(spot.region);
   if (spot.nearest_station) {
-    parts.push(`${spot.nearest_station.name} ${spot.nearest_station.walk_min}${walkMinSuffix(locale)}`);
+    // 오더 #C4 [3]: name 은 5로케일 스왑. walk_min null 이면 시간 미표시.
+    const stationName = spot.nearest_station.name[locale];
+    const walkMin = spot.nearest_station.walk_min;
+    parts.push(
+      walkMin != null
+        ? `${stationName} ${walkMin}${walkMinSuffix(locale)}`
+        : stationName,
+    );
   }
   if (parts.length === 0) return null;
   return (
@@ -433,19 +440,34 @@ function InfoQuad({ spot, locale }: { spot: Spot; locale: PageLocale }) {
 
 function AboutBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   return (
-    <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
-      <CategoryIllustration
-        category={spot.category}
-        className="h-16 w-16 shrink-0"
-      />
-      <div className="min-w-0">
-        <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
-          {LABEL_ABOUT[locale]}
+    <div className="space-y-10">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+        <CategoryIllustration
+          category={spot.category}
+          className="h-16 w-16 shrink-0"
+        />
+        <div className="min-w-0">
+          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+            {LABEL_ABOUT[locale]}
+          </div>
+          <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-[#232322]/85 sm:text-lg">
+            {spot.lead[locale]}
+          </p>
         </div>
-        <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-[#232322]/85 sm:text-lg">
-          {spot.lead[locale]}
-        </p>
       </div>
+      {/* 오더 #C4 [4]: sections 2개(걷는 길·언제 가면 좋은가)를 소개 아래에
+          heading + body 로 순차 렌더. 이전에는 AboutBlock 이 lead 만 표시하고
+          sections 를 어디서도 렌더하지 않아 화면에 안 나왔었다. */}
+      {spot.sections.map((section, i) => (
+        <div key={i} className="border-t border-[#232322]/10 pt-8">
+          <h3 className="text-lg font-black leading-snug tracking-[-0.02em] sm:text-xl">
+            {section.heading[locale]}
+          </h3>
+          <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-[#232322]/85">
+            {section.body[locale]}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
@@ -486,9 +508,10 @@ function InsiderBox({ spot, locale }: { spot: Spot; locale: PageLocale }) {
             href={mapHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+            className="inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
           >
-            🗺 {LABEL_MAP_CTA[locale]}
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+            {LABEL_MAP_CTA[locale]}
           </a>
         )}
         {spot.official_url && (
@@ -542,9 +565,10 @@ function LocationTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
             href={mapHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-block border border-[#232322] px-4 py-2 text-sm font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+            className="mt-3 inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-sm font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
           >
-            🗺 {LABEL_MAP_CTA[locale]}
+            <MapPin className="h-4 w-4" aria-hidden="true" />
+            {LABEL_MAP_CTA[locale]}
           </a>
         </div>
       )}
