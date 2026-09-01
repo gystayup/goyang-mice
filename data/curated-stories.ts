@@ -70,40 +70,70 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
   //   translations 는 아직 미설정 — Phase 4 카드 다국어 렌더 도입 시 채운다.
   walk: {
     category: "walk",
+    // 오더 #C5 [2]: 10선 순서 (01~10) 그대로. name/desc 는 data/spots.ts 의
+    //   각 스팟 title.ko / subtitle.ko 그대로. region 은 regions.ts key.
+    //   덕양구는 실제 key "deokyang" (오더의 "deogyang" 은 오탈자로 판단).
     items: [
-      {
-        id: "ilsan-lake-park",
-        name: "일산호수공원",
-        desc: "도심 한가운데 호수를 한 바퀴 도는 길",
-        region: "ilsan-east",
-      },
+      { id: "ilsan-lake-park", name: "일산호수공원", desc: "도심 한가운데 호수를 한 바퀴 도는 길", region: "ilsan-east" },
+      { id: "jeongbalsan-park", name: "정발산근린공원", desc: "도심에서 바로 오르는 낮은 산", region: "ilsan-east" },
+      { id: "haengju-fortress", name: "행주산성", desc: "한강을 내려다보며 걷는 성곽길", region: "deokyang" },
+      { id: "changneungcheon-trail", name: "창릉천 산책로", desc: "물길을 따라 이어지는 평지 코스", region: "deokyang" },
+      { id: "seooreung", name: "서오릉", desc: "왕릉 사이로 이어지는 숲길", region: "deokyang" },
+      { id: "seosamneung", name: "서삼릉", desc: "조용히 걷기 좋은 왕릉 숲", region: "deokyang" },
+      { id: "bamgasi-thatched-house", name: "고양 밤가시초가", desc: "신도시 한가운데 남은 옛집", region: "ilsan-east" },
+      { id: "eoullimnuri-park", name: "고양어울림누리 누리공원", desc: "공연장을 둘러싼 잔디 마당", region: "deokyang" },
+      { id: "aramnuri-plaza", name: "고양아람누리 야외광장", desc: "곡선 지붕 아래 열린 광장", region: "ilsan-east" },
+      { id: "kintex-walkway", name: "킨텍스 일대 산책로", desc: "전시 일정 사이에 걷는 길", region: "ilsan-west" },
     ],
-    // 오더 #C3 [2]: name/desc 5로케일. data/spots.ts 의 ilsan-lake-park
-    //   title/subtitle 에서 그대로 가져옴. 새 문안 작성 없음.
+    // 오더 #C3 [2] · #C5 [2]: name/desc 4로케일 override. spots.ts title/subtitle 그대로.
     translations: {
       en: {
-        "ilsan-lake-park": {
-          name: "Ilsan Lake Park",
-          desc: "A loop around the lake in the middle of the city",
-        },
+        "ilsan-lake-park": { name: "Ilsan Lake Park", desc: "A loop around the lake in the middle of the city" },
+        "jeongbalsan-park": { name: "Jeongbalsan Park", desc: "A low hill you can climb straight from downtown" },
+        "haengju-fortress": { name: "Haengju Fortress", desc: "A fortress walk overlooking the Han River" },
+        "changneungcheon-trail": { name: "Changneungcheon Trail", desc: "A flat route along the stream" },
+        "seooreung": { name: "Seooreung Royal Tombs", desc: "Forest paths between royal tombs" },
+        "seosamneung": { name: "Seosamneung Royal Tombs", desc: "A quiet woodland around royal tombs" },
+        "bamgasi-thatched-house": { name: "Bamgasi Thatched House", desc: "An old farmhouse left in the middle of a new town" },
+        "eoullimnuri-park": { name: "Nuri Park at Goyang Eoullim Nuri", desc: "Lawns around a performing arts complex" },
+        "aramnuri-plaza": { name: "Aram Nuri Outdoor Plaza", desc: "An open plaza beneath a curved roof" },
+        "kintex-walkway": { name: "KINTEX Area Walkway", desc: "A walk between exhibition sessions" },
       },
       ja: {
-        "ilsan-lake-park": {
-          name: "一山湖水公園",
-          desc: "都心の真ん中で湖を一周する道",
-        },
+        "ilsan-lake-park": { name: "一山湖水公園", desc: "都心の真ん中で湖を一周する道" },
+        "jeongbalsan-park": { name: "鼎鉢山近隣公園", desc: "都心からすぐ登れる低い山" },
+        "haengju-fortress": { name: "幸州山城", desc: "漢江を見下ろしながら歩く城郭の道" },
+        "changneungcheon-trail": { name: "昌陵川遊歩道", desc: "水辺に沿って続く平坦なコース" },
+        "seooreung": { name: "西五陵", desc: "王陵の間を抜ける森の道" },
+        "seosamneung": { name: "西三陵", desc: "静かに歩ける王陵の森" },
+        "bamgasi-thatched-house": { name: "高陽 バムガシ草家", desc: "新都市の真ん中に残る古い家" },
+        "eoullimnuri-park": { name: "高陽オウルリムヌリ ヌリ公園", desc: "公演場を囲む芝生の広場" },
+        "aramnuri-plaza": { name: "高陽アラムヌリ 屋外広場", desc: "曲線の屋根の下に開かれた広場" },
+        "kintex-walkway": { name: "キンテックス一帯の遊歩道", desc: "展示の合間に歩く道" },
       },
       "zh-CN": {
-        "ilsan-lake-park": {
-          name: "一山湖水公园",
-          desc: "环绕城市中心湖泊的步道",
-        },
+        "ilsan-lake-park": { name: "一山湖水公园", desc: "环绕城市中心湖泊的步道" },
+        "jeongbalsan-park": { name: "鼎钵山近邻公园", desc: "从市中心即可登上的小山" },
+        "haengju-fortress": { name: "幸州山城", desc: "俯瞰汉江的城郭步道" },
+        "changneungcheon-trail": { name: "昌陵川步道", desc: "沿溪流延伸的平坦路线" },
+        "seooreung": { name: "西五陵", desc: "穿行于王陵之间的林间小路" },
+        "seosamneung": { name: "西三陵", desc: "适合静静漫步的王陵林地" },
+        "bamgasi-thatched-house": { name: "高阳栗刺草屋", desc: "留存于新城中心的老宅" },
+        "eoullimnuri-park": { name: "高阳和谐世界 世界公园", desc: "环绕演出场馆的草坪广场" },
+        "aramnuri-plaza": { name: "高阳阿蓝世界 户外广场", desc: "曲线屋顶下的开放广场" },
+        "kintex-walkway": { name: "韩国国际展览中心一带步道", desc: "展会间隙可走的步道" },
       },
       "zh-TW": {
-        "ilsan-lake-park": {
-          name: "一山湖水公園",
-          desc: "環繞城市中心湖泊的步道",
-        },
+        "ilsan-lake-park": { name: "一山湖水公園", desc: "環繞城市中心湖泊的步道" },
+        "jeongbalsan-park": { name: "鼎缽山近鄰公園", desc: "從市中心即可登上的小山" },
+        "haengju-fortress": { name: "幸州山城", desc: "俯瞰漢江的城郭步道" },
+        "changneungcheon-trail": { name: "昌陵川步道", desc: "沿溪流延伸的平坦路線" },
+        "seooreung": { name: "西五陵", desc: "穿行於王陵之間的林間小路" },
+        "seosamneung": { name: "西三陵", desc: "適合靜靜漫步的王陵林地" },
+        "bamgasi-thatched-house": { name: "高陽栗刺草屋", desc: "留存於新城中心的老宅" },
+        "eoullimnuri-park": { name: "高陽和諧世界 世界公園", desc: "環繞演出場館的草坪廣場" },
+        "aramnuri-plaza": { name: "高陽阿藍世界 戶外廣場", desc: "曲線屋頂下的開放廣場" },
+        "kintex-walkway": { name: "韓國國際展覽中心一帶步道", desc: "展會間隙可走的步道" },
       },
     },
   },
