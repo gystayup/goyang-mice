@@ -224,13 +224,16 @@ export interface SpotNearbyItem {
   tag: I18nText;
   /** 우리 스팟이면 slug 로 링크. 없으면 미링크 카드. */
   slug?: string;
+  /** 오더 #REV1 [3]: 원본 md 에 note 가 있으면 tag 밑 부기. 없으면 생략. */
+  note?: I18nText;
 }
 
 export interface SpotNearby {
   /** 5로케일 공통 영문 (예: "AROUND KINTEX") */
   eyebrow: string;
   title: I18nText;
-  lead: I18nText;
+  /** 오더 #REV1 [3]: 원본 md 에 lead 값이 없는 경우가 있어 optional 완화. */
+  lead?: I18nText;
   items: SpotNearbyItem[];
 }
 
@@ -258,10 +261,18 @@ export interface SpotWalk {
   bestTime: I18nText;
 }
 
+/**
+ * 오더 #REV1 [4]: food 카테고리 데이터 태그. 카테고리 구조·배지·네비·필터 UI 는
+ *   이번에 건드리지 않음. 값: "restaurant" 레스토랑/맛집 · "drink" 커피·전통주·수제맥주 등.
+ */
+export type SpotFoodSubtype = "restaurant" | "drink";
+
 export interface Spot {
   slug: string;
   category: SpotCategory;
   type: SpotType;
+  /** 오더 #REV1 [4]: food 카테고리 데이터 태그 (restaurant/drink). food 외 카테고리는 미사용. */
+  subtype?: SpotFoodSubtype;
   /** data/regions.ts key 참조. */
   region: string;
   title: I18nText;
@@ -1974,6 +1985,7 @@ export const spots: Spot[] = [
   {
     slug: "lafesta",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산동구",
     title: { ko: "라페스타", en: "La Festa", ja: "ラフェスタ", "zh-CN": "拉斐斯塔", "zh-TW": "拉斐斯塔" },
@@ -2037,6 +2049,7 @@ export const spots: Spot[] = [
   {
     slug: "westerndom",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산동구",
     title: { ko: "웨스턴돔", en: "Western Dom", ja: "ウエスタンドム", "zh-CN": "西部圆顶", "zh-TW": "西部圓頂" },
@@ -2097,6 +2110,7 @@ export const spots: Spot[] = [
   {
     slug: "baekseok-food-alley",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산동구",
     title: { ko: "백석 먹자골목", en: "Baekseok Food Alley", ja: "白石食べ物横丁", "zh-CN": "白石美食巷", "zh-TW": "白石美食巷" },
@@ -2133,6 +2147,7 @@ export const spots: Spot[] = [
   {
     slug: "hwajeong-rodeo",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "덕양구",
     title: { ko: "화정 로데오거리", en: "Hwajeong Rodeo Street", ja: "花井ロデオ通り", "zh-CN": "花井罗迪欧街", "zh-TW": "花井羅迪歐街" },
@@ -2169,6 +2184,7 @@ export const spots: Spot[] = [
   {
     slug: "ilsan-traditional-market",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산서구",
     title: { ko: "일산 전통시장", en: "Ilsan Traditional Market", ja: "一山伝統市場", "zh-CN": "一山传统市场", "zh-TW": "一山傳統市場" },
@@ -2209,6 +2225,7 @@ export const spots: Spot[] = [
   {
     slug: "daehwa-cafes",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산서구",
     title: { ko: "대화동 카페 밀집구역", en: "Daehwa Cafe Cluster", ja: "大化洞カフェ密集エリア", "zh-CN": "大化洞咖啡聚集区", "zh-TW": "大化洞咖啡聚集區" },
@@ -3155,6 +3172,7 @@ export const spots: Spot[] = [
   {
     slug: "neungwon-galbi",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "덕양구",
     title: { ko: "능원숯불갈비", en: "능원숯불갈비", ja: "능원숯불갈비", "zh-CN": "능원숯불갈비", "zh-TW": "능원숯불갈비" },
@@ -3188,6 +3206,7 @@ export const spots: Spot[] = [
   {
     slug: "neunggok-halmeoni-bugeotang",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "덕양구",
     title: { ko: "능곡할머니북어탕", en: "능곡할머니북어탕", ja: "능곡할머니북어탕", "zh-CN": "능곡할머니북어탕", "zh-TW": "능곡할머니북어탕" },
@@ -3221,6 +3240,7 @@ export const spots: Spot[] = [
   {
     slug: "gobongsan-siraegi",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산동구",
     title: { ko: "고봉산시래기", en: "고봉산시래기", ja: "고봉산시래기", "zh-CN": "고봉산시래기", "zh-TW": "고봉산시래기" },
@@ -3254,6 +3274,7 @@ export const spots: Spot[] = [
   {
     slug: "gom-taco",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산동구",
     title: { ko: "곰타코", en: "곰타코", ja: "곰타코", "zh-CN": "곰타코", "zh-TW": "곰타코" },
@@ -3287,6 +3308,7 @@ export const spots: Spot[] = [
   {
     slug: "the-nurungji",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산서구",
     title: { ko: "더 누룽지", en: "더 누룽지", ja: "더 누룽지", "zh-CN": "더 누룽지", "zh-TW": "더 누룽지" },
@@ -3320,6 +3342,7 @@ export const spots: Spot[] = [
   {
     slug: "gaya-milmyeon-ilsan",
     category: "food",
+    subtype: "restaurant",
     type: "list",
     region: "일산서구",
     title: { ko: "가야밀면돼지국밥 일산본점", en: "가야밀면돼지국밥 일산본점", ja: "가야밀면돼지국밥 일산본점", "zh-CN": "가야밀면돼지국밥 일산본점", "zh-TW": "가야밀면돼지국밥 일산본점" },
@@ -3348,6 +3371,326 @@ export const spots: Spot[] = [
     adSlot: null,
     best_selected: false,
     tourapi: { contentid: "2891928", overview_ko: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다. 가게 앞에 3~4대 정도의 주차 공간이 있다. 본관 옆에 신관 건물도 있어서 둘 중 편한 곳으로 자리 잡으면 된다. 이곳은 밀면이 유명하지만, 돼지국밥이나 고기국수도 맛있다. 밀면을 주문하면 굵고 쫄깃한 면발 위에 정성스럽게 달인 육수를 붓고 양념장을 얹어 준다. 돼지국밥은 약재를 넣어 끓여서 냄새가 나지 않고 고기를 듬뿍 얹어 준다. 국밥이 뜨거울 때 부추를 넣고 기호에 맞게 청양고추를 넣어 먹으면 된다." },
+  },
+
+  // ─── 오더 #REV1: 미반영 콘텐츠 일괄 반영 ─────────────────────────
+  //   spots-culture-kculture.md 문화 05·08 (goyang-museum-of-art · kkotnuri) — 5로케일 완비.
+  //     ※ 09 aqua-studio · 10 cultural-foundation-space 는 원본 md 에 title/subtitle/lead
+  //       자체가 없어(전면 확인필요) 반영 제외.
+  //   spots-food-01-10.md 미식 03·06·08·09 (jeongbalsan-cafe-street · hallyu-world-dining
+  //     · bamridan-gil · starfield-dining) — 5로케일 완비.
+  //   spot-drink-goyang.md 신규 스팟 — 5로케일 완비. food/subtype:drink.
+  //     ※ courses 「만드는 곳을 따라」와 「역사 연결」 블록은 스팟 스키마에 대응 필드가
+  //       없어 이번 이식에서 반영 제외 (원본 md 는 유지, 스키마 확장 후 별도 오더).
+  //     ※ info.access "varies" 는 SpotInfoAccess enum(wheelchair/partial/inquiry) 에 없어
+  //       "inquiry" 로 매핑. 원문 값 자체는 유지 필요 시 tourapi 필드 확장 후 별도 오더.
+
+  {
+    slug: "goyang-museum-of-art",
+    category: "culture",
+    type: "list",
+    region: "확인필요",
+    title: { ko: "고양시립미술관", en: "Goyang Museum of Art", ja: "高陽市立美術館", "zh-CN": "高阳市立美术馆", "zh-TW": "高陽市立美術館" },
+    title_en_display: "GOYANG MUSEUM OF ART",
+    subtitle: {
+      ko: "지역 미술을 보여주는 공간",
+      en: "A window on the city's art scene",
+      ja: "地域の美術を見せる空間",
+      "zh-CN": "展现本地美术的空间",
+      "zh-TW": "展現本地美術的空間",
+    },
+    lead: {
+      ko: "고양의 시립 미술 전시 공간입니다. 지역 작가와 기획전이 번갈아 열립니다.",
+      en: "The city's public art venue, alternating between local artists and curated shows.",
+      ja: "高陽の市立美術展示空間です。地域作家と企画展が交互に開かれます。",
+      "zh-CN": "高阳市立美术展览空间，本地作家展与策划展交替举办。",
+      "zh-TW": "高陽市立美術展覽空間，本地作家展與策劃展交替舉辦。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "고양시립미술관", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1h", admission: "varies", access: "wheelchair" },
+    highlights: [
+      { ko: "지역 작가 전시", en: "Shows by local artists", ja: "地域作家の展示", "zh-CN": "本地作家展览", "zh-TW": "本地作家展覽" },
+      { ko: "기획전 운영", en: "Curated exhibitions", ja: "企画展の運営", "zh-CN": "策划展览", "zh-TW": "策劃展覽" },
+      { ko: "시립 공공 공간", en: "A public city venue", ja: "市立の公共空間", "zh-CN": "市立公共空间", "zh-TW": "市立公共空間" },
+    ],
+    adSlot: null,
+    best_selected: false,
+  },
+
+  {
+    slug: "kkotnuri",
+    category: "culture",
+    type: "list",
+    region: "확인필요",
+    title: { ko: "꽃누리", en: "Kkot Nuri", ja: "コンヌリ", "zh-CN": "花世界", "zh-TW": "花世界" },
+    title_en_display: "KKOT NURI",
+    subtitle: {
+      ko: "소규모 공연이 열리는 공간",
+      en: "A venue for smaller performances",
+      ja: "小規模公演が開かれる空間",
+      "zh-CN": "举办小型演出的场地",
+      "zh-TW": "舉辦小型演出的場地",
+    },
+    lead: {
+      ko: "대형 공연장과 달리 규모가 작은 공연 공간입니다. 무대와 객석이 가까워 밀도 있는 공연을 볼 수 있습니다.",
+      en: "A smaller venue than the main halls, with stage and seats close together for a more intimate performance.",
+      ja: "大型公演場とは異なる小規模な公演空間です。舞台と客席が近く、密度のある公演を楽しめます。",
+      "zh-CN": "与大型场馆不同的小型演出空间。舞台与观众席距离近，观演体验更为紧密。",
+      "zh-TW": "與大型場館不同的小型演出空間。舞台與觀眾席距離近，觀演體驗更為緊密。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "꽃누리", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1_2h", admission: "varies", access: "partial" },
+    highlights: [
+      { ko: "무대와 객석이 가까움", en: "Stage close to the seats", ja: "舞台と客席が近い", "zh-CN": "舞台与观众席相近", "zh-TW": "舞台與觀眾席相近" },
+      { ko: "소규모 공연 중심", en: "Smaller-scale programming", ja: "小規模公演中心", "zh-CN": "以小型演出为主", "zh-TW": "以小型演出為主" },
+    ],
+    adSlot: null,
+    best_selected: false,
+  },
+
+  {
+    slug: "jeongbalsan-cafe-street",
+    category: "food",
+    subtype: "restaurant",
+    type: "list",
+    region: "일산동구",
+    title: { ko: "정발산 카페거리", en: "Jeongbalsan Cafe Street", ja: "鼎鉢山カフェ通り", "zh-CN": "鼎钵山咖啡街", "zh-TW": "鼎缽山咖啡街" },
+    title_en_display: "JEONGBALSAN CAFE STREET",
+    subtitle: {
+      ko: "작은 카페들이 모인 골목",
+      en: "A lane of small independent cafes",
+      ja: "小さなカフェが集まる路地",
+      "zh-CN": "小型咖啡馆聚集的巷弄",
+      "zh-TW": "小型咖啡館聚集的巷弄",
+    },
+    lead: {
+      ko: "대형 상권과 달리 작은 카페들이 골목을 따라 이어집니다. 직접 로스팅하는 곳, 디저트를 함께 내는 곳 등 가게마다 성격이 다릅니다. 조용히 앉아 있기 좋은 편입니다.",
+      en: "Unlike the larger districts, this is a lane of small cafes. Some roast their own beans, others focus on desserts — each shop has its own character. It stays quieter than the main streets.",
+      ja: "大型商圏とは異なり、小さなカフェが路地に沿って続きます。自家焙煎の店、デザートを出す店など、店ごとに性格が違います。静かに座っているのに向いています。",
+      "zh-CN": "与大型商圈不同，这里是小型咖啡馆聚集的巷弄。有自家烘焙的，也有主打甜点的，各具特色。相对安静，适合久坐。",
+      "zh-TW": "與大型商圈不同，這裡是小型咖啡館聚集的巷弄。有自家烘焙的，也有主打甜點的，各具特色。相對安靜，適合久坐。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "정발산 카페거리", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1h", admission: "varies", access: "partial" },
+    highlights: [
+      { ko: "가게마다 다른 성격", en: "Each shop with its own character", ja: "店ごとに異なる性格", "zh-CN": "各店风格不同", "zh-TW": "各店風格不同" },
+      { ko: "직접 로스팅하는 곳", en: "Some roast their own beans", ja: "自家焙煎の店", "zh-CN": "自家烘焙的店", "zh-TW": "自家烘焙的店" },
+      { ko: "조용히 앉아 있기 좋음", en: "Quiet enough to sit a while", ja: "静かに座っていられる", "zh-CN": "安静适合久坐", "zh-TW": "安靜適合久坐" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    best_selected: false,
+  },
+
+  {
+    slug: "hallyu-world-dining",
+    category: "food",
+    subtype: "restaurant",
+    type: "list",
+    region: "일산서구",
+    title: { ko: "한류월드 식당가", en: "Hallyu World Dining", ja: "韓流ワールド飲食街", "zh-CN": "韩流世界餐饮街", "zh-TW": "韓流世界餐飲街" },
+    title_en_display: "HALLYU WORLD DINING",
+    subtitle: {
+      ko: "킨텍스에서 걸어갈 수 있는 식사 구역",
+      en: "Dining within walking distance of KINTEX",
+      ja: "キンテックスから歩いて行ける食事エリア",
+      "zh-CN": "从韩国国际展览中心步行可达的餐饮区",
+      "zh-TW": "從韓國國際展覽中心步行可達的餐飲區",
+    },
+    lead: {
+      ko: "킨텍스와 원마운트 주변에 형성된 식사 구역입니다. 전시나 공연 일정 전후에 이용하기 편하고, 대형 시설 안팎에 음식점이 흩어져 있습니다.",
+      en: "The eating area around KINTEX and One Mount. It is convenient before or after an exhibition or concert, with restaurants spread inside and around the larger complexes.",
+      ja: "キンテックスとワンマウント周辺に形成された食事エリアです。展示や公演の前後に利用しやすく、大型施設の内外に飲食店が点在しています。",
+      "zh-CN": "韩国国际展览中心与One Mount周边形成的餐饮区。展会或演出前后使用便利，餐厅分布于大型设施内外。",
+      "zh-TW": "韓國國際展覽中心與One Mount周邊形成的餐飲區。展會或演出前後使用便利，餐廳分布於大型設施內外。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "한류월드", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1h", admission: "varies", access: "wheelchair" },
+    highlights: [
+      { ko: "킨텍스에서 도보권", en: "Walking distance from KINTEX", ja: "キンテックスから徒歩圏", "zh-CN": "韩国国际展览中心步行可达", "zh-TW": "韓國國際展覽中心步行可達" },
+      { ko: "전시·공연 전후에 이용", en: "Convenient around events", ja: "展示·公演の前後に利用", "zh-CN": "展会与演出前后使用", "zh-TW": "展會與演出前後使用" },
+      { ko: "대형 시설 안팎에 분포", en: "Spread inside and around the complexes", ja: "大型施設の内外に分布", "zh-CN": "分布于大型设施内外", "zh-TW": "分布於大型設施內外" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
+    best_selected: false,
+  },
+
+  {
+    slug: "bamridan-gil",
+    category: "food",
+    subtype: "restaurant",
+    type: "list",
+    region: "일산동구",
+    title: { ko: "밤리단길", en: "Bamridan-gil", ja: "バムリダン通り", "zh-CN": "栗里断街", "zh-TW": "栗里斷街" },
+    title_en_display: "BAMRIDAN-GIL",
+    subtitle: {
+      ko: "주택가 사이에 생긴 골목 상권",
+      en: "A lane that grew up between houses",
+      ja: "住宅街の間にできた路地商圏",
+      "zh-CN": "住宅区之间形成的巷弄商圈",
+      "zh-TW": "住宅區之間形成的巷弄商圈",
+    },
+    lead: {
+      ko: "주택가 골목을 따라 카페와 작은 음식점이 들어선 곳입니다. 대형 상권보다 규모는 작지만 개성 있는 가게가 많아 천천히 둘러보기 좋습니다.",
+      en: "Cafes and small restaurants that have opened along a residential lane. It is smaller than the main districts but full of individual shops, so it rewards a slow wander.",
+      ja: "住宅街の路地に沿ってカフェや小さな飲食店が入った場所です。大型商圏より規模は小さいものの個性のある店が多く、ゆっくり見て回るのに向いています。",
+      "zh-CN": "沿住宅区巷弄开设咖啡馆与小餐厅之处。规模小于大型商圈，但个性小店众多，适合慢慢逛。",
+      "zh-TW": "沿住宅區巷弄開設咖啡館與小餐廳之處。規模小於大型商圈，但個性小店眾多，適合慢慢逛。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "밤리단길", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1h", admission: "varies", access: "partial" },
+    highlights: [
+      { ko: "개성 있는 작은 가게", en: "Individual small shops", ja: "個性のある小さな店", "zh-CN": "个性小店", "zh-TW": "個性小店" },
+      { ko: "주택가 골목 분위기", en: "A residential lane atmosphere", ja: "住宅街の路地の雰囲気", "zh-CN": "住宅巷弄氛围", "zh-TW": "住宅巷弄氛圍" },
+      { ko: "천천히 둘러보기 좋음", en: "Good for a slow wander", ja: "ゆっくり見て回れる", "zh-CN": "适合慢慢逛", "zh-TW": "適合慢慢逛" },
+    ],
+    adSlot: null,
+    nearest_station: { name: { ko: "3호선 마두역", en: "Madu Stn. (Line 3)", ja: "3号線 馬頭駅", "zh-CN": "3号线 马头站", "zh-TW": "3號線 馬頭站" }, walk_min: null },
+    best_selected: false,
+  },
+
+  {
+    slug: "starfield-dining",
+    category: "food",
+    subtype: "restaurant",
+    type: "list",
+    region: "덕양구",
+    title: { ko: "스타필드 고양 식당가", en: "Starfield Goyang Dining", ja: "スターフィールド高陽 飲食街", "zh-CN": "星芒城高阳餐饮区", "zh-TW": "星芒城高陽餐飲區" },
+    title_en_display: "STARFIELD GOYANG DINING",
+    subtitle: {
+      ko: "날씨와 상관없이 먹을 수 있는 곳",
+      en: "Dining that works whatever the weather",
+      ja: "天気に左右されず食べられる場所",
+      "zh-CN": "不受天气影响的用餐场所",
+      "zh-TW": "不受天氣影響的用餐場所",
+    },
+    lead: {
+      ko: "대형 복합쇼핑몰 안에 자리한 식당가입니다. 실내라 날씨에 영향을 받지 않고, 여러 종류의 음식이 한 층에 모여 있어 일행끼리 취향이 갈릴 때 편합니다.",
+      en: "The dining floor inside a large shopping complex. Being indoors, it is unaffected by weather, and the range of cuisines on one floor makes it easy when a group cannot agree.",
+      ja: "大型複合ショッピングモール内にある飲食街です。屋内のため天気に左右されず、複数の料理が一つのフロアに集まっているので同行者の好みが分かれるときに便利です。",
+      "zh-CN": "位于大型综合购物中心内的餐饮区。室内不受天气影响，多种料理集中于同一楼层，同行者口味不一时尤为方便。",
+      "zh-TW": "位於大型綜合購物中心內的餐飲區。室內不受天氣影響，多種料理集中於同一樓層，同行者口味不一時尤為方便。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "스타필드 고양", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "1h", admission: "varies", access: "wheelchair" },
+    highlights: [
+      { ko: "실내라 날씨 영향 없음", en: "Indoors, weatherproof", ja: "屋内で天気に左右されない", "zh-CN": "室内不受天气影响", "zh-TW": "室內不受天氣影響" },
+      { ko: "여러 종류가 한 층에", en: "Many cuisines on one floor", ja: "複数の料理が一つのフロアに", "zh-CN": "多种料理集中一层", "zh-TW": "多種料理集中一層" },
+      { ko: "일행끼리 취향이 갈릴 때", en: "Useful for mixed groups", ja: "同行者の好みが分かれるときに", "zh-CN": "适合口味不一的同行者", "zh-TW": "適合口味不一的同行者" },
+    ],
+    adSlot: null,
+    best_selected: false,
+  },
+
+  {
+    slug: "drink-goyang",
+    category: "food",
+    subtype: "drink",
+    type: "course",
+    region: "고양 전역",
+    title: { ko: "고양이 만드는 것", en: "What Goyang Makes", ja: "高陽がつくるもの", "zh-CN": "高阳所酿所焙", "zh-TW": "高陽所釀所焙" },
+    title_en_display: "DRINK GOYANG",
+    subtitle: {
+      ko: "커피를 볶고, 술을 빚는 도시",
+      en: "A city that roasts and brews",
+      ja: "珈琲を焙煎し、酒を醸す街",
+      "zh-CN": "焙咖啡、酿酒的城市",
+      "zh-TW": "焙咖啡、釀酒的城市",
+    },
+    lead: {
+      ko: "이 도시에는 커피를 직접 볶는 곳과 술을 직접 빚는 곳이 있습니다. 사서 파는 것이 아니라 만들어 파는 곳입니다. 고양시는 관내 커피 관련 업체를 전수 조사하고 커피 특화 도시를 추진하고 있고, 전통주 양조장은 지역 쌀로 술을 빚습니다. 오천 년 전 볍씨가 나온 땅에서 지금도 쌀로 술을 만듭니다.",
+      en: "In this city there are places that roast their own coffee and places that brew their own alcohol — not resellers, but makers. The city has surveyed every coffee-related business within its boundaries and is pursuing a coffee-specialised city plan, while local breweries make their drinks from rice grown here. On ground where 5,020-year-old rice grains were found, rice is still turned into drink.",
+      ja: "この街には珈琲を自ら焙煎する場所と、酒を自ら醸す場所があります。仕入れて売るのではなく、つくって売る場所です。高陽市は市内の珈琲関連事業者を悉皆調査し、珈琲特化都市を推進しており、伝統酒の醸造場は地域の米で酒を醸します。五千年前の籾が出土した土地で、今も米から酒がつくられています。",
+      "zh-CN": "这座城市有自行焙炒咖啡之处，也有自行酿酒之处——不是转售，而是制造。高阳市已对辖内咖啡相关业者进行全面普查，并推动咖啡特色城市建设；传统酒酿造场则以当地稻米酿酒。在出土五千年前稻种的土地上，如今仍以米酿酒。",
+      "zh-TW": "這座城市有自行焙炒咖啡之處，也有自行釀酒之處——不是轉售，而是製造。高陽市已對轄內咖啡相關業者進行全面普查，並推動咖啡特色城市建設；傳統酒釀造場則以當地稻米釀酒。在出土五千年前稻種的土地上，如今仍以米釀酒。",
+    },
+    meta: { updated_at: "2026-09-01" },
+    sections: [], access: [], know: [],
+    ko_card: [{ name_ko: "고양이 만드는 것", address_ko: null }],
+    credits: [], related: [],
+    info: { hours: "varies", duration: "half_day", admission: "varies", access: "inquiry" },
+    highlights: [
+      { ko: "직접 볶는 로스터리", en: "Roasteries that roast on site", ja: "自家焙煎のロースタリー", "zh-CN": "自行焙炒的烘豆坊", "zh-TW": "自行焙炒的烘豆坊" },
+      { ko: "지역 쌀로 빚는 전통주", en: "Traditional drinks made from local rice", ja: "地域の米で醸す伝統酒", "zh-CN": "以当地稻米酿制的传统酒", "zh-TW": "以當地稻米釀製的傳統酒" },
+      { ko: "도시 안에 있는 양조장", en: "Breweries inside the city", ja: "街の中にある醸造場", "zh-CN": "城中的酿造场", "zh-TW": "城中的釀造場" },
+    ],
+    adSlot: null,
+    best_selected: false,
+    nearby: {
+      eyebrow: "MADE IN GOYANG",
+      title: {
+        ko: "이 도시가 만드는 것",
+        en: "Made in This City",
+        ja: "この街がつくるもの",
+        "zh-CN": "这座城市的出品",
+        "zh-TW": "這座城市的出品",
+      },
+      items: [
+        {
+          name: { ko: "커피", en: "Coffee", ja: "珈琲", "zh-CN": "咖啡", "zh-TW": "咖啡" },
+          tag: {
+            ko: "고양시는 관내 커피 관련 업체 약 2천 곳을 전수 조사하고 커피 특화 도시를 추진하고 있습니다. 원두를 직접 볶는 로스터리가 여러 곳 있고, 식품제조 허가를 받아 원두를 생산하는 곳도 있습니다. 대형 프랜차이즈가 아니라 한 사람이 볶는 규모의 가게들입니다.",
+            en: "The city has surveyed some two thousand coffee-related businesses within its boundaries and is pursuing a coffee-specialised city plan. A number of roasteries roast their own beans, and some hold food-manufacturing licences to produce them. These are not large chains but shops at the scale of one person at a roaster.",
+            ja: "高陽市は市内の珈琲関連事業者約2千か所を悉皆調査し、珈琲特化都市を推進しています。豆を自ら焙煎するロースタリーが複数あり、食品製造の許可を得て豆を生産する所もあります。大手チェーンではなく、一人が焙煎する規模の店です。",
+            "zh-CN": "高阳市已对辖内约两千家咖啡相关业者进行普查，并推动咖啡特色城市建设。多处烘豆坊自行焙炒咖啡豆，亦有取得食品制造许可生产豆子者。这些并非大型连锁，而是一人操作烘豆机的规模。",
+            "zh-TW": "高陽市已對轄內約兩千家咖啡相關業者進行普查，並推動咖啡特色城市建設。多處烘豆坊自行焙炒咖啡豆，亦有取得食品製造許可生產豆子者。這些並非大型連鎖，而是一人操作烘豆機的規模。",
+          },
+        },
+        {
+          name: { ko: "전통주", en: "Korean Traditional Drinks", ja: "伝統酒", "zh-CN": "传统酒", "zh-TW": "傳統酒" },
+          tag: {
+            ko: "쌀과 누룩으로 빚는 탁주와 약주를 만드는 양조장이 있습니다. 고양시는 2025년 전국막걸리축제에서 지역 양조장 다섯 곳을 소개했습니다. 그중에는 지역에서 나는 쌀을 주원료로 쓰는 곳도 있습니다. 오천 년 전 볍씨가 나온 땅에서 이어지는 일입니다.",
+            en: "There are breweries making takju and yakju from rice and nuruk. In 2025 the city presented five local breweries at a national makgeolli festival. Some of them use rice grown in the area as their main ingredient — a line running back to the ground where 5,020-year-old grains were found.",
+            ja: "米と麹で醸す濁酒と薬酒をつくる醸造場があります。高陽市は2025年の全国マッコリ祭りで地域の醸造場五か所を紹介しました。その中には地域産の米を主原料とする所もあります。五千年前の籾が出土した土地から続いていることです。",
+            "zh-CN": "有以稻米与曲酿制浊酒与药酒的酿造场。2025年高阳市在全国马格利酒庆典上介绍了五家本地酿造场，其中部分以当地稻米为主要原料——这与出土五千年前稻种的土地一脉相承。",
+            "zh-TW": "有以稻米與麴釀製濁酒與藥酒的釀造場。2025年高陽市在全國馬格利酒慶典上介紹了五家本地釀造場，其中部分以當地稻米為主要原料——這與出土五千年前稻種的土地一脈相承。",
+          },
+          note: {
+            ko: "술 빚기를 직접 해볼 수 있는 양조장도 있습니다.",
+            en: "Some breweries let you take part in the brewing itself.",
+            ja: "酒づくりを実際に体験できる醸造場もあります。",
+            "zh-CN": "部分酿造场亦可亲身参与酿造。",
+            "zh-TW": "部分釀造場亦可親身參與釀造。",
+          },
+        },
+        {
+          name: { ko: "수제맥주", en: "Craft Beer", ja: "クラフトビール", "zh-CN": "精酿啤酒", "zh-TW": "精釀啤酒" },
+          tag: {
+            ko: "도시 안에 소규모 양조 시설이 있습니다. 한 곳은 한국 전통 탈놀이의 가면에서 이름을 딴 제품을 만듭니다. 대량 생산이 아니라 소량을 만들어 그 자리에서 파는 방식입니다.",
+            en: "Small-scale brewing facilities operate within the city. One takes the names of its products from the masks of a Korean traditional masked dance. These are small batches made and sold on site rather than mass-produced.",
+            ja: "街の中に小規模な醸造施設があります。ある一つは韓国伝統の仮面劇の面から名を取った製品をつくっています。大量生産ではなく、少量をつくってその場で売る方式です。",
+            "zh-CN": "城中设有小规模酿造设施。其中一处的产品以韩国传统假面剧的面具命名。并非大量生产，而是小批量制作、就地销售。",
+            "zh-TW": "城中設有小規模釀造設施。其中一處的產品以韓國傳統假面劇的面具命名。並非大量生產，而是小批量製作、就地銷售。",
+          },
+        },
+      ],
+    },
+    partnerCta: {
+      ko: "양조장이나 로스터리를 운영하시나요? 제휴 문의",
+      en: "Do you run a brewery or roastery? Partner with us",
+      ja: "醸造場やロースタリーを運営されていますか? 提携のお問い合わせ",
+      "zh-CN": "您经营酿造场或烘豆坊吗？合作咨询",
+      "zh-TW": "您經營釀造場或烘豆坊嗎？合作諮詢",
+    },
   },
 ];
 

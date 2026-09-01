@@ -877,9 +877,11 @@ function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
       <h3 className="mt-3 text-xl font-black leading-snug tracking-[-0.02em] sm:text-2xl">
         {nb.title[locale]}
       </h3>
-      <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
-        {nb.lead[locale]}
-      </p>
+      {nb.lead && (
+        <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+          {nb.lead[locale]}
+        </p>
+      )}
       <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {nb.items.map((it, i) => {
           const inner = (
@@ -895,6 +897,11 @@ function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
               <p className="text-xs leading-relaxed text-[#232322]/70">
                 {it.tag[locale]}
               </p>
+              {it.note && (
+                <p className="text-[11px] leading-relaxed text-[#232322]/55">
+                  {it.note[locale]}
+                </p>
+              )}
             </div>
           );
           return (
