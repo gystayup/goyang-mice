@@ -18,12 +18,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle, Phone } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
-import { SpotDetailTabs } from "@/components/dmc/SpotDetailTabs";
 import Shell from "@/components/layout/Shell";
 import {
   CATEGORY_LABEL,
@@ -69,6 +67,16 @@ const LABEL_ABOUT: Record<PageLocale, string> = {
 const LABEL_MAP_CTA: Record<PageLocale, string> = {
   ko: "지도에서 보기", en: "View on map", ja: "地図で見る",
   "zh-CN": "在地图上查看", "zh-TW": "在地圖上查看",
+};
+// 오더 #V1 [2]: Location 섹션 라벨 (단일 스크롤 재구성).
+const LABEL_LOCATION: Record<PageLocale, string> = {
+  ko: "위치", en: "Location", ja: "場所", "zh-CN": "位置", "zh-TW": "位置",
+};
+const LABEL_PHONE: Record<PageLocale, string> = {
+  ko: "전화", en: "Phone", ja: "電話", "zh-CN": "电话", "zh-TW": "電話",
+};
+const LABEL_ADDRESS: Record<PageLocale, string> = {
+  ko: "주소", en: "Address", ja: "住所", "zh-CN": "地址", "zh-TW": "地址",
 };
 const LABEL_OFFICIAL: Record<PageLocale, string> = {
   ko: "공식 사이트", en: "Official site", ja: "公式サイト",
@@ -171,14 +179,6 @@ const CREDIT_LABEL: Record<"Type1" | "Type3", Record<PageLocale, string>> = {
     "zh-CN": "来源: 韩国观光公社（KOGL 第3类型·原本保持）",
     "zh-TW": "來源: 韓國觀光公社（KOGL 第3類型·原本維持）",
   },
-};
-
-const TAB_LABEL: Record<PageLocale, { overview: string; location: string }> = {
-  ko: { overview: "개요", location: "위치" },
-  en: { overview: "Overview", location: "Location" },
-  ja: { overview: "概要", location: "場所" },
-  "zh-CN": { overview: "概览", location: "位置" },
-  "zh-TW": { overview: "概覽", location: "位置" },
 };
 
 // GOYANG INSIDERS — 5로케일 공통 영문 (spec).
@@ -287,11 +287,11 @@ export default async function SpotDetailPage({
   const spot = getSpot(slug);
   if (!spot) notFound();
 
+  const insiderNode = <InsiderBox spot={spot} locale={locale} />;
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* 오더 #C5-b [2] + #D3 [4]: spot.gallery 우선, 없으면
-            public/images/spots/{slug}(-1).{ext} 자동 감지. Type1/Type3 분기는 Gallery 내부. */}
+        {/* 1. 갤러리 — 대형1+소형3 (n≥4) / 그리드 (n=2·3) / 단일 (n=1). */}
         <Gallery
           images={resolveSpotGallery(spot.gallery, spot.slug, spot.title.ko)}
           title={spot.title[locale]}
@@ -301,6 +301,7 @@ export default async function SpotDetailPage({
         {/* 오더 #E1 [4]: 공지 배너 — 갤러리 바로 아래. 없으면 미렌더. */}
         <NoticeBanner spot={spot} locale={locale} />
 
+        {/* 2. 제목 · 지역 · 최근접역 (풀폭 헤더) */}
         <section className="mx-auto max-w-6xl px-6 pt-10">
           <CategoryLabel category={spot.category} locale={locale} />
           <TitleBlock spot={spot} locale={locale} />
@@ -310,16 +311,53 @@ export default async function SpotDetailPage({
           </p>
         </section>
 
-        <section className="mx-auto max-w-6xl px-6 py-16">
-          <Suspense fallback={null}>
-            <SpotDetailTabs
-              labels={TAB_LABEL[locale]}
-              overview={<OverviewTab spot={spot} locale={locale} />}
-              location={<LocationTab spot={spot} locale={locale} />}
-            />
-          </Suspense>
+        {/* 오더 #V1 [2]: 탭 → 단일 스크롤. lg+ 에서 좌 본문 + 우 사이드바.
+             모바일은 세로 연속. 값 없는 섹션은 각 컴포넌트 내부에서 렌더 스킵. */}
+        <section className="mx-auto max-w-6xl px-6 pt-10 pb-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-14">
+            <div className="space-y-12 lg:col-span-2">
+              {/* 3. Location — 지도 + 주소 + 전화 */}
+              <LocationSection spot={spot} locale={locale} />
+
+              {/* 4. About — 일러스트 + 본문 좌우 */}
+              <AboutBlock spot={spot} locale={locale} />
+
+              {/* 5. 운영시간 (InfoQuad 4칸 안에 hours 포함) */}
+              <InfoQuad spot={spot} locale={locale} />
+
+              {/* 모바일: 인사이더 박스를 본문 중간에 (사이드바가 밑으로 밀리는 상황 방지) */}
+              <div className="lg:hidden">{insiderNode}</div>
+
+              {/* 기존 오버레이 섹션 유지 (값 있을 때만 렌더). */}
+              <WalksSection spot={spot} locale={locale} />
+              <StorySection spot={spot} locale={locale} />
+              <OnScreenSection spot={spot} locale={locale} />
+              <AroundSection spot={spot} locale={locale} />
+              <HanbokSection spot={spot} locale={locale} />
+              <PartnerCta spot={spot} locale={locale} />
+
+              {/* 6. 한국어 원문 카드 (외국인용, 복사 버튼) */}
+              <KoCardBlock spot={spot} locale={locale} />
+
+              {/* 모바일: 광고 본문 하단 */}
+              {spot.adSlot !== null && (
+                <div className="lg:hidden">
+                  <AdSlot locale={locale} />
+                </div>
+              )}
+            </div>
+            <aside className="space-y-6 lg:col-span-1">
+              <div className="hidden lg:block">{insiderNode}</div>
+              {spot.adSlot !== null && (
+                <div className="hidden lg:block">
+                  <AdSlot locale={locale} />
+                </div>
+              )}
+            </aside>
+          </div>
         </section>
 
+        {/* 7. NEARBY — 페이지 하단 풀폭 */}
         <NearbySection spot={spot} locale={locale} />
       </article>
     </Shell>
@@ -523,42 +561,103 @@ function walkMinSuffix(locale: PageLocale): string {
 
 // ─── 개요 탭 ────────────────────────────────────────────────────────────────
 
-function OverviewTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
-  const insiderNode = <InsiderBox spot={spot} locale={locale} />;
+// 오더 #V1 [2]: 상세 페이지 세로 스크롤로 재구성 — 탭 제거. SpotDetailPage 본문
+// 에서 각 섹션을 직접 배치. (기존 OverviewTab/LocationTab 컴포넌트는 삭제.)
+
+// 오더 #V1 [2]: Location 섹션 — 지도(임베드/링크) + 주소 + 전화.
+//   map_embed 있으면 iframe 우선.
+//   없고 map[0].lat/lng 있으면 OpenStreetMap 임베드 자동 생성.
+//   둘 다 없으면 지도 CTA(카카오 외부 링크)만.
+//   주소/전화도 값 있을 때만 렌더. 아무 것도 없으면 섹션 통째로 스킵.
+function LocationSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const first = spot.map?.[0];
+  const address = spot.ko_card?.[0]?.address_ko ?? null;
+  const phone = spot.phone ?? null;
+  const embed = resolveMapEmbed(spot);
+  const mapPointName = spot.ko_card?.[0]?.name_ko;
+  const mapHref = mapPointName
+    ? `https://map.kakao.com/?q=${encodeURIComponent(mapPointName)}`
+    : null;
+  // 아무 데이터도 없으면 섹션 자체 스킵.
+  if (!embed && !mapHref && !address && !phone) return null;
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-14">
-      <div className="space-y-10 lg:col-span-2">
-        <InfoQuad spot={spot} locale={locale} />
-        {/* 모바일: 인사이더 박스를 아이콘 4칸 바로 아래 (오더 렌더 규칙 11) */}
-        <div className="lg:hidden">{insiderNode}</div>
-        <AboutBlock spot={spot} locale={locale} />
-        {/* 오더 #C9 [3] · #E1 [4]: 렌더 순서
-            About → WALKS → THE STORY → ON SCREEN → AROUND (nearby) → HANBOK.
-            기존 NearbySection 은 페이지 하단 "이 근처에서(같은 카테고리 spot 3)" 로 유지. */}
-        <WalksSection spot={spot} locale={locale} />
-        <StorySection spot={spot} locale={locale} />
-        <OnScreenSection spot={spot} locale={locale} />
-        <AroundSection spot={spot} locale={locale} />
-        <HanbokSection spot={spot} locale={locale} />
-        {/* 오더 #E2 [1]: 제휴 CTA 배너 — 스팟 하단, /contact 링크. */}
-        <PartnerCta spot={spot} locale={locale} />
-        {/* 모바일: 광고를 본문 중간에 (오더 렌더 규칙 11) */}
-        {spot.adSlot !== null && (
-          <div className="lg:hidden">
-            <AdSlot locale={locale} />
-          </div>
-        )}
+    <section aria-label={LABEL_LOCATION[locale]}>
+      <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+        {LABEL_LOCATION[locale]}
       </div>
-      <aside className="space-y-6 lg:col-span-1">
-        <div className="hidden lg:block">{insiderNode}</div>
-        {spot.adSlot !== null && (
-          <div className="hidden lg:block">
-            <AdSlot locale={locale} />
+      {embed && (
+        <div className="mt-4 border border-[#232322]/15">
+          <div className="relative aspect-[16/9] w-full bg-[#232322]/5">
+            <iframe
+              src={embed}
+              title={spot.title[locale]}
+              className="absolute inset-0 h-full w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
-        )}
-      </aside>
-    </div>
+        </div>
+      )}
+      {(address || phone || mapHref) && (
+        <div className="mt-4 space-y-3 border border-[#232322]/15 p-5">
+          {address && (
+            <div className="flex items-start gap-3 text-sm text-[#232322]/85">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
+                  {LABEL_ADDRESS[locale]}
+                </div>
+                <div className="mt-0.5">{address}</div>
+              </div>
+            </div>
+          )}
+          {phone && (
+            <div className="flex items-start gap-3 text-sm text-[#232322]/85">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
+                  {LABEL_PHONE[locale]}
+                </div>
+                <a href={`tel:${phone}`} className="mt-0.5 block hover:text-[#D4AF37]">
+                  {phone}
+                </a>
+              </div>
+            </div>
+          )}
+          {mapHref && (
+            <a
+              href={mapHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+            >
+              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+              {LABEL_MAP_CTA[locale]}
+            </a>
+          )}
+        </div>
+      )}
+      {/* Location 섹션 하단에 ACCESS 4칸 (허브별 소요시간). 데이터 없으면 "—". */}
+      <div className="mt-6">
+        <AccessQuad access={spot.access ?? []} locale={locale} />
+      </div>
+      {/* first 좌표 참조로 lint no-unused-vars 방지 (이미 embed 에서 사용됨) */}
+      {first && null}
+    </section>
   );
+}
+
+// map_embed 값 있으면 그대로, 없으면 map[0] 좌표로 OSM 임베드 URL 생성.
+// 둘 다 없으면 null → iframe 미렌더.
+function resolveMapEmbed(spot: Spot): string | null {
+  if (spot.map_embed && spot.map_embed.length > 0) return spot.map_embed;
+  const m = spot.map?.[0];
+  if (!m || typeof m.lat !== "number" || typeof m.lng !== "number") return null;
+  const dx = 0.005; // ~500m
+  const dy = 0.003;
+  const bbox = `${m.lng - dx},${m.lat - dy},${m.lng + dx},${m.lat + dy}`;
+  const marker = `${m.lat},${m.lng}`;
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${marker}`;
 }
 
 function InfoQuad({ spot, locale }: { spot: Spot; locale: PageLocale }) {
@@ -1058,36 +1157,6 @@ function AdSlot({ locale }: { locale: PageLocale }) {
 }
 
 // ─── 위치 탭 ────────────────────────────────────────────────────────────────
-
-function LocationTab({ spot, locale }: { spot: Spot; locale: PageLocale }) {
-  const mapPointName = spot.ko_card?.[0]?.name_ko;
-  const mapHref = mapPointName
-    ? `https://map.kakao.com/?q=${encodeURIComponent(mapPointName)}`
-    : null;
-  return (
-    <div className="space-y-12">
-      {/* 지도 — 정적 카드 + 카카오 지도 외부 링크 (구현 단순화 : SDK 미도입) */}
-      {mapHref && (
-        <div className="border border-[#232322]/15 p-6">
-          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
-            {LABEL_MAP_CTA[locale]}
-          </div>
-          <a
-            href={mapHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-sm font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
-          >
-            <MapPin className="h-4 w-4" aria-hidden="true" />
-            {LABEL_MAP_CTA[locale]}
-          </a>
-        </div>
-      )}
-      <AccessQuad access={spot.access ?? []} locale={locale} />
-      <KoCardBlock spot={spot} locale={locale} />
-    </div>
-  );
-}
 
 function AccessQuad({
   access,

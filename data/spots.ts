@@ -337,6 +337,17 @@ export interface Spot {
   nearest_station?: { name: I18nText; walk_min: number | null };
   /** 오더 #B1 [1] · 지도 CTA·한국어 원문 카드용 공식 사이트 URL. */
   official_url?: string;
+  /**
+   * 오더 #V1 [1]: 상세 페이지 Location 섹션 전화번호 (예: "+82 31 XXX XXXX").
+   *   값 있을 때만 tel: 링크 렌더. 없으면 전화 줄 스킵.
+   */
+  phone?: string;
+  /**
+   * 오더 #V1 [1]: 상세 페이지 Location 지도 임베드용 iframe src URL.
+   *   값 있으면 우선 사용. 없고 map[0].lat/lng 있으면 OSM 임베드 자동 생성.
+   *   둘 다 없으면 카카오 지도 CTA 외부 링크만 렌더.
+   */
+  map_embed?: string;
   /** 오더 #B1 [1] · GOYANG BEST 유료 슬롯 선정 여부. */
   best_selected?: boolean;
   /**
