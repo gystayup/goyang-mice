@@ -142,6 +142,13 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "gom-taco", name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다.", region: "ilsan-east" },
       { id: "the-nurungji", name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다.", region: "ilsan-west" },
       { id: "gaya-milmyeon-ilsan", name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다.", region: "ilsan-west" },
+      // 오더 #REV1 [2]: spots-food-01-10.md 미반영 4건 (restaurant).
+      { id: "jeongbalsan-cafe-street", name: "정발산 카페거리", desc: "작은 카페들이 모인 골목", region: "ilsan-east" },
+      { id: "hallyu-world-dining", name: "한류월드 식당가", desc: "킨텍스에서 걸어갈 수 있는 식사 구역", region: "ilsan-west" },
+      { id: "bamridan-gil", name: "밤리단길", desc: "주택가 사이에 생긴 골목 상권", region: "ilsan-east" },
+      { id: "starfield-dining", name: "스타필드 고양 식당가", desc: "날씨와 상관없이 먹을 수 있는 곳", region: "deokyang" },
+      // 오더 #REV1 [3]: spot-drink-goyang.md — food/subtype:drink. region 원본이 "고양 전역"이라 미설정.
+      { id: "drink-goyang", name: "고양이 만드는 것", desc: "커피를 볶고, 술을 빚는 도시" },
     ],
     translations: {
       en: {
@@ -158,6 +165,12 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
         "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
         "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
+        // 오더 #REV1 [2][3]: 미반영 4건 + drink-goyang. 원본 md 5로케일 완비 값 그대로.
+        "jeongbalsan-cafe-street": { name: "Jeongbalsan Cafe Street", desc: "A lane of small independent cafes" },
+        "hallyu-world-dining": { name: "Hallyu World Dining", desc: "Dining within walking distance of KINTEX" },
+        "bamridan-gil": { name: "Bamridan-gil", desc: "A lane that grew up between houses" },
+        "starfield-dining": { name: "Starfield Goyang Dining", desc: "Dining that works whatever the weather" },
+        "drink-goyang": { name: "What Goyang Makes", desc: "A city that roasts and brews" },
       },
       ja: {
         "lafesta": { name: "ラフェスタ", desc: "夜遅くまで続くストリート型商圏" },
@@ -173,6 +186,12 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
         "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
         "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
+        // 오더 #REV1 [2][3]: 미반영 4건 + drink-goyang. 원본 md 5로케일 완비 값 그대로.
+        "jeongbalsan-cafe-street": { name: "鼎鉢山カフェ通り", desc: "小さなカフェが集まる路地" },
+        "hallyu-world-dining": { name: "韓流ワールド飲食街", desc: "キンテックスから歩いて行ける食事エリア" },
+        "bamridan-gil": { name: "バムリダン通り", desc: "住宅街の間にできた路地商圏" },
+        "starfield-dining": { name: "スターフィールド高陽 飲食街", desc: "天気に左右されず食べられる場所" },
+        "drink-goyang": { name: "高陽がつくるもの", desc: "珈琲を焙煎し、酒を醸す街" },
       },
       "zh-CN": {
         "lafesta": { name: "拉斐斯塔", desc: "热闹至深夜的街区商圈" },
@@ -188,6 +207,12 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
         "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
         "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
+        // 오더 #REV1 [2][3]: 미반영 4건 + drink-goyang. 원본 md 5로케일 완비 값 그대로.
+        "jeongbalsan-cafe-street": { name: "鼎钵山咖啡街", desc: "小型咖啡馆聚集的巷弄" },
+        "hallyu-world-dining": { name: "韩流世界餐饮街", desc: "从韩国国际展览中心步行可达的餐饮区" },
+        "bamridan-gil": { name: "栗里断街", desc: "住宅区之间形成的巷弄商圈" },
+        "starfield-dining": { name: "星芒城高阳餐饮区", desc: "不受天气影响的用餐场所" },
+        "drink-goyang": { name: "高阳所酿所焙", desc: "焙咖啡、酿酒的城市" },
       },
       "zh-TW": {
         "lafesta": { name: "拉斐斯塔", desc: "熱鬧至深夜的街區商圈" },
@@ -203,6 +228,12 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "gom-taco": { name: "곰타코", desc: "곰타코는 백석역 근처에 있는 멕시코 음식점이다." },
         "the-nurungji": { name: "더 누룽지", desc: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다." },
         "gaya-milmyeon-ilsan": { name: "가야밀면돼지국밥 일산본점", desc: "가야밀면돼지국밥 일산본점은 일산 대화동 킨텍스 건너편에 있는 밀면, 돼지국밥 맛집이다." },
+        // 오더 #REV1 [2][3]: 미반영 4건 + drink-goyang. 원본 md 5로케일 완비 값 그대로.
+        "jeongbalsan-cafe-street": { name: "鼎缽山咖啡街", desc: "小型咖啡館聚集的巷弄" },
+        "hallyu-world-dining": { name: "韓流世界餐飲街", desc: "從韓國國際展覽中心步行可達的餐飲區" },
+        "bamridan-gil": { name: "栗里斷街", desc: "住宅區之間形成的巷弄商圈" },
+        "starfield-dining": { name: "星芒城高陽餐飲區", desc: "不受天氣影響的用餐場所" },
+        "drink-goyang": { name: "高陽所釀所焙", desc: "焙咖啡、釀酒的城市" },
       },
     },
   },
@@ -217,6 +248,9 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "latin-america-museum", name: "중남미문화원", desc: "라틴아메리카를 옮겨온 정원", region: "deokyang" },
       { id: "aram-art-museum", name: "아람미술관", desc: "공연장 안의 전시 공간", region: "ilsan-east" },
       { id: "kintex", name: "킨텍스", desc: "국내 최대 규모의 전시장", region: "ilsan-west" },
+      // 오더 #REV1 [1]: spots-culture-kculture.md 미반영 05·08 (region 원본 확인필요 → 미설정).
+      { id: "goyang-museum-of-art", name: "고양시립미술관", desc: "지역 미술을 보여주는 공간" },
+      { id: "kkotnuri", name: "꽃누리", desc: "소규모 공연이 열리는 공간" },
     ],
     translations: {
       en: {
@@ -226,6 +260,9 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "Museum of Latin American Art", desc: "A garden that brings Latin America to Goyang" },
         "aram-art-museum": { name: "Aram Art Museum", desc: "A gallery inside the arts centre" },
         "kintex": { name: "KINTEX", desc: "Korea's largest exhibition centre" },
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        "goyang-museum-of-art": { name: "Goyang Museum of Art", desc: "A window on the city's art scene" },
+        "kkotnuri": { name: "Kkot Nuri", desc: "A venue for smaller performances" },
       },
       ja: {
         "aramnuri": { name: "高陽アラムヌリ", desc: "高陽を代表する公演場" },
@@ -234,6 +271,9 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "中南米文化院", desc: "ラテンアメリカを移した庭園" },
         "aram-art-museum": { name: "アラム美術館", desc: "公演場の中の展示空間" },
         "kintex": { name: "キンテックス", desc: "国内最大規模の展示場" },
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        "goyang-museum-of-art": { name: "高陽市立美術館", desc: "地域の美術を見せる空間" },
+        "kkotnuri": { name: "コンヌリ", desc: "小規模公演が開かれる空間" },
       },
       "zh-CN": {
         "aramnuri": { name: "高阳阿蓝世界", desc: "高阳代表性演出场馆" },
@@ -242,14 +282,20 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "中南美文化院", desc: "移植拉丁美洲的庭园" },
         "aram-art-museum": { name: "阿蓝美术馆", desc: "演出场馆内的展览空间" },
         "kintex": { name: "韩国国际展览中心", desc: "韩国最大规模展览中心" },
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        "goyang-museum-of-art": { name: "高阳市立美术馆", desc: "展现本地美术的空间" },
+        "kkotnuri": { name: "花世界", desc: "举办小型演出的场地" },
       },
       "zh-TW": {
         "aramnuri": { name: "高陽阿藍世界", desc: "高陽代表性演出場館" },
         "eoullimnuri": { name: "高陽和諧世界", desc: "德陽區演出與展覽據點" },
         "hyundai-motorstudio": { name: "現代汽車文化館高陽", desc: "以汽車為主題的大型展覽空間" },
-        "latin-america-museum": { name: "中南美文化院", desc: "移植拉丁美洲的庭園" },
+        "latin-america-museum": { name: "中南米文化院", desc: "移植拉丁美洲的庭園" },
         "aram-art-museum": { name: "阿藍美術館", desc: "演出場館內的展覽空間" },
         "kintex": { name: "韓國國際展覽中心", desc: "韓國最大規模展覽中心" },
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        "goyang-museum-of-art": { name: "高陽市立美術館", desc: "展現本地美術的空間" },
+        "kkotnuri": { name: "花世界", desc: "舉辦小型演出的場地" },
       },
     },
   },
