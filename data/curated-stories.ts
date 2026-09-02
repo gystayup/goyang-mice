@@ -416,6 +416,208 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       },
     },
   },
+
+  // ─── 오더 #B1 [1]: SHOPPING 12곳 ─────────────────────────────────────────
+  //   9곳은 이번 오더 신규 spot (starfield-goyang·wondang-market·lottemart-goyang·
+  //   ilsan-furniture-district·emart-ilsan·homeplus-goyang-terminal·
+  //   hyundai-dept-kintex·homeplus-kintex·deoki-rodeo).
+  //   3곳은 기존 spot 재사용 (lafesta·westerndom·ilsan-traditional-market) —
+  //   다른 카테고리에서도 이미 노출되지만, 쇼핑 앵커성 강해 이 목록에도 등재.
+  //   desc 는 TourAPI overview 1문장 발췌 (창작·의역 금지).
+  shopping: {
+    category: "shopping",
+    items: [
+      { id: "starfield-goyang", name: "스타필드 고양", desc: "서울과 경기 서북부를 연결하는 관문적 위치의 대형 복합쇼핑몰", region: "deokyang" },
+      { id: "wondang-market", name: "원당시장", desc: "오랜 역사와 전통을 자랑하는 덕양구 대표 재래시장", region: "deokyang" },
+      { id: "lottemart-goyang", name: "롯데마트 고양점", desc: "신선식품·생활용품·패션을 두루 갖춘 대형마트", region: "deokyang" },
+      { id: "ilsan-furniture-district", name: "일산가구단지", desc: "고양에 위치한 대형 규모의 가구단지", region: "ilsan-west" },
+      { id: "lafesta", name: "라페스타", desc: "일산 신도시 중심상업용지의 보행자 스트리트몰", region: "ilsan-east" },
+      { id: "westerndom", name: "웨스턴돔", desc: "라페스타와 함께 일산을 대표하는 스트리트형 쇼핑몰", region: "ilsan-east" },
+      { id: "emart-ilsan", name: "이마트 일산점", desc: "신선식품·생활용품·패션용품을 두루 갖춘 대형마트", region: "ilsan-east" },
+      { id: "homeplus-goyang-terminal", name: "홈플러스 고양터미널점", desc: "고양종합터미널에 인접한 대형마트", region: "ilsan-east" },
+      { id: "ilsan-traditional-market", name: "일산시장", desc: "1908년 경의선 철도 개통과 함께 형성된 오래된 시장", region: "ilsan-west" },
+      { id: "hyundai-dept-kintex", name: "현대백화점 킨텍스점", desc: "고객의 삶에 품격과 여유를 더하는 프리미엄 라이프스타일 문화 공간", region: "ilsan-west" },
+      { id: "homeplus-kintex", name: "홈플러스 킨텍스점", desc: "킨텍스 인근 대형마트", region: "ilsan-west" },
+      { id: "deoki-rodeo", name: "덕이동 로데오거리", desc: "국내 최고의 패션브랜드들이 입점한 아울렛형 상권", region: "ilsan-west" },
+    ],
+    translations: {
+      en: {
+        "starfield-goyang": { name: "Starfield Goyang" },
+        "wondang-market": { name: "Wondang Market" },
+        "lottemart-goyang": { name: "Lotte Mart Goyang" },
+        "ilsan-furniture-district": { name: "Ilsan Furniture District" },
+        "lafesta": { name: "Lafesta" },
+        "westerndom": { name: "Westerndom" },
+        "emart-ilsan": { name: "E-Mart Ilsan" },
+        "homeplus-goyang-terminal": { name: "Homeplus Goyang Terminal" },
+        "ilsan-traditional-market": { name: "Ilsan Traditional Market" },
+        "hyundai-dept-kintex": { name: "The Hyundai Kintex" },
+        "homeplus-kintex": { name: "Homeplus Kintex" },
+        "deoki-rodeo": { name: "Deoki-dong Rodeo Street" },
+      },
+      ja: {
+        "starfield-goyang": { name: "スターフィールド高陽" },
+        "wondang-market": { name: "元堂市場" },
+        "lottemart-goyang": { name: "ロッテマート高陽店" },
+        "ilsan-furniture-district": { name: "一山家具団地" },
+        "lafesta": { name: "ラフェスタ" },
+        "westerndom": { name: "ウェスタンドーム" },
+        "emart-ilsan": { name: "イーマート一山店" },
+        "homeplus-goyang-terminal": { name: "ホームプラス高陽ターミナル店" },
+        "ilsan-traditional-market": { name: "一山市場" },
+        "hyundai-dept-kintex": { name: "現代百貨店キンテックス店" },
+        "homeplus-kintex": { name: "ホームプラスキンテックス店" },
+        "deoki-rodeo": { name: "徳耳洞ロデオストリート" },
+      },
+      "zh-CN": {
+        "starfield-goyang": { name: "Starfield 高阳" },
+        "wondang-market": { name: "元堂市场" },
+        "lottemart-goyang": { name: "乐天玛特高阳店" },
+        "ilsan-furniture-district": { name: "一山家具园区" },
+        "lafesta": { name: "Lafesta" },
+        "westerndom": { name: "Westerndom" },
+        "emart-ilsan": { name: "易买得一山店" },
+        "homeplus-goyang-terminal": { name: "家乐福高阳客运站店" },
+        "ilsan-traditional-market": { name: "一山市场" },
+        "hyundai-dept-kintex": { name: "现代百货 KINTEX 店" },
+        "homeplus-kintex": { name: "家乐福 KINTEX 店" },
+        "deoki-rodeo": { name: "德耳洞罗迪欧街" },
+      },
+      "zh-TW": {
+        "starfield-goyang": { name: "Starfield 高陽" },
+        "wondang-market": { name: "元堂市場" },
+        "lottemart-goyang": { name: "樂天瑪特高陽店" },
+        "ilsan-furniture-district": { name: "一山家具園區" },
+        "lafesta": { name: "Lafesta" },
+        "westerndom": { name: "Westerndom" },
+        "emart-ilsan": { name: "易買得一山店" },
+        "homeplus-goyang-terminal": { name: "家樂福高陽客運站店" },
+        "ilsan-traditional-market": { name: "一山市場" },
+        "hyundai-dept-kintex": { name: "現代百貨 KINTEX 店" },
+        "homeplus-kintex": { name: "家樂福 KINTEX 店" },
+        "deoki-rodeo": { name: "德耳洞羅迪歐街" },
+      },
+    },
+  },
+
+  // ─── 오더 #B1 [1]: STAY 7곳 (TourAPI contentTypeId=32 전량) ───────────────
+  //   MICE 필수 축. 12곳 억지 발굴 없이 인벤토리 실측 7곳으로 확정.
+  //   KINTEX 인근 3곳 명시 (소노캄·룩소르·케이트리).
+  stay: {
+    category: "stay",
+    items: [
+      { id: "hotel-the-wynn", name: "호텔 더 윈", desc: "원흥동의 IoT 음성인식 스마트 호텔", region: "deokyang" },
+      { id: "gyisc-youth-center", name: "고양국제청소년문화센터 유스센터", desc: "청소년 수련활동을 위한 문화 숙박 시설", region: "ilsan-east" },
+      { id: "lakebay-hostel", name: "레이크베이 호스텔", desc: "장항동 라페스타·웨스턴돔 인근 신축 호스텔", region: "ilsan-east" },
+      { id: "sono-calm-goyang", name: "소노캄 고양", desc: "킨텍스 인근 5성급 호텔", region: "ilsan-east" },
+      { id: "deohyusik-anok-tanhyun", name: "더휴식 아늑호텔 일산탄현점", desc: "테마 객실을 갖춘 부티크 숙소", region: "ilsan-west" },
+      { id: "hotel-luxor", name: "룩소르 호텔", desc: "대화역 5번 출구 인근 실속형 호텔", region: "ilsan-west" },
+      { id: "kintex-by-ktree", name: "킨텍스 바이 케이트리", desc: "킨텍스 제1전시장 옆 레지던스 호텔", region: "ilsan-west" },
+    ],
+    translations: {
+      en: {
+        "hotel-the-wynn": { name: "Hotel The Wynn" },
+        "gyisc-youth-center": { name: "Goyang Int'l Youth Culture Center" },
+        "lakebay-hostel": { name: "Lakebay Hostel" },
+        "sono-calm-goyang": { name: "Sono Calm Goyang" },
+        "deohyusik-anok-tanhyun": { name: "DeoHyuSik Anok Hotel Ilsan Tanhyun" },
+        "hotel-luxor": { name: "Hotel Luxor" },
+        "kintex-by-ktree": { name: "Kintex by K-Tree" },
+      },
+      ja: {
+        "hotel-the-wynn": { name: "ホテル ザ ウィン" },
+        "gyisc-youth-center": { name: "高陽国際青少年文化センターユースセンター" },
+        "lakebay-hostel": { name: "レイクベイ ホステル" },
+        "sono-calm-goyang": { name: "ソノカーム高陽" },
+        "deohyusik-anok-tanhyun": { name: "ドヒュシク アヌク ホテル 一山炭峴店" },
+        "hotel-luxor": { name: "ルクソール ホテル" },
+        "kintex-by-ktree": { name: "キンテックス バイ Kツリー" },
+      },
+      "zh-CN": {
+        "hotel-the-wynn": { name: "The Wynn 酒店" },
+        "gyisc-youth-center": { name: "高阳国际青少年文化中心 Youth Center" },
+        "lakebay-hostel": { name: "Lakebay 青旅" },
+        "sono-calm-goyang": { name: "Sono Calm 高阳" },
+        "deohyusik-anok-tanhyun": { name: "DeoHyuSik Anok 酒店 一山炭岘店" },
+        "hotel-luxor": { name: "Luxor 酒店" },
+        "kintex-by-ktree": { name: "Kintex by K-Tree" },
+      },
+      "zh-TW": {
+        "hotel-the-wynn": { name: "The Wynn 酒店" },
+        "gyisc-youth-center": { name: "高陽國際青少年文化中心 Youth Center" },
+        "lakebay-hostel": { name: "Lakebay 青旅" },
+        "sono-calm-goyang": { name: "Sono Calm 高陽" },
+        "deohyusik-anok-tanhyun": { name: "DeoHyuSik Anok 酒店 一山炭峴店" },
+        "hotel-luxor": { name: "Luxor 酒店" },
+        "kintex-by-ktree": { name: "Kintex by K-Tree" },
+      },
+    },
+  },
+
+  // ─── 오더 #B1 [1]: NIGHT 9곳 (기존 42스팟 재사용, A안) ───────────────────
+  //   유흥·주점(drink-goyang) 제외 확정. shopping/dining 카테고리 중복 허용.
+  //   9곳 확보 · 12곳 억지 채우기 안 함.
+  //   근거: overview 야간·야경·일루미네이션 명시 5 + 야간 성격 뚜렷 4.
+  night: {
+    category: "night",
+    items: [
+      { id: "ilsan-lake-park", name: "일산호수공원", desc: "해질 무렵 호수에 비친 도시 불빛과 야경", region: "ilsan-east" },
+      { id: "westerndom", name: "웨스턴돔", desc: "돔 구조 천장에 형형색색의 조명이 켜지는 야간", region: "ilsan-east" },
+      { id: "lafesta", name: "라페스타", desc: "일산 신도시의 보행자 스트리트몰 · 야간 상권", region: "ilsan-east" },
+      { id: "bamridan-gil", name: "밤리단길", desc: "예쁜 연못과 노래하는 분수대가 있는 야경 골목", region: "ilsan-east" },
+      { id: "onemount", name: "원마운트", desc: "스노우파크·워터파크를 갖춘 야간 개장 복합시설", region: "ilsan-west" },
+      { id: "kintex-kpop", name: "킨텍스 K-POP", desc: "K-POP 콘서트·팬 이벤트가 열리는 야간 공연 거점", region: "ilsan-west" },
+      { id: "hallyu-world-dining", name: "한류월드 다이닝", desc: "킨텍스 인근 야간 상권", region: "ilsan-west" },
+      { id: "starfield-dining", name: "스타필드 다이닝", desc: "스타필드 고양의 야간 다이닝 존", region: "deokyang" },
+      { id: "goyang-after-dark", name: "고양의 밤", desc: "관광지가 아닌 고양의 밤 생활문화 코스", region: "ilsan-east" },
+    ],
+    translations: {
+      en: {
+        "ilsan-lake-park": { name: "Ilsan Lake Park", desc: "City lights on the lake at dusk" },
+        "westerndom": { name: "Westerndom", desc: "The dome ceiling lights up after dark" },
+        "lafesta": { name: "Lafesta", desc: "A pedestrian street mall that keeps going into the night" },
+        "bamridan-gil": { name: "Bamridan-gil", desc: "A lit-up alley with a pond and singing fountain" },
+        "onemount": { name: "One Mount", desc: "A snow-and-water park complex with evening hours" },
+        "kintex-kpop": { name: "KINTEX K-POP", desc: "The hub of evening K-POP concerts and fan events" },
+        "hallyu-world-dining": { name: "Hallyu World Dining", desc: "An evening dining district near KINTEX" },
+        "starfield-dining": { name: "Starfield Dining", desc: "The evening dining zone inside Starfield Goyang" },
+        "goyang-after-dark": { name: "Goyang After Dark", desc: "Goyang's after-hours life — not the tourist version" },
+      },
+      ja: {
+        "ilsan-lake-park": { name: "一山湖水公園", desc: "夕暮れ時、湖に映る街の灯り" },
+        "westerndom": { name: "ウェスタンドーム", desc: "夜になるとドーム天井に色とりどりの照明" },
+        "lafesta": { name: "ラフェスタ", desc: "夜まで賑わう歩行者ストリートモール" },
+        "bamridan-gil": { name: "バムリダン通り", desc: "池と歌う噴水のある夜景の路地" },
+        "onemount": { name: "ワンマウント", desc: "夜間営業のスノー・ウォーター複合施設" },
+        "kintex-kpop": { name: "キンテックス K-POP", desc: "K-POPコンサートやファンイベントの夜間拠点" },
+        "hallyu-world-dining": { name: "韓流ワールド ダイニング", desc: "キンテックス近くの夜間商圏" },
+        "starfield-dining": { name: "スターフィールド ダイニング", desc: "スターフィールド高陽の夜間ダイニング" },
+        "goyang-after-dark": { name: "高陽の夜", desc: "観光地ではない、高陽の夜の生活文化コース" },
+      },
+      "zh-CN": {
+        "ilsan-lake-park": { name: "一山湖水公园", desc: "傍晚湖面倒映的城市灯光" },
+        "westerndom": { name: "Westerndom", desc: "入夜后穹顶亮起五彩灯光" },
+        "lafesta": { name: "Lafesta", desc: "延续到夜晚的步行街商圈" },
+        "bamridan-gil": { name: "栗里断街", desc: "有池塘与音乐喷泉的夜景巷" },
+        "onemount": { name: "One Mount", desc: "夜间开放的雪世界与水乐园综合设施" },
+        "kintex-kpop": { name: "KINTEX K-POP", desc: "K-POP 演唱会与粉丝活动的夜间据点" },
+        "hallyu-world-dining": { name: "韩流世界餐饮区", desc: "KINTEX 附近的夜间商圈" },
+        "starfield-dining": { name: "Starfield 餐饮区", desc: "Starfield 高阳的夜间餐饮区" },
+        "goyang-after-dark": { name: "高阳之夜", desc: "非观光化的高阳夜晚生活文化路线" },
+      },
+      "zh-TW": {
+        "ilsan-lake-park": { name: "一山湖水公園", desc: "傍晚湖面倒映的城市燈光" },
+        "westerndom": { name: "Westerndom", desc: "入夜後穹頂亮起五彩燈光" },
+        "lafesta": { name: "Lafesta", desc: "延續到夜晚的步行街商圈" },
+        "bamridan-gil": { name: "栗里斷街", desc: "有池塘與音樂噴泉的夜景巷" },
+        "onemount": { name: "One Mount", desc: "夜間開放的雪世界與水樂園綜合設施" },
+        "kintex-kpop": { name: "KINTEX K-POP", desc: "K-POP 演唱會與粉絲活動的夜間據點" },
+        "hallyu-world-dining": { name: "韓流世界餐飲區", desc: "KINTEX 附近的夜間商圈" },
+        "starfield-dining": { name: "Starfield 餐飲區", desc: "Starfield 高陽的夜間餐飲區" },
+        "goyang-after-dark": { name: "高陽之夜", desc: "非觀光化的高陽夜晚生活文化路線" },
+      },
+    },
+  },
 };
 
 export function getCuratedStory(cat: CuratedCategory): CuratedStory {

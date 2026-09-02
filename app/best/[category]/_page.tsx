@@ -49,6 +49,10 @@ export type PageLocale = EmblemLocale;
 // 5로케일 공통 브랜드 라벨 (영문 고정). /best 인덱스에서도 재사용 (오더 #P1-f).
 export const INSIDERS_BRAND = "GOYANG INSIDERS";
 
+// 오더 #B1 [1]: hero-{cat}.jpg 미확보 카테고리 — 실사진 별도 오더까지
+//   Next Image 대신 카테고리 컬러 그라디언트 배경. 스크림·문안 그대로.
+const HERO_IMAGE_MISSING = new Set<EmblemCategory>(["shopping", "stay", "night"]);
+
 export const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   ko: "전체",
   en: "All",
@@ -136,17 +140,29 @@ export default async function BestCategoryPage({
     <Shell>
       {/* Hero — hero-{cat}.jpg 풍경 배경 + 어두운 스크림 + 문안 (오더 #BEST2-fix).
           card-{cat}.jpg (배지 통짜) 대신 이미 존재하는 hero 풍경 이미지 재사용:
-          텍스트 대비 확보 + 배지 통짜가 화면을 다 먹는 문제 해소. */}
+          텍스트 대비 확보 + 배지 통짜가 화면을 다 먹는 문제 해소.
+          오더 #B1 [1]: 사진 미확보(shopping/stay/night) 는 카테고리 컬러
+          그라디언트로 대체. 스크림·문안 렌더 그대로. */}
       <section className="relative overflow-hidden">
         <div className="relative aspect-[16/9] max-h-[520px] w-full">
-          <Image
-            src={`/images/hero/hero-${cat}.jpg`}
-            alt=""
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
+          {HERO_IMAGE_MISSING.has(cat) ? (
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(135deg, ${color} 0%, ${color}CC 60%, ${color}99 100%)`,
+              }}
+            />
+          ) : (
+            <Image
+              src={`/images/hero/hero-${cat}.jpg`}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+          )}
           <div
             aria-hidden="true"
             className="absolute inset-0"

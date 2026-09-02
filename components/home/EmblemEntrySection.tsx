@@ -41,6 +41,8 @@ const HEADLINE: Record<LocaleKey, string> = {
  * (예: en walk "Nature" vs "Walks", ja food "グルメ" vs "美食") 재사용 대신
  * 별도 정의. 임의 수정 금지.
  */
+// 오더 #B1 [1]: 상위 CATEGORIES 는 6개 유지 (홈 진입부 시각 폭 유지) —
+//   shopping/stay/night 3키는 타입 충족용 문안만 추가, 실제 렌더는 안 됨.
 const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
   ko: {
     walk: "산책",
@@ -49,6 +51,9 @@ const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
     kculture: "K컬처",
     history: "역사",
     family: "가족",
+    shopping: "쇼핑",
+    stay: "숙박",
+    night: "야간",
   },
   en: {
     walk: "Nature",
@@ -57,6 +62,9 @@ const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
     kculture: "K-Culture",
     history: "History",
     family: "Family",
+    shopping: "Shopping",
+    stay: "Stay",
+    night: "Night",
   },
   ja: {
     walk: "散策",
@@ -65,6 +73,9 @@ const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
     kculture: "K-カルチャー",
     history: "歴史",
     family: "ファミリー",
+    shopping: "ショッピング",
+    stay: "宿泊",
+    night: "ナイト",
   },
   "zh-CN": {
     walk: "漫步",
@@ -73,6 +84,9 @@ const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
     kculture: "K文化",
     history: "历史",
     family: "家庭",
+    shopping: "购物",
+    stay: "住宿",
+    night: "夜间",
   },
   "zh-TW": {
     walk: "漫步",
@@ -81,10 +95,14 @@ const ENTRY_LABEL: Record<LocaleKey, Record<EmblemCategory, string>> = {
     kculture: "K文化",
     history: "歷史",
     family: "家庭",
+    shopping: "購物",
+    stay: "住宿",
+    night: "夜間",
   },
 };
 
 // 카테고리별 상세 라우트 (오더 #P1). 로케일 prefix 는 next-intl Link 가 자동 처리.
+// 오더 #B1 [1]: 3키 추가 (실제 렌더는 상단 CATEGORIES 6개 한정).
 const CATEGORY_HREF: Record<EmblemCategory, string> = {
   walk: "/best/walk",
   food: "/best/food",
@@ -92,6 +110,9 @@ const CATEGORY_HREF: Record<EmblemCategory, string> = {
   kculture: "/best/kculture",
   history: "/best/history",
   family: "/best/family",
+  shopping: "/best/shopping",
+  stay: "/best/stay",
+  night: "/best/night",
 };
 
 export default function EmblemEntrySection({ locale }: { locale: string }) {

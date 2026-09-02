@@ -25,7 +25,7 @@ exports[`Emblem — 스냅샷 walk × L × ko 는 스냅샷과 일치한다 1`] 
     <path
       d="M 45 100 A 55 55 0 0 0 155 100"
       fill="none"
-      id="emblem-arc-_r_41_"
+      id="emblem-arc-_r_5t_"
     />
   </defs>
   <text
@@ -36,7 +36,7 @@ exports[`Emblem — 스냅샷 walk × L × ko 는 스냅샷과 일치한다 1`] 
     letter-spacing="2"
   >
     <textpath
-      href="#emblem-arc-_r_41_"
+      href="#emblem-arc-_r_5t_"
       startOffset="50%"
       text-anchor="middle"
     >

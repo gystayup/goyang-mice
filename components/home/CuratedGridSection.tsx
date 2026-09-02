@@ -75,6 +75,7 @@ const VIEW_ALL_CTA: Record<LocaleKey, string> = {
 
 // 카테고리 상세 라우트 (오더 #BEST1). 오더 #P1 로 홈의 앵커 진입
 // (#story-<cat>) 는 폐지되어 target id 도 제거됨.
+// 오더 #B1 [1]: shopping·stay·night 3키 추가.
 const STORY_HREF: Record<EmblemCategory, string> = {
   walk: "/best/walk",
   food: "/best/food",
@@ -82,6 +83,9 @@ const STORY_HREF: Record<EmblemCategory, string> = {
   kculture: "/best/kculture",
   history: "/best/history",
   family: "/best/family",
+  shopping: "/best/shopping",
+  stay: "/best/stay",
+  night: "/best/night",
 };
 
 // 통짜 카드 이미지 파일: public/images/cards/card-<category>.jpg
@@ -89,6 +93,10 @@ const STORY_HREF: Record<EmblemCategory, string> = {
 function photoSrc(cat: EmblemCategory): string {
   return `/images/cards/card-${cat}.jpg`;
 }
+
+// 오더 #B1 [1]: 카드 이미지 미확보 카테고리 — 실사진 별도 오더까지 gradient 폴백.
+// Next Image 로 시도조차 하지 않아 SSG 시 404 로그 · 하이드레이션 불필요.
+const CARD_PHOTO_MISSING = new Set<EmblemCategory>(["shopping", "stay", "night"]);
 
 // 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진 priority
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
@@ -167,8 +175,11 @@ function CuratedCard({
   const headline = HEADLINE[locale](label, CARD_COUNT[category]);
   const description = CARD_DESC[locale][category];
   const readMore = READ_MORE[locale];
-  // 통짜 카드 이미지 폴백: 부재/실패 시 카테고리 gradient
-  const [photoBroken, setPhotoBroken] = useState(false);
+  // 통짜 카드 이미지 폴백: 부재/실패 시 카테고리 gradient.
+  // 오더 #B1 [1]: shopping/stay/night 는 파일 미확보 → 초기 true 로 렌더.
+  const [photoBroken, setPhotoBroken] = useState(
+    CARD_PHOTO_MISSING.has(category)
+  );
 
   return (
     <Link
