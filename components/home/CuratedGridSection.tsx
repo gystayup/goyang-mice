@@ -28,7 +28,6 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { Emblem } from "@/components/emblem/Emblem";
 import {
   EMBLEM_COLORS,
   type EmblemCategory,
@@ -216,22 +215,26 @@ function CuratedCard({
               onError={() => setPhotoBroken(true)}
             />
           )}
-          {/* 오더 #EMB [1]: 이미지에 배지가 인쇄돼 있지 않은 6개 카테고리에만
-              <Emblem> SVG 를 중앙 오버레이. 인쇄본 3장(kculture/history/family)
-              은 이중 방지 위해 생략. hideRibbon=true (하단 텍스트에 카테고리명
-              이미 있음). pointer-events-none 로 Link 클릭 가로채기 방지. */}
+          {/* 오더 #EMB2 [1]: 방패형 badge-{cat}.png 오버레이로 교체.
+              #EMB 의 원형 <Emblem> SVG 는 인쇄본 3장(kculture/history/family)
+              의 방패 모양과 불일치했음 → PNG 오버레이로 6장 통일.
+              HAS_BAKED_EMBLEM 3장은 이미지 인쇄본 유지 (이중 방지).
+              크기: 카드 폭 55% (인쇄본 규격 근접) · 정사각 · object-contain.
+              pointer-events-none · aria-hidden 유지. */}
           {!HAS_BAKED_EMBLEM.has(category) && (
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 flex items-center justify-center"
             >
-              <Emblem
-                category={category}
-                size="L"
-                locale={locale}
-                hideRibbon
-                className="drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
-              />
+              <div className="relative aspect-square w-[55%] max-w-[220px]">
+                <Image
+                  src={`/images/badges/badge-${category}.png`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 55vw, (max-width: 1024px) 28vw, 220px"
+                  className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+                />
+              </div>
             </div>
           )}
         </div>
