@@ -201,12 +201,29 @@ export interface SpotStoryChapter {
   onScreen?: SpotStoryOnScreen[];
   /** 추가 안내 (예: "효릉은 예약제") */
   note?: I18nText;
+  /**
+   * 오더 #H2 [1]: 챕터 body 아래 인라인 사진 경로 (예: /images/history/xxx.jpg).
+   *   없으면 렌더 스킵. 값 없이 필드만 두면 텍스트만 노출.
+   */
+  image?: string;
+  /**
+   * 오더 #H2 [1]: image 크레딧 문자열 (예: "출처: 한국관광공사 공공누리 제1유형").
+   *   image 가 있고 이 값이 있을 때만 캡션 렌더.
+   */
+  image_credit?: string;
 }
 
 export interface SpotStoriesHeader {
   /** 5로케일 부제 (섹션 title 은 THE STORY 로 하드코딩). */
   title: I18nText;
   lead: I18nText;
+  /**
+   * 오더 #H2 [1]: 서사 상단 대표 사진 경로 (예: /images/history/xxx.jpg).
+   *   없으면 텍스트만 렌더 (기존 동작 유지).
+   */
+  hero_image?: string;
+  /** 오더 #H2 [1]: hero_image 크레딧 문자열. */
+  hero_image_credit?: string;
 }
 
 // 오더 #E1 [1]: 한복 무료입장 안내.
