@@ -115,7 +115,8 @@ const koreanCopy: DmcCopy = {
       },
     ],
   },
-  catalogViewAll: "카탈로그 전체 보기",
+  // 오더 #FINAL PART B [B-1]: /products → 당일코스 재편에 맞춰 갱신 (링크 target 무변경).
+  catalogViewAll: "당일코스 보기",
   useCases: {
     eyebrow: "추천 대상",
     title: "이런 방문객에게 추천합니다",
@@ -167,8 +168,9 @@ const koreanCopy: DmcCopy = {
         description: "일정과 세부 운영 조건을 조율해 최종 확정합니다.",
       },
     ],
+    // 오더 #FINAL PART B [B-1]: /products → 당일코스 재편에 맞춰 5로케일 갱신 (링크 target 무변경).
     ctas: {
-      booking: "안내 카테고리 보기",
+      booking: "당일코스 보기",
       consult: "상담 문의하기",
     },
   },
@@ -242,7 +244,7 @@ const englishCopy: DmcCopy = {
       },
     ],
   },
-  catalogViewAll: "See all in the catalog",
+  catalogViewAll: "See day trips",
   useCases: {
     eyebrow: "Recommended Use Cases",
     title: "Recommended for these visitors",
@@ -295,7 +297,7 @@ const englishCopy: DmcCopy = {
       },
     ],
     ctas: {
-      booking: "View Guide Categories",
+      booking: "See day trips",
       consult: "Contact for Consultation",
     },
   },
@@ -352,7 +354,7 @@ const japaneseCopy: DmcCopy = {
       { title: "ローカル連携サービス", description: "ホテル、飲食店、カフェ、チケット、空港アクセスなどのパートナーをひとつの構造でつなぎます。" },
     ],
   },
-  catalogViewAll: "カタログをすべて見る",
+  catalogViewAll: "日帰り旅行を見る",
   useCases: {
     eyebrow: "おすすめの対象",
     title: "このような訪問者におすすめします",
@@ -372,7 +374,7 @@ const japaneseCopy: DmcCopy = {
       { step: "3", title: "案内を申し込む", description: "案内情報を入力してリクエストを送信します。" },
       { step: "4", title: "運営を確定", description: "日程と運営の最終調整を行います。" },
     ],
-    ctas: { booking: "案内カテゴリを見る", consult: "お問い合わせ" },
+    ctas: { booking: "日帰り旅行を見る", consult: "お問い合わせ" },
   },
   partners: {
     eyebrow: "Partner Network",
@@ -423,7 +425,7 @@ const chineseSimplifiedCopy: DmcCopy = {
       { title: "本地联动服务", description: "将酒店、餐厅、咖啡厅、票务及机场接送等高阳合作伙伴整合为一体化网络。" },
     ],
   },
-  catalogViewAll: "查看完整目录",
+  catalogViewAll: "查看一日游",
   useCases: {
     eyebrow: "推荐对象",
     title: "适合以下类型的访客",
@@ -443,7 +445,7 @@ const chineseSimplifiedCopy: DmcCopy = {
       { step: "3", title: "提交咨询", description: "填写咨询信息并发送请求。" },
       { step: "4", title: "确认运营安排", description: "最终确认日程与运营事宜。" },
     ],
-    ctas: { booking: "查看指南类别", consult: "联系咨询" },
+    ctas: { booking: "查看一日游", consult: "联系咨询" },
   },
   partners: {
     eyebrow: "Partner Network",
@@ -494,7 +496,7 @@ const chineseTraditionalCopy: DmcCopy = {
       { title: "在地聯動服務", description: "將飯店、餐廳、咖啡廳、票務及機場接送等高陽合作夥伴整合為一體化網絡。" },
     ],
   },
-  catalogViewAll: "查看完整目錄",
+  catalogViewAll: "查看一日遊",
   useCases: {
     eyebrow: "推薦對象",
     title: "適合以下類型的訪客",
@@ -514,7 +516,7 @@ const chineseTraditionalCopy: DmcCopy = {
       { step: "3", title: "提交諮詢", description: "填寫諮詢資訊並送出請求。" },
       { step: "4", title: "確認營運安排", description: "最終確認日程與營運事宜。" },
     ],
-    ctas: { booking: "查看指南類別", consult: "聯絡諮詢" },
+    ctas: { booking: "查看一日遊", consult: "聯絡諮詢" },
   },
   partners: {
     eyebrow: "Partner Network",

@@ -61,7 +61,10 @@ const VIEW_ALL: Record<WhatsOnLocale, string> = {
   "zh-TW": "查看全部 →",
 };
 
-const VIEW_ALL_HREF = "/products#section-ticket";
+// 오더 #FINAL PART B [B-1]: /products → 당일코스 재편으로 티켓 섹션 사라짐 →
+//   #section-ticket 앵커 파손. /dmc#tickets 로 재배선 (dmc 페이지에 티켓 앵커
+//   존재 여부와 무관하게 카테고리 성격상 더 자연스러운 fallback URL).
+const VIEW_ALL_HREF = "/dmc#tickets";
 
 function detailHref(type: WhatsOnEventType, slug: string): string {
   return `/whats-on/${type}/${slug}`;
