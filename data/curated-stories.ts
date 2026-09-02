@@ -74,6 +74,7 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     //   (밤가시초가·어울림누리 누리공원·아람누리 야외광장) 은 items 에서 제외.
     //   해당 스팟은 spots.ts 에 남아 SSG 경로 유지되나 목록에서는 노출 X.
     //   서오릉·서삼릉·행주산성 은 walk items 유지 + history items 에도 등재.
+    // 오더 #C8 [2]: walk +2 (원당종마목장·장항습지) 추가.
     items: [
       { id: "ilsan-lake-park", name: "일산호수공원", desc: "도심 한가운데 호수를 한 바퀴 도는 길", region: "ilsan-east" },
       { id: "jeongbalsan-park", name: "정발산근린공원", desc: "도심에서 바로 오르는 낮은 산", region: "ilsan-east" },
@@ -82,6 +83,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "seooreung", name: "서오릉", desc: "왕릉 사이로 이어지는 숲길", region: "deokyang" },
       { id: "seosamneung", name: "서삼릉", desc: "조용히 걷기 좋은 왕릉 숲", region: "deokyang" },
       { id: "haengju-fortress", name: "행주산성", desc: "한강을 내려다보며 걷는 성곽길", region: "deokyang" },
+      { id: "wondang-ranch-lets-run-farm", name: "원당종마목장 (렛츠런팜 원당)", desc: "말 목장 · 사극·CF 촬영지", region: "deokyang" },
+      { id: "janghang-wetlands", name: "장항습지", desc: "한강 하구의 습지", region: "ilsan-east" },
     ],
     // 오더 #C3 [2] · #C5 [2]: name/desc 4로케일 override. spots.ts title/subtitle 그대로.
     translations: {
@@ -93,6 +96,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "seooreung": { name: "Seooreung Royal Tombs", desc: "Forest paths between royal tombs" },
         "seosamneung": { name: "Seosamneung Royal Tombs", desc: "A quiet woodland around royal tombs" },
         "kintex-walkway": { name: "KINTEX Area Walkway", desc: "A walk between exhibition sessions" },
+        "wondang-ranch-lets-run-farm": { name: "Wondang Horse Ranch (Let's Run Farm)" },
+        "janghang-wetlands": { name: "Janghang Wetlands" },
       },
       ja: {
         "ilsan-lake-park": { name: "一山湖水公園", desc: "都心の真ん中で湖を一周する道" },
@@ -102,6 +107,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "seooreung": { name: "西五陵", desc: "王陵の間を抜ける森の道" },
         "seosamneung": { name: "西三陵", desc: "静かに歩ける王陵の森" },
         "kintex-walkway": { name: "キンテックス一帯の遊歩道", desc: "展示の合間に歩く道" },
+        "wondang-ranch-lets-run-farm": { name: "元堂種馬牧場(レッツランファーム元堂)" },
+        "janghang-wetlands": { name: "獐項湿地" },
       },
       "zh-CN": {
         "ilsan-lake-park": { name: "一山湖水公园", desc: "环绕城市中心湖泊的步道" },
@@ -111,6 +118,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "seooreung": { name: "西五陵", desc: "穿行于王陵之间的林间小路" },
         "seosamneung": { name: "西三陵", desc: "适合静静漫步的王陵林地" },
         "kintex-walkway": { name: "韩国国际展览中心一带步道", desc: "展会间隙可走的步道" },
+        "wondang-ranch-lets-run-farm": { name: "元堂种马牧场（Let's Run Farm 元堂）" },
+        "janghang-wetlands": { name: "獐项湿地" },
       },
       "zh-TW": {
         "ilsan-lake-park": { name: "一山湖水公園", desc: "環繞城市中心湖泊的步道" },
@@ -120,6 +129,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "seooreung": { name: "西五陵", desc: "穿行於王陵之間的林間小路" },
         "seosamneung": { name: "西三陵", desc: "適合靜靜漫步的王陵林地" },
         "kintex-walkway": { name: "韓國國際展覽中心一帶步道", desc: "展會間隙可走的步道" },
+        "wondang-ranch-lets-run-farm": { name: "元堂種馬牧場（Let's Run Farm 元堂）" },
+        "janghang-wetlands": { name: "獐項濕地" },
       },
     },
   },
@@ -356,11 +367,16 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
   //   bamgasi-thatched-house (spot.category=walk 유지, curated 는 history 등재).
   history: {
     category: "history",
+    // 오더 #C8 [2]: history +4 (행주산성 역사공원·흥국사·북한산성·고양 공양왕릉).
     items: [
       { id: "seooreung", name: "서오릉", desc: "왕릉 사이로 이어지는 숲길", region: "deokyang" },
       { id: "seosamneung", name: "서삼릉", desc: "조용히 걷기 좋은 왕릉 숲", region: "deokyang" },
       { id: "haengju-fortress", name: "행주산성", desc: "한강을 내려다보며 걷는 성곽길", region: "deokyang" },
       { id: "bamgasi-thatched-house", name: "고양 밤가시초가", desc: "신도시 한가운데 남은 옛집", region: "ilsan-east" },
+      { id: "haengju-historical-park", name: "행주산성 역사공원", desc: "행주산성과 이어지는 역사 공원", region: "deokyang" },
+      { id: "heungguksa-goyang", name: "흥국사 (고양)", desc: "북한산 자락의 유서 깊은 사찰", region: "deokyang" },
+      { id: "bukhansanseong", name: "북한산성", desc: "고양·서울에 걸친 산성 유적", region: "deokyang" },
+      { id: "gongyang-royal-tomb", name: "고양 공양왕릉", desc: "고려 마지막 왕이 잠든 곳", region: "deokyang" },
     ],
     translations: {
       en: {
@@ -368,51 +384,78 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "seosamneung": { name: "Seosamneung Royal Tombs", desc: "A quiet woodland around royal tombs" },
         "haengju-fortress": { name: "Haengju Fortress", desc: "A fortress walk overlooking the Han River" },
         "bamgasi-thatched-house": { name: "Bamgasi Thatched House", desc: "An old farmhouse left in the middle of a new town" },
+        "haengju-historical-park": { name: "Haengju Historical Park" },
+        "heungguksa-goyang": { name: "Heungguksa Temple (Goyang)" },
+        "bukhansanseong": { name: "Bukhansanseong Fortress" },
+        "gongyang-royal-tomb": { name: "King Gongyang's Tomb (Goyang)" },
       },
       ja: {
         "seooreung": { name: "西五陵", desc: "王陵の間を抜ける森の道" },
         "seosamneung": { name: "西三陵", desc: "静かに歩ける王陵の森" },
         "haengju-fortress": { name: "幸州山城", desc: "漢江を見下ろしながら歩く城郭の道" },
         "bamgasi-thatched-house": { name: "高陽 バムガシ草家", desc: "新都市の真ん中に残る古い家" },
+        "haengju-historical-park": { name: "幸州山城歴史公園" },
+        "heungguksa-goyang": { name: "興国寺(高陽)" },
+        "bukhansanseong": { name: "北漢山城" },
+        "gongyang-royal-tomb": { name: "高陽 恭譲王陵" },
       },
       "zh-CN": {
         "seooreung": { name: "西五陵", desc: "穿行于王陵之间的林间小路" },
         "seosamneung": { name: "西三陵", desc: "适合静静漫步的王陵林地" },
         "haengju-fortress": { name: "幸州山城", desc: "俯瞰汉江的城郭步道" },
         "bamgasi-thatched-house": { name: "高阳栗刺草屋", desc: "留存于新城中心的老宅" },
+        "haengju-historical-park": { name: "幸州山城历史公园" },
+        "heungguksa-goyang": { name: "兴国寺 (高阳)" },
+        "bukhansanseong": { name: "北汉山城" },
+        "gongyang-royal-tomb": { name: "高阳 恭让王陵" },
       },
       "zh-TW": {
         "seooreung": { name: "西五陵", desc: "穿行於王陵之間的林間小路" },
         "seosamneung": { name: "西三陵", desc: "適合靜靜漫步的王陵林地" },
         "haengju-fortress": { name: "幸州山城", desc: "俯瞰漢江的城郭步道" },
         "bamgasi-thatched-house": { name: "高陽栗刺草屋", desc: "留存於新城中心的老宅" },
+        "haengju-historical-park": { name: "幸州山城歷史公園" },
+        "heungguksa-goyang": { name: "興國寺 (高陽)" },
+        "bukhansanseong": { name: "北漢山城" },
+        "gongyang-royal-tomb": { name: "高陽 恭讓王陵" },
       },
     },
   },
 
   // 오더 #C8 [2][3]: family 2. onemount(kculture 도 등재) · kintex-walkway(walk 도 등재).
+  //   #C8 [2] family +2 추가: 아쿠아플라넷 일산 · 일산 어린이천문대.
   family: {
     category: "family",
     items: [
       { id: "onemount", name: "원마운트", desc: "스노우파크와 워터파크가 있는 복합시설", region: "ilsan-west" },
       { id: "kintex-walkway", name: "킨텍스 일대 산책로", desc: "전시 일정 사이에 걷는 길", region: "ilsan-west" },
+      { id: "aquaplanet-ilsan", name: "아쿠아플라넷 일산", desc: "한류월드 안 실내 수족관", region: "ilsan-west" },
+      { id: "ilsan-childrens-observatory", name: "일산 어린이천문대", desc: "천체 관측 체험 시설", region: "ilsan-east" },
     ],
     translations: {
       en: {
         "onemount": { name: "One Mount", desc: "A complex with snow and water parks" },
         "kintex-walkway": { name: "KINTEX Area Walkway", desc: "A walk between exhibition sessions" },
+        "aquaplanet-ilsan": { name: "Aqua Planet Ilsan" },
+        "ilsan-childrens-observatory": { name: "Ilsan Children's Observatory" },
       },
       ja: {
         "onemount": { name: "ワンマウント", desc: "スノーパークとウォーターパークのある複合施設" },
         "kintex-walkway": { name: "キンテックス一帯の遊歩道", desc: "展示の合間に歩く道" },
+        "aquaplanet-ilsan": { name: "アクアプラネット一山" },
+        "ilsan-childrens-observatory": { name: "一山こども天文台" },
       },
       "zh-CN": {
         "onemount": { name: "One Mount", desc: "设有雪世界与水上乐园的综合设施" },
         "kintex-walkway": { name: "韩国国际展览中心一带步道", desc: "展会间隙可走的步道" },
+        "aquaplanet-ilsan": { name: "水族館 一山" },
+        "ilsan-childrens-observatory": { name: "一山儿童天文台" },
       },
       "zh-TW": {
         "onemount": { name: "One Mount", desc: "設有雪世界與水上樂園的綜合設施" },
         "kintex-walkway": { name: "韓國國際展覽中心一帶步道", desc: "展會間隙可走的步道" },
+        "aquaplanet-ilsan": { name: "水族館 一山" },
+        "ilsan-childrens-observatory": { name: "一山兒童天文台" },
       },
     },
   },
