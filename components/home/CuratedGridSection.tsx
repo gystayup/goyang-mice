@@ -28,6 +28,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { Emblem } from "@/components/emblem/Emblem";
 import {
   EMBLEM_COLORS,
   type EmblemCategory,
@@ -98,6 +99,12 @@ function photoSrc(cat: EmblemCategory): string {
 //   앞으로 새 카테고리 추가 시 자산 미확보면 여기 넣어 gradient 폴백으로 대체
 //   (기존 6+3 은 전량 실사진 보유).
 const CARD_PHOTO_MISSING = new Set<EmblemCategory>();
+
+// 오더 #EMB [1]: card-{cat}.jpg 이미지 자체에 배지 도안이 인쇄된 카테고리.
+//   이 3장은 이미지 안 배지로 이미 노출 중 → 오버레이 SVG 안 그림 (이중 방지).
+//   나머지 6개 카드는 <Emblem> SVG 를 이미지 블록 중앙에 오버레이하여
+//   9/9 균일 노출. 사장님 옵션 B 확정 (2026-09-02).
+const HAS_BAKED_EMBLEM = new Set<EmblemCategory>(["kculture", "history", "family"]);
 
 // 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진 priority
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
@@ -208,6 +215,24 @@ function CuratedCard({
               priority={priority}
               onError={() => setPhotoBroken(true)}
             />
+          )}
+          {/* 오더 #EMB [1]: 이미지에 배지가 인쇄돼 있지 않은 6개 카테고리에만
+              <Emblem> SVG 를 중앙 오버레이. 인쇄본 3장(kculture/history/family)
+              은 이중 방지 위해 생략. hideRibbon=true (하단 텍스트에 카테고리명
+              이미 있음). pointer-events-none 로 Link 클릭 가로채기 방지. */}
+          {!HAS_BAKED_EMBLEM.has(category) && (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            >
+              <Emblem
+                category={category}
+                size="L"
+                locale={locale}
+                hideRibbon
+                className="drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+              />
+            </div>
           )}
         </div>
 
