@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import Shell from "@/components/layout/Shell";
 import ProductDetailPage from "@/components/products/ProductDetailPage";
+import ServiceEditorialDetail from "@/components/products/ServiceEditorialDetail";
 import { getProductById } from "@/data/products";
 import { readServiceCatalog } from "@/lib/service-catalog-db";
 import { getLocalizedServiceItem } from "@/lib/service-catalog-i18n";
@@ -96,22 +97,22 @@ export default async function ProductDetailServerPage(props: {
     );
   }
 
-  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일/공항픽업/메디컬)
-  const showcaseCategories = new Set([
+  // 서비스 카탈로그 상세 (투어/숙박/음식점/라이프스타일/공항픽업).
+  // 오더 #P1 [1][2]: 판매 UI 제거 · 소개형(Editorial) 전용 렌더로 대체.
+  //   verified 필터 완화 — 시드 18건 모두 상세 진입 허용. medical 은 별도 흐름 유지.
+  const editorialCategories = new Set([
     "tour",
     "stay",
     "restaurant",
     "cafe",
     "airport",
-    "medical",
   ]);
-  if (showcaseCategories.has(product.categoryKey) && itemId) {
+  if (editorialCategories.has(product.categoryKey) && itemId) {
     let catalogItem;
     try {
       const catalog = await readServiceCatalog();
-      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport" | "medical";
-      // 오더 #H1 [2]: verified === true 인 항목만 상세 진입 허용. 미검증은 undefined 반환 → 아래 "찾을 수 없음" 처리.
-      catalogItem = catalog[catKey]?.find((i) => i.id === itemId && i.verified === true);
+      const catKey = product.categoryKey as "tour" | "stay" | "restaurant" | "cafe" | "airport";
+      catalogItem = catalog[catKey]?.find((i) => i.id === itemId);
     } catch {
       // ignore
     }
@@ -131,8 +132,40 @@ export default async function ProductDetailServerPage(props: {
       );
     }
 
-    const reservationUrl = `/products/${product.id}/reservation?item=${itemId}`;
+    return (
+      <Shell>
+        <ServiceEditorialDetail
+          item={catalogItem}
+          categoryLabel={CATEGORY_LABELS[product.categoryKey] ?? product.categoryKey}
+          backUrl="/products"
+          locale={locale as "ko" | "en" | "ja" | "zh-CN" | "zh-TW"}
+        />
+      </Shell>
+    );
+  }
 
+  // 메디컬 상세 (오더 #P1 [5] 무접촉) — 기존 판매 UI 경로 유지, verified 필터 유지.
+  if (product.categoryKey === "medical" && itemId) {
+    let catalogItem;
+    try {
+      const catalog = await readServiceCatalog();
+      catalogItem = catalog.medical?.find((i) => i.id === itemId && i.verified === true);
+    } catch {
+      // ignore
+    }
+    if (catalogItem) {
+      catalogItem = getLocalizedServiceItem(catalogItem, locale);
+    }
+    if (!catalogItem) {
+      return (
+        <Shell>
+          <div className="mx-auto max-w-7xl px-6 py-20 text-center">
+            <h1 className="text-2xl font-black text-slate-950">상품을 찾을 수 없습니다.</h1>
+          </div>
+        </Shell>
+      );
+    }
+    const reservationUrl = `/products/${product.id}/reservation?item=${itemId}`;
     return (
       <Shell>
         <ProductDetailPage

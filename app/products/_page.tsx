@@ -439,12 +439,17 @@ export default async function ProductsPage({ locale = "ko" }: { locale?: PageLoc
   const items: UnifiedItem[] = [];
 
   // 서비스 카탈로그 아이템 (투어/숙박/음식점/라이프스타일/공항픽업) — locale 적용.
-  // 오더 #H1 [2]: verified === true 인 실 계약 업체만 카드로 노출.
-  // 시드 19건은 verified 미설정 → false → 여기서 전부 걸러진다. admin 무접촉.
+  // 오더 #P1 [3]: 판매→에디토리얼 전환에 따라 verified 필터를 완화.
+  //   투어/숙박/음식점/라이프스타일/공항픽업 18건 전부 소개 카드로 노출.
+  //   메디컬은 별도 흐름(MEDICAL_STATIC_ITEMS)에서 처리 (여기서는 스킵).
+  //   가격·예약옵션·취소환불 UI 는 SectionedBookingGrid 에서 non-ticket 카드에는
+  //   이미 렌더 안 함 (line 322 조건). 이 페이지에서 추가 판매 요소 노출 없음.
+  //   데이터의 verified 필드는 삭제하지 않음 — admin 무접촉.
   for (const [cat, catItems] of Object.entries(catalog)) {
     const category = cat as ServiceCatalogCategory;
+    if (category === "medical") continue; // 메디컬 3건은 MEDICAL_STATIC_ITEMS 흐름에서 처리 (오더 [5] 무접촉).
     const productId = CATEGORY_PRODUCT_IDS[category];
-    for (const rawItem of catItems.filter((it) => it.verified === true)) {
+    for (const rawItem of catItems) {
       const item = getLocalizedServiceItem(rawItem, locale);
       // 모든 카테고리 카드는 상세 페이지로 이동 → 상세에서 예약 CTA로 이동하는 플로우 통일
       const reservationUrl = `/products/${productId}/detail?item=${item.id}`;
