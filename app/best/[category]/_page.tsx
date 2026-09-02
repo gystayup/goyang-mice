@@ -376,8 +376,10 @@ function BestListCard({
   return <div className="group block">{inner}</div>;
 }
 
-// ─── 오더 #E2 [2]: GOYANG IN 10 STORIES — /best/history 상단 ────────────
-// open:null 챕터는 렌더 X (렌더 규칙 유지). 이미지·포스터·배우명 없음.
+// ─── 오더 #E2 [2] · #H2 [2]: GOYANG IN 10 STORIES — /best/history 상단 ─────
+// open:null 챕터는 렌더 X (렌더 규칙 유지). 포스터·배우명 없음.
+// #H2: 상단 hero_image (있으면) + 각 챕터 body 아래 인라인 image (있으면).
+//   값이 비어 있으면 아무것도 렌더 안 함 — 빈 자리·깨짐 없어야 함.
 function HistoryStoriesSection({ locale }: { locale: PageLocale }) {
   const visible = historyStories.filter((c) => c.open !== null);
   return (
@@ -391,6 +393,24 @@ function HistoryStoriesSection({ locale }: { locale: PageLocale }) {
       <p className="mt-3 max-w-3xl text-base leading-relaxed text-[#232322]/85">
         {historyHeader.lead[locale]}
       </p>
+      {historyHeader.hero_image && (
+        <figure className="mt-6">
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-100">
+            <Image
+              src={historyHeader.hero_image}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+            />
+          </div>
+          {historyHeader.hero_image_credit && (
+            <figcaption className="mt-2 text-[11px] text-[#232322]/55">
+              {historyHeader.hero_image_credit}
+            </figcaption>
+          )}
+        </figure>
+      )}
       <div className="mt-8 space-y-8">
         {visible.map((c, i) => (
           <article key={i} className="border-l-2 border-[#D4AF37] pl-4">
@@ -407,6 +427,24 @@ function HistoryStoriesSection({ locale }: { locale: PageLocale }) {
             <p className="mt-3 text-sm leading-relaxed text-[#232322]/85">
               {c.body[locale]}
             </p>
+            {c.image && (
+              <figure className="mt-4">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100 sm:aspect-[16/9]">
+                  <Image
+                    src={c.image}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 720px"
+                  />
+                </div>
+                {c.image_credit && (
+                  <figcaption className="mt-2 text-[11px] text-[#232322]/55">
+                    {c.image_credit}
+                  </figcaption>
+                )}
+              </figure>
+            )}
           </article>
         ))}
       </div>
