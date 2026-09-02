@@ -99,11 +99,9 @@ function photoSrc(cat: EmblemCategory): string {
 //   (기존 6+3 은 전량 실사진 보유).
 const CARD_PHOTO_MISSING = new Set<EmblemCategory>();
 
-// 오더 #EMB [1]: card-{cat}.jpg 이미지 자체에 배지 도안이 인쇄된 카테고리.
-//   이 3장은 이미지 안 배지로 이미 노출 중 → 오버레이 SVG 안 그림 (이중 방지).
-//   나머지 6개 카드는 <Emblem> SVG 를 이미지 블록 중앙에 오버레이하여
-//   9/9 균일 노출. 사장님 옵션 B 확정 (2026-09-02).
-const HAS_BAKED_EMBLEM = new Set<EmblemCategory>(["kculture", "history", "family"]);
+// 오더 #EMB3: 9장 전부 배지 합성본으로 통일 (shopping/stay/night 신규 합성본
+//   교체 완료) → 오버레이 로직 전면 해제. HAS_BAKED_EMBLEM 집합 삭제.
+//   #EMB / #EMB2 시절의 SVG·PNG 오버레이 코드는 이 파일에서 제거.
 
 // 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진 priority
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
@@ -215,28 +213,8 @@ function CuratedCard({
               onError={() => setPhotoBroken(true)}
             />
           )}
-          {/* 오더 #EMB2 [1]: 방패형 badge-{cat}.png 오버레이로 교체.
-              #EMB 의 원형 <Emblem> SVG 는 인쇄본 3장(kculture/history/family)
-              의 방패 모양과 불일치했음 → PNG 오버레이로 6장 통일.
-              HAS_BAKED_EMBLEM 3장은 이미지 인쇄본 유지 (이중 방지).
-              크기: 카드 폭 55% (인쇄본 규격 근접) · 정사각 · object-contain.
-              pointer-events-none · aria-hidden 유지. */}
-          {!HAS_BAKED_EMBLEM.has(category) && (
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            >
-              <div className="relative aspect-square w-[55%] max-w-[220px]">
-                <Image
-                  src={`/images/badges/badge-${category}.png`}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 55vw, (max-width: 1024px) 28vw, 220px"
-                  className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
-                />
-              </div>
-            </div>
-          )}
+          {/* 오더 #EMB3: 9장 전부 배지 합성본이므로 오버레이 블록 삭제.
+              배지는 card-{cat}.jpg 이미지 자체에서 노출됨 (배경 처리 통일). */}
         </div>
 
         {/* [하단 — 텍스트 블록] 레이블 + 헤드라인 + 설명 + 자세히 보기 */}
