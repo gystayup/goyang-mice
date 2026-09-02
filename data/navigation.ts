@@ -25,10 +25,12 @@ export const navigation: NavigationItem[] = [
   { key: "contact", href: "/contact" },
 ];
 
+// 오더 #FINAL PART B [B-1]: /products 를 "당일코스" 로 재편.
+//   URL 은 /products 유지 (라벨만 5로케일 갱신). 하위 라우트 무접촉.
 const koLabels: Record<NavigationKey, string> = {
   best: "고양 BEST",
   dmc: "고양 여행·체험",
-  products: "서비스 안내",
+  products: "당일코스",
   institute: "연구소 소개",
   research: "연구 분야",
   contact: "문의하기",
@@ -37,7 +39,7 @@ const koLabels: Record<NavigationKey, string> = {
 const enLabels: Record<NavigationKey, string> = {
   best: "Goyang Best",
   dmc: "Goyang Experiences",
-  products: "Services",
+  products: "Day Trips",
   institute: "About the Institute",
   research: "Research",
   contact: "Contact",
@@ -46,7 +48,7 @@ const enLabels: Record<NavigationKey, string> = {
 const jaLabels: Record<NavigationKey, string> = {
   best: "高陽ベスト",
   dmc: "高陽の旅・体験",
-  products: "サービス案内",
+  products: "日帰り旅行",
   institute: "研究所紹介",
   research: "研究分野",
   contact: "お問い合わせ",
@@ -55,7 +57,7 @@ const jaLabels: Record<NavigationKey, string> = {
 const zhCNLabels: Record<NavigationKey, string> = {
   best: "高阳精选",
   dmc: "高阳旅行·体验",
-  products: "服务指南",
+  products: "一日游",
   institute: "研究所介绍",
   research: "研究领域",
   contact: "联系我们",
@@ -64,7 +66,7 @@ const zhCNLabels: Record<NavigationKey, string> = {
 const zhTWLabels: Record<NavigationKey, string> = {
   best: "高陽精選",
   dmc: "高陽旅行·體驗",
-  products: "服務指南",
+  products: "一日遊",
   institute: "研究所介紹",
   research: "研究領域",
   contact: "聯絡我們",

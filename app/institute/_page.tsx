@@ -40,7 +40,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["文化・観光・MICEをつなぐ戦略研究", "ローカルライフスタイル基盤のコンテンツ・プログラム企画", "訪問者ジャーニー設計と地域産業連携", "DMCサービス提案と現場運営構造設計"],
       },
       ctas: { research: "研究分野を見る", contact: "お問い合わせ" },
-      productsLink: "高陽の事業者・商品を見る →",
+      productsLink: "日帰り旅行を見る →",
     };
   }
 
@@ -68,7 +68,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["连接文化·旅游·MICE的战略研究", "基于在地生活方式的内容·项目策划", "访客旅程设计与地区产业联动", "DMC服务提案与现场运营结构设计"],
       },
       ctas: { research: "查看研究领域", contact: "联系我们" },
-      productsLink: "查看高阳商家·产品 →",
+      productsLink: "查看一日游 →",
     };
   }
 
@@ -96,7 +96,7 @@ function getInstituteCopy(locale: PageLocale) {
         items: ["連結文化·旅遊·MICE的策略研究", "基於在地生活風格的內容·方案規劃", "訪客旅程設計與地區產業聯動", "DMC服務提案與現場營運結構設計"],
       },
       ctas: { research: "查看研究領域", contact: "聯絡我們" },
-      productsLink: "查看高陽商家·產品 →",
+      productsLink: "查看一日遊 →",
     };
   }
 
@@ -149,7 +149,7 @@ function getInstituteCopy(locale: PageLocale) {
         research: "View Research",
         contact: "Contact Us",
       },
-      productsLink: "Browse Goyang Businesses →",
+      productsLink: "See day trips →",
     };
   }
 
@@ -201,7 +201,8 @@ function getInstituteCopy(locale: PageLocale) {
       research: "연구 분야 보기",
       contact: "문의하기",
     },
-    productsLink: "고양 업체·상품 보기 →",
+    // 오더 #FINAL PART B [B-1]: /products → 당일코스 재편에 맞춰 5로케일 갱신.
+    productsLink: "당일코스 보기 →",
   };
 }
 

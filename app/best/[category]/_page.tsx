@@ -49,9 +49,10 @@ export type PageLocale = EmblemLocale;
 // 5로케일 공통 브랜드 라벨 (영문 고정). /best 인덱스에서도 재사용 (오더 #P1-f).
 export const INSIDERS_BRAND = "GOYANG INSIDERS";
 
-// 오더 #B1 [1]: hero-{cat}.jpg 미확보 카테고리 — 실사진 별도 오더까지
-//   Next Image 대신 카테고리 컬러 그라디언트 배경. 스크림·문안 그대로.
-const HERO_IMAGE_MISSING = new Set<EmblemCategory>(["shopping", "stay", "night"]);
+// 오더 #FINAL [A]: hero-{shopping,stay,night}.jpg 실사진 배선 완료 →
+//   폴백 집합 비움. 앞으로 새 카테고리 추가 시 자산 미확보면 여기 넣어
+//   gradient 폴백으로 대체 (기존 6+3 은 전량 실사진 보유).
+const HERO_IMAGE_MISSING = new Set<EmblemCategory>();
 
 export const ALL_REGIONS_LABEL: Record<PageLocale, string> = {
   ko: "전체",
@@ -78,12 +79,14 @@ const PLACEHOLDER_SUB: Record<PageLocale, string> = {
   "zh-TW": "很快在此與您見面。",
 };
 
+// 오더 #FINAL PART B [B-1]: /products → 당일코스 재편에 맞춰 CTA 문안 5로케일 갱신.
+//   링크 target(/products) 무변경.
 const CATALOG_CTA: Record<PageLocale, string> = {
-  ko: "카탈로그 전체 보기",
-  en: "See all in the catalog",
-  ja: "カタログをすべて見る",
-  "zh-CN": "查看完整目录",
-  "zh-TW": "查看完整目錄",
+  ko: "당일코스 보기",
+  en: "See day trips",
+  ja: "日帰り旅行を見る",
+  "zh-CN": "查看一日游",
+  "zh-TW": "查看一日遊",
 };
 
 // 오더 #C4 [3]: 카드 하단 "자세히 보기" CTA.

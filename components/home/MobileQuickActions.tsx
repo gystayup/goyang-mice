@@ -3,12 +3,13 @@ import { Link } from "@/lib/navigation";
 
 type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
+// 오더 #FINAL PART B [B-1]: /products → 당일코스 재편에 맞춰 5로케일 갱신 (링크 target /products 유지).
 const copyMap: Record<LocaleKey, { bookings: string; contact: string }> = {
-  ko:    { bookings: "서비스 보기",   contact: "문의하기" },
-  en:    { bookings: "Browse Services", contact: "Contact" },
-  ja:    { bookings: "サービスを見る",  contact: "お問い合わせ" },
-  "zh-CN": { bookings: "浏览服务",   contact: "联系我们" },
-  "zh-TW": { bookings: "瀏覽服務",   contact: "聯絡我們" },
+  ko:    { bookings: "당일코스 보기",   contact: "문의하기" },
+  en:    { bookings: "See day trips",    contact: "Contact" },
+  ja:    { bookings: "日帰り旅行を見る",  contact: "お問い合わせ" },
+  "zh-CN": { bookings: "查看一日游",     contact: "联系我们" },
+  "zh-TW": { bookings: "查看一日遊",     contact: "聯絡我們" },
 };
 
 export default async function MobileQuickActions({ locale }: { locale: string }) {
