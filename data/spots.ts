@@ -904,6 +904,10 @@ export const spots: Spot[] = [
       { url: "/images/spots/haengju-fortress-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/haengju-fortress-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/haengju-fortress-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C9: Type1 확장 3장 추가 (총 6장).
+      { url: "/images/spots/haengju-fortress-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/haengju-fortress-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/haengju-fortress-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
@@ -1049,6 +1053,10 @@ export const spots: Spot[] = [
       { url: "/images/spots/seooreung-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/seooreung-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/seooreung-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C9: Type1 확장 3장 추가 (능침 다양성·정자각+능·소나무 숲길).
+      { url: "/images/spots/seooreung-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/seooreung-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/seooreung-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     nearest_station: {
       name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" },
@@ -2578,6 +2586,10 @@ export const spots: Spot[] = [
       { url: "/images/spots/eoullimnuri-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/eoullimnuri-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/eoullimnuri-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C9: Type1 확장 3장 추가 (총 6장 · 6장 전량 소진).
+      { url: "/images/spots/eoullimnuri-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/eoullimnuri-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/eoullimnuri-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     official_url: "https://www.artgy.or.kr/oulim",
     best_selected: false,
@@ -2630,6 +2642,10 @@ export const spots: Spot[] = [
       { url: "/images/spots/hyundai-motorstudio-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/hyundai-motorstudio-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/hyundai-motorstudio-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C9: Type1 확장 3장 추가 (총 6장 · 6장 전량 소진).
+      { url: "/images/spots/hyundai-motorstudio-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/hyundai-motorstudio-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/hyundai-motorstudio-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
     // 오더 #F0 [4]: TourAPI homepage.
@@ -2683,6 +2699,10 @@ export const spots: Spot[] = [
       { url: "/images/spots/latin-america-museum-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/latin-america-museum-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/latin-america-museum-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C9: Type1 확장 3장 추가 (내부 컷 · 총 6장).
+      { url: "/images/spots/latin-america-museum-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/latin-america-museum-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/latin-america-museum-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     nearest_station: { name: { ko: "버스", en: "Bus", ja: "バス", "zh-CN": "公交", "zh-TW": "公車" }, walk_min: null },
     // 오더 #F0 [4]: 공식 사이트 (TourAPI 응답 첫 URL).
@@ -4291,6 +4311,12 @@ export const spots: Spot[] = [
       { ko: "원당역 도보권", en: "Wondang Market", ja: "元堂市場", "zh-CN": "元堂市场", "zh-TW": "元堂市場" },
     ],
     adSlot: null,
+    // 오더 #C9: TourAPI Type1 상위 3장 신규 배선 (contentid 2736370).
+    gallery: [
+      { url: "/images/spots/wondang-market-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/wondang-market-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/wondang-market-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     best_selected: false,
     tourapi: { contentid: "2736370", overview_ko: "고양시에 위치한 원당시장은 오랜 역사와 전통을 자랑하며, 지역 주민들의 삶과 밀접하게 맞닿아 있는 고양시의 대표적인 전통시장이다. 현대화된 대형 마트와 쇼핑몰이 가득한 도심 속에서 옛 정취와 넉넉한 인심을 고스란히 간직한 채, 매일 활기차게 운영되는 전통시장이다. 볼거리가 많고 정겨운 분위기에 가족과 함께 방문하기에 좋은 시장이다." },
   },
@@ -4385,6 +4411,12 @@ export const spots: Spot[] = [
       { ko: "인테리어·가전 병설", en: "Ilsan Furniture District", ja: "一山家具団地", "zh-CN": "一山家具园区", "zh-TW": "一山家具園區" },
     ],
     adSlot: null,
+    // 오더 #C9: TourAPI Type1 상위 3장 신규 배선 (contentid 132509).
+    gallery: [
+      { url: "/images/spots/ilsan-furniture-district-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/ilsan-furniture-district-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/ilsan-furniture-district-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+    ],
     official_url: "https://www.ilsan-gagu.com",
     best_selected: false,
     tourapi: { contentid: "132509", overview_ko: "일산가구단지는 고양에 위치한 대형 규모의 가구단지이다. 대형 매장이 입점해 가구를 소비자와 직거래하는 방식으로 판매하기 때문에 할인된 제품이 많으며, 특정 기간에 행사가 열리기도 한다. 브랜드 가구, 디자이너 가구, 수입 가구 등 다양한 종류와 디자인의 가구들을 직접 보고 구입할 수 있다는 장점이 있다. 보다 수월하게 선택할 수 있도록 가구의 쓰임새, 놓을 위치 등을 판단하여 전문가와 상담이 가능하다.", homepage: "https://www.ilsan-gagu.com" },
