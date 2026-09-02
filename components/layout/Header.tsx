@@ -18,6 +18,10 @@ import { useState } from "react";
 import { type LocaleKey, navigation, navigationLabels, type NavigationKey } from "@/data/navigation";
 import { Link, usePathname } from "@/lib/navigation";
 import HeaderUserMenu from "@/components/layout/HeaderUserMenu";
+import {
+  CATEGORY_LABEL,
+  CURATED_CATEGORIES,
+} from "@/data/curated-categories";
 
 type HeaderCopy = {
   menuLabel: string;
@@ -146,6 +150,33 @@ export default function Header() {
                 );
               })}
             </nav>
+            {/* 오더 #B1 [1]: 모바일 메뉴 내 BEST 하위 9카테고리 (wrap 허용). */}
+            <div className="mt-3 border-t border-white/8 pt-3">
+              <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--gold)]">
+                BEST
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {CURATED_CATEGORIES.map((cat) => {
+                  const href = `/best/${cat}`;
+                  const active = pathname === href;
+                  return (
+                    <Link
+                      key={cat}
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={`inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 text-[12px] font-semibold transition ${
+                        active
+                          ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+                          : "border-white/12 text-white/80 hover:border-[var(--gold)]/40 hover:text-white"
+                      }`}
+                    >
+                      {CATEGORY_LABEL[activeLocale][cat]}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         ) : null}
 
@@ -216,8 +247,60 @@ export default function Header() {
             <HeaderUserMenu locale={activeLocale} />
           </div>
         </div>
+
+        {/* 오더 #B1 [1]: BEST 하위 9카테고리 서브줄. 드롭다운 안 함, wrap 허용.
+            데스크탑에서만 노출 (모바일 메뉴엔 별도 렌더 아래 참조).
+            navigation.ts 무변경 · CATEGORY_LABEL 재사용. */}
+        <div className="hidden lg:block">
+          <BestCategoriesSubRow
+            activeLocale={activeLocale}
+            pathname={pathname}
+          />
+        </div>
       </div>
     </header>
+  );
+}
+
+/**
+ * 오더 #B1 [1]: BEST 하위 9카테고리 서브 네비 (데스크탑 · 모바일 공용 마크업 아님 —
+ * 상위에서 감쌈). 카테고리 라벨은 data/curated-categories.ts 의 CATEGORY_LABEL 재사용.
+ * 활성 판정: pathname === `/best/{cat}` 정확 매치 (BEST 인덱스와 카테고리 상세 구분).
+ */
+function BestCategoriesSubRow({
+  activeLocale,
+  pathname,
+}: {
+  activeLocale: LocaleKey;
+  pathname: string;
+}) {
+  return (
+    <nav
+      aria-label="BEST 카테고리"
+      className="mt-1.5 flex flex-wrap items-center gap-x-1 gap-y-1 border-t border-white/8 pt-2"
+    >
+      <span className="mr-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--gold)]">
+        BEST
+      </span>
+      {CURATED_CATEGORIES.map((cat) => {
+        const href = `/best/${cat}`;
+        const active = pathname === href;
+        return (
+          <Link
+            key={cat}
+            href={href}
+            aria-current={active ? "page" : undefined}
+            className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold transition ${
+              active
+                ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+                : "border-white/12 text-white/80 hover:border-[var(--gold)]/40 hover:text-white"
+            }`}
+          >
+            {CATEGORY_LABEL[activeLocale][cat]}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 

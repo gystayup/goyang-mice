@@ -1,10 +1,10 @@
 /**
  * 고양 BEST 엠블럼 컴포넌트 테스트
- * - 5 category × 4 size 렌더 성공
+ * - 9 category × 4 size 렌더 성공 (오더 #B1 [1] · shopping/stay/night 추가)
  * - 사이즈 축약 규칙 (S: 아크 텍스트 생략, XS: 리본 생략)
  * - 5로케일 리본 문자열 일치
  * - aria-label 조합
- * - 스냅샷 1세트
+ * - 스냅샷 1세트 (walk × L × ko — 기존 렌더 계약 유지)
  */
 
 import React from "react";
@@ -17,6 +17,7 @@ import type {
   EmblemSize,
 } from "@/components/emblem/colors";
 
+// 오더 #B1 [1]: SHOPPING·STAY·NIGHT 3종 추가 → 6→9.
 const CATEGORIES: EmblemCategory[] = [
   "walk",
   "food",
@@ -24,6 +25,9 @@ const CATEGORIES: EmblemCategory[] = [
   "kculture",
   "history",
   "family",
+  "shopping",
+  "stay",
+  "night",
 ];
 const SIZES: EmblemSize[] = ["L", "M", "S", "XS"];
 const LOCALES: EmblemLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
@@ -37,6 +41,9 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     kculture: "K컬처",
     history: "역사",
     family: "가족·체험",
+    shopping: "쇼핑",
+    stay: "숙박",
+    night: "야간",
   },
   en: {
     walk: "Walks",
@@ -45,6 +52,9 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     kculture: "K-culture",
     history: "History",
     family: "Family",
+    shopping: "Shopping",
+    stay: "Stay",
+    night: "Night",
   },
   ja: {
     walk: "さんぽ",
@@ -53,6 +63,9 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     kculture: "Kカルチャー",
     history: "歴史",
     family: "ファミリー",
+    shopping: "ショッピング",
+    stay: "宿泊",
+    night: "ナイト",
   },
   "zh-CN": {
     walk: "漫步",
@@ -61,6 +74,9 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     kculture: "K文化",
     history: "历史",
     family: "亲子",
+    shopping: "购物",
+    stay: "住宿",
+    night: "夜间",
   },
   "zh-TW": {
     walk: "漫步",
@@ -69,6 +85,9 @@ const RIBBON_EXPECTED: Record<EmblemLocale, Record<EmblemCategory, string>> = {
     kculture: "K文化",
     history: "歷史",
     family: "親子",
+    shopping: "購物",
+    stay: "住宿",
+    night: "夜間",
   },
 };
 
@@ -126,7 +145,7 @@ describe("Emblem — 사이즈 축약 규칙", () => {
   });
 });
 
-describe("Emblem — 리본 문자열 (5로케일 × 5카테고리)", () => {
+describe("Emblem — 리본 문자열 (5로케일 × 9카테고리)", () => {
   const ribbonSizes: EmblemSize[] = ["L", "M", "S"];
 
   test.each(

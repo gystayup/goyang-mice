@@ -14,7 +14,8 @@ import sharp from "sharp";
 import { writeFileSync, renameSync, statSync } from "node:fs";
 import path from "node:path";
 
-const CATS = ["walk", "food", "culture", "kculture", "history", "family"];
+// 오더 #B1 [1]: SHOPPING·STAY·NIGHT 3종 추가 → 6→9.
+const CATS = ["walk", "food", "culture", "kculture", "history", "family", "shopping", "stay", "night"];
 const DIR = "public/images/badges";
 const TARGET_SIZE = 1024;
 

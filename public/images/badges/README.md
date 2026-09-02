@@ -11,7 +11,7 @@
 - 사진 X · 배지 O → 카테고리 색 gradient 위 이미지 배지
 - 사진 X · 배지 X → gradient 위 SVG 엠블럼 (최소 폴백)
 
-## 파일명 규칙 (6종 · 정확히 이 이름)
+## 파일명 규칙 (9종 · 정확히 이 이름) — 오더 #B1 [1] 로 3종 추가
 
 | 카테고리 | 파일 경로 |
 |---|---|
@@ -21,6 +21,9 @@
 | kculture (K컬처)  | `public/images/badges/badge-kculture.png` |
 | history (역사)    | `public/images/badges/badge-history.png` |
 | family (가족·체험) | `public/images/badges/badge-family.png` |
+| shopping (쇼핑)   | `public/images/badges/badge-shopping.png` |
+| stay (숙박)       | `public/images/badges/badge-stay.png` |
+| night (야간)      | `public/images/badges/badge-night.png` |
 
 ## 이미지 규격
 
@@ -31,6 +34,7 @@
 - **컬러**: sRGB · 카테고리 색 팔레트 근접 권장 (엠블럼 컬러와 문맥 통일):
   - walk `#00A651` / food `#FF7A00` / culture `#7C3AED`
   - kculture `#F5258C` / history `#1D4ED8` / family `#06B6D4`
+  - shopping `#DB2777` / stay `#0F766E` / night `#312E81` (오더 #B1)
 
 ## 배치 규격 (카드 오버레이 대응)
 

@@ -36,14 +36,15 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import {
-  type EmblemCategory,
-  type EmblemLocale,
-} from "@/components/emblem/colors";
+import { type EmblemLocale } from "@/components/emblem/colors";
 import { Link } from "@/lib/navigation";
 
 const LOCALES: EmblemLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
-const CATEGORIES: EmblemCategory[] = [
+// 오더 #B1 [1]: hero 슬라이드 자산은 walk/food/culture/kculture/history/family
+// 6개만 존재 (hero-{cat}.jpg). 신규 shopping/stay/night 는 실사진 별도 오더까지
+// 여기 로컬 상수 6개 그대로. HeroCategory 로 이 파일 안 타입을 좁힘.
+type HeroCategory = "walk" | "food" | "culture" | "kculture" | "history" | "family";
+const CATEGORIES: HeroCategory[] = [
   "walk",
   "food",
   "culture",
@@ -54,7 +55,7 @@ const CATEGORIES: EmblemCategory[] = [
 const SLIDE_DURATION_MS = 6000;
 
 /** 카테고리 짧은 로케일 라벨 (하단 프리뷰 인디케이터 용). */
-const CATEGORY_LABEL: Record<EmblemLocale, Record<EmblemCategory, string>> = {
+const CATEGORY_LABEL: Record<EmblemLocale, Record<HeroCategory, string>> = {
   ko: {
     walk: "산책",
     food: "미식",
@@ -112,7 +113,7 @@ const SLOGAN: Record<EmblemLocale, SloganPart> = {
 };
 
 /** 대형 영문 헤드라인 (모든 로케일 공통, uppercase). */
-const HEADLINE_EN: Record<EmblemCategory, string> = {
+const HEADLINE_EN: Record<HeroCategory, string> = {
   walk: "BREATHE THE CITY",
   food: "EAT LIKE A LOCAL",
   culture: "FEEL THE STAGE",
@@ -123,7 +124,7 @@ const HEADLINE_EN: Record<EmblemCategory, string> = {
 
 /** Hero 서브 문구 (5로케일 · 카테고리별). CuratedGridSection.CARD_DESC 문안 라인 일관.
  *  history/family: 서오릉·원마운트 먼저 언급, "고양일산" 브랜딩 통일. */
-const HERO_DESC: Record<EmblemLocale, Record<EmblemCategory, string>> = {
+const HERO_DESC: Record<EmblemLocale, Record<HeroCategory, string>> = {
   ko: {
     walk: "일산호수공원부터 정발산까지, 사계절 걷기 좋은 길",
     food: "일산 카페거리부터 백석 맛집까지, 놓치면 아쉬운 한 끼",
@@ -190,7 +191,7 @@ const NEXT_LABEL: Record<EmblemLocale, string> = {
 };
 
 /** Ken Burns transform-origin (카테고리마다 다른 방향). */
-const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
+const KEN_BURNS_ORIGIN: Record<HeroCategory, string> = {
   walk: "left top",
   food: "right center",
   culture: "center top",
@@ -199,10 +200,10 @@ const KEN_BURNS_ORIGIN: Record<EmblemCategory, string> = {
   family: "center bottom",
 };
 
-function photoSrc(cat: EmblemCategory) {
+function photoSrc(cat: HeroCategory) {
   return `/images/hero/hero-${cat}.jpg`;
 }
-function detailHref(cat: EmblemCategory) {
+function detailHref(cat: HeroCategory) {
   return `/best/${cat}`;
 }
 

@@ -1,8 +1,10 @@
-// 홈 BEST 6카테고리 공용 문안 · 상수 SSOT.
+// 홈 BEST 카테고리 공용 문안 · 상수 SSOT.
 // CuratedGridSection(홈)과 /best/[category] 상세 페이지 양쪽에서 import.
 //
-// EmblemCategory 는 `components/emblem/colors` 에 정의된 6종:
-//   walk / food / culture / kculture / history / family
+// 오더 #B1 [1]: 6 → 9 카테고리. SHOPPING·STAY·NIGHT 3종 추가.
+//
+// EmblemCategory 는 `components/emblem/colors` 에 정의된 9종:
+//   walk / food / culture / kculture / history / family / shopping / stay / night
 
 import type {
   EmblemCategory,
@@ -18,6 +20,10 @@ export const CURATED_CATEGORIES: EmblemCategory[] = [
   "kculture",
   "history",
   "family",
+  // 오더 #B1 [1]: 신규 3종. /best 인덱스 3×3 그리드로 자연 배치.
+  "shopping",
+  "stay",
+  "night",
 ];
 
 /** 짧은 로케일 라벨 (카드/헤더 eyebrow, 프리뷰 인디케이터 용). */
@@ -32,6 +38,9 @@ export const CATEGORY_LABEL: Record<
     kculture: "K컬처",
     history: "역사",
     family: "가족",
+    shopping: "쇼핑",
+    stay: "숙박",
+    night: "야간",
   },
   en: {
     walk: "Walks",
@@ -40,6 +49,9 @@ export const CATEGORY_LABEL: Record<
     kculture: "K-Culture",
     history: "History",
     family: "Family",
+    shopping: "Shopping",
+    stay: "Stay",
+    night: "Night",
   },
   ja: {
     walk: "散策",
@@ -48,6 +60,9 @@ export const CATEGORY_LABEL: Record<
     kculture: "K文化",
     history: "歴史",
     family: "ファミリー",
+    shopping: "ショッピング",
+    stay: "宿泊",
+    night: "ナイト",
   },
   "zh-CN": {
     walk: "散步",
@@ -56,6 +71,9 @@ export const CATEGORY_LABEL: Record<
     kculture: "K文化",
     history: "历史",
     family: "亲子",
+    shopping: "购物",
+    stay: "住宿",
+    night: "夜间",
   },
   "zh-TW": {
     walk: "散步",
@@ -64,6 +82,9 @@ export const CATEGORY_LABEL: Record<
     kculture: "K文化",
     history: "歷史",
     family: "親子",
+    shopping: "購物",
+    stay: "住宿",
+    night: "夜間",
   },
 };
 
@@ -75,6 +96,9 @@ export const CATEGORY_TAG: Record<EmblemCategory, string> = {
   kculture: "K-CULTURE",
   history: "HISTORY",
   family: "FAMILY",
+  shopping: "SHOPPING",
+  stay: "STAY",
+  night: "NIGHT",
 };
 
 /**
@@ -96,6 +120,7 @@ export const HEADLINE: Record<
 /**
  * 카테고리별 목표 항목 개수. 오더 #F0 [1] 이후 렌더 제목에는 등장하지 않지만,
  * 데이터 상한/기획 참고값으로 상수 유지 (CMS 이관 시 서버 값으로 대체).
+ * 오더 #B1 [1]: STAY 는 인벤토리 7건 전량, NIGHT 는 야간 성격 9곳 (기존 spot 재사용).
  */
 export const CARD_COUNT: Record<EmblemCategory, number> = {
   walk: 10,
@@ -104,6 +129,9 @@ export const CARD_COUNT: Record<EmblemCategory, number> = {
   kculture: 10,
   history: 10,
   family: 10,
+  shopping: 12,
+  stay: 7,
+  night: 9,
 };
 
 /** 카드/헤더 서브 설명 1문장 (5로케일). 판매 소구어 0 · 안내 톤. */
@@ -118,6 +146,9 @@ export const CARD_DESC: Record<
     kculture: "킨텍스에서 열리는 K-POP·팬 이벤트의 중심",
     history: "행주산성부터 서오릉까지, 걸으며 만나는 고양의 시간",
     family: "스타필드·원마운트, 아이와 하루가 짧은 곳",
+    shopping: "스타필드부터 원당시장까지, 고양 쇼핑 앵커",
+    stay: "킨텍스 인근부터 원흥까지, 고양의 숙박 선택지",
+    night: "호수공원 야경부터 라페스타·웨스턴돔까지, 밤에도 이어지는 고양",
   },
   en: {
     walk: "From Ilsan Lake Park to Jeongbalsan — trails made for every season.",
@@ -126,6 +157,9 @@ export const CARD_DESC: Record<
     kculture: "KINTEX — the hub of K-POP concerts and fan events.",
     history: "From Haengju Fortress to Seooreung — Goyang's story, on foot.",
     family: "Starfield and OneMount — where a day with the kids is never long enough.",
+    shopping: "From Starfield to Wondang Market — Goyang's shopping anchors.",
+    stay: "From KINTEX to Wonheung — where to stay in Goyang.",
+    night: "From the lit-up lake park to Lafesta and Westerndom — Goyang, after dark.",
   },
   ja: {
     walk: "一山湖水公園から鼎鉢山まで、四季を通じて歩きたい道。",
@@ -134,6 +168,9 @@ export const CARD_DESC: Record<
     kculture: "KINTEXで開かれるK-POP・ファンイベントの中心地。",
     history: "幸州山城から西五陵まで、歩いて出会う高陽の時間。",
     family: "Starfield・OneMount、子どもと過ごす一日が短い場所。",
+    shopping: "スターフィールドから元堂市場まで、高陽のショッピング拠点。",
+    stay: "KINTEX近くから元興まで、高陽の宿泊選択肢。",
+    night: "湖水公園の夜景からラフェスタ・ウェスタンドームまで、高陽の夜。",
   },
   "zh-CN": {
     walk: "从一山湖水公园到鼎钵山，四季皆宜的漫步路线。",
@@ -142,6 +179,9 @@ export const CARD_DESC: Record<
     kculture: "KINTEX——K-POP与粉丝活动的中心。",
     history: "从幸州山城到西五陵，步行走进高阳的历史。",
     family: "Starfield·OneMount，与孩子共度的一天总嫌短。",
+    shopping: "从Starfield到元堂市场，高阳的购物据点。",
+    stay: "从KINTEX附近到元兴，高阳的住宿选择。",
+    night: "从湖水公园夜景到Lafesta·Westerndom，高阳的夜晚。",
   },
   "zh-TW": {
     walk: "從一山湖水公園到鼎缽山，四季皆宜的漫步路線。",
@@ -150,6 +190,9 @@ export const CARD_DESC: Record<
     kculture: "KINTEX——K-POP與粉絲活動的中心。",
     history: "從幸州山城到西五陵，步行走進高陽的歷史。",
     family: "Starfield·OneMount，與孩子共度的一天總嫌短。",
+    shopping: "從Starfield到元堂市場，高陽的購物據點。",
+    stay: "從KINTEX附近到元興，高陽的住宿選擇。",
+    night: "從湖水公園夜景到Lafesta·Westerndom，高陽的夜晚。",
   },
 };
 
@@ -167,6 +210,9 @@ export const INSIDER_TAGLINE: Record<
     kculture: "K-Culture Insider · 현장을 아는 사람의 추천",
     history: "History Insider · 행주산성부터 고양의 시간",
     family: "Family Insider · 아이와 가기 좋은 곳",
+    shopping: "Shopping Insider · 고양 쇼핑 앵커 12곳",
+    stay: "Stay Insider · KINTEX 인근부터 원흥까지",
+    night: "Night Insider · 밤에도 이어지는 고양",
   },
   en: {
     walk: "Local Insider · Where locals walk in Goyang",
@@ -175,6 +221,9 @@ export const INSIDER_TAGLINE: Record<
     kculture: "K-Culture Insider · Recommended by those who know the scene",
     history: "History Insider · Goyang's timeline, from Haengju Fortress",
     family: "Family Insider · Places to go with the kids",
+    shopping: "Shopping Insider · 12 shopping anchors across Goyang",
+    stay: "Stay Insider · From KINTEX to Wonheung",
+    night: "Night Insider · Goyang, after dark",
   },
   ja: {
     walk: "Local Insider · 高陽の散策スポットを知る人",
@@ -183,6 +232,9 @@ export const INSIDER_TAGLINE: Record<
     kculture: "K-Culture Insider · 現場を知る人の推薦",
     history: "History Insider · 幸州山城から高陽の時間",
     family: "Family Insider · 子どもと行きたい場所",
+    shopping: "Shopping Insider · 高陽ショッピング拠点12選",
+    stay: "Stay Insider · KINTEX近くから元興まで",
+    night: "Night Insider · 夜も続く高陽",
   },
   "zh-CN": {
     walk: "Local Insider · 熟悉高阳散步路线的人",
@@ -191,6 +243,9 @@ export const INSIDER_TAGLINE: Record<
     kculture: "K-Culture Insider · 熟知现场的人的推荐",
     history: "History Insider · 从幸州山城开始的高阳时间",
     family: "Family Insider · 适合带孩子去的地方",
+    shopping: "Shopping Insider · 高阳购物据点12选",
+    stay: "Stay Insider · 从KINTEX附近到元兴",
+    night: "Night Insider · 夜晚仍在延续的高阳",
   },
   "zh-TW": {
     walk: "Local Insider · 熟悉高陽散步路線的人",
@@ -199,6 +254,9 @@ export const INSIDER_TAGLINE: Record<
     kculture: "K-Culture Insider · 熟知現場的人的推薦",
     history: "History Insider · 從幸州山城開始的高陽時間",
     family: "Family Insider · 適合帶孩子去的地方",
+    shopping: "Shopping Insider · 高陽購物據點12選",
+    stay: "Stay Insider · 從KINTEX附近到元興",
+    night: "Night Insider · 夜晚仍在延續的高陽",
   },
 };
 

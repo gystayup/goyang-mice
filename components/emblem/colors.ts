@@ -1,6 +1,9 @@
 // 고양 BEST 엠블럼 색상·라벨 상수 (신규 파일).
 // 기존 디자인 토큰 파일은 손대지 않고, 엠블럼 전용 상수만 여기 모음.
 // 다크모드 반전 없음 — 자체 크림 배경을 가진 독립 배지.
+//
+// 오더 #B1 [1]: SHOPPING·STAY·NIGHT 카테고리 3종 추가.
+//   외국인 방문객 수요 대응. 판매·예약 없이 소개형만.
 
 export type EmblemCategory =
   | "walk"
@@ -8,7 +11,10 @@ export type EmblemCategory =
   | "culture"
   | "kculture"
   | "history"
-  | "family";
+  | "family"
+  | "shopping"
+  | "stay"
+  | "night";
 
 export type EmblemSize = "L" | "M" | "S" | "XS";
 
@@ -22,6 +28,10 @@ export const EMBLEM_COLORS: Record<EmblemCategory | "cream", string> = {
   kculture: "#F5258C",
   history: "#1D4ED8",
   family: "#06B6D4",
+  // 오더 #B1 [1]: 신규 3색. 기존 6색과 충분한 시각 대비 유지.
+  shopping: "#DB2777", // 마젠타 계열 (family cyan 과 대비, kculture pink 보다 딥)
+  stay: "#0F766E", // 티얼 (walk green 과 명도차, 프리미엄 톤)
+  night: "#312E81", // 딥 인디고 (history blue 보다 어두워 야간 소구)
   cream: "#FFF8EF",
 } as const;
 
@@ -60,6 +70,9 @@ export const EMBLEM_RIBBON_TEXT: Record<
     kculture: "K컬처",
     history: "역사",
     family: "가족·체험",
+    shopping: "쇼핑",
+    stay: "숙박",
+    night: "야간",
   },
   en: {
     walk: "Walks",
@@ -68,6 +81,9 @@ export const EMBLEM_RIBBON_TEXT: Record<
     kculture: "K-culture",
     history: "History",
     family: "Family",
+    shopping: "Shopping",
+    stay: "Stay",
+    night: "Night",
   },
   ja: {
     walk: "さんぽ",
@@ -76,6 +92,9 @@ export const EMBLEM_RIBBON_TEXT: Record<
     kculture: "Kカルチャー",
     history: "歴史",
     family: "ファミリー",
+    shopping: "ショッピング",
+    stay: "宿泊",
+    night: "ナイト",
   },
   "zh-CN": {
     walk: "漫步",
@@ -84,6 +103,9 @@ export const EMBLEM_RIBBON_TEXT: Record<
     kculture: "K文化",
     history: "历史",
     family: "亲子",
+    shopping: "购物",
+    stay: "住宿",
+    night: "夜间",
   },
   "zh-TW": {
     walk: "漫步",
@@ -92,5 +114,8 @@ export const EMBLEM_RIBBON_TEXT: Record<
     kculture: "K文化",
     history: "歷史",
     family: "親子",
+    shopping: "購物",
+    stay: "住宿",
+    night: "夜間",
   },
 } as const;

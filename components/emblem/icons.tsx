@@ -158,6 +158,57 @@ function FamilyIcon({ color, size }: IconProps) {
   );
 }
 
+// ─── 오더 #B1 [1]: SHOPPING·STAY·NIGHT 신규 아이콘 3종 ─────────────────────
+// 정식 캐릭터 아트가 준비되면 이 세 함수만 교체하면 됨. viewBox 는 기존과
+// 동일 (0-200 좌표계), FACE_D 재사용하여 시각적 일체감 유지.
+
+/** shopping — 얼굴 + 쇼핑백 (손잡이 + 몸통) */
+function ShoppingIcon({ color, size }: IconProps) {
+  return (
+    <g {...groupProps(color, size)}>
+      <path d={FACE_D} />
+      {/* bag body (트래피즈 형태) */}
+      <path d="M 138 78 L 168 78 L 172 118 L 134 118 Z" />
+      {/* bag handle (양쪽 곡선) */}
+      <path
+        d="M 145 78 C 145 66 158 66 158 78"
+        fill="none"
+        stroke={color}
+        strokeWidth="3"
+      />
+    </g>
+  );
+}
+
+/** stay — 얼굴 + 침대 (매트리스 + 베개) */
+function StayIcon({ color, size }: IconProps) {
+  return (
+    <g {...groupProps(color, size)}>
+      <path d={FACE_D} />
+      {/* mattress base */}
+      <rect x="132" y="90" width="34" height="18" rx="3" />
+      {/* pillow */}
+      <rect x="136" y="82" width="12" height="10" rx="2" />
+      {/* bed legs (좌/우) */}
+      <rect x="132" y="108" width="4" height="8" />
+      <rect x="162" y="108" width="4" height="8" />
+    </g>
+  );
+}
+
+/** night — 얼굴 + 초승달 + 별 하나 */
+function NightIcon({ color, size }: IconProps) {
+  return (
+    <g {...groupProps(color, size)}>
+      <path d={FACE_D} />
+      {/* crescent moon (원 subtract 로 초승달 형태) */}
+      <path d="M 158 62 A 14 14 0 1 0 158 90 A 10 10 0 1 1 158 62 Z" />
+      {/* small star (4-point spark) */}
+      <path d="M 140 92 L 143 96 L 147 98 L 143 100 L 140 104 L 137 100 L 133 98 L 137 96 Z" />
+    </g>
+  );
+}
+
 export const EMBLEM_ICONS: Record<
   EmblemCategory,
   (props: IconProps) => ReactElement
@@ -168,4 +219,7 @@ export const EMBLEM_ICONS: Record<
   kculture: KcultureIcon,
   history: HistoryIcon,
   family: FamilyIcon,
+  shopping: ShoppingIcon,
+  stay: StayIcon,
+  night: NightIcon,
 };
