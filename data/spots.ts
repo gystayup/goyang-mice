@@ -1881,6 +1881,8 @@ export const spots: Spot[] = [
     access: [],
     know: [],
     ko_card: [{ name_ko: "고양어울림누리", address_ko: null }],
+    // 오더 #V2 [1] 그룹 C: 부모 스팟 eoullimnuri(cid 130549) 좌표 상속. address 는 미채움 유지.
+    map: [{ lat: 37.6484671422, lng: 126.834631829, label: "고양어울림누리 누리공원" }],
     credits: [],
     related: [],
     info: { hours: "always", duration: "30min", admission: "free", access: "wheelchair" },
@@ -1926,6 +1928,8 @@ export const spots: Spot[] = [
     access: [],
     know: [],
     ko_card: [{ name_ko: "고양아람누리", address_ko: null }],
+    // 오더 #V2 [1] 그룹 C: 부모 스팟 aramnuri(cid 254860) 좌표 상속. address 는 미채움 유지.
+    map: [{ lat: 37.660973360108, lng: 126.772797186522, label: "고양아람누리 야외광장" }],
     credits: [],
     related: [],
     info: { hours: "always", duration: "30min", admission: "free", access: "wheelchair" },
@@ -1984,6 +1988,8 @@ export const spots: Spot[] = [
     access: [],
     know: [],
     ko_card: [{ name_ko: "킨텍스", address_ko: null }],
+    // 오더 #V2 [1] 그룹 C: 부모 스팟 kintex(cid 250465) 좌표 상속. address 는 미채움 유지.
+    map: [{ lat: 37.6689357879, lng: 126.7455635138, label: "킨텍스 일대 산책로" }],
     credits: [],
     related: [],
     info: { hours: "always", duration: "30min", admission: "free", access: "wheelchair" },
@@ -2049,7 +2055,10 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    official_url: "https://www.instagram.com/lafesta_ilsan",
     best_selected: false,
+    // 오더 #V2 [1] 그룹 B: TourAPI 1144856 매칭 (기존 addr·map 유지, official+tourapi 신규).
+    tourapi: { contentid: "1144856", overview_ko: "일산신도시 중심상업용지의 보행자몰 구간 중 일부를 차지하고 있고, 의도 상으로도 명실 상부한 신도시 보행문화의 중심이다. 상업적 중심이기에 애초에 이곳은 테마 있는 보행자 몰로 활성화되기를 원했던 구간이며, 현재 일산최대의 상업지역이다. 옥외에 생긴 국내 1호의 몰개념 쇼핑 공간 라페스타는 연면적 20,000여 평, 총길이 300m 폭 28m의 보행자도로 등의 규모를 자랑한다. 이곳은 명동이나 압구정동처럼 자연발생적으로 생겨난 곳은 아니다. 일정한 계획단계를 거쳐 설계가 이루어졌으며 터를 파고 건물을 지어 탄생된 곳이다. 일산에 처음 선보인 몰 개념의 라페스타는 찾는 사람들에게 즐겁고, 재미나고, 유쾌함을 전해준다. 언제나 다양한 문화행사를 통해 단순히 쇼핑의 역할뿐만 아니라 볼거리와 먹을거리, 즐길 거리를 제공한다. 이곳의 진입 부분부터 끊어지지 않게 이어주는 동선은 시간이 가는 줄 모르게 할 뿐만 아니라, 쇼핑 중간의 지친 이들에게 휴식과 여유를 주기도 한다. 이러한 자연스러운 동선은 총 6개 동으로 나누어진 건물 상층부위에서도 조형적으로 처리된 브릿지를 통해 가능하게 되었다. 또한 300m에 걸쳐 펼쳐진 6개 동의 입면은 각각 화려한 색을 뽐내며 뷰티샵, 푸드 코트, 롯데시네마 8 개관 등 최근 멀티기능을 가진 쇼핑 공간 못지않은 시설을 가지고 있다. 아울러 라이브나 콘서트 등이 가능한 대규모 공연장도 갖추고 있어 그 어느 문화공간과 뒤처지지 않는 환경으로 꾸며져 있다. 이러한 점은 분명 기존에 알고 지내던 쇼핑·문화공간과도 크게 다를 바는 없다. 하지만 분명 다른 것은 화창한 봄날에 햇빛을 마음껏 맞으며 즐길 수 있는 쇼핑, 마치 놀이동산이라도 온 듯한 착각을 주는 다양한 행사. 또한 라페스타는 일산의 명동이라 불린다. 미국의 샌타모니카 거리나 일본의 신주쿠 거리와도 비교된다. 각종 음식점과 패션몰은 물론이고 테마카페와 대형오락실로 재미를 선사하고 피트니스센터와 뷰티클리닉으로 외모에 관심이 많은 젊은 층의 눈길을 사로잡고 있다.", homepage: "https://www.instagram.com/lafesta_ilsan" },
     // 오더 #E1 [3]: Ma City 곡에 이 장소가 언급됨. 가사 인용·이미지 금지.
     onScreen: {
       works: [
@@ -2111,6 +2120,8 @@ export const spots: Spot[] = [
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
     best_selected: false,
+    // 오더 #V2 [1] 그룹 B: TourAPI 1071954 매칭 (기존 addr·map 유지, tourapi 신규. homepage 없어 official 미채움).
+    tourapi: { contentid: "1071954", overview_ko: "경기도 일산 장항동에 위치한 '웨스턴돔(WesternDom)'은 전국적으로 보기 드문 스트리트형 쇼핑몰인 '라페스타'와 함께 일산의 대표적인 상업시설이다. 웨스턴돔은 지하 2층, 지상 10층 규모에 약 500여개의 점포가 입점해 있다. 세계 각국의 유명 식음 브랜드 매장을 비롯하여 의류/패션잡화, 화장품 매장, 아이맥스관을 갖춘 멀티플렉스 영화관 등과 그리고 고품격 섹션형 오피스타운인 웨스턴 타워로 이루어졌다. 웨스턴돔은 '현대식 전통시장'이라는 컨셉을 도입하여 시간과 테마별로 아이템을 바꿔가며 100여개의 매대를 설치하고 각종 상품을 판매한다. 또한 보행자의 동선이 쉽게 연결되도록 건물을 배치한 것이 특징이며, 고양시 미술작가들이 참여한 다양한 미술작품이 웨스턴돔 곳곳에 전시해놓았다. 야간에는 돔 구조의 천장에 형형색색의 조명을 설치해 방문객들의 눈길을 끈다. 이곳에서는 쇼핑 뿐만 아니라 넓은 광장에서 펼쳐지는 공연이나 각종 문화행사 등 다양한 볼거리와 즐길거리를 제공한다. 인근에는 롯데백화점과 홈플러스 등의 대형 유통업체와 호수공원, 미관광장, 정발산공원 등 다양한 휴식공간이 있다." },
     // 오더 #E1 [3]: Ma City 곡에 언급.
     onScreen: {
       works: [
@@ -2237,7 +2248,9 @@ export const spots: Spot[] = [
       { ko: "국밥 — 밥을 국에 말아 먹는 한국식 한 그릇 음식입니다.", en: "Gukbap — a one-bowl dish of rice served in hot soup.", ja: "クッパ — ご飯をスープに入れて食べる韓国式の一皿料理です。", "zh-CN": "汤饭 — 将米饭泡入热汤食用的韩式单碗料理。", "zh-TW": "湯飯 — 將米飯泡入熱湯食用的韓式單碗料理。" },
       { ko: "분식 — 떡볶이·순대·튀김 등 간단한 길거리 음식입니다.", en: "Bunsik — inexpensive street snacks such as tteokbokki, sundae and fritters.", ja: "粉食 — トッポッキ·スンデ·天ぷらなど手軽な屋台料理です。", "zh-CN": "粉食 — 炒年糕、血肠、炸物等简便街头小吃。", "zh-TW": "粉食 — 炒年糕、血腸、炸物等簡便街頭小吃。" },
     ],
-    ko_card: [{ name_ko: "일산 전통시장", address_ko: null }],
+    // 오더 #V2 [1] 그룹 A: TourAPI 132419 확신 매칭 (addr+map+official+tourapi 신규).
+    ko_card: [{ name_ko: "일산 전통시장", address_ko: "경기도 고양시 일산서구 일청로12번길 9 (일산동)" }],
+    map: [{ lat: 37.6856783379, lng: 126.7708393847, label: "일산 전통시장" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1h", admission: "varies", access: "partial" },
     highlights: [
@@ -2247,7 +2260,9 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "경의중앙선 일산역", en: "Ilsan Stn. (Gyeongui-Jungang)", ja: "京義中央線 一山駅", "zh-CN": "京义中央线 一山站", "zh-TW": "京義中央線 一山站" }, walk_min: null },
+    official_url: "https://www.goyang.go.kr/visitgoyang",
     best_selected: false,
+    tourapi: { contentid: "132419", overview_ko: "일산시장은 1908년 경의선 철도가 개통되고 면사무소가 일산으로 이전되면서 일산사거리를 중심으로 시장이 형성되었다. 당시 고양과 파주의 중심상권으로 호황을 누리면서 시장을 찾는 사람들에 비해 장소가 협소하여 불편을 겪다가 1956년 논을 매립하여 시장을 재편성하였으며 현재의 위치에서 3일 8일을 장날로 정하고 우시장까지 형성하는 등 번창하였다. 일산시장은 1979년 재래시장 현대화계획에 따라 당시 개별 목조건물을 철근콘크리트 복합상가 형태로 신축하여 1983년에 입주해 지금까지 이어져 오고 있다. 단순히 물건을 사고파는 시장으로서의 의미를 넘어 도심 속에서 전통 오일장의 명맥을 유지하고 있는 풍물장으로서의 민속적 가치를 지니고 있다. 일산전통시장은 백화점이나 대형마트에서도 구입하기 힘든 특색 있는 상품도 취급하고 있으며 다양한 품목에 저렴한 가격으로 판매하고 있다.", homepage: "https://www.goyang.go.kr/visitgoyang" },
   },
 
   {
@@ -2319,6 +2334,8 @@ export const spots: Spot[] = [
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
     official_url: "https://www.artgy.or.kr/",
     best_selected: false,
+    // 오더 #V2 [1] 그룹 B: TourAPI 254860 매칭 (기존 addr·map·official 유지, tourapi 만 신규).
+    tourapi: { contentid: "254860", overview_ko: "고양시 일산동구 마두동에 위치한 아람누리는 '크고 아름다운 세상'이라는 의미의 우리말이다. 2007년 5월 4일 개관한 아람누리는 오페라극장인 아람극장, 최상의 건축 음향을 자랑하는 아람음악당, 최첨단 가변형 극장 새라새극장 등 3개의 공연장으로 구성되어 있으며, 이동형 파티션을 갖춘 아람미술관, 창의적 전시공간 갤러리누리, 정발산의 울창한 숲으로 둘러싸인 노루목야외극장, 그리고 문화예술 강의시설과 카페·식당등의 편의시설이 갖추어진 아람마슬이 있다. (출처 : 고양 아람누리 홈페이지)", homepage: "http://www.artgy.or.kr" },
   },
 
   {
@@ -2338,7 +2355,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "고양어울림누리", address_ko: null }],
+    // 오더 #V2 [1] 그룹 B: TourAPI 130549 매칭 (addr+map+official+tourapi 신규).
+    ko_card: [{ name_ko: "고양어울림누리", address_ko: "경기도 고양시 덕양구 어울림로 33 (성사동)" }],
+    map: [{ lat: 37.6484671422, lng: 126.834631829, label: "고양어울림누리" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "wheelchair" },
     highlights: [
@@ -2347,7 +2366,9 @@ export const spots: Spot[] = [
       { ko: "덕양구 문화 거점", en: "The cultural hub of Deokyang", ja: "徳陽区の文化拠点", "zh-CN": "德阳区文化据点", "zh-TW": "德陽區文化據點" },
     ],
     adSlot: null,
+    official_url: "https://www.artgy.or.kr/oulim",
     best_selected: false,
+    tourapi: { contentid: "130549", overview_ko: "고양시 덕양구 성사동에 위치한 고양어울림누리는 공연장, 문화예술 교육시설, 체육시설이 어우러진 동양 최대의 복합문화예술 공간이다. 고양어울림누리를 대표하는 다목적 공연장인 어울림극장 지상 2층 규모에 총 1,290명 관객을 동시에 수용할 수 있는 대극장이다. 최첨단 무대 시스템으로 발레, 뮤지컬, 콘서트 등 다양한 장르의 대형 공연을 완벽하게 구현해 내며, 관람객에게 최적의 시야를 확보해 주기 위해 32m 이내에 모든 좌석을 배치한 것이 특징이다. 별모래극장은 소규모 공연을 위한 공간이지만 비교적 큰 무대 규모와 우수한 음향 및 조명 시스템을 갖추고 있으며, 무대를 자유롭게 변환할 수 있는 웨건이 설치되어 있어 다양한 무대 연출이 가능하다. 꽃메야외극장은 콘서트와 연극, 마당극 등 다양한 장르의 공연이 펼쳐지는 소규모 야외공연장이다. 별따기배움터 1, 2층에 위치한 어울림미술관은 제1전시실과 제2전시실로 이루어져 있는데, 회화, 공예, 사진, 설치미술 및 어린이 체험전시 등 폭넓은 장르의 기획전시와 대관전시를 함께 선보이고 있다. 지하 1층, 지상 3층 규모의 별따기배움터는 문화예술교육 및 각종 취미 강좌와 세미나를 위한 공간으로 구성되어 있다. 체계적인 교육 프로그램으로 청소년 및 가족의 건전한 여가 생활과 문화 활동을 돕는 열린 공간이다. 또한, 시민들의 생활체육과 체력증진을 위한 별무리경기장, 얼음마루, 꽃우물수영장, 몸과마음닦음터를 고양도시관리공사가 운영하고 있다.", homepage: "https://www.artgy.or.kr/oulim" },
   },
 
   {
@@ -2462,7 +2483,10 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "3호선 정발산역", en: "Jeongbalsan Stn. (Line 3)", ja: "3号線 鼎鉢山駅", "zh-CN": "3号线 鼎钵山站", "zh-TW": "3號線 鼎缽山站" }, walk_min: null },
+    official_url: "https://www.artgy.or.kr/",
     best_selected: false,
+    // 오더 #V2 [1] 그룹 B: TourAPI 2892126 매칭 (기존 addr·map 유지, official+tourapi 신규).
+    tourapi: { contentid: "2892126", overview_ko: "아람미술관은 정발산역 3번 출구에 있는 고양시립 미술관이다. 면적 1,300여 m²(400평), 높이 4m의 전시 공간을 갖추고 있으며 국내 신인 작가들을 발굴, 육성하고 세계 미술계의 경향을 국내에 소개하는 징검다리 역할을 하고 있다. 또한 회화, 사진을 비롯해 최첨단 미디어아트 전시까지 장르를 넘나드는 다양한 전시를 개최하고 있다. 주변에 아람 도서관과 공연장이 있어서 전시회 관람 후 연계해서 공연을 보거나 도서관에 들르기 좋다. 정발산역 인근에 식당과 카페도 많아서 가족 나들이 코스로도 좋다.", homepage: "https://www.artgy.or.kr/" },
   },
 
   {
@@ -2483,7 +2507,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "킨텍스", address_ko: null }],
+    // 오더 #V2 [1] 그룹 A: TourAPI 250465 확신 매칭.
+    ko_card: [{ name_ko: "킨텍스", address_ko: "경기도 고양시 일산서구 킨텍스로 217-60" }],
+    map: [{ lat: 37.6689357879, lng: 126.7455635138, label: "킨텍스" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "half_day", admission: "varies", access: "wheelchair" },
     // 오더 #E1 [3]: highlights 교체 (10홀 + 걷는 거리 + GTX).
@@ -2494,7 +2520,9 @@ export const spots: Spot[] = [
     ],
     adSlot: null,
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
+    official_url: "http://www.kintex.com",
     best_selected: false,
+    tourapi: { contentid: "250465", overview_ko: "킨텍스(KINTEX)는 대한민국 최대 규모의 국제적 전시 컨벤션 센터이다. 2005년 4월 29일 개장하였으며, 기존 국내 전시장에서 수용하기 어려웠던 대형 중량물 전시 및 이벤트 개최가 용이하게 된 것이 가장 큰 특징이다. 경기도, 고양시, 코트라 공동출자 기관인 국제 전시장으로 경제 활성화와 일자리 창출, 지역 사회 공헌에 기여하고 있다. 특히 대정부와의 긴밀한 협력체계 구축을 통해 전시 지원 산업 육성 및 첨단 전시 기술 기반 산업 유치뿐 아니라 시민 참여를 통한 지자체 문화 관광 여건 개선 등 대한민국 MICE 산업 발전을 위해 노력하고 있다.", homepage: "http://www.kintex.com" },
     // 오더 #E1 [3]: notice — 제3전시장 공사. until 확인필요 → 미설정.
     notice: {
       body: {
@@ -3261,6 +3289,8 @@ export const spots: Spot[] = [
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "inquiry" },
     highlights: [],
     adSlot: null,
+    // 오더 #V2 [1]: TourAPI homepage 를 official_url 로 승격 (렌더 CTA 노출용).
+    official_url: "https://www.instagram.com/grandmom_boogertang/",
     best_selected: false,
     tourapi: { contentid: "2891412", overview_ko: "현재는 폐역이 된 능곡역 인근에 위치한 능곡할머니북어탕은 전통의 북어탕 맛집이다. 이곳은 1대 주인장 할머니께서 젊은 시절 1970년대부터 시작하여 지금까지 50여 년이 넘은 역사를 자랑하는 식당이다. 능곡할머니북어탕의 대표메뉴는 반건조 북어 한 마리가 들어간 얼큰한 북어탕이다. 품질 좋은 반건조 북어를 비범 양념과 함께 푹 쪄내기 때문에 비린내는 없고 식감은 쫀득하다. 두부사리와 라면사리를 넣어 먹으면 더욱 맛있다. 또, 이 식당의 별미인 강원도 고랭지 배추로 담근 김치인데, 아삭하면서도 시원한 맛이 일품이다. 북어탕과 고랭지 김치는 모두 포장, 택배가 가능하다.", homepage: "https://www.instagram.com/grandmom_boogertang/" },
   },
@@ -3363,6 +3393,8 @@ export const spots: Spot[] = [
     info: { hours: "varies", duration: "1_2h", admission: "varies", access: "inquiry" },
     highlights: [],
     adSlot: null,
+    // 오더 #V2 [1]: TourAPI homepage 를 official_url 로 승격 (렌더 CTA 노출용).
+    official_url: "http://www.더누룽지.com",
     best_selected: false,
     tourapi: { contentid: "2874808", overview_ko: "더 누룽지는 경기도 고양시 덕이동, 덕이 초등학교 근처에 있는 해물누룽지탕 전문점이다. 대로변에 있어 찾기 쉽고 매장 앞에 넓은 주차장이 있어 편하게 주차할 수 있다. 깔끔하고 넓은 식당 내부에는 테이블이 간격을 두고 여유롭게 배치되어 있다. 대표 메뉴는 주꾸미, 소라살, 갑오징어, 새우등의 신선한 해산물과 제철 채소를 넣은 기본 누룽지탕과 완도와 노화도에서 직송한 전복, 키조개, 관자가 더해진 해물 가득 누룽지탕, 그리고 바다의 풍부한 향이 담긴 매생이 굴 누룽지탕이 있다. 또한 1등급 국내산 등심만을 사용해 만든 찹쌀 탕수육도 사이드 메뉴로 인기다. 기본으로 제공되는 깔끔한 밑반찬과 샐러드는 셀프 코너를 이용해 가져다 먹을 수 있다. 더 누룽지의 모든 메뉴는 포장할 수 있다.", homepage: "http://www.더누룽지.com" },
   },
@@ -3580,7 +3612,9 @@ export const spots: Spot[] = [
     },
     meta: { updated_at: "2026-09-01" },
     sections: [], access: [], know: [],
-    ko_card: [{ name_ko: "밤리단길", address_ko: null }],
+    // 오더 #V2 [1] 그룹 A: TourAPI 3018574 확신 매칭 (addr+map+tourapi 신규, homepage 없음).
+    ko_card: [{ name_ko: "밤리단길", address_ko: "경기도 고양시 일산동구 정발산동" }],
+    map: [{ lat: 37.6721, lng: 126.7841, label: "밤리단길" }],
     credits: [], related: [],
     info: { hours: "varies", duration: "1h", admission: "varies", access: "partial" },
     highlights: [
@@ -3591,6 +3625,7 @@ export const spots: Spot[] = [
     adSlot: null,
     nearest_station: { name: { ko: "3호선 마두역", en: "Madu Stn. (Line 3)", ja: "3号線 馬頭駅", "zh-CN": "3号线 马头站", "zh-TW": "3號線 馬頭站" }, walk_min: null },
     best_selected: false,
+    tourapi: { contentid: "3018574", overview_ko: "일산의 앤티크 가구거리 골목골목에는 다양한 종류의 음식점과 카페가 있는데 이곳을 밤리단길이라 부른다. 경의선 풍산역 1번 출구로 나가면 6분 거리에 있는 밤가시 마을 부근이다. 경리단길, 망리단길, 가로수길처럼 유명해진 길을 따라 음식점이나 가게, 카페 등이 생겨난 곳이다. 이곳에는 세계의 다양한 음식점과 색다른 멋을 가진 카페, 베이커리 등 사진 스폿들이 많아 설레는 마음으로 둘러볼 수 있다. 또한 밤리단길에는 예쁜 연못과 노래하는 분수대도 설치되어 있고, 그 야경도 멋지다. 밤리단길 대부분의 가게 앞에는 주차하기가 어려운 편이라 근처 공영 주차장에 주차를 하는 것이 좋다. 고즈넉한 분위기의 골목을 따라 작은 가게들이 옹기종기 모여있고, 앤티크한 분위기와 감성이 공생하는 길, 맛있는 음식점이 많은 길, 즐길 거리가 있는 길이다. 색다른 여행을 원한다면 한 번쯤 둘러보기 좋을 듯하다." },
   },
 
   {
