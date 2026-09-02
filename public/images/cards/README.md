@@ -2,7 +2,7 @@
 
 `components/home/CuratedGridSection.tsx` 가 이 폴더의 파일을 파일명 규칙으로 자동 참조합니다. 파일을 두면 즉시 반영, 없으면 카테고리 색 gradient 로 자동 폴백(빈 카드 금지).
 
-## 파일명 규칙 (6종 · 정확히 이 이름)
+## 파일명 규칙 (9종 · 정확히 이 이름) — 오더 #V7 로 3종 추가
 
 | 카테고리 | 파일 경로 |
 |---|---|
@@ -12,6 +12,9 @@
 | kculture (K컬처)  | `public/images/cards/card-kculture.jpg` |
 | history (역사)    | `public/images/cards/card-history.jpg` |
 | family (가족·체험) | `public/images/cards/card-family.jpg` |
+| shopping (쇼핑)   | `public/images/cards/card-shopping.jpg` |
+| stay (숙박)       | `public/images/cards/card-stay.jpg` |
+| night (야간)      | `public/images/cards/card-night.jpg` |
 
 ## 사진 규격
 

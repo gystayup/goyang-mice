@@ -94,9 +94,10 @@ function photoSrc(cat: EmblemCategory): string {
   return `/images/cards/card-${cat}.jpg`;
 }
 
-// 오더 #B1 [1]: 카드 이미지 미확보 카테고리 — 실사진 별도 오더까지 gradient 폴백.
-// Next Image 로 시도조차 하지 않아 SSG 시 404 로그 · 하이드레이션 불필요.
-const CARD_PHOTO_MISSING = new Set<EmblemCategory>(["shopping", "stay", "night"]);
+// 오더 #V7: card-{shopping,stay,night}.jpg 실사진 배선 완료 → 폴백 집합 비움.
+//   앞으로 새 카테고리 추가 시 자산 미확보면 여기 넣어 gradient 폴백으로 대체
+//   (기존 6+3 은 전량 실사진 보유).
+const CARD_PHOTO_MISSING = new Set<EmblemCategory>();
 
 // 상위 3장(walk/food/culture)은 above-the-fold LCP 후보 → 배경 사진 priority
 const PRIORITY_CATEGORIES = new Set<EmblemCategory>([
