@@ -18,7 +18,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle, Phone } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle, Phone, UtensilsCrossed, Coffee, Moon, Route, ExternalLink } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -332,6 +332,8 @@ export default async function SpotDetailPage({
               <WalksSection spot={spot} locale={locale} />
               <StorySection spot={spot} locale={locale} />
               <OnScreenSection spot={spot} locale={locale} />
+              {/* 오더 #C20 [1]: FOOD HUB — foodHub 값 있을 때만 렌더 (밤리단길 전용). */}
+              <FoodHubSection spot={spot} locale={locale} />
               <AroundSection spot={spot} locale={locale} />
               <HanbokSection spot={spot} locale={locale} />
               <PartnerCta spot={spot} locale={locale} />
@@ -964,6 +966,192 @@ function StorySection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
 }
 
 // ─── 오더 #E1 [3][4]: AROUND (nearby) 섹션 — 전시장에서 걸어서 등. ────────
+// ─── FOOD HUB (오더 #C20 [1]) ────────────────────────────────────────────
+// 밤리단길 전용 · foodHub 값 있을 때만 렌더 (다른 스팟은 미소비).
+//   FOOD 10 + CAFE 8 목록 + NIGHT 야경 스팟 재사용 + COURSES 2h/4h.
+//   §5-4 준수 · 개별 F&B 는 spots.ts 스팟 신설 없이 nearby 리스트로.
+//   각 항목: 상호명 + 주소 + overview 첫 문장 + 길찾기 CTA (kakao map URL).
+//   판매·예약·"예약" 표현 0.
+const FOODHUB_LABELS: Record<PageLocale, { food: string; cafe: string; night: string; courses: string; directions: string; homepage: string }> = {
+  ko: { food: "FOOD 10", cafe: "CAFE 8", night: "NIGHT", courses: "미식 코스", directions: "길찾기", homepage: "공식 사이트" },
+  en: { food: "FOOD 10", cafe: "CAFE 8", night: "NIGHT", courses: "Foodie Courses", directions: "Directions", homepage: "Official site" },
+  ja: { food: "FOOD 10", cafe: "CAFE 8", night: "NIGHT", courses: "美食コース", directions: "経路", homepage: "公式サイト" },
+  "zh-CN": { food: "FOOD 10", cafe: "CAFE 8", night: "NIGHT", courses: "美食路线", directions: "路线", homepage: "官方网站" },
+  "zh-TW": { food: "FOOD 10", cafe: "CAFE 8", night: "NIGHT", courses: "美食路線", directions: "路線", homepage: "官方網站" },
+};
+
+function kakaoMapUrl(lat: number, lng: number, name: string): string {
+  return `https://map.kakao.com/link/map/${encodeURIComponent(name)},${lat},${lng}`;
+}
+
+function FoodHubItemCard({
+  item,
+  locale,
+}: {
+  item: import("@/data/spots").SpotFoodHubItem;
+  locale: PageLocale;
+}) {
+  const labels = FOODHUB_LABELS[locale];
+  return (
+    <li className="flex h-full flex-col gap-2 border border-[#232322]/15 p-4 transition-colors hover:border-[#D4AF37]">
+      <p className="text-sm font-black leading-snug text-[#232322]">
+        {item.title[locale]}
+      </p>
+      <p className="text-[11px] leading-relaxed text-[#232322]/55">
+        {item.addr_ko}
+      </p>
+      <p className="text-xs leading-relaxed text-[#232322]/75">
+        {item.first_sentence[locale]}
+      </p>
+      <div className="mt-auto flex flex-wrap gap-2 pt-2 text-[11px] font-bold">
+        <a
+          href={kakaoMapUrl(item.lat, item.lng, item.title.ko)}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
+        >
+          <MapPin className="h-3 w-3" aria-hidden="true" />
+          {labels.directions}
+        </a>
+        {item.homepage && (
+          <a
+            href={item.homepage}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1 text-[#232322]/70 hover:text-[#D4AF37]"
+          >
+            <ExternalLink className="h-3 w-3" aria-hidden="true" />
+            {labels.homepage}
+          </a>
+        )}
+      </div>
+    </li>
+  );
+}
+
+function FoodHubSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const fh = spot.foodHub;
+  if (!fh) return null;
+  const labels = FOODHUB_LABELS[locale];
+  const nightSpots = fh.night
+    .map((n) => ({ n, s: getSpot(n.slug) }))
+    .filter((x): x is { n: (typeof fh.night)[number]; s: Spot } => x.s !== null);
+
+  // Build a map: id → item title (for course stops label).
+  const idToTitle = new Map<string, string>();
+  for (const it of [...fh.food, ...fh.cafe]) {
+    idToTitle.set(it.id, it.title[locale]);
+  }
+  // spot slug fallback (course stops may reference existing spot slugs).
+  function stopLabel(id: string): string {
+    const inHub = idToTitle.get(id);
+    if (inHub) return inHub;
+    const s = getSpot(id);
+    return s ? s.title[locale] : id;
+  }
+
+  return (
+    <section className="border-t border-[#232322]/10 pt-8">
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <UtensilsCrossed className="h-4 w-4" aria-hidden="true" />
+        <span>FOOD HUB</span>
+      </div>
+      <h3 className="mt-3 text-xl font-black leading-snug tracking-[-0.02em] sm:text-2xl">
+        {fh.headline[locale]}
+      </h3>
+      <p className="mt-2 text-base leading-relaxed text-[#232322]/85">
+        {fh.subhead[locale]}
+      </p>
+
+      {/* FOOD 10 */}
+      {fh.food.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#232322]/70">
+            <UtensilsCrossed className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>{labels.food}</span>
+          </div>
+          <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {fh.food.map((it) => (
+              <FoodHubItemCard key={it.id} item={it} locale={locale} />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* CAFE 8 */}
+      {fh.cafe.length > 0 && (
+        <div className="mt-10">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#232322]/70">
+            <Coffee className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>{labels.cafe}</span>
+          </div>
+          <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {fh.cafe.map((it) => (
+              <FoodHubItemCard key={it.id} item={it} locale={locale} />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* NIGHT — 기존 spot 재사용 */}
+      {nightSpots.length > 0 && (
+        <div className="mt-10">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#232322]/70">
+            <Moon className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>{labels.night}</span>
+          </div>
+          <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {nightSpots.map(({ n, s }) => (
+              <li key={n.slug} className="border border-[#232322]/15 p-4 hover:border-[#D4AF37]">
+                <Link href={`/dmc/${n.slug}`} className="group block">
+                  <p className="text-sm font-black leading-snug text-[#232322] group-hover:text-[#D4AF37]">
+                    {s.title[locale]}
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-[#232322]/70">
+                    {n.note[locale]}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* COURSES */}
+      {fh.courses.length > 0 && (
+        <div className="mt-10">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#232322]/70">
+            <Route className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>{labels.courses}</span>
+          </div>
+          <div className="mt-4 space-y-6">
+            {fh.courses.map((c) => (
+              <div key={c.key} className="border border-[#232322]/15 p-5">
+                <p className="text-sm font-black text-[#232322]">{c.label[locale]}</p>
+                <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#232322]/80">
+                  {c.stops.map((s, i) => (
+                    <li key={s} className="flex items-center gap-2">
+                      <span className="font-semibold">{stopLabel(s)}</span>
+                      {i < c.stops.length - 1 && (
+                        <span aria-hidden="true" className="text-[#D4AF37]">→</span>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 크레딧 */}
+      <p className="mt-8 text-[11px] italic text-[#232322]/55">
+        {fh.credit[locale]}
+      </p>
+    </section>
+  );
+}
+
 function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   const nb = spot.nearby;
   if (!nb || nb.items.length === 0) return null;
