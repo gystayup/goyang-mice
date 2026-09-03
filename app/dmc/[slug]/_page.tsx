@@ -479,17 +479,18 @@ function GalleryCrop({
   const smalls = rest.slice(0, 3);
   return (
     <>
-      {/* Desktop — 오더 #C36: grid 자체 height 명시 (aspect-[3/2] + max-h-[600px]).
-          이전에는 grid-rows-3 만 있고 rows 각 height 계산 근거가 없어 <Image fill> 부모
-          row 가 collapse → 사진 얇게 + 헤더 아래 큰 빈 공간처럼 보였다. aspect 명시로
-          grid 총 height 계산 → rows-3 균등 분할 → 대형(3행)·소형(1행) 모두 정상 렌더. */}
-      <div className="hidden sm:grid sm:aspect-[3/2] sm:max-h-[600px] sm:grid-cols-4 sm:grid-rows-3 sm:gap-2">
+      {/* Desktop — 오더 #C36 → #C38 정정. 이전 aspect-[3/2] + max-h-[600px] 조합이
+          부모 100vw 에서 aspect 재계산으로 grid width 를 900px 로 좁혀 우측 대공백을
+          유발했다 (예: 1440px 뷰포트에서 540px 공백). w-full 로 폭 강제 + 반응형 fixed
+          height (sm 420 · md 500 · lg 600) 로 grid 폭 100% 보장 · rows-3 균등 분할 ·
+          <Image fill> 부모 높이 확보. n=1 (w-full aspect-[16/9] max-h-[600px]) 과 정합. */}
+      <div className="hidden w-full sm:grid sm:h-[420px] sm:grid-cols-4 sm:grid-rows-3 sm:gap-2 md:h-[500px] lg:h-[600px]">
         <div className="relative bg-[#232322] sm:col-span-3 sm:row-span-3">
-          <Image src={hero.url} alt={title} fill className="object-cover" sizes="66vw" priority />
+          <Image src={hero.url} alt={title} fill className="object-cover" sizes="75vw" priority />
         </div>
         {smalls.map((img, i) => (
           <div key={i} className="relative bg-[#232322]">
-            <Image src={img.url} alt={title} fill className="object-cover" sizes="33vw" />
+            <Image src={img.url} alt={title} fill className="object-cover" sizes="25vw" />
           </div>
         ))}
       </div>
