@@ -165,9 +165,10 @@ export default function GettingHereSection({ locale }: { locale: string }) {
   ) as LocaleKey;
 
   return (
+    /* 홈 정합: 상하 py-16 sm:py-20 lg:py-24 통일. 내부 검은 패널 padding 은 유지. */
     <section
       id="getting-here"
-      className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14"
+      className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:py-24"
     >
       <div className="rounded-[32px] bg-[var(--charcoal)] px-6 py-10 shadow-[0_28px_70px_rgba(35,35,34,0.35)] sm:rounded-[40px] sm:px-10 sm:py-14 lg:px-14">
         {/* Header */}

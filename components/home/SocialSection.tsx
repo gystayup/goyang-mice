@@ -62,11 +62,13 @@ export default async function SocialSection({ locale }: { locale: string }) {
   if (!hasContent) return null;
 
   return (
-    <section className="bg-slate-50 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    /* 홈 정합: 상하 py-16 sm:py-20 lg:py-24, max-w-7xl, 제목 text-2xl sm:text-3xl lg:text-4xl font-black text-[#232322],
+       서브 mt-3 text-sm leading-relaxed text-slate-600 sm:text-base 통일. */
+    <section className="bg-slate-50 py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">{copy.title}</h2>
-          <p className="mt-2 text-sm text-slate-600 sm:text-base">{copy.subtitle}</p>
+          <h2 className="text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">{copy.title}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">{copy.subtitle}</p>
         </div>
         <SocialFeed />
       </div>
