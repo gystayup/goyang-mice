@@ -82,19 +82,26 @@ export default function DmcMovePage({
         </section>
 
         {/* 오더 #C21: 대곡역 교통 개념도 — 로케일 연동 SVG. 반응형 · 저작권
-            자체 제작 · 서오릉·서삼릉 유네스코 세계유산 포함본. */}
-        <section className="mx-auto max-w-4xl px-6 pb-8">
+            자체 제작 · 서오릉·서삼릉 유네스코 세계유산 포함본.
+            오더 #C24: 데스크탑 max-w-7xl(1280px) 로 상향 · 모바일 가로 스크롤
+            (min-w 900px) 로 표·역명 가독성 확보. SVG 자체 무수정 · 비율 유지. */}
+        <section className="mx-auto max-w-7xl px-2 pb-8 sm:px-6">
           <figure className="overflow-hidden rounded-2xl border border-[#232322]/10 bg-white">
-            <div className="relative w-full" style={{ aspectRatio: "16 / 10" }}>
-              <Image
-                src={transitMapSrc(active)}
-                alt={TRANSIT_MAP_ALT[active]}
-                fill
-                sizes="(max-width: 1024px) 100vw, 768px"
-                className="object-contain"
-                priority
-                unoptimized
-              />
+            <div className="overflow-x-auto">
+              <div
+                className="relative mx-auto"
+                style={{ minWidth: "900px", width: "100%", aspectRatio: "16 / 10" }}
+              >
+                <Image
+                  src={transitMapSrc(active)}
+                  alt={TRANSIT_MAP_ALT[active]}
+                  fill
+                  sizes="(max-width: 640px) 900px, (max-width: 1280px) 100vw, 1280px"
+                  className="object-contain"
+                  priority
+                  unoptimized
+                />
+              </div>
             </div>
             <figcaption className="border-t border-[#232322]/10 bg-[#faf7f2] px-4 py-3 text-[11px] leading-relaxed text-[#232322]/70 sm:text-xs">
               {TRANSIT_MAP_CAPTION[active]}
