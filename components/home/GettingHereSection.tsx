@@ -170,16 +170,18 @@ export default function GettingHereSection({ locale }: { locale: string }) {
       id="getting-here"
       className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:py-24"
     >
-      <div className="rounded-[32px] bg-[var(--charcoal)] px-6 py-10 shadow-[0_28px_70px_rgba(35,35,34,0.35)] sm:rounded-[40px] sm:px-10 sm:py-14 lg:px-14">
+      {/* 오더 #C46: 검정 카드(bg-[var(--charcoal)]) → 아이보리(#faf7f2) 로 전환.
+         텍스트 다크(#232322 / slate-600) · 카드 border-slate-200 bg-white shadow · 강조 --accent 유지. */}
+      <div className="rounded-[32px] bg-[#faf7f2] px-6 py-10 shadow-[0_10px_30px_rgba(16,32,58,0.08)] sm:rounded-[40px] sm:px-10 sm:py-14 lg:px-14">
         {/* Header */}
         <div>
           <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
             {EYEBROW}
           </div>
-          <h2 className="mt-3 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
+          <h2 className="mt-3 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
             {HEADLINE[active]}
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
             {SUB[active]}
           </p>
         </div>
@@ -196,7 +198,7 @@ export default function GettingHereSection({ locale }: { locale: string }) {
                 <Link
                   href={`/dmc/move?from=${step.from}`}
                   aria-label={label}
-                  className="group flex h-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 transition hover:border-[var(--accent)]/40 hover:bg-white/[0.08] lg:flex-col lg:items-start lg:gap-3"
+                  className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_14px_rgba(16,32,58,0.05)] transition hover:border-[var(--accent)]/40 hover:shadow-md lg:flex-col lg:items-start lg:gap-3"
                 >
                   {/* step number + right-top icon — 데스크톱은 상단 가로, 모바일은 좌측 세로 뱃지 */}
                   <div className="flex shrink-0 flex-col items-center gap-1 lg:w-full lg:flex-row lg:justify-between">
@@ -208,25 +210,25 @@ export default function GettingHereSection({ locale }: { locale: string }) {
                     </span>
                     <Icon
                       aria-hidden="true"
-                      className="hidden h-4 w-4 text-white/55 lg:inline"
+                      className="hidden h-4 w-4 text-slate-500 lg:inline"
                     />
                   </div>
 
                   {/* 모바일 전용 아이콘 (원형 뱃지 옆) */}
                   <Icon
                     aria-hidden="true"
-                    className="h-4 w-4 shrink-0 text-white/55 lg:hidden"
+                    className="h-4 w-4 shrink-0 text-slate-500 lg:hidden"
                   />
 
                   {/* 제목 + 부제 2줄 */}
                   <div className="min-w-0 flex-1">
-                    <div className="text-base font-black leading-tight text-white sm:text-lg">
+                    <div className="text-base font-black leading-tight text-[#232322] sm:text-lg">
                       {title}
                     </div>
-                    <div className="mt-1 text-[13px] leading-snug text-white/70">
+                    <div className="mt-1 text-[13px] leading-snug text-slate-600">
                       {line1}
                     </div>
-                    <div className="text-[13px] leading-snug text-white/70">
+                    <div className="text-[13px] leading-snug text-slate-600">
                       {line2}
                     </div>
                   </div>
