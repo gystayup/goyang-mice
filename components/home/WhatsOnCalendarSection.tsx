@@ -16,7 +16,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { WHATSON_CAL, pickHomeLocale, type HomeLocale } from "@/data/home-copy";
 import {
+  daysBetweenIso,
   getEventsOnDate,
+  getUpcomingEventsAfter,
   resolveEventImage,
   type WhatsOnEvent,
 } from "@/data/whats-on-events";
@@ -103,6 +105,15 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
   const selectedEvents = useMemo(
     () => (selected ? getEventsOnDate(selected) : []),
     [selected]
+  );
+
+  // 오더 #C34: 선택 날짜 이벤트 0건 시 폴백. 기준일 이후 가장 가까운 시작일 2건.
+  const upcomingEvents = useMemo(
+    () =>
+      selected && selectedEvents.length === 0
+        ? getUpcomingEventsAfter(selected, 2)
+        : [],
+    [selected, selectedEvents.length]
   );
 
   // 스크롤 컨테이너 (weekly navigation).
@@ -216,17 +227,33 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
           </button>
         </div>
 
-        {/* 선택 날짜 이벤트 카드 */}
+        {/* 선택 날짜 이벤트 카드 · 오더 #C34: 0건이면 "다가오는 행사" 폴백. */}
         <div className="mt-10 min-h-[120px]" aria-live="polite">
-          {selectedEvents.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center text-sm text-slate-500">
-              {WHATSON_CAL.emptyDate[active]}
-            </div>
-          ) : (
+          {selectedEvents.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {selectedEvents.map((ev) => (
                 <WhatsOnCard key={ev.id} event={ev} locale={active} />
               ))}
+            </div>
+          ) : upcomingEvents.length > 0 ? (
+            <div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent)]">
+                {WHATSON_CAL.comingUpLabel[active]}
+              </div>
+              <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {upcomingEvents.map((ev) => (
+                  <WhatsOnCard
+                    key={ev.id}
+                    event={ev}
+                    locale={active}
+                    dBadge={selected ? formatDBadge(selected, ev.startDate) : undefined}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center text-sm text-slate-500">
+              {WHATSON_CAL.emptyDate[active]}
             </div>
           )}
         </div>
@@ -235,12 +262,22 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
   );
 }
 
+/** 오더 #C34: 기준일 → 시작일 D-N 배지 문자열. 공백일=D-DAY, 그 외=D-N. locale 무관. */
+function formatDBadge(baseIso: string, targetIso: string): string {
+  const diff = daysBetweenIso(baseIso, targetIso);
+  if (diff <= 0) return "D-DAY";
+  return `D-${diff}`;
+}
+
 function WhatsOnCard({
   event,
   locale,
+  dBadge,
 }: {
   event: WhatsOnEvent;
   locale: HomeLocale;
+  /** 오더 #C34: "다가오는 행사" 리스트에서 카드 좌상단 D-N 배지 (예: "D-3"). */
+  dBadge?: string;
 }) {
   const image = resolveEventImage(event);
   const caption = image.captionText(locale);
@@ -263,6 +300,14 @@ function WhatsOnCard({
             image.isFallback ? "object-cover" : "object-contain"
           }`}
         />
+        {dBadge && (
+          <span
+            aria-hidden="true"
+            className="absolute left-3 top-3 inline-flex items-center rounded-full bg-[var(--accent)] px-2.5 py-1 text-[11px] font-black uppercase tracking-[0.08em] text-white shadow-[0_4px_10px_rgba(226,62,46,0.35)]"
+          >
+            {dBadge}
+          </span>
+        )}
       </div>
       {caption && (
         <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-[#232322]/50">
