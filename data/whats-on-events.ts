@@ -383,6 +383,19 @@ export function isCurrentOrUpcoming(e: WhatsOnEvent): boolean {
   return end >= todayZero;
 }
 
+/**
+ * 오더 #C14b: 특정 날짜(ISO YYYY-MM-DD) 에 진행 중인 verified 이벤트 목록.
+ * 조건: startDate ≤ iso ≤ endDate. startDate 없으면 endDate 만 비교, 둘 다 없으면 상시.
+ * WhatsOnCalendarSection 소비.
+ */
+export function getEventsOnDate(iso: string): WhatsOnEvent[] {
+  return getVisibleWhatsOnEvents().filter((e) => {
+    const start = e.startDate || "0000-00-00";
+    const end = e.endDate || "9999-99-99";
+    return iso >= start && iso <= end;
+  });
+}
+
 // ─── image fallback (오더 #P9-c) ────────────────────────────────────────────
 //
 // 원칙: 캡션은 venue 가 아니라 "실제 사용된 이미지의 피사체" 를 표기한다.

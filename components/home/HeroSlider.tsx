@@ -1,6 +1,11 @@
 // components/home/HeroSlider.tsx
 // 홈 최상단 Hero — 6 카테고리 순환 Ken Burns 슬라이더 (Time Out 폴리시).
 //
+// @deprecated 오더 #C14b 홈 개편으로 HomePageContent 에서 미소비.
+//   HeroDiscoverSection 이 배경 자산(hero-{cat}.jpg 6장)을 재사용하되
+//   본 컴포넌트는 렌더 경로에서 빠짐. 파일은 보존 (자산 계약 문서 역할).
+//   다른 소비처 없음. 재사용 시 이 주석을 제거하고 import 를 복원할 것.
+//
 // 슬라이드 6장: walk / food / culture / kculture / history / family
 //   · 배경 사진 (public/images/hero/hero-<cat>.jpg — 순수 풍경, 카드용 통짜 배지 이미지와 분리)
 //   · Ken Burns: scale 1 → 1.14, 12s ease-out infinite alternate
