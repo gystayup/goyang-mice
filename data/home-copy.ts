@@ -201,6 +201,14 @@ export const WHATSON_CAL = {
     "zh-CN": "当日暂无活动。",
     "zh-TW": "當日暫無活動。",
   } as HomeI18n,
+  // 오더 #C34: 선택 날짜 이벤트 0건 시 대체 노출용 "다가오는 행사" 섹션 라벨.
+  comingUpLabel: {
+    ko: "다가오는 행사",
+    en: "Coming Up",
+    ja: "近日開催",
+    "zh-CN": "即将举行",
+    "zh-TW": "即將舉行",
+  } as HomeI18n,
   weekdayShort: {
     // Sun-first order matching Date.getDay().
     ko: ["일", "월", "화", "수", "목", "금", "토"],

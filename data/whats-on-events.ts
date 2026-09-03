@@ -396,6 +396,31 @@ export function getEventsOnDate(iso: string): WhatsOnEvent[] {
   });
 }
 
+/**
+ * 오더 #C34: 기준 날짜(ISO YYYY-MM-DD) 이후 가장 가까운 시작일 순 verified 이벤트 상위 N개.
+ *   · 조건: startDate > iso (기준일 당일에 시작하는 것은 getEventsOnDate 가 이미 커버).
+ *   · 정렬: startDate 오름차순 (동일 시작일이면 원본 순서 유지).
+ *   · WhatsOnCalendarSection: 선택일 이벤트 0건이면 "다가오는 행사" 리스트 노출.
+ */
+export function getUpcomingEventsAfter(iso: string, limit = 2): WhatsOnEvent[] {
+  return getVisibleWhatsOnEvents()
+    .filter((e) => (e.startDate || "0000-00-00") > iso)
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
+    .slice(0, limit);
+}
+
+/**
+ * 오더 #C34: ISO 날짜 두 개 사이의 정수 일수 차이 (from < to → 양수).
+ * D-N 배지 계산용. 로컬 시간대 무시 (ISO 문자열 파싱).
+ */
+export function daysBetweenIso(fromIso: string, toIso: string): number {
+  const [fy, fm, fd] = fromIso.split("-").map(Number);
+  const [ty, tm, td] = toIso.split("-").map(Number);
+  const from = Date.UTC(fy, fm - 1, fd);
+  const to = Date.UTC(ty, tm - 1, td);
+  return Math.round((to - from) / 86_400_000);
+}
+
 // ─── image fallback (오더 #P9-c) ────────────────────────────────────────────
 //
 // 원칙: 캡션은 venue 가 아니라 "실제 사용된 이미지의 피사체" 를 표기한다.
