@@ -1,5 +1,10 @@
 // 고양 BEST 카테고리 진입부 (Time Out 리뉴얼 3차 · Section B).
 // Hero 아래, 큐레이션 그리드(Section C) 위. 6개 엠블럼 가로 배열.
+//
+// @deprecated 오더 #C14b 홈 개편으로 HomePageContent 에서 미소비.
+//   BestGridEntrySection (신규 · 9카테고리) 로 대체됨. 이 컴포넌트는 6카테고리
+//   전용 · 신규 shopping/stay/night 미포함. 파일 보존 (재사용 시 6카테고리
+//   서브셋 진입부로 유효).
 // 각 엠블럼 클릭 시 해당 카테고리 상세 라우트 /best/{cat} 로 진입 (오더 #P1).
 //
 // 오더 #A2 [1][2]: 원 안 리본 카테고리 텍스트를 원 밖으로 이동.

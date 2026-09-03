@@ -1,6 +1,11 @@
 // components/home/WhatsOnSection.tsx
 // 홈 · WHAT'S ON IN GOYANG (오더 #P9 · 데이터 오더 #P9-b · #P9-c · #P9-d).
 //
+// @deprecated 오더 #C14b 홈 개편으로 HomePageContent 에서 미소비.
+//   WhatsOnCalendarSection (신규 · 오늘부터 +30일 날짜 바 연동) 으로 대체됨.
+//   본 컴포넌트는 3행 (공연·축제·전시) 카드 그리드로, 날짜 바 UX 가 없음.
+//   파일 보존 (재사용 가능한 순수 SSR 구조 · 다른 페이지에서 활용 여지).
+//
 // 구조:
 //   섹션 헤더 (WHAT'S ON IN GOYANG · 이번 달 고양일산)
 //   3개 행: 공연 (performance) · 축제 (festival) · 전시 (exhibition)
