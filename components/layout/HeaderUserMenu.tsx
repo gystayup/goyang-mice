@@ -54,14 +54,14 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex h-8 items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-1.5 text-xs font-semibold text-white transition hover:bg-white/[0.12] md:h-9 md:gap-2 md:px-2"
+        className="inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-1.5 text-xs font-semibold text-[var(--charcoal)] transition hover:bg-slate-50 md:h-9 md:gap-2 md:px-2"
       >
-        <span className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-white/10">
+        <span className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-slate-100">
           {user?.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={user.image} alt="" className="h-full w-full object-cover" />
           ) : (
-            <User className="h-3.5 w-3.5 text-white/70" />
+            <User className="h-3.5 w-3.5 text-slate-500" />
           )}
         </span>
         <span className="hidden max-w-[90px] truncate lg:inline">
@@ -76,11 +76,11 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="absolute right-0 top-11 z-50 min-w-[180px] overflow-hidden rounded-2xl border border-white/10 bg-[var(--charcoal)] shadow-[0_12px_32px_rgba(35,35,34,0.35)]">
+          <div className="absolute right-0 top-11 z-50 min-w-[180px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
             <Link
               href="/mypage"
               onClick={() => setOpen(false)}
-              className="block px-4 py-3 text-sm font-medium text-white/85 transition hover:bg-white/[0.08] hover:text-[var(--gold)]"
+              className="block px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[var(--accent)]"
             >
               {t.mypage}
             </Link>
@@ -89,7 +89,7 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
                 setOpen(false);
                 signOut({ redirect: true, callbackUrl: `/${locale}` });
               }}
-              className="block w-full px-4 py-3 text-left text-sm font-medium text-white/85 transition hover:bg-white/[0.08] hover:text-[var(--gold)]"
+              className="block w-full px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[var(--accent)]"
             >
               {t.logout}
             </button>

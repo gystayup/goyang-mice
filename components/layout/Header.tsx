@@ -1,13 +1,14 @@
-// Header — 브랜드 리프레시 (오더 #R2). 차콜 베이스 + 골드 포인트.
+// Header — 오더 #C25 런던식 상단 리뉴얼 (흰 배경 · accent 코럴레드 언더라인).
 //
-// 로고: "GOYANG DMC" 한 줄 (5로케일 공통 영문 고정, DMC 골드 강조).
-// 네비 위계 (data/navigation.ts 5항목):
-//   · 방문객 (dmc, products)     — 밝게 (text-white)
-//   · 액션   (contact)           — 중간 (text-white/75)
-//   · 기관   (institute, research)— 어둡게 (text-white/45)
-//   · 활성 항목: 골드 밑줄 (border-b-2 border-[var(--gold)]) + 골드 텍스트
-// 로그인 CTA: HeaderUserMenu 안에서 골드 버튼.
-// 배경 색은 CSS 토큰 (var(--charcoal), var(--gold)) 사용, 하드코딩 금지.
+// 이전 (#R2): 검은 pill + 차콜 배경 + 골드 언더라인.
+// 이후 (#C25): 흰 배경 pill + 슬레이트 텍스트 위계 + accent 하단 언더라인.
+//   · 로고 "GOYANG DMC" — dot·DMC 는 accent (골드 → accent 로 포인트 이동)
+//   · 활성 메뉴 = text-[var(--accent)] + border-b-2 border-[var(--accent)]
+//   · BEST 카테고리 칩 가볍게 (슬레이트 톤 · 활성 = accent tint)
+//   · 스크롤 시 흰색 sticky 고정 (sticky top-0 유지)
+//   · 언어 버튼 · 로그인 CTA 톤은 흰 배경에 어울리게 재정렬
+//
+// 무접촉: navigation 항목 · CATEGORY_LABEL · 5로케일 copy · 스타일 외 로직.
 
 "use client";
 
@@ -64,22 +65,22 @@ const localeButtons: { locale: LocaleKey; label: string }[] = [
 const localeButtonClass =
   "inline-flex min-h-8 min-w-8 items-center justify-center rounded-full px-2.5 text-[11px] font-bold transition";
 
-/** 네비 항목별 위계 톤 결정 (오더 #R2 · #P1 로 best 추가). */
+/** 네비 항목별 위계 톤 결정 (오더 #R2 · #P1 로 best 추가 · #C25 로 흰 배경 톤 재조정). */
 function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
   if (key === "best" || key === "products" || key === "dmc") return "visitor";
   if (key === "contact") return "action";
   return "institutional"; // institute, research
 }
 
-/** 로고 텍스트 — 5로케일 공통 영문 고정. DMC 만 골드 (오더 #BRAND3). */
+/** 로고 텍스트 — 5로케일 공통 영문 고정. 오더 #C25: dot 과 DMC 를 accent 로. */
 function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
   const sizeClass =
     size === "md"
       ? "text-[10.5px] tracking-[0.3em]"
       : "text-[9px] tracking-[0.22em] md:text-[10px] md:tracking-[0.28em]";
   return (
-    <span className={`relative font-black uppercase text-white ${sizeClass}`}>
-      GOYANG <span className="text-[var(--gold)]">DMC</span>
+    <span className={`relative font-black uppercase text-[var(--charcoal)] ${sizeClass}`}>
+      GOYANG <span className="text-[var(--accent)]">DMC</span>
     </span>
   );
 }
@@ -95,14 +96,16 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 px-2 sm:px-4">
-      <div className="mx-auto max-w-7xl rounded-[28px] border border-white/10 bg-[var(--charcoal)] px-3 py-2 shadow-[0_18px_50px_rgba(35,35,34,0.35)] md:px-4 md:py-3.5 sm:px-5 lg:px-6">
+      {/* 오더 #C25: 흰 배경 · 슬레이트 보더 · 스크롤 시 자연스레 고정. */}
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-slate-200/80 bg-white px-3 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] md:px-4 md:py-3.5 sm:px-5 lg:px-6">
 
         {/* ── 모바일 헤더 ── */}
         <div className="flex items-center justify-between gap-1.5 md:gap-2 lg:hidden">
-          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 backdrop-blur-md transition-all duration-300 hover:border-[var(--gold)]/40 hover:bg-white/[0.10] md:gap-2 md:px-3.5 md:py-1.5">
+          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-slate-50 md:gap-2 md:px-3.5 md:py-1.5">
+            {/* 오더 #C25: dot 을 accent 로. */}
             <span className="relative flex h-1.5 w-1.5 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--gold)]/40" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
+              <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
             </span>
             <BrandLogo size="sm" />
           </Link>
@@ -115,34 +118,34 @@ export default function Header() {
               type="button"
               aria-label={menuOpen ? copy.closeLabel : copy.menuLabel}
               onClick={() => setMenuOpen((o) => !o)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-white transition hover:bg-white/[0.12] md:h-10 md:w-10"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--charcoal)] transition hover:bg-slate-50 md:h-10 md:w-10"
             >
               {menuOpen ? <X className="h-4 w-4 md:h-5 md:w-5" /> : <Menu className="h-4 w-4 md:h-5 md:w-5" />}
             </button>
           </div>
         </div>
 
-        {/* 모바일 메뉴 */}
+        {/* 모바일 메뉴 — 흰 배경 톤으로 통일. */}
         {menuOpen ? (
-          <div className="mt-4 rounded-[24px] border border-white/10 bg-[var(--charcoal)] p-3 lg:hidden">
+          <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3 lg:hidden">
             <nav className="grid gap-1">
               {navigation.map((item) => {
                 const active = isActive(item.href);
                 const tone = navTone(item.key);
                 const toneClass = active
-                  ? "text-[var(--gold)]"
+                  ? "text-[var(--accent)]"
                   : tone === "visitor"
-                    ? "text-white hover:text-[var(--gold)]"
+                    ? "text-[var(--charcoal)] hover:text-[var(--accent)]"
                     : tone === "action"
-                      ? "text-white/75 hover:text-[var(--gold)]"
-                      : "text-white/45 hover:text-white/85";
+                      ? "text-slate-600 hover:text-[var(--accent)]"
+                      : "text-slate-400 hover:text-slate-700";
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`inline-flex min-h-12 items-center rounded-none border-b border-white/8 px-2 py-3 text-sm font-semibold transition ${toneClass} ${
-                      active ? "border-b-2 border-[var(--gold)]" : ""
+                    className={`inline-flex min-h-12 items-center rounded-none border-b border-slate-100 px-2 py-3 text-sm font-semibold transition ${toneClass} ${
+                      active ? "border-b-2 border-[var(--accent)]" : ""
                     }`}
                   >
                     {navigationLabels[activeLocale][item.key]}
@@ -150,9 +153,9 @@ export default function Header() {
                 );
               })}
             </nav>
-            {/* 오더 #B1 [1]: 모바일 메뉴 내 BEST 하위 9카테고리 (wrap 허용). */}
-            <div className="mt-3 border-t border-white/8 pt-3">
-              <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--gold)]">
+            {/* 오더 #B1 [1]: 모바일 메뉴 내 BEST 하위 9카테고리 (wrap 허용). 오더 #C25: 흰 톤. */}
+            <div className="mt-3 border-t border-slate-100 pt-3">
+              <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
                 BEST
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -167,8 +170,8 @@ export default function Header() {
                       aria-current={active ? "page" : undefined}
                       className={`inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 text-[12px] font-semibold transition ${
                         active
-                          ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
-                          : "border-white/12 text-white/80 hover:border-[var(--gold)]/40 hover:text-white"
+                          ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]"
+                          : "border-slate-200 text-slate-700 hover:border-[var(--accent)]/40 hover:text-[var(--charcoal)]"
                       }`}
                     >
                       {CATEGORY_LABEL[activeLocale][cat]}
@@ -183,20 +186,20 @@ export default function Header() {
         {/* ── 데스크탑 헤더 ── */}
         <div className="hidden lg:grid lg:grid-cols-[minmax(0,16rem)_auto_minmax(0,1fr)_auto] lg:items-center lg:gap-4 xl:grid-cols-[minmax(0,18rem)_auto_minmax(0,1fr)_auto] xl:gap-5">
 
-          {/* 로고 (한 줄) — 오더 #BRAND4 로 하단 서브 라인 제거 */}
+          {/* 로고 (한 줄) — 오더 #C25: 흰 pill + accent dot·DMC */}
           <Link href="/" className="min-w-0 group">
-            <div className="relative inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-1.5 backdrop-blur-md transition-all duration-300 group-hover:border-[var(--gold)]/50 group-hover:bg-white/[0.10] group-hover:shadow-[0_6px_20px_rgba(212,175,55,0.15)]">
+            <div className="relative inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 transition-all duration-300 group-hover:border-[var(--accent)]/50 group-hover:bg-slate-50 group-hover:shadow-[0_6px_20px_rgba(226,62,46,0.12)]">
               <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--gold)]/40" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
+                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
               </span>
               <BrandLogo size="md" />
             </div>
           </Link>
 
-          {/* 언어 버튼 */}
+          {/* 언어 버튼 — 흰 배경 톤 */}
           <div>
-            <div className="inline-flex items-center gap-0.5 rounded-full border border-white/12 bg-white/[0.06] p-1">
+            <div className="inline-flex items-center gap-0.5 rounded-full border border-slate-200 bg-slate-50 p-1">
               {localeButtons.map(({ locale: loc, label }) => (
                 <Link
                   key={loc}
@@ -205,8 +208,8 @@ export default function Header() {
                   aria-current={activeLocale === loc ? "true" : undefined}
                   className={`${localeButtonClass} ${
                     activeLocale === loc
-                      ? "bg-[var(--gold)] text-[var(--charcoal)]"
-                      : "text-white/60 hover:bg-white/[0.10] hover:text-white"
+                      ? "bg-[var(--charcoal)] text-white"
+                      : "text-slate-500 hover:bg-white hover:text-[var(--charcoal)]"
                   }`}
                 >
                   {label}
@@ -215,25 +218,25 @@ export default function Header() {
             </div>
           </div>
 
-          {/* 네비게이션 — 방문객 밝게 · 액션 중간 · 기관 어둡게. 활성 = 골드 밑줄 + 골드 텍스트 */}
+          {/* 네비게이션 — 방문객·액션·기관 톤 위계 유지 · 활성 = accent 언더라인 + accent 텍스트 */}
           <nav className="flex flex-wrap items-center gap-x-1 gap-y-1 pt-0.5">
             {navigation.map((item) => {
               const active = isActive(item.href);
               const tone = navTone(item.key);
               const toneClass = active
-                ? "text-[var(--gold)]"
+                ? "text-[var(--accent)]"
                 : tone === "visitor"
-                  ? "text-white hover:text-[var(--gold)]"
+                  ? "text-[var(--charcoal)] hover:text-[var(--accent)]"
                   : tone === "action"
-                    ? "text-white/75 hover:text-[var(--gold)]"
-                    : "text-white/45 hover:text-white/85";
+                    ? "text-slate-600 hover:text-[var(--accent)]"
+                    : "text-slate-400 hover:text-slate-700";
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={`relative inline-flex shrink-0 items-center px-3 py-2 text-[12px] font-semibold transition xl:px-3.5 xl:text-[13px] ${toneClass} border-b-2 ${
-                    active ? "border-[var(--gold)]" : "border-transparent"
+                    active ? "border-[var(--accent)]" : "border-transparent"
                   }`}
                 >
                   {navigationLabels[activeLocale][item.key]}
@@ -248,9 +251,7 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 오더 #B1 [1]: BEST 하위 9카테고리 서브줄. 드롭다운 안 함, wrap 허용.
-            데스크탑에서만 노출 (모바일 메뉴엔 별도 렌더 아래 참조).
-            navigation.ts 무변경 · CATEGORY_LABEL 재사용. */}
+        {/* 오더 #B1 [1] + #C25: BEST 하위 9카테고리 서브줄 · 흰 배경용 라이트 톤. */}
         <div className="hidden lg:block">
           <BestCategoriesSubRow
             activeLocale={activeLocale}
@@ -263,9 +264,7 @@ export default function Header() {
 }
 
 /**
- * 오더 #B1 [1]: BEST 하위 9카테고리 서브 네비 (데스크탑 · 모바일 공용 마크업 아님 —
- * 상위에서 감쌈). 카테고리 라벨은 data/curated-categories.ts 의 CATEGORY_LABEL 재사용.
- * 활성 판정: pathname === `/best/{cat}` 정확 매치 (BEST 인덱스와 카테고리 상세 구분).
+ * 오더 #B1 [1] · #C25: BEST 하위 9카테고리 서브 네비. 흰 배경 · 슬레이트 톤 · 활성 = accent tint.
  */
 function BestCategoriesSubRow({
   activeLocale,
@@ -277,9 +276,9 @@ function BestCategoriesSubRow({
   return (
     <nav
       aria-label="BEST 카테고리"
-      className="mt-1.5 flex flex-wrap items-center gap-x-1 gap-y-1 border-t border-white/8 pt-2"
+      className="mt-1.5 flex flex-wrap items-center gap-x-1 gap-y-1 border-t border-slate-100 pt-2"
     >
-      <span className="mr-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--gold)]">
+      <span className="mr-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
         BEST
       </span>
       {CURATED_CATEGORIES.map((cat) => {
@@ -292,8 +291,8 @@ function BestCategoriesSubRow({
             aria-current={active ? "page" : undefined}
             className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold transition ${
               active
-                ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
-                : "border-white/12 text-white/80 hover:border-[var(--gold)]/40 hover:text-white"
+                ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]"
+                : "border-slate-200 text-slate-700 hover:border-[var(--accent)]/40 hover:text-[var(--charcoal)]"
             }`}
           >
             {CATEGORY_LABEL[activeLocale][cat]}
@@ -304,7 +303,7 @@ function BestCategoriesSubRow({
   );
 }
 
-// 모바일용 언어 선택기 (드롭다운)
+// 모바일용 언어 선택기 (드롭다운) — 흰 배경 톤.
 function MobileLocaleSelector({
   activeLocale,
   pathname,
@@ -320,7 +319,7 @@ function MobileLocaleSelector({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 items-center gap-1 rounded-full border border-white/12 bg-white/[0.06] px-2 text-[11px] font-bold text-white transition hover:bg-white/[0.12] md:h-10 md:gap-1.5 md:px-3 md:text-[12px]"
+        className="inline-flex h-8 items-center gap-1 rounded-full border border-slate-200 bg-white px-2 text-[11px] font-bold text-[var(--charcoal)] transition hover:bg-slate-50 md:h-10 md:gap-1.5 md:px-3 md:text-[12px]"
       >
         {current?.label ?? "KO"}
         <svg className={`h-2.5 w-2.5 transition-transform md:h-3 md:w-3 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -329,15 +328,15 @@ function MobileLocaleSelector({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 min-w-[90px] overflow-hidden rounded-[18px] border border-white/10 bg-[var(--charcoal)] shadow-[0_12px_32px_rgba(35,35,34,0.35)]">
+        <div className="absolute right-0 top-12 z-50 min-w-[90px] overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
           {localeButtons.map(({ locale: loc, label }) => (
             <Link
               key={loc}
               href={pathname}
               locale={loc}
               onClick={() => setOpen(false)}
-              className={`flex items-center justify-between px-4 py-2.5 text-[12px] font-bold transition hover:bg-white/[0.08] ${
-                activeLocale === loc ? "bg-[var(--gold)] text-[var(--charcoal)]" : "text-white/85"
+              className={`flex items-center justify-between px-4 py-2.5 text-[12px] font-bold transition hover:bg-slate-50 ${
+                activeLocale === loc ? "bg-[var(--charcoal)] text-white" : "text-slate-700"
               }`}
             >
               <span>{label}</span>
