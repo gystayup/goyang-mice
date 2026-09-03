@@ -225,29 +225,31 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
   const active = pickLocale(locale);
 
   return (
-    /* 오더 #C44: 홈 하단 다크 블록 정합 — 배경 var(--charcoal) 로 푸터와 통일. 강조색 --accent 단일. */
-    <section className="bg-[var(--charcoal)] text-white">
+    /* 오더 #C46: 하단 다크 블록을 상단 아이보리 톤 (#faf7f2) 으로 전환.
+       Mascot·Best 와 동일값. C44 이전 카드 조합 (border-slate-200 bg-white shadow) 복원.
+       강조색 --accent 유지 (C44 결과 유지). 골드 복원 안 함. */
+    <section className="bg-[#faf7f2]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
         <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
           {SECTION_EYEBROW}
         </div>
-        <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
+        <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
           {SECTION_HEADLINE[active]}
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
           {SECTION_SUBHEAD[active]}
         </p>
 
-        {/* 4개 노선 요약 — 다크 배경용 톤 재조정 (border-white/10 · bg-white/5 · text 흰 계열). */}
+        {/* 4개 노선 요약 — 아이보리 배경용 카드 (border-slate-200 bg-white shadow · C44 이전 원상). */}
         <ul className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5">
           {LINES.map((line, i) => (
             <li
               key={i}
-              className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-5"
+              className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-[0_4px_14px_rgba(16,32,58,0.05)]"
             >
               <span
                 aria-hidden="true"
-                className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/20 text-[var(--accent)]"
+                className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-[var(--accent)]"
               >
                 <IconFor kind={line.icon} />
               </span>
@@ -255,10 +257,10 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
                 <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent)]">
                   {line.code[active]}
                 </div>
-                <div className="mt-1 text-base font-black leading-snug tracking-[-0.02em] text-white sm:text-lg">
+                <div className="mt-1 text-base font-black leading-snug tracking-[-0.02em] text-[#232322] sm:text-lg">
                   {line.title[active]}
                 </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-white/70">
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
                   {line.detail[active]}
                 </p>
               </div>
@@ -266,9 +268,9 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
           ))}
         </ul>
 
-        {/* 공식 링크 — 다크 배경용 톤 재조정. */}
+        {/* 공식 링크 */}
         <div className="mt-12">
-          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/60">
+          <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">
             {OFFICIAL_LINKS_HEADLINE[active]}
           </div>
           <div className="mt-4 flex flex-wrap gap-3">
@@ -278,11 +280,11 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
                 href={l.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.05] px-5 py-3 text-sm font-bold text-white transition hover:border-[var(--accent)] hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-[#232322] shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-[var(--accent)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
                 <span>{l.label[active]}</span>
                 <ExternalLink
-                  className="h-3.5 w-3.5 text-white/60 transition-colors group-hover:text-[var(--accent)]"
+                  className="h-3.5 w-3.5 text-slate-500 transition-colors group-hover:text-[var(--accent)]"
                   aria-hidden="true"
                 />
               </a>
@@ -290,7 +292,7 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
           </div>
           <div className="mt-3 space-y-1">
             {OFFICIAL_LINKS.map((l, i) => (
-              <p key={i} className="text-[11px] text-white/60">
+              <p key={i} className="text-[11px] text-slate-500">
                 · {l.hint[active]}
               </p>
             ))}
@@ -298,7 +300,7 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
         </div>
 
         {/* 저작권 안내 */}
-        <p className="mt-8 text-[11px] italic text-white/60 sm:text-xs">
+        <p className="mt-8 text-[11px] italic text-slate-500 sm:text-xs">
           {COPYRIGHT_NOTE[active]}
         </p>
       </div>
