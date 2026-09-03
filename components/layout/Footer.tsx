@@ -178,7 +178,7 @@ export default function Footer() {
     <footer className="px-4 pb-24 pt-10 sm:px-5 lg:px-6 lg:pb-8">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[var(--charcoal)] text-white/70 shadow-[0_28px_80px_rgba(35,35,34,0.35)]">
         {/* 상단 골드 라인 (오더 #R2 브랜드 리프레시) */}
-        <div className="h-[3px] bg-[var(--gold)]" />
+        <div className="h-[3px] bg-[var(--accent)]" />
         {/* 격자 배경 */}
         <div
           className="pointer-events-none absolute inset-0 rounded-[32px] opacity-[0.03]"
@@ -186,7 +186,7 @@ export default function Footer() {
         />
         <div className="grid gap-8 px-5 py-8 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
           <div>
-            <div className="inline-flex rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[var(--charcoal)]">
+            <div className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-white">
               {copy.badge}
             </div>
             <h2 className="mt-4 text-[1.3rem] font-black leading-[1.2] tracking-[-0.04em] text-white sm:text-[1.55rem]">
@@ -196,13 +196,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--gold)]">
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
               {copy.navigate}
             </div>
             <ul className="mt-5 space-y-3">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-white/60 transition hover:text-[var(--gold)]">
+                  <Link href={item.href} className="text-sm text-white/60 transition hover:text-[var(--accent)]">
                     {navigationLabels[activeLocale][item.key]}
                   </Link>
                 </li>
@@ -272,7 +272,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-wrap gap-4">
             {policies.map((item) => (
-              <Link key={item.href} href={item.href} className="transition hover:text-[var(--gold)]">
+              <Link key={item.href} href={item.href} className="transition hover:text-[var(--accent)]">
                 {item.label}
               </Link>
             ))}
