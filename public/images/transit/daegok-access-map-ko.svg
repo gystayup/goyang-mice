@@ -1,0 +1,421 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 1300" width="1700" height="1300" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo2N2FmODIxNS1kNDdiLTRkYTEtYjk5My05M2MxZWFjY2U3MjYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaGvGcoR+BvLw0/UFafIs8EEAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo5MTU1YjEwMS00OWVmLTRiMzctYjI3NC01ZGFmYzM4OGU2ZGZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNouimY8I0L4UtyUsM9pbyA2AAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggoGVxsCCdlEANptZOKkaWGN5P81DxxhjWKa0exTL0ZKakZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaKJwVd24zcLFBZTBTsFde8EAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCCYJ5NYbCDpAyRnanFz87CSfoXJR9TvyGPlOVEZaWk/ymRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBiaZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjY3YWY4MjE1LWQ0N2ItNGRhMS1iOTkzLTkzYzFlYWNjZTcyNi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjIzOTI3ZDk4LWEwNTEtNGRjYi1iYzVkLWIxZTEzZmI5NWU2YXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCgZXGwIJ2UQA2m1k4qRpYY3k/zUPHGGNYprR7FMvRkpqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggg9lyEpJXDLXLVvZJp5VR0JcB8xt04UVYwvIujvdCtPWiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg5e8pE2ILzNKcwxTabejpjY+viknFNG3G+45UsM5OULp0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQAnKH4Zi+bIcC1s6nF6iY2FFxBCk/0g3MDk5nKZNq86ANtdgYD8v+Cskz7FRSPMSRfFpBRchS4/pY/inRMWQ9f0=</c2pa:manifest></metadata>
+<defs>
+<filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1B2540" flood-opacity="0.10"/></filter>
+<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 H0 V40" fill="none" stroke="#E6EAF1" stroke-width="1"/></pattern>
+
+</defs>
+<rect width="1700" height="1300" fill="#F7F8FB"/>
+<rect x="0" y="150" width="1700" height="810" fill="url(#grid)" opacity="0.7"/>
+<rect x="40" y="165" width="890" height="785" rx="24" fill="#EAF5F1" opacity="0.9"/>
+<rect x="950" y="165" width="710" height="785" rx="24" fill="#EEF1F7" opacity="0.9"/>
+<path d="M1000 930 C1150 900 1350 905 1660 860" fill="none" stroke="#BFD9F2" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<text x="1400" y="875" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="500" fill="#6A97C4" text-anchor="middle" >한강 Han River</text>
+<text x="60" y="78" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="40" font-weight="900" fill="#1B2540" text-anchor="start" >대곡역에서 떠나는 고양·파주·서울</text>
+<text x="60" y="112" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="400" fill="#6B7486" text-anchor="start" >GOYANG · PAJU · SEOUL ACCESS MAP  ―  Centered on Daegok Station (대곡역)   |   관광객용 개념도 · Tourist transit map, simplified</text>
+<rect x="1180" y="38" width="480" height="98" rx="14" fill="#fff" stroke="#DDE2EA" filter="url(#sh)"/>
+<path d="M1198 62 H1232" fill="none" stroke="#EF7C1C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="1242" y="66" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선  Line 3</text>
+<path d="M1438 62 H1472" fill="none" stroke="#7E57C2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="1482" y="66" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >GTX-A  Great Train eXpress</text>
+<path d="M1198 88 H1232" fill="none" stroke="#3FA98A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="1242" y="92" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >경의·중앙선  Gyeongui–Jungang</text>
+<path d="M1438 88 H1472" fill="none" stroke="#7CB518" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="1482" y="92" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >서해선  Seohae Line</text>
+<path d="M1198 114 H1232" fill="none" stroke="#1E88E5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5" opacity="1"/>
+<text x="1242" y="118" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >공항철도  AREX</text>
+<path d="M1438 114 H1472" fill="none" stroke="#00A84D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5" opacity="1"/>
+<text x="1482" y="118" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#1B2540" text-anchor="start" >2호선  Line 2 (환승)</text>
+<g transform="translate(1630,105)"><circle r="0" /></g>
+<rect x="60" y="918" width="204.0" height="26" rx="13" fill="#3FA98A"/>
+<text x="80" y="937" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#fff" text-anchor="start" >고양·파주  GOYANG &amp; PAJU</text>
+<rect x="970" y="183" width="113.8" height="26" rx="13" fill="#3B4C7A"/>
+<text x="990" y="202" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#fff" text-anchor="start" >서울  SEOUL</text>
+<text x="1630" y="195" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="end" >N ▲</text>
+<path d="M260 520 H1300 C1360 520 1400 560 1420 640 L1450 705 L1480 770 L1500 830" fill="none" stroke="#EF7C1C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1490 795 L1512 850" fill="none" stroke="#EF7C1C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1512 850 L1501.2 841.1 L1513.7 836.1 Z" fill="#EF7C1C"/>
+<text x="1520" y="858" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="500" fill="#6B7486" text-anchor="start" >교대·수서 방면</text>
+<path d="M215 440 H300 C420 440 545 508 600 520" fill="none" stroke="#7E57C2" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M600 536 H890 C1020 536 1120 620 1150 740" fill="none" stroke="#7E57C2" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M215 440 L182 440" fill="none" stroke="#7E57C2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M182 440 L194.3 433.3 L194.3 446.7 Z" fill="#7E57C2"/>
+<text x="160" y="444" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="500" fill="#6B7486" text-anchor="end" >운정중앙</text>
+<path d="M90 285 L175 295 L255 322 L325 352 L395 388 L455 423 L515 458 L600 520" fill="none" stroke="#3FA98A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M600 520 L650 585 L695 640 C750 700 780 715 820 730 L950 790 L1030 828" fill="none" stroke="#3FA98A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1010 818 L1050 838" fill="none" stroke="#3FA98A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1050 838 L1036.0 838.5 L1042.0 826.5 Z" fill="#3FA98A"/>
+<text x="1058" y="862" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="500" fill="#6B7486" text-anchor="end" >용산 방면</text>
+<path d="M403 379 L463 414 L523 449 L590 501" fill="none" stroke="#7CB518" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M612 512 L662 577 C640 640 600 700 520 780" fill="none" stroke="#7CB518" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M70 780 H520 C640 780 730 745 820 742 C880 742 900 800 950 802 C1030 800 1090 760 1150 740" fill="none" stroke="#1E88E5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 7" opacity="1"/>
+<path d="M1235 520 C1270 470 1300 440 1345 415" fill="none" stroke="#00A84D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6" opacity="1"/>
+<circle cx="260" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="260" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >대화</text>
+<text x="260" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Daehwa</text>
+<circle cx="320" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="320" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >주엽</text>
+<text x="320" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Juyeop</text>
+<circle cx="380" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="380" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >정발산</text>
+<text x="380" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Jeongbalsan</text>
+<circle cx="440" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="440" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >마두</text>
+<text x="440" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Madu</text>
+<circle cx="500" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="500" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >백석</text>
+<text x="500" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Baekseok</text>
+<circle cx="680" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="680" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >화정</text>
+<text x="680" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Hwajeong</text>
+<circle cx="745" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="745" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >원당</text>
+<text x="745" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Wondang</text>
+<circle cx="818" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="818" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >삼송</text>
+<text x="818" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Samsong</text>
+<circle cx="890" cy="520" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="890" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >연신내</text>
+<text x="890" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Yeonsinnae</text>
+<circle cx="1040" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="1040" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >경복궁</text>
+<text x="1040" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Gyeongbokgung</text>
+<circle cx="1105" cy="520" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="1105" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >안국</text>
+<text x="1105" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Anguk</text>
+<circle cx="1170" cy="520" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="1170" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >종로3가</text>
+<text x="1170" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Jongno 3-ga</text>
+<circle cx="1235" cy="520" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="1235" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >을지로3가</text>
+<text x="1235" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Euljiro 3-ga</text>
+<circle cx="1300" cy="520" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="1300" y="553" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >충무로</text>
+<text x="1300" y="566" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Chungmuro</text>
+<circle cx="1420" cy="640" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="1436" y="645" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >압구정</text>
+<text x="1436" y="658" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Apgujeong</text>
+<circle cx="1450" cy="705" r="6.5" fill="#fff" stroke="#EF7C1C" stroke-width="3.5"/>
+<text x="1466" y="710" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >신사</text>
+<text x="1466" y="723" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Sinsa</text>
+<circle cx="1480" cy="770" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="1464" y="775" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="end" >고속터미널</text>
+<text x="1464" y="788" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="end" >Express Bus Terminal</text>
+<circle cx="90" cy="285" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="104" y="275" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >임진강</text>
+<text x="104" y="288" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Imjingang</text>
+<circle cx="175" cy="295" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="189" y="285" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >문산</text>
+<text x="189" y="298" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Munsan</text>
+<circle cx="255" cy="322" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="269" y="312" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >금촌</text>
+<text x="269" y="325" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Geumchon</text>
+<circle cx="325" cy="352" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="339" y="342" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >운정</text>
+<text x="339" y="355" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Unjeong</text>
+<circle cx="395" cy="388" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="409" y="378" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >일산</text>
+<text x="409" y="391" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Ilsan</text>
+<circle cx="455" cy="423" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="469" y="413" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >백마</text>
+<text x="469" y="426" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Baengma</text>
+<circle cx="515" cy="458" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="529" y="448" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >곡산</text>
+<text x="529" y="461" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Goksan</text>
+<circle cx="650" cy="585" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="636" y="589" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="end" >능곡</text>
+<text x="636" y="602" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="end" >Neunggok</text>
+<circle cx="695" cy="640" r="6.5" fill="#fff" stroke="#3FA98A" stroke-width="3.5"/>
+<text x="681" y="644" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="end" >행신</text>
+<text x="681" y="657" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="end" >Haengsin</text>
+<circle cx="820" cy="730" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="834" y="718" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >디지털미디어시티</text>
+<text x="834" y="731" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Digital Media City (DMC)</text>
+<circle cx="950" cy="790" r="9" fill="#fff" stroke="#1B2540" stroke-width="3"/>
+<text x="968" y="822" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >홍대입구</text>
+<text x="968" y="835" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Hongik Univ.</text>
+<circle cx="955" cy="520" r="2.5" fill="#fff"/><circle cx="965" cy="520" r="2.5" fill="#fff"/><circle cx="975" cy="520" r="2.5" fill="#fff"/>
+<circle cx="1370" cy="553" r="2.5" fill="#fff"/><circle cx="1381" cy="563" r="2.5" fill="#fff"/><circle cx="1390" cy="575" r="2.5" fill="#fff"/>
+<circle cx="300" cy="440" r="6.5" fill="#fff" stroke="#7E57C2" stroke-width="3.5"/>
+<text x="300" y="412" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="middle" >킨텍스</text>
+<text x="300" y="425" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Kintex</text>
+<circle cx="1150" cy="740" r="13" fill="#fff" stroke="#1B2540" stroke-width="3.5"/>
+<text x="1172" y="734" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="13" font-weight="700" fill="#1B2540" text-anchor="start" >서울역</text>
+<text x="1172" y="747" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Seoul Station</text>
+<circle cx="1345" cy="415" r="6.5" fill="#fff" stroke="#00A84D" stroke-width="3.5"/>
+<text x="1359" y="419" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12" font-weight="700" fill="#1B2540" text-anchor="start" >성수</text>
+<text x="1359" y="432" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Seongsu (Line 2)</text>
+<circle cx="520" cy="780" r="20" fill="#1E88E5"/>
+<g transform="translate(520,780) scale(1.15)"><path d="M-2 -11 L2 -11 L3 -2 L12 4 L12 7 L3 4 L2 9 L5 11 L5 13 L0 12 L-5 13 L-5 11 L-2 9 L-3 4 L-12 7 L-12 4 L-3 -2 Z" fill="#fff"/></g>
+<text x="520" y="820" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="middle" >김포공항</text>
+<text x="520" y="833" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Gimpo Airport</text>
+<circle cx="215" cy="780" r="17" fill="#1E88E5"/>
+<g transform="translate(215,780) scale(1)"><path d="M-2 -11 L2 -11 L3 -2 L12 4 L12 7 L3 4 L2 9 L5 11 L5 13 L0 12 L-5 13 L-5 11 L-2 9 L-3 4 L-12 7 L-12 4 L-3 -2 Z" fill="#fff"/></g>
+<text x="215" y="820" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="middle" >인천공항 1터미널</text>
+<text x="215" y="833" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Incheon Intl. T1</text>
+<circle cx="70" cy="780" r="17" fill="#1E88E5"/>
+<g transform="translate(70,780) scale(1)"><path d="M-2 -11 L2 -11 L3 -2 L12 4 L12 7 L3 4 L2 9 L5 11 L5 13 L0 12 L-5 13 L-5 11 L-2 9 L-3 4 L-12 7 L-12 4 L-3 -2 Z" fill="#fff"/></g>
+<text x="70" y="820" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="middle" >인천공항 2터미널</text>
+<text x="70" y="833" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="middle" >Incheon Intl. T2</text>
+<circle cx="600" cy="520" r="34" fill="#fff" stroke="#1B2540" stroke-width="5"/>
+<circle cx="600" cy="520" r="24" fill="none" stroke="#EF7C1C" stroke-width="3"/>
+<circle cx="600" cy="520" r="18" fill="none" stroke="#7E57C2" stroke-width="3"/>
+<circle cx="600" cy="520" r="12" fill="none" stroke="#3FA98A" stroke-width="3"/>
+<circle cx="600" cy="520" r="6" fill="#7CB518"/>
+<rect x="642" y="476" width="142" height="44" rx="10" fill="#1B2540"/>
+<text x="654" y="496" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="17" font-weight="900" fill="#fff" text-anchor="start" >대곡역</text>
+<text x="708" y="496" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11" font-weight="600" fill="#C9D2E8" text-anchor="start" >DAEGOK</text>
+<text x="654" y="511" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="500" fill="#C9D2E8" text-anchor="start" >3호선 · GTX-A · 경의중앙 · 서해선 환승</text>
+<rect x="40" y="148" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M52 148 H184 a12 12 0 0 1 12 12 V153 H40 V160 a12 12 0 0 1 12 -12 Z" fill="#3FA98A"/>
+<circle cx="64" cy="180" r="16" fill="#3FA98A"/>
+<g transform="translate(64,180)"><rect x="-9" y="-10" width="3" height="20" fill="#fff"/><path d="M-6 -9 L10 -5 L-6 -1 Z" fill="#fff"/><path d="M-12 10 H12" stroke="#fff" stroke-width="2.5"/></g>
+<text x="88" y="178" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >임진각·DMZ</text>
+<text x="88" y="193" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Imjingak Peace Park / DMZ</text>
+<line x1="52" y1="206" x2="184" y2="206" stroke="#DDE2EA"/>
+<circle cx="58" cy="220" r="4.5" fill="#3FA98A"/>
+<text x="68" y="224" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >임진강역 (문산 환승)</text>
+<path d="M90 252 L90 276" fill="none" stroke="#3FA98A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="60" y="480" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M72 480 H204 a12 12 0 0 1 12 12 V485 H60 V492 a12 12 0 0 1 12 -12 Z" fill="#7E57C2"/>
+<circle cx="84" cy="512" r="16" fill="#7E57C2"/>
+<g transform="translate(84,512)"><rect x="-11" y="-3" width="22" height="13" fill="#fff"/><path d="M-11 -3 L0 -11 L11 -3 Z" fill="#fff"/><rect x="-7" y="1" width="4" height="4" fill="#7E57C2"/><rect x="3" y="1" width="4" height="4" fill="#7E57C2"/></g>
+<text x="108" y="510" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >킨텍스</text>
+<text x="108" y="525" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >KINTEX Convention</text>
+<line x1="72" y1="538" x2="204" y2="538" stroke="#DDE2EA"/>
+<circle cx="78" cy="552" r="4.5" fill="#7E57C2"/>
+<text x="88" y="556" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >GTX-A 킨텍스역</text>
+<path d="M196 500 L296 446" fill="none" stroke="#7E57C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="200" y="605" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M212 605 H344 a12 12 0 0 1 12 12 V610 H200 V617 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="224" cy="637" r="16" fill="#EF7C1C"/>
+<g transform="translate(224,637)"><circle cx="-5" cy="6" r="4.5" fill="#fff"/><circle cx="7" cy="3" r="4.5" fill="#fff"/><path d="M-1 6 V-9 L11 -12 V3" fill="none" stroke="#fff" stroke-width="3"/></g>
+<text x="248" y="635" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >고양종합운동장</text>
+<text x="248" y="650" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Goyang Stadium (K-POP)</text>
+<line x1="212" y1="663" x2="344" y2="663" stroke="#DDE2EA"/>
+<circle cx="218" cy="677" r="4.5" fill="#EF7C1C"/>
+<text x="228" y="681" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 대화역</text>
+<path d="M262 605 L260 530" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="345" y="605" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M357 605 H489 a12 12 0 0 1 12 12 V610 H345 V617 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="369" cy="637" r="16" fill="#EF7C1C"/>
+<g transform="translate(369,637)"><path d="M-11 -3 q3 -4 6 0 t6 0 t6 0" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M-11 4 q3 -4 6 0 t6 0 t6 0" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="6" cy="-9" r="3" fill="#fff"/></g>
+<text x="393" y="635" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >일산호수공원</text>
+<text x="393" y="650" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Ilsan Lake Park</text>
+<line x1="357" y1="663" x2="489" y2="663" stroke="#DDE2EA"/>
+<circle cx="363" cy="677" r="4.5" fill="#EF7C1C"/>
+<text x="373" y="681" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 정발산역</text>
+<path d="M382 605 L380 530" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="962" y="250" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M974 250 H1106 a12 12 0 0 1 12 12 V255 H962 V262 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="986" cy="282" r="16" fill="#EF7C1C"/>
+<g transform="translate(986,282)"><path d="M-11 4 L0 -9 L11 4 Z" fill="#fff"/><rect x="-8" y="4" width="16" height="7" fill="#fff"/><rect x="-2.5" y="6" width="5" height="5" fill="#EF7C1C"/></g>
+<text x="1010" y="280" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >경복궁</text>
+<text x="1010" y="295" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Gyeongbokgung Palace</text>
+<line x1="974" y1="308" x2="1106" y2="308" stroke="#DDE2EA"/>
+<circle cx="980" cy="322" r="4.5" fill="#EF7C1C"/>
+<text x="990" y="326" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 경복궁역</text>
+<path d="M1040 354 L1040 510" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1132" y="250" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1144 250 H1276 a12 12 0 0 1 12 12 V255 H1132 V262 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="1156" cy="282" r="16" fill="#EF7C1C"/>
+<g transform="translate(1156,282)"><path d="M-12 1 Q-6 -7 0 -8 Q6 -7 12 1 Z" fill="#fff"/><rect x="-8" y="1" width="16" height="9" fill="#fff"/><rect x="-5" y="3" width="4" height="7" fill="#EF7C1C"/><rect x="1" y="3" width="4" height="7" fill="#EF7C1C"/></g>
+<text x="1180" y="280" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >북촌·인사동</text>
+<text x="1180" y="295" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Bukchon · Insadong</text>
+<line x1="1144" y1="308" x2="1276" y2="308" stroke="#DDE2EA"/>
+<circle cx="1150" cy="322" r="4.5" fill="#EF7C1C"/>
+<text x="1160" y="326" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >안국역 · 종로3가역</text>
+<path d="M1170 354 L1130 510" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1310" y="250" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1322 250 H1454 a12 12 0 0 1 12 12 V255 H1310 V262 a12 12 0 0 1 12 -12 Z" fill="#00A84D"/>
+<circle cx="1334" cy="282" r="16" fill="#00A84D"/>
+<g transform="translate(1334,282)"><path d="M-9 -6 H7 V4 a5 5 0 0 1 -5 5 H-4 a5 5 0 0 1 -5 -5 Z" fill="#fff"/><path d="M7 -3 h3 a3.5 3.5 0 0 1 0 7 h-3" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M-10 12 H10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
+<text x="1358" y="280" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >성수·잠실</text>
+<text x="1358" y="295" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Seongsu · Lotte World</text>
+<line x1="1322" y1="308" x2="1454" y2="308" stroke="#DDE2EA"/>
+<circle cx="1328" cy="322" r="4.5" fill="#00A84D"/>
+<text x="1338" y="326" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >을지로3가 → 2호선</text>
+<circle cx="1328" cy="337" r="4.5" fill="#EF7C1C"/>
+<text x="1338" y="341" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 을지로3가 환승</text>
+<path d="M1360 354 L1348 405" fill="none" stroke="#00A84D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1170" y="600" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1182 600 H1314 a12 12 0 0 1 12 12 V605 H1170 V612 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="1194" cy="632" r="16" fill="#EF7C1C"/>
+<g transform="translate(1194,632)"><circle cx="0" cy="-7" r="4" fill="#fff"/><path d="M-3 -3 L3 -3 L6 11 L-6 11 Z" fill="#fff"/></g>
+<text x="1218" y="630" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >명동·남산</text>
+<text x="1218" y="645" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Myeongdong · N Tower</text>
+<line x1="1182" y1="658" x2="1314" y2="658" stroke="#DDE2EA"/>
+<circle cx="1188" cy="672" r="4.5" fill="#EF7C1C"/>
+<text x="1198" y="676" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 충무로역</text>
+<circle cx="1188" cy="687" r="4.5" fill="#1E88E5"/>
+<text x="1198" y="691" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >서울역에서 도보·버스</text>
+<path d="M1290 600 L1300 530" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1520" y="610" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1532 610 H1664 a12 12 0 0 1 12 12 V615 H1520 V622 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="1544" cy="642" r="16" fill="#EF7C1C"/>
+<g transform="translate(1544,642)"><path d="M-9 -3 H9 L11 11 H-11 Z" fill="#fff"/><path d="M-4 -3 V-7 a4 4 0 0 1 8 0 V-3" fill="none" stroke="#fff" stroke-width="2.5"/></g>
+<text x="1568" y="640" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >신사·압구정</text>
+<text x="1568" y="655" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Garosu-gil · Rodeo St.</text>
+<line x1="1532" y1="668" x2="1664" y2="668" stroke="#DDE2EA"/>
+<circle cx="1538" cy="682" r="4.5" fill="#EF7C1C"/>
+<text x="1548" y="686" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 신사역·압구정역</text>
+<path d="M1520 660 L1460 700" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1520" y="745" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1532 745 H1664 a12 12 0 0 1 12 12 V750 H1520 V757 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="1544" cy="777" r="16" fill="#EF7C1C"/>
+<g transform="translate(1544,777)"><rect x="-10" y="-10" width="20" height="17" rx="3" fill="#fff"/><rect x="-7" y="-7" width="6" height="6" fill="#EF7C1C"/><rect x="1" y="-7" width="6" height="6" fill="#EF7C1C"/><circle cx="-6" cy="10" r="2.5" fill="#fff"/><circle cx="6" cy="10" r="2.5" fill="#fff"/></g>
+<text x="1568" y="775" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >고속터미널</text>
+<text x="1568" y="790" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Bus Terminal · Banpo</text>
+<line x1="1532" y1="803" x2="1664" y2="803" stroke="#DDE2EA"/>
+<circle cx="1538" cy="817" r="4.5" fill="#EF7C1C"/>
+<text x="1548" y="821" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 고속터미널역</text>
+<circle cx="1538" cy="832" r="4.5" fill="#EF7C1C"/>
+<text x="1548" y="836" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >고속버스 · 반포한강공원</text>
+<path d="M1520 790 L1492 774" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="1070" y="800" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M1082 800 H1214 a12 12 0 0 1 12 12 V805 H1070 V812 a12 12 0 0 1 12 -12 Z" fill="#7E57C2"/>
+<circle cx="1094" cy="832" r="16" fill="#7E57C2"/>
+<g transform="translate(1094,832)"><rect x="-9" y="-10" width="18" height="17" rx="4" fill="#fff"/><rect x="-6" y="-7" width="12" height="6" fill="#7E57C2"/><circle cx="-5" cy="3" r="1.8" fill="#7E57C2"/><circle cx="5" cy="3" r="1.8" fill="#7E57C2"/><path d="M-6 8 L-9 12 M6 8 L9 12" stroke="#fff" stroke-width="2"/></g>
+<text x="1118" y="830" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >서울역·남대문</text>
+<text x="1118" y="845" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Seoul Stn · Namdaemun Mkt</text>
+<line x1="1082" y1="858" x2="1214" y2="858" stroke="#DDE2EA"/>
+<circle cx="1088" cy="872" r="4.5" fill="#7E57C2"/>
+<text x="1098" y="876" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >GTX-A 서울역 (약 13분)</text>
+<circle cx="1088" cy="887" r="4.5" fill="#1E88E5"/>
+<text x="1098" y="891" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >공항철도 · KTX 환승</text>
+<path d="M1140 800 L1150 754" fill="none" stroke="#7E57C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="600" y="790" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M612 790 H744 a12 12 0 0 1 12 12 V795 H600 V802 a12 12 0 0 1 12 -12 Z" fill="#3FA98A"/>
+<circle cx="624" cy="822" r="16" fill="#3FA98A"/>
+<g transform="translate(624,822)"><rect x="-11" y="-9" width="22" height="14" rx="2" fill="#fff"/><path d="M-5 10 H5 M0 5 V10" stroke="#fff" stroke-width="2.5"/><path d="M-3 -5 L3 -2 L-3 1 Z" fill="#3FA98A"/></g>
+<text x="648" y="820" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >DMC</text>
+<text x="648" y="835" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Digital Media City</text>
+<line x1="612" y1="848" x2="744" y2="848" stroke="#DDE2EA"/>
+<circle cx="618" cy="862" r="4.5" fill="#3FA98A"/>
+<text x="628" y="866" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >경의중앙선 DMC역</text>
+<circle cx="618" cy="877" r="4.5" fill="#1E88E5"/>
+<text x="628" y="881" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >공항철도 환승</text>
+<path d="M740 790 L816 744" fill="none" stroke="#3FA98A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="780" y="830" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M792 830 H924 a12 12 0 0 1 12 12 V835 H780 V842 a12 12 0 0 1 12 -12 Z" fill="#3FA98A"/>
+<circle cx="804" cy="862" r="16" fill="#3FA98A"/>
+<g transform="translate(804,862)"><path d="M0 -11 L3.2 -3.6 L11.3 -3.4 L4.9 1.5 L7.2 9.3 L0 4.8 L-7.2 9.3 L-4.9 1.5 L-11.3 -3.4 L-3.2 -3.6 Z" fill="#fff"/></g>
+<text x="828" y="860" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >홍대</text>
+<text x="828" y="875" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Hongdae · Indie · Clubs</text>
+<line x1="792" y1="888" x2="924" y2="888" stroke="#DDE2EA"/>
+<circle cx="798" cy="902" r="4.5" fill="#3FA98A"/>
+<text x="808" y="906" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >경의중앙선 홍대입구역</text>
+<circle cx="798" cy="917" r="4.5" fill="#00A84D"/>
+<text x="808" y="921" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >2호선·공항철도 환승</text>
+<path d="M900 830 L946 800" fill="none" stroke="#3FA98A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="470" y="175" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M482 175 H614 a12 12 0 0 1 12 12 V180 H470 V187 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="494" cy="207" r="16" fill="#EF7C1C"/>
+<g transform="translate(494,207)"><path d="M-12 8 L-12 -4 L-6 2 L0 -9 L6 2 L12 -4 L12 8 Z" fill="#fff"/><rect x="-12" y="8" width="24" height="4" fill="#fff"/><circle cx="-12" cy="-6" r="2" fill="#fff"/><circle cx="0" cy="-11" r="2" fill="#fff"/><circle cx="12" cy="-6" r="2" fill="#fff"/></g>
+<text x="518" y="205" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >서오릉</text>
+<text x="518" y="220" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Seoreung Royal Tombs · UNESCO</text>
+<line x1="482" y1="233" x2="614" y2="233" stroke="#DDE2EA"/>
+<circle cx="488" cy="247" r="4.5" fill="#EF7C1C"/>
+<text x="498" y="251" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 삼송역 → 버스</text>
+<circle cx="488" cy="262" r="4.5" fill="#EF7C1C"/>
+<text x="498" y="266" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >유네스코 세계유산</text>
+<rect x="470" y="300" width="156" height="104" rx="12" fill="#FFFFFF" stroke="#DDE2EA" stroke-width="1.2" filter="url(#sh)"/>
+<path d="M482 300 H614 a12 12 0 0 1 12 12 V305 H470 V312 a12 12 0 0 1 12 -12 Z" fill="#EF7C1C"/>
+<circle cx="494" cy="332" r="16" fill="#EF7C1C"/>
+<g transform="translate(494,332)"><path d="M-12 8 L-12 -4 L-6 2 L0 -9 L6 2 L12 -4 L12 8 Z" fill="#fff"/><rect x="-12" y="8" width="24" height="4" fill="#fff"/><circle cx="-12" cy="-6" r="2" fill="#fff"/><circle cx="0" cy="-11" r="2" fill="#fff"/><circle cx="12" cy="-6" r="2" fill="#fff"/></g>
+<text x="518" y="330" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="14" font-weight="700" fill="#1B2540" text-anchor="start" >서삼릉</text>
+<text x="518" y="345" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >Samreung Royal Tombs · UNESCO</text>
+<line x1="482" y1="358" x2="614" y2="358" stroke="#DDE2EA"/>
+<circle cx="488" cy="372" r="4.5" fill="#EF7C1C"/>
+<text x="498" y="376" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >3호선 삼송·원당역 → 버스</text>
+<circle cx="488" cy="387" r="4.5" fill="#EF7C1C"/>
+<text x="498" y="391" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#1B2540" text-anchor="start" >유네스코 세계유산</text>
+<path d="M626 235 L806 507" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<path d="M626 360 L812 508" fill="none" stroke="#EF7C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4" opacity="1"/>
+<rect x="700" y="405" width="230" height="56" rx="12" fill="#fff" stroke="#EF7C1C" stroke-width="2"/>
+<text x="815" y="428" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="800" fill="#EF7C1C" text-anchor="middle" >고양에서 서울 도심·강남까지 한 번에!</text>
+<text x="815" y="448" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="500" fill="#6B7486" text-anchor="middle" >One-seat ride on Line 3 · GTX-A to Seoul Station</text>
+<rect x="40" y="985" width="330" height="260" rx="16" fill="#fff" stroke="#DDE2EA" filter="url(#sh)"/>
+<text x="62" y="1019" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="15" font-weight="800" fill="#1B2540" text-anchor="start" >공항 접근  Airport Access</text>
+<text x="62" y="1037" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >대곡역 → 김포 → 인천, 환승 1회</text>
+<line x1="62" y1="1049" x2="348" y2="1049" stroke="#DDE2EA"/>
+<circle cx="78" cy="1081" r="9" fill="#1B2540"/>
+<text x="96" y="1086" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="13" font-weight="700" fill="#1B2540" text-anchor="start" >대곡역  Daegok</text>
+<path d="M78 1093 V1121" stroke="#7CB518" stroke-width="4" stroke-linecap="round"/>
+<text x="96" y="1107" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#6B7486" text-anchor="start" >서해선 직결 · 약 15분</text>
+<circle cx="78" cy="1133" r="9" fill="#7CB518"/>
+<text x="96" y="1138" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="13" font-weight="700" fill="#1B2540" text-anchor="start" >김포공항  Gimpo Airport</text>
+<path d="M78 1145 V1173" stroke="#1E88E5" stroke-width="4" stroke-linecap="round"/>
+<text x="96" y="1159" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10.5" font-weight="500" fill="#6B7486" text-anchor="start" >공항철도 환승 · 약 35~40분</text>
+<circle cx="78" cy="1185" r="9" fill="#1E88E5"/>
+<text x="96" y="1190" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="13" font-weight="700" fill="#1B2540" text-anchor="start" >인천국제공항  Incheon Intl.</text>
+<text x="62" y="1225" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11" font-weight="700" fill="#1E88E5" text-anchor="start" >총 약 50~55분 · 대곡 → 인천공항 (환승 대기 제외)</text>
+<rect x="390" y="985" width="400" height="260" rx="16" fill="#fff" stroke="#DDE2EA" filter="url(#sh)"/>
+<text x="412" y="1019" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="15" font-weight="800" fill="#1B2540" text-anchor="start" >대곡역 기준 소요시간  Travel time from Daegok</text>
+<text x="412" y="1037" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >열차 운행시간 기준 개략치 · 환승 대기 제외</text>
+<line x1="412" y1="1049" x2="768" y2="1049" stroke="#DDE2EA"/>
+<rect x="412" y="1062" width="26" height="14" rx="7" fill="#EF7C1C"/>
+<text x="450" y="1074" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >경복궁 · 안국</text>
+<text x="770" y="1074" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 27~29분</text>
+<rect x="412" y="1083" width="26" height="14" rx="7" fill="#EF7C1C"/>
+<text x="450" y="1095" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >종로3가 · 충무로</text>
+<text x="770" y="1095" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 30~33분</text>
+<rect x="412" y="1104" width="26" height="14" rx="7" fill="#EF7C1C"/>
+<text x="450" y="1116" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >신사 · 고속터미널</text>
+<text x="770" y="1116" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 45~49분</text>
+<rect x="412" y="1125" width="26" height="14" rx="7" fill="#7E57C2"/>
+<text x="450" y="1137" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >연신내 / 서울역</text>
+<text x="770" y="1137" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 6분 / 13분</text>
+<rect x="412" y="1146" width="26" height="14" rx="7" fill="#3FA98A"/>
+<text x="450" y="1158" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >DMC / 홍대입구</text>
+<text x="770" y="1158" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 15분 / 21분</text>
+<rect x="412" y="1167" width="26" height="14" rx="7" fill="#3FA98A"/>
+<text x="450" y="1179" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >문산 (→임진강 환승)</text>
+<text x="770" y="1179" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 35분 (+8분)</text>
+<rect x="412" y="1188" width="26" height="14" rx="7" fill="#7CB518"/>
+<text x="450" y="1200" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >김포공항</text>
+<text x="770" y="1200" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 15분</text>
+<rect x="412" y="1209" width="26" height="14" rx="7" fill="#1E88E5"/>
+<text x="450" y="1221" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="600" fill="#1B2540" text-anchor="start" >인천공항 1터미널</text>
+<text x="770" y="1221" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="500" fill="#6B7486" text-anchor="end" >약 50~55분</text>
+<rect x="810" y="985" width="400" height="260" rx="16" fill="#fff" stroke="#DDE2EA" filter="url(#sh)"/>
+<text x="832" y="1019" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="15" font-weight="800" fill="#1B2540" text-anchor="start" >3호선 한 번에 가는 서울 명소  Top spots on Line 3</text>
+<text x="832" y="1037" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >환승 없이 대곡역에서 바로</text>
+<line x1="832" y1="1049" x2="1188" y2="1049" stroke="#DDE2EA"/>
+<circle cx="834" cy="1073" r="6" fill="#EF7C1C"/>
+<text x="850" y="1077" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="start" >서오릉 · 서삼릉 (유네스코 세계유산)</text>
+<text x="850" y="1090" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >삼송역 → 버스 환승</text>
+<circle cx="834" cy="1104" r="6" fill="#EF7C1C"/>
+<text x="850" y="1108" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="start" >경복궁 · 청와대 · 서촌</text>
+<text x="850" y="1121" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >경복궁역</text>
+<circle cx="834" cy="1135" r="6" fill="#EF7C1C"/>
+<text x="850" y="1139" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="start" >북촌한옥마을 · 인사동 · 익선동</text>
+<text x="850" y="1152" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >안국역 · 종로3가역</text>
+<circle cx="834" cy="1166" r="6" fill="#EF7C1C"/>
+<text x="850" y="1170" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="start" >명동 · 남산타워 · 동대문</text>
+<text x="850" y="1183" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >충무로역 · 동대입구역</text>
+<circle cx="834" cy="1197" r="6" fill="#EF7C1C"/>
+<text x="850" y="1201" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="12.5" font-weight="700" fill="#1B2540" text-anchor="start" >가로수길 · 압구정 로데오 · 고속터미널</text>
+<text x="850" y="1214" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="9.5" font-weight="400" fill="#6B7486" text-anchor="start" >신사 · 압구정 · 고속터미널역</text>
+<rect x="1230" y="985" width="430" height="260" rx="16" fill="#fff" stroke="#DDE2EA" filter="url(#sh)"/>
+<text x="1252" y="1019" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="15" font-weight="800" fill="#1B2540" text-anchor="start" >여행 팁  Travel Tips</text>
+<text x="1252" y="1037" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >K-POP · 전시 · DMZ · 환승 안내</text>
+<line x1="1252" y1="1049" x2="1638" y2="1049" stroke="#DDE2EA"/>
+<rect x="1252" y="1065" width="76" height="20" rx="10" fill="#7E57C2"/>
+<text x="1290" y="1079" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" >GTX-A</text>
+<text x="1338" y="1079" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="700" fill="#1B2540" text-anchor="start" >대곡 → 서울역 약 13분, 서울 도심 최단 접근</text>
+<text x="1338" y="1095" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >운정중앙~서울역 구간 운행 · 연신내 환승 가능</text>
+<rect x="1252" y="1107" width="76" height="20" rx="10" fill="#EF7C1C"/>
+<text x="1290" y="1121" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" >K-POP 공연</text>
+<text x="1338" y="1121" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="700" fill="#1B2540" text-anchor="start" >고양종합운동장 · 킨텍스</text>
+<text x="1338" y="1137" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >3호선 대화역 · GTX-A 킨텍스역</text>
+<rect x="1252" y="1149" width="76" height="20" rx="10" fill="#3FA98A"/>
+<text x="1290" y="1163" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" >임진각·DMZ</text>
+<text x="1338" y="1163" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="700" fill="#1B2540" text-anchor="start" >경의선 문산역에서 임진강행 환승</text>
+<text x="1338" y="1179" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >운행 편수 적음 · 시간표 사전 확인 필수</text>
+<rect x="1252" y="1191" width="76" height="20" rx="10" fill="#00A84D"/>
+<text x="1290" y="1205" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="800" fill="#fff" text-anchor="middle" >2호선 환승</text>
+<text x="1338" y="1205" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="11.5" font-weight="700" fill="#1B2540" text-anchor="start" >을지로3가에서 2호선으로 환승</text>
+<text x="1338" y="1221" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >성수 · 잠실(롯데월드) · 강남 방면</text>
+<text x="60" y="1280" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="400" fill="#6B7486" text-anchor="start" >※ 본 지도는 관광 안내용 개념도로 실제 거리·방위·역 간격과 다릅니다. 소요시간은 개략치이며 노선·운행 정보는 이용 전 코레일·서울교통공사 안내를 확인하세요.</text>
+<text x="1640" y="1280" font-family="'Noto Sans CJK KR','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-size="10" font-weight="500" fill="#6B7486" text-anchor="end" >고양시 대곡역 관광교통 안내도 · 2026</text>
+</svg>
