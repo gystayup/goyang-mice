@@ -19,6 +19,8 @@
 //   · 5로케일 ko 폴백.
 //   · 유사 이미지 연결 금지 (같은 스팟의 gallery + 같은 category 의 hero 만 사용).
 
+import fs from "node:fs";
+import path from "node:path";
 import Image from "next/image";
 
 import { StampBadge, stampForSlug } from "@/components/badges/StampBadge";
@@ -34,12 +36,23 @@ const MUST_SEE_SLUGS = [
 ] as const;
 
 /**
- * 오더 #C19 폴백 로직:
- *   1) spot.gallery 중 Type3 제외 첫 장
- *   2) hero-{spot.category}.jpg
+ * 오더 #C19 · #C22 폴백 로직:
+ *   1) public/images/cards/card-{slug}.jpg — 파일 존재 시 (서버 fs.existsSync 확인)
+ *   2) spot.gallery 중 Type3 제외 첫 장
+ *   3) hero-{spot.category}.jpg
  * 신규 이미지 생성·다운로드 없음. 같은 스팟·같은 카테고리 자원만 사용.
+ * server component 전용 (홈은 SSR).
  */
+function cardFileExists(slug: string): boolean {
+  try {
+    return fs.existsSync(path.join(process.cwd(), "public", "images", "cards", `card-${slug}.jpg`));
+  } catch {
+    return false;
+  }
+}
+
 function resolveMustSeeImage(spot: Spot): string {
+  if (cardFileExists(spot.slug)) return `/images/cards/card-${spot.slug}.jpg`;
   const gal = spot.gallery?.find((g) => g.cpyrht !== "Type3");
   if (gal?.url) return gal.url;
   return `/images/hero/hero-${spot.category}.jpg`;
