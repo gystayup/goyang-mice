@@ -479,9 +479,12 @@ function GalleryCrop({
   const smalls = rest.slice(0, 3);
   return (
     <>
-      {/* Desktop */}
-      <div className="hidden sm:grid sm:grid-cols-4 sm:grid-rows-3 sm:gap-2">
-        <div className="relative aspect-auto bg-[#232322] sm:col-span-3 sm:row-span-3">
+      {/* Desktop — 오더 #C36: grid 자체 height 명시 (aspect-[3/2] + max-h-[600px]).
+          이전에는 grid-rows-3 만 있고 rows 각 height 계산 근거가 없어 <Image fill> 부모
+          row 가 collapse → 사진 얇게 + 헤더 아래 큰 빈 공간처럼 보였다. aspect 명시로
+          grid 총 height 계산 → rows-3 균등 분할 → 대형(3행)·소형(1행) 모두 정상 렌더. */}
+      <div className="hidden sm:grid sm:aspect-[3/2] sm:max-h-[600px] sm:grid-cols-4 sm:grid-rows-3 sm:gap-2">
+        <div className="relative bg-[#232322] sm:col-span-3 sm:row-span-3">
           <Image src={hero.url} alt={title} fill className="object-cover" sizes="66vw" priority />
         </div>
         {smalls.map((img, i) => (
