@@ -261,6 +261,10 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
   },
 
   // 오더 #C8 [2][3]: 문화 6.
+  // 오더 #C11 [1][2][3]: 문화 6 유지 + gawaji-rice-museum 신규 등재.
+  //   goyang-museum-of-art(시립미술관 실체 불명) · kkotnuri(자료 없음) 는
+  //   items 에서 제외 (spots.ts 레코드는 보존 · 카드만 숨김).
+  //   translations 항목은 그대로 두어 향후 재등재 시 즉시 복원 가능.
   culture: {
     category: "culture",
     items: [
@@ -270,9 +274,7 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "latin-america-museum", name: "중남미문화원", desc: "라틴아메리카를 옮겨온 정원", region: "deokyang" },
       { id: "aram-art-museum", name: "아람미술관", desc: "공연장 안의 전시 공간", region: "ilsan-east" },
       { id: "kintex", name: "킨텍스", desc: "국내 최대 규모의 전시장", region: "ilsan-west" },
-      // 오더 #REV1 [1]: spots-culture-kculture.md 미반영 05·08 (region 원본 확인필요 → 미설정).
-      { id: "goyang-museum-of-art", name: "고양시립미술관", desc: "지역 미술을 보여주는 공간" },
-      { id: "kkotnuri", name: "꽃누리", desc: "소규모 공연이 열리는 공간" },
+      { id: "gawaji-rice-museum", name: "고양가와지볍씨박물관", desc: "5천 년 전, 한반도 최초의 쌀이 여기서 나왔다", region: "ilsan-west" },
     ],
     translations: {
       en: {
@@ -282,9 +284,11 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "Museum of Latin American Art", desc: "A garden that brings Latin America to Goyang" },
         "aram-art-museum": { name: "Aram Art Museum", desc: "A gallery inside the arts centre" },
         "kintex": { name: "KINTEX", desc: "Korea's largest exhibition centre" },
-        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로 (items 에서 제외됐어도 보존).
         "goyang-museum-of-art": { name: "Goyang Museum of Art", desc: "A window on the city's art scene" },
         "kkotnuri": { name: "Kkot Nuri", desc: "A venue for smaller performances" },
+        // 오더 #C11 [1]: gawaji-rice-museum 신규.
+        "gawaji-rice-museum": { name: "Goyang Gawaji Rice Museum" },
       },
       ja: {
         "aramnuri": { name: "高陽アラムヌリ", desc: "高陽を代表する公演場" },
@@ -293,9 +297,11 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "中南米文化院", desc: "ラテンアメリカを移した庭園" },
         "aram-art-museum": { name: "アラム美術館", desc: "公演場の中の展示空間" },
         "kintex": { name: "キンテックス", desc: "国内最大規模の展示場" },
-        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로 (items 에서 제외됐어도 보존).
         "goyang-museum-of-art": { name: "高陽市立美術館", desc: "地域の美術を見せる空間" },
         "kkotnuri": { name: "コンヌリ", desc: "小規模公演が開かれる空間" },
+        // 오더 #C11 [1]: gawaji-rice-museum 신규.
+        "gawaji-rice-museum": { name: "高陽ガワジ籾博物館" },
       },
       "zh-CN": {
         "aramnuri": { name: "高阳阿蓝世界", desc: "高阳代表性演出场馆" },
@@ -304,9 +310,11 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "中南美文化院", desc: "移植拉丁美洲的庭园" },
         "aram-art-museum": { name: "阿蓝美术馆", desc: "演出场馆内的展览空间" },
         "kintex": { name: "韩国国际展览中心", desc: "韩国最大规模展览中心" },
-        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로 (items 에서 제외됐어도 보존).
         "goyang-museum-of-art": { name: "高阳市立美术馆", desc: "展现本地美术的空间" },
         "kkotnuri": { name: "花世界", desc: "举办小型演出的场地" },
+        // 오더 #C11 [1]: gawaji-rice-museum 신규.
+        "gawaji-rice-museum": { name: "高阳 Gawaji 稻种博物馆" },
       },
       "zh-TW": {
         "aramnuri": { name: "高陽阿藍世界", desc: "高陽代表性演出場館" },
@@ -315,9 +323,11 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "latin-america-museum": { name: "中南米文化院", desc: "移植拉丁美洲的庭園" },
         "aram-art-museum": { name: "阿藍美術館", desc: "演出場館內的展覽空間" },
         "kintex": { name: "韓國國際展覽中心", desc: "韓國最大規模展覽中心" },
-        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로.
+        // 오더 #REV1 [1]: 원본 md 5로케일 완비 값 그대로 (items 에서 제외됐어도 보존).
         "goyang-museum-of-art": { name: "高陽市立美術館", desc: "展現本地美術的空間" },
         "kkotnuri": { name: "花世界", desc: "舉辦小型演出的場地" },
+        // 오더 #C11 [1]: gawaji-rice-museum 신규.
+        "gawaji-rice-museum": { name: "高陽 Gawaji 稻種博物館" },
       },
     },
   },
