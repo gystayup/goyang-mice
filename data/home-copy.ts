@@ -19,6 +19,14 @@ export type HomeI18n = Record<HomeLocale, string>;
 
 // ─── Hero · Discover GOYANG ─────────────────────────────────────────────
 export const HERO_DISCOVER = {
+  // 오더 #C23: brand eyebrow (Visit London 식 · 작게 · 5로케일). H1 위 작은 라벨.
+  brandEyebrow: {
+    ko: "고양시 공식 여행 안내",
+    en: "GOYANG OFFICIAL TRAVEL GUIDE",
+    ja: "高陽公式トラベルガイド",
+    "zh-CN": "高阳官方旅行指南",
+    "zh-TW": "高陽官方旅行指南",
+  } as HomeI18n,
   headline: {
     ko: "고양을 발견하다",
     en: "Discover GOYANG",
@@ -46,6 +54,14 @@ export const HERO_DISCOVER = {
     ja: "高陽スポット検索",
     "zh-CN": "搜索高阳景点",
     "zh-TW": "搜尋高陽景點",
+  } as HomeI18n,
+  // 오더 #C23: 검색바 우측 골드 원형 제출 버튼 aria-label (UI만 · 라우팅 미구현).
+  searchButtonAriaLabel: {
+    ko: "검색",
+    en: "Search",
+    ja: "検索",
+    "zh-CN": "搜索",
+    "zh-TW": "搜尋",
   } as HomeI18n,
   trustBanner: [
     {
