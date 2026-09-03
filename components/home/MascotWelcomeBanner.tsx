@@ -44,7 +44,8 @@ export default function MascotWelcomeBanner({ locale }: { locale: string }) {
 
   return (
     <section aria-label={MASCOT_ALT[active]} className="bg-[#faf7f2]">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+      {/* 홈 정합: 상하 py-16 sm:py-20 lg:py-24 통일. */}
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
         <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-center lg:gap-10">
           {/* 마스코트 이미지 · 원본 비율 유지 · 데스크탑 224px · 모바일 160px */}
           <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48 lg:h-56 lg:w-56">

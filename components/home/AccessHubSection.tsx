@@ -55,12 +55,13 @@ export default function AccessHubSection({ locale }: { locale: string }) {
   ) as LocaleKey;
   const copy = COPY[active];
 
+  // 홈 정합: 상하 py-16 sm:py-20 lg:py-24 · 서브 mt-3 통일.
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
       <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-500">
         {EYEBROW}
       </div>
-      <h2 className="mt-2 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-3xl lg:text-4xl">
+      <h2 className="mt-3 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-3xl lg:text-4xl">
         {copy.head}
       </h2>
 
