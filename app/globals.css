@@ -29,6 +29,18 @@
   /* 오더 #C25: 런던식 상단 리뉴얼 포인트 색 — 코럴레드. 활성 네비 언더라인 · 로고 dot/DMC ·
      히어로 신뢰배너 배경 · 검색바 제출 버튼 · brand eyebrow. 차콜·골드는 병존(무삭제). */
   --accent: #e23e2e;
+  /* 오더 #C32: 슬림 헤더(BEST 서브줄 제외) 실측 높이 — 상세 페이지 spacer 가 참조.
+     모바일: 브랜드 라인 py-2 + logo h-9 + border-b 3px ≈ 55px.
+     BEST 서브줄은 홈·/best 만 노출이라 상세 페이지 계산엔 제외. */
+  --header-h: 55px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    /* 오더 #C32: 데스크탑 슬림 헤더 = 유틸바 h-8(32) + 브랜드 py-3+text-3xl(~54) +
+       메인 네비 py-2+text-13(~34) + borders(~4) + accent border-b-[3px] ≈ 124px. */
+    --header-h: 124px;
+  }
 }
 
 html {
