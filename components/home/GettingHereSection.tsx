@@ -9,7 +9,7 @@
 //   배지 위치·우측 상단 라벨 위치 구조를 그대로 답습. 신규 디자인 없음.
 //   AfterKintexBridgeSection 파일은 삭제하지 않고 보존 (오더 #A3 [7]).
 //
-// 번호 배지: 오더 #A3 [3] — 카테고리색 5종 사용 금지, 전부 골드 #D4AF37 단색.
+// 번호 배지: 오더 #A3 [3] 단색 정책 유지 · 오더 #C27 로 accent 코럴 통일.
 // 우측 상단 라벨: 시간대 텍스트 대신 lucide 아이콘 (Bus / Car / TrainFront
 //   / Train / MoreHorizontal).
 // 링크: 5카드 전부 /dmc 로 연결 (오더 #A3 [6]). /dmc/move 상세는 별도 오더 예정.
@@ -156,8 +156,8 @@ const STEPS: Step[] = [
   },
 ];
 
-// 오더 #A3 [3]: 번호 배지 골드 단색 — 카테고리색 5종 사용 금지.
-const GOLD = "#D4AF37";
+// 오더 #A3 [3] 단색 정책 유지 · 오더 #C27 로 accent 코럴 통일 (카테고리색 5종 사용 금지).
+const ACCENT = "#e23e2e";
 
 export default function GettingHereSection({ locale }: { locale: string }) {
   const active: LocaleKey = (
@@ -172,7 +172,7 @@ export default function GettingHereSection({ locale }: { locale: string }) {
       <div className="rounded-[32px] bg-[var(--charcoal)] px-6 py-10 shadow-[0_28px_70px_rgba(35,35,34,0.35)] sm:rounded-[40px] sm:px-10 sm:py-14 lg:px-14">
         {/* Header */}
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold)]">
+          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
             {EYEBROW}
           </div>
           <h2 className="mt-3 max-w-3xl text-2xl font-black leading-tight tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
@@ -195,13 +195,13 @@ export default function GettingHereSection({ locale }: { locale: string }) {
                 <Link
                   href={`/dmc/move?from=${step.from}`}
                   aria-label={label}
-                  className="group flex h-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 transition hover:border-[var(--gold)]/40 hover:bg-white/[0.08] lg:flex-col lg:items-start lg:gap-3"
+                  className="group flex h-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 transition hover:border-[var(--accent)]/40 hover:bg-white/[0.08] lg:flex-col lg:items-start lg:gap-3"
                 >
                   {/* step number + right-top icon — 데스크톱은 상단 가로, 모바일은 좌측 세로 뱃지 */}
                   <div className="flex shrink-0 flex-col items-center gap-1 lg:w-full lg:flex-row lg:justify-between">
                     <span
                       className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-[11px] font-black lg:h-6 lg:w-6 lg:text-[10px]"
-                      style={{ borderColor: GOLD, color: GOLD, background: `${GOLD}18` }}
+                      style={{ borderColor: ACCENT, color: ACCENT, background: `${ACCENT}18` }}
                     >
                       {`0${i + 1}`}
                     </span>
