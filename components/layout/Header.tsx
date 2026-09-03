@@ -67,10 +67,13 @@ function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
 }
 
 /**
- * 로고 텍스트 — 5로케일 공통 영문. dot·DMC 는 accent (오더 #C25).
- * 오더 #C28 [1]: 워드마크 크기 상향 (Visit London VISIT LONDON 급).
- *   · lg (데스크탑 상단 중앙): text-2xl (24px) → sm:text-3xl (30px) — 눈에 띄는 워드마크
- *   · md/sm (모바일): 상대 축소 · 상단바 높이에 맞춤
+ * 로고 텍스트 — 5로케일 공통 영문.
+ * 오더 #C28 [1]: 워드마크 크기 상향.
+ * 오더 #C29:
+ *   [1] "GOYANG DMC" 전체 accent 코럴 (Visit London VISIT LONDON 빨강)
+ *   [2] 앞 dot(●) 제거 — 워드마크만
+ *   · lg (데스크탑 상단 중앙): text-2xl (24px) → sm:text-3xl (30px)
+ *   · md/sm (모바일): 상단바 높이에 맞춤
  */
 function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const sizeClass =
@@ -79,16 +82,9 @@ function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
       : size === "md"
         ? "text-[13px] tracking-[0.28em]"
         : "text-[12px] tracking-[0.24em]";
-  const dotSize = size === "lg" ? "h-2.5 w-2.5" : "h-1.5 w-1.5";
   return (
-    <span className={`inline-flex items-center gap-3 font-black uppercase leading-none text-[var(--charcoal)] ${sizeClass}`}>
-      <span aria-hidden="true" className={`relative flex ${dotSize}`}>
-        <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
-        <span className={`relative inline-flex rounded-full bg-[var(--accent)] ${dotSize}`} />
-      </span>
-      <span>
-        GOYANG <span className="text-[var(--accent)]">DMC</span>
-      </span>
+    <span className={`inline-flex items-center font-black uppercase leading-none text-[var(--accent)] ${sizeClass}`}>
+      GOYANG DMC
     </span>
   );
 }
@@ -180,8 +176,8 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* ── [Desktop] BEST 서브줄 · 박스 없이 · 얇은 top border만 ── */}
-      <div className="hidden border-t border-slate-100 bg-white lg:block">
+      {/* ── [Desktop] BEST 서브줄 · 박스 없이 · 오더 #C29 [3]: 구분선 slate-200 로 진하게 (메인 네비와 분리) ── */}
+      <div className="hidden border-t border-slate-200 bg-white lg:block">
         <BestCategoriesSubRow activeLocale={activeLocale} pathname={pathname} />
       </div>
 
@@ -240,8 +236,8 @@ export default function Header() {
                 );
               })}
             </nav>
-            {/* 모바일 BEST 서브 카테고리 */}
-            <div className="mt-3 border-t border-slate-100 pt-3">
+            {/* 모바일 BEST 서브 카테고리 — 오더 #C29 [3]: 구분선 slate-200 로 진하게. */}
+            <div className="mt-3 border-t border-slate-200 pt-3">
               <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
                 BEST
               </div>
