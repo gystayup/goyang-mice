@@ -597,11 +597,17 @@ export const spots: Spot[] = [
       },
     ],
     adSlot: null,
-    // 오더 #D3 [3]: TourAPI Type1 상위 3장 (다운로드 저장). hero-walk.jpg 대체.
+    // 오더 #D3 [3] 도입 · #C35 [2] 사장님 교체분 (전체 새 사진, 자체 소스): 4·5·6·7 로 갤러리 전량 교체.
+    //   4 (940×627): 봄 벚꽃 정자 섬 항공뷰
+    //   5 (940×627): 나무 다리 산책 · 도시 스카이라인 (저녁)
+    //   6 (940×627): 호수 항공뷰 · 도시 스카이라인 · 산 배경
+    //   7 (560×375): 노래하는분수대 야경 (원본 크기 · upscale 안 함)
+    //   credit 미설정 (자체 소스). cpyrht 미지정 → Type1 취급(크롭 그리드 렌더 대상).
     gallery: [
-      { url: "/images/spots/ilsan-lake-park-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
-      { url: "/images/spots/ilsan-lake-park-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
-      { url: "/images/spots/ilsan-lake-park-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/ilsan-lake-park-4.jpg" },
+      { url: "/images/spots/ilsan-lake-park-5.jpg" },
+      { url: "/images/spots/ilsan-lake-park-6.jpg" },
+      { url: "/images/spots/ilsan-lake-park-7.jpg" },
     ],
     // 오더 #C4 [3]: 카드 하단 「지역 · 최근접역」. spot-01 md 그대로.
     //   walk_min 은 실측 미확정 → null → 렌더 시 시간 미표시.
@@ -4678,6 +4684,16 @@ export const spots: Spot[] = [
       { ko: "대중교통·자가용 접근 용이", en: "Starfield Goyang", ja: "スターフィールド高陽", "zh-CN": "Starfield 高阳", "zh-TW": "Starfield 高陽" },
     ],
     adSlot: null,
+    // 오더 #C35 [2] 신규 배선 (자체 소스 · credit 미설정):
+    //   1 (940×627): 야경 대표 (Starfield 사인 · 그랜드오프닝 배너 · 잔디밭)
+    //   2 (940×627): 내부 조형물 (Samsung 매장 · 라이트닝 슈퍼히어로 마네킹)
+    //   3 (940×627): 펫파크 (붉은 조형물 · 강아지들 · Shinsegae Factory Store)
+    //   [3] Must-see 폴백 순서 2 (gallery 첫 장 승격) 로 자동 승격 — 야경 대표(1)가 Must-see 카드에 노출.
+    gallery: [
+      { url: "/images/spots/starfield-goyang-1.jpg" },
+      { url: "/images/spots/starfield-goyang-2.jpg" },
+      { url: "/images/spots/starfield-goyang-3.jpg" },
+    ],
     official_url: "https://www.starfield.co.kr/goyang",
     best_selected: false,
     tourapi: { contentid: "3111794", overview_ko: "스타필드 고양은 서울과 경기 서북부를 연결하는 관문적 위치에 있다. 북한산의 아름다운 자연환경과 성곽, 솟을 문, 망루 등 예로부터 이어져 온 한국적 건축 모티브들을 현대적으로 재해석하여 건축 디자인에 접목하였다. 트렌디한 패션 뷰티 전문관부터 합리적 가격대의 창고형 하이퍼마켓, 업그레이드된 마켓까지 하나의 공간에서 다양한 쇼핑과 여가 문화를 편안하고 쾌적하게 즐기실 수 있다. 사계절 온천수로 즐길 수 있는 아쿠아필드, 최신 시설의 시네마, 아이들을 위한 복합놀이 공간과 다양한 특화 서비스 시설까지 온 가족이 함께 소중한 추억을 만들 수 있다.  (출처 : 스타필드 고양 홈페이지)", homepage: "https://www.starfield.co.kr/goyang" },
