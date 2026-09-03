@@ -1,14 +1,15 @@
-// 시간대 여행(당일코스) SSOT — 오더 #FINAL PART B [B-1].
+// 시간대 여행(당일코스) SSOT — 오더 #FINAL PART B [B-1] · #C16 재편.
 //
 // 기준점: KINTEX (일산서구 대화동).
-// 링 3개: 30분 이내 / 1시간 이내 / 2시간 이내.
-// 각 목적지: 소요시간·교통수단 사실만. 창작·의역 금지. 5로케일 ko 폴백.
+// 링 2개: 30분 이내 / 1시간 이내 (2시간 이내 링 제거 · #C16).
+// 각 목적지: 소요시간·교통수단·소개문 사실만. 창작·의역 금지. 5로케일 ko 폴백.
 // 판매 없음 — price·booking·reservation 필드 신설 금지. "예약" 표현 0.
 //
 // 자산: 사진 미확보. 카테고리 컬러 gradient 로 렌더 폴백 (page 컴포넌트에서 처리).
 
 export type DayTripLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
-export type DayTripRing = "within-30min" | "within-1hour" | "within-2hour";
+// 오더 #C16: 2단 재편 · within-2hour 제거.
+export type DayTripRing = "within-30min" | "within-1hour";
 
 export type DayTripI18n = Record<DayTripLocale, string>;
 
@@ -23,6 +24,11 @@ export interface DayTripDestination {
   duration: DayTripI18n;
   /** 교통수단 사실 (예: "GTX-A 킨텍스역 → 서울역"). 5로케일. */
   transport: DayTripI18n;
+  /**
+   * 오더 #C16 [PART B]: 목적지 소개문 (5로케일 · 사장님 확정 원문 · 사실만).
+   * ko 폴백(A안). 창작·의역 0. 배우·포스터·대사 언급 0.
+   */
+  description: DayTripI18n;
 }
 
 export interface DayTripRingBlock {
@@ -79,6 +85,13 @@ const RING_30MIN: DayTripRingBlock = {
         "zh-CN": "GTX-A 韩国国际展览中心站 → 首尔站",
         "zh-TW": "GTX-A 韓國國際展覽中心站 → 首爾站",
       },
+      description: {
+        ko: "킨텍스역에서 GTX-A로 서울역까지 16분. 갈아탈 것 없이 직통. 서울역에 내리면 남대문시장·명동이 지하철 한 정거장. 서울 관광의 관문.",
+        en: "킨텍스역에서 GTX-A로 서울역까지 16분. 갈아탈 것 없이 직통. 서울역에 내리면 남대문시장·명동이 지하철 한 정거장. 서울 관광의 관문.",
+        ja: "킨텍스역에서 GTX-A로 서울역까지 16분. 갈아탈 것 없이 직통. 서울역에 내리면 남대문시장·명동이 지하철 한 정거장. 서울 관광의 관문.",
+        "zh-CN": "킨텍스역에서 GTX-A로 서울역까지 16분. 갈아탈 것 없이 직통. 서울역에 내리면 남대문시장·명동이 지하철 한 정거장. 서울 관광의 관문.",
+        "zh-TW": "킨텍스역에서 GTX-A로 서울역까지 16분. 갈아탈 것 없이 직통. 서울역에 내리면 남대문시장·명동이 지하철 한 정거장. 서울 관광의 관문.",
+      },
     },
     {
       id: "sangam-dmc-haneul-park",
@@ -103,6 +116,13 @@ const RING_30MIN: DayTripRingBlock = {
         ja: "地下鉄・バス連携",
         "zh-CN": "地铁·公交衔接",
         "zh-TW": "地鐵·公車銜接",
+      },
+      description: {
+        ko: "방송사가 모인 미디어 도시 상암과 노을 명소 하늘공원. 고양의 방송 인프라와 한강을 사이에 두고 이어지는 K-콘텐츠 벨트.",
+        en: "방송사가 모인 미디어 도시 상암과 노을 명소 하늘공원. 고양의 방송 인프라와 한강을 사이에 두고 이어지는 K-콘텐츠 벨트.",
+        ja: "방송사가 모인 미디어 도시 상암과 노을 명소 하늘공원. 고양의 방송 인프라와 한강을 사이에 두고 이어지는 K-콘텐츠 벨트.",
+        "zh-CN": "방송사가 모인 미디어 도시 상암과 노을 명소 하늘공원. 고양의 방송 인프라와 한강을 사이에 두고 이어지는 K-콘텐츠 벨트.",
+        "zh-TW": "방송사가 모인 미디어 도시 상암과 노을 명소 하늘공원. 고양의 방송 인프라와 한강을 사이에 두고 이어지는 K-콘텐츠 벨트.",
       },
     },
     {
@@ -129,11 +149,21 @@ const RING_30MIN: DayTripRingBlock = {
         "zh-CN": "紧邻自由路·自驾便利",
         "zh-TW": "緊鄰自由路·自駕便利",
       },
+      description: {
+        ko: "킨텍스에서 자유로를 따라 북서쪽. 신세계가 운영하는 대형 아웃렛. 쇼핑 후 파주 관광으로 이어지는 관문.",
+        en: "킨텍스에서 자유로를 따라 북서쪽. 신세계가 운영하는 대형 아웃렛. 쇼핑 후 파주 관광으로 이어지는 관문.",
+        ja: "킨텍스에서 자유로를 따라 북서쪽. 신세계가 운영하는 대형 아웃렛. 쇼핑 후 파주 관광으로 이어지는 관문.",
+        "zh-CN": "킨텍스에서 자유로를 따라 북서쪽. 신세계가 운영하는 대형 아웃렛. 쇼핑 후 파주 관광으로 이어지는 관문.",
+        "zh-TW": "킨텍스에서 자유로를 따라 북서쪽. 신세계가 운영하는 대형 아웃렛. 쇼핑 후 파주 관광으로 이어지는 관문.",
+      },
     },
   ],
 };
 
-// ─── [1시간 이내] · 홍대·연남 · 강남·코엑스 · 헤이리·프로방스 · 롯데아울렛 파주 ──
+// ─── [1시간 이내] · 홍대·연남 · 강남·코엑스 · 헤이리·프로방스(분리) · DMZ ─────
+// 오더 #C16: heyri-provence 를 heyri-art-village + provence-village 로 분리.
+//   롯데프리미엄아울렛 파주 제거. 임진각·평화누리·DMZ 를 이 링으로 이동
+//   (자유로 차량 약 1시간).
 const RING_1HOUR: DayTripRingBlock = {
   key: "within-1hour",
   label: {
@@ -144,11 +174,11 @@ const RING_1HOUR: DayTripRingBlock = {
     "zh-TW": "1小時以內",
   },
   subline: {
-    ko: "GTX 서울 도심 · 파주 문화 벨트",
-    en: "GTX into Seoul · Paju's culture belt",
-    ja: "GTXでソウル都心・坡州の文化ベルト",
-    "zh-CN": "GTX进首尔市中心·坡州文化带",
-    "zh-TW": "GTX進首爾市中心·坡州文化帶",
+    ko: "GTX 서울 도심 · 파주 문화 벨트 · DMZ 접경",
+    en: "GTX into Seoul · Paju's culture belt · the DMZ frontier",
+    ja: "GTXでソウル都心・坡州の文化ベルト・DMZ接境",
+    "zh-CN": "GTX进首尔市中心·坡州文化带·DMZ接境",
+    "zh-TW": "GTX進首爾市中心·坡州文化帶·DMZ接境",
   },
   color: "#DB2777",
   destinations: [
@@ -176,6 +206,13 @@ const RING_1HOUR: DayTripRingBlock = {
         "zh-CN": "GTX-A→首尔站换乘地铁",
         "zh-TW": "GTX-A→首爾站轉乘地鐵",
       },
+      description: {
+        ko: "연신내에서 6호선·공항철도로 홍대입구. 라이브 클럽과 연남동 카페골목. 고양에서 한 시간이면 서울에서 가장 힙한 동네.",
+        en: "연신내에서 6호선·공항철도로 홍대입구. 라이브 클럽과 연남동 카페골목. 고양에서 한 시간이면 서울에서 가장 힙한 동네.",
+        ja: "연신내에서 6호선·공항철도로 홍대입구. 라이브 클럽과 연남동 카페골목. 고양에서 한 시간이면 서울에서 가장 힙한 동네.",
+        "zh-CN": "연신내에서 6호선·공항철도로 홍대입구. 라이브 클럽과 연남동 카페골목. 고양에서 한 시간이면 서울에서 가장 힙한 동네.",
+        "zh-TW": "연신내에서 6호선·공항철도로 홍대입구. 라이브 클럽과 연남동 카페골목. 고양에서 한 시간이면 서울에서 가장 힙한 동네.",
+      },
     },
     {
       id: "gangnam-coex",
@@ -201,15 +238,22 @@ const RING_1HOUR: DayTripRingBlock = {
         "zh-CN": "GTX-A·上午COEX→下午KINTEX 可完成",
         "zh-TW": "GTX-A·上午COEX→下午KINTEX 可完成",
       },
+      description: {
+        ko: "오전에 강남 코엑스 전시를 보고 GTX로 오후에 킨텍스 전시를 본다 — GTX-A가 만든 새 동선. MICE 참가자에게 강남과 킨텍스가 하루 거리.",
+        en: "오전에 강남 코엑스 전시를 보고 GTX로 오후에 킨텍스 전시를 본다 — GTX-A가 만든 새 동선. MICE 참가자에게 강남과 킨텍스가 하루 거리.",
+        ja: "오전에 강남 코엑스 전시를 보고 GTX로 오후에 킨텍스 전시를 본다 — GTX-A가 만든 새 동선. MICE 참가자에게 강남과 킨텍스가 하루 거리.",
+        "zh-CN": "오전에 강남 코엑스 전시를 보고 GTX로 오후에 킨텍스 전시를 본다 — GTX-A가 만든 새 동선. MICE 참가자에게 강남과 킨텍스가 하루 거리.",
+        "zh-TW": "오전에 강남 코엑스 전시를 보고 GTX로 오후에 킨텍스 전시를 본다 — GTX-A가 만든 새 동선. MICE 참가자에게 강남과 킨텍스가 하루 거리.",
+      },
     },
     {
-      id: "heyri-provence",
+      id: "heyri-art-village",
       title: {
-        ko: "헤이리 예술마을·프로방스",
-        en: "Heyri Art Village · Provence",
-        ja: "ヘイリ芸術村·プロヴァンス",
-        "zh-CN": "Heyri艺术村·普罗旺斯",
-        "zh-TW": "Heyri藝術村·普羅旺斯",
+        ko: "헤이리 예술마을",
+        en: "Heyri Art Village",
+        ja: "ヘイリ芸術村",
+        "zh-CN": "Heyri 艺术村",
+        "zh-TW": "Heyri 藝術村",
       },
       region: { ko: "파주", en: "Paju", ja: "坡州", "zh-CN": "坡州", "zh-TW": "坡州" },
       duration: {
@@ -226,54 +270,46 @@ const RING_1HOUR: DayTripRingBlock = {
         "zh-CN": "自由路·自驾",
         "zh-TW": "自由路·自駕",
       },
+      description: {
+        ko: "예술가들이 만든 국내 최대 예술인 마을. 갤러리·박물관·공방·카페가 낮은 건물마다. 파주 출판도시와 이어지는 책과 예술의 도시.",
+        en: "예술가들이 만든 국내 최대 예술인 마을. 갤러리·박물관·공방·카페가 낮은 건물마다. 파주 출판도시와 이어지는 책과 예술의 도시.",
+        ja: "예술가들이 만든 국내 최대 예술인 마을. 갤러리·박물관·공방·카페가 낮은 건물마다. 파주 출판도시와 이어지는 책과 예술의 도시.",
+        "zh-CN": "예술가들이 만든 국내 최대 예술인 마을. 갤러리·박물관·공방·카페가 낮은 건물마다. 파주 출판도시와 이어지는 책과 예술의 도시.",
+        "zh-TW": "예술가들이 만든 국내 최대 예술인 마을. 갤러리·박물관·공방·카페가 낮은 건물마다. 파주 출판도시와 이어지는 책과 예술의 도시.",
+      },
     },
     {
-      id: "lotte-premium-outlets-paju",
+      id: "provence-village",
       title: {
-        ko: "롯데프리미엄아울렛 파주",
-        en: "Lotte Premium Outlets Paju",
-        ja: "ロッテプレミアムアウトレット坡州",
-        "zh-CN": "乐天高级奥特莱斯坡州",
-        "zh-TW": "樂天高級名品購物中心坡州",
+        ko: "프로방스 마을",
+        en: "Provence Village",
+        ja: "プロヴァンス村",
+        "zh-CN": "普罗旺斯村",
+        "zh-TW": "普羅旺斯村",
       },
       region: { ko: "파주", en: "Paju", ja: "坡州", "zh-CN": "坡州", "zh-TW": "坡州" },
       duration: {
-        ko: "마을버스 약 10분",
-        en: "About 10 min by community bus",
-        ja: "コミュニティバスで約10分",
-        "zh-CN": "村庄巴士约10分钟",
-        "zh-TW": "社區巴士約10分鐘",
+        ko: "자유로로 1시간 내외",
+        en: "About 1 hr via Jayu-ro",
+        ja: "自由路で1時間前後",
+        "zh-CN": "经自由路约1小时",
+        "zh-TW": "經自由路約1小時",
       },
       transport: {
-        ko: "GTX-A 운정중앙역 1번 출구 → 마을버스 81번",
-        en: "GTX-A Unjeong-jungang Stn. Exit 1 → Village Bus 81",
-        ja: "GTX-A 雲井中央駅1番出口 → コミュニティバス81番",
-        "zh-CN": "GTX-A 云井中央站1号出口 → 村庄巴士81路",
-        "zh-TW": "GTX-A 雲井中央站1號出口 → 社區巴士81路",
+        ko: "자유로 · 자가용 접근",
+        en: "Jayu-ro — by car",
+        ja: "自由路・車で",
+        "zh-CN": "自由路·自驾",
+        "zh-TW": "自由路·自駕",
+      },
+      description: {
+        ko: "프랑스 남부를 옮겨온 듯한 테마 마을. 드라마 《별에서 온 그대》 촬영지로, 저녁이면 조명이 켜져 사진 명소가 된다.",
+        en: "프랑스 남부를 옮겨온 듯한 테마 마을. 드라마 《별에서 온 그대》 촬영지로, 저녁이면 조명이 켜져 사진 명소가 된다.",
+        ja: "프랑스 남부를 옮겨온 듯한 테마 마을. 드라마 《별에서 온 그대》 촬영지로, 저녁이면 조명이 켜져 사진 명소가 된다.",
+        "zh-CN": "프랑스 남부를 옮겨온 듯한 테마 마을. 드라마 《별에서 온 그대》 촬영지로, 저녁이면 조명이 켜져 사진 명소가 된다.",
+        "zh-TW": "프랑스 남부를 옮겨온 듯한 테마 마을. 드라마 《별에서 온 그대》 촬영지로, 저녁이면 조명이 켜져 사진 명소가 된다.",
       },
     },
-  ],
-};
-
-// ─── [2시간 이내] · 임진각·평화누리·DMZ ─────────────────────────────────
-const RING_2HOUR: DayTripRingBlock = {
-  key: "within-2hour",
-  label: {
-    ko: "2시간 이내",
-    en: "Within 2 hours",
-    ja: "2時間以内",
-    "zh-CN": "2小时以内",
-    "zh-TW": "2小時以內",
-  },
-  subline: {
-    ko: "파주 최북단 · DMZ 접경",
-    en: "Northernmost Paju — the DMZ frontier",
-    ja: "坡州最北・DMZ接境",
-    "zh-CN": "坡州最北端·DMZ接境",
-    "zh-TW": "坡州最北端·DMZ接境",
-  },
-  color: "#312E81",
-  destinations: [
     {
       id: "imjingak-peace-nuri-dmz",
       title: {
@@ -285,24 +321,32 @@ const RING_2HOUR: DayTripRingBlock = {
       },
       region: { ko: "파주", en: "Paju", ja: "坡州", "zh-CN": "坡州", "zh-TW": "坡州" },
       duration: {
-        ko: "자유로 최북단 · 2시간 이내",
-        en: "Within 2 hrs — northern end of Jayu-ro",
-        ja: "自由路の最北端・2時間以内",
-        "zh-CN": "自由路最北端·2小时以内",
-        "zh-TW": "自由路最北端·2小時以內",
+        ko: "자유로 차량 약 1시간",
+        en: "About 1 hr by car via Jayu-ro",
+        ja: "自由路で車で約1時間",
+        "zh-CN": "经自由路自驾约1小时",
+        "zh-TW": "經自由路自駕約1小時",
       },
       transport: {
-        ko: "자유로 최북단 · 자가용 접근",
-        en: "Northern end of Jayu-ro — by car",
-        ja: "自由路最北端・車で",
-        "zh-CN": "自由路最北端·自驾",
-        "zh-TW": "自由路最北端·自駕",
+        ko: "자유로 · 자가용 접근",
+        en: "Jayu-ro — by car",
+        ja: "自由路・車で",
+        "zh-CN": "自由路·自驾",
+        "zh-TW": "自由路·自駕",
+      },
+      description: {
+        ko: "고양에서 자유로 차량 약 1시간. 군사분계선에서 남쪽 7km, 평화의 종과 바람개비 잔디밭. 케이블카로 임진강을 건너 DMZ 전망대·제3땅굴까지. 외국인이 분단을 가장 가까이 체감하는 곳. ※일부 구역 사전 예약·여권 필요.",
+        en: "고양에서 자유로 차량 약 1시간. 군사분계선에서 남쪽 7km, 평화의 종과 바람개비 잔디밭. 케이블카로 임진강을 건너 DMZ 전망대·제3땅굴까지. 외국인이 분단을 가장 가까이 체감하는 곳. ※일부 구역 사전 예약·여권 필요.",
+        ja: "고양에서 자유로 차량 약 1시간. 군사분계선에서 남쪽 7km, 평화의 종과 바람개비 잔디밭. 케이블카로 임진강을 건너 DMZ 전망대·제3땅굴까지. 외국인이 분단을 가장 가까이 체감하는 곳. ※일부 구역 사전 예약·여권 필요.",
+        "zh-CN": "고양에서 자유로 차량 약 1시간. 군사분계선에서 남쪽 7km, 평화의 종과 바람개비 잔디밭. 케이블카로 임진강을 건너 DMZ 전망대·제3땅굴까지. 외국인이 분단을 가장 가까이 체감하는 곳. ※일부 구역 사전 예약·여권 필요.",
+        "zh-TW": "고양에서 자유로 차량 약 1시간. 군사분계선에서 남쪽 7km, 평화의 종과 바람개비 잔디밭. 케이블카로 임진강을 건너 DMZ 전망대·제3땅굴까지. 외국인이 분단을 가장 가까이 체감하는 곳. ※일부 구역 사전 예약·여권 필요.",
       },
     },
   ],
 };
 
-export const dayTripRings: DayTripRingBlock[] = [RING_30MIN, RING_1HOUR, RING_2HOUR];
+// 오더 #C16: 2단 배열. within-2hour 링 제거.
+export const dayTripRings: DayTripRingBlock[] = [RING_30MIN, RING_1HOUR];
 
 /** 페이지 헤더 문안 (5로케일). 사장님 명시 라벨 · 부제 그대로. */
 export const DAY_TRIPS_PAGE_COPY: {

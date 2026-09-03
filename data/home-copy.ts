@@ -134,14 +134,15 @@ export const BEST_ENTRY = {
 };
 
 // ─── 당일코스 teaser ─────────────────────────────────────────────────────
+// 오더 #C16: "30분–2시간" → "30분–1시간" 재편.
 export const DAYTRIPS_TEASER = {
   eyebrow: "DAY TRIPS", // 5로케일 공통 영문
   headline: {
-    ko: "고양에서 30분–2시간",
-    en: "30 minutes to 2 hours from Goyang",
-    ja: "高陽から30分〜2時間",
-    "zh-CN": "从高阳出发 30 分钟至 2 小时",
-    "zh-TW": "從高陽出發 30 分鐘至 2 小時",
+    ko: "고양에서 30분–1시간",
+    en: "30 minutes to 1 hour from Goyang",
+    ja: "高陽から30分〜1時間",
+    "zh-CN": "从高阳出发 30 分钟至 1 小时",
+    "zh-TW": "從高陽出發 30 分鐘至 1 小時",
   } as HomeI18n,
   subhead: {
     ko: "GTX·자유로로 이어지는 서울·파주 당일 여행 축",

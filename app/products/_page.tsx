@@ -94,6 +94,10 @@ export default async function ProductsPage({
                   <h3 className="text-base font-black leading-tight tracking-tight text-slate-950 sm:text-lg">
                     {d.title[locale]}
                   </h3>
+                  {/* 오더 #C16 PART B: 목적지 소개문 · 사장님 확정 원문 · 사실만. */}
+                  <p className="text-sm leading-relaxed text-slate-700">
+                    {d.description[locale]}
+                  </p>
                   <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-xs text-slate-600 sm:text-sm">
                     <dt className="font-bold text-slate-500">
                       {DURATION_LABEL[locale]}
