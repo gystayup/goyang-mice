@@ -1,14 +1,27 @@
-// Header — 오더 #C25 런던식 상단 리뉴얼 (흰 배경 · accent 코럴레드 언더라인).
+// Header — 오더 #C27 Visit London 식 상단 완전 재편.
 //
-// 이전 (#R2): 검은 pill + 차콜 배경 + 골드 언더라인.
-// 이후 (#C25): 흰 배경 pill + 슬레이트 텍스트 위계 + accent 하단 언더라인.
-//   · 로고 "GOYANG DMC" — dot·DMC 는 accent (골드 → accent 로 포인트 이동)
-//   · 활성 메뉴 = text-[var(--accent)] + border-b-2 border-[var(--accent)]
-//   · BEST 카테고리 칩 가볍게 (슬레이트 톤 · 활성 = accent tint)
-//   · 스크롤 시 흰색 sticky 고정 (sticky top-0 유지)
-//   · 언어 버튼 · 로그인 CTA 톤은 흰 배경에 어울리게 재정렬
+// 진화:
+//   #R2  — 검은 pill + 골드 언더라인
+//   #C25 — 흰 배경 pill + accent 언더라인
+//   #C27 — 라운드 박스 제거 · 얇은 구분선만 · 상단 유틸바 (좌: 언어·통화, 우: 로그인)
+//          · 로고 상단 중앙 · 메인 네비 로고 아래 중앙 · BEST 서브줄 박스 없이
 //
-// 무접촉: navigation 항목 · CATEGORY_LABEL · 5로케일 copy · 스타일 외 로직.
+// 구조 (데스크탑 lg+):
+//   ┌──────────────────────────────────────────────────────────────────┐
+//   │ [Utility bar] KO EN JP 简 繁 | ₩ KRW              [HeaderUserMenu]│  ← 얇은 슬레이트 · h-9
+//   ├──────────────────────────────────────────────────────────────────┤
+//   │                        · GOYANG DMC                              │  ← 로고 중앙 · py-5
+//   ├──────────────────────────────────────────────────────────────────┤
+//   │              DMC   COURSES   BEST   RESEARCH  ...                │  ← 메인 네비 중앙 · 활성 accent 하단 언더라인
+//   ├──────────────────────────────────────────────────────────────────┤
+//   │       BEST · 산책 · 미식 · 문화 · K-컬처 · 왕릉 · 가족 · 쇼핑 · 스테이 · 밤 │  ← BEST 서브줄 · 박스 없이 · 얇은 top border
+//   └──────────────────────────────────────────────────────────────────┘
+//
+// 구조 (모바일 lg-):
+//   [햄버거]         [GOYANG DMC 로고]         [User · Lang]
+//   (메뉴 오픈 시 드로어 · 언어 스위처는 우측 드롭다운)
+//
+// 무접촉: navigation 항목 · navigationLabels · CATEGORY_LABEL · CURATED_CATEGORIES.
 
 "use client";
 
@@ -29,31 +42,15 @@ type HeaderCopy = {
   closeLabel: string;
 };
 
-// 5로케일 헤더 문구 (menuLabel / closeLabel).
 const copyMap: Record<LocaleKey, HeaderCopy> = {
-  ko: {
-    menuLabel: "메뉴 열기",
-    closeLabel: "메뉴 닫기",
-  },
-  en: {
-    menuLabel: "Open menu",
-    closeLabel: "Close menu",
-  },
-  ja: {
-    menuLabel: "メニューを開く",
-    closeLabel: "メニューを閉じる",
-  },
-  "zh-CN": {
-    menuLabel: "打开菜单",
-    closeLabel: "关闭菜单",
-  },
-  "zh-TW": {
-    menuLabel: "開啟選單",
-    closeLabel: "關閉選單",
-  },
+  ko: { menuLabel: "메뉴 열기", closeLabel: "메뉴 닫기" },
+  en: { menuLabel: "Open menu", closeLabel: "Close menu" },
+  ja: { menuLabel: "メニューを開く", closeLabel: "メニューを閉じる" },
+  "zh-CN": { menuLabel: "打开菜单", closeLabel: "关闭菜单" },
+  "zh-TW": { menuLabel: "開啟選單", closeLabel: "關閉選單" },
 };
 
-// 언어 버튼 목록
+// 언어 버튼 목록.
 const localeButtons: { locale: LocaleKey; label: string }[] = [
   { locale: "ko", label: "KO" },
   { locale: "en", label: "EN" },
@@ -62,25 +59,30 @@ const localeButtons: { locale: LocaleKey; label: string }[] = [
   { locale: "zh-TW", label: "繁" },
 ];
 
-const localeButtonClass =
-  "inline-flex min-h-8 min-w-8 items-center justify-center rounded-full px-2.5 text-[11px] font-bold transition";
-
-/** 네비 항목별 위계 톤 결정 (오더 #R2 · #P1 로 best 추가 · #C25 로 흰 배경 톤 재조정). */
+/** 네비 항목별 위계 톤 (오더 #R2 · #P1 로 best 추가 · #C25/C27 로 흰 배경 · accent 언더라인). */
 function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
   if (key === "best" || key === "products" || key === "dmc") return "visitor";
   if (key === "contact") return "action";
   return "institutional"; // institute, research
 }
 
-/** 로고 텍스트 — 5로케일 공통 영문 고정. 오더 #C25: dot 과 DMC 를 accent 로. */
-function BrandLogo({ size = "sm" }: { size?: "sm" | "md" }) {
+/** 로고 텍스트 — 5로케일 공통 영문. dot 과 DMC 는 accent (오더 #C25). */
+function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const sizeClass =
-    size === "md"
-      ? "text-[10.5px] tracking-[0.3em]"
-      : "text-[9px] tracking-[0.22em] md:text-[10px] md:tracking-[0.28em]";
+    size === "lg"
+      ? "text-[13px] tracking-[0.32em]"
+      : size === "md"
+        ? "text-[11px] tracking-[0.3em]"
+        : "text-[10px] tracking-[0.24em]";
   return (
-    <span className={`relative font-black uppercase text-[var(--charcoal)] ${sizeClass}`}>
-      GOYANG <span className="text-[var(--accent)]">DMC</span>
+    <span className={`inline-flex items-center gap-2 font-black uppercase text-[var(--charcoal)] ${sizeClass}`}>
+      <span aria-hidden="true" className="relative flex h-1.5 w-1.5">
+        <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+      </span>
+      <span>
+        GOYANG <span className="text-[var(--accent)]">DMC</span>
+      </span>
     </span>
   );
 }
@@ -95,39 +97,118 @@ export default function Header() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 px-2 sm:px-4">
-      {/* 오더 #C25: 흰 배경 · 슬레이트 보더 · 스크롤 시 자연스레 고정. */}
-      <div className="mx-auto max-w-7xl rounded-[28px] border border-slate-200/80 bg-white px-3 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] md:px-4 md:py-3.5 sm:px-5 lg:px-6">
-
-        {/* ── 모바일 헤더 ── */}
-        <div className="flex items-center justify-between gap-1.5 md:gap-2 lg:hidden">
-          <Link href="/" className="group relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-slate-50 md:gap-2 md:px-3.5 md:py-1.5">
-            {/* 오더 #C25: dot 을 accent 로. */}
-            <span className="relative flex h-1.5 w-1.5 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            </span>
-            <BrandLogo size="sm" />
-          </Link>
-
-          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
-            <HeaderUserMenu locale={activeLocale} />
-            {/* 모바일 언어 버튼 — 드롭다운 */}
-            <MobileLocaleSelector activeLocale={activeLocale} pathname={pathname} />
-            <button
-              type="button"
-              aria-label={menuOpen ? copy.closeLabel : copy.menuLabel}
-              onClick={() => setMenuOpen((o) => !o)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--charcoal)] transition hover:bg-slate-50 md:h-10 md:w-10"
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
+      {/* ── [Desktop] 상단 유틸바 · 좌: 언어 + 통화 · 우: 로그인 CTA ── */}
+      <div className="hidden border-b border-slate-100 bg-white lg:block">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-6">
+          {/* 좌측: 언어 5개 + | + 통화 (모양만) */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-0.5">
+              {localeButtons.map(({ locale: loc, label }) => (
+                <Link
+                  key={loc}
+                  href={pathname}
+                  locale={loc}
+                  aria-current={activeLocale === loc ? "true" : undefined}
+                  className={`inline-flex h-6 min-w-6 items-center justify-center px-1.5 text-[11px] font-bold transition ${
+                    activeLocale === loc
+                      ? "text-[var(--accent)]"
+                      : "text-slate-500 hover:text-[var(--charcoal)]"
+                  }`}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+            <span aria-hidden="true" className="inline-block h-3.5 w-px bg-slate-200" />
+            {/* 통화 — 오더 #C27 "모양만" (버튼/드롭다운 아님) */}
+            <span
+              aria-label="Currency KRW"
+              className="text-[11px] font-bold tracking-[0.08em] text-slate-500"
             >
-              {menuOpen ? <X className="h-4 w-4 md:h-5 md:w-5" /> : <Menu className="h-4 w-4 md:h-5 md:w-5" />}
-            </button>
+              ₩ KRW
+            </span>
+          </div>
+          {/* 우측: 로그인 / 사용자 메뉴 */}
+          <div className="flex items-center">
+            <HeaderUserMenu locale={activeLocale} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── [Desktop] 브랜드 로우 · 로고 상단 중앙 ── */}
+      <div className="hidden lg:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-6 py-5">
+          <Link href="/" aria-label="GOYANG DMC" className="group inline-flex items-center">
+            <BrandLogo size="lg" />
+          </Link>
+        </div>
+      </div>
+
+      {/* ── [Desktop] 메인 네비 · 중앙 정렬 · 활성 = accent 하단 언더라인 ── */}
+      <div className="hidden border-t border-slate-100 lg:block">
+        <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-6">
+          {navigation.map((item) => {
+            const active = isActive(item.href);
+            const tone = navTone(item.key);
+            const toneClass = active
+              ? "text-[var(--accent)]"
+              : tone === "visitor"
+                ? "text-[var(--charcoal)] hover:text-[var(--accent)]"
+                : tone === "action"
+                  ? "text-slate-600 hover:text-[var(--accent)]"
+                  : "text-slate-400 hover:text-slate-700";
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`relative inline-flex shrink-0 items-center px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.12em] transition xl:text-[13px] ${toneClass} border-b-2 ${
+                  active ? "border-[var(--accent)]" : "border-transparent"
+                }`}
+              >
+                {navigationLabels[activeLocale][item.key]}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* ── [Desktop] BEST 서브줄 · 박스 없이 · 얇은 top border만 ── */}
+      <div className="hidden border-t border-slate-100 bg-white lg:block">
+        <BestCategoriesSubRow activeLocale={activeLocale} pathname={pathname} />
+      </div>
+
+      {/* ── [Mobile] 브랜드 라인 · 좌 햄버거 · 중앙 로고 · 우 User+언어 ── */}
+      <div className="lg:hidden">
+        <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-3 sm:px-4">
+          {/* 좌: 햄버거 */}
+          <button
+            type="button"
+            aria-label={menuOpen ? copy.closeLabel : copy.menuLabel}
+            onClick={() => setMenuOpen((o) => !o)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-[var(--charcoal)] transition hover:bg-slate-50"
+          >
+            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+
+          {/* 중앙: 로고 */}
+          <div className="flex items-center justify-center">
+            <Link href="/" aria-label="GOYANG DMC" className="inline-flex items-center">
+              <BrandLogo size="sm" />
+            </Link>
+          </div>
+
+          {/* 우: User + 언어 드롭다운 */}
+          <div className="flex items-center justify-end gap-1.5">
+            <HeaderUserMenu locale={activeLocale} />
+            <MobileLocaleSelector activeLocale={activeLocale} pathname={pathname} />
           </div>
         </div>
 
-        {/* 모바일 메뉴 — 흰 배경 톤으로 통일. */}
+        {/* 모바일 드로어 메뉴 */}
         {menuOpen ? (
-          <div className="mt-4 rounded-[24px] border border-slate-200 bg-white p-3 lg:hidden">
+          <div className="border-t border-slate-100 bg-white px-3 pb-4 pt-2 sm:px-4">
             <nav className="grid gap-1">
               {navigation.map((item) => {
                 const active = isActive(item.href);
@@ -144,7 +225,7 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`inline-flex min-h-12 items-center rounded-none border-b border-slate-100 px-2 py-3 text-sm font-semibold transition ${toneClass} ${
+                    className={`inline-flex min-h-12 items-center border-b border-slate-100 px-2 py-3 text-sm font-semibold uppercase tracking-[0.1em] transition ${toneClass} ${
                       active ? "border-b-2 border-[var(--accent)]" : ""
                     }`}
                   >
@@ -153,7 +234,7 @@ export default function Header() {
                 );
               })}
             </nav>
-            {/* 오더 #B1 [1]: 모바일 메뉴 내 BEST 하위 9카테고리 (wrap 허용). 오더 #C25: 흰 톤. */}
+            {/* 모바일 BEST 서브 카테고리 */}
             <div className="mt-3 border-t border-slate-100 pt-3">
               <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
                 BEST
@@ -180,91 +261,22 @@ export default function Header() {
                 })}
               </div>
             </div>
+            {/* 모바일 유틸 (언어는 우측 드롭다운, 통화만 여기) */}
+            <div className="mt-3 flex items-center gap-3 border-t border-slate-100 pt-3">
+              <span className="text-[11px] font-bold tracking-[0.08em] text-slate-500">
+                ₩ KRW
+              </span>
+            </div>
           </div>
         ) : null}
-
-        {/* ── 데스크탑 헤더 ── */}
-        <div className="hidden lg:grid lg:grid-cols-[minmax(0,16rem)_auto_minmax(0,1fr)_auto] lg:items-center lg:gap-4 xl:grid-cols-[minmax(0,18rem)_auto_minmax(0,1fr)_auto] xl:gap-5">
-
-          {/* 로고 (한 줄) — 오더 #C25: 흰 pill + accent dot·DMC */}
-          <Link href="/" className="min-w-0 group">
-            <div className="relative inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 transition-all duration-300 group-hover:border-[var(--accent)]/50 group-hover:bg-slate-50 group-hover:shadow-[0_6px_20px_rgba(226,62,46,0.12)]">
-              <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[var(--accent)]/40" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-              </span>
-              <BrandLogo size="md" />
-            </div>
-          </Link>
-
-          {/* 언어 버튼 — 흰 배경 톤 */}
-          <div>
-            <div className="inline-flex items-center gap-0.5 rounded-full border border-slate-200 bg-slate-50 p-1">
-              {localeButtons.map(({ locale: loc, label }) => (
-                <Link
-                  key={loc}
-                  href={pathname}
-                  locale={loc}
-                  aria-current={activeLocale === loc ? "true" : undefined}
-                  className={`${localeButtonClass} ${
-                    activeLocale === loc
-                      ? "bg-[var(--charcoal)] text-white"
-                      : "text-slate-500 hover:bg-white hover:text-[var(--charcoal)]"
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* 네비게이션 — 방문객·액션·기관 톤 위계 유지 · 활성 = accent 언더라인 + accent 텍스트 */}
-          <nav className="flex flex-wrap items-center gap-x-1 gap-y-1 pt-0.5">
-            {navigation.map((item) => {
-              const active = isActive(item.href);
-              const tone = navTone(item.key);
-              const toneClass = active
-                ? "text-[var(--accent)]"
-                : tone === "visitor"
-                  ? "text-[var(--charcoal)] hover:text-[var(--accent)]"
-                  : tone === "action"
-                    ? "text-slate-600 hover:text-[var(--accent)]"
-                    : "text-slate-400 hover:text-slate-700";
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`relative inline-flex shrink-0 items-center px-3 py-2 text-[12px] font-semibold transition xl:px-3.5 xl:text-[13px] ${toneClass} border-b-2 ${
-                    active ? "border-[var(--accent)]" : "border-transparent"
-                  }`}
-                >
-                  {navigationLabels[activeLocale][item.key]}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* User 메뉴 */}
-          <div className="flex items-center gap-2">
-            <HeaderUserMenu locale={activeLocale} />
-          </div>
-        </div>
-
-        {/* 오더 #B1 [1] + #C25: BEST 하위 9카테고리 서브줄 · 흰 배경용 라이트 톤. */}
-        <div className="hidden lg:block">
-          <BestCategoriesSubRow
-            activeLocale={activeLocale}
-            pathname={pathname}
-          />
-        </div>
       </div>
     </header>
   );
 }
 
 /**
- * 오더 #B1 [1] · #C25: BEST 하위 9카테고리 서브 네비. 흰 배경 · 슬레이트 톤 · 활성 = accent tint.
+ * BEST 하위 9카테고리 서브 네비 (데스크탑 · 박스 없음 · 얇은 top border만).
+ * 카테고리 라벨은 data/curated-categories.ts 의 CATEGORY_LABEL 재사용.
  */
 function BestCategoriesSubRow({
   activeLocale,
@@ -276,7 +288,7 @@ function BestCategoriesSubRow({
   return (
     <nav
       aria-label="BEST 카테고리"
-      className="mt-1.5 flex flex-wrap items-center gap-x-1 gap-y-1 border-t border-slate-100 pt-2"
+      className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 px-6 py-2"
     >
       <span className="mr-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
         BEST
@@ -289,10 +301,10 @@ function BestCategoriesSubRow({
             key={cat}
             href={href}
             aria-current={active ? "page" : undefined}
-            className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold transition ${
+            className={`inline-flex shrink-0 items-center px-2 py-1 text-[11px] font-semibold transition ${
               active
-                ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]"
-                : "border-slate-200 text-slate-700 hover:border-[var(--accent)]/40 hover:text-[var(--charcoal)]"
+                ? "text-[var(--accent)]"
+                : "text-slate-600 hover:text-[var(--accent)]"
             }`}
           >
             {CATEGORY_LABEL[activeLocale][cat]}
@@ -319,16 +331,22 @@ function MobileLocaleSelector({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 items-center gap-1 rounded-full border border-slate-200 bg-white px-2 text-[11px] font-bold text-[var(--charcoal)] transition hover:bg-slate-50 md:h-10 md:gap-1.5 md:px-3 md:text-[12px]"
+        className="inline-flex h-9 items-center gap-1 rounded-md border border-slate-200 bg-white px-2 text-[11px] font-bold text-[var(--charcoal)] transition hover:bg-slate-50"
       >
         {current?.label ?? "KO"}
-        <svg className={`h-2.5 w-2.5 transition-transform md:h-3 md:w-3 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg
+          className={`h-2.5 w-2.5 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2.5}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 min-w-[90px] overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
+        <div className="absolute right-0 top-11 z-50 min-w-[90px] overflow-hidden rounded-md border border-slate-200 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
           {localeButtons.map(({ locale: loc, label }) => (
             <Link
               key={loc}
@@ -336,7 +354,7 @@ function MobileLocaleSelector({
               locale={loc}
               onClick={() => setOpen(false)}
               className={`flex items-center justify-between px-4 py-2.5 text-[12px] font-bold transition hover:bg-slate-50 ${
-                activeLocale === loc ? "bg-[var(--charcoal)] text-white" : "text-slate-700"
+                activeLocale === loc ? "text-[var(--accent)]" : "text-slate-700"
               }`}
             >
               <span>{label}</span>

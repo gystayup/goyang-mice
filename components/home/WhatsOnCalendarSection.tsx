@@ -118,7 +118,7 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
     return (
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
             {WHATSON_CAL.eyebrow}
           </div>
           <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
@@ -135,7 +135,7 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
           {WHATSON_CAL.eyebrow}
         </div>
         <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
@@ -176,13 +176,13 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
                   onClick={() => setSelected(iso)}
                   className={`relative flex min-w-[62px] shrink-0 flex-col items-center rounded-2xl border px-3 py-2 text-center transition ${
                     isSel
-                      ? "border-[var(--gold,#D4AF37)] bg-[var(--gold,#D4AF37)]/10 text-[#232322]"
+                      ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[#232322]"
                       : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
                   }`}
                 >
                   <span
                     className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
-                      isSel ? "text-[var(--gold,#D4AF37)]" : "text-slate-500"
+                      isSel ? "text-[var(--accent)]" : "text-slate-500"
                     }`}
                   >
                     {isToday ? WHATSON_CAL.todayLabel[active] : weekdayShort(iso, active)}
@@ -195,7 +195,7 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
                       aria-label={`${cnt} events`}
                       className={`mt-1 inline-flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[10px] font-bold ${
                         isSel
-                          ? "bg-[var(--gold,#D4AF37)] text-white"
+                          ? "bg-[var(--accent)] text-white"
                           : "bg-slate-950 text-white"
                       }`}
                     >
@@ -270,7 +270,7 @@ function WhatsOnCard({
         </p>
       )}
       <div className="mt-4">
-        <h3 className="text-lg font-black leading-tight tracking-[-0.02em] text-[#232322] transition-colors group-hover:text-[var(--gold,#D4AF37)] sm:text-xl">
+        <h3 className="text-lg font-black leading-tight tracking-[-0.02em] text-[#232322] transition-colors group-hover:text-[var(--accent)] sm:text-xl">
           {event.title[locale]}
         </h3>
         <p className="mt-2 text-sm text-[#232322]/70">{event.venue[locale]}</p>

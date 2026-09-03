@@ -227,7 +227,7 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
   return (
     <section className="bg-[#faf7f2]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
           {SECTION_EYEBROW}
         </div>
         <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
@@ -246,12 +246,12 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
             >
               <span
                 aria-hidden="true"
-                className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--gold,#D4AF37)]/15 text-[var(--gold,#D4AF37)]"
+                className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-[var(--accent)]"
               >
                 <IconFor kind={line.icon} />
               </span>
               <div className="min-w-0">
-                <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--gold,#D4AF37)]">
+                <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent)]">
                   {line.code[active]}
                 </div>
                 <div className="mt-1 text-base font-black leading-snug tracking-[-0.02em] text-[#232322] sm:text-lg">
@@ -277,11 +277,11 @@ export default function GettingAroundSection({ locale }: { locale: string }) {
                 href={l.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-[#232322] shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold,#D4AF37)]"
+                className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-[#232322] shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
                 <span>{l.label[active]}</span>
                 <ExternalLink
-                  className="h-3.5 w-3.5 text-slate-500 transition-colors group-hover:text-[var(--gold,#D4AF37)]"
+                  className="h-3.5 w-3.5 text-slate-500 transition-colors group-hover:text-[var(--accent)]"
                   aria-hidden="true"
                 />
               </a>

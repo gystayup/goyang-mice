@@ -64,7 +64,7 @@ export default function MustSeeSection({ locale }: { locale: string }) {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
           {MUST_SEE.eyebrow}
         </div>
         <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
@@ -85,7 +85,7 @@ export default function MustSeeSection({ locale }: { locale: string }) {
                 <Link
                   href={`/dmc/${slug}`}
                   aria-label={`${name} — ${sub}`}
-                  className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold,#D4AF37)]"
+                  className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                 >
                   <article className="grid aspect-[4/5] grid-rows-[13fr_7fr] overflow-hidden rounded-[20px] bg-white ring-1 ring-slate-200/70 transition-shadow group-hover:shadow-md">
                     <div className="relative overflow-hidden bg-slate-100">
@@ -108,7 +108,7 @@ export default function MustSeeSection({ locale }: { locale: string }) {
                     </div>
                     <div className="flex flex-col justify-between gap-2 p-5">
                       <div>
-                        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--gold,#D4AF37)]">
+                        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent)]">
                           {category}
                         </div>
                         <h3 className="mt-1.5 text-base font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-lg">

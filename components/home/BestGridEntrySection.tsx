@@ -31,7 +31,7 @@ export default function BestGridEntrySection({ locale }: { locale: string }) {
   return (
     <section className="bg-[#faf7f2]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+        <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
           {BEST_ENTRY.eyebrow}
         </div>
         <h2 className="mt-3 text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">
@@ -49,7 +49,7 @@ export default function BestGridEntrySection({ locale }: { locale: string }) {
                 <Link
                   href={`/best/${cat}`}
                   aria-label={label}
-                  className="inline-block rounded-full transition duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold,#D4AF37)]"
+                  className="inline-block rounded-full transition duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                 >
                   <Emblem
                     category={cat}

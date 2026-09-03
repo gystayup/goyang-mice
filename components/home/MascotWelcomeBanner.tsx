@@ -59,7 +59,7 @@ export default function MascotWelcomeBanner({ locale }: { locale: string }) {
 
           {/* 영문 브랜드 서브 라인 — 5로케일 공통. 이미지에 한글 카피 중복 방지. */}
           <div className="text-center lg:text-left">
-            <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--gold,#D4AF37)]">
+            <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
               Welcome
             </div>
             <div className="mt-1 text-lg font-black uppercase tracking-[0.08em] text-[var(--charcoal,#232322)] sm:text-xl lg:text-2xl">

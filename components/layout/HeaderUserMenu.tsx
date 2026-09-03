@@ -40,7 +40,7 @@ export default function HeaderUserMenu({ locale }: { locale: string }) {
     return (
       <Link
         href="/login"
-        className="inline-flex h-8 w-8 items-center justify-center gap-1.5 rounded-full bg-[var(--gold)] text-xs font-bold text-[var(--charcoal)] transition hover:brightness-110 md:h-9 md:w-auto md:px-3"
+        className="inline-flex h-8 w-8 items-center justify-center gap-1.5 rounded-full bg-[var(--accent)] text-xs font-bold text-white transition hover:brightness-110 md:h-9 md:w-auto md:px-3"
         aria-label={t.login}
       >
         <LogIn className="h-3.5 w-3.5" />
