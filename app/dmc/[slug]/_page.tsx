@@ -291,10 +291,11 @@ export default async function SpotDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* 오더 #C31: sticky Header(#C27~#C29 재구조 후 데스크탑 ~196px · 모바일 ~63px)
-            높이만큼 상단 spacer 로 갤러리 상단이 네비에 눌리지 않도록 확보.
-            홈·다른 페이지 무영향 (상세 페이지 <article> 로컬 spacer). */}
-        <div className="h-16 lg:h-52" aria-hidden="true" />
+        {/* 오더 #C31 도입 · #C32 정확 매치: sticky Header 높이만큼 상단 spacer.
+            높이는 globals.css 의 --header-h CSS 변수 (모바일 55px · lg 124px) 로 자동 반응.
+            헤더 슬림화(#C32) 후 BEST 서브줄이 상세에선 숨겨져 헤더가 슬림 그대로.
+            spacer = 헤더 실측 → 빈 공간 0. 홈·다른 페이지 무영향. */}
+        <div className="h-[var(--header-h)]" aria-hidden="true" />
 
         {/* 1. 갤러리 — 대형1+소형3 (n≥4) / 그리드 (n=2·3) / 단일 (n=1). */}
         <Gallery

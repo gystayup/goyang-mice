@@ -98,11 +98,17 @@ export default function Header() {
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
+  // 오더 #C32: BEST 하위 9카테고리 서브줄은 홈(/) 및 /best·/best/{cat} 에서만 노출.
+  //   상세·/dmc·/products·/institute·/research·/news 등 기타 페이지에서는 숨김 (헤더 슬림화).
+  //   상세 spacer(--header-h) 는 서브줄 없는 슬림 헤더 기준으로 CSS 변수 설정됨.
+  const showBestSubRow = pathname === "/" || pathname === "/best" || pathname.startsWith("/best/");
+
   return (
     <header className="sticky top-0 z-50 border-b-[3px] border-[var(--accent)] bg-white">
       {/* ── [Desktop] 상단 유틸바 · 좌: 언어 + 통화 · 우: 로그인 CTA ── */}
+      {/* 오더 #C32: 슬림화 — h-9 → h-8. */}
       <div className="hidden border-b border-slate-100 bg-white lg:block">
-        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-6">
+        <div className="mx-auto flex h-8 max-w-7xl items-center justify-between px-6">
           {/* 좌측: 언어 5개 + | + 통화 (모양만) */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-0.5">
@@ -139,8 +145,9 @@ export default function Header() {
       </div>
 
       {/* ── [Desktop] 브랜드 로우 · 로고 상단 중앙 ── */}
+      {/* 오더 #C32: 슬림화 — py-5 → py-3. */}
       <div className="hidden lg:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-center px-6 py-5">
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-6 py-3">
           <Link href="/" aria-label="GOYANG DMC" className="group inline-flex items-center">
             <BrandLogo size="lg" />
           </Link>
@@ -165,7 +172,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative inline-flex shrink-0 items-center px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.12em] transition xl:text-[13px] ${toneClass} border-b-2 ${
+                className={`relative inline-flex shrink-0 items-center px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] transition xl:text-[13px] ${toneClass} border-b-2 ${
                   active ? "border-[var(--accent)]" : "border-transparent"
                 }`}
               >
@@ -176,14 +183,18 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* ── [Desktop] BEST 서브줄 · 박스 없이 · 오더 #C29 [3]: 구분선 slate-200 로 진하게 (메인 네비와 분리) ── */}
-      <div className="hidden border-t border-slate-200 bg-white lg:block">
-        <BestCategoriesSubRow activeLocale={activeLocale} pathname={pathname} />
-      </div>
+      {/* ── [Desktop] BEST 서브줄 · 박스 없이 · 오더 #C29 [3]: 구분선 slate-200 로 진하게.
+             오더 #C32: 홈(/) 과 /best·/best/{cat} 에서만 노출 — 상세·기타 페이지 숨김. ── */}
+      {showBestSubRow ? (
+        <div className="hidden border-t border-slate-200 bg-white lg:block">
+          <BestCategoriesSubRow activeLocale={activeLocale} pathname={pathname} />
+        </div>
+      ) : null}
 
       {/* ── [Mobile] 브랜드 라인 · 좌 햄버거 · 중앙 로고 · 우 User+언어 ── */}
+      {/* 오더 #C32: 슬림화 — py-3 → py-2. */}
       <div className="lg:hidden">
-        <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-3 sm:px-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-2 sm:px-4">
           {/* 좌: 햄버거 */}
           <button
             type="button"
