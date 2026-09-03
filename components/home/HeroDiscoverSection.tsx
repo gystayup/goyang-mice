@@ -1,21 +1,19 @@
-// components/home/HeroDiscoverSection.tsx — 오더 #C14b 홈 히어로 · #C23 마감 고도화 · #C25 런던식 리뉴얼.
+// components/home/HeroDiscoverSection.tsx — 오더 #C14b 홈 히어로 · #C23 마감 · #C25 accent · #C28 Visit London 완전 일치.
 //
 // 구조:
-//   1) 배경: HeroSlider Ken Burns 6장 (hero-{cat}.jpg 6장 자산 재사용)
-//      · 오더 #C25: 스크림 소폭 감소 (#C23 감소분에서 한 단계 더 · 사진 살림 · 가독성 유지)
-//      · 자동 8초 순환 (client)
-//   2) 오버레이:
-//      · brand eyebrow — 오더 #C23 도입, #C25: 색 accent (얇은 줄 + accent 라벨 · 5로케일)
-//      · 초대형 헤드라인 "Discover GOYANG" (5로케일 · text-5xl → text-8xl)
-//      · 서브 카피 (5로케일)
-//      · 검색바 UI — 오더 #C23 도입, #C25: 우측 accent 원형 제출 버튼 (UI만 · 라우팅 미구현)
-//      · 신뢰배너 3칸 — 오더 #C23 도입 (인덱스 01·02·03 + 아이콘 정돈),
-//        #C25: 카드 배경을 accent 로 · 흰 글씨 (런던식 하단 컬러바)
+//   1) <section>  히어로 배경 + 오버레이 (배경 6장 · 스크림 · 헤드라인 · 검색바)
+//   2) <section>  하단 신뢰 띠 — 오더 #C28 [3]: 화면 폭 100% accent 배경 · 3항목 flex row
+//                 · 흰 글씨/아이콘 · 구분선(white/20) · 히어로 바로 아래 붙임 (mt 0)
+//
+// 진화:
+//   #C23: brand eyebrow · 검색바 골드 원형 · 신뢰배너 3카드 (상단 골드 띠 + 인덱스)
+//   #C25: 색을 accent 로 통일 · 카드 배경 accent · 스크림 감소
+//   #C28 [3]: 카드 3개(간격) → 화면 폭 꽉 채운 한 줄 코럴 띠 (Visit London 하단 빨강 배너)
 //
 // 규범:
 //   · 판매·예약·"예약" 표현 0. 검색 기능 구현 0 (UI 뼈대만).
-//   · 브랜드 색: var(--charcoal) · var(--gold) 병존, var(--accent) 신규 (오더 #C25).
-//   · 신뢰배너 3칸은 사실 근거만 (data/home-copy.ts SSOT).
+//   · 브랜드 색: var(--charcoal) · var(--gold) 병존, var(--accent) 신규.
+//   · 신뢰배너 3항목 사실 근거만 (data/home-copy.ts SSOT · 문구 무변경).
 //   · 5로케일 ko 폴백.
 
 "use client";
@@ -43,144 +41,148 @@ export default function HeroDiscoverSection({ locale }: { locale: string }) {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#0a0e1a] text-white">
-      {/* ── 배경 슬라이드 · Ken Burns · 크로스페이드 ── */}
-      <style>{`
-        @keyframes hero-discover-kb {
-          0% { transform: scale(1); }
-          100% { transform: scale(1.12); }
-        }
-        .hero-discover-kb {
-          animation: hero-discover-kb 14s ease-out infinite alternate;
-          will-change: transform;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .hero-discover-kb { animation: none !important; transform: none !important; }
-        }
-      `}</style>
+    <>
+      {/* ─── 1) 히어로 섹션 (신뢰배너 제거 · pb 감소로 하단 띠와 맞닿음) ─── */}
+      <section className="relative overflow-hidden bg-[#0a0e1a] text-white">
+        {/* 배경 슬라이드 · Ken Burns · 크로스페이드 */}
+        <style>{`
+          @keyframes hero-discover-kb {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.12); }
+          }
+          .hero-discover-kb {
+            animation: hero-discover-kb 14s ease-out infinite alternate;
+            will-change: transform;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .hero-discover-kb { animation: none !important; transform: none !important; }
+          }
+        `}</style>
 
-      <div className="absolute inset-0">
-        {BG_SLIDES.map((cat, i) => (
-          <div
-            key={cat}
-            aria-hidden="true"
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              i === index ? "opacity-100" : "pointer-events-none opacity-0"
-            }`}
-          >
-            <div className="relative h-full w-full hero-discover-kb">
-              <Image
-                src={`/images/hero/hero-${cat}.jpg`}
-                alt=""
-                fill
-                sizes="100vw"
-                priority={i === 0}
-                className="object-cover"
-              />
+        <div className="absolute inset-0">
+          {BG_SLIDES.map((cat, i) => (
+            <div
+              key={cat}
+              aria-hidden="true"
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                i === index ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              <div className="relative h-full w-full hero-discover-kb">
+                <Image
+                  src={`/images/hero/hero-${cat}.jpg`}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  priority={i === 0}
+                  className="object-cover"
+                />
+              </div>
             </div>
-          </div>
-        ))}
-        {/* 오더 #C25: 스크림 소폭 감소 — 세로 0.35→0.28 · 0.60→0.50 · 0.85→0.72 (사진 살림 · 가독성 유지). */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.50) 55%, rgba(0,0,0,0.72) 100%)",
-          }}
-        />
-        {/* 좌측 강 스크림도 감소 (0.55→0.42) — 좌 정렬 텍스트 가독은 유지. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0) 60%)",
-          }}
-        />
-      </div>
-
-      {/* ── 오버레이 컨텐츠 ── */}
-      <div className="relative mx-auto max-w-7xl px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-28">
-        {/* 오더 #C23 도입 · #C25 [3]: brand eyebrow — accent 얇은 줄 + accent 라벨 (작게 · 5로케일). */}
-        <div className="flex items-center gap-3">
-          <span
+          ))}
+          {/* 오더 #C25: 스크림 소폭 감소 (사진 살림 · 가독성 유지). */}
+          <div
             aria-hidden="true"
-            className="inline-block h-px w-8 bg-[var(--accent)]"
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.50) 55%, rgba(0,0,0,0.72) 100%)",
+            }}
           />
-          <span className="text-[10px] font-bold uppercase tracking-[0.32em] text-[var(--accent)] sm:text-[11px]">
-            {HERO_DISCOVER.brandEyebrow[active]}
-          </span>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0) 60%)",
+            }}
+          />
         </div>
 
-        {/* 초대형 헤드라인 */}
-        <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-[-0.04em] sm:text-6xl lg:text-7xl xl:text-8xl">
-          {HERO_DISCOVER.headline[active]}
-        </h1>
-
-        {/* 서브 카피 */}
-        <p className="mt-6 max-w-3xl text-base font-semibold leading-relaxed text-white/90 sm:text-lg lg:text-xl">
-          {HERO_DISCOVER.subhead[active]}
-        </p>
-
-        {/* 오더 #C23 도입 · #C25 [4]: 검색바 UI + 우측 accent 원형 제출 버튼. 라우팅 미구현 · UI 뼈대만. */}
-        <form
-          action="#"
-          onSubmit={(e) => e.preventDefault()}
-          role="search"
-          aria-label={HERO_DISCOVER.searchAriaLabel[active]}
-          className="mt-8 max-w-2xl"
-        >
-          <div className="flex items-center gap-2 rounded-full bg-white/95 py-2 pl-5 pr-2 shadow-[0_10px_28px_rgba(0,0,0,0.28)] backdrop-blur">
-            <Search className="h-5 w-5 shrink-0 text-slate-500" aria-hidden="true" />
-            <input
-              type="search"
-              placeholder={HERO_DISCOVER.searchPlaceholder[active]}
-              aria-label={HERO_DISCOVER.searchAriaLabel[active]}
-              className="min-w-0 flex-1 bg-transparent text-sm text-slate-950 outline-none placeholder:text-slate-500 sm:text-base"
+        {/* 오버레이 컨텐츠 (오더 #C28: 신뢰배너 제거로 pb 감소 · 하단 accent 띠와 맞닿음) */}
+        <div className="relative mx-auto max-w-7xl px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24">
+          {/* brand eyebrow — accent 얇은 줄 + accent 라벨 (5로케일). */}
+          <div className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="inline-block h-px w-8 bg-[var(--accent)]"
             />
-            <button
-              type="submit"
-              aria-label={HERO_DISCOVER.searchButtonAriaLabel[active]}
-              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-white shadow-[0_4px_12px_rgba(226,62,46,0.45)] transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              <Search className="h-5 w-5" aria-hidden="true" />
-            </button>
+            <span className="text-[10px] font-bold uppercase tracking-[0.32em] text-[var(--accent)] sm:text-[11px]">
+              {HERO_DISCOVER.brandEyebrow[active]}
+            </span>
           </div>
-        </form>
 
-        {/* 오더 #C23 도입 (인덱스 01·02·03 + 아이콘) · #C25 [4]: 카드 배경 accent + 흰 글씨 (런던식 하단 컬러바). */}
-        <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-5">
+          {/* 초대형 헤드라인 */}
+          <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-[-0.04em] sm:text-6xl lg:text-7xl xl:text-8xl">
+            {HERO_DISCOVER.headline[active]}
+          </h1>
+
+          {/* 서브 카피 */}
+          <p className="mt-6 max-w-3xl text-base font-semibold leading-relaxed text-white/90 sm:text-lg lg:text-xl">
+            {HERO_DISCOVER.subhead[active]}
+          </p>
+
+          {/* 검색바 UI + 우측 accent 원형 제출 버튼. 라우팅 미구현 · UI 뼈대만. */}
+          <form
+            action="#"
+            onSubmit={(e) => e.preventDefault()}
+            role="search"
+            aria-label={HERO_DISCOVER.searchAriaLabel[active]}
+            className="mt-8 max-w-2xl"
+          >
+            <div className="flex items-center gap-2 rounded-full bg-white/95 py-2 pl-5 pr-2 shadow-[0_10px_28px_rgba(0,0,0,0.28)] backdrop-blur">
+              <Search className="h-5 w-5 shrink-0 text-slate-500" aria-hidden="true" />
+              <input
+                type="search"
+                placeholder={HERO_DISCOVER.searchPlaceholder[active]}
+                aria-label={HERO_DISCOVER.searchAriaLabel[active]}
+                className="min-w-0 flex-1 bg-transparent text-sm text-slate-950 outline-none placeholder:text-slate-500 sm:text-base"
+              />
+              <button
+                type="submit"
+                aria-label={HERO_DISCOVER.searchButtonAriaLabel[active]}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-white shadow-[0_4px_12px_rgba(226,62,46,0.45)] transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
+                <Search className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      {/* ─── 2) 하단 신뢰 띠 (오더 #C28 [3]) — 화면 폭 100% accent · 3항목 flex row · 구분선 ─── */}
+      <section
+        aria-label="Goyang trust highlights"
+        className="w-full bg-[var(--accent)] text-white"
+      >
+        <ul className="mx-auto flex max-w-7xl flex-col sm:flex-row">
           {HERO_DISCOVER.trustBanner.map((b, i) => {
             const Icon = BANNER_ICONS[i] ?? Sparkles;
             return (
               <li
                 key={i}
-                className="relative overflow-hidden rounded-2xl bg-[var(--accent)] px-5 py-5 shadow-[0_10px_30px_rgba(226,62,46,0.35)]"
+                className={`flex flex-1 items-start gap-3 px-5 py-5 sm:px-6 sm:py-6 ${
+                  i > 0 ? "border-t border-white/20 sm:border-l sm:border-t-0" : ""
+                }`}
               >
-                <div className="flex items-start gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/85">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <div className="mt-1 text-base font-black leading-tight tracking-[-0.02em] text-white sm:text-lg">
-                      {b.title[active]}
-                    </div>
-                    <p className="mt-2 text-xs leading-snug text-white/90 sm:text-sm">
-                      {b.desc[active]}
-                    </p>
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white"
+                >
+                  <Icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-base font-black leading-tight tracking-[-0.02em] text-white sm:text-lg">
+                    {b.title[active]}
                   </div>
+                  <p className="mt-1 text-xs leading-snug text-white/90 sm:text-sm">
+                    {b.desc[active]}
+                  </p>
                 </div>
               </li>
             );
           })}
         </ul>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
