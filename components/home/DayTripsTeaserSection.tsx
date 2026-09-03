@@ -2,10 +2,9 @@
 //
 // data/day-trips.ts 3링 (30분/1시간/2시간) 재사용 · 각 링 대표 1건씩 3장 노출.
 //
-// 초안 대표:
+// 초안 대표 (오더 #C16: 2링):
 //   30분 이내:  서울역·명동         (seoul-station-myeongdong)
-//   1시간 이내: 강남·코엑스          (gangnam-coex)
-//   2시간 이내: 임진각·평화누리·DMZ  (imjingak-peace-nuri-dmz)
+//   1시간 이내: 임진각·평화누리·DMZ  (imjingak-peace-nuri-dmz)
 //
 // 규범:
 //   · 판매·예약·"예약" 표현 0. 사진 없음 → 링 컬러 그라디언트 폴백.
@@ -24,8 +23,7 @@ import { Link } from "@/lib/navigation";
 
 const FEATURED_BY_RING: Record<DayTripRing, string> = {
   "within-30min": "seoul-station-myeongdong",
-  "within-1hour": "gangnam-coex",
-  "within-2hour": "imjingak-peace-nuri-dmz",
+  "within-1hour": "imjingak-peace-nuri-dmz",
 };
 
 function pickDestination(ring: DayTripRingBlock): DayTripDestination | undefined {
@@ -49,7 +47,7 @@ export default function DayTripsTeaserSection({ locale }: { locale: string }) {
           {DAYTRIPS_TEASER.subhead[active]}
         </p>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2">
           {dayTripRings.map((ring) => {
             const d = pickDestination(ring);
             if (!d) return null;
