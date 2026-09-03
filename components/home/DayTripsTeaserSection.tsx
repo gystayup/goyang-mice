@@ -1,13 +1,13 @@
-// components/home/DayTripsTeaserSection.tsx — 오더 #C14b 당일코스 티저.
+// components/home/DayTripsTeaserSection.tsx — 오더 #C14b · #C16 · #C33 재편.
 //
-// data/day-trips.ts 3링 (30분/1시간/2시간) 재사용 · 각 링 대표 1건씩 3장 노출.
+// data/day-trips.ts 2축 재사용 · 각 축 대표 1건씩 2장 노출.
 //
-// 초안 대표 (오더 #C16: 2링):
-//   30분 이내:  서울역·명동         (seoul-station-myeongdong)
-//   1시간 이내: 임진각·평화누리·DMZ  (imjingak-peace-nuri-dmz)
+// 오더 #C33: 지역 2축.
+//   서울 투어 (seoul-tour) 대표:   서울역·명동         (seoul-station-myeongdong)
+//   경기 투어 (gyeonggi-tour) 대표: 임진각·평화누리·DMZ  (imjingak-peace-nuri-dmz)
 //
 // 규범:
-//   · 판매·예약·"예약" 표현 0. 사진 없음 → 링 컬러 그라디언트 폴백.
+//   · 판매·예약·"예약" 표현 0. 사진 없음 → 축 컬러 그라디언트 폴백.
 //   · 5로케일 ko 폴백.
 
 import { ArrowRight } from "lucide-react";
@@ -21,9 +21,10 @@ import {
 } from "@/data/day-trips";
 import { Link } from "@/lib/navigation";
 
+// 오더 #C33: 각 축 대표 slug.
 const FEATURED_BY_RING: Record<DayTripRing, string> = {
-  "within-30min": "seoul-station-myeongdong",
-  "within-1hour": "imjingak-peace-nuri-dmz",
+  "seoul-tour": "seoul-station-myeongdong",
+  "gyeonggi-tour": "imjingak-peace-nuri-dmz",
 };
 
 function pickDestination(ring: DayTripRingBlock): DayTripDestination | undefined {
