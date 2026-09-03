@@ -291,13 +291,13 @@ export default async function SpotDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* 오더 #C31 도입 · #C32 정확 매치: sticky Header 높이만큼 상단 spacer.
-            높이는 globals.css 의 --header-h CSS 변수 (모바일 55px · lg 124px) 로 자동 반응.
-            헤더 슬림화(#C32) 후 BEST 서브줄이 상세에선 숨겨져 헤더가 슬림 그대로.
-            spacer = 헤더 실측 → 빈 공간 0. 홈·다른 페이지 무영향. */}
-        <div className="h-[var(--header-h)]" aria-hidden="true" />
+        {/* 오더 #C31 도입 후 오더 #C39 로 제거: Header 는 sticky top-0 (fixed 아님).
+            문서 flow 에서 헤더 자체가 자기 크기 차지하므로 spacer 불필요. spacer 를
+            두면 article bg-white 흰 띠가 헤더 하단 accent 라인 아래 var(--header-h)
+            = lg 124px · 모바일 55px 만큼 그대로 노출된다 (사장님 지적 "150px 흰 띠").
+            spacer 제거로 네비 하단선 ~ 갤러리 상단 간격 = 0px. 3개 페이지 통일. */}
 
-        {/* 1. 갤러리 — 대형1+소형3 (n≥4) / 그리드 (n=2·3) / 단일 (n=1). */}
+        {/* 1. 갤러리 — n=1 단일 / n=2·3 그리드 (오더 #C39 로 n≥4 분기 제거 · 앞 3장만 렌더). */}
         <Gallery
           images={resolveSpotGallery(spot.gallery, spot.slug, spot.title.ko)}
           title={spot.title[locale]}
@@ -433,7 +433,9 @@ function Gallery({
   );
 }
 
-/** Type1 (또는 cpyrht 미지정) 이미지들을 크롭 그리드로 배치. */
+/** Type1 (또는 cpyrht 미지정) 이미지들을 크롭 그리드로 배치.
+ *  오더 #C39: n≥4 분기 (큰1+세로3) 제거 · 앞 3장만 렌더 → kintex(n=3) 와 완전 동일 그리드로 통일.
+ *  사진 파일 자체는 무터치 (렌더 개수만 제한). n=1·n=2 분기는 유지. */
 function GalleryCrop({
   images,
   title,
@@ -443,10 +445,12 @@ function GalleryCrop({
   title: string;
   locale: PageLocale;
 }) {
-  const n = images.length;
+  // 오더 #C39: 앞 3장만 렌더 (호수공원 4장 · 서오릉 6장도 앞 3장). n=1·2는 그대로.
+  const capped = images.slice(0, 3);
+  const n = capped.length;
 
   if (n === 1) {
-    const img = images[0];
+    const img = capped[0];
     return (
       <>
         <div className="relative aspect-[16/9] max-h-[600px] w-full bg-[#232322]">
@@ -459,58 +463,18 @@ function GalleryCrop({
     );
   }
 
-  if (n === 2 || n === 3) {
-    return (
-      <div className={`grid gap-2 ${n === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
-        {images.map((img, i) => (
-          <figure key={i}>
-            <div className="relative aspect-[4/3] w-full bg-[#232322]">
-              <Image src={img.url} alt={title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" priority={i === 0} />
-            </div>
-            <Caption text={resolveCredit(img, locale)} />
-          </figure>
-        ))}
-      </div>
-    );
-  }
-
-  // n >= 4 → 대형1 + 소형3 (데스크톱). 모바일: 대형1 + 3장 가로 스크롤.
-  const [hero, ...rest] = images;
-  const smalls = rest.slice(0, 3);
+  // n === 2 || n === 3 — 오더 #C39 로 n≥4 도 여기로 병합 (앞 3장 슬라이스 결과).
   return (
-    <>
-      {/* Desktop — 오더 #C36 → #C38 정정. 이전 aspect-[3/2] + max-h-[600px] 조합이
-          부모 100vw 에서 aspect 재계산으로 grid width 를 900px 로 좁혀 우측 대공백을
-          유발했다 (예: 1440px 뷰포트에서 540px 공백). w-full 로 폭 강제 + 반응형 fixed
-          height (sm 420 · md 500 · lg 600) 로 grid 폭 100% 보장 · rows-3 균등 분할 ·
-          <Image fill> 부모 높이 확보. n=1 (w-full aspect-[16/9] max-h-[600px]) 과 정합. */}
-      <div className="hidden w-full sm:grid sm:h-[420px] sm:grid-cols-4 sm:grid-rows-3 sm:gap-2 md:h-[500px] lg:h-[600px]">
-        <div className="relative bg-[#232322] sm:col-span-3 sm:row-span-3">
-          <Image src={hero.url} alt={title} fill className="object-cover" sizes="75vw" priority />
-        </div>
-        {smalls.map((img, i) => (
-          <div key={i} className="relative bg-[#232322]">
-            <Image src={img.url} alt={title} fill className="object-cover" sizes="25vw" />
+    <div className={`grid gap-2 ${n === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
+      {capped.map((img, i) => (
+        <figure key={i}>
+          <div className="relative aspect-[4/3] w-full bg-[#232322]">
+            <Image src={img.url} alt={title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" priority={i === 0} />
           </div>
-        ))}
-      </div>
-      {/* Mobile */}
-      <div className="sm:hidden">
-        <div className="relative aspect-[16/9] w-full bg-[#232322]">
-          <Image src={hero.url} alt={title} fill className="object-cover" sizes="100vw" priority />
-        </div>
-        <div className="mt-2 flex gap-2 overflow-x-auto">
-          {smalls.map((img, i) => (
-            <div key={i} className="relative aspect-[4/3] w-40 shrink-0 bg-[#232322]">
-              <Image src={img.url} alt={title} fill className="object-cover" sizes="160px" />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="mx-auto max-w-6xl px-6">
-        <Caption text={resolveCredit(hero, locale)} />
-      </div>
-    </>
+          <Caption text={resolveCredit(img, locale)} />
+        </figure>
+      ))}
+    </div>
   );
 }
 
