@@ -75,6 +75,7 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     //   해당 스팟은 spots.ts 에 남아 SSG 경로 유지되나 목록에서는 노출 X.
     //   서오릉·서삼릉·행주산성 은 walk items 유지 + history items 에도 등재.
     // 오더 #C8 [2]: walk +2 (원당종마목장·장항습지) 추가.
+    // 오더 #C10 [1]: walk +2 (안곡습지공원·고양생태공원) 추가.
     items: [
       { id: "ilsan-lake-park", name: "일산호수공원", desc: "도심 한가운데 호수를 한 바퀴 도는 길", region: "ilsan-east" },
       { id: "jeongbalsan-park", name: "정발산근린공원", desc: "도심에서 바로 오르는 낮은 산", region: "ilsan-east" },
@@ -85,6 +86,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
       { id: "haengju-fortress", name: "행주산성", desc: "한강을 내려다보며 걷는 성곽길", region: "deokyang" },
       { id: "wondang-ranch-lets-run-farm", name: "원당종마목장 (렛츠런팜 원당)", desc: "말 목장 · 사극·CF 촬영지", region: "deokyang" },
       { id: "janghang-wetlands", name: "장항습지", desc: "한강 하구의 습지", region: "ilsan-east" },
+      { id: "angok-wetland-park", name: "안곡습지공원", desc: "도심 속 습지 생태공원", region: "ilsan-east" },
+      { id: "goyang-ecological-park", name: "고양생태공원", desc: "킨텍스 인근 생태공원", region: "ilsan-west" },
     ],
     // 오더 #C3 [2] · #C5 [2]: name/desc 4로케일 override. spots.ts title/subtitle 그대로.
     translations: {
@@ -98,6 +101,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "kintex-walkway": { name: "KINTEX Area Walkway", desc: "A walk between exhibition sessions" },
         "wondang-ranch-lets-run-farm": { name: "Wondang Horse Ranch (Let's Run Farm)" },
         "janghang-wetlands": { name: "Janghang Wetlands" },
+        "angok-wetland-park": { name: "Angok Wetland Park" },
+        "goyang-ecological-park": { name: "Goyang Ecological Park" },
       },
       ja: {
         "ilsan-lake-park": { name: "一山湖水公園", desc: "都心の真ん中で湖を一周する道" },
@@ -109,6 +114,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "kintex-walkway": { name: "キンテックス一帯の遊歩道", desc: "展示の合間に歩く道" },
         "wondang-ranch-lets-run-farm": { name: "元堂種馬牧場(レッツランファーム元堂)" },
         "janghang-wetlands": { name: "獐項湿地" },
+        "angok-wetland-park": { name: "安谷湿地公園" },
+        "goyang-ecological-park": { name: "高陽生態公園" },
       },
       "zh-CN": {
         "ilsan-lake-park": { name: "一山湖水公园", desc: "环绕城市中心湖泊的步道" },
@@ -120,6 +127,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "kintex-walkway": { name: "韩国国际展览中心一带步道", desc: "展会间隙可走的步道" },
         "wondang-ranch-lets-run-farm": { name: "元堂种马牧场（Let's Run Farm 元堂）" },
         "janghang-wetlands": { name: "獐项湿地" },
+        "angok-wetland-park": { name: "安谷湿地公园" },
+        "goyang-ecological-park": { name: "高阳生态公园" },
       },
       "zh-TW": {
         "ilsan-lake-park": { name: "一山湖水公園", desc: "環繞城市中心湖泊的步道" },
@@ -131,6 +140,8 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
         "kintex-walkway": { name: "韓國國際展覽中心一帶步道", desc: "展會間隙可走的步道" },
         "wondang-ranch-lets-run-farm": { name: "元堂種馬牧場（Let's Run Farm 元堂）" },
         "janghang-wetlands": { name: "獐項濕地" },
+        "angok-wetland-park": { name: "安谷濕地公園" },
+        "goyang-ecological-park": { name: "高陽生態公園" },
       },
     },
   },
