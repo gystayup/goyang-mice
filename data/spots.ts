@@ -2800,6 +2800,13 @@ export const spots: Spot[] = [
       { ko: "GTX 킨텍스역", en: "GTX Kintex Station", ja: "GTXキンテックス駅", "zh-CN": "GTX韩国国际展览中心站", "zh-TW": "GTX韓國國際展覽中心站" },
     ],
     adSlot: null,
+    // 오더 #C22: 킨텍스 실사진 3장 (사장님 배치본 · card/ 폴더 정리하며 spots/로 이동).
+    //   Type1/Type3 아님 · cpyrht 미설정 (TourAPI 외 소스). credit 미설정.
+    gallery: [
+      { url: "/images/spots/kintex-1.jpg" },
+      { url: "/images/spots/kintex-2.jpg" },
+      { url: "/images/spots/kintex-3.jpg" },
+    ],
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
     official_url: "http://www.kintex.com",
     best_selected: false,
