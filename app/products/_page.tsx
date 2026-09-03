@@ -25,7 +25,7 @@ export type PageLocale = DayTripLocale;
 
 export const metadata: Metadata = {
   title: "당일코스",
-  description: "고양에서 30분–1시간, 서울과 파주",
+  description: "고양에서 편도 2시간 이내, 서울과 경기 당일 여행",
   alternates: { canonical: "/ko/products" },
 };
 

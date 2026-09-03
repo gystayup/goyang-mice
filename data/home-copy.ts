@@ -151,21 +151,22 @@ export const BEST_ENTRY = {
 
 // ─── 당일코스 teaser ─────────────────────────────────────────────────────
 // 오더 #C16: "30분–2시간" → "30분–1시간" 재편.
+// 오더 #C33: 시간링 → 지역(서울/경기) 2축 재구성 · "편도 2시간 이내" 기준.
 export const DAYTRIPS_TEASER = {
   eyebrow: "DAY TRIPS", // 5로케일 공통 영문
   headline: {
-    ko: "고양에서 30분–1시간",
-    en: "30 minutes to 1 hour from Goyang",
-    ja: "高陽から30分〜1時間",
-    "zh-CN": "从高阳出发 30 分钟至 1 小时",
-    "zh-TW": "從高陽出發 30 分鐘至 1 小時",
+    ko: "고양에서 2시간, 서울과 경기",
+    en: "Two hours from Goyang — Seoul and Gyeonggi",
+    ja: "高陽から2時間、ソウルと京畿",
+    "zh-CN": "从高阳出发 2 小时，首尔与京畿",
+    "zh-TW": "從高陽出發 2 小時，首爾與京畿",
   } as HomeI18n,
   subhead: {
-    ko: "GTX·자유로로 이어지는 서울·파주 당일 여행 축",
-    en: "Day-trip axes into Seoul and Paju via GTX and Jayu-ro",
-    ja: "GTX・自由路でつながるソウル・坡州の日帰り軸",
-    "zh-CN": "以 GTX 与自由路串联的首尔·坡州一日游轴线",
-    "zh-TW": "以 GTX 與自由路串聯的首爾·坡州一日遊軸線",
+    ko: "고양에서 편도 2시간 이내, 서울과 경기 당일 여행",
+    en: "Day trips into Seoul and Gyeonggi within a 2-hour ride from Goyang",
+    ja: "高陽から片道2時間以内、ソウルと京畿の日帰り旅行",
+    "zh-CN": "从高阳单程 2 小时以内，首尔与京畿的一日游",
+    "zh-TW": "從高陽單程 2 小時以內，首爾與京畿的一日遊",
   } as HomeI18n,
   cta: {
     ko: "당일코스 전체 보기 →",
