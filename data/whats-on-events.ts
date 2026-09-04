@@ -295,6 +295,10 @@ const TICKET_TYPE_MAP: Record<TicketProduct["category"], WhatsOnEventType> = {
   family: "performance",
   festival: "festival",
   exhibition: "exhibition",
+  // 오더 #C51: 신규 3종 · WHAT'S ON 3분류에 편입 (activity/tour → performance, admission → exhibition).
+  activity: "performance",
+  admission: "exhibition",
+  tour: "performance",
 };
 
 function replicate(value: string): I18nText {

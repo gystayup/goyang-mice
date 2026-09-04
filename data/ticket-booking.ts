@@ -1,8 +1,14 @@
+// 오더 #C51: 카테고리 7종 확장 (activity·admission·tour 신설). legacy "k-pop" 은
+//   Supabase 데이터 하위 호환을 위해 타입에 유지 · 렌더는 normalizeTicketCategory 로
+//   concert 로 매핑 (data/ticket-categories.ts). Supabase 데이터 변경 금지 (G7 LOCK).
 export type TicketCategory =
   | "concert"
   | "festival"
   | "exhibition"
   | "family"
+  | "activity"
+  | "admission"
+  | "tour"
   | "k-pop";
 
 export interface TicketOption {
