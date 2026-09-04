@@ -39,6 +39,7 @@ import NewsPanel from "./NewsPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
 import ServiceCatalogPanel from "./ServiceCatalogPanel";
 import SocialLinksPanel from "./SocialLinksPanel";
+import SpotCatalogPanel from "./SpotCatalogPanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
   airportTransferStatusOrder,
@@ -909,6 +910,12 @@ export default function AdminDashboard() {
             <div className="mt-6 space-y-6">
               <ServiceCatalogPanel />
               <ProductManagementPanel products={filteredProducts} />
+            </div>
+          ) : null}
+
+          {!loading && activeTab === "spots" ? (
+            <div className="mt-6">
+              <SpotCatalogPanel />
             </div>
           ) : null}
 
