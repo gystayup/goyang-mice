@@ -44,10 +44,10 @@ type DmcCopy = {
 };
 
 const koreanCopy: DmcCopy = {
-  metadata: { title: "고양 티켓 안내", description: "고양의 공연·전시·축제·체험·입장권·투어를 한 곳에서." },
+  metadata: { title: "고양 티켓", description: "고양에서 열리는 공연·전시·축제 티켓 안내." },
   eyebrow: "GOYANG TICKETS",
-  title: "고양의 티켓",
-  desc: "KINTEX·아람누리·고양종합운동장 등에서 열리는 공연·전시·축제·체험·입장권·투어 안내입니다.",
+  title: "티켓",
+  desc: "고양에서 열리는 공연·전시·축제를 한 곳에서 확인하세요.",
   ctaTicket: "티켓 안내",
   emptyPlaceholder: "등록된 티켓이 곧 여기에 표시됩니다.",
   catalogViewAll: "당일코스 보기",
@@ -55,10 +55,10 @@ const koreanCopy: DmcCopy = {
 };
 
 const englishCopy: DmcCopy = {
-  metadata: { title: "Goyang Tickets", description: "Concerts, exhibitions, festivals, activities, admissions, and tours in Goyang." },
+  metadata: { title: "Goyang Tickets", description: "Tickets for concerts, exhibitions and festivals in Goyang." },
   eyebrow: "GOYANG TICKETS",
-  title: "Tickets in Goyang",
-  desc: "Concerts, exhibitions, festivals, activities, admissions and tours across KINTEX, Aramnuri, and Goyang Stadium.",
+  title: "Tickets",
+  desc: "Find what's on in Goyang — all in one place.",
   ctaTicket: "Ticket info",
   emptyPlaceholder: "Registered tickets will appear here soon.",
   catalogViewAll: "See day trips",
@@ -66,10 +66,10 @@ const englishCopy: DmcCopy = {
 };
 
 const japaneseCopy: DmcCopy = {
-  metadata: { title: "高陽 チケット案内", description: "高陽の公演・展示・フェスティバル・体験・入場券・ツアーを一カ所で。" },
+  metadata: { title: "高陽チケット", description: "高陽で開催される公演・展示・フェスティバルのチケット案内。" },
   eyebrow: "GOYANG TICKETS",
-  title: "高陽のチケット",
-  desc: "KINTEX・アラムヌリ・高陽総合運動場などで行われる公演・展示・フェスティバル・体験・入場券・ツアーのご案内です。",
+  title: "チケット",
+  desc: "高陽で開催される公演・展示・フェスティバルを一カ所で。",
   ctaTicket: "チケット案内",
   emptyPlaceholder: "登録されたチケットが近日中にここに表示されます。",
   catalogViewAll: "日帰り旅行を見る",
@@ -77,10 +77,10 @@ const japaneseCopy: DmcCopy = {
 };
 
 const chineseSimplifiedCopy: DmcCopy = {
-  metadata: { title: "高阳 门票指南", description: "高阳的演出·展览·节庆·体验·入场券·游览一站式了解。" },
+  metadata: { title: "高阳门票", description: "高阳演出·展览·节庆门票指南。" },
   eyebrow: "GOYANG TICKETS",
-  title: "高阳的门票",
-  desc: "KINTEX·阿蓝努里·高阳综合运动场等地举行的演出·展览·节庆·体验·入场券·游览信息。",
+  title: "门票",
+  desc: "高阳举办的演出·展览·节庆，一站式查看。",
   ctaTicket: "门票信息",
   emptyPlaceholder: "已登记的门票将很快显示在此。",
   catalogViewAll: "查看一日游",
@@ -88,10 +88,10 @@ const chineseSimplifiedCopy: DmcCopy = {
 };
 
 const chineseTraditionalCopy: DmcCopy = {
-  metadata: { title: "高陽 門票指南", description: "高陽的演出·展覽·節慶·體驗·入場券·遊覽一站式了解。" },
+  metadata: { title: "高陽門票", description: "高陽演出·展覽·節慶門票指南。" },
   eyebrow: "GOYANG TICKETS",
-  title: "高陽的門票",
-  desc: "KINTEX·阿藍努里·高陽綜合運動場等地舉行的演出·展覽·節慶·體驗·入場券·遊覽資訊。",
+  title: "門票",
+  desc: "高陽舉辦的演出·展覽·節慶，一站式查看。",
   ctaTicket: "門票資訊",
   emptyPlaceholder: "已登記的門票將很快顯示在此。",
   catalogViewAll: "查看一日遊",
