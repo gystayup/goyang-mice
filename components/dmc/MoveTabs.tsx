@@ -35,7 +35,8 @@ import {
   planFaq,
   type EssentialIcon,
 } from "@/data/essentials";
-import { spots, type Spot } from "@/data/spots";
+// 오더 #C54-B: spots 는 상위 서버 컴포넌트가 loadSpots() 로 fetch 후 props 로 주입.
+import type { Spot } from "@/data/spots";
 import { Link } from "@/lib/navigation";
 
 type Direction = "in" | "out" | "essentials";
@@ -64,9 +65,12 @@ const COPIED_LABEL_FALLBACK: Record<MoveLocale, string> = {
 export function MoveTabs({
   data,
   locale,
+  spots,
 }: {
   data: DmcMoveData;
   locale: MoveLocale;
+  /** 오더 #C54-B: admin Supabase 소스에서 서버가 fetch 후 주입 (published !== false 필터). */
+  spots: Spot[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -166,7 +170,7 @@ export function MoveTabs({
           copiedLabel={copiedLabel}
         />
       ) : (
-        <EssentialsView locale={locale} />
+        <EssentialsView locale={locale} spots={spots} />
       )}
     </>
   );
@@ -178,7 +182,7 @@ const ICON_MAP: Record<EssentialIcon, ComponentType<SVGProps<SVGSVGElement>>> = 
   Phone, Info: InfoIcon, CalendarDays, Wifi, ShieldCheck, Stethoscope,
 };
 
-function EssentialsView({ locale }: { locale: MoveLocale }) {
+function EssentialsView({ locale, spots }: { locale: MoveLocale; spots: Spot[] }) {
   return (
     <div className="mt-10 space-y-20">
       {/* ESSENTIALS 항목 13개 */}
@@ -261,7 +265,7 @@ function EssentialsView({ locale }: { locale: MoveLocale }) {
         </div>
 
         {/* 접근성 — spots.ts info.access 3분류 집계 */}
-        <AccessibilityBlock locale={locale} />
+        <AccessibilityBlock locale={locale} spots={spots} />
 
         {/* FAQ */}
         <div className="mt-10 border-t border-[#232322]/10 pt-8">
@@ -293,7 +297,7 @@ function EssentialsView({ locale }: { locale: MoveLocale }) {
   );
 }
 
-function AccessibilityBlock({ locale }: { locale: MoveLocale }) {
+function AccessibilityBlock({ locale, spots }: { locale: MoveLocale; spots: Spot[] }) {
   // 오더 #E2 [4]: spot.info.access 값 3분류로 집계. 새 데이터 만들지 않음.
   const buckets: Record<"wheelchair" | "partial" | "inquiry", Spot[]> = {
     wheelchair: [], partial: [], inquiry: [],

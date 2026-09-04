@@ -15,6 +15,8 @@ import {
   MOVE_LOCALES,
   type MoveLocale,
 } from "@/data/dmc-move";
+// 오더 #C54-B: admin Supabase 소스에서 spots fetch 후 MoveTabs(client) 에 props 주입.
+import { loadSpots } from "@/lib/spot-catalog-db";
 
 export type PageLocale = MoveLocale;
 
@@ -57,13 +59,15 @@ export function getMoveMetadata(locale: PageLocale): Metadata {
   };
 }
 
-export default function DmcMovePage({
+export default async function DmcMovePage({
   locale = "ko",
 }: {
   locale?: PageLocale;
 }) {
   const active = toPageLocale(locale);
   const { header } = dmcMoveData;
+  // 오더 #C54-B: spots 를 서버에서 admin Supabase 소스로 fetch (published !== false).
+  const spots = await loadSpots();
 
   return (
     <Shell>
@@ -116,7 +120,7 @@ export default function DmcMovePage({
             useSearchParams 는 Suspense 안이어야 SSG 통과. */}
         <section className="mx-auto max-w-4xl px-6 pb-24">
           <Suspense fallback={null}>
-            <MoveTabs data={dmcMoveData} locale={active} />
+            <MoveTabs data={dmcMoveData} locale={active} spots={spots} />
           </Suspense>
         </section>
       </article>

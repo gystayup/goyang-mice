@@ -125,3 +125,43 @@ export async function readVisibleSpots(): Promise<Spot[]> {
   const list = await readSpotCatalog();
   return list.filter((s) => s.published !== false);
 }
+
+// ─── 오더 #C54-B 프론트 소비 API (published 필터 자동 · DB 우선 · 정적 폴백) ───
+
+/** 프론트 노출용 전체 스팟 목록. published !== false 만. */
+export async function loadSpots(): Promise<Spot[]> {
+  return readVisibleSpots();
+}
+
+/**
+ * slug 로 단일 스팟 조회 (프론트용).
+ *   · published === false 이면 null 반환 (오더 #C54-B [2] "노출 off → 화면에서 사라짐")
+ *   · 없거나 published false → null
+ */
+export async function loadSpot(slug: string): Promise<Spot | null> {
+  const s = await getSpotFromCatalog(slug);
+  if (!s) return null;
+  if (s.published === false) return null;
+  return s;
+}
+
+/** slug 존재 여부 (published !== false 만 카운트). 프론트에서 링크 노출 판정. */
+export async function hasSpotAsync(slug: string): Promise<boolean> {
+  const s = await loadSpot(slug);
+  return s !== null;
+}
+
+/**
+ * 근처 스팟 조회 (프론트용). 기존 data/spots.ts getNearbySpots 로직 미러:
+ *   같은 category · slug 다름 · published !== false · limit(기본 3)
+ */
+export async function loadNearbySpots(
+  spot: Spot,
+  opts?: { limit?: number },
+): Promise<Spot[]> {
+  const limit = opts?.limit ?? 3;
+  const list = await readVisibleSpots();
+  return list
+    .filter((s) => s.slug !== spot.slug && s.category === spot.category)
+    .slice(0, limit);
+}

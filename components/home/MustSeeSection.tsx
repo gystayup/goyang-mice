@@ -25,7 +25,8 @@ import Image from "next/image";
 
 import { StampBadge, stampForSlug } from "@/components/badges/StampBadge";
 import { MUST_SEE, pickHomeLocale } from "@/data/home-copy";
-import { getSpot, type Spot } from "@/data/spots";
+import { loadSpot } from "@/lib/spot-catalog-db";
+import type { Spot } from "@/data/spots";
 import { Link } from "@/lib/navigation";
 
 const MUST_SEE_SLUGS = [
@@ -58,8 +59,10 @@ function resolveMustSeeImage(spot: Spot): string {
   return `/images/hero/hero-${spot.category}.jpg`;
 }
 
-export default function MustSeeSection({ locale }: { locale: string }) {
+// 오더 #C54-B: 서버 컴포넌트 async 전환. loadSpot() 은 published !== false 필터 포함.
+export default async function MustSeeSection({ locale }: { locale: string }) {
   const active = pickHomeLocale(locale);
+  const spots = await Promise.all(MUST_SEE_SLUGS.map((slug) => loadSpot(slug)));
 
   return (
     <section className="bg-white">
@@ -72,8 +75,8 @@ export default function MustSeeSection({ locale }: { locale: string }) {
         </h2>
 
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {MUST_SEE_SLUGS.map((slug) => {
-            const spot = getSpot(slug);
+          {MUST_SEE_SLUGS.map((slug, i) => {
+            const spot = spots[i];
             if (!spot) return null;
             const name = spot.title[active] ?? spot.title.ko;
             const sub = spot.subtitle?.[active] ?? spot.subtitle?.ko ?? "";
