@@ -40,7 +40,7 @@ import {
 import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { historyHeader, historyOutro, historyStories } from "@/data/history-stories";
-import { getSpot, hasSpot } from "@/data/spots";
+import { loadSpots } from "@/lib/spot-catalog-db";
 import { resolveSpotAutoPhoto } from "@/lib/spot-photos";
 import { Link } from "@/lib/navigation";
 
@@ -138,6 +138,11 @@ export default async function BestCategoryPage({
   const color = EMBLEM_COLORS[cat];
   const story = getCuratedStory(cat);
   const orderedRegions = [...regions].sort((a, b) => a.order - b.order);
+
+  // 오더 #C54-B: 스팟 데이터를 admin Supabase 소스에서 loadSpots() 로 fetch.
+  // published !== false 만. items map 반복 안에서 async 호출 없이 Map lookup.
+  const spotList = await loadSpots();
+  const spotBySlug = new Map(spotList.map((s) => [s.slug, s]));
 
   return (
     <Shell>
@@ -247,8 +252,8 @@ export default async function BestCategoryPage({
                   ...getLocalizedCuratedItem(item, story, locale),
                   rank: item.rank ?? i + 1,
                 }}
-                spot={getSpot(item.id)}
-                spotLinked={hasSpot(item.id)}
+                spot={spotBySlug.get(item.id) ?? null}
+                spotLinked={spotBySlug.has(item.id)}
                 locale={locale}
                 categoryColor={color}
               />

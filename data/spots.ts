@@ -446,6 +446,11 @@ export interface Spot {
    *   (§5-4 준수). 창작·의역 금지 · overview 첫 문장만 이식.
    */
   foodHub?: SpotFoodHub;
+  /**
+   * 오더 #C54: admin 노출 여부 토글. false 면 프론트에서 필터링 (미노출).
+   *   undefined/true → 노출. 기존 정적 배열 무영향 (optional).
+   */
+  published?: boolean;
 }
 
 // 오더 #C1: 첫 실데이터 1건 (일산호수공원). spot-01-ilsan-lake-park.md 그대로.

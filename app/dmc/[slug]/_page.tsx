@@ -28,10 +28,6 @@ import {
   isCuratedCategory,
 } from "@/data/curated-categories";
 import {
-  getNearbySpots,
-  getSpot,
-  hasSpot,
-  spots,
   SPOT_LOCALES,
   type Spot,
   type SpotAccessPoint,
@@ -44,6 +40,12 @@ import {
 } from "@/data/spots";
 import { Link } from "@/lib/navigation";
 import { resolveSpotGallery } from "@/lib/spot-photos";
+// 오더 #C54-B: 프론트 소비를 admin Supabase 소스로 전환 (published !== false 필터 포함).
+import {
+  loadSpot,
+  loadSpots,
+  loadNearbySpots,
+} from "@/lib/spot-catalog-db";
 
 export type PageLocale = SpotLocale;
 
@@ -247,7 +249,7 @@ export async function generateSpotDetailMetadata(
   slug: string,
   locale: PageLocale
 ): Promise<Metadata> {
-  const spot = getSpot(slug);
+  const spot = await loadSpot(slug);
   if (!spot) return { title: "" };
   return {
     title: `${spot.title[locale]} — ${
@@ -261,13 +263,15 @@ export async function generateSpotDetailMetadata(
 }
 
 // 오더 #C1 [2]: spots 배열에서 5로케일 × slug 정적 파라미터 파생.
-//   spots 가 0건이면 빈 배열 (notFound 방어 유지, dynamicParams=true 로 지연 렌더).
-export function generateSpotDetailStaticParams(): Array<{
+// 오더 #C54-B: admin Supabase 소스 (loadSpots · published !== false) 로 전환.
+//   spots 0건 or DB 실패 → 빈 배열 (notFound 방어 유지, dynamicParams=true).
+export async function generateSpotDetailStaticParams(): Promise<Array<{
   locale: PageLocale;
   slug: string;
-}> {
+}>> {
   const params: Array<{ locale: PageLocale; slug: string }> = [];
-  for (const spot of spots) {
+  const list = await loadSpots();
+  for (const spot of list) {
     for (const locale of SPOT_LOCALES) {
       params.push({ locale, slug: spot.slug });
     }
@@ -284,8 +288,12 @@ export default async function SpotDetailPage({
   slug: string;
   locale?: PageLocale;
 }) {
-  const spot = getSpot(slug);
+  // 오더 #C54-B: admin Supabase 소스에서 스팟 로드. published=false 는 loadSpot 이 null 반환.
+  //   목록도 함께 fetch → 아래 FoodHubSection·AroundSection 등 nested slug 참조를 Map 으로.
+  const [spot, allSpots] = await Promise.all([loadSpot(slug), loadSpots()]);
   if (!spot) notFound();
+  const spotBySlug = new Map(allSpots.map((s) => [s.slug, s]));
+  const nearbySpots = await loadNearbySpots(spot);
 
   const insiderNode = <InsiderBox spot={spot} locale={locale} />;
   return (
@@ -339,8 +347,8 @@ export default async function SpotDetailPage({
               <StorySection spot={spot} locale={locale} />
               <OnScreenSection spot={spot} locale={locale} />
               {/* 오더 #C20 [1]: FOOD HUB — foodHub 값 있을 때만 렌더 (밤리단길 전용). */}
-              <FoodHubSection spot={spot} locale={locale} />
-              <AroundSection spot={spot} locale={locale} />
+              <FoodHubSection spot={spot} locale={locale} spotBySlug={spotBySlug} />
+              <AroundSection spot={spot} locale={locale} spotBySlug={spotBySlug} />
               <HanbokSection spot={spot} locale={locale} />
               <PartnerCta spot={spot} locale={locale} />
 
@@ -366,7 +374,7 @@ export default async function SpotDetailPage({
         </section>
 
         {/* 7. NEARBY — 페이지 하단 풀폭 */}
-        <NearbySection spot={spot} locale={locale} />
+        <NearbySection locale={locale} nearby={nearbySpots} />
       </article>
     </Shell>
   );
@@ -1003,12 +1011,21 @@ function FoodHubItemCard({
   );
 }
 
-function FoodHubSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+// 오더 #C54-B: FoodHubSection 은 이제 spotBySlug Map 을 props 로 받아 lookup (async 반복 회피).
+function FoodHubSection({
+  spot,
+  locale,
+  spotBySlug,
+}: {
+  spot: Spot;
+  locale: PageLocale;
+  spotBySlug: Map<string, Spot>;
+}) {
   const fh = spot.foodHub;
   if (!fh) return null;
   const labels = FOODHUB_LABELS[locale];
   const nightSpots = fh.night
-    .map((n) => ({ n, s: getSpot(n.slug) }))
+    .map((n) => ({ n, s: spotBySlug.get(n.slug) ?? null }))
     .filter((x): x is { n: (typeof fh.night)[number]; s: Spot } => x.s !== null);
 
   // Build a map: id → item title (for course stops label).
@@ -1020,7 +1037,7 @@ function FoodHubSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   function stopLabel(id: string): string {
     const inHub = idToTitle.get(id);
     if (inHub) return inHub;
-    const s = getSpot(id);
+    const s = spotBySlug.get(id);
     return s ? s.title[locale] : id;
   }
 
@@ -1126,7 +1143,16 @@ function FoodHubSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
   );
 }
 
-function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+// 오더 #C54-B: spotBySlug Map 을 props 로 · hasSpot 대신 lookup.
+function AroundSection({
+  spot,
+  locale,
+  spotBySlug,
+}: {
+  spot: Spot;
+  locale: PageLocale;
+  spotBySlug: Map<string, Spot>;
+}) {
   const nb = spot.nearby;
   if (!nb || nb.items.length === 0) return null;
   return (
@@ -1167,7 +1193,7 @@ function AroundSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
           );
           return (
             <li key={i}>
-              {it.slug && hasSpot(it.slug) ? (
+              {it.slug && spotBySlug.has(it.slug) ? (
                 <Link href={`/dmc/${it.slug}`} className="group block h-full">
                   {inner}
                 </Link>
@@ -1382,8 +1408,8 @@ function KoCardBlock({ spot, locale }: { spot: Spot; locale: PageLocale }) {
 
 // ─── 7. NEARBY ──────────────────────────────────────────────────────────────
 
-function NearbySection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
-  const nearby = getNearbySpots(spot.slug);
+// 오더 #C54-B: nearby 를 상위 async 에서 로드 · props 로 전달.
+function NearbySection({ locale, nearby }: { locale: PageLocale; nearby: Spot[] }) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
