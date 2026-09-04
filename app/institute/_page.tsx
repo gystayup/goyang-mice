@@ -5,6 +5,8 @@ import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
+// 오더 #C49 [1]: /dmc 에서 이관된 4블록 (pillars · useCases · steps · partners).
+import { getDmcServiceBlocks, type DmcBlocksLocale } from "@/data/dmc-service-blocks";
 
 // /institute 는 "누가 하는가" 만 담는다. 홈에서 이관되어 있던 방문객·상품
 // 카탈로그 5블록 중 4블록(HeroSection · WhyGoyangSection ·
@@ -222,6 +224,7 @@ export const metadata = getInstituteMetadata("ko");
 
 export default async function InstitutePage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getInstituteCopy(locale);
+  const blocks = getDmcServiceBlocks(locale as DmcBlocksLocale);
 
   return (
     <Shell>
@@ -292,6 +295,122 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
             {copy.ctas.contact}
           </Link>
         </div>
+      </div>
+
+      {/* 오더 #C49 [1] — /dmc 에서 이관된 4블록 (pillars · useCases · steps · partners).
+         문안·구조는 이관 시점 그대로 (data/dmc-service-blocks.ts). 5로케일 ko 폴백. */}
+      <div className="mx-auto flex max-w-7xl flex-col gap-14 px-6 pb-16">
+        {/* Pillars — 3가지 핵심 서비스 */}
+        <section className="space-y-8">
+          <SectionTitle eyebrow={blocks.pillars.eyebrow} title={blocks.pillars.title} />
+          <div className="grid gap-5 md:grid-cols-3">
+            {blocks.pillars.items.map((item, index) => {
+              const gradients = [
+                { from: "#fffbee", to: "#fff4da" },
+                { from: "#f0fdf8", to: "#e8fbf3" },
+                { from: "#f0f4ff", to: "#eef2ff" },
+              ];
+              const g = gradients[index % 3];
+              return (
+                <div
+                  key={item.title}
+                  style={{ background: `linear-gradient(145deg, ${g.from}, ${g.to})` }}
+                  className="group relative overflow-hidden rounded-[28px] border border-white/80 p-7 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1"
+                >
+                  <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[28px] bg-gradient-to-r from-[#8df0cf]/60 via-[#ffe98b]/50 to-[#ffb58f]/40" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-sm font-black text-slate-700 shadow-sm">
+                    {index + 1}
+                  </div>
+                  <div className="mt-4 text-[1.3rem] font-black tracking-[-0.04em] text-slate-950">
+                    {item.title}
+                  </div>
+                  <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Use Cases — 방문객 유형 추천 4개 */}
+        <section className="space-y-8">
+          <SectionTitle eyebrow={blocks.useCases.eyebrow} title={blocks.useCases.title} />
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {blocks.useCases.items.map((item, index) => {
+              const colors = [
+                { bg: "bg-[#ffe8a0]", text: "text-[#9b7a00]" },
+                { bg: "bg-[#b7f0d8]", text: "text-[#0a6b48]" },
+                { bg: "bg-[#d4ddff]", text: "text-[#3655a6]" },
+                { bg: "bg-[#ffd0c0]", text: "text-[#9b3a1a]" },
+              ];
+              const c = colors[index % 4];
+              return (
+                <PremiumCard key={item.title} className="p-6">
+                  <div className={`mb-4 inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${c.bg} ${c.text}`}>
+                    {index + 1}
+                  </div>
+                  <div className="text-[1.1rem] font-black tracking-[-0.03em] text-slate-950">
+                    {item.title}
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-slate-500">
+                    {item.description}
+                  </p>
+                </PremiumCard>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Steps — 안내 진행 절차 4단계 */}
+        <section className="space-y-8">
+          <SectionTitle eyebrow={blocks.steps.eyebrow} title={blocks.steps.title} />
+          <div className="grid gap-5 lg:grid-cols-4">
+            {blocks.steps.items.map((item) => (
+              <PremiumCard key={item.step} className="p-7">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#a4d8ff)] text-sm font-black text-slate-950">
+                    {item.step}
+                  </div>
+                </div>
+                <div className="mt-4 text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
+                  {item.title}
+                </div>
+                <p className="mt-3 text-sm leading-7 text-slate-500">
+                  {item.description}
+                </p>
+              </PremiumCard>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+            >
+              {blocks.steps.ctas.booking}
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
+            >
+              {blocks.steps.ctas.consult}
+            </Link>
+          </div>
+        </section>
+
+        {/* Partners — 사업자 제휴 CTA */}
+        <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 px-7 py-10 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+          <SectionTitle eyebrow={blocks.partners.eyebrow} title={blocks.partners.title} desc={blocks.partners.description} />
+          <div className="mt-6">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
+            >
+              {blocks.partners.button}
+            </Link>
+          </div>
+        </section>
       </div>
 
       {/* 연구소 소식 — 자체 <section> 컨테이너·패딩을 가지므로 max-w-7xl 랩퍼 밖으로 배치. */}
