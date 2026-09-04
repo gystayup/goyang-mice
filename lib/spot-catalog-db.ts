@@ -1,11 +1,16 @@
-// lib/spot-catalog-db.ts — 오더 #C54 admin 스팟 관리.
+// lib/spot-catalog-db.ts — 오더 #C54 admin 스팟 관리 · #C54-C React cache().
 //
 // 티켓 패턴 미러 (lib/ticket-catalog-db.ts): Supabase `pages` 테이블
 // pageKey='spot-catalog' 단일 row · contentJson 배열 (Spot[]).
 // Prisma·마이그레이션 없음. Supabase 스키마 무변경 (기존 pages 재사용).
 //
 // 폴백: DB 조회 실패 or contentJson 없음 → data/spots.ts 정적 배열.
+//
+// 오더 #C54-C: readSpotCatalog 를 React cache() 로 래핑 → 요청당 1회 DB 조회.
+//   상세 1페이지가 loadSpot·loadSpots·loadNearbySpots 로 5~6회 호출하던 것이
+//   요청 단위 memoize 로 단일 fetch 로 축소. 요청 사이에는 캐시 안 남음 (매 요청 새로 조회).
 
+import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 import { spots as defaultSpots } from "@/data/spots";
@@ -20,8 +25,8 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
-/** DB에서 스팟 목록 읽기. 없거나 실패 시 정적 폴백. */
-export async function readSpotCatalog(): Promise<Spot[]> {
+/** DB에서 스팟 목록 읽기. 없거나 실패 시 정적 폴백. 오더 #C54-C: 요청당 1회 memoize. */
+export const readSpotCatalog = cache(async (): Promise<Spot[]> => {
   try {
     const supabase = getSupabaseClient();
     const { data } = await supabase
@@ -34,7 +39,7 @@ export async function readSpotCatalog(): Promise<Spot[]> {
   } catch {
     return defaultSpots;
   }
-}
+});
 
 /**
  * admin 등록 스팟만 반환 (폴백 없음).

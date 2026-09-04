@@ -262,22 +262,9 @@ export async function generateSpotDetailMetadata(
   };
 }
 
-// 오더 #C1 [2]: spots 배열에서 5로케일 × slug 정적 파라미터 파생.
-// 오더 #C54-B: admin Supabase 소스 (loadSpots · published !== false) 로 전환.
-//   spots 0건 or DB 실패 → 빈 배열 (notFound 방어 유지, dynamicParams=true).
-export async function generateSpotDetailStaticParams(): Promise<Array<{
-  locale: PageLocale;
-  slug: string;
-}>> {
-  const params: Array<{ locale: PageLocale; slug: string }> = [];
-  const list = await loadSpots();
-  for (const spot of list) {
-    for (const locale of SPOT_LOCALES) {
-      params.push({ locale, slug: spot.slug });
-    }
-  }
-  return params;
-}
+// 오더 #C54-C: force-dynamic 전환으로 generateSpotDetailStaticParams 제거.
+//   상위 wrapper (app/[locale]/dmc/[slug]/page.tsx) 가 dynamic="force-dynamic" 이라
+//   빌드 타임 정적 파라미터 파생이 무의미. 잘못된 slug 는 SpotDetailPage 내부 notFound() 유지.
 
 // ─── page ────────────────────────────────────────────────────────────────────
 
