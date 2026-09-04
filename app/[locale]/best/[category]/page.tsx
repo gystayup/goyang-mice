@@ -2,7 +2,6 @@ import BestCategoryPage, {
   generateBestCategoryMetadata,
   type PageLocale,
 } from "../../../best/[category]/_page";
-import { CURATED_CATEGORIES } from "@/data/curated-categories";
 
 const SUPPORTED: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
@@ -12,15 +11,10 @@ function toPageLocale(locale: string): PageLocale {
     : "ko";
 }
 
-/**
- * 6 카테고리 × 5 로케일 = 30개 조합 SSG.
- * 유효하지 않은 category 로 접근 시 상세 페이지가 notFound() 처리.
- */
-export function generateStaticParams() {
-  return SUPPORTED.flatMap((locale) =>
-    CURATED_CATEGORIES.map((category) => ({ locale, category }))
-  );
-}
+// 오더 #C54-C: force-dynamic — admin Supabase 스팟 편집이 재배포 없이 반영되도록
+//   요청 시점 SSR 로 렌더. generateStaticParams 제거 (force-dynamic 과 공존 무의미).
+//   유효하지 않은 category 는 하위 페이지에서 notFound() 처리 유지.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

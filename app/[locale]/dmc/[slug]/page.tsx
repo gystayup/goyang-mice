@@ -1,6 +1,5 @@
 import SpotDetailPage, {
   generateSpotDetailMetadata,
-  generateSpotDetailStaticParams,
   type PageLocale,
 } from "../../../dmc/[slug]/_page";
 
@@ -12,11 +11,10 @@ function toPageLocale(locale: string): PageLocale {
     : "ko";
 }
 
-// spots 배열이 비어있는 동안은 빈 배열. dynamicParams 기본값(true) 유지 →
-// 유효 slug 가 채워지면 자동으로 렌더, 그 전까지 접근은 notFound() 처리.
-export function generateStaticParams() {
-  return generateSpotDetailStaticParams();
-}
+// 오더 #C54-C: force-dynamic — admin Supabase 스팟 편집이 재배포 없이 반영되도록
+//   요청 시점 SSR 로 렌더. generateStaticParams 제거 (force-dynamic 과 공존 무의미).
+//   잘못된 slug 접근은 SpotDetailPage 내부 notFound() 유지.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
