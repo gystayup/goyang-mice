@@ -1,25 +1,21 @@
-// components/home/HomePageContent.tsx — 오더 #C14b 홈 개편 · #C26 마스코트 배너 삽입 · #C50 async server.
+// components/home/HomePageContent.tsx — 오더 #C14b · #C26 · #C50 · #C52 마스코트 히어로 이동.
 //
-// 이전 (#P9·#A3): HeroSlider · EmblemEntry · WhatsOn · CuratedGrid · AccessHub
-//                 · GettingHere · Social · MobileQuickActions
+// 진화:
 // #C14b:          HeroDiscover · MustSee · BestGridEntry(9) · DayTripsTeaser
-//                 · WhatsOnCalendar · AccessHub · GettingHere · Social
-//                 · MobileQuickActions
-// #C26:           HeroDiscover · MustSee · MascotWelcomeBanner · BestGridEntry(9)
-//                 · DayTripsTeaser · WhatsOnCalendar · AccessHub · GettingHere
-//                 · Social · MobileQuickActions
-// #C50 (지금):    async 서버 컴포넌트 · WhatsOn 이벤트를 admin Supabase 등록분 포함해
-//                 SSR fetch 후 <WhatsOnCalendarSection events={...}> 로 주입.
+//                 · WhatsOnCalendar · AccessHub · GettingHere · Social · MobileQuickActions
+// #C26:           MascotWelcomeBanner 를 MustSee ~ BestGridEntry 사이 삽입
+// #C50:           async 서버 컴포넌트 · WhatsOn 이벤트 admin Supabase SSR fetch
+// #C52 (지금):    MascotWelcomeBanner 섹션 제거 (홈 화면 하나 통째로 차지 · 우측 빈 공간 컸음).
+//                 마스코트 이미지는 HeroDiscover 안 우측 상단에 작게 배치 (Hero 컴포넌트 내부 수정).
+//                 MascotWelcomeBanner.tsx 파일 보존 (deprecated).
 //
 // 무접촉:
 //   · HeroSlider.tsx / EmblemEntrySection.tsx / WhatsOnSection.tsx /
-//     CuratedGridSection.tsx — 파일 보존 (deprecated 주석만 추가). /best 인덱스
-//     등 다른 소비처가 여전히 존재하므로 삭제하지 않는다.
-//   · MustSee · BestGrid 등 기존 섹션 무터치 (렌더 순서에 신규 컴포넌트 1개만 삽입).
+//     CuratedGridSection.tsx / MascotWelcomeBanner.tsx — 파일 보존.
+//   · MustSee · BestGrid 등 기존 섹션 무터치.
 
 import HeroDiscoverSection from "@/components/home/HeroDiscoverSection";
 import MustSeeSection from "@/components/home/MustSeeSection";
-import MascotWelcomeBanner from "@/components/home/MascotWelcomeBanner";
 import BestGridEntrySection from "@/components/home/BestGridEntrySection";
 import DayTripsTeaserSection from "@/components/home/DayTripsTeaserSection";
 import WhatsOnCalendarSection from "@/components/home/WhatsOnCalendarSection";
@@ -39,7 +35,6 @@ export default async function HomePageContent({ locale }: { locale: string }) {
     <>
       <HeroDiscoverSection locale={locale} />
       <MustSeeSection locale={locale} />
-      <MascotWelcomeBanner locale={locale} />
       <BestGridEntrySection locale={locale} />
       <DayTripsTeaserSection locale={locale} />
       <WhatsOnCalendarSection locale={locale} events={whatsOnEvents} />
