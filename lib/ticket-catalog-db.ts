@@ -34,6 +34,32 @@ export async function readTicketCatalog(): Promise<TicketProduct[]> {
   }
 }
 
+/**
+ * 오더 #C50: admin(Supabase)에 등록된 티켓만 반환. 정적 폴백 사용 안 함.
+ * 홈 WHAT'S ON 이 사용 — admin 등록분만 verified 우회 노출하기 위해 소스 구분.
+ * DB 실패 or contentJson 비어있음 → null (호출부에서 native events 만 노출).
+ */
+export async function readTicketCatalogAdminOnly(): Promise<TicketProduct[] | null> {
+  try {
+    const supabase = getSupabaseClient();
+    const { data } = await supabase
+      .from("pages")
+      .select("contentJson")
+      .eq("pageKey", PAGE_KEY)
+      .single();
+    if (!data?.contentJson) return null;
+    const dbTickets = data.contentJson as TicketProduct[];
+    // 번역 병합 (readTicketCatalog 와 동일 로직 · 코드 기준 translations 오버라이드)
+    return dbTickets.map((dbTicket) => {
+      const defaultTicket = defaultTickets.find((t) => t.id === dbTicket.id);
+      if (!defaultTicket?.translations) return dbTicket;
+      return { ...dbTicket, translations: defaultTicket.translations };
+    });
+  } catch {
+    return null;
+  }
+}
+
 /** 티켓 목록 전체 저장 (upsert) */
 export async function writeTicketCatalog(tickets: TicketProduct[]): Promise<void> {
   const supabase = getSupabaseClient();

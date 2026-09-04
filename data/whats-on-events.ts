@@ -373,6 +373,72 @@ export function getWhatsOnEvent(type: string, slug: string): WhatsOnEvent | null
   return match ?? null;
 }
 
+/**
+ * 오더 #C50: admin(Supabase) 등록분 티켓을 읽어 이벤트로 어댑팅.
+ *   · readTicketCatalogAdminOnly() null 이면 admin 등록분 없음 → 빈 배열.
+ *   · admin 등록분은 verified 여부와 무관하게 노출 (WHAT'S ON 규범: 정적 시드 8건만 차단).
+ *   · 서버 전용 함수 (Supabase 호출).
+ */
+async function loadAdminTicketEvents(): Promise<WhatsOnEvent[]> {
+  const { readTicketCatalogAdminOnly } = await import("@/lib/ticket-catalog-db");
+  const adminTickets = await readTicketCatalogAdminOnly();
+  if (!adminTickets || adminTickets.length === 0) return [];
+  return adminTickets.map((t) => ({ ...ticketToEvent(t), verified: true }));
+}
+
+/**
+ * 오더 #C50: native + admin 등록 티켓 이벤트 합친 전체 목록 (서버 전용).
+ * 정적 ticketProducts 시드 8건은 포함하지 않음 (verified=false 로 자동 차단되던 것).
+ */
+export async function loadAllWhatsOnEvents(): Promise<WhatsOnEvent[]> {
+  const adminEvents = await loadAdminTicketEvents();
+  return [...nativeWhatsOnEvents, ...adminEvents];
+}
+
+/**
+ * 오더 #C50: 사용자 노출 대상 (서버 전용).
+ * native (verified=true) + admin 등록분 (verified 강제) 만 통과. 정적 시드는 미포함.
+ */
+export async function loadVisibleWhatsOnEvents(): Promise<WhatsOnEvent[]> {
+  return (await loadAllWhatsOnEvents()).filter((e) => e.verified === true);
+}
+
+/**
+ * 오더 #C50: events 배열을 받아 특정 날짜(ISO)에 진행 중인 이벤트만 반환 (pure).
+ * getEventsOnDate 의 순수 버전 — 클라이언트 컴포넌트에서 사용.
+ */
+export function filterEventsOnDate(events: WhatsOnEvent[], iso: string): WhatsOnEvent[] {
+  return events.filter((e) => {
+    const start = e.startDate || "0000-00-00";
+    const end = e.endDate || "9999-99-99";
+    return iso >= start && iso <= end;
+  });
+}
+
+/**
+ * 오더 #C50: events 배열을 받아 기준일 이후 시작일 순 상위 N개 반환 (pure).
+ * getUpcomingEventsAfter 의 순수 버전 — 클라이언트 컴포넌트에서 사용.
+ */
+export function filterUpcomingEventsAfter(
+  events: WhatsOnEvent[],
+  iso: string,
+  limit = 2
+): WhatsOnEvent[] {
+  return events
+    .filter((e) => (e.startDate || "0000-00-00") > iso)
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
+    .slice(0, limit);
+}
+
+/** 오더 #C50: events 배열에서 type+slug 매칭 (pure). */
+export function findWhatsOnEvent(
+  events: WhatsOnEvent[],
+  type: string,
+  slug: string
+): WhatsOnEvent | null {
+  return events.find((e) => e.slug === slug && e.type === type) ?? null;
+}
+
 /** endDate 오늘 이전이면 지난 이벤트. 값 없으면 상시 노출 취급. */
 export function isCurrentOrUpcoming(e: WhatsOnEvent): boolean {
   if (!e.endDate) return true;

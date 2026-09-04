@@ -17,8 +17,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { WHATSON_CAL, pickHomeLocale, type HomeLocale } from "@/data/home-copy";
 import {
   daysBetweenIso,
-  getEventsOnDate,
-  getUpcomingEventsAfter,
+  filterEventsOnDate,
+  filterUpcomingEventsAfter,
   resolveEventImage,
   type WhatsOnEvent,
 } from "@/data/whats-on-events";
@@ -73,7 +73,15 @@ function isoToShort(iso: string): string {
   return `${y}.${m}.${d}`;
 }
 
-export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
+export default function WhatsOnCalendarSection({
+  locale,
+  events = [],
+}: {
+  locale: string;
+  /** 오더 #C50: 서버 (HomePageContent async) 에서 fetch 한 events 를 props 로 주입.
+   *  admin Supabase 등록분 + native 이벤트 결합. 클라이언트에서는 pure 필터만 사용. */
+  events?: WhatsOnEvent[];
+}) {
   const active = pickHomeLocale(locale);
 
   // 기준일: 클라이언트 마운트 시점의 로컬 오늘. SSR 안전을 위해 null 로 시작
@@ -95,25 +103,25 @@ export default function WhatsOnCalendarSection({ locale }: { locale: string }) {
 
   const dates = useMemo(() => (today ? buildDateRange(today) : []), [today]);
 
-  // 각 날짜별 이벤트 개수 (배지용) · 30번 O(N) 필터 · 이벤트 4건이라 무시 가능.
+  // 각 날짜별 이벤트 개수 (배지용) · 30일 × events 필터.
   const countsByDate = useMemo(() => {
     const m = new Map<string, number>();
-    for (const iso of dates) m.set(iso, getEventsOnDate(iso).length);
+    for (const iso of dates) m.set(iso, filterEventsOnDate(events, iso).length);
     return m;
-  }, [dates]);
+  }, [dates, events]);
 
   const selectedEvents = useMemo(
-    () => (selected ? getEventsOnDate(selected) : []),
-    [selected]
+    () => (selected ? filterEventsOnDate(events, selected) : []),
+    [selected, events]
   );
 
   // 오더 #C34: 선택 날짜 이벤트 0건 시 폴백. 기준일 이후 가장 가까운 시작일 2건.
   const upcomingEvents = useMemo(
     () =>
       selected && selectedEvents.length === 0
-        ? getUpcomingEventsAfter(selected, 2)
+        ? filterUpcomingEventsAfter(events, selected, 2)
         : [],
-    [selected, selectedEvents.length]
+    [selected, selectedEvents.length, events]
   );
 
   // 스크롤 컨테이너 (weekly navigation).
