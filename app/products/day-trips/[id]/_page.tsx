@@ -1,11 +1,11 @@
-// /[locale]/products/day-trips/[id] — 오더 #C56 [2] 당일코스 상세 안내 라우트.
+// /[locale]/products/day-trips/[id] — 오더 #C56 [2] + #C57 [1][2] DB 소비.
 //
 // 방침 (사장님 확정):
 //   · 판매·예약 없음. 소개형.
-//   · data/day-trips.ts 원문만 렌더 (title/region/duration/transport/description).
-//   · 창작·의역 금지 (원문 ko 폴백 A안 유지).
-//   · 상단 소속 링(서울/경기) 레이블·서브라인·컬러 노출.
-//   · 사진 미확보 → 링 컬러 그라디언트 폴백 (index 카드와 정합).
+//   · lib/day-trip-catalog-db.ts `loadDayTrip(id)` (DB → 정적 시드 폴백) 소비.
+//   · 창작·의역 금지 · md 원문 그대로 렌더.
+//   · 축(axis) 배지·컬러는 data/day-trips.ts 3축 메타.
+//   · 사진 미확보 → 축 컬러 그라디언트 폴백.
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -14,11 +14,11 @@ import { ArrowRight } from "lucide-react";
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
 import {
-  dayTripRings,
-  type DayTripDestination,
+  DAY_TRIPS_PAGE_COPY,
+  getAxisBlock,
   type DayTripLocale,
-  type DayTripRingBlock,
 } from "@/data/day-trips";
+import { loadDayTrip } from "@/lib/day-trip-catalog-db";
 
 export type PageLocale = DayTripLocale;
 
@@ -36,12 +36,19 @@ const TRANSPORT_LABEL: Record<PageLocale, string> = {
   "zh-CN": "交通",
   "zh-TW": "交通",
 };
-const REGION_LABEL: Record<PageLocale, string> = {
-  ko: "지역",
-  en: "Region",
-  ja: "地域",
-  "zh-CN": "地区",
-  "zh-TW": "地區",
+const RECOMMENDED_LABEL: Record<PageLocale, string> = {
+  ko: "추천 시간",
+  en: "Best time",
+  ja: "おすすめ時間",
+  "zh-CN": "推荐时间",
+  "zh-TW": "推薦時間",
+};
+const STOPS_LABEL: Record<PageLocale, string> = {
+  ko: "스팟",
+  en: "Stops",
+  ja: "スポット",
+  "zh-CN": "站点",
+  "zh-TW": "站點",
 };
 const CONTACT_LABEL: Record<PageLocale, string> = {
   ko: "문의하기",
@@ -65,36 +72,30 @@ const FOOTNOTE: Record<PageLocale, string> = {
   "zh-TW": "用時與交通方式可能因即時狀況而變化。",
 };
 
-type Found = { destination: DayTripDestination; ring: DayTripRingBlock };
-
-function findDestination(id: string): Found | null {
-  for (const ring of dayTripRings) {
-    const d = ring.destinations.find((x) => x.id === id);
-    if (d) return { destination: d, ring };
-  }
-  return null;
-}
-
-export function getDayTripDetailMetadata(id: string, locale: PageLocale): Metadata {
-  const found = findDestination(id);
-  if (!found) return { title: "당일코스" };
+export async function getDayTripDetailMetadata(
+  id: string,
+  locale: PageLocale
+): Promise<Metadata> {
+  const course = await loadDayTrip(id);
+  if (!course) return { title: "당일코스" };
   return {
-    title: found.destination.title[locale],
-    description: found.destination.description[locale],
+    title: course.name,
+    description: course.hook,
     alternates: { canonical: `/${locale}/products/day-trips/${id}` },
   };
 }
 
-export default function DayTripDetailPage({
+export default async function DayTripDetailPage({
   id,
   locale = "ko",
 }: {
   id: string;
   locale?: PageLocale;
 }) {
-  const found = findDestination(id);
-  if (!found) notFound();
-  const { destination: d, ring } = found;
+  const course = await loadDayTrip(id);
+  if (!course) notFound();
+  const axis = getAxisBlock(course.axis);
+  const displayName = locale === "ko" || !course.nameEn ? course.name : course.nameEn;
 
   return (
     <Shell>
@@ -104,16 +105,17 @@ export default function DayTripDetailPage({
             <span
               aria-hidden="true"
               className="inline-block h-2 w-2 rounded-full"
-              style={{ backgroundColor: ring.color }}
+              style={{ backgroundColor: axis.color }}
             />
-            <span>{ring.label[locale]}</span>
+            <span>{axis.label[locale]}</span>
+            <span className="ml-2 inline-flex items-center rounded-full bg-slate-950 px-2 py-0.5 text-[10px] font-black text-white">
+              {course.durationBadge}
+            </span>
           </div>
           <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl lg:text-5xl">
-            {d.title[locale]}
+            {displayName}
           </h1>
-          <p className="mt-2 text-sm text-slate-500 sm:text-base">
-            {ring.subline[locale]}
-          </p>
+          <p className="mt-3 max-w-3xl text-sm text-slate-600 sm:text-base">{course.hook}</p>
         </section>
 
         <section className="mx-auto mt-8 max-w-5xl px-4 sm:px-6">
@@ -121,12 +123,15 @@ export default function DayTripDetailPage({
             aria-hidden="true"
             className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl"
             style={{
-              background: `linear-gradient(135deg, ${ring.color} 0%, ${ring.color}CC 55%, ${ring.color}99 100%)`,
+              background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
             }}
           >
-            <div className="absolute inset-0 flex items-end p-5">
+            <div className="absolute inset-0 flex items-end justify-between p-5">
               <span className="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-950">
-                {d.region[locale]}
+                {axis.label[locale]}
+              </span>
+              <span className="inline-flex items-center rounded-full bg-slate-950/90 px-3 py-1 text-[11px] font-black text-white">
+                {course.durationBadge}
               </span>
             </div>
           </div>
@@ -134,29 +139,63 @@ export default function DayTripDetailPage({
 
         <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
           <p className="whitespace-pre-line text-base leading-relaxed text-slate-800 sm:text-lg">
-            {d.description[locale]}
+            {course.intro}
           </p>
+
+          {course.stops.length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                {STOPS_LABEL[locale]}
+              </h2>
+              <ul className="mt-3 space-y-3">
+                {course.stops.map((s, i) => (
+                  <li
+                    key={`${s.name}-${i}`}
+                    className="rounded-xl border border-slate-200 bg-white p-4"
+                  >
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xs font-black text-slate-400">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-base font-bold text-slate-950">{s.name}</span>
+                    </div>
+                    <p className="mt-1 text-sm leading-relaxed text-slate-700">{s.note}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <dl className="mt-8 grid gap-4 sm:grid-cols-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
               <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                {REGION_LABEL[locale]}
-              </dt>
-              <dd className="mt-2 text-base font-bold text-slate-950">{d.region[locale]}</dd>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {DURATION_LABEL[locale]}
               </dt>
-              <dd className="mt-2 text-base font-bold text-slate-950">{d.duration[locale]}</dd>
+              <dd className="mt-2 text-base font-bold text-slate-950">{course.duration}</dd>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
               <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {TRANSPORT_LABEL[locale]}
               </dt>
-              <dd className="mt-2 text-base font-bold text-slate-950">{d.transport[locale]}</dd>
+              <dd className="mt-2 whitespace-pre-line text-base font-bold text-slate-950">
+                {course.transport}
+              </dd>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-5">
+              <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                {RECOMMENDED_LABEL[locale]}
+              </dt>
+              <dd className="mt-2 text-base font-bold text-slate-950">
+                {course.recommendedTime}
+              </dd>
             </div>
           </dl>
+
+          {course.note && (
+            <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+              <p className="whitespace-pre-line text-sm text-amber-900">{course.note}</p>
+            </div>
+          )}
 
           <p className="mt-8 text-xs text-slate-500 sm:text-sm">{FOOTNOTE[locale]}</p>
         </section>
@@ -178,6 +217,9 @@ export default function DayTripDetailPage({
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+            <p className="mt-4 text-center text-[11px] text-slate-500 sm:text-left">
+              {DAY_TRIPS_PAGE_COPY.anchorLabel[locale]}
+            </p>
           </div>
         </section>
       </article>

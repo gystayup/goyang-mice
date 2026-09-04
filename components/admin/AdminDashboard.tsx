@@ -40,6 +40,7 @@ import ResearchArchivePanel from "./ResearchArchivePanel";
 import ServiceCatalogPanel from "./ServiceCatalogPanel";
 import SocialLinksPanel from "./SocialLinksPanel";
 import SpotCatalogPanel from "./SpotCatalogPanel";
+import DayTripCatalogPanel from "./DayTripCatalogPanel";
 import TicketingAdminPanel from "./TicketingAdminPanel";
 import {
   airportTransferStatusOrder,
@@ -916,6 +917,12 @@ export default function AdminDashboard() {
           {!loading && activeTab === "spots" ? (
             <div className="mt-6">
               <SpotCatalogPanel />
+            </div>
+          ) : null}
+
+          {!loading && activeTab === "day-trips" ? (
+            <div className="mt-6">
+              <DayTripCatalogPanel />
             </div>
           ) : null}
 

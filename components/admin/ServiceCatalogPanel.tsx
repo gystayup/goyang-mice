@@ -252,6 +252,13 @@ export default function ServiceCatalogPanel() {
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
+  // 오더 #C57 [0]: formOpen 시 화면 밖에서 열리는 문제 → 자동 스크롤.
+  const formRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (formOpen) {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [formOpen]);
 
   async function load() {
     setLoading(true);
@@ -576,9 +583,9 @@ export default function ServiceCatalogPanel() {
         </div>
       )}
 
-      {/* 추가/수정 폼 */}
+      {/* 추가/수정 폼 · 오더 #C57 [0]: formRef 로 자동 스크롤 (화면 밖 렌더 방지). */}
       {formOpen && (
-        <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50 p-6">
+        <div ref={formRef} className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50 p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-slate-900">
               {editingItem ? "상품 수정" : "새 상품 추가"}
@@ -1260,6 +1267,13 @@ function TicketCatalogTab() {
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
+  // 오더 #C57 [0]: formOpen 시 자동 스크롤 (TicketCatalogTab).
+  const formRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (formOpen) {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [formOpen]);
 
   async function load() {
     setLoading(true);
@@ -1463,9 +1477,9 @@ function TicketCatalogTab() {
         </div>
       )}
 
-      {/* 추가/수정 폼 */}
+      {/* 추가/수정 폼 · 오더 #C57 [0]: formRef 로 자동 스크롤. */}
       {formOpen && (
-        <div className="mt-6 rounded-[24px] border border-indigo-100 bg-indigo-50/30 p-6">
+        <div ref={formRef} className="mt-6 rounded-[24px] border border-indigo-100 bg-indigo-50/30 p-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-slate-900">{editingItem ? "티켓 수정" : "새 티켓 추가"}</h3>
             <button type="button" onClick={closeForm} className="rounded-full p-1.5 text-slate-400 hover:bg-slate-200"><X className="h-5 w-5" /></button>

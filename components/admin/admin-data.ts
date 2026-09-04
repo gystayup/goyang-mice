@@ -11,6 +11,7 @@ export type AdminTab =
   | "stay"
   | "products"
   | "spots"
+  | "day-trips"
   | "news"
   | "research-archive"
   | "hero-slides"
@@ -152,6 +153,7 @@ export const navItems = [
   { id: "stay", label: "숙박 운영" },
   { id: "products", label: "상품 운영" },
   { id: "spots", label: "스팟 관리" },
+  { id: "day-trips", label: "당일코스" },
   { id: "news", label: "뉴스·공지" },
   { id: "research-archive", label: "연구 아카이브" },
   { id: "hero-slides", label: "히어로 슬라이드" },

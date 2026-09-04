@@ -354,6 +354,9 @@ export default async function DmcTicketDetailPage({
 
         <TabBlocks ticket={t} copy={copy} />
 
+        {/* 오더 #C57 [3]: 예매 CTA 복구 · #C56 오설정 (/contact) 정정.
+            최저가 표시 + [예매하기] → 기존 /products/{id}/reservation Toss 결제 흐름 재사용.
+            문의하기는 보조 링크로 유지. */}
         <section className="bg-[#faf7f2]">
           <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
             <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
@@ -363,13 +366,33 @@ export default async function DmcTicketDetailPage({
               >
                 ← {copy.backCta}
               </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
-              >
-                {copy.contactCta}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
+                <Link
+                  href="/contact"
+                  className="text-sm font-semibold text-slate-600 underline-offset-4 hover:underline"
+                >
+                  {copy.contactCta}
+                </Link>
+                {(() => {
+                  const prices = (t.options ?? []).map((o) => o.price).filter((p) => typeof p === "number" && p > 0);
+                  const min = prices.length > 0 ? Math.min(...prices) : null;
+                  const label = locale === "ko" ? "예매하기"
+                    : locale === "ja" ? "予約する"
+                    : locale === "zh-CN" ? "立即预约"
+                    : locale === "zh-TW" ? "立即預約"
+                    : "Book Now";
+                  return (
+                    <Link
+                      href={`/products/${t.id}/reservation`}
+                      className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
+                    >
+                      {min ? <span className="text-white/85">{formatKRW(min)} ~</span> : null}
+                      <span>{label}</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  );
+                })()}
+              </div>
             </div>
           </div>
         </section>
