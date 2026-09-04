@@ -250,6 +250,7 @@ export default async function BestCategoryPage({
                 spot={getSpot(item.id)}
                 spotLinked={hasSpot(item.id)}
                 locale={locale}
+                categoryColor={color}
               />
             ))}
           </div>
@@ -298,11 +299,14 @@ function BestListCard({
   spot,
   spotLinked,
   locale,
+  categoryColor,
 }: {
   item: CuratedItem;
   spot: import("@/data/spots").Spot | null;
   spotLinked: boolean;
   locale: PageLocale;
+  /** 오더 #C47: 사진 없을 때 개선 플레이스홀더 그라디언트 배경 색. */
+  categoryColor: string;
 }) {
   // 오더 #C5-c [3] 사진 우선순위 통합:
   //   1) item.photoUrl (CuratedItem 수동)
@@ -343,14 +347,27 @@ function BestListCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          // 사진 없으면 카테고리 일러스트로 대체 (골드 currentColor)
-          <div className="flex h-full w-full items-center justify-center bg-slate-50">
+          // 오더 #C47: 개선 플레이스홀더 — 카테고리 색상 그라디언트 배경 + 장소명 흰 텍스트.
+          //   기존 CategoryIllustration 만 표시 (아이콘 뿐) → "미완성 빈 카드" 문제 해소.
+          //   실제 그 장소가 아닌 이미지 사용 0 (아무 이미지로 채우지 않음).
+          <div
+            aria-hidden="true"
+            className="relative flex h-full w-full items-end p-4"
+            style={{
+              background: `linear-gradient(135deg, ${categoryColor} 0%, ${categoryColor}CC 55%, ${categoryColor}99 100%)`,
+            }}
+          >
             {spot ? (
-              <CategoryIllustration
-                category={spot.category}
-                className="h-20 w-20"
-              />
+              <div className="pointer-events-none absolute right-3 top-3 opacity-30">
+                <CategoryIllustration
+                  category={spot.category}
+                  className="h-14 w-14 text-white"
+                />
+              </div>
             ) : null}
+            <span className="relative text-lg font-black leading-tight tracking-[-0.02em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)] sm:text-xl">
+              {item.name}
+            </span>
           </div>
         )}
       </div>
