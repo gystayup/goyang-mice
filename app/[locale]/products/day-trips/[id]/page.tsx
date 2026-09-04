@@ -17,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { locale, id } = await params;
-  return getDayTripDetailMetadata(id, toPageLocale(locale));
+  return await getDayTripDetailMetadata(id, toPageLocale(locale));
 }
 
 export default async function LocaleDayTripDetailPage({

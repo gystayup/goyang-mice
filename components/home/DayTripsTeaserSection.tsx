@@ -1,39 +1,32 @@
-// components/home/DayTripsTeaserSection.tsx — 오더 #C14b · #C16 · #C33 재편.
+// components/home/DayTripsTeaserSection.tsx — 오더 #C14b · #C16 · #C33 · #C57 재편.
 //
-// data/day-trips.ts 2축 재사용 · 각 축 대표 1건씩 2장 노출.
+// 진화:
+//   · #C33: 시간링 → 지역 2축(서울·경기).
+//   · #C57: 3축(서울·파주·경기) · DB 소비 · admin 편집 실시간 반영.
+//     data/day-trips.ts axis 메타 + loadDayTrips() (DB → 정적 시드 폴백) 소비.
+//     각 축 첫 코스(order 최소) 1건씩 총 3장.
 //
-// 오더 #C33: 지역 2축.
-//   서울 투어 (seoul-tour) 대표:   서울역·명동         (seoul-station-myeongdong)
-//   경기 투어 (gyeonggi-tour) 대표: 임진각·평화누리·DMZ  (imjingak-peace-nuri-dmz)
-//
-// 규범:
-//   · 판매·예약·"예약" 표현 0. 사진 없음 → 축 컬러 그라디언트 폴백.
-//   · 5로케일 ko 폴백.
+// 규범: 판매·예약·"예약" 표현 0. 사진 없음 → 축 컬러 그라디언트 폴백. 5로케일 ko 폴백.
 
 import { ArrowRight } from "lucide-react";
 
 import { DAYTRIPS_TEASER, pickHomeLocale } from "@/data/home-copy";
-import {
-  dayTripRings,
-  type DayTripDestination,
-  type DayTripRing,
-  type DayTripRingBlock,
-} from "@/data/day-trips";
+import { dayTripAxes, type DayTripAxisBlock } from "@/data/day-trips";
+import { loadDayTrips } from "@/lib/day-trip-catalog-db";
 import { Link } from "@/lib/navigation";
 
-// 오더 #C33: 각 축 대표 slug.
-const FEATURED_BY_RING: Record<DayTripRing, string> = {
-  "seoul-tour": "seoul-station-myeongdong",
-  "gyeonggi-tour": "imjingak-peace-nuri-dmz",
-};
-
-function pickDestination(ring: DayTripRingBlock): DayTripDestination | undefined {
-  const id = FEATURED_BY_RING[ring.key];
-  return ring.destinations.find((d) => d.id === id) ?? ring.destinations[0];
-}
-
-export default function DayTripsTeaserSection({ locale }: { locale: string }) {
+export default async function DayTripsTeaserSection({ locale }: { locale: string }) {
   const active = pickHomeLocale(locale);
+  const courses = await loadDayTrips();
+
+  const featured = dayTripAxes
+    .map<{ axis: DayTripAxisBlock; course: (typeof courses)[number] | undefined }>((axis) => {
+      const inAxis = courses
+        .filter((c) => c.axis === axis.key)
+        .sort((a, b) => a.order - b.order);
+      return { axis, course: inAxis[0] };
+    })
+    .filter((x): x is { axis: DayTripAxisBlock; course: (typeof courses)[number] } => !!x.course);
 
   return (
     <section className="bg-white">
@@ -48,44 +41,41 @@ export default function DayTripsTeaserSection({ locale }: { locale: string }) {
           {DAYTRIPS_TEASER.subhead[active]}
         </p>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2">
-          {dayTripRings.map((ring) => {
-            const d = pickDestination(ring);
-            if (!d) return null;
-            return (
-              <article
-                key={ring.key}
-                className="group overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md"
-              >
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map(({ axis, course }) => (
+            <Link
+              key={axis.key}
+              href={`/products/day-trips/${course.id}`}
+              className="group block overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md"
+            >
+              <article>
                 <div
                   aria-hidden="true"
                   className="relative aspect-[16/9] w-full"
                   style={{
-                    background: `linear-gradient(135deg, ${ring.color} 0%, ${ring.color}CC 55%, ${ring.color}99 100%)`,
+                    background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
                   }}
                 >
-                  <div className="absolute inset-0 flex items-end p-4">
+                  <div className="absolute inset-0 flex items-end justify-between p-4">
                     <span className="inline-flex items-center rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-950 sm:text-[11px]">
-                      {ring.label[active]}
+                      {axis.label[active]}
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-slate-950/90 px-2.5 py-1 text-[10px] font-black text-white sm:text-[11px]">
+                      {course.durationBadge}
                     </span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 p-5">
                   <h3 className="text-base font-black leading-tight tracking-tight text-[#232322] sm:text-lg">
-                    {d.title[active]}
+                    {course.name}
                   </h3>
-                  <p className="text-xs text-slate-600 sm:text-sm">
-                    <span className="font-bold text-slate-500">·</span>{" "}
-                    {d.duration[active]}
-                  </p>
-                  <p className="text-xs text-slate-600 sm:text-sm">
-                    <span className="font-bold text-slate-500">·</span>{" "}
-                    {d.transport[active]}
+                  <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
+                    {course.hook}
                   </p>
                 </div>
               </article>
-            );
-          })}
+            </Link>
+          ))}
         </div>
 
         <div className="mt-8 flex justify-center">
