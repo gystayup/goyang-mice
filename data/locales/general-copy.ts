@@ -42,6 +42,10 @@ const ticketCategories: Record<TicketCategory | "all", LocalizedText> = {
   exhibition: { ko: "전시/행사", en: "Exhibition", ja: "展示/イベント", "zh-CN": "展览/活动", "zh-TW": "展覽/活動" },
   family: { ko: "아동/가족", en: "Family", ja: "キッズ/ファミリー", "zh-CN": "儿童/家庭", "zh-TW": "兒童/家庭" },
   "k-pop": { ko: "K-POP", en: "K-POP", ja: "K-POP", "zh-CN": "K-POP", "zh-TW": "K-POP" },
+  // 오더 #C51: 신규 3종 (activity·admission·tour) 5로케일 라벨.
+  activity: { ko: "체험", en: "Activity", ja: "体験", "zh-CN": "体验", "zh-TW": "體驗" },
+  admission: { ko: "입장권", en: "Admission", ja: "入場券", "zh-CN": "入场券", "zh-TW": "入場券" },
+  tour: { ko: "투어", en: "Tour", ja: "ツアー", "zh-CN": "游览", "zh-TW": "遊覽" },
 };
 
 const common = {

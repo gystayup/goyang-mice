@@ -16,13 +16,25 @@ const CATEGORIES: { key: Category; label: string }[] = [
 ];
 
 // ── 티켓 관련 타입 ──────────────────────────────────────────────
-type TicketCategory = "concert" | "festival" | "exhibition" | "family" | "k-pop";
+// 오더 #C51: admin 등록용 7종 (activity·admission·tour 신설). legacy "k-pop" 은
+//   Supabase 데이터 하위 호환 (타입에는 남기지만 UI 노출 안 함 · 신규 등록은 concert 로).
+type TicketCategory =
+  | "concert"
+  | "festival"
+  | "exhibition"
+  | "family"
+  | "activity"
+  | "admission"
+  | "tour"
+  | "k-pop";
 const TICKET_CATEGORIES: { key: TicketCategory; label: string }[] = [
-  { key: "concert", label: "콘서트" },
-  { key: "festival", label: "페스티벌" },
-  { key: "exhibition", label: "전시/행사" },
-  { key: "family", label: "아동/가족" },
-  { key: "k-pop", label: "K-POP" },
+  { key: "concert", label: "공연" },
+  { key: "exhibition", label: "전시" },
+  { key: "festival", label: "축제" },
+  { key: "activity", label: "체험" },
+  { key: "admission", label: "입장권" },
+  { key: "tour", label: "투어" },
+  { key: "family", label: "가족" },
 ];
 
 interface TicketOption {

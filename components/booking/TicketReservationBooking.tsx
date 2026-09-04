@@ -34,6 +34,10 @@ const ticketSeasonLabels: Record<TicketProduct["category"], string> = {
   exhibition: "전시 시즌 운영",
   family: "가족 프로그램 시즌",
   "k-pop": "K-POP 시즌 운영",
+  // 오더 #C51: 신규 3종 (activity·admission·tour) 시즌 라벨.
+  activity: "체험 프로그램 시즌",
+  admission: "입장권 상시 운영",
+  tour: "투어 시즌 운영",
 };
 
 export default function TicketReservationBooking({
