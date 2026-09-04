@@ -1,20 +1,21 @@
-// components/home/HeroDiscoverSection.tsx — 오더 #C14b 홈 히어로 · #C23 마감 · #C25 accent · #C28 Visit London 완전 일치.
+// components/home/HeroDiscoverSection.tsx — 오더 #C14b · #C23 · #C25 · #C28 · #C52 마스코트 이동.
 //
 // 구조:
-//   1) <section>  히어로 배경 + 오버레이 (배경 6장 · 스크림 · 헤드라인 · 검색바)
-//   2) <section>  하단 신뢰 띠 — 오더 #C28 [3]: 화면 폭 100% accent 배경 · 3항목 flex row
-//                 · 흰 글씨/아이콘 · 구분선(white/20) · 히어로 바로 아래 붙임 (mt 0)
+//   1) <section>  히어로 배경 + 오버레이 (배경 6장 · 스크림 · 헤드라인 · 검색바 · 우측 상단 마스코트)
+//   2) <section>  하단 신뢰 띠 (Visit London 스타일 화면 폭 accent 배너)
 //
 // 진화:
-//   #C23: brand eyebrow · 검색바 골드 원형 · 신뢰배너 3카드 (상단 골드 띠 + 인덱스)
-//   #C25: 색을 accent 로 통일 · 카드 배경 accent · 스크림 감소
-//   #C28 [3]: 카드 3개(간격) → 화면 폭 꽉 채운 한 줄 코럴 띠 (Visit London 하단 빨강 배너)
+//   #C23: brand eyebrow · 검색바 골드 원형 · 신뢰배너 3카드
+//   #C25: accent 색 통일
+//   #C28 [3]: 신뢰배너 화면 폭 코럴 띠
+//   #C52 (지금): 홈 독립 MascotWelcomeBanner 섹션 제거 · 마스코트 이미지를 히어로 오버레이
+//              우측 상단에 작게 배치 (absolute · 히어로 높이 무변경).
+//              WELCOME 문구는 히어로 h1·eyebrow 와 중복이라 버림 (이미지 자체에 한글 웰컴 각인).
 //
 // 규범:
-//   · 판매·예약·"예약" 표현 0. 검색 기능 구현 0 (UI 뼈대만).
-//   · 브랜드 색: var(--charcoal) · var(--gold) 병존, var(--accent) 신규.
-//   · 신뢰배너 3항목 사실 근거만 (data/home-copy.ts SSOT · 문구 무변경).
-//   · 5로케일 ko 폴백.
+//   · 판매·예약·"예약" 표현 0. 검색 기능 구현 0.
+//   · 브랜드 색 var(--charcoal)·var(--gold)·var(--accent).
+//   · 마스코트 이미지 파일 무터치 (렌더 크기만 조정 · 오더 #C52).
 
 "use client";
 
@@ -23,6 +24,15 @@ import { useEffect, useState } from "react";
 import { Search, Zap, Award, Sparkles } from "lucide-react";
 
 import { HERO_DISCOVER, pickHomeLocale } from "@/data/home-copy";
+
+// 오더 #C52: 마스코트 alt 5로케일 (기존 MascotWelcomeBanner 에서 이관).
+const MASCOT_ALT: Record<"ko" | "en" | "ja" | "zh-CN" | "zh-TW", string> = {
+  ko: "한복 입은 고양 마스코트 · 어서오세요",
+  en: "Goyang mascots in traditional hanbok · Welcome",
+  ja: "韓服姿の高陽マスコット · ようこそ",
+  "zh-CN": "身穿韩服的高阳吉祥物 · 欢迎",
+  "zh-TW": "身穿韓服的高陽吉祥物 · 歡迎",
+};
 
 // 배경 슬라이드 6장 (hero-{cat}.jpg 재사용).
 const BG_SLIDES = ["walk", "food", "culture", "kculture", "history", "family"] as const;
@@ -100,6 +110,21 @@ export default function HeroDiscoverSection({ locale }: { locale: string }) {
 
         {/* 오버레이 컨텐츠 (오더 #C28: 신뢰배너 제거로 pb 감소 · 하단 accent 띠와 맞닿음) */}
         <div className="relative mx-auto max-w-7xl px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24">
+          {/* 오더 #C52: 마스코트 우측 상단 absolute 배치 (히어로 높이 무변경).
+             데스크탑 lg 128px · md 96px · 모바일 sm 64px · 히어로 지배하지 않는 보조 요소. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-4 top-4 h-16 w-16 sm:h-20 sm:w-20 md:right-6 md:top-6 md:h-24 md:w-24 lg:right-8 lg:top-8 lg:h-32 lg:w-32"
+          >
+            <Image
+              src="/images/mascot/welcome-hanbok-cats.png"
+              alt={MASCOT_ALT[active]}
+              fill
+              sizes="(max-width: 640px) 64px, (max-width: 1024px) 96px, 128px"
+              className="object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.35)]"
+            />
+          </div>
+
           {/* brand eyebrow — accent 얇은 줄 + accent 라벨 (5로케일). */}
           <div className="flex items-center gap-3">
             <span

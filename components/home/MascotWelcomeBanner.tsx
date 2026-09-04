@@ -1,3 +1,6 @@
+// @deprecated — 오더 #C52 로 홈에서 렌더 제거. 마스코트는 HeroDiscoverSection 우측 상단 absolute 로 이동.
+//   컴포넌트 파일은 재사용 여지 위해 보존 (import 소비처 0 · dead code).
+//
 // components/home/MascotWelcomeBanner.tsx — 오더 #C26 섹션 사이 한복 고양이 웰컴 배너.
 //
 // 배치: HomePageContent 에서 MustSeeSection 과 BestGridEntrySection 사이.
