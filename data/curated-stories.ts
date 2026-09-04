@@ -27,6 +27,8 @@ export interface CuratedItem {
   address?: string;
   hours?: string;
   photoUrl?: string;
+  /** 오더 #C48: photoUrl 사용 시 카드 하단 캡션에 표시할 출처 문구 (공공누리 제1유형 등). */
+  photoCredit?: string;
   tags?: string[];
   /** 단일 지역 (data/regions.ts key 참조) */
   region?: string;
@@ -571,7 +573,7 @@ export const curatedStories: Record<CuratedCategory, CuratedStory> = {
     category: "stay",
     items: [
       { id: "hotel-the-wynn", name: "호텔 더 윈", desc: "원흥동의 IoT 음성인식 스마트 호텔", region: "deokyang" },
-      { id: "gyisc-youth-center", name: "고양국제청소년문화센터 유스센터", desc: "청소년 수련활동을 위한 문화 숙박 시설", region: "ilsan-east" },
+      { id: "gyisc-youth-center", name: "고양국제청소년문화센터 유스센터", desc: "청소년 수련활동을 위한 문화 숙박 시설", region: "ilsan-east", photoUrl: "/images/spots/gyisc-youth-center-api-1.jpg", photoCredit: "출처: 한국관광공사 (공공누리 제1유형)" },
       { id: "lakebay-hostel", name: "레이크베이 호스텔", desc: "장항동 라페스타·웨스턴돔 인근 신축 호스텔", region: "ilsan-east" },
       { id: "sono-calm-goyang", name: "소노캄 고양", desc: "킨텍스 인근 5성급 호텔", region: "ilsan-east" },
       { id: "deohyusik-anok-tanhyun", name: "더휴식 아늑호텔 일산탄현점", desc: "테마 객실을 갖춘 부티크 숙소", region: "ilsan-west" },
