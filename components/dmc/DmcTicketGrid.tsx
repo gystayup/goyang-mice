@@ -158,7 +158,7 @@ export default function DmcTicketGrid({ initialTickets, locale, ctaLabel, emptyL
                   </div>
                 )}
                 <Link
-                  href={`/products/${t.id}/reservation`}
+                  href={`/dmc/tickets/${t.id}`}
                   className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-950 px-4 py-2 text-xs font-bold text-white transition hover:brightness-110"
                 >
                   {ctaLabel}

@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 
 import Shell from "@/components/layout/Shell";
+import { Link } from "@/lib/navigation";
 import {
   dayTripRings,
   DAY_TRIPS_PAGE_COPY,
@@ -71,45 +72,48 @@ export default async function ProductsPage({
 
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {ring.destinations.map((d) => (
-              <article
+              <Link
                 key={d.id}
-                className="group overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md"
+                href={`/products/day-trips/${d.id}`}
+                className="group block overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md"
               >
-                {/* 상단 시각 블록: 사진 미확보 → 링 컬러 그라디언트 폴백. */}
-                <div
-                  aria-hidden="true"
-                  className="relative aspect-[16/9] w-full"
-                  style={{
-                    background: `linear-gradient(135deg, ${ring.color} 0%, ${ring.color}CC 55%, ${ring.color}99 100%)`,
-                  }}
-                >
-                  <div className="absolute inset-0 flex items-end p-4">
-                    <span className="inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-950 sm:text-[11px]">
-                      {d.region[locale]}
-                    </span>
+                <article>
+                  {/* 상단 시각 블록: 사진 미확보 → 링 컬러 그라디언트 폴백. */}
+                  <div
+                    aria-hidden="true"
+                    className="relative aspect-[16/9] w-full"
+                    style={{
+                      background: `linear-gradient(135deg, ${ring.color} 0%, ${ring.color}CC 55%, ${ring.color}99 100%)`,
+                    }}
+                  >
+                    <div className="absolute inset-0 flex items-end p-4">
+                      <span className="inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-950 sm:text-[11px]">
+                        {d.region[locale]}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col gap-3 p-5">
-                  <h3 className="text-base font-black leading-tight tracking-tight text-slate-950 sm:text-lg">
-                    {d.title[locale]}
-                  </h3>
-                  {/* 오더 #C16 PART B: 목적지 소개문 · 사장님 확정 원문 · 사실만. */}
-                  <p className="text-sm leading-relaxed text-slate-700">
-                    {d.description[locale]}
-                  </p>
-                  <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-xs text-slate-600 sm:text-sm">
-                    <dt className="font-bold text-slate-500">
-                      {DURATION_LABEL[locale]}
-                    </dt>
-                    <dd className="text-slate-800">{d.duration[locale]}</dd>
-                    <dt className="font-bold text-slate-500">
-                      {TRANSPORT_LABEL[locale]}
-                    </dt>
-                    <dd className="text-slate-800">{d.transport[locale]}</dd>
-                  </dl>
-                </div>
-              </article>
+                  <div className="flex flex-col gap-3 p-5">
+                    <h3 className="text-base font-black leading-tight tracking-tight text-slate-950 sm:text-lg">
+                      {d.title[locale]}
+                    </h3>
+                    {/* 오더 #C16 PART B: 목적지 소개문 · 사장님 확정 원문 · 사실만. */}
+                    <p className="text-sm leading-relaxed text-slate-700">
+                      {d.description[locale]}
+                    </p>
+                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-xs text-slate-600 sm:text-sm">
+                      <dt className="font-bold text-slate-500">
+                        {DURATION_LABEL[locale]}
+                      </dt>
+                      <dd className="text-slate-800">{d.duration[locale]}</dd>
+                      <dt className="font-bold text-slate-500">
+                        {TRANSPORT_LABEL[locale]}
+                      </dt>
+                      <dd className="text-slate-800">{d.transport[locale]}</dd>
+                    </dl>
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
         </section>
