@@ -94,7 +94,7 @@ export default async function DmcMovePage({
             <div className="overflow-x-auto">
               <div
                 className="relative mx-auto"
-                style={{ minWidth: "900px", width: "100%", aspectRatio: "16 / 10" }}
+                style={{ minWidth: "900px", width: "100%", aspectRatio: "1700 / 1300" }}
               >
                 <Image
                   src={transitMapSrc(active)}
