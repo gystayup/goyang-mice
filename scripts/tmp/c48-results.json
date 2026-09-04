@@ -1,0 +1,375 @@
+[
+  {
+    "cat": "food",
+    "id": "lafesta",
+    "contentid": "1144856",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "food",
+    "id": "westerndom",
+    "contentid": "1071954",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "food",
+    "id": "ilsan-traditional-market",
+    "contentid": "132419",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "food",
+    "id": "daehwa-cafes",
+    "contentid": "254860",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 9
+  },
+  {
+    "cat": "food",
+    "id": "neungwon-galbi",
+    "contentid": "2874764",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 3
+  },
+  {
+    "cat": "food",
+    "id": "neunggok-halmeoni-bugeotang",
+    "contentid": "2891412",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "gobongsan-siraegi",
+    "contentid": "2873185",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "gom-taco",
+    "contentid": "2868410",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "the-nurungji",
+    "contentid": "2874808",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "gaya-milmyeon-ilsan",
+    "contentid": "2891928",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "hallyu-world-dining",
+    "contentid": "3018574",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "food",
+    "id": "bamridan-gil",
+    "contentid": "3018574",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "stay",
+    "id": "hotel-the-wynn",
+    "contentid": "3018716",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "stay",
+    "id": "gyisc-youth-center",
+    "contentid": "2818337",
+    "keyword": null,
+    "status": "ok",
+    "size": 47234,
+    "imgUrl": "https://tong.visitkorea.or.kr/cms/resource/19/4076919_image2_1.jpg",
+    "cpyrht": "Type1"
+  },
+  {
+    "cat": "stay",
+    "id": "lakebay-hostel",
+    "contentid": "2918421",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "stay",
+    "id": "sono-calm-goyang",
+    "contentid": "2496500",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "stay",
+    "id": "deohyusik-anok-tanhyun",
+    "contentid": "3485478",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "stay",
+    "id": "hotel-luxor",
+    "contentid": "2893601",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "stay",
+    "id": "kintex-by-ktree",
+    "contentid": "2872922",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "night",
+    "id": "westerndom",
+    "contentid": "1071954",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "night",
+    "id": "lafesta",
+    "contentid": "1144856",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "night",
+    "id": "bamridan-gil",
+    "contentid": "3018574",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "night",
+    "id": "onemount",
+    "contentid": "1845517",
+    "keyword": "원마운트",
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "night",
+    "id": "hallyu-world-dining",
+    "contentid": "3018574",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "kculture",
+    "id": "goyang-stadium",
+    "contentid": null,
+    "keyword": "고양종합운동장",
+    "status": "search_empty"
+  },
+  {
+    "cat": "kculture",
+    "id": "hallyu-world",
+    "contentid": null,
+    "keyword": "한류월드",
+    "status": "search_empty"
+  },
+  {
+    "cat": "kculture",
+    "id": "onemount",
+    "contentid": "1845517",
+    "keyword": "원마운트",
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "family",
+    "id": "onemount",
+    "contentid": "1845517",
+    "keyword": "원마운트",
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "family",
+    "id": "aquaplanet-ilsan",
+    "contentid": "1917066",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 7
+  },
+  {
+    "cat": "shopping",
+    "id": "lafesta",
+    "contentid": "1144856",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "shopping",
+    "id": "westerndom",
+    "contentid": "1071954",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 5
+  },
+  {
+    "cat": "shopping",
+    "id": "emart-ilsan",
+    "contentid": "2913966",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 0
+  },
+  {
+    "cat": "shopping",
+    "id": "homeplus-goyang-terminal",
+    "contentid": "2903729",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 2
+  },
+  {
+    "cat": "shopping",
+    "id": "ilsan-traditional-market",
+    "contentid": "132419",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 6
+  },
+  {
+    "cat": "shopping",
+    "id": "hyundai-dept-kintex",
+    "contentid": "2911512",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 1
+  },
+  {
+    "cat": "shopping",
+    "id": "homeplus-kintex",
+    "contentid": "2931339",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 2
+  },
+  {
+    "cat": "shopping",
+    "id": "deoki-rodeo",
+    "contentid": "1314565",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "walk",
+    "id": "changneungcheon-trail",
+    "contentid": null,
+    "keyword": "창릉천",
+    "status": "search_empty"
+  },
+  {
+    "cat": "walk",
+    "id": "wondang-ranch-lets-run-farm",
+    "contentid": "128138",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 0
+  },
+  {
+    "cat": "walk",
+    "id": "goyang-ecological-park",
+    "contentid": "2732164",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 0
+  },
+  {
+    "cat": "culture",
+    "id": "aramnuri",
+    "contentid": "254860",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 9
+  },
+  {
+    "cat": "culture",
+    "id": "aram-art-museum",
+    "contentid": "2892126",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 4
+  },
+  {
+    "cat": "culture",
+    "id": "gawaji-rice-museum",
+    "contentid": null,
+    "keyword": "고양가와지볍씨박물관",
+    "status": "search_empty"
+  },
+  {
+    "cat": "history",
+    "id": "bamgasi-thatched-house",
+    "contentid": null,
+    "keyword": "밤가시초가",
+    "status": "search_empty"
+  },
+  {
+    "cat": "history",
+    "id": "haengju-historical-park",
+    "contentid": "2661736",
+    "keyword": "행주산성 역사공원",
+    "status": "no_type1",
+    "totalImages": 11
+  },
+  {
+    "cat": "history",
+    "id": "heungguksa-goyang",
+    "contentid": "128871",
+    "keyword": "흥국사",
+    "status": "no_type1",
+    "totalImages": 0
+  },
+  {
+    "cat": "history",
+    "id": "bukhansanseong",
+    "contentid": "125550",
+    "keyword": null,
+    "status": "no_type1",
+    "totalImages": 3
+  }
+]

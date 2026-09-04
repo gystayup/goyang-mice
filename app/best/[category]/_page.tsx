@@ -339,13 +339,21 @@ function BestListCard({
     <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200 bg-white transition group-hover:border-slate-950">
       <div className="relative aspect-[4/3] w-full bg-slate-100">
         {photoUrl ? (
-          <Image
-            src={photoUrl}
-            alt={item.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
+          <>
+            <Image
+              src={photoUrl}
+              alt={item.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+            {/* 오더 #C48: TourAPI 이미지 사용 시 카드 좌하단 미니 크레딧. */}
+            {item.photoCredit && (
+              <span className="pointer-events-none absolute bottom-1 left-1 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-medium text-white/90">
+                {item.photoCredit}
+              </span>
+            )}
+          </>
         ) : (
           // 오더 #C47: 개선 플레이스홀더 — 카테고리 색상 그라디언트 배경 + 장소명 흰 텍스트.
           //   기존 CategoryIllustration 만 표시 (아이콘 뿐) → "미완성 빈 카드" 문제 해소.

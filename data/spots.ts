@@ -2714,6 +2714,9 @@ export const spots: Spot[] = [
       { url: "/images/spots/hyundai-motorstudio-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/hyundai-motorstudio-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/hyundai-motorstudio-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C48 [해제]: .jpg.png 이중 확장자 정정 후 940×627 재인코딩 · 사장님 수동 배치 의도 살림.
+      { url: "/images/spots/hyundai-motorstudio-7.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/hyundai-motorstudio-8.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     nearest_station: { name: { ko: "GTX 킨텍스역", en: "GTX Kintex Stn.", ja: "GTX キンテックス駅", "zh-CN": "GTX 韩国国际展览中心站", "zh-TW": "GTX 韓國國際展覽中心站" }, walk_min: null },
     // 오더 #F0 [4]: TourAPI homepage.
@@ -3244,6 +3247,12 @@ export const spots: Spot[] = [
       { url: "/images/spots/goyang-tourist-center-1.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/goyang-tourist-center-2.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
       { url: "/images/spots/goyang-tourist-center-3.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      // 오더 #C48 [해제]: .jpg.png 이중 확장자 정정 후 940×627 재인코딩 · 사장님 수동 배치 의도 살림.
+      // -6 은 RM 벽화 (기존 -1~-3 에 이미 RM/조형물 배선 유형 확장 · 고양시 조성 공공벽화).
+      { url: "/images/spots/goyang-tourist-center-4.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/goyang-tourist-center-5.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/goyang-tourist-center-6.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
+      { url: "/images/spots/goyang-tourist-center-7.jpg", credit: "출처: 한국관광공사 (공공누리 제1유형)", cpyrht: "Type1" },
     ],
     // 오더 #F0 [4]: TourAPI 좌표.
     map: [{ lat: 37.6595397482, lng: 126.7727121731, label: "고양관광정보센터" }],
