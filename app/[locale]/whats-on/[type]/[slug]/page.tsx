@@ -24,9 +24,9 @@ import { notFound } from "next/navigation";
 
 import Shell from "@/components/layout/Shell";
 import {
-  getVisibleWhatsOnEvents,
-  getWhatsOnEvent,
+  findWhatsOnEvent,
   isCurrentOrUpcoming,
+  loadVisibleWhatsOnEvents,
   resolveEventImage,
   WHATS_ON_LOCALES,
   type WhatsOnEvent,
@@ -170,9 +170,10 @@ function isoToShort(iso: string): string {
   return `${y}.${m}.${d}`;
 }
 
-export function generateStaticParams() {
+// 오더 #C50: async — admin(Supabase) 등록 티켓 + native 이벤트 결합해 정적 경로 생성.
+export async function generateStaticParams() {
   // 오더 #P9-d [2]: 미검증(verified=false) 이벤트는 정적 경로 자체를 생성하지 않는다.
-  const events = getVisibleWhatsOnEvents();
+  const events = await loadVisibleWhatsOnEvents();
   return WHATS_ON_LOCALES.flatMap((locale) =>
     events.map((e) => ({ locale, type: e.type, slug: e.slug }))
   );
@@ -186,7 +187,8 @@ export async function generateMetadata({
   const { locale, type, slug } = await params;
   const active = toLocale(locale);
   if (!isType(type)) return { title: "" };
-  const event = getWhatsOnEvent(type, slug);
+  const events = await loadVisibleWhatsOnEvents();
+  const event = findWhatsOnEvent(events, type, slug);
   if (!event) return { title: "" };
   return {
     title: `${event.title[active]} — ${TYPE_LABEL[type][active]}`,
@@ -216,7 +218,8 @@ export default async function WhatsOnDetailPage({
   const { locale, type, slug } = await params;
   const active = toLocale(locale);
   if (!isType(type)) notFound();
-  const event = getWhatsOnEvent(type, slug);
+  const events = await loadVisibleWhatsOnEvents();
+  const event = findWhatsOnEvent(events, type, slug);
   if (!event) notFound();
   // 지난 이벤트는 상세 진입도 차단 (홈에서 이미 자동 숨김).
   if (!isCurrentOrUpcoming(event)) notFound();

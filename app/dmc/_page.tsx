@@ -1,23 +1,23 @@
-// /[locale]/dmc 인덱스 — 오더 #C49.
+// /[locale]/dmc 인덱스 — 오더 #C49 · #C50 admin Supabase 데이터 연결.
 //
-// 재구성: "전시 소개 + 티켓 안내" 페이지.
+// 재구성: "전시 + 공연·페스티벌 (admin Supabase 소스)".
 //   · Hero
-//   · Kintex/Goyang Exhibitions (신설 · ticket-booking.ts category==="exhibition" 재사용)
-//   · PLACES (장소 상세 진입 그리드)
-//   · GOYANG MOVE (공항 접근 브릿지)
-//   · Catalog Bridge (당일코스 진입 CTA)
-//   · Final CTA
+//   · Exhibitions (category === "exhibition") — admin 등록분 우선 · 정적 폴백
+//   · Performances (category ∈ ["concert","k-pop","festival","family"]) — admin 등록분 우선 · 정적 폴백
+//   · PLACES / GOYANG MOVE / Catalog Bridge / Final CTA
 //
-// 이관 (오더 #C49 [1]): 아래 4블록은 /institute 로 이동 · /dmc 에서 제거.
-//   · Pillars      (3개)
-//   · Use Cases    (4개)
-//   · Steps        (4단계)
-//   · Partners     (CTA)
-//   → 데이터·문안: data/dmc-service-blocks.ts (5로케일 SSOT).
+// 데이터 소스 (오더 #C50):
+//   · await readTicketCatalog() — Supabase pages/ticket-catalog · DB 실패 시 정적 폴백
+//   · 각 섹션 0건이면 숨김 (empty placeholder 만 남김)
+//   · KINTEX venue 우선 정렬 유지
+//   · CTA 는 기존 /products/{id}/reservation (Toss 결제 흐름 무변경)
+//
+// 이관 (오더 #C49 [1]): Pillars/UseCases/Steps/Partners 4블록은 /institute (data/dmc-service-blocks.ts).
 //
 // 무접촉:
-//   · data/ticket-booking.ts · 결제 라우트 /products/[id]/reservation · admin · DB · prisma (G7 LOCK)
+//   · 결제 라우트 /products/[id]/reservation · admin · Supabase 스키마 (G7 LOCK)
 //   · Header · --header-h · Shell · /dmc/[slug] · /dmc/move 무영향
+//   · 정적 data/ticket-booking.ts (readTicketCatalog 폴백으로 유지)
 
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -27,12 +27,22 @@ import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { readDmcHeroMedia } from "@/lib/dmc-hero-media";
+import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 import { Link } from "@/lib/navigation";
-import { ticketProducts, type TicketProduct, type TicketLocale } from "@/data/ticket-booking";
+import { type TicketProduct, type TicketLocale } from "@/data/ticket-booking";
 
 export const dynamic = "force-dynamic";
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
+
+type SectionCopy = {
+  eyebrow: string;
+  title: string;
+  desc: string;
+  emptyPlaceholder: string;
+  ctaTicket: string;
+  ctaMore: string;
+};
 
 type DmcCopy = {
   metadata: Metadata;
@@ -43,14 +53,8 @@ type DmcCopy = {
     mediaTitle: string;
     mediaDescription: string;
   };
-  exhibitions: {
-    eyebrow: string;
-    title: string;
-    desc: string;
-    emptyPlaceholder: string;
-    ctaTicket: string;
-    ctaMore: string;
-  };
+  exhibitions: SectionCopy;
+  performances: SectionCopy;
   catalogViewAll: string;
   places: { eyebrow: string; title: string; desc: string; placeholder: string };
   move: { eyebrow: string; title: string; desc: string; placeholder: string };
@@ -59,13 +63,13 @@ type DmcCopy = {
 
 const koreanCopy: DmcCopy = {
   metadata: {
-    title: "고양 전시·티켓 안내",
-    description: "KINTEX·아람누리 등 고양의 전시와 티켓 안내 · 장소 상세 · 공항 접근을 한 곳에서 확인하세요.",
+    title: "고양 전시·공연·티켓 안내",
+    description: "KINTEX·아람누리 등 고양의 전시·공연·티켓 안내를 한 곳에서 확인하세요.",
   },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "고양의 전시와 장소를 한 곳에서",
-    description: "KINTEX·아람누리·킨텍스 인근 전시와 티켓 안내, 그리고 고양·일산의 장소 상세로 이어지는 진입점입니다.",
+    title: "고양의 전시·공연과 장소를 한 곳에서",
+    description: "KINTEX·아람누리 등 고양의 전시·공연 티켓과 장소 상세로 이어지는 진입점입니다.",
     mediaTitle: "대표 미디어 영역",
     mediaDescription: "관리자 페이지에서 업로드한 이미지 또는 영상이 이곳에 표시됩니다.",
   },
@@ -77,31 +81,26 @@ const koreanCopy: DmcCopy = {
     ctaTicket: "티켓 안내",
     ctaMore: "전체 카탈로그",
   },
+  performances: {
+    eyebrow: "PERFORMANCES",
+    title: "고양의 공연·페스티벌",
+    desc: "고양종합운동장·KINTEX·아람누리 등에서 열리는 공연·페스티벌·K-POP 안내입니다.",
+    emptyPlaceholder: "등록된 공연이 곧 여기에 표시됩니다.",
+    ctaTicket: "티켓 안내",
+    ctaMore: "전체 카탈로그",
+  },
   catalogViewAll: "당일코스 보기",
-  places: {
-    eyebrow: "PLACES",
-    title: "고양일산의 장소",
-    desc: "인사이더가 고른 장소를 한 곳씩 소개합니다.",
-    placeholder: "곧 이 자리에서 만나요",
-  },
-  move: {
-    eyebrow: "GOYANG MOVE",
-    title: "공항에서 고양까지",
-    desc: "인천·김포공항에서 고양일산까지 가는 방법을 단계별로 안내합니다.",
-    placeholder: "곧 이 자리에서 만나요",
-  },
-  final: {
-    title: "고양에서 무엇을 할지 함께 찾아드립니다",
-    description: "방문 목적과 일정에 맞는 안내를 연결해 드립니다.",
-  },
+  places: { eyebrow: "PLACES", title: "고양일산의 장소", desc: "인사이더가 고른 장소를 한 곳씩 소개합니다.", placeholder: "곧 이 자리에서 만나요" },
+  move: { eyebrow: "GOYANG MOVE", title: "공항에서 고양까지", desc: "인천·김포공항에서 고양일산까지 가는 방법을 단계별로 안내합니다.", placeholder: "곧 이 자리에서 만나요" },
+  final: { title: "고양에서 무엇을 할지 함께 찾아드립니다", description: "방문 목적과 일정에 맞는 안내를 연결해 드립니다." },
 };
 
 const englishCopy: DmcCopy = {
-  metadata: { title: "Goyang Exhibitions & Tickets", description: "Exhibitions and tickets in Goyang (KINTEX, Aramnuri) plus place guides and airport access." },
+  metadata: { title: "Goyang Exhibitions, Performances & Tickets", description: "Exhibitions, performances and tickets across KINTEX, Aramnuri and other Goyang venues." },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "Goyang exhibitions and places, in one place",
-    description: "An entry point to exhibitions and tickets around KINTEX and Aramnuri, and to place guides across Goyang-Ilsan.",
+    title: "Goyang exhibitions, performances and places, in one place",
+    description: "An entry point to exhibitions, performances and tickets across KINTEX and Aramnuri, and to place guides in Goyang-Ilsan.",
     mediaTitle: "Hero Media Area",
     mediaDescription: "An image or video uploaded from the admin page appears here.",
   },
@@ -113,6 +112,14 @@ const englishCopy: DmcCopy = {
     ctaTicket: "Ticket info",
     ctaMore: "Full catalog",
   },
+  performances: {
+    eyebrow: "PERFORMANCES",
+    title: "Performances & Festivals in Goyang",
+    desc: "Concerts, festivals and K-POP shows at Goyang Stadium, KINTEX and Aramnuri.",
+    emptyPlaceholder: "Registered performances will appear here soon.",
+    ctaTicket: "Ticket info",
+    ctaMore: "Full catalog",
+  },
   catalogViewAll: "See day trips",
   places: { eyebrow: "PLACES", title: "Places in Goyang-Ilsan", desc: "Places chosen by insiders, one at a time.", placeholder: "Coming soon" },
   move: { eyebrow: "GOYANG MOVE", title: "From the Airport to Goyang", desc: "Step-by-step guidance from Incheon and Gimpo airports.", placeholder: "Coming soon" },
@@ -120,11 +127,11 @@ const englishCopy: DmcCopy = {
 };
 
 const japaneseCopy: DmcCopy = {
-  metadata: { title: "高陽 展示・チケット案内", description: "KINTEX・アラムヌリなど高陽の展示・チケット案内、場所紹介と空港アクセスを一カ所で。" },
+  metadata: { title: "高陽 展示・公演・チケット案内", description: "KINTEX・アラムヌリなど高陽の展示・公演・チケット案内を一カ所で。" },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高陽の展示と場所をひとつに",
-    description: "KINTEX・アラムヌリ周辺の展示・チケット案内と、高陽・一山の場所紹介への入り口です。",
+    title: "高陽の展示・公演と場所をひとつに",
+    description: "KINTEX・アラムヌリなど高陽の展示・公演チケットと場所紹介への入り口です。",
     mediaTitle: "メインメディアエリア",
     mediaDescription: "管理者ページからアップロードした画像または動画がここに表示されます。",
   },
@@ -136,6 +143,14 @@ const japaneseCopy: DmcCopy = {
     ctaTicket: "チケット案内",
     ctaMore: "全カタログ",
   },
+  performances: {
+    eyebrow: "PERFORMANCES",
+    title: "高陽の公演・フェスティバル",
+    desc: "高陽総合運動場・KINTEX・アラムヌリなどで行われる公演・フェスティバル・K-POP案内です。",
+    emptyPlaceholder: "登録された公演が近日中にここに表示されます。",
+    ctaTicket: "チケット案内",
+    ctaMore: "全カタログ",
+  },
   catalogViewAll: "日帰り旅行を見る",
   places: { eyebrow: "PLACES", title: "高陽・一山の場所", desc: "インサイダーが選んだ場所を一つずつ紹介します。", placeholder: "まもなく公開します" },
   move: { eyebrow: "GOYANG MOVE", title: "空港から高陽まで", desc: "仁川・金浦空港から高陽・一山への行き方を段階別に案内します。", placeholder: "まもなく公開します" },
@@ -143,11 +158,11 @@ const japaneseCopy: DmcCopy = {
 };
 
 const chineseSimplifiedCopy: DmcCopy = {
-  metadata: { title: "高阳 展览·门票指南", description: "KINTEX·阿蓝努里等高阳展览与门票信息、场所指南和机场接送一站式了解。" },
+  metadata: { title: "高阳 展览·演出·门票指南", description: "KINTEX·阿蓝努里等高阳展览·演出·门票信息一站式了解。" },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高阳的展览与场所，一处尽览",
-    description: "KINTEX、阿蓝努里周边展览与门票入口，以及高阳·一山场所指南的进入点。",
+    title: "高阳的展览·演出与场所，一处尽览",
+    description: "KINTEX、阿蓝努里等高阳展览·演出门票入口，以及高阳·一山场所指南的进入点。",
     mediaTitle: "主要媒体区域",
     mediaDescription: "此处显示从管理员页面上传的图片或视频。",
   },
@@ -159,6 +174,14 @@ const chineseSimplifiedCopy: DmcCopy = {
     ctaTicket: "门票信息",
     ctaMore: "完整目录",
   },
+  performances: {
+    eyebrow: "PERFORMANCES",
+    title: "高阳的演出·节庆",
+    desc: "在高阳综合运动场·KINTEX·阿蓝努里举行的演出·节庆·K-POP 信息。",
+    emptyPlaceholder: "已登记的演出将很快显示在此。",
+    ctaTicket: "门票信息",
+    ctaMore: "完整目录",
+  },
   catalogViewAll: "查看一日游",
   places: { eyebrow: "PLACES", title: "高阳·一山的场所", desc: "逐一介绍内行人精选的场所。", placeholder: "敬请期待" },
   move: { eyebrow: "GOYANG MOVE", title: "从机场到高阳", desc: "分步介绍从仁川·金浦机场前往高阳·一山的方式。", placeholder: "敬请期待" },
@@ -166,11 +189,11 @@ const chineseSimplifiedCopy: DmcCopy = {
 };
 
 const chineseTraditionalCopy: DmcCopy = {
-  metadata: { title: "高陽 展覽·門票指南", description: "KINTEX·阿藍努里等高陽展覽與門票資訊、場所指南和機場接送一站式了解。" },
+  metadata: { title: "高陽 展覽·演出·門票指南", description: "KINTEX·阿藍努里等高陽展覽·演出·門票資訊一站式了解。" },
   hero: {
     eyebrow: "GOYANG VIBE LAB",
-    title: "高陽的展覽與場所，一處盡覽",
-    description: "KINTEX、阿藍努里周邊展覽與門票入口，以及高陽·一山場所指南的進入點。",
+    title: "高陽的展覽·演出與場所，一處盡覽",
+    description: "KINTEX、阿藍努里等高陽展覽·演出門票入口，以及高陽·一山場所指南的進入點。",
     mediaTitle: "主要媒體區域",
     mediaDescription: "此處顯示從管理員頁面上傳的圖片或影片。",
   },
@@ -179,6 +202,14 @@ const chineseTraditionalCopy: DmcCopy = {
     title: "高陽的展覽",
     desc: "KINTEX、阿藍努里等高陽展覽與門票入口。",
     emptyPlaceholder: "已登記的展覽將很快顯示在此。",
+    ctaTicket: "門票資訊",
+    ctaMore: "完整目錄",
+  },
+  performances: {
+    eyebrow: "PERFORMANCES",
+    title: "高陽的演出·節慶",
+    desc: "於高陽綜合運動場·KINTEX·阿藍努里舉行的演出·節慶·K-POP 資訊。",
+    emptyPlaceholder: "已登記的演出將很快顯示在此。",
     ctaTicket: "門票資訊",
     ctaMore: "完整目錄",
   },
@@ -198,9 +229,7 @@ function getCopy(locale: PageLocale) {
   return koreanCopy;
 }
 
-// ─── Exhibition 데이터 ─────────────────────────────────────────────
-// ticket-booking.ts 재사용. category === "exhibition" 필터 · KINTEX venue 우선.
-// 신규 결제 로직 구축 0. CTA 는 기존 /products/{id}/reservation 라우트.
+// ─── Ticket 데이터 필터/정렬 (오더 #C50) ────────────────────────────────
 function pickLocalizedVenue(t: TicketProduct, locale: PageLocale): string {
   if (locale === "ko") return t.venue;
   const key = locale as TicketLocale;
@@ -214,9 +243,18 @@ function parseStartDate(dateText: string, fallback: string): string {
   return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
 }
 
-function getGoyangExhibitions(locale: PageLocale): Array<TicketProduct & { startIso: string; kintexPriority: number }> {
-  const list = ticketProducts
-    .filter((t) => t.category === "exhibition")
+const PERFORMANCE_CATEGORIES: ReadonlySet<TicketProduct["category"]> = new Set([
+  "concert",
+  "k-pop",
+  "festival",
+  "family",
+]);
+
+type SortedTicket = TicketProduct & { startIso: string; kintexPriority: number };
+
+function filterAndSort(products: TicketProduct[], predicate: (t: TicketProduct) => boolean, locale: PageLocale): SortedTicket[] {
+  const list = products
+    .filter(predicate)
     .map((t) => {
       const startIso = parseStartDate(t.dateText, t.endDate ?? "9999-99-99");
       const venue = pickLocalizedVenue(t, locale);
@@ -234,7 +272,10 @@ export default async function DmcPage({
 }) {
   const copy = getCopy(locale);
   const heroMedia = await readDmcHeroMedia();
-  const exhibitions = getGoyangExhibitions(locale);
+  // 오더 #C50: admin Supabase 등록 티켓 + 정적 폴백. Supabase 실패 시 defaultTickets 반환.
+  const products = await readTicketCatalog();
+  const exhibitions = filterAndSort(products, (t) => t.category === "exhibition", locale);
+  const performances = filterAndSort(products, (t) => PERFORMANCE_CATEGORIES.has(t.category), locale);
 
   return (
     <Shell>
@@ -283,34 +324,61 @@ export default async function DmcPage({
           </div>
         </section>
 
-        {/* ── Exhibitions (신설 · 오더 #C49 [1] · ticket-booking.ts 재사용) ── */}
-        <section className="space-y-6">
-          <SectionTitle eyebrow={copy.exhibitions.eyebrow} title={copy.exhibitions.title} desc={copy.exhibitions.desc} />
-          {exhibitions.length > 0 ? (
+        {/* ── Exhibitions (오더 #C49 · #C50 admin 소스) ── 0건이면 섹션 숨김 */}
+        {exhibitions.length > 0 && (
+          <section className="space-y-6">
+            <SectionTitle eyebrow={copy.exhibitions.eyebrow} title={copy.exhibitions.title} desc={copy.exhibitions.desc} />
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {exhibitions.map((ex) => (
-                <ExhibitionCard key={ex.id} exhibition={ex} locale={locale} labels={copy.exhibitions} />
+                <TicketCard key={ex.id} item={ex} locale={locale} labels={copy.exhibitions} />
               ))}
             </div>
-          ) : (
+            <div className="flex justify-end">
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:border-slate-950 hover:shadow-md"
+              >
+                {copy.exhibitions.ctaMore}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {/* ── Performances (오더 #C50 신설 · concert/k-pop/festival/family) ── 0건이면 섹션 숨김 */}
+        {performances.length > 0 && (
+          <section className="space-y-6">
+            <SectionTitle eyebrow={copy.performances.eyebrow} title={copy.performances.title} desc={copy.performances.desc} />
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {performances.map((p) => (
+                <TicketCard key={p.id} item={p} locale={locale} labels={copy.performances} />
+              ))}
+            </div>
+            <div className="flex justify-end">
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:border-slate-950 hover:shadow-md"
+              >
+                {copy.performances.ctaMore}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {/* ── 두 섹션 모두 0건일 때: exhibitions 자리에 안내 (fallback) ── */}
+        {exhibitions.length === 0 && performances.length === 0 && (
+          <section className="space-y-6">
+            <SectionTitle eyebrow={copy.exhibitions.eyebrow} title={copy.exhibitions.title} desc={copy.exhibitions.desc} />
             <PremiumCard className="p-8 text-center">
               <p className="text-base font-black tracking-tight text-slate-950 sm:text-lg">
                 {copy.exhibitions.emptyPlaceholder}
               </p>
             </PremiumCard>
-          )}
-          <div className="flex justify-end">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-950 transition hover:border-slate-950 hover:shadow-md"
-            >
-              {copy.exhibitions.ctaMore}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </section>
+          </section>
+        )}
 
-        {/* ── PLACES ── PremiumCard 재사용 · spots 0건이면 placeholder. */}
+        {/* ── PLACES ── */}
         <section className="space-y-6">
           <SectionTitle eyebrow={copy.places.eyebrow} title={copy.places.title} desc={copy.places.desc} />
           <PremiumCard className="p-8 text-center">
@@ -330,7 +398,7 @@ export default async function DmcPage({
           </PremiumCard>
         </section>
 
-        {/* ── Catalog Bridge (당일코스 진입) ── */}
+        {/* ── Catalog Bridge ── */}
         <section className="flex justify-center">
           <Link
             href="/products"
@@ -366,43 +434,43 @@ export default async function DmcPage({
   );
 }
 
-// ─── Exhibition Card ─────────────────────────────────────────────
+// ─── Ticket Card (오더 #C50: exhibition·performance 공용) ─────────────────────
 // 기존 /products/{id}/reservation 라우트 재사용 · 신규 결제 로직 0.
-function ExhibitionCard({
-  exhibition,
+function TicketCard({
+  item,
   locale,
   labels,
 }: {
-  exhibition: TicketProduct & { startIso: string };
+  item: SortedTicket;
   locale: PageLocale;
-  labels: DmcCopy["exhibitions"];
+  labels: SectionCopy;
 }) {
-  const venue = pickLocalizedVenue(exhibition, locale);
+  const venue = pickLocalizedVenue(item, locale);
   return (
     <article className="group overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md">
-      {exhibition.imageUrl ? (
+      {item.imageUrl ? (
         <div className="relative aspect-[16/9] w-full bg-slate-100">
-          <Image src={exhibition.imageUrl} alt={exhibition.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw" />
+          <Image src={item.imageUrl} alt={item.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw" />
         </div>
       ) : (
         <div
           aria-hidden="true"
-          className={`relative flex aspect-[16/9] w-full items-end bg-gradient-to-br ${exhibition.imageTone} p-4`}
+          className={`relative flex aspect-[16/9] w-full items-end bg-gradient-to-br ${item.imageTone} p-4`}
         >
           <span className="text-2xl font-black uppercase tracking-[0.14em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
-            {exhibition.posterLabel}
+            {item.posterLabel}
           </span>
         </div>
       )}
       <div className="flex flex-col gap-2 p-5">
         <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent)]">
-          {exhibition.badge}
+          {item.badge}
         </div>
         <h3 className="text-base font-black leading-tight tracking-[-0.02em] text-slate-950 sm:text-lg">
-          {exhibition.title}
+          {item.title}
         </h3>
-        {exhibition.subtitle && (
-          <p className="text-sm text-slate-600">{exhibition.subtitle}</p>
+        {item.subtitle && (
+          <p className="text-sm text-slate-600">{item.subtitle}</p>
         )}
         <div className="mt-2 flex items-start gap-2 text-xs text-slate-600">
           <MapPin className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
@@ -410,10 +478,10 @@ function ExhibitionCard({
         </div>
         <div className="flex items-start gap-2 text-xs text-slate-600">
           <Calendar className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
-          <span>{exhibition.dateText}</span>
+          <span>{item.dateText}</span>
         </div>
         <Link
-          href={`/products/${exhibition.id}/reservation`}
+          href={`/products/${item.id}/reservation`}
           className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-950 px-4 py-2 text-xs font-bold text-white transition hover:brightness-110"
         >
           {labels.ctaTicket}
