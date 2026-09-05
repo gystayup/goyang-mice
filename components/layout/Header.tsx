@@ -32,6 +32,8 @@ import { useState } from "react";
 import { type LocaleKey, navigation, navigationLabels, type NavigationKey } from "@/data/navigation";
 import { Link, usePathname } from "@/lib/navigation";
 import HeaderUserMenu from "@/components/layout/HeaderUserMenu";
+import LanguageSelector from "@/components/layout/LanguageSelector";
+import CurrencySelector from "@/components/currency/CurrencySelector";
 import {
   CATEGORY_LABEL,
   CURATED_CATEGORIES,
@@ -49,15 +51,6 @@ const copyMap: Record<LocaleKey, HeaderCopy> = {
   "zh-CN": { menuLabel: "打开菜单", closeLabel: "关闭菜单" },
   "zh-TW": { menuLabel: "開啟選單", closeLabel: "關閉選單" },
 };
-
-// 언어 버튼 목록.
-const localeButtons: { locale: LocaleKey; label: string }[] = [
-  { locale: "ko", label: "KO" },
-  { locale: "en", label: "EN" },
-  { locale: "ja", label: "JP" },
-  { locale: "zh-CN", label: "简" },
-  { locale: "zh-TW", label: "繁" },
-];
 
 /** 네비 항목별 위계 톤 (오더 #R2 · #P1 로 best 추가 · #C25/C27 로 흰 배경 · accent 언더라인). */
 function navTone(key: NavigationKey): "visitor" | "action" | "institutional" {
@@ -98,10 +91,10 @@ export default function Header() {
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
-  // 오더 #C32: BEST 하위 9카테고리 서브줄은 홈(/) 및 /best·/best/{cat} 에서만 노출.
-  //   상세·/dmc·/products·/institute·/research·/news 등 기타 페이지에서는 숨김 (헤더 슬림화).
-  //   상세 spacer(--header-h) 는 서브줄 없는 슬림 헤더 기준으로 CSS 변수 설정됨.
-  const showBestSubRow = pathname === "/" || pathname === "/best" || pathname.startsWith("/best/");
+  // 오더 #C32 도입 · #C58 [3] 홈 제외: BEST 하위 9카테고리 서브줄은 /best·/best/{cat} 에서만.
+  //   홈 본문에 9카테고리 배지 카드가 이미 있어 중복 · 상단 네비 2줄이 히어로 밀어냄.
+  //   /best 계열에서는 유지. 상세 spacer(--header-h) 는 서브줄 없는 슬림 헤더 기준.
+  const showBestSubRow = pathname === "/best" || pathname.startsWith("/best/");
 
   return (
     <header className="sticky top-0 z-50 border-b-[3px] border-[var(--accent)] bg-white">
@@ -109,33 +102,11 @@ export default function Header() {
       {/* 오더 #C32: 슬림화 — h-9 → h-8. */}
       <div className="hidden border-b border-slate-100 bg-white lg:block">
         <div className="mx-auto flex h-8 max-w-7xl items-center justify-between px-6">
-          {/* 좌측: 언어 5개 + | + 통화 (모양만) */}
+          {/* 좌측: 언어 드롭다운 + | + 통화 드롭다운 (오더 #C58 [1][2]) */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-0.5">
-              {localeButtons.map(({ locale: loc, label }) => (
-                <Link
-                  key={loc}
-                  href={pathname}
-                  locale={loc}
-                  aria-current={activeLocale === loc ? "true" : undefined}
-                  className={`inline-flex h-6 min-w-6 items-center justify-center px-1.5 text-[11px] font-bold transition ${
-                    activeLocale === loc
-                      ? "text-[var(--accent)]"
-                      : "text-slate-500 hover:text-[var(--charcoal)]"
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
+            <LanguageSelector activeLocale={activeLocale} pathname={pathname} variant="utility" />
             <span aria-hidden="true" className="inline-block h-3.5 w-px bg-slate-200" />
-            {/* 통화 — 오더 #C27 "모양만" (버튼/드롭다운 아님) */}
-            <span
-              aria-label="Currency KRW"
-              className="text-[11px] font-bold tracking-[0.08em] text-slate-500"
-            >
-              ₩ KRW
-            </span>
+            <CurrencySelector variant="utility" />
           </div>
           {/* 우측: 로그인 / 사용자 메뉴 */}
           <div className="flex items-center">
@@ -212,10 +183,10 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* 우: User + 언어 드롭다운 */}
+          {/* 우: User + 언어 드롭다운 (오더 #C58 [2] 공용 LanguageSelector 로 통일) */}
           <div className="flex items-center justify-end gap-1.5">
             <HeaderUserMenu locale={activeLocale} />
-            <MobileLocaleSelector activeLocale={activeLocale} pathname={pathname} />
+            <LanguageSelector activeLocale={activeLocale} pathname={pathname} variant="mobile" />
           </div>
         </div>
 
@@ -274,11 +245,9 @@ export default function Header() {
                 })}
               </div>
             </div>
-            {/* 모바일 유틸 (언어는 우측 드롭다운, 통화만 여기) */}
+            {/* 모바일 유틸 (오더 #C58 [1]: 통화 드롭다운) */}
             <div className="mt-3 flex items-center gap-3 border-t border-slate-100 pt-3">
-              <span className="text-[11px] font-bold tracking-[0.08em] text-slate-500">
-                ₩ KRW
-              </span>
+              <CurrencySelector variant="mobile" />
             </div>
           </div>
         ) : null}
@@ -328,58 +297,3 @@ function BestCategoriesSubRow({
   );
 }
 
-// 모바일용 언어 선택기 (드롭다운) — 흰 배경 톤.
-function MobileLocaleSelector({
-  activeLocale,
-  pathname,
-}: {
-  activeLocale: LocaleKey;
-  pathname: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const current = localeButtons.find((b) => b.locale === activeLocale);
-
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-9 items-center gap-1 rounded-md border border-slate-200 bg-white px-2 text-[11px] font-bold text-[var(--charcoal)] transition hover:bg-slate-50"
-      >
-        {current?.label ?? "KO"}
-        <svg
-          className={`h-2.5 w-2.5 transition-transform ${open ? "rotate-180" : ""}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2.5}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-
-      {open && (
-        <div className="absolute right-0 top-11 z-50 min-w-[90px] overflow-hidden rounded-md border border-slate-200 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
-          {localeButtons.map(({ locale: loc, label }) => (
-            <Link
-              key={loc}
-              href={pathname}
-              locale={loc}
-              onClick={() => setOpen(false)}
-              className={`flex items-center justify-between px-4 py-2.5 text-[12px] font-bold transition hover:bg-slate-50 ${
-                activeLocale === loc ? "text-[var(--accent)]" : "text-slate-700"
-              }`}
-            >
-              <span>{label}</span>
-              {activeLocale === loc && (
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}

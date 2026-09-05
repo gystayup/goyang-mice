@@ -15,6 +15,7 @@ import Image from "next/image";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 
 import { Link } from "@/lib/navigation";
+import { useCurrency } from "@/components/currency/CurrencyProvider";
 import type { TicketProduct, TicketLocale } from "@/data/ticket-booking";
 import {
   DMC_TICKET_CATEGORIES,
@@ -47,12 +48,10 @@ function pickLowestPrice(t: TicketProduct): number | null {
   return Math.min(...prices);
 }
 
-function formatKRW(price: number): string {
-  return `₩${price.toLocaleString("ko-KR")}`;
-}
-
 export default function DmcTicketGrid({ initialTickets, locale, ctaLabel, emptyLabel }: DmcTicketGridProps) {
   const [selected, setSelected] = useState<FilterKey>("all");
+  // 오더 #C58 [1]: 통화 컨텍스트로 5개 통화 실시간 환산 표시.
+  const { format } = useCurrency();
 
   // 카테고리별 카운트 (0건 버튼 숨김 판정용).
   const counts = useMemo(() => {
@@ -153,7 +152,7 @@ export default function DmcTicketGrid({ initialTickets, locale, ctaLabel, emptyL
                 </div>
                 {price !== null && (
                   <div className="text-sm font-bold text-slate-950">
-                    {formatKRW(price)}
+                    {format(price)}
                     <span className="ml-1 text-xs font-normal text-slate-500">~</span>
                   </div>
                 )}

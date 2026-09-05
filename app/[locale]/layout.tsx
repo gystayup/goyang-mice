@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { AuthProvider } from "@/lib/auth-provider";
+import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
 
 const locales = ["ko", "en", "ja", "zh-CN", "zh-TW"] as const;
 
@@ -25,7 +26,7 @@ export default async function LocaleLayout({
   return (
     <AuthProvider>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        {children}
+        <CurrencyProvider>{children}</CurrencyProvider>
       </NextIntlClientProvider>
     </AuthProvider>
   );
