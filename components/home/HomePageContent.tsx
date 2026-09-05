@@ -25,15 +25,19 @@ import GettingHereSection from "@/components/home/GettingHereSection";
 import SocialSection from "@/components/home/SocialSection";
 import MobileQuickActions from "@/components/home/MobileQuickActions";
 import { loadVisibleWhatsOnEvents } from "@/data/whats-on-events";
+import { readSiteCopy } from "@/lib/site-copy-db";
 
 export default async function HomePageContent({ locale }: { locale: string }) {
   // 오더 #C50: admin Supabase 등록 티켓 + native 이벤트 결합 후 클라이언트에 주입.
   // DB 실패 시 loadAdminTicketEvents() 가 빈 배열 → native events (verified=true) 만.
-  const whatsOnEvents = await loadVisibleWhatsOnEvents();
+  const [whatsOnEvents, siteCopy] = await Promise.all([
+    loadVisibleWhatsOnEvents(),
+    readSiteCopy(),
+  ]);
 
   return (
     <>
-      <HeroDiscoverSection locale={locale} />
+      <HeroDiscoverSection locale={locale} copy={siteCopy.home} />
       <MustSeeSection locale={locale} />
       <BestGridEntrySection locale={locale} />
       <DayTripsTeaserSection locale={locale} />

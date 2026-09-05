@@ -9,7 +9,8 @@ export type CurrencyCode = "KRW" | "USD" | "JPY" | "CNY" | "TWD";
 
 export const CURRENCY_CODES: CurrencyCode[] = ["KRW", "USD", "JPY", "CNY", "TWD"];
 
-// 원화 대비 환산 계수 (참조용 고정).
+// 원화 대비 환산 계수 (참조용 고정 폴백).
+// 오더 #C60: admin DB 편집 가능 값 · 이 상수는 DB 실패 시 폴백.
 export const EXCHANGE_RATES: Record<CurrencyCode, number> = {
   KRW: 1,
   USD: 0.00073,
@@ -100,9 +101,16 @@ export function localeToCurrency(locale: string): CurrencyCode {
  * KRW 금액을 지정 통화로 환산 · 로케일-포맷팅한 문자열 반환.
  * 예: formatCurrency(15000, "USD", "en") → "$10.95"
  * 예: formatCurrency(15000, "KRW", "ko") → "₩15,000"
+ *
+ * 오더 #C60: rates 인자로 admin 편집 환율 주입 가능 (기존 호출부 무변경 · 미전달 시 EXCHANGE_RATES 폴백).
  */
-export function formatCurrency(krwAmount: number, code: CurrencyCode, locale?: string): string {
-  const rate = EXCHANGE_RATES[code];
+export function formatCurrency(
+  krwAmount: number,
+  code: CurrencyCode,
+  locale?: string,
+  rates?: Record<CurrencyCode, number>,
+): string {
+  const rate = rates?.[code] ?? EXCHANGE_RATES[code];
   const converted = krwAmount * rate;
   const digits = DECIMAL_DIGITS[code];
   const symbol = CURRENCY_SYMBOL[code];

@@ -24,6 +24,16 @@ import { useEffect, useState } from "react";
 import { Search, Zap, Award, Sparkles } from "lucide-react";
 
 import { HERO_DISCOVER, pickHomeLocale } from "@/data/home-copy";
+import type { I18n } from "@/data/site-copy-defaults";
+
+// 오더 #C60: admin 편집 가능한 4항목만 props 로 override.
+//   나머지 (aria-label · button label · trustBanner 3카드) 는 코드 SSOT 유지.
+export interface HeroCopyOverride {
+  heroBrandEyebrow?: I18n;
+  heroHeadline?: I18n;
+  heroSubhead?: I18n;
+  heroSearchPlaceholder?: I18n;
+}
 
 // 오더 #C52: 마스코트 alt 5로케일 (기존 MascotWelcomeBanner 에서 이관).
 const MASCOT_ALT: Record<"ko" | "en" | "ja" | "zh-CN" | "zh-TW", string> = {
@@ -41,9 +51,22 @@ const SLIDE_MS = 8000;
 // 신뢰배너 아이콘 (index 순서: GTX=Zap · UNESCO=Award · MICE=Sparkles).
 const BANNER_ICONS = [Zap, Award, Sparkles];
 
-export default function HeroDiscoverSection({ locale }: { locale: string }) {
+export default function HeroDiscoverSection({
+  locale,
+  copy,
+}: {
+  locale: string;
+  copy?: HeroCopyOverride;
+}) {
   const active = pickHomeLocale(locale);
   const [index, setIndex] = useState(0);
+
+  // 오더 #C60: DB (admin 편집값) 우선 · 없으면 코드 SSOT (HERO_DISCOVER) 폴백.
+  const brandEyebrow = copy?.heroBrandEyebrow?.[active] ?? HERO_DISCOVER.brandEyebrow[active];
+  const headline = copy?.heroHeadline?.[active] ?? HERO_DISCOVER.headline[active];
+  const subhead = copy?.heroSubhead?.[active] ?? HERO_DISCOVER.subhead[active];
+  const searchPlaceholder =
+    copy?.heroSearchPlaceholder?.[active] ?? HERO_DISCOVER.searchPlaceholder[active];
 
   useEffect(() => {
     const t = window.setInterval(() => setIndex((c) => (c + 1) % BG_SLIDES.length), SLIDE_MS);
@@ -132,18 +155,18 @@ export default function HeroDiscoverSection({ locale }: { locale: string }) {
               className="inline-block h-px w-8 bg-[var(--accent)]"
             />
             <span className="text-[10px] font-bold uppercase tracking-[0.32em] text-[var(--accent)] sm:text-[11px]">
-              {HERO_DISCOVER.brandEyebrow[active]}
+              {brandEyebrow}
             </span>
           </div>
 
           {/* 초대형 헤드라인 */}
           <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-[-0.04em] sm:text-6xl lg:text-7xl xl:text-8xl">
-            {HERO_DISCOVER.headline[active]}
+            {headline}
           </h1>
 
           {/* 서브 카피 */}
           <p className="mt-6 max-w-3xl text-base font-semibold leading-relaxed text-white/90 sm:text-lg lg:text-xl">
-            {HERO_DISCOVER.subhead[active]}
+            {subhead}
           </p>
 
           {/* 검색바 UI + 우측 accent 원형 제출 버튼. 라우팅 미구현 · UI 뼈대만. */}
@@ -158,7 +181,7 @@ export default function HeroDiscoverSection({ locale }: { locale: string }) {
               <Search className="h-5 w-5 shrink-0 text-slate-500" aria-hidden="true" />
               <input
                 type="search"
-                placeholder={HERO_DISCOVER.searchPlaceholder[active]}
+                placeholder={searchPlaceholder}
                 aria-label={HERO_DISCOVER.searchAriaLabel[active]}
                 className="min-w-0 flex-1 bg-transparent text-sm text-slate-950 outline-none placeholder:text-slate-500 sm:text-base"
               />
