@@ -18,6 +18,7 @@ import { ArrowRight, Calendar, Clock, MapPin, Users } from "lucide-react";
 
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
+import PriceKRW from "@/components/currency/PriceKRW";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 import type {
   TicketLocale,
@@ -161,10 +162,6 @@ function pickOptionBenefits(t: TicketProduct, opt: TicketOption, locale: PageLoc
   const tr = t.translations?.[locale as TicketLocale]?.options?.find((o) => o.id === opt.id);
   return tr?.benefits ?? opt.benefits ?? [];
 }
-function formatKRW(v: number): string {
-  return `₩${v.toLocaleString("ko-KR")}`;
-}
-
 async function loadTicket(id: string): Promise<TicketProduct | null> {
   const list = await readTicketCatalog();
   return list.find((t) => t.id === id) ?? null;
@@ -331,7 +328,7 @@ export default async function DmcTicketDetailPage({
                       <div className="text-base font-black tracking-[-0.02em] text-slate-950">
                         {label}
                       </div>
-                      <div className="text-base font-bold text-slate-950">{formatKRW(opt.price)}</div>
+                      <PriceKRW krw={opt.price} className="text-base font-bold text-slate-950" />
                     </div>
                     {benefits.length > 0 ? (
                       <div className="mt-3">
@@ -390,7 +387,7 @@ export default async function DmcTicketDetailPage({
                       href={`/products/ticket-agency-platform/reservation?ticket=${t.id}`}
                       className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
                     >
-                      {min ? <span className="text-white/85">{formatKRW(min)} ~</span> : null}
+                      {min ? <PriceKRW krw={min} className="text-white/85" suffix=" ~" /> : null}
                       <span>{label}</span>
                       <ArrowRight className="h-4 w-4" />
                     </Link>

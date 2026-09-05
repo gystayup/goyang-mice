@@ -1,28 +1,34 @@
+// components/layout/Footer.tsx — 오더 #C58 [5] 전면 개편.
+//
+// 데스크탑 3층 색 위계 (신뢰 바는 별도 컴포넌트 TrustBar 로 분리, Shell 에서 이 컴포넌트 위에 배치):
+//   ① [TrustBar]   — coral (Shell.tsx 에서 렌더 · 이 파일은 관여 안 함)
+//   ② 링크 3열    — 아이보리 #faf7f2
+//   ③ 법적 고지   — 차콜 var(--charcoal) · 흰 텍스트
+//
+// 모바일 (lg-):
+//   · 링크 3열 → 아코디언 3줄 (접힘 기본)
+//   · 법적 고지 → "사업자 정보 ▾" 아코디언 (접힘 기본)
+//   · 개인정보처리방침 · 이용약관 항상 노출
+//   · 접힌 상태 총 5줄 이내 · pb-24 유지 (MobileQuickActions 겹침 방지)
+//
+// 규범 (오더 #C58 [5]):
+//   · 링크 카테고리만 (개별 콘텐츠명 나열 금지)
+//   · BEST 9카테고리는 각각 /best/{slug} 개별 링크
+//   · FAQ 페이지 미존재 → 그 줄 생략
+//   · 신규 색 도입 금지 (기존 토큰 --accent · --charcoal · #faf7f2 재사용)
+
 "use client";
 
 import { useLocale } from "next-intl";
 
-import { type LocaleKey, navigation, navigationLabels } from "@/data/navigation";
+import { type LocaleKey } from "@/data/navigation";
 import { Link } from "@/lib/navigation";
+import type { EmblemCategory } from "@/components/emblem/colors";
+import { CATEGORY_LABEL, CURATED_CATEGORIES } from "@/data/curated-categories";
 
 const LOCALES: LocaleKey[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
 
-const policyLinks: Record<LocaleKey, Array<{ label: string; href: string }>> = {
-  ko:      [{ label: "개인정보 처리방침", href: "/privacy" }, { label: "이용약관", href: "/terms" }],
-  en:      [{ label: "Privacy Policy",   href: "/privacy" }, { label: "Terms of Use", href: "/terms" }],
-  ja:      [{ label: "プライバシーポリシー", href: "/privacy" }, { label: "利用規約", href: "/terms" }],
-  "zh-CN": [{ label: "隐私政策",         href: "/privacy" }, { label: "使用条款", href: "/terms" }],
-  "zh-TW": [{ label: "隱私政策",         href: "/privacy" }, { label: "使用條款", href: "/terms" }],
-};
-
-type CopyEntry = {
-  badge: string;
-  title: string;
-  desc: string;
-  navigate: string;
-};
-
-// 통신판매업 필수 게재 정보 — 값은 5개 로케일 공통 (한국 사업자 실제 명칭·번호)
+// 통신판매업 필수 게재 정보.
 const BUSINESS_INFO = {
   companyName: "원새봄 주식회사",
   ceo: "심송학",
@@ -46,242 +52,304 @@ type BusinessLabels = {
   email: string;
   privacyOfficer: string;
   operatedBy: string;
+  disclaimer: string;
+  disclaimerHeading: string;
+  privacy: string;
+  terms: string;
+  // 오더 #C58 [5] 링크 3열 라벨
+  columnBest: string;
+  columnPrep: string;
+  columnDmc: string;
+  linkDayTrips: string;
+  linkTransit: string;
+  linkTickets: string;
+  linkInstitute: string;
+  linkContact: string;
+  brandTag: string;
 };
 
-const businessLabels: Record<LocaleKey, BusinessLabels> = {
+const L: Record<LocaleKey, BusinessLabels> = {
   ko: {
     sectionTitle: "사업자 정보",
-    companyName: "상호",
-    ceo: "대표",
-    bizRegNo: "사업자등록번호",
-    ecomRegNo: "통신판매업 신고번호",
+    companyName: "상호", ceo: "대표", bizRegNo: "사업자등록번호", ecomRegNo: "통신판매업 신고번호",
     changePending: "변경신고 예정",
-    address: "소재지",
-    phone: "대표전화",
-    email: "이메일",
-    privacyOfficer: "개인정보관리책임자",
+    address: "소재지", phone: "대표전화", email: "이메일", privacyOfficer: "개인정보관리책임자",
     operatedBy: "운영",
+    disclaimer: "본 플랫폼은 정보 소개 서비스를 제공하며, 티켓(공연·전시)을 제외한 상품의 판매·알선·중개를 하지 않습니다. 티켓 외 카테고리의 실제 계약·거래는 각 사업자와 이용자 간에 직접 성립합니다.",
+    disclaimerHeading: "법적 고지",
+    privacy: "개인정보 처리방침", terms: "이용약관",
+    columnBest: "고양 BEST", columnPrep: "여행 준비", columnDmc: "고양 DMC",
+    linkDayTrips: "당일코스", linkTransit: "교통 안내",
+    linkTickets: "티켓 · 공연", linkInstitute: "연구소 소개", linkContact: "문의하기",
+    brandTag: "고양·일산 방문 가이드",
   },
   en: {
     sectionTitle: "Business Information",
-    companyName: "Company",
-    ceo: "CEO",
-    bizRegNo: "Business Registration No.",
-    ecomRegNo: "E-Commerce Registration No.",
+    companyName: "Company", ceo: "CEO", bizRegNo: "Business Registration No.", ecomRegNo: "E-Commerce Registration No.",
     changePending: "change filing pending",
-    address: "Address",
-    phone: "Phone",
-    email: "Email",
-    privacyOfficer: "Privacy Officer",
+    address: "Address", phone: "Phone", email: "Email", privacyOfficer: "Privacy Officer",
     operatedBy: "Operated by",
+    disclaimer: "This platform provides information and guidance services; it does not sell, broker or intermediate any products other than tickets (performances and exhibitions). For non-ticket categories, any actual contract or transaction is concluded directly between the listed business and the user.",
+    disclaimerHeading: "Legal Notice",
+    privacy: "Privacy Policy", terms: "Terms of Use",
+    columnBest: "GOYANG BEST", columnPrep: "Trip Prep", columnDmc: "GOYANG DMC",
+    linkDayTrips: "Day Trips", linkTransit: "Transit Guide",
+    linkTickets: "Tickets · Shows", linkInstitute: "About the Institute", linkContact: "Contact",
+    brandTag: "Guide to Goyang · Ilsan",
   },
   ja: {
     sectionTitle: "事業者情報",
-    companyName: "商号",
-    ceo: "代表者",
-    bizRegNo: "事業者登録番号",
-    ecomRegNo: "通信販売業申告番号",
+    companyName: "商号", ceo: "代表者", bizRegNo: "事業者登録番号", ecomRegNo: "通信販売業申告番号",
     changePending: "変更届出予定",
-    address: "所在地",
-    phone: "代表電話",
-    email: "メール",
-    privacyOfficer: "個人情報管理責任者",
+    address: "所在地", phone: "代表電話", email: "メール", privacyOfficer: "個人情報管理責任者",
     operatedBy: "運営",
+    disclaimer: "本プラットフォームは情報案内サービスを提供するものであり、チケット（公演・展示）を除く商品の販売・斡旋・仲介は行いません。チケット以外のカテゴリーにおける実際の契約・取引は、表示された各事業者と利用者との間で直接成立します。",
+    disclaimerHeading: "法的告知",
+    privacy: "プライバシーポリシー", terms: "利用規約",
+    columnBest: "GOYANG BEST", columnPrep: "旅行準備", columnDmc: "GOYANG DMC",
+    linkDayTrips: "日帰り旅行", linkTransit: "交通案内",
+    linkTickets: "チケット・公演", linkInstitute: "研究所紹介", linkContact: "お問い合わせ",
+    brandTag: "高陽・一山の訪問ガイド",
   },
   "zh-CN": {
     sectionTitle: "商户信息",
-    companyName: "公司名称",
-    ceo: "法定代表人",
-    bizRegNo: "营业执照编号",
-    ecomRegNo: "电子商务备案编号",
+    companyName: "公司名称", ceo: "法定代表人", bizRegNo: "营业执照编号", ecomRegNo: "电子商务备案编号",
     changePending: "变更备案待定",
-    address: "地址",
-    phone: "电话",
-    email: "邮箱",
-    privacyOfficer: "个人信息管理负责人",
+    address: "地址", phone: "电话", email: "邮箱", privacyOfficer: "个人信息管理负责人",
     operatedBy: "运营",
+    disclaimer: "本平台仅提供信息介绍服务，不从事门票（演出·展览）以外商品的销售、中介或代理。门票以外类别的实际合同与交易，由所示各经营者与用户之间直接达成。",
+    disclaimerHeading: "法律告知",
+    privacy: "隐私政策", terms: "使用条款",
+    columnBest: "高阳 BEST", columnPrep: "旅行准备", columnDmc: "高阳 DMC",
+    linkDayTrips: "一日游", linkTransit: "交通指南",
+    linkTickets: "门票·演出", linkInstitute: "研究所介绍", linkContact: "咨询",
+    brandTag: "高阳·一山访问指南",
   },
   "zh-TW": {
     sectionTitle: "商戶資訊",
-    companyName: "公司名稱",
-    ceo: "法定代表人",
-    bizRegNo: "營業執照編號",
-    ecomRegNo: "電子商務備案編號",
+    companyName: "公司名稱", ceo: "法定代表人", bizRegNo: "營業執照編號", ecomRegNo: "電子商務備案編號",
     changePending: "變更備案待定",
-    address: "地址",
-    phone: "電話",
-    email: "郵箱",
-    privacyOfficer: "個人資料管理負責人",
+    address: "地址", phone: "電話", email: "郵箱", privacyOfficer: "個人資料管理負責人",
     operatedBy: "營運",
-  },
-};
-
-// 법적 면책 문구 — 티켓 예외 명시. 5로케일 각 1문장.
-const disclaimers: Record<LocaleKey, string> = {
-  ko: "본 플랫폼은 정보 소개 서비스를 제공하며, 티켓(공연·전시)을 제외한 상품의 판매·알선·중개를 하지 않습니다. 티켓 외 카테고리의 실제 계약·거래는 각 사업자와 이용자 간에 직접 성립합니다.",
-  en: "This platform provides information and guidance services; it does not sell, broker or intermediate any products other than tickets (performances and exhibitions). For non-ticket categories, any actual contract or transaction is concluded directly between the listed business and the user.",
-  ja: "本プラットフォームは情報案内サービスを提供するものであり、チケット（公演・展示）を除く商品の販売・斡旋・仲介は行いません。チケット以外のカテゴリーにおける実際の契約・取引は、表示された各事業者と利用者との間で直接成立します。",
-  "zh-CN": "本平台仅提供信息介绍服务，不从事门票（演出·展览）以外商品的销售、中介或代理。门票以外类别的实际合同与交易，由所示各经营者与用户之间直接达成。",
-  "zh-TW": "本平台僅提供資訊介紹服務，不從事門票（演出·展覽）以外商品之銷售、仲介或代理。門票以外類別之實際合約與交易，由所示各業者與使用者之間直接成立。",
-};
-
-const disclaimerHeadings: Record<LocaleKey, string> = {
-  ko: "법적 고지",
-  en: "Legal Notice",
-  ja: "法的告知",
-  "zh-CN": "法律告知",
-  "zh-TW": "法律告知",
-};
-
-const copyMap: Record<LocaleKey, CopyEntry> = {
-  ko: {
-    badge: "고양 MICE 플랫폼",
-    title: "고양의 문화, 관광, MICE, 로컬 라이프스타일을 연결하는 도시 플랫폼",
-    desc: "호수·킨텍스·미식·문화·역사를 한 흐름으로 안내하는 고양 방문 경험 플랫폼.",
-    navigate: "바로가기",
-  },
-  en: {
-    badge: "Goyang MICE Platform",
-    title: "A city platform connecting culture, tourism, MICE and local lifestyle in Goyang",
-    desc: "A guide to Goyang across lakes, KINTEX, food, culture and history — one flow, one platform.",
-    navigate: "Navigate",
-  },
-  ja: {
-    badge: "高陽 MICEプラットフォーム",
-    title: "高陽市の文化・観光・MICE・ローカルライフスタイルをつなぐ都市プラットフォーム",
-    desc: "湖水公園・KINTEX・グルメ・文化・歴史を一つの流れでご案内する高陽訪問体験プラットフォーム。",
-    navigate: "ナビゲーション",
-  },
-  "zh-CN": {
-    badge: "高阳 MICE平台",
-    title: "连接高阳市文化、旅游、MICE与本地生活方式的城市平台",
-    desc: "湖水公园、KINTEX、美食、文化与历史一气连贯——高阳访问体验指南平台。",
-    navigate: "快速导航",
-  },
-  "zh-TW": {
-    badge: "高陽 MICE平台",
-    title: "連結高陽市文化、旅遊、MICE與在地生活風格的城市平台",
-    desc: "湖水公園、KINTEX、美食、文化與歷史一氣連貫——高陽訪問體驗指南平台。",
-    navigate: "快速導覽",
+    disclaimer: "本平台僅提供資訊介紹服務，不從事門票（演出·展覽）以外商品之銷售、仲介或代理。門票以外類別之實際合約與交易，由所示各業者與使用者之間直接成立。",
+    disclaimerHeading: "法律告知",
+    privacy: "隱私政策", terms: "使用條款",
+    columnBest: "高陽 BEST", columnPrep: "旅行準備", columnDmc: "高陽 DMC",
+    linkDayTrips: "一日遊", linkTransit: "交通指南",
+    linkTickets: "門票·演出", linkInstitute: "研究所介紹", linkContact: "諮詢",
+    brandTag: "高陽·一山訪問指南",
   },
 };
 
 export default function Footer() {
   const locale = useLocale();
   const activeLocale: LocaleKey = (LOCALES.includes(locale as LocaleKey) ? locale : "ko") as LocaleKey;
-  const copy = copyMap[activeLocale];
-  const policies = policyLinks[activeLocale];
-  const bLabels = businessLabels[activeLocale];
+  const t = L[activeLocale];
   const year = new Date().getFullYear();
 
   return (
-    <footer className="px-4 pb-24 pt-10 sm:px-5 lg:px-6 lg:pb-8">
-      {/* 오더 #C46: 검정 카드(bg-[var(--charcoal)]) → 아이보리(#faf7f2) 로 전환.
-         텍스트 다크(#232322 / slate-600 / slate-500) · 강조 --accent 유지 (골드 복원 안 함).
-         상단 3px accent 라인 유지. 배지·격자·구조 무변경. 문구·사업자 정보·법적 고지 무터치. */}
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[#faf7f2] text-slate-600 shadow-[0_10px_30px_rgba(16,32,58,0.08)]">
-        {/* 상단 accent 라인 */}
-        <div className="h-[3px] bg-[var(--accent)]" />
-        {/* 격자 배경 — 아이보리 위 어두운 도트 (opacity 낮게). */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-[32px] opacity-[0.04]"
-          style={{ backgroundImage: "radial-gradient(circle, rgba(35,35,34,0.6) 1px, transparent 1px)", backgroundSize: "26px 26px" }}
-        />
-        <div className="grid gap-8 px-5 py-8 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
-          <div>
-            <div className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-white">
-              {copy.badge}
-            </div>
-            <h2 className="mt-4 text-[1.3rem] font-black leading-[1.2] tracking-[-0.04em] text-[#232322] sm:text-[1.55rem]">
-              {copy.title}
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{copy.desc}</p>
+    <footer className="pb-24 lg:pb-0">
+      {/* ─── ② 링크 3열 · 아이보리 #faf7f2 ─── */}
+      <section className="bg-[#faf7f2] text-[#232322]">
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
+          {/* 브랜드 라인 */}
+          <div className="mb-8 flex items-center gap-3">
+            <span className="text-lg font-black tracking-[-0.02em] text-[var(--accent)] sm:text-xl">GOYANG DMC</span>
+            <span aria-hidden="true" className="h-4 w-px bg-slate-300" />
+            <span className="text-sm text-slate-600">{t.brandTag}</span>
           </div>
 
-          <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-              {copy.navigate}
-            </div>
-            <ul className="mt-5 space-y-3">
-              {navigation.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-slate-600 transition hover:text-[var(--accent)]">
-                    {navigationLabels[activeLocale][item.key]}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* 데스크탑 3열 · 모바일 아코디언 */}
+          <div className="hidden gap-8 lg:grid lg:grid-cols-3 lg:gap-12">
+            <FooterColumn title={t.columnBest} activeLocale={activeLocale} kind="best" />
+            <FooterColumn title={t.columnPrep} activeLocale={activeLocale} kind="prep" labels={t} />
+            <FooterColumn title={t.columnDmc}  activeLocale={activeLocale} kind="dmc"  labels={t} />
+          </div>
+          <div className="grid gap-2 lg:hidden">
+            <FooterAccordion title={t.columnBest} activeLocale={activeLocale} kind="best" />
+            <FooterAccordion title={t.columnPrep} activeLocale={activeLocale} kind="prep" labels={t} />
+            <FooterAccordion title={t.columnDmc}  activeLocale={activeLocale} kind="dmc"  labels={t} />
           </div>
         </div>
+      </section>
 
-        {/* 사업자 정보 블록 — 통신판매업 법정 필수 항목 전량 유지, 표기만 축소 (F2 오더) */}
-        <div className="border-t border-slate-200 px-5 py-4 text-[10px] leading-4 text-slate-600 sm:px-6 lg:px-8">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            {bLabels.sectionTitle}
-          </div>
-          <dl className="mt-2 grid gap-x-5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.companyName}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.companyName}</dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.ceo}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.ceo}</dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.bizRegNo}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.bizRegNo}</dd>
-            </div>
-            <div className="flex gap-1.5 sm:col-span-2 lg:col-span-2">
-              <dt className="shrink-0 text-slate-500">{bLabels.ecomRegNo}</dt>
-              <dd className="text-[#232322]">
-                {BUSINESS_INFO.ecomRegNo}
-                <span className="ml-1 text-slate-500">({bLabels.changePending})</span>
-              </dd>
-            </div>
-            <div className="flex gap-1.5 sm:col-span-2 lg:col-span-3">
-              <dt className="shrink-0 text-slate-500">{bLabels.address}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.address}</dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.phone}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.phone}</dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.email}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.email}</dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="shrink-0 text-slate-500">{bLabels.privacyOfficer}</dt>
-              <dd className="text-[#232322]">{BUSINESS_INFO.privacyOfficer}</dd>
-            </div>
-          </dl>
-        </div>
+      {/* ─── ③ 법적 고지 · 차콜 var(--charcoal) · 흰 텍스트 ─── */}
+      <section className="bg-[var(--charcoal)] text-white/80">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-8">
 
-        {/* 법적 면책 문구 — 티켓 예외 명시 (F2 압축: 2문장 → 1문장) */}
-        <div className="border-t border-slate-200 px-5 py-4 text-[11px] leading-5 text-slate-600 sm:px-6 lg:px-8">
-          <span className="mr-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            {disclaimerHeadings[activeLocale]}
-          </span>
-          <span className="text-slate-600">{disclaimers[activeLocale]}</span>
-        </div>
+          {/* 데스크탑: 사업자 정보 항상 노출 */}
+          <div className="hidden lg:block">
+            <BusinessInfoBlock labels={t} />
+          </div>
 
-        <div className="flex flex-col gap-4 border-t border-slate-200 px-5 py-6 text-xs text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div>
-            © {year} Goyang MICE Platform. All rights reserved.
-            <span className="ml-2 text-slate-500">
-              · {bLabels.operatedBy}: {BUSINESS_INFO.companyName}
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            {policies.map((item) => (
-              <Link key={item.href} href={item.href} className="transition hover:text-[var(--accent)]">
-                {item.label}
-              </Link>
-            ))}
+          {/* 모바일: 아코디언 (접힘 기본) */}
+          <details className="lg:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between rounded border border-white/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+              <span>{t.sectionTitle}</span>
+              <span aria-hidden="true" className="text-white/60">▾</span>
+            </summary>
+            <div className="mt-3">
+              <BusinessInfoBlock labels={t} />
+            </div>
+          </details>
+
+          {/* 항상 노출: 정책 링크 + 카피라이트 */}
+          <div className="mt-6 flex flex-col items-start gap-3 border-t border-white/10 pt-5 text-[11px] text-white/60 md:flex-row md:items-center md:justify-between lg:mt-8">
+            <div>
+              © {year} Goyang MICE Platform. All rights reserved.
+              <span className="ml-2 text-white/40">· {t.operatedBy}: {BUSINESS_INFO.companyName}</span>
+            </div>
+            <div className="flex flex-wrap gap-5">
+              <Link href="/privacy" className="transition hover:text-[var(--accent)]">{t.privacy}</Link>
+              <Link href="/terms" className="transition hover:text-[var(--accent)]">{t.terms}</Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </footer>
+  );
+}
+
+function Row({ k, v }: { k: string; v: string }) {
+  return (
+    <div className="flex gap-1.5">
+      <dt className="shrink-0 text-white/50">{k}</dt>
+      <dd className="text-white/90">{v}</dd>
+    </div>
+  );
+}
+
+function BusinessInfoBlock({ labels: t }: { labels: BusinessLabels }) {
+  return (
+    <>
+      <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
+        {t.sectionTitle}
+      </div>
+      <dl className="mt-2 grid gap-x-6 gap-y-1 text-[11px] leading-5 sm:grid-cols-2 lg:grid-cols-3">
+        <Row k={t.companyName} v={BUSINESS_INFO.companyName} />
+        <Row k={t.ceo} v={BUSINESS_INFO.ceo} />
+        <Row k={t.bizRegNo} v={BUSINESS_INFO.bizRegNo} />
+        <div className="flex gap-1.5 sm:col-span-2 lg:col-span-2">
+          <dt className="shrink-0 text-white/50">{t.ecomRegNo}</dt>
+          <dd className="text-white/90">
+            {BUSINESS_INFO.ecomRegNo}
+            <span className="ml-1 text-white/50">({t.changePending})</span>
+          </dd>
+        </div>
+        <div className="flex gap-1.5 sm:col-span-2 lg:col-span-3">
+          <dt className="shrink-0 text-white/50">{t.address}</dt>
+          <dd className="text-white/90">{BUSINESS_INFO.address}</dd>
+        </div>
+        <Row k={t.phone} v={BUSINESS_INFO.phone} />
+        <Row k={t.email} v={BUSINESS_INFO.email} />
+        <Row k={t.privacyOfficer} v={BUSINESS_INFO.privacyOfficer} />
+      </dl>
+      <p className="mt-4 text-[11px] leading-5 text-white/70">
+        <span className="mr-2 font-semibold text-white/50">{t.disclaimerHeading}</span>
+        {t.disclaimer}
+      </p>
+    </>
+  );
+}
+
+// ─── 링크 3열 구현 (데스크탑) ─────────────────────────────────────────────
+type ColumnKind = "best" | "prep" | "dmc";
+
+function FooterColumn({
+  title,
+  activeLocale,
+  kind,
+  labels,
+}: {
+  title: string;
+  activeLocale: LocaleKey;
+  kind: ColumnKind;
+  labels?: BusinessLabels;
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-black uppercase tracking-[0.14em] text-[#232322]">{title}</h3>
+      <div aria-hidden="true" className="mt-2 h-px w-10 bg-[var(--accent)]" />
+      <ul className="mt-4 space-y-2 text-sm text-slate-700">
+        {renderColumnLinks(kind, activeLocale, labels)}
+      </ul>
+    </div>
+  );
+}
+
+// ─── 모바일 아코디언 ───────────────────────────────────────────────────
+function FooterAccordion({
+  title,
+  activeLocale,
+  kind,
+  labels,
+}: {
+  title: string;
+  activeLocale: LocaleKey;
+  kind: ColumnKind;
+  labels?: BusinessLabels;
+}) {
+  return (
+    <details className="rounded-lg border border-slate-200 bg-white/60">
+      <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-black uppercase tracking-[0.14em] text-[#232322]">
+        <span>{title}</span>
+        <span aria-hidden="true" className="text-[var(--accent)]">▾</span>
+      </summary>
+      <ul className="space-y-2 px-4 pb-4 text-sm text-slate-700">
+        {renderColumnLinks(kind, activeLocale, labels)}
+      </ul>
+    </details>
+  );
+}
+
+function renderColumnLinks(kind: ColumnKind, locale: LocaleKey, labels?: BusinessLabels) {
+  if (kind === "best") {
+    return CURATED_CATEGORIES.map((cat: EmblemCategory) => (
+      <li key={cat}>
+        <Link
+          href={`/best/${cat}`}
+          className="inline-flex transition hover:text-[var(--accent)]"
+        >
+          {CATEGORY_LABEL[locale][cat]}
+        </Link>
+      </li>
+    ));
+  }
+  if (kind === "prep") {
+    // FAQ 페이지 미존재 → 그 줄 생략 (오더 규범).
+    return (
+      <>
+        <li>
+          <Link href="/products" className="inline-flex transition hover:text-[var(--accent)]">
+            {labels!.linkDayTrips}
+          </Link>
+        </li>
+        <li>
+          <Link href="/dmc/move" className="inline-flex transition hover:text-[var(--accent)]">
+            {labels!.linkTransit}
+          </Link>
+        </li>
+      </>
+    );
+  }
+  // dmc
+  return (
+    <>
+      <li>
+        <Link href="/dmc" className="inline-flex transition hover:text-[var(--accent)]">
+          {labels!.linkTickets}
+        </Link>
+      </li>
+      <li>
+        <Link href="/institute" className="inline-flex transition hover:text-[var(--accent)]">
+          {labels!.linkInstitute}
+        </Link>
+      </li>
+      <li>
+        <Link href="/contact" className="inline-flex transition hover:text-[var(--accent)]">
+          {labels!.linkContact}
+        </Link>
+      </li>
+    </>
   );
 }

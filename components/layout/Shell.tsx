@@ -4,6 +4,7 @@ import ChannelTalk from "./ChannelTalk";
 import FloatingButtons from "./FloatingButtons";
 import Footer from "./Footer";
 import Header from "./Header";
+import TrustBar from "./TrustBar";
 
 interface ShellProps {
   children: ReactNode;
@@ -38,6 +39,8 @@ export default function Shell({ children }: ShellProps) {
 
       <Header />
       <main>{children}</main>
+      {/* 오더 #C58 [4]: 신뢰 바 — 푸터 바로 위 전역 노출. */}
+      <TrustBar />
       <Footer />
       <ChannelTalk />
       <FloatingButtons />

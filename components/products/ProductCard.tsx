@@ -14,6 +14,7 @@ import {
 
 import type { Product } from "@/data/products";
 import { Link } from "@/lib/navigation";
+import PriceKRW from "@/components/currency/PriceKRW";
 
 type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
@@ -497,7 +498,7 @@ export default function ProductCard({ product, locale = "ko" }: ProductCardProps
               {display.priceLabel}
             </div>
             <div className="mt-0.5 text-[1.25rem] font-black tracking-[-0.03em] text-slate-950 sm:text-[1.4rem]">
-              {product.price > 0 ? `₩${product.price.toLocaleString("ko-KR")}` : display.priceLabel}
+              {product.price > 0 ? <PriceKRW krw={product.price} /> : display.priceLabel}
             </div>
           </div>
         )}
