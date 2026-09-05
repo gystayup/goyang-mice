@@ -38,6 +38,7 @@ import HeroSlidesPanel from "./HeroSlidesPanel";
 import NewsPanel from "./NewsPanel";
 import ResearchArchivePanel from "./ResearchArchivePanel";
 import ServiceCatalogPanel from "./ServiceCatalogPanel";
+import SiteCopyPanel from "./SiteCopyPanel";
 import SocialLinksPanel from "./SocialLinksPanel";
 import SpotCatalogPanel from "./SpotCatalogPanel";
 import DayTripCatalogPanel from "./DayTripCatalogPanel";
@@ -364,6 +365,7 @@ export default function AdminDashboard() {
               "research-archive": Newspaper,
               "hero-slides": MonitorPlay,
               "social-links": Share2,
+              "site-copy": FileText,
               inquiries: Mail,
               users: Users,
               settings: Settings,
@@ -943,6 +945,10 @@ export default function AdminDashboard() {
 
           {!loading && activeTab === "social-links" ? (
             <SocialLinksPanel />
+          ) : null}
+
+          {!loading && activeTab === "site-copy" ? (
+            <SiteCopyPanel />
           ) : null}
 
           {!loading && activeTab === "inquiries" ? (

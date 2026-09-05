@@ -41,6 +41,7 @@ import { getRegionLabel, regions, type RegionLocale } from "@/data/regions";
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { historyHeader, historyOutro, historyStories } from "@/data/history-stories";
 import { loadSpots } from "@/lib/spot-catalog-db";
+import { readSiteCopy } from "@/lib/site-copy-db";
 import { resolveSpotAutoPhoto } from "@/lib/spot-photos";
 import { Link } from "@/lib/navigation";
 
@@ -129,11 +130,16 @@ export default async function BestCategoryPage({
     notFound();
   }
   const cat = category as EmblemCategory;
-  const label = CATEGORY_LABEL[locale][cat];
+
+  // 오더 #C60: label · desc 는 admin 편집 값 (DB) 우선 · 없으면 코드 SSOT 폴백.
+  const siteCopy = await readSiteCopy();
+  const dbLabel = siteCopy.bestCategories.label[cat as keyof typeof siteCopy.bestCategories.label]?.[locale];
+  const dbDesc = siteCopy.bestCategories.desc[cat as keyof typeof siteCopy.bestCategories.desc]?.[locale];
+  const label = dbLabel ?? CATEGORY_LABEL[locale][cat];
   const tag = CATEGORY_TAG[cat];
   const n = CARD_COUNT[cat];
   const headline = HEADLINE[locale](label, n);
-  const desc = CARD_DESC[locale][cat];
+  const desc = dbDesc ?? CARD_DESC[locale][cat];
   const insiderTagline = INSIDER_TAGLINE[locale][cat];
   const color = EMBLEM_COLORS[cat];
   const story = getCuratedStory(cat);

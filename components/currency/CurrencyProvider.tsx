@@ -53,7 +53,15 @@ function getServerSnapshot(): CurrencyCode | null {
   return null;
 }
 
-export function CurrencyProvider({ children }: { children: ReactNode }) {
+// 오더 #C60: rates prop — server 에서 readSiteCopy 로 조회한 admin 편집 환율.
+//   미전달 시 formatCurrency 내부 EXCHANGE_RATES 폴백 사용.
+export function CurrencyProvider({
+  children,
+  rates,
+}: {
+  children: ReactNode;
+  rates?: Record<CurrencyCode, number>;
+}) {
   const locale = useLocale();
 
   // 명시 선택값 (없으면 null).
@@ -71,8 +79,8 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CurrencyContextValue>(() => ({
     currency,
     setCurrency,
-    format: (krw: number) => formatCurrency(krw, currency, locale),
-  }), [currency, setCurrency, locale]);
+    format: (krw: number) => formatCurrency(krw, currency, locale, rates),
+  }), [currency, setCurrency, locale, rates]);
 
   return (
     <CurrencyContext.Provider value={value}>
