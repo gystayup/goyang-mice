@@ -33,6 +33,10 @@ import { getAxisBlock, type DayTripLocale } from "@/data/day-trips";
 import type { DayTripCourse } from "@/data/day-trip-courses";
 import { loadDayTrip, loadDayTrips } from "@/lib/day-trip-catalog-db";
 import { hasSpotAsync } from "@/lib/spot-catalog-db";
+import { getCoursePhotos } from "@/lib/day-trip-photos";
+
+// 오더 #C59-B [3] — 지도 블록은 코드 유지, 렌더만 숨김. false 로 두면 미렌더.
+const SHOW_MAP = false;
 
 export type PageLocale = DayTripLocale;
 
@@ -199,20 +203,70 @@ export default async function DayTripDetailPage({
   const badgeStyle = axisBadgeStyle(course.axis);
   const axisEn = AXIS_BADGE_EN[course.axis] ?? course.axis.toUpperCase();
 
+  // 오더 #C59-B [2] — 히어로 사진 자동 수집. 0장이면 히어로 블록 자체 미렌더.
+  const heroPhotos = await getCoursePhotos(course, { limit: 3 });
+
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 히어로 — 사진 미확보 → 축 컬러 그라디언트 폴백 (기존 #C47 패턴) */}
-        <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8">
-          <div
-            aria-hidden="true"
-            className="relative w-full overflow-hidden rounded-2xl"
-            style={{
-              height: "clamp(20rem, 40vw, 30rem)",
-              background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
-            }}
-          />
-        </section>
+        {/* ① 히어로 — timeline 스팟 갤러리에서 자동 수집 (없으면 블록 자체 미렌더) */}
+        {heroPhotos.length > 0 && (
+          <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8">
+            {heroPhotos.length === 1 ? (
+              <div
+                className="relative w-full overflow-hidden rounded-2xl"
+                style={{ height: "clamp(20rem, 40vw, 30rem)" }}
+              >
+                <Image
+                  src={heroPhotos[0]}
+                  alt={displayName}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 1200px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            ) : (
+              <div
+                className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3"
+                style={{ height: "clamp(20rem, 40vw, 30rem)" }}
+              >
+                <div className="relative overflow-hidden rounded-2xl sm:col-span-2 sm:row-span-1">
+                  <Image
+                    src={heroPhotos[0]}
+                    alt={displayName}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 800px"
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                <div className="hidden grid-rows-2 gap-2 sm:grid">
+                  <div className="relative overflow-hidden rounded-2xl">
+                    <Image
+                      src={heroPhotos[1]}
+                      alt=""
+                      fill
+                      sizes="400px"
+                      className="object-cover"
+                    />
+                  </div>
+                  {heroPhotos[2] && (
+                    <div className="relative overflow-hidden rounded-2xl">
+                      <Image
+                        src={heroPhotos[2]}
+                        alt=""
+                        fill
+                        sizes="400px"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
 
         {/* ② 제목 영역 */}
         <section className="mx-auto max-w-[720px] px-4 pt-10 sm:px-6 sm:pt-14">
@@ -346,18 +400,20 @@ export default async function DayTripDetailPage({
           </section>
         )}
 
-        {/* ⑤ 지도 — Leaflet 등 신규 라이브러리 도입 없이 placeholder */}
-        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
-          <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-            {MAP_LABEL[locale]}
-          </h2>
-          <div
-            aria-hidden="true"
-            className="mt-4 flex h-[400px] w-full items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-[#faf7f2]"
-          >
-            <span className="text-sm text-slate-500">{MAP_NOTICE[locale]}</span>
-          </div>
-        </section>
+        {/* ⑤ 지도 — 오더 #C59-B [3]: SHOW_MAP=false 로 렌더 숨김. 코드·라벨 상수 유지. */}
+        {SHOW_MAP && (
+          <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+            <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+              {MAP_LABEL[locale]}
+            </h2>
+            <div
+              aria-hidden="true"
+              className="mt-4 flex h-[400px] w-full items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-[#faf7f2]"
+            >
+              <span className="text-sm text-slate-500">{MAP_NOTICE[locale]}</span>
+            </div>
+          </section>
+        )}
 
         {/* ⑥ About + 좌측 라인 일러스트 */}
         <section className="mx-auto max-w-[720px] px-4 py-10 sm:px-6 sm:py-16">

@@ -12,6 +12,7 @@
 // 라우트 세그먼트 config(force-dynamic) 는 wrapper (app/[locale]/products/page.tsx) 관리.
 
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
@@ -22,6 +23,7 @@ import {
 } from "@/data/day-trips";
 import { loadDayTrips } from "@/lib/day-trip-catalog-db";
 import type { DayTripCourse } from "@/data/day-trip-courses";
+import { getCoursePhotos } from "@/lib/day-trip-photos";
 
 export type PageLocale = DayTripLocale;
 
@@ -61,6 +63,17 @@ export default async function ProductsPage({
 }) {
   const copy = DAY_TRIPS_PAGE_COPY;
   const courses = await loadDayTrips();
+
+  // 오더 #C59-B [2] — 목록 카드용 대표 사진 자동 수집.
+  //   각 코스의 timeline 스팟 갤러리 첫 장 · 없으면 undefined (그라디언트 폴백 유지).
+  //   loadSpot 은 React cache() 로 요청당 memoize.
+  const cardPhotos = new Map<string, string | undefined>();
+  await Promise.all(
+    courses.map(async (c) => {
+      const photo = (await getCoursePhotos(c, { limit: 1 }))[0];
+      cardPhotos.set(c.id, photo);
+    })
+  );
 
   return (
     <Shell>
@@ -107,7 +120,9 @@ export default async function ProductsPage({
             </p>
 
             <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {inAxis.map((c) => (
+              {inAxis.map((c) => {
+                const photo = cardPhotos.get(c.id);
+                return (
                 <Link
                   key={c.id}
                   href={`/products/day-trips/${c.id}`}
@@ -115,12 +130,25 @@ export default async function ProductsPage({
                 >
                   <article>
                     <div
-                      aria-hidden="true"
-                      className="relative aspect-[16/9] w-full"
-                      style={{
-                        background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
-                      }}
+                      aria-hidden={photo ? undefined : true}
+                      className="relative aspect-[16/9] w-full overflow-hidden"
+                      style={
+                        photo
+                          ? undefined
+                          : {
+                              background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
+                            }
+                      }
                     >
+                      {photo && (
+                        <Image
+                          src={photo}
+                          alt={c.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      )}
                       <div className="absolute inset-0 flex items-end justify-between p-4">
                         <span className="inline-flex items-center rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-950 sm:text-[11px]">
                           {axis.label[locale]}
@@ -153,7 +181,8 @@ export default async function ProductsPage({
                     </div>
                   </article>
                 </Link>
-              ))}
+                );
+              })}
             </div>
           </section>
         );
