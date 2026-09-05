@@ -12,6 +12,36 @@ export interface DayTripStop {
   note: string; // "— " 이후 한 줄 설명 (원문 ko)
 }
 
+/** 오더 #C59 신규 · Overview 4칸 (총 소요 / 이동 / 추천 시간 / 이런 분께). */
+export interface DayTripOverview {
+  totalDuration?: string;
+  transport?: string;
+  recommendedTime?: string;
+  recommendedFor?: string;
+}
+
+/** 오더 #C59 신규 · 타임라인 노드 1개. */
+export interface DayTripTimelineNode {
+  /** 도착·체류 시각. 예: "09:30". */
+  time?: string;
+  /** /dmc/{slug} 연결용 스팟 slug. 없으면 링크 없이 텍스트만. */
+  spotSlug?: string;
+  /** 화면에 표기할 스팟명 (spotSlug 유무와 무관). */
+  spotName: string;
+  /** 체류 시간. 예: "60분". */
+  duration?: string;
+  /** 한 줄 설명. */
+  note?: string;
+  /** 다음 노드까지 이동 수단·소요. 예: "도보 15분". 마지막 노드는 undefined. */
+  transportToNext?: string;
+}
+
+/** 오더 #C59 신규 · FAQ 항목. */
+export interface DayTripFaqItem {
+  q: string;
+  a: string;
+}
+
 export interface DayTripCourse {
   /** URL slug (kebab-case). */
   id: string;
@@ -40,6 +70,22 @@ export interface DayTripCourse {
   note?: string;
   /** admin 노출 여부. false 만 화면에서 제외. */
   published?: boolean;
+
+  // ─── 오더 #C59 신규 필드 (상세 12블록 템플릿) ─────────────────────────
+  /** 후크와 별도로 상세 상단에 배치하는 한 줄 카피 (없으면 hook 재사용). */
+  hookLine?: string;
+  /** Overview 4칸. */
+  overview?: DayTripOverview;
+  /** 타임라인 노드 배열 (스팟 + 이동). */
+  timeline?: DayTripTimelineNode[];
+  /** "이 코스가 좋은 이유" 불릿 3개. */
+  whyGood?: string[];
+  /** 가는 법 상세 문단 (\n 유지). transport 와 별도. */
+  access?: string;
+  /** FAQ (없으면 블록 자체 숨김). */
+  faq?: DayTripFaqItem[];
+  /** About 블록 좌측 라인 일러스트 파일명 (예: "illust-culture"). */
+  illustrationKey?: string;
 }
 
 // ─── 서울 축 6코스 ─────────────────────────────────────────────────────────
@@ -62,6 +108,74 @@ const SEOUL_COURSES: DayTripCourse[] = [
     transport: "3호선 대곡역 → 경복궁역 직통 · 환승 없음",
     duration: "편도 약 27~29분 / 체류 약 2시간 30분",
     recommendedTime: "09:30 ~ 13:30",
+    // 오더 #C59 상세 12블록 시드 (서울① 왕의 서울)
+    hookLine: "궁궐에서 한옥골목까지, 서울의 600년을 걸어서 통과한다.",
+    overview: {
+      totalDuration: "약 4시간",
+      transport: "편도 약 27~29분 · 환승 없음",
+      recommendedTime: "09:30 ~ 13:30",
+      recommendedFor: "처음 한국을 찾는 방문객 · 한복 체험을 원하는 분",
+    },
+    timeline: [
+      {
+        time: "09:30",
+        spotName: "대곡역 출발",
+        note: "3호선 경복궁역 방면 승차 · 환승 없음.",
+        transportToNext: "지하철 27~29분",
+      },
+      {
+        time: "10:00",
+        spotName: "경복궁",
+        duration: "약 90분",
+        note: "10:00 수문장 교대의식 · 근정전 · 경회루. 한복 대여 시 입장료 면제.",
+        transportToNext: "도보 15분",
+      },
+      {
+        time: "11:45",
+        spotName: "북촌한옥마을",
+        duration: "약 45분",
+        note: "사람이 실제로 사는 동네. 정숙 구역 표지판을 따르세요.",
+        transportToNext: "도보 10분",
+      },
+      {
+        time: "12:40",
+        spotName: "인사동",
+        duration: "약 50분",
+        note: "전통 공예·차·붓글씨 거리. 쌈지길에서 마무리.",
+        transportToNext: "지하철 27~29분",
+      },
+      {
+        time: "13:30",
+        spotName: "대곡역 도착",
+        note: "총 이동 약 55분 · 체류 약 3시간 5분.",
+      },
+    ],
+    whyGood: [
+      "궁궐 · 한옥 · 공예가 도보 거리로 이어져 이동 부담이 없다.",
+      "한복을 대여하면 경복궁 입장료가 면제되고 사진 동선이 자연스럽다.",
+      "대곡역에서 경복궁역까지 3호선 직통 · 환승이 없다.",
+    ],
+    access:
+      "고양 대곡역에서 서울 3호선으로 경복궁역까지 27~29분 · 환승 없음.\n경복궁역 5번 출구가 광화문·경복궁 방면과 가장 가깝습니다.\n북촌·인사동 구간은 전부 도보 이동 · 별도 대중교통을 이용하지 않습니다.",
+    faq: [
+      {
+        q: "한복을 대여하면 정말 경복궁 입장료가 무료인가요?",
+        a: "네, 한복 착용 시 경복궁·창덕궁·덕수궁·창경궁·종묘 입장료가 면제됩니다. 궁궐 방문 전 대여점을 이용하는 것이 유리합니다.",
+      },
+      {
+        q: "경복궁 수문장 교대의식은 언제 볼 수 있나요?",
+        a: "매일 10:00 · 14:00 · 각 20분 진행 (화요일 정기 휴궁 · 우천 시 취소). 방문 전 공식 사이트에서 당일 운영 여부를 확인하세요.",
+      },
+      {
+        q: "북촌 한옥마을에서 지켜야 할 예절이 있나요?",
+        a: "실제 주민이 거주하는 동네입니다. 정숙 구역 표지판을 따르고, 대문·창문 안쪽을 촬영하지 마세요.",
+      },
+      {
+        q: "인사동에서 한식을 먹기 좋은 곳이 있나요?",
+        a: "쌈지길 인근 골목에 전통찻집·비빔밥·수제비 식당이 밀집합니다. 점심 시간에는 대기가 있을 수 있어 이른 편이 좋습니다.",
+      },
+    ],
+    illustrationKey: "illust-culture",
   },
   {
     id: "seoul-night",
