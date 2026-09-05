@@ -383,7 +383,11 @@ export default async function DmcTicketDetailPage({
                     : "Book Now";
                   return (
                     <Link
-                      href={`/products/${t.id}/reservation`}
+                      // 오더 #C57-B: 티켓 hub product 재사용 · ticket id 는 쿼리로 전달.
+                      //   reservation 라우트가 getProductById("ticket-agency-platform") 로 hub 상품 로드 후
+                      //   ?ticket 쿼리로 TicketReservationBooking 에 실제 티켓 주입 (whats-on 어댑터 동일 패턴).
+                      //   기존 Toss 결제 흐름·금액 로직 무변경.
+                      href={`/products/ticket-agency-platform/reservation?ticket=${t.id}`}
                       className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
                     >
                       {min ? <span className="text-white/85">{formatKRW(min)} ~</span> : null}
