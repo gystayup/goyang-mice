@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
-// 오더 #C49 [1]: /dmc 에서 이관된 4블록 (pillars · useCases · steps · partners).
-import { getDmcServiceBlocks, type DmcBlocksLocale } from "@/data/dmc-service-blocks";
-
-// /institute 는 "누가 하는가" 만 담는다. 홈에서 이관되어 있던 방문객·상품
-// 카탈로그 5블록 중 4블록(HeroSection · WhyGoyangSection ·
-// ProductPreviewSection · ContactCtaSection)은 오더 #P2 [1] 로 제거.
-// 상품 정보는 /products 링크 하나로 유도.
+// 오더 #C54 [1]-B: DMC 4블록 (Pillars·UseCases·Steps·Partners) 제거 →
+//   연구소 정체성 3섹션으로 교체. data/dmc-service-blocks.ts 는 무접촉
+//   (import 만 끊고 파일 자체는 남긴다).
 // NewsSection 은 "연구소 소식" 이라 정체성 블록으로 유지.
 import NewsSection from "@/components/home/NewsSection";
 // 오더 #C53-R [1]-B: /research 에서 이관된 아카이브 클라이언트 블록.
@@ -157,48 +152,52 @@ function getInstituteCopy(locale: PageLocale) {
     };
   }
 
+  // 오더 #C54 [1]-A: ko 문안 교체.
+  //   연구소 정체성(연구·문화관광 콘텐츠 개발·지역경제 선순환)으로 전환.
+  //   en/ja/zh 브랜치는 추후 번역 오더에서 갱신 (이번 오더 무접촉).
+  //   ctas.research 키는 남기지만 렌더 참조는 [1]-C 에서 제거됨.
   return {
     metadata: {
       title: "연구소 소개",
       description:
         "고양의 문화, 관광, MICE, 라이프스타일 자산을 연결하는 연구소의 비전과 운영 방향을 소개합니다.",
     },
-    title: "고양의 문화·관광·MICE·로컬라이프스타일을 연결해 도시의 새로운 경험을 만듭니다.",
+    title: "고양의 문화·관광·MICE를 연구하고, 지역경제로 순환시킵니다.",
     desc:
-      "고양의 자산을 콘텐츠, 프로그램, 체류형 서비스와 지역 경험으로 연결하는 도시 플랫폼을 만들어갑니다.",
+      "고양 문화관광·MICE 연구소는 도시의 문화·관광·MICE 자산을 연구하고, 콘텐츠와 프로그램으로 개발하여 지역 사업자와 지역경제의 선순환으로 연결합니다.",
     leadership: {
       eyebrow: "Leadership Message",
       quote:
-        "고양의 자산을 연구에만 머무르게 하지 않고, 사람들이 실제로 이용할 수 있는 서비스와 운영 구조로 연결합니다.",
+        "연구는 보고서로 끝나지 않습니다. 지역이 실제로 쓸 수 있는 콘텐츠와 성과로 이어져야 합니다.",
       desc:
-        "연구소는 분석과 전략 제안에 머무르지 않고, 프로그램 기획과 예약 구조, 현장 운영까지 이어지는 실행형 플랫폼을 지향합니다. 고양의 문화관광 자산이 실제 프로그램과 도시 경험으로 이어질 수 있도록 구조를 설계합니다.",
+        "연구소는 문화·관광·MICE에 대한 분석과 전략 제안에 머무르지 않습니다. 연구 결과를 지역 콘텐츠와 프로그램으로 개발하고, 그 성과가 지역 사업자와 지역경제로 환류되는 구조를 설계합니다.",
     },
     principles: [
       {
         title: "Vision",
-        text: "고양의 문화, 관광, MICE, 라이프스타일 자산을 연결하는 도시 경험 플랫폼이 되는 것을 목표로 합니다.",
+        text: "고양의 문화·관광·MICE 자산을 지역경제로 잇는 문화관광·MICE 전문 연구소.",
       },
       {
         title: "Mission",
-        text: "연구 결과를 콘텐츠, 프로그램, 체류형 서비스, 운영 모델로 번역해 실제로 작동하게 만듭니다.",
+        text: "연구 결과를 문화관광 콘텐츠와 프로그램으로 개발해, 지역이 실제로 활용하게 만듭니다.",
       },
       {
         title: "Value",
-        text: "도시 자산, 지역 산업, 현장 운영 가능성을 하나의 실무 구조로 연결합니다.",
+        text: "연구·개발·지역경제 선순환을 하나의 실무 구조로 연결합니다.",
       },
     ],
     direction: {
       title: "운영 방향",
       desc:
-        "연구소는 분석에서 끝나지 않고 실행까지 이어집니다. 연구 결과를 프로그램, 예약 서비스, 현장 운영 구조로 연결해 방문객과 지역 파트너가 함께 체감할 수 있는 실질적 플랫폼을 구축합니다.",
+        "연구소는 분석에서 끝나지 않고 개발과 실행으로 이어집니다. 문화·관광·MICE 연구 결과를 콘텐츠·프로그램·운영 모델로 개발하고, 지역 사업자와 함께 도시의 성과로 실현합니다.",
     },
     functions: {
       title: "핵심 기능",
       items: [
-        "문화·관광·MICE를 연결하는 전략 연구",
-        "로컬 라이프스타일 기반 콘텐츠·프로그램 기획",
-        "방문객 여정 설계와 지역 산업 연계",
-        "DMC 서비스 제안과 현장 운영 구조 설계",
+        "문화·관광·MICE 정책·산업·수요 연구",
+        "지역 자산의 문화관광 콘텐츠·프로그램 개발",
+        "지역 사업자·산업 연계와 지역경제 선순환 설계",
+        "MICE·관광 생태계 네트워크 구축과 운영 모델 제안",
       ],
     },
     ctas: {
@@ -226,7 +225,6 @@ export const metadata = getInstituteMetadata("ko");
 
 export default async function InstitutePage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getInstituteCopy(locale);
-  const blocks = getDmcServiceBlocks(locale as DmcBlocksLocale);
 
   return (
     <Shell>
@@ -288,37 +286,42 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
           </PremiumCard>
         </div>
 
+        {/* 오더 #C54 [1]-C: /research 는 #C53-R 에서 /institute 로 301
+           리다이렉트되므로 "연구 분야 보기" 버튼은 자기 페이지로 되돌아온다.
+           해당 버튼 제거, "문의하기" 만 유지. ctas.research 키는 다른 로케일
+           호환성을 위해 문안 정의부에는 남겨둠. */}
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
-            href="/research"
-            className="inline-flex items-center gap-2 rounded-full bg-[#232322] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#232322]/85"
-          >
-            {copy.ctas.research}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-[#232322]/20 px-6 py-3 text-sm font-semibold text-[#232322]/80 transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+            className="inline-flex items-center gap-2 rounded-full bg-[#232322] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#232322]/85"
           >
             {copy.ctas.contact}
           </Link>
         </div>
       </div>
 
-      {/* 오더 #C49 [1] — /dmc 에서 이관된 4블록 (pillars · useCases · steps · partners).
-         문안·구조는 이관 시점 그대로 (data/dmc-service-blocks.ts). 5로케일 ko 폴백. */}
+      {/* 오더 #C54 [1]-B: 하단 DMC 4블록 (Pillars·UseCases·Steps·Partners) 제거 →
+         연구소 정체성 3섹션 (핵심 역할 · 지역경제 선순환 · 연구·개발 영역 +
+         협력 네트워크). 카드 스타일은 기존 톤 재사용. ko 하드코딩 (다른 로케일
+         ko 폴백 허용, 오더 규범). data/dmc-service-blocks.ts 는 무접촉. */}
       <div className="mx-auto flex max-w-7xl flex-col gap-14 px-6 pb-16">
-        {/* Pillars — 3가지 핵심 서비스 */}
+        {/* 신규 1 — 연구소 핵심 역할 4카드 */}
         <section className="space-y-8">
-          <SectionTitle eyebrow={blocks.pillars.eyebrow} title={blocks.pillars.title} />
-          <div className="grid gap-5 md:grid-cols-3">
-            {blocks.pillars.items.map((item, index) => {
+          <SectionTitle eyebrow="핵심 역할" title="연구소가 하는 네 가지 일" />
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              { title: "연구", description: "문화·관광·MICE 정책·시장·수요를 분석하고 도시 전략을 제안합니다." },
+              { title: "문화관광 콘텐츠 개발", description: "지역 자산을 방문·체류·소비로 이어지는 콘텐츠와 프로그램으로 만듭니다." },
+              { title: "지역경제 선순환", description: "연구·콘텐츠의 성과가 지역 사업자와 지역경제로 환류되도록 설계합니다." },
+              { title: "산업 생태계 연계", description: "문화·관광·MICE·로컬 산업을 하나의 네트워크로 연결합니다." },
+            ].map((item, index) => {
               const gradients = [
                 { from: "#fffbee", to: "#fff4da" },
                 { from: "#f0fdf8", to: "#e8fbf3" },
                 { from: "#f0f4ff", to: "#eef2ff" },
+                { from: "#fff4f0", to: "#ffe8dc" },
               ];
-              const g = gradients[index % 3];
+              const g = gradients[index % 4];
               return (
                 <div
                   key={item.title}
@@ -329,7 +332,7 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-sm font-black text-slate-700 shadow-sm">
                     {index + 1}
                   </div>
-                  <div className="mt-4 text-[1.3rem] font-black tracking-[-0.04em] text-slate-950">
+                  <div className="mt-4 text-[1.2rem] font-black tracking-[-0.04em] text-slate-950">
                     {item.title}
                   </div>
                   <p className="mt-3 text-[15px] leading-7 text-slate-600">
@@ -341,11 +344,16 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
           </div>
         </section>
 
-        {/* Use Cases — 방문객 유형 추천 4개 */}
+        {/* 신규 2 — 지역경제 선순환 4단계 */}
         <section className="space-y-8">
-          <SectionTitle eyebrow={blocks.useCases.eyebrow} title={blocks.useCases.title} />
+          <SectionTitle eyebrow="지역경제 선순환" title="연구가 지역경제로 순환하는 구조" />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {blocks.useCases.items.map((item, index) => {
+            {[
+              { title: "연구·분석", description: "도시 자산과 시장·수요를 연구합니다." },
+              { title: "콘텐츠·프로그램 개발", description: "연구 결과를 방문·체류형 콘텐츠로 개발합니다." },
+              { title: "방문·소비 창출", description: "콘텐츠가 방문객의 이동·체류·소비로 이어집니다." },
+              { title: "지역 환류·재투자", description: "성과가 지역 사업자 수익과 도시 재투자로 순환합니다." },
+            ].map((item, index) => {
               const colors = [
                 { bg: "bg-[#ffe8a0]", text: "text-[#9b7a00]" },
                 { bg: "bg-[#b7f0d8]", text: "text-[#0a6b48]" },
@@ -370,53 +378,47 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
           </div>
         </section>
 
-        {/* Steps — 안내 진행 절차 4단계 */}
-        <section className="space-y-8">
-          <SectionTitle eyebrow={blocks.steps.eyebrow} title={blocks.steps.title} />
-          <div className="grid gap-5 lg:grid-cols-4">
-            {blocks.steps.items.map((item) => (
-              <PremiumCard key={item.step} className="p-7">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,_#8df0cf,_#a4d8ff)] text-sm font-black text-slate-950">
-                    {item.step}
-                  </div>
-                </div>
-                <div className="mt-4 text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
-                  {item.title}
-                </div>
-                <p className="mt-3 text-sm leading-7 text-slate-500">
-                  {item.description}
-                </p>
-              </PremiumCard>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/products"
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#10203a] to-[#1e3a6e] px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
-            >
-              {blocks.steps.ctas.booking}
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
-            >
-              {blocks.steps.ctas.consult}
-            </Link>
-          </div>
-        </section>
+        {/* 신규 3 — 연구·개발 영역 + 협력 네트워크 CTA */}
+        <section className="grid gap-5 lg:grid-cols-2">
+          <PremiumCard className="p-7">
+            <h2 className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
+              연구·개발 영역
+            </h2>
+            <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
+              {[
+                "문화관광 정책·전략 연구",
+                "MICE 산업·행사 기획",
+                "로컬 라이프스타일 콘텐츠 개발",
+                "지역 산업·상권 연계",
+                "도시 브랜드·마케팅",
+              ].map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D4AF37]" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </PremiumCard>
 
-        {/* Partners — 사업자 제휴 CTA */}
-        <section className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 px-7 py-10 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
-          <SectionTitle eyebrow={blocks.partners.eyebrow} title={blocks.partners.title} desc={blocks.partners.description} />
-          <div className="mt-6">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
-            >
-              {blocks.partners.button}
-            </Link>
+          <div className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 p-7 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
+              협력 네트워크
+            </div>
+            <h2 className="mt-4 text-[1.4rem] font-black leading-snug tracking-[-0.03em] text-slate-950">
+              고양의 문화관광·MICE 생태계와 함께합니다
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              연구소는 지역 사업자, 기관, 산업 파트너와 협력해 연구를 실제 성과로 연결합니다.
+            </p>
+            <div className="mt-6">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
+              >
+                협력·연구 문의하기
+              </Link>
+            </div>
           </div>
         </section>
       </div>
