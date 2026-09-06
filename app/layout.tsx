@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AuthProvider } from "@/lib/auth-provider";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/constants";
 
 import "./globals.css";
@@ -66,10 +67,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // 오더 #C69 [1] — root 에서 next-auth SessionProvider (AuthProvider) 로 감싼다.
+  //   non-locale 라우트 (/admin/*, /admin/login) 는 app/[locale]/layout.tsx 를
+  //   거치지 않아 그동안 SessionProvider 컨텍스트가 없었고, useSession() 이
+  //   undefined 를 반환해 /admin 렌더 시 500 발생. root 감싸기로 전 라우트 커버.
+  //   locale 하위는 [locale]/layout.tsx 에도 AuthProvider 가 남아 있어 중첩되지만
+  //   next-auth SessionProvider 는 중첩 무해.
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="min-h-full bg-white text-slate-900 antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
