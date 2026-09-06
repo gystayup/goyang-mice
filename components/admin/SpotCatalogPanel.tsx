@@ -11,6 +11,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Edit2, ImagePlus, Loader2, Plus, Save, Search, Trash2, X } from "lucide-react";
 
 import type { Spot, SpotGalleryImage } from "@/data/spots";
+// 오더 #C70 [1]-B: 업로드 전송 직전 브라우저 canvas 리사이즈 (4.5MB 우회).
+import { resizeImageForUpload } from "@/lib/client/resize-image";
 
 const CATEGORIES: { key: string; label: string }[] = [
   { key: "walk", label: "산책" },
@@ -168,8 +170,11 @@ export default function SpotCatalogPanel() {
     if (!edit) return;
     setUploading(true);
     try {
+      // 오더 #C70 [1]-B: 큰 사진은 canvas 리사이즈 (4.5MB Vercel body 한도 우회).
+      // image/* 만 축소, GIF·영상·PDF 는 원본 유지. 실패 시 원본 반환.
+      const uploadFile = await resizeImageForUpload(file);
       const form = new FormData();
-      form.append("file", file);
+      form.append("file", uploadFile);
       form.append("category", "spots");
       const res = await fetch("/api/admin/upload", { method: "POST", body: form });
       const json = (await res.json()) as { success: boolean; url?: string; error?: string };
@@ -371,7 +376,7 @@ export default function SpotCatalogPanel() {
 
               <div>
                 <div className="mb-1 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-700">갤러리 이미지 <span className="ml-1 text-slate-500">({edit.spot.gallery?.length ?? 0}장 · 프론트에는 1~3번째만 노출됩니다)</span></span>
+                  <span className="text-xs font-semibold text-slate-700">갤러리 이미지 <span className="ml-1 text-slate-500">({edit.spot.gallery?.length ?? 0}장 · 프론트에는 1~3번째만 노출됩니다 · 큰 사진은 자동으로 최적 크기로 조정되어 업로드됩니다)</span></span>
                   <div>
                     <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleUpload(f); e.target.value = ""; }} />
                     <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="inline-flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs hover:bg-slate-50 disabled:opacity-50">
