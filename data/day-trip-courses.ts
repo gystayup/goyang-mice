@@ -86,6 +86,16 @@ export interface DayTripCourse {
   faq?: DayTripFaqItem[];
   /** About 블록 좌측 라인 일러스트 파일명 (예: "illust-culture"). */
   illustrationKey?: string;
+
+  // ─── 오더 #C68 신규 필드 ─────────────────────────────────────────────
+  /**
+   * 히어로 사진 URL 배열 (최대 3장 사용).
+   * 값 있으면 상세 히어로가 "대형1 + 소형2" 콜라주로 렌더 (heroImages[0] 이
+   * 대형). 값 없으면 기존 getCoursePhotos (timeline 스팟 gallery 자동 수집)
+   * 폴백을 사용하고, 그것도 없으면 축 컬러 그라디언트 색면.
+   * contentJson 자동 영속 (Prisma 스키마 무접촉).
+   */
+  heroImages?: string[];
 }
 
 // ─── 서울 축 6코스 ─────────────────────────────────────────────────────────
