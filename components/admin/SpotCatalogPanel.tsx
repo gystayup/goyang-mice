@@ -265,7 +265,8 @@ export default function SpotCatalogPanel() {
             <tbody className="divide-y divide-slate-200 bg-white">
               {paged.map((s) => (
                 <tr key={s.slug} className="hover:bg-slate-50">
-                  <td className="px-3 py-2 font-mono text-xs text-slate-600">{s.slug}</td>
+                  {/* 오더 #C66 [1]-D: slug 셀 강화. text-xs slate-600 → text-sm slate-800 · font-medium. */}
+                  <td className="px-3 py-2 font-mono text-sm font-medium text-slate-800">{s.slug}</td>
                   <td className="px-3 py-2 text-slate-900">{s.title.ko}</td>
                   <td className="px-3 py-2 text-slate-700">{s.category}</td>
                   <td className="px-3 py-2 text-slate-700">{s.region}</td>

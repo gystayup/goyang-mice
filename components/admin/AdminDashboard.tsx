@@ -343,7 +343,9 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-slate-100">
+    // 오더 #C66 [1]-A: admin-shell 스코프 클래스로 관리자 전용 폰트 규칙 적용.
+    //   실제 폰트 상향은 app/globals.css `.admin-shell { ... }` 블록에서 정의.
+    <div className="admin-shell flex h-screen bg-slate-100">
       <aside className="flex w-72 flex-col overflow-y-auto bg-slate-900 p-6 text-white xl:w-64">
         <div className="mb-8">
           <h2 className="text-2xl font-bold">고양 MICE 안내</h2>
@@ -383,7 +385,8 @@ export default function AdminDashboard() {
                 }`}
               >
                 <Icon className="h-5 w-5" />
-                <span className="text-sm font-medium">{item.label}</span>
+                {/* 오더 #C66 [1]-C: 네비 라벨 위계 강화. text-sm/medium → text-base/semibold. */}
+                <span className="text-base font-semibold">{item.label}</span>
               </button>
             );
           })}
