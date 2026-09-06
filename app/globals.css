@@ -125,3 +125,16 @@ button {
   outline: 2px solid rgba(16, 32, 58, 0.72);
   outline-offset: 3px;
 }
+
+/* 오더 #C66 [1]-B: 관리자 전용 폰트 바닥값 상향 (공개 사이트 무영향).
+   AdminDashboard 최상위 <div> 에 admin-shell 클래스가 붙어 있을 때만 적용.
+   특이도 (`.admin-shell .text-xs`) 로 tailwind 유틸을 이긴다. */
+.admin-shell { font-size: 15px; }
+.admin-shell .text-xs   { font-size: 0.84rem; line-height: 1.45; }
+.admin-shell .text-sm   { font-size: 0.95rem; line-height: 1.55; }
+.admin-shell .text-base { font-size: 1.02rem; }
+.admin-shell .uppercase.tracking-\[0\.2em\] { letter-spacing: 0.08em; }
+
+/* 오더 #C66 [1]-C: 각 패널 상단 <h2 className="text-xl ..."> 를 text-2xl 로
+   일괄 통일 (관리자 12곳 개별 편집 대신 스코프 CSS 로 파급). */
+.admin-shell h2.text-xl { font-size: 1.5rem; line-height: 2rem; }
