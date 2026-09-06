@@ -67,10 +67,15 @@ export default async function ProductsPage({
   // 오더 #C59-B [2] — 목록 카드용 대표 사진 자동 수집.
   //   각 코스의 timeline 스팟 갤러리 첫 장 · 없으면 undefined (그라디언트 폴백 유지).
   //   loadSpot 은 React cache() 로 요청당 memoize.
+  // 오더 #C73 — 사장님이 업로드한 course.heroImages 를 최우선. 없으면 기존
+  //   getCoursePhotos 폴백. 셋 다 없으면 undefined (그라디언트 색면 유지).
+  //   상세 히어로 (day-trips/[id]/_page.tsx) 우선순위와 동일하게 맞춤.
   const cardPhotos = new Map<string, string | undefined>();
   await Promise.all(
     courses.map(async (c) => {
-      const photo = (await getCoursePhotos(c, { limit: 1 }))[0];
+      const photo =
+        (c.heroImages && c.heroImages.length > 0 ? c.heroImages[0] : undefined)
+        ?? (await getCoursePhotos(c, { limit: 1 }))[0];
       cardPhotos.set(c.id, photo);
     })
   );
