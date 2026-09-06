@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Network, Recycle, Search, Sparkles } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
@@ -290,10 +291,11 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
            리다이렉트되므로 "연구 분야 보기" 버튼은 자기 페이지로 되돌아온다.
            해당 버튼 제거, "문의하기" 만 유지. ctas.research 키는 다른 로케일
            호환성을 위해 문안 정의부에는 남겨둠. */}
+        {/* 오더 #C63 [1]-D: 페이지 주버튼 통일. 차콜 solid → 코럴 solid. */}
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-[#232322] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#232322]/85"
+            className="inline-flex items-center gap-2 rounded-full bg-[#e23e2e] px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
           >
             {copy.ctas.contact}
           </Link>
@@ -305,46 +307,35 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
          협력 네트워크). 카드 스타일은 기존 톤 재사용. ko 하드코딩 (다른 로케일
          ko 폴백 허용, 오더 규범). data/dmc-service-blocks.ts 는 무접촉. */}
       <div className="mx-auto flex max-w-7xl flex-col gap-14 px-6 pb-16">
-        {/* 신규 1 — 연구소 핵심 역할 4카드 */}
+        {/* 신규 1 — 연구소 핵심 역할 4카드
+           오더 #C63 [1]-A: 병렬 역할이므로 번호 제거. PremiumCard 로 통일하고
+           제목 위에 코럴 lucide 아이콘. 인라인 gradient·shadow·hover translate·
+           무지개 top bar·흰 번호배지 전면 제거. */}
         <section className="space-y-8">
           <SectionTitle eyebrow="핵심 역할" title="연구소가 하는 네 가지 일" />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "연구", description: "문화·관광·MICE 정책·시장·수요를 분석하고 도시 전략을 제안합니다." },
-              { title: "문화관광 콘텐츠 개발", description: "지역 자산을 방문·체류·소비로 이어지는 콘텐츠와 프로그램으로 만듭니다." },
-              { title: "지역경제 선순환", description: "연구·콘텐츠의 성과가 지역 사업자와 지역경제로 환류되도록 설계합니다." },
-              { title: "산업 생태계 연계", description: "문화·관광·MICE·로컬 산업을 하나의 네트워크로 연결합니다." },
-            ].map((item, index) => {
-              const gradients = [
-                { from: "#fffbee", to: "#fff4da" },
-                { from: "#f0fdf8", to: "#e8fbf3" },
-                { from: "#f0f4ff", to: "#eef2ff" },
-                { from: "#fff4f0", to: "#ffe8dc" },
-              ];
-              const g = gradients[index % 4];
-              return (
-                <div
-                  key={item.title}
-                  style={{ background: `linear-gradient(145deg, ${g.from}, ${g.to})` }}
-                  className="group relative overflow-hidden rounded-[28px] border border-white/80 p-7 shadow-[0_8px_28px_rgba(16,32,58,0.07)] transition duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-x-0 top-0 h-[3px] rounded-t-[28px] bg-gradient-to-r from-[#8df0cf]/60 via-[#ffe98b]/50 to-[#ffb58f]/40" />
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-sm font-black text-slate-700 shadow-sm">
-                    {index + 1}
-                  </div>
-                  <div className="mt-4 text-[1.2rem] font-black tracking-[-0.04em] text-slate-950">
-                    {item.title}
-                  </div>
-                  <p className="mt-3 text-[15px] leading-7 text-slate-600">
-                    {item.description}
-                  </p>
+              { title: "연구", description: "문화·관광·MICE 정책·시장·수요를 분석하고 도시 전략을 제안합니다.", Icon: Search },
+              { title: "문화관광 콘텐츠 개발", description: "지역 자산을 방문·체류·소비로 이어지는 콘텐츠와 프로그램으로 만듭니다.", Icon: Sparkles },
+              { title: "지역경제 선순환", description: "연구·콘텐츠의 성과가 지역 사업자와 지역경제로 환류되도록 설계합니다.", Icon: Recycle },
+              { title: "산업 생태계 연계", description: "문화·관광·MICE·로컬 산업을 하나의 네트워크로 연결합니다.", Icon: Network },
+            ].map(({ title, description, Icon }) => (
+              <PremiumCard key={title} className="p-6">
+                <Icon className="h-6 w-6 text-[#e23e2e]" aria-hidden="true" />
+                <div className="mt-4 text-[1.2rem] font-black tracking-[-0.04em] text-[#232322]">
+                  {title}
                 </div>
-              );
-            })}
+                <p className="mt-3 text-[15px] leading-7 text-slate-500">
+                  {description}
+                </p>
+              </PremiumCard>
+            ))}
           </div>
         </section>
 
-        {/* 신규 2 — 지역경제 선순환 4단계 */}
+        {/* 신규 2 — 지역경제 선순환 4단계
+           오더 #C63 [1]-B: 흐름이므로 번호 유지. 4색 파스텔 배지 배열 제거하고
+           단일 코럴 원형 bg-[#e23e2e] text-white 로 통일. */}
         <section className="space-y-8">
           <SectionTitle eyebrow="지역경제 선순환" title="연구가 지역경제로 순환하는 구조" />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -353,35 +344,30 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
               { title: "콘텐츠·프로그램 개발", description: "연구 결과를 방문·체류형 콘텐츠로 개발합니다." },
               { title: "방문·소비 창출", description: "콘텐츠가 방문객의 이동·체류·소비로 이어집니다." },
               { title: "지역 환류·재투자", description: "성과가 지역 사업자 수익과 도시 재투자로 순환합니다." },
-            ].map((item, index) => {
-              const colors = [
-                { bg: "bg-[#ffe8a0]", text: "text-[#9b7a00]" },
-                { bg: "bg-[#b7f0d8]", text: "text-[#0a6b48]" },
-                { bg: "bg-[#d4ddff]", text: "text-[#3655a6]" },
-                { bg: "bg-[#ffd0c0]", text: "text-[#9b3a1a]" },
-              ];
-              const c = colors[index % 4];
-              return (
-                <PremiumCard key={item.title} className="p-6">
-                  <div className={`mb-4 inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${c.bg} ${c.text}`}>
-                    {index + 1}
-                  </div>
-                  <div className="text-[1.1rem] font-black tracking-[-0.03em] text-slate-950">
-                    {item.title}
-                  </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-500">
-                    {item.description}
-                  </p>
-                </PremiumCard>
-              );
-            })}
+            ].map((item, index) => (
+              <PremiumCard key={item.title} className="p-6">
+                <div className="mb-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e23e2e] text-sm font-black text-white">
+                  {index + 1}
+                </div>
+                <div className="text-[1.1rem] font-black tracking-[-0.03em] text-[#232322]">
+                  {item.title}
+                </div>
+                <p className="mt-3 text-sm leading-7 text-slate-500">
+                  {item.description}
+                </p>
+              </PremiumCard>
+            ))}
           </div>
         </section>
 
-        {/* 신규 3 — 연구·개발 영역 + 협력 네트워크 CTA */}
+        {/* 신규 3 — 연구·개발 영역 + 협력 네트워크 CTA
+           오더 #C63 [1]-C: 우 카드 border-white/80·bg-white/60·backdrop-blur·shadow·
+           무지개 top bar 제거 → PremiumCard 로. eyebrow 골드 대문자 → 코럴 소형.
+           CTA 는 bg-[#ffe7b3] 파스텔 → bg-[#e23e2e] 코럴 solid.
+           좌 카드는 골드 불릿 그대로 유지, 제목 색만 브랜드 톤으로 정리. */}
         <section className="grid gap-5 lg:grid-cols-2">
           <PremiumCard className="p-7">
-            <h2 className="text-[1.2rem] font-black tracking-[-0.03em] text-slate-950">
+            <h2 className="text-[1.2rem] font-black tracking-[-0.03em] text-[#232322]">
               연구·개발 영역
             </h2>
             <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
@@ -400,12 +386,11 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
             </ul>
           </PremiumCard>
 
-          <div className="relative overflow-hidden rounded-[36px] border border-white/80 bg-white/60 p-7 shadow-[0_16px_48px_rgba(16,32,58,0.08)] backdrop-blur-xl">
-            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#8df0cf] via-[#ffe98b] to-[#ffb58f]" />
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
+          <PremiumCard className="p-7">
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#e23e2e]">
               협력 네트워크
             </div>
-            <h2 className="mt-4 text-[1.4rem] font-black leading-snug tracking-[-0.03em] text-slate-950">
+            <h2 className="mt-4 text-[1.4rem] font-black leading-snug tracking-[-0.03em] text-[#232322]">
               고양의 문화관광·MICE 생태계와 함께합니다
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">
@@ -414,12 +399,12 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
             <div className="mt-6">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#ffe7b3] px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-[#ffdf9b]"
+                className="inline-flex items-center justify-center rounded-full bg-[#e23e2e] px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
               >
                 협력·연구 문의하기
               </Link>
             </div>
-          </div>
+          </PremiumCard>
         </section>
       </div>
 
