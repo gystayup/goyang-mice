@@ -30,6 +30,7 @@ import {
 import {
   SPOT_LOCALES,
   type Spot,
+  type SpotAccessHub,
   type SpotAccessPoint,
   type SpotGalleryImage,
   type SpotInfoAccess,
