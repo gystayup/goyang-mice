@@ -14,6 +14,8 @@ import { getDmcServiceBlocks, type DmcBlocksLocale } from "@/data/dmc-service-bl
 // 상품 정보는 /products 링크 하나로 유도.
 // NewsSection 은 "연구소 소식" 이라 정체성 블록으로 유지.
 import NewsSection from "@/components/home/NewsSection";
+// 오더 #C53-R [1]-B: /research 에서 이관된 아카이브 클라이언트 블록.
+import ResearchArchive from "@/components/institute/ResearchArchive";
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
@@ -256,6 +258,12 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
               </PremiumCard>
             ))}
           </div>
+        </div>
+
+        {/* 오더 #C53-R [1]-B: /research 에서 이관된 아카이브 블록.
+            상단 정체성 그리드 바로 아래에 배치 (KCTI 벤치마크). */}
+        <div className="mt-10">
+          <ResearchArchive locale={locale} />
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
