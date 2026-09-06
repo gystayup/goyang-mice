@@ -163,28 +163,29 @@ function getInstituteCopy(locale: PageLocale) {
       description:
         "고양의 문화, 관광, MICE, 라이프스타일 자산을 연결하는 연구소의 비전과 운영 방향을 소개합니다.",
     },
+    // 오더 #C64 [1]-A: ko 문안 압축 (title 불변, en/ja/zh 무접촉).
     title: "고양의 문화·관광·MICE를 연구하고, 지역경제로 순환시킵니다.",
     desc:
-      "고양 문화관광·MICE 연구소는 도시의 문화·관광·MICE 자산을 연구하고, 콘텐츠와 프로그램으로 개발하여 지역 사업자와 지역경제의 선순환으로 연결합니다.",
+      "도시의 자산을 연구하고 콘텐츠로 개발해, 지역 사업자와 지역경제로 되돌립니다.",
     leadership: {
       eyebrow: "Leadership Message",
       quote:
-        "연구는 보고서로 끝나지 않습니다. 지역이 실제로 쓸 수 있는 콘텐츠와 성과로 이어져야 합니다.",
+        "연구는 보고서로 끝나지 않습니다. 지역이 쓸 수 있는 성과로 이어져야 합니다.",
       desc:
-        "연구소는 문화·관광·MICE에 대한 분석과 전략 제안에 머무르지 않습니다. 연구 결과를 지역 콘텐츠와 프로그램으로 개발하고, 그 성과가 지역 사업자와 지역경제로 환류되는 구조를 설계합니다.",
+        "분석과 제안에 머무르지 않고, 연구를 콘텐츠·프로그램으로 개발합니다. 그 성과가 지역 사업자와 지역경제로 돌아오는 구조를 설계합니다.",
     },
     principles: [
       {
         title: "Vision",
-        text: "고양의 문화·관광·MICE 자산을 지역경제로 잇는 문화관광·MICE 전문 연구소.",
+        text: "고양의 문화·관광·MICE를 지역경제로 잇는 전문 연구소.",
       },
       {
         title: "Mission",
-        text: "연구 결과를 문화관광 콘텐츠와 프로그램으로 개발해, 지역이 실제로 활용하게 만듭니다.",
+        text: "연구를 콘텐츠·프로그램으로 개발해 지역이 실제로 활용하게 합니다.",
       },
       {
         title: "Value",
-        text: "연구·개발·지역경제 선순환을 하나의 실무 구조로 연결합니다.",
+        text: "연구·개발·지역경제를 하나의 실무 구조로 잇습니다.",
       },
     ],
     direction: {
@@ -229,10 +230,15 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
 
   return (
     <Shell>
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="mx-auto max-w-7xl px-6 py-12">
         <SectionTitle eyebrow="Institute" title={copy.title} desc={copy.desc} />
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        {/* 오더 #C64 [1]-B: 상단 그리드 재배치.
+           기존: lg:grid-cols-[1.1fr_0.9fr] 로 좌 리더십 / 우 V/M/V 세로 3개 →
+                우측 V/M/V 세로 스택이 짧아 리더십 카드 아래 흰 여백이 크게 남음.
+           변경: 리더십 카드를 가로 전폭 단독으로, 그 아래 md:grid-cols-3 로
+                V/M/V 를 가로 3칸 배치 → 리더십 카드 하단 여백이 사라짐. */}
+        <div className="mt-10">
           <PremiumCard>
             <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
               {copy.leadership.eyebrow}
@@ -244,19 +250,19 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
               {copy.leadership.desc}
             </p>
           </PremiumCard>
+        </div>
 
-          <div className="grid gap-4">
-            {copy.principles.map((item) => (
-              <PremiumCard key={item.title}>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#232322]/50">
-                  {item.title}
-                </div>
-                <div className="mt-3 text-lg font-black tracking-tight text-[#232322]">
-                  {item.text}
-                </div>
-              </PremiumCard>
-            ))}
-          </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {copy.principles.map((item) => (
+            <PremiumCard key={item.title}>
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#232322]/50">
+                {item.title}
+              </div>
+              <div className="mt-3 text-lg font-black tracking-tight text-[#232322]">
+                {item.text}
+              </div>
+            </PremiumCard>
+          ))}
         </div>
 
         {/* 오더 #C53-R [1]-B: /research 에서 이관된 아카이브 블록.
