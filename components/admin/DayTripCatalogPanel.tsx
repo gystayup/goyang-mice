@@ -7,8 +7,8 @@
 // 편집 필드: id/축/순서/시간 배지/코스명(ko·en)/후크/소개/스팟 리스트/교통/소요/추천 시간/확인 필요.
 // 창작 문안 저장을 강제하지 않음 (사장님 원문 그대로 관리).
 
-import { useEffect, useMemo, useState } from "react";
-import { Edit2, Loader2, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Edit2, ImagePlus, Loader2, Plus, Save, Search, Trash2, X } from "lucide-react";
 
 import type {
   DayTripAxis,
@@ -56,6 +56,9 @@ function emptyCourse(): DayTripCourse {
     access: "",
     faq: [],
     illustrationKey: "",
+    // 오더 #C68 [1]-A: 히어로 사진 (최대 3장). 값 없으면 상세에서 timeline
+    // 스팟 gallery 자동 수집 폴백 → 그것도 없으면 축 컬러 색면.
+    heroImages: [],
   };
 }
 
@@ -84,6 +87,43 @@ export default function DayTripCatalogPanel() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
   const [edit, setEdit] = useState<EditState | null>(null);
+  // 오더 #C68 [1]-B: 히어로 사진 업로드 (최대 3장). SpotCatalogPanel 미러.
+  const heroFileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingHero, setUploadingHero] = useState(false);
+
+  async function handleHeroUpload(file: File) {
+    if (!edit) return;
+    const current = edit.course.heroImages ?? [];
+    if (current.length >= 3) {
+      setError("히어로 사진은 최대 3장까지 업로드할 수 있습니다.");
+      return;
+    }
+    setUploadingHero(true);
+    setError(null);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("category", "spots");
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      const json = (await res.json()) as { success: boolean; url?: string; error?: string };
+      if (!json.success || !json.url) throw new Error(json.error ?? "업로드 실패");
+      setEdit({
+        ...edit,
+        course: { ...edit.course, heroImages: [...current, json.url].slice(0, 3) },
+      });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setUploadingHero(false);
+    }
+  }
+
+  function removeHeroImage(i: number) {
+    if (!edit) return;
+    const heroImages = [...(edit.course.heroImages ?? [])];
+    heroImages.splice(i, 1);
+    setEdit({ ...edit, course: { ...edit.course, heroImages } });
+  }
 
   async function load() {
     setLoading(true);
@@ -544,6 +584,77 @@ export default function DayTripCatalogPanel() {
                     placeholder="예: Royal Seoul"
                   />
                 </label>
+              </div>
+
+              {/* 오더 #C68 [1]-B: 히어로 사진 업로드 (최대 3장) */}
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-700">
+                    히어로 사진{" "}
+                    <span className="ml-1 text-slate-500">
+                      ({(edit.course.heroImages ?? []).length}/3 · 대형 1 + 소형 2 콜라주로 표시)
+                    </span>
+                  </span>
+                  <div>
+                    <input
+                      ref={heroFileInputRef}
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) void handleHeroUpload(f);
+                        e.target.value = "";
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => heroFileInputRef.current?.click()}
+                      disabled={uploadingHero || (edit.course.heroImages ?? []).length >= 3}
+                      className="inline-flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-xs hover:bg-slate-50 disabled:opacity-50"
+                    >
+                      {uploadingHero ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <ImagePlus className="h-3 w-3" />
+                      )}{" "}
+                      업로드
+                    </button>
+                  </div>
+                </div>
+                <p className="mb-2 text-[11px] text-slate-500">
+                  1~3장 권장. 첫 장이 대형(오버레이), 나머지 2장이 소형으로 표시됩니다.
+                </p>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {(edit.course.heroImages ?? []).map((url, i) => (
+                    <div
+                      key={`${url}-${i}`}
+                      className={`relative aspect-[4/3] overflow-hidden rounded-md border-2 ${
+                        i === 0 ? "border-green-500" : "border-slate-200"
+                      } bg-slate-100`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt="" className="h-full w-full object-cover" />
+                      <div className="absolute inset-x-0 top-0 flex justify-between p-1 text-xs">
+                        <span
+                          className={`rounded px-1 ${
+                            i === 0 ? "bg-green-500 text-white" : "bg-white/90 text-slate-700"
+                          }`}
+                        >
+                          {i === 0 ? "대형" : `소형 ${i}`}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeHeroImage(i)}
+                          className="rounded bg-white/90 px-1 text-slate-700 hover:bg-red-500 hover:text-white"
+                          aria-label="제거"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <label className="block">

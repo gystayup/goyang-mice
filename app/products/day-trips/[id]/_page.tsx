@@ -333,9 +333,12 @@ export default async function DayTripDetailPage({
   const badgeStyle = axisBadgeStyle(course.axis);
   const axisEn = AXIS_BADGE_EN[course.axis] ?? course.axis.toUpperCase();
 
-  // 오더 #C61 [1] — 히어로 사진 자동 수집. 0장이면 축 컬러 색면 위에 오버레이.
+  // 오더 #C61 [1] — 히어로 사진 자동 수집 (timeline 스팟 gallery 폴백).
+  // 오더 #C68 [1]-C — course.heroImages (사장님 업로드) 우선, 없으면 자동 수집.
+  //   3장은 대형1+소형2 콜라주로, 2장/1장은 축소된 콜라주, 0장은 축 색면 폴백.
   const heroPhotos = await getCoursePhotos(course, { limit: 3 });
-  const hasHeroPhoto = heroPhotos.length > 0;
+  const heroImgs = (course.heroImages?.length ? course.heroImages : heroPhotos).slice(0, 3);
+  const hasHero = heroImgs.length > 0;
 
   // 오더 #C61 [2] — Breadcrumb 항목 (Home > Day Trips > Axis > Course)
   const breadcrumbAxisLabel = AXIS_LABEL_LOCALIZED[course.axis][locale];
@@ -353,16 +356,93 @@ export default async function DayTripDetailPage({
   const introParagraphs = splitParagraphs(course.intro ?? "");
   const accessFallbackParagraphs = course.access ? [] : splitParagraphs(course.transport ?? "");
 
+  // 오더 #C68 [1]-C: 대형 이미지 위에만 얹는 오버레이 (breadcrumb + 배지 + 제목 + 스팟 + 후크).
+  //   색면 폴백/1장/2장/3장 모든 케이스에서 재사용.
+  const overlayContent = (
+    <div className="absolute inset-0 flex flex-col justify-between px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      {/* 상단: Breadcrumb */}
+      <nav
+        aria-label="breadcrumb"
+        className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm"
+      >
+        <Link
+          href="/"
+          locale={locale}
+          className="text-white/90 underline-offset-4 hover:underline"
+        >
+          {BREADCRUMB_HOME[locale]}
+        </Link>
+        <span aria-hidden="true" className="text-white/60">›</span>
+        <Link
+          href="/products"
+          locale={locale}
+          className="text-white/90 underline-offset-4 hover:underline"
+        >
+          {BREADCRUMB_DAYTRIPS[locale]}
+        </Link>
+        <span aria-hidden="true" className="text-white/60">›</span>
+        <Link
+          href="/products"
+          locale={locale}
+          className="text-white/90 underline-offset-4 hover:underline"
+        >
+          {breadcrumbAxisLabel}
+        </Link>
+        <span aria-hidden="true" className="text-white/60">›</span>
+        <span aria-current="page" className="text-white">{displayName}</span>
+      </nav>
+      {/* 하단: 배지 · 제목 · 스팟 · 후크 */}
+      <div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
+            style={badgeStyle}
+          >
+            {axisEn}
+          </span>
+          <span
+            className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
+            style={{ background: "#faf7f2", color: "#232322" }}
+          >
+            {course.durationBadge}
+          </span>
+        </div>
+        <h1 className="mt-3 text-2xl font-black leading-tight tracking-[-0.03em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] sm:text-3xl lg:text-4xl">
+          {displayName}
+        </h1>
+        {course.stops.length > 0 && (
+          <p className="mt-2 text-xs text-white/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-sm">
+            {course.stops.map((s) => s.name).join(" · ")}
+          </p>
+        )}
+        <p className="mt-2 max-w-[720px] text-sm leading-[1.6] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-base">
+          {hookText}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 히어로 — 항상 렌더. 사진 유무에 따라 색면/사진 위에 오버레이. */}
+        {/* ① 히어로 — 항상 렌더. 사진 유무·장수에 따라 색면/1장/2장/3장 콜라주.
+             오더 #C68 [1]-C: 대형1+소형2 콜라주. 오버레이는 대형 위에만. */}
         <section className="relative w-full overflow-hidden bg-white">
           <div className="relative mx-auto h-[300px] w-full max-w-7xl overflow-hidden sm:h-[360px] lg:h-[420px]">
-            {hasHeroPhoto ? (
+            {!hasHero && (
+              <>
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0"
+                  style={{ background: axisGradient(axis.color) }}
+                />
+                {overlayContent}
+              </>
+            )}
+            {hasHero && heroImgs.length === 1 && (
               <>
                 <Image
-                  src={heroPhotos[0]}
+                  src={heroImgs[0]}
                   alt={displayName}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1280px"
@@ -370,84 +450,71 @@ export default async function DayTripDetailPage({
                   priority
                 />
                 <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
+                {overlayContent}
               </>
-            ) : (
-              <div
-                aria-hidden="true"
-                className="absolute inset-0"
-                style={{ background: axisGradient(axis.color) }}
-              />
             )}
-            {/* 오버레이 컨텐츠 */}
-            <div className="absolute inset-0 flex flex-col justify-between px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-              {/* 상단: Breadcrumb */}
-              <nav
-                aria-label="breadcrumb"
-                className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm"
-              >
-                <Link
-                  href="/"
-                  locale={locale}
-                  className="text-white/90 underline-offset-4 hover:underline"
-                >
-                  {BREADCRUMB_HOME[locale]}
-                </Link>
-                <span aria-hidden="true" className="text-white/60">
-                  ›
-                </span>
-                <Link
-                  href="/products"
-                  locale={locale}
-                  className="text-white/90 underline-offset-4 hover:underline"
-                >
-                  {BREADCRUMB_DAYTRIPS[locale]}
-                </Link>
-                <span aria-hidden="true" className="text-white/60">
-                  ›
-                </span>
-                <Link
-                  href="/products"
-                  locale={locale}
-                  className="text-white/90 underline-offset-4 hover:underline"
-                >
-                  {breadcrumbAxisLabel}
-                </Link>
-                <span aria-hidden="true" className="text-white/60">
-                  ›
-                </span>
-                <span aria-current="page" className="text-white">
-                  {displayName}
-                </span>
-              </nav>
-              {/* 하단: 배지 · 제목 · 스팟 · 후크 */}
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span
-                    className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
-                    style={badgeStyle}
-                  >
-                    {axisEn}
-                  </span>
-                  <span
-                    className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
-                    style={{ background: "#faf7f2", color: "#232322" }}
-                  >
-                    {course.durationBadge}
-                  </span>
+            {hasHero && heroImgs.length === 2 && (
+              <div className="absolute inset-0 grid grid-cols-1 grid-rows-[3fr_2fr] gap-1 lg:grid-cols-3 lg:grid-rows-1">
+                <div className="relative overflow-hidden lg:col-span-2">
+                  <Image
+                    src={heroImgs[0]}
+                    alt={displayName}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 853px"
+                    className="object-cover"
+                    priority
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
+                  {overlayContent}
                 </div>
-                <h1 className="mt-3 text-2xl font-black leading-tight tracking-[-0.03em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] sm:text-3xl lg:text-4xl">
-                  {displayName}
-                </h1>
-                {course.stops.length > 0 && (
-                  <p className="mt-2 text-xs text-white/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-sm">
-                    {course.stops.map((s) => s.name).join(" · ")}
-                  </p>
-                )}
-                <p className="mt-2 max-w-[720px] text-sm leading-[1.6] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-base">
-                  {hookText}
-                </p>
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={heroImgs[1]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 427px"
+                    className="object-cover"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
+                </div>
               </div>
-            </div>
+            )}
+            {hasHero && heroImgs.length === 3 && (
+              <div className="absolute inset-0 grid grid-cols-2 grid-rows-[3fr_2fr] gap-1 lg:grid-cols-3 lg:grid-rows-2">
+                <div className="relative overflow-hidden col-span-2 lg:col-span-2 lg:row-span-2">
+                  <Image
+                    src={heroImgs[0]}
+                    alt={displayName}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 853px"
+                    className="object-cover"
+                    priority
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
+                  {overlayContent}
+                </div>
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={heroImgs[1]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 427px"
+                    className="object-cover"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
+                </div>
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={heroImgs[2]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 427px"
+                    className="object-cover"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
