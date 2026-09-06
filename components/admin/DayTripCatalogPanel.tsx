@@ -18,8 +18,6 @@ import type {
   DayTripStop,
   DayTripTimelineNode,
 } from "@/data/day-trip-courses";
-// 오더 #C70 [1]-C: 업로드 전송 직전 브라우저 canvas 리사이즈 (4.5MB 우회).
-import { resizeImageForUpload } from "@/lib/client/resize-image";
 
 const AXES: { key: DayTripAxis; label: string }[] = [
   { key: "seoul", label: "서울" },
@@ -103,10 +101,8 @@ export default function DayTripCatalogPanel() {
     setUploadingHero(true);
     setError(null);
     try {
-      // 오더 #C70 [1]-C: 큰 사진은 canvas 리사이즈 (4.5MB Vercel body 한도 우회).
-      const uploadFile = await resizeImageForUpload(file);
       const form = new FormData();
-      form.append("file", uploadFile);
+      form.append("file", file);
       form.append("category", "spots");
       const res = await fetch("/api/admin/upload", { method: "POST", body: form });
       const json = (await res.json()) as { success: boolean; url?: string; error?: string };
@@ -627,7 +623,7 @@ export default function DayTripCatalogPanel() {
                   </div>
                 </div>
                 <p className="mb-2 text-[11px] text-slate-500">
-                  1~3장 권장. 첫 장이 대형(오버레이), 나머지 2장이 소형으로 표시됩니다. 큰 사진은 자동으로 최적 크기로 조정되어 업로드됩니다.
+                  1~3장 권장. 첫 장이 대형(오버레이), 나머지 2장이 소형으로 표시됩니다.
                 </p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {(edit.course.heroImages ?? []).map((url, i) => (
