@@ -98,8 +98,6 @@ const chineseTraditionalCopy: DmcCopy = {
   final: { title: "一起找到在高陽的玩法", description: "為您連接符合出行目的與日程的指引。" },
 };
 
-export const metadata: Metadata = koreanCopy.metadata;
-
 function getCopy(locale: PageLocale) {
   if (locale === "en") return englishCopy;
   if (locale === "ja") return japaneseCopy;
@@ -107,6 +105,23 @@ function getCopy(locale: PageLocale) {
   if (locale === "zh-TW") return chineseTraditionalCopy;
   return koreanCopy;
 }
+
+// 오더 #C67 [1]-A: 로케일별 문서 title 반환. institute 패턴 미러
+//   (getInstituteMetadata + generateMetadata). 상위 라우트
+//   app/[locale]/dmc/page.tsx 가 generateMetadata 에서 이 함수를 호출.
+//   기존 `export const metadata` 는 dead export 였으므로 getDmcMetadata("ko") 로 대체.
+export function getDmcMetadata(locale: PageLocale): Metadata {
+  const copy = getCopy(locale);
+  return {
+    title: copy.metadata.title,
+    description: copy.metadata.description,
+    alternates: {
+      canonical: `/${locale}/dmc`,
+    },
+  };
+}
+
+export const metadata = getDmcMetadata("ko");
 
 export default async function DmcPage({ locale = "ko" }: { locale?: PageLocale }) {
   const copy = getCopy(locale);
