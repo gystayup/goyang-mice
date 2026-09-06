@@ -1,14 +1,15 @@
 export type LocaleKey = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
-// 방문객 앞 · 기관 뒤 원칙: best → products → dmc → institute → research → contact
+// 방문객 앞 · 기관 뒤 원칙: best → products → dmc → institute → contact
 // (오더 #P1 — 고양 가이드(best) + 상품(products) 을 앞으로, 연구원·연구는 뒤로.
 //  라벨 문구는 이번 오더에서 바꾸지 않음. 신규 키 best 만 추가.)
+// (오더 #C53-R [1]-D — /research 는 /institute 로 통합. NavigationKey 에서
+//  "research" 제거, redirects()가 기존 URL·SEO 를 /institute 로 넘긴다.)
 export type NavigationKey =
   | "best"
   | "products"
   | "dmc"
   | "institute"
-  | "research"
   | "contact";
 
 export interface NavigationItem {
@@ -21,7 +22,6 @@ export const navigation: NavigationItem[] = [
   { key: "products", href: "/products" },
   { key: "dmc", href: "/dmc" },
   { key: "institute", href: "/institute" },
-  { key: "research", href: "/research" },
   { key: "contact", href: "/contact" },
 ];
 
@@ -32,7 +32,6 @@ const koLabels: Record<NavigationKey, string> = {
   dmc: "고양 여행·체험",
   products: "당일코스",
   institute: "연구소 소개",
-  research: "연구 분야",
   contact: "문의하기",
 };
 
@@ -41,7 +40,6 @@ const enLabels: Record<NavigationKey, string> = {
   dmc: "Goyang Experiences",
   products: "Day Trips",
   institute: "About the Institute",
-  research: "Research",
   contact: "Contact",
 };
 
@@ -50,7 +48,6 @@ const jaLabels: Record<NavigationKey, string> = {
   dmc: "高陽の旅・体験",
   products: "日帰り旅行",
   institute: "研究所紹介",
-  research: "研究分野",
   contact: "お問い合わせ",
 };
 
@@ -59,7 +56,6 @@ const zhCNLabels: Record<NavigationKey, string> = {
   dmc: "高阳旅行·体验",
   products: "一日游",
   institute: "研究所介绍",
-  research: "研究领域",
   contact: "联系我们",
 };
 
@@ -68,7 +64,6 @@ const zhTWLabels: Record<NavigationKey, string> = {
   dmc: "高陽旅行·體驗",
   products: "一日遊",
   institute: "研究所介紹",
-  research: "研究領域",
   contact: "聯絡我們",
 };
 
