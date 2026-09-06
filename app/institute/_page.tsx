@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Network, Recycle, Search, Sparkles } from "lucide-react";
+// 오더 #C65 [1]-A: 핵심역할 아이콘 세련화 — Search/Sparkles/Recycle/Network →
+//   Telescope/Palette/RefreshCw/Share2 로 교체.
+import { Palette, RefreshCw, Share2, Telescope } from "lucide-react";
 
 import PremiumCard from "@/components/common/PremiumCard";
 import SectionTitle from "@/components/common/SectionTitle";
@@ -315,20 +317,24 @@ export default async function InstitutePage({ locale = "ko" }: { locale?: PageLo
       <div className="mx-auto flex max-w-7xl flex-col gap-14 px-6 pb-16">
         {/* 신규 1 — 연구소 핵심 역할 4카드
            오더 #C63 [1]-A: 병렬 역할이므로 번호 제거. PremiumCard 로 통일하고
-           제목 위에 코럴 lucide 아이콘. 인라인 gradient·shadow·hover translate·
-           무지개 top bar·흰 번호배지 전면 제거. */}
+             제목 위에 코럴 lucide 아이콘.
+           오더 #C65 [1]-A/B: 아이콘 세련화 — 뜬 선 아이콘을 44px rounded-xl
+             소프트 코럴→피치 그라디언트 틴트 타일 안으로. 아이콘도 의미에 맞게
+             교체 (Telescope/Palette/RefreshCw/Share2). */}
         <section className="space-y-8">
           <SectionTitle eyebrow="핵심 역할" title="연구소가 하는 네 가지 일" />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {[
-              { title: "연구", description: "문화·관광·MICE 정책·시장·수요를 분석하고 도시 전략을 제안합니다.", Icon: Search },
-              { title: "문화관광 콘텐츠 개발", description: "지역 자산을 방문·체류·소비로 이어지는 콘텐츠와 프로그램으로 만듭니다.", Icon: Sparkles },
-              { title: "지역경제 선순환", description: "연구·콘텐츠의 성과가 지역 사업자와 지역경제로 환류되도록 설계합니다.", Icon: Recycle },
-              { title: "산업 생태계 연계", description: "문화·관광·MICE·로컬 산업을 하나의 네트워크로 연결합니다.", Icon: Network },
+              { title: "연구", description: "문화·관광·MICE 정책·시장·수요를 분석하고 도시 전략을 제안합니다.", Icon: Telescope },
+              { title: "문화관광 콘텐츠 개발", description: "지역 자산을 방문·체류·소비로 이어지는 콘텐츠와 프로그램으로 만듭니다.", Icon: Palette },
+              { title: "지역경제 선순환", description: "연구·콘텐츠의 성과가 지역 사업자와 지역경제로 환류되도록 설계합니다.", Icon: RefreshCw },
+              { title: "산업 생태계 연계", description: "문화·관광·MICE·로컬 산업을 하나의 네트워크로 연결합니다.", Icon: Share2 },
             ].map(({ title, description, Icon }) => (
               <PremiumCard key={title} className="p-6">
-                <Icon className="h-6 w-6 text-[#e23e2e]" aria-hidden="true" />
-                <div className="mt-4 text-[1.2rem] font-black tracking-[-0.04em] text-[#232322]">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,rgba(226,62,46,0.12),rgba(255,181,143,0.14))]">
+                  <Icon className="h-[22px] w-[22px] text-[#e23e2e]" aria-hidden="true" />
+                </div>
+                <div className="text-[1.2rem] font-black tracking-[-0.04em] text-[#232322]">
                   {title}
                 </div>
                 <p className="mt-3 text-[15px] leading-7 text-slate-500">
