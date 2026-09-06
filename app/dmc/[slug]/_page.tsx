@@ -18,7 +18,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle, Phone, UtensilsCrossed, Coffee, Moon, Route, ExternalLink } from "lucide-react";
+import { Clock, Hourglass, Ticket, Accessibility, MapPin, Tv, Clapperboard, Footprints, BookOpen, Compass, Shirt, Music, AlertTriangle, UtensilsCrossed, Coffee, Moon, Route, ExternalLink } from "lucide-react";
 
 import { CategoryIllustration } from "@/components/dmc/CategoryIllustration";
 import { KoCopyButton } from "@/components/dmc/KoCopyButton";
@@ -241,7 +241,7 @@ const ACCESS_HUBS: ReadonlyArray<{
   { key: "incheon-airport", label: { ko: "인천공항", en: "Incheon Airport", ja: "仁川空港", "zh-CN": "仁川机场", "zh-TW": "仁川機場" } },
 ];
 
-const DASH = "—";
+// 오더 #C62 [1]-A/B: DASH 폴백 제거 (빈 값 스킵으로 전환) → 상수 미사용, 삭제.
 
 // ─── metadata / staticParams ────────────────────────────────────────────────
 
@@ -317,14 +317,19 @@ export default async function SpotDetailPage({
         <section className="mx-auto max-w-6xl px-6 pt-10 pb-16">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-14">
             <div className="space-y-12 lg:col-span-2">
-              {/* 3. Location — 지도 + 주소 + 전화 */}
-              <LocationSection spot={spot} locale={locale} />
+              {/* 오더 #C62 [1]-D: 좌 col 재배치.
+                  변경 전: LocationSection(큰 지도) → About → InfoQuad
+                  변경 후: EssentialInfoCard(핵심 정보 압축) → About → LocationSection(지도만)
+                  InfoQuad·AccessQuad·주소·전화는 EssentialInfoCard 로 이관됨. */}
+
+              {/* 3. 핵심 정보 카드 (visitlondon 그레이 박스) */}
+              <EssentialInfoCard spot={spot} locale={locale} />
 
               {/* 4. About — 일러스트 + 본문 좌우 */}
               <AboutBlock spot={spot} locale={locale} />
 
-              {/* 5. 운영시간 (InfoQuad 4칸 안에 hours 포함) */}
-              <InfoQuad spot={spot} locale={locale} />
+              {/* 5. Location — 지도 임베드 + 지도 CTA (주소·전화·ACCESS 는 카드로) */}
+              <LocationSection spot={spot} locale={locale} />
 
               {/* 모바일: 인사이더 박스를 본문 중간에 (사이드바가 밑으로 밀리는 상황 방지) */}
               <div className="lg:hidden">{insiderNode}</div>
@@ -541,16 +546,14 @@ function walkMinSuffix(locale: PageLocale): string {
 //   둘 다 없으면 지도 CTA(카카오 외부 링크)만.
 //   주소/전화도 값 있을 때만 렌더. 아무 것도 없으면 섹션 통째로 스킵.
 function LocationSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
-  const first = spot.map?.[0];
-  const address = spot.ko_card?.[0]?.address_ko ?? null;
-  const phone = spot.phone ?? null;
+  // 오더 #C62 [1]-D: 주소·전화·AccessQuad 는 EssentialInfoCard 로 이관.
+  // 여기는 지도 임베드 + 지도 CTA 만 남긴다.
   const embed = resolveMapEmbed(spot);
   const mapPointName = spot.ko_card?.[0]?.name_ko;
   const mapHref = mapPointName
     ? `https://map.kakao.com/?q=${encodeURIComponent(mapPointName)}`
     : null;
-  // 아무 데이터도 없으면 섹션 자체 스킵.
-  if (!embed && !mapHref && !address && !phone) return null;
+  if (!embed && !mapHref) return null;
   return (
     <section aria-label={LABEL_LOCATION[locale]}>
       <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
@@ -569,51 +572,19 @@ function LocationSection({ spot, locale }: { spot: Spot; locale: PageLocale }) {
           </div>
         </div>
       )}
-      {(address || phone || mapHref) && (
-        <div className="mt-4 space-y-3 border border-[#232322]/15 p-5">
-          {address && (
-            <div className="flex items-start gap-3 text-sm text-[#232322]/85">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
-                  {LABEL_ADDRESS[locale]}
-                </div>
-                <div className="mt-0.5">{address}</div>
-              </div>
-            </div>
-          )}
-          {phone && (
-            <div className="flex items-start gap-3 text-sm text-[#232322]/85">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
-                  {LABEL_PHONE[locale]}
-                </div>
-                <a href={`tel:${phone}`} className="mt-0.5 block hover:text-[#D4AF37]">
-                  {phone}
-                </a>
-              </div>
-            </div>
-          )}
-          {mapHref && (
-            <a
-              href={mapHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
-            >
-              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-              {LABEL_MAP_CTA[locale]}
-            </a>
-          )}
+      {mapHref && (
+        <div className="mt-4">
+          <a
+            href={mapHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+          >
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+            {LABEL_MAP_CTA[locale]}
+          </a>
         </div>
       )}
-      {/* Location 섹션 하단에 ACCESS 4칸 (허브별 소요시간). 데이터 없으면 "—". */}
-      <div className="mt-6">
-        <AccessQuad access={spot.access ?? []} locale={locale} />
-      </div>
-      {/* first 좌표 참조로 lint no-unused-vars 방지 (이미 embed 에서 사용됨) */}
-      {first && null}
     </section>
   );
 }
@@ -632,29 +603,23 @@ function resolveMapEmbed(spot: Spot): string | null {
 }
 
 function InfoQuad({ spot, locale }: { spot: Spot; locale: PageLocale }) {
-  // 렌더 규칙 4: 값 없어도 칸 유지, "—" 표시.
+  // 오더 #C62 [1]-A: 렌더 규칙 4 반전. 값 있는 칸만 렌더, 4칸 모두 빈 시
+  // 블록 자체 미렌더 (visitlondon 정돈된 정보 박스 톤).
   const cells = [
-    {
-      icon: Clock,
-      label: INFO_LABEL_HOURS[locale],
-      value: spot.info?.hours ? ENUM_HOURS[spot.info.hours][locale] : DASH,
-    },
-    {
-      icon: Hourglass,
-      label: INFO_LABEL_DURATION[locale],
-      value: spot.info?.duration ? ENUM_DURATION[spot.info.duration][locale] : DASH,
-    },
-    {
-      icon: Ticket,
-      label: INFO_LABEL_ADMISSION[locale],
-      value: spot.info?.admission ? ENUM_ADMISSION[spot.info.admission][locale] : DASH,
-    },
-    {
-      icon: Accessibility,
-      label: INFO_LABEL_ACCESS[locale],
-      value: spot.info?.access ? ENUM_ACCESS[spot.info.access][locale] : DASH,
-    },
-  ];
+    spot.info?.hours
+      ? { icon: Clock, label: INFO_LABEL_HOURS[locale], value: ENUM_HOURS[spot.info.hours][locale] }
+      : null,
+    spot.info?.duration
+      ? { icon: Hourglass, label: INFO_LABEL_DURATION[locale], value: ENUM_DURATION[spot.info.duration][locale] }
+      : null,
+    spot.info?.admission
+      ? { icon: Ticket, label: INFO_LABEL_ADMISSION[locale], value: ENUM_ADMISSION[spot.info.admission][locale] }
+      : null,
+    spot.info?.access
+      ? { icon: Accessibility, label: INFO_LABEL_ACCESS[locale], value: ENUM_ACCESS[spot.info.access][locale] }
+      : null,
+  ].filter((c): c is NonNullable<typeof c> => c !== null);
+  if (cells.length === 0) return null;
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {cells.map(({ icon: Icon, label, value }) => (
@@ -669,6 +634,86 @@ function InfoQuad({ spot, locale }: { spot: Spot; locale: PageLocale }) {
         </div>
       ))}
     </div>
+  );
+}
+
+// 오더 #C62 [1]-C: visitlondon 식 핵심 정보 카드. 상단 배치용.
+// 내부 (1) InfoQuad — 운영시간/소요/요금/접근성 (A 필터 적용)
+//      (2) 주소 + phone 서브라인 + '지도에서 보기' CTA (mapHref 재사용)
+//      (3) AccessQuad — 교통 4허브 (B 필터 적용)
+// 셋 다 렌더되지 않으면 카드 자체 미렌더.
+// phone 은 LocationSection 에서 이관된 것 — 페이지 어디에도 phone 이 사라지지 않도록 카드에 유지.
+function EssentialInfoCard({ spot, locale }: { spot: Spot; locale: PageLocale }) {
+  const address = spot.ko_card?.[0]?.address_ko ?? null;
+  const phone = spot.phone ?? null;
+  const mapPointName = spot.ko_card?.[0]?.name_ko;
+  const mapHref = mapPointName
+    ? `https://map.kakao.com/?q=${encodeURIComponent(mapPointName)}`
+    : null;
+
+  const hasInfo = !!(
+    spot.info?.hours ||
+    spot.info?.duration ||
+    spot.info?.admission ||
+    spot.info?.access
+  );
+  const hasAddressBlock = !!(address || phone || mapHref);
+  const hasAccess = (spot.access ?? []).some(
+    (a) =>
+      (a.from === "GTX 킨텍스역" ||
+        a.from === "3호선 대화역" ||
+        a.from === "서울역") &&
+      a.minutes != null
+  );
+
+  if (!hasInfo && !hasAddressBlock && !hasAccess) return null;
+
+  return (
+    <section className="space-y-6 border border-[#232322]/15 p-5">
+      {hasInfo && <InfoQuad spot={spot} locale={locale} />}
+      {hasAddressBlock && (
+        <div className="space-y-3">
+          {(address || phone) && (
+            <div className="flex items-start gap-3 text-sm text-[#232322]/85">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
+              <div className="min-w-0">
+                {address && (
+                  <>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
+                      {LABEL_ADDRESS[locale]}
+                    </div>
+                    <div className="mt-0.5">{address}</div>
+                  </>
+                )}
+                {phone && (
+                  <a
+                    href={`tel:${phone}`}
+                    className={`${address ? "mt-1.5" : ""} block text-xs text-[#232322]/70 hover:text-[#D4AF37]`}
+                  >
+                    <span className="mr-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#232322]/55">
+                      {LABEL_PHONE[locale]}
+                    </span>
+                    {phone}
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+          {mapHref && (
+            <a
+              href={mapHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+            >
+              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+              {LABEL_MAP_CTA[locale]}
+            </a>
+          )}
+        </div>
+      )}
+      {hasAccess && <AccessQuad access={spot.access ?? []} locale={locale} />}
+    </section>
   );
 }
 
@@ -1340,26 +1385,31 @@ function AccessQuad({
   access: SpotAccessPoint[];
   locale: PageLocale;
 }) {
-  // ACCESS 4칸 고정 (spec). spot.access 에서 매칭되는 hub 의 minutes/mode 를 채움.
+  // 오더 #C62 [1]-B: 값 있는 허브만 렌더. minutes 값 있는 허브 0개면 블록
+  // 자체 미렌더. incheon-airport 는 SpotAccessHub 스키마에 없어 자연스럽게 스킵.
   const byFrom = new Map(access.map((a) => [a.from, a] as const));
+  const items = ACCESS_HUBS.flatMap((h) => {
+    const fromKey =
+      h.key === "gtx-kintex" ? "GTX 킨텍스역" :
+      h.key === "daehwa"     ? "3호선 대화역" :
+      h.key === "seoul"      ? "서울역" :
+      null;
+    if (!fromKey) return [];
+    const match = byFrom.get(fromKey as SpotAccessHub);
+    if (!match || match.minutes == null) return [];
+    return [{ hub: h, match }];
+  });
+  if (items.length === 0) return null;
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-      {ACCESS_HUBS.map((h) => {
-        const match = byFrom.get(h.key === "gtx-kintex" ? "GTX 킨텍스역" : h.key === "daehwa" ? "3호선 대화역" : h.key === "seoul" ? "서울역" : null!);
-        return (
-          <div key={h.key} className="border border-[#232322]/15 p-4">
-            <div className="text-sm font-black">{h.label[locale]}</div>
-            <div className="mt-1 text-xs text-[#232322]/70">
-              {/* 오더 #C1 [3]: minutes null → 시간·모드 미표시, 역 이름만 (label). */}
-              {match
-                ? match.minutes != null
-                  ? `${match.mode} · ${match.minutes}${walkMinSuffix(locale)}`
-                  : null
-                : DASH}
-            </div>
+      {items.map(({ hub, match }) => (
+        <div key={hub.key} className="border border-[#232322]/15 p-4">
+          <div className="text-sm font-black">{hub.label[locale]}</div>
+          <div className="mt-1 text-xs text-[#232322]/70">
+            {`${match.mode} · ${match.minutes}${walkMinSuffix(locale)}`}
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }
