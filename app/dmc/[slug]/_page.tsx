@@ -1087,6 +1087,18 @@ function FoodHubSection({
         {fh.subhead[locale]}
       </p>
 
+      {/* 오더 #C72 [1]-B: 밤리단길 전용 관광맵 진입 링크.
+         foodHub 가 있는 스팟(밤가시초가) 에서만 노출 (FoodHubSection 자체가
+         foodHub 없으면 return null). 문안·구조 무접촉, 링크만 추가. */}
+      <div className="mt-4">
+        <Link
+          href="/bamridan"
+          className="inline-flex items-center gap-1.5 rounded-full border border-[#232322] px-4 py-2 text-xs font-bold text-[#232322] transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+        >
+          밤리단길 전체 지도 보기 →
+        </Link>
+      </div>
+
       {/* FOOD 10 */}
       {fh.food.length > 0 && (
         <div className="mt-8">
