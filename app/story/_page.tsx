@@ -1,7 +1,8 @@
-// app/story/_page.tsx — 오더 #C83 [1]-B.
-// "나의 고양 스토리 (베타)" 테스트 페이지. Shell 안에 StoryClient 배치.
-// 홈 네비에 링크 추가 없음 (오더 [2] 준수 · 직접 URL 접근으로 검증).
+// app/story/_page.tsx — 오더 #D06.
+// GOYANG STORY: 사진 → 텍스트+이미지 통합 카드 (9/9 포럼 시연용).
+// Shell 안에 StoryClient. useSearchParams 위해 Suspense 로 감쌈.
 
+import { Suspense } from "react";
 import type { Metadata } from "next";
 
 import Shell from "@/components/layout/Shell";
@@ -11,9 +12,9 @@ export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
 export function getStoryMetadata(locale: PageLocale): Metadata {
   return {
-    title: "나의 고양 스토리 (베타)",
+    title: "GOYANG STORY (베타)",
     description:
-      "고양에서 찍은 사진을 스케치 화풍으로 변환해 보는 베타 기능입니다.",
+      "고양 매장에서 찍은 사진 한 장으로 스케치 이미지와 AI 스토리 카드를 만들어 봅니다.",
     alternates: {
       canonical: `/${locale}/story`,
     },
@@ -23,10 +24,12 @@ export function getStoryMetadata(locale: PageLocale): Metadata {
 
 export const metadata = getStoryMetadata("ko");
 
-export default function StoryPage({ locale = "ko" }: { locale?: PageLocale }) {
+export default function StoryPage(_props: { locale?: PageLocale }) {
   return (
     <Shell>
-      <StoryClient locale={locale} />
+      <Suspense fallback={null}>
+        <StoryClient />
+      </Suspense>
     </Shell>
   );
 }
