@@ -54,12 +54,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, url, filename, originalName: file.name, size: file.size, type: file.type });
   } catch (err) {
     console.error("Upload error:", err);
-    // 오더 #C76 [임시 디버그]: 실제 원인 확인을 위해 진짜 에러 문구를 응답에
-    // 노출. 원인 파악 후 되돌린다 (일반 사용자 노출 문구 아님).
-    return NextResponse.json(
-      { success: false, error: err instanceof Error ? err.message : String(err) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "업로드 중 오류가 발생했습니다." }, { status: 500 });
   }
 }
 
