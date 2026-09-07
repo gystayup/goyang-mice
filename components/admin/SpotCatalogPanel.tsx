@@ -72,6 +72,10 @@ export default function SpotCatalogPanel() {
   const [items, setItems] = useState<Spot[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // 오더 #C80: 세션 만료(403) 시 로그인 링크를 함께 안내하기 위한 플래그.
+  const [sessionExpired, setSessionExpired] = useState(false);
+  // 오더 #C80-C: 저장/삭제 성공 시 짧은 확인 토스트. 3초 후 자동 소멸.
+  const [toast, setToast] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
@@ -79,16 +83,48 @@ export default function SpotCatalogPanel() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // 토스트 자동 소멸
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  // 오더 #C80: fetch 응답을 방어적으로 파싱해 사용자에게 원인·조치를 명확히
+  //   전달. 403 은 로그인 만료 안내(sessionExpired 플래그), JSON 파싱 실패도
+  //   res.status 문구로 표시. 실패 시 items 는 손대지 않음(호출부는 성공 시에만
+  //   setItems 하도록 유지).
+  async function parseAdminResponse<T>(res: Response, fallbackMessage: string): Promise<T> {
+    if (res.status === 403) {
+      setSessionExpired(true);
+      throw new Error("로그인이 만료되었습니다. 다시 로그인해 주세요.");
+    }
+    let json: { success?: boolean; data?: T; error?: string } | null = null;
+    try {
+      json = (await res.json()) as { success?: boolean; data?: T; error?: string };
+    } catch {
+      throw new Error(`${fallbackMessage} (HTTP ${res.status})`);
+    }
+    if (!res.ok || !json?.success || json.data === undefined || json.data === null) {
+      throw new Error(json?.error ?? `${fallbackMessage} (HTTP ${res.status})`);
+    }
+    return json.data;
+  }
+
+  function reportError(e: unknown) {
+    setError(e instanceof Error ? e.message : String(e));
+  }
+
   async function load() {
     setLoading(true);
     setError(null);
+    setSessionExpired(false);
     try {
       const res = await fetch("/api/admin/spot-catalog", { cache: "no-store" });
-      const json = (await res.json()) as { success: boolean; data?: Spot[]; error?: string };
-      if (!json.success || !json.data) throw new Error(json.error ?? "목록을 불러오지 못했습니다.");
-      setItems(json.data);
+      const data = await parseAdminResponse<Spot[]>(res, "목록을 불러오지 못했습니다.");
+      setItems(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      reportError(e);
     } finally {
       setLoading(false);
     }
@@ -129,6 +165,8 @@ export default function SpotCatalogPanel() {
     }
     setLoading(true);
     setError(null);
+    setSessionExpired(false);
+    // 오더 #C80-B: 저장 실패 시 items 는 손대지 않는다 (성공 시에만 setItems).
     try {
       const method = edit.isNew ? "POST" : "PUT";
       const res = await fetch("/api/admin/spot-catalog", {
@@ -136,12 +174,12 @@ export default function SpotCatalogPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ item }),
       });
-      const json = (await res.json()) as { success: boolean; data?: Spot[]; error?: string };
-      if (!json.success || !json.data) throw new Error(json.error ?? "저장 실패");
-      setItems(json.data);
+      const data = await parseAdminResponse<Spot[]>(res, "저장 실패");
+      setItems(data);
       setEdit(null);
+      setToast(edit.isNew ? "저장되었습니다." : "수정되었습니다.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      reportError(e);
     } finally {
       setLoading(false);
     }
@@ -150,15 +188,19 @@ export default function SpotCatalogPanel() {
   async function handleDelete(slug: string) {
     if (!confirm(`정말 삭제하시겠습니까? (${slug})`)) return;
     setLoading(true);
+    setError(null);
+    setSessionExpired(false);
+    // 오더 #C80-A: 삭제 실패 시 items 롤백 (성공 시에만 setItems).
+    //   화면 목록에서 사라지지 않도록 optimistic UI 사용 안 함.
     try {
       const res = await fetch(`/api/admin/spot-catalog?slug=${encodeURIComponent(slug)}`, {
         method: "DELETE",
       });
-      const json = (await res.json()) as { success: boolean; data?: Spot[]; error?: string };
-      if (!json.success || !json.data) throw new Error(json.error ?? "삭제 실패");
-      setItems(json.data);
+      const data = await parseAdminResponse<Spot[]>(res, "삭제 실패");
+      setItems(data);
+      setToast("삭제되었습니다.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      reportError(e);
     } finally {
       setLoading(false);
     }
@@ -212,8 +254,27 @@ export default function SpotCatalogPanel() {
         </button>
       </div>
 
+      {/* 오더 #C80: 실패 배너 · 세션 만료 시 로그인 링크 병행 */}
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div className="flex flex-wrap items-center gap-2">
+            <span>{error}</span>
+            {sessionExpired && (
+              <a
+                href="/ko/admin/login"
+                className="rounded border border-red-400 bg-white px-2 py-0.5 text-xs font-semibold text-red-700 hover:bg-red-100"
+              >
+                다시 로그인
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+      {/* 오더 #C80-C: 저장/삭제 성공 토스트 (3초 자동 소멸) */}
+      {toast && (
+        <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+          {toast}
+        </div>
       )}
 
       <div className="flex flex-wrap items-center gap-2">
