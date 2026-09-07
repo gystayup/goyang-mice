@@ -8,25 +8,42 @@
 //
 // 규범: 판매·예약·"예약" 표현 0. 사진 없음 → 축 컬러 그라디언트 폴백. 5로케일 ko 폴백.
 
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import { DAYTRIPS_TEASER, pickHomeLocale } from "@/data/home-copy";
 import { dayTripAxes, type DayTripAxisBlock } from "@/data/day-trips";
 import { loadDayTrips } from "@/lib/day-trip-catalog-db";
+import { getCoursePhotos } from "@/lib/day-trip-photos";
 import { Link } from "@/lib/navigation";
 
 export default async function DayTripsTeaserSection({ locale }: { locale: string }) {
   const active = pickHomeLocale(locale);
   const courses = await loadDayTrips();
 
-  const featured = dayTripAxes
-    .map<{ axis: DayTripAxisBlock; course: (typeof courses)[number] | undefined }>((axis) => {
-      const inAxis = courses
-        .filter((c) => c.axis === axis.key)
-        .sort((a, b) => a.order - b.order);
-      return { axis, course: inAxis[0] };
-    })
-    .filter((x): x is { axis: DayTripAxisBlock; course: (typeof courses)[number] } => !!x.course);
+  // 오더 #C79: 각 축 첫 코스 1건씩 준비 + 카드 사진 우선순위
+  //   ① course.heroImages[0] (사장님 업로드) → ② getCoursePhotos (timeline
+  //   스팟 gallery 폴백) → ③ undefined (축 색 그라디언트 폴백 유지)
+  //   상세(C68)·목록(C73) 과 동일 우선순위.
+  const featured = await Promise.all(
+    dayTripAxes
+      .map((axis) => {
+        const inAxis = courses
+          .filter((c) => c.axis === axis.key)
+          .sort((a, b) => a.order - b.order);
+        return { axis, course: inAxis[0] as (typeof courses)[number] | undefined };
+      })
+      .filter(
+        (x): x is { axis: DayTripAxisBlock; course: (typeof courses)[number] } => !!x.course
+      )
+      .map(async ({ axis, course }) => {
+        const photo =
+          (course.heroImages && course.heroImages.length > 0
+            ? course.heroImages[0]
+            : undefined) ?? (await getCoursePhotos(course, { limit: 1 }))[0];
+        return { axis, course, photo };
+      })
+  );
 
   return (
     <section className="bg-white">
@@ -42,20 +59,42 @@ export default async function DayTripsTeaserSection({ locale }: { locale: string
         </p>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map(({ axis, course }) => (
+          {featured.map(({ axis, course, photo }) => (
             <Link
               key={axis.key}
               href={`/products/day-trips/${course.id}`}
               className="group block overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_4px_14px_rgba(16,32,58,0.06)] transition hover:border-slate-950 hover:shadow-md"
             >
               <article>
+                {/* 오더 #C79: photo 있으면 사진 + 하단 어두운 그라디언트 오버레이,
+                   없으면 기존 축 색 그라디언트 유지. 배지 pill (지역·시간) 은
+                   둘 다에서 대비 확보. */}
                 <div
-                  aria-hidden="true"
-                  className="relative aspect-[16/9] w-full"
-                  style={{
-                    background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
-                  }}
+                  aria-hidden={photo ? undefined : true}
+                  className="relative aspect-[16/9] w-full overflow-hidden"
+                  style={
+                    photo
+                      ? undefined
+                      : {
+                          background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 55%, ${axis.color}99 100%)`,
+                        }
+                  }
                 >
+                  {photo && (
+                    <>
+                      <Image
+                        src={photo}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/45 to-transparent"
+                      />
+                    </>
+                  )}
                   <div className="absolute inset-0 flex items-end justify-between p-4">
                     <span className="inline-flex items-center rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-950 sm:text-[11px]">
                       {axis.label[active]}
