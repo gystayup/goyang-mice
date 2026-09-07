@@ -182,6 +182,12 @@ export default function BamridanMap() {
           <p>핀에 마우스를 올리거나 아래 목록을 클릭하면 위치가 표시됩니다</p>
         </div>
 
+        {/* 오더 #C75 [1]-A: 모바일에서 지도가 min-width:1000px 이라 가로 스크롤
+           필요. 스크롤 가능함을 알리는 힌트를 지도 위에 노출. CSS 로 모바일
+           (<=640px) 에서만 display:block. */}
+        <div className={styles["map-scroll-hint"]} aria-hidden="true">
+          ← 좌우로 밀어 지도를 보세요 →
+        </div>
         <div className={styles["map-frame"]}>
           <div className={styles["map-inner"]} ref={mapInnerRef}>
             {tooltip && (
