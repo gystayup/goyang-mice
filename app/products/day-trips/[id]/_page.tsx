@@ -21,6 +21,7 @@ import { ArrowRight, Bus, Car, Train, Zap } from "lucide-react";
 
 import Shell from "@/components/layout/Shell";
 import DayTripStickyCta from "@/components/day-trips/DayTripStickyCta";
+import CourseIllustration from "@/components/illustrations/CourseIllustration";
 import { Link } from "@/lib/navigation";
 import { getAxisBlock, type DayTripLocale } from "@/data/day-trips";
 import type { DayTripAxis, DayTripCourse } from "@/data/day-trip-courses";
@@ -720,24 +721,23 @@ export default async function DayTripDetailPage({
           </section>
         )}
 
-        {/* ⑤ About + 좌측 라인 일러스트 — 아이보리 · 문단 단위 분리 */}
+        {/* ⑤ About + 좌측 라인 일러스트 — 아이보리 · 문단 단위 분리
+             오더 #D07: /images/illustrations/{key}.svg 파일 대신 코드 SVG 컴포넌트
+             CourseIllustration 로 교체. 17개 코스별 전용 라인 일러 (visitlondon 참고).
+             레이아웃: 좌 196px + 우 본문 2단 (md+), 모바일 1단 170px. */}
         <section className="bg-[#faf7f2]">
           <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
             <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
               {ABOUT_LABEL[locale]}
             </h2>
             <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-start">
-              {course.illustrationKey && (
-                <div className="shrink-0">
-                  <Image
-                    src={`/images/illustrations/${course.illustrationKey}.svg`}
-                    alt=""
-                    width={200}
-                    height={200}
-                    className="h-auto w-32 sm:w-40 md:w-48"
-                  />
-                </div>
-              )}
+              <div className="shrink-0">
+                <CourseIllustration
+                  courseId={course.id}
+                  className="h-auto w-[170px] md:w-[196px]"
+                  title={course.name}
+                />
+              </div>
               <div className="max-w-[680px]">
                 {introParagraphs.length > 0
                   ? introParagraphs.map((para, i) => (

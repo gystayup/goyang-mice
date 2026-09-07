@@ -185,10 +185,11 @@ const SEOUL_COURSES: DayTripCourse[] = [
         a: "쌈지길 인근 골목에 전통찻집·비빔밥·수제비 식당이 밀집합니다. 점심 시간에는 대기가 있을 수 있어 이른 편이 좋습니다.",
       },
     ],
-    illustrationKey: "illust-culture",
+    illustrationKey: "seoul-royal",
   },
   {
     id: "seoul-night",
+    illustrationKey: "seoul-night",
     axis: "seoul",
     order: 2,
     durationBadge: "4H",
@@ -207,6 +208,7 @@ const SEOUL_COURSES: DayTripCourse[] = [
   },
   {
     id: "seoul-k-youth",
+    illustrationKey: "seoul-k-youth",
     axis: "seoul",
     order: 3,
     durationBadge: "4H",
@@ -225,6 +227,7 @@ const SEOUL_COURSES: DayTripCourse[] = [
   },
   {
     id: "seoul-food-design",
+    illustrationKey: "seoul-food-design",
     axis: "seoul",
     order: 4,
     durationBadge: "4H",
@@ -243,6 +246,7 @@ const SEOUL_COURSES: DayTripCourse[] = [
   },
   {
     id: "seoul-hip",
+    illustrationKey: "seoul-hip",
     axis: "seoul",
     order: 5,
     durationBadge: "4H",
@@ -262,6 +266,7 @@ const SEOUL_COURSES: DayTripCourse[] = [
   },
   {
     id: "seoul-modern",
+    illustrationKey: "seoul-modern",
     axis: "seoul",
     order: 6,
     durationBadge: "4H",
@@ -286,6 +291,7 @@ const SEOUL_COURSES: DayTripCourse[] = [
 const PAJU_COURSES: DayTripCourse[] = [
   {
     id: "paju-dmz-peace",
+    illustrationKey: "paju-dmz-peace",
     axis: "paju",
     order: 1,
     durationBadge: "4H",
@@ -307,6 +313,7 @@ const PAJU_COURSES: DayTripCourse[] = [
   },
   {
     id: "paju-border-view",
+    illustrationKey: "paju-border-view",
     axis: "paju",
     order: 2,
     durationBadge: "4H",
@@ -326,6 +333,7 @@ const PAJU_COURSES: DayTripCourse[] = [
   },
   {
     id: "paju-art-cafe",
+    illustrationKey: "paju-art-cafe",
     axis: "paju",
     order: 3,
     durationBadge: "4H",
@@ -344,6 +352,7 @@ const PAJU_COURSES: DayTripCourse[] = [
   },
   {
     id: "paju-k-book-hangeul",
+    illustrationKey: "paju-k-book-hangeul",
     axis: "paju",
     order: 4,
     durationBadge: "4H",
@@ -363,6 +372,7 @@ const PAJU_COURSES: DayTripCourse[] = [
   },
   {
     id: "paju-lake-bridge",
+    illustrationKey: "paju-lake-bridge",
     axis: "paju",
     order: 5,
     durationBadge: "4H",
@@ -383,6 +393,7 @@ const PAJU_COURSES: DayTripCourse[] = [
   },
   {
     id: "paju-k-nature",
+    illustrationKey: "paju-k-nature",
     axis: "paju",
     order: 6,
     durationBadge: "4H",
@@ -408,6 +419,7 @@ const PAJU_COURSES: DayTripCourse[] = [
 const GYEONGGI_COURSES: DayTripCourse[] = [
   {
     id: "gyeonggi-royal-suwon",
+    illustrationKey: "gyeonggi-royal-suwon",
     axis: "gyeonggi",
     order: 1,
     durationBadge: "4H",
@@ -428,6 +440,7 @@ const GYEONGGI_COURSES: DayTripCourse[] = [
   },
   {
     id: "gyeonggi-korean-garden",
+    illustrationKey: "gyeonggi-korean-garden",
     axis: "gyeonggi",
     order: 2,
     durationBadge: "5H",
@@ -448,6 +461,7 @@ const GYEONGGI_COURSES: DayTripCourse[] = [
   },
   {
     id: "gyeonggi-living-korea",
+    illustrationKey: "gyeonggi-living-korea",
     axis: "gyeonggi",
     order: 3,
     durationBadge: "5-6H",
@@ -468,6 +482,7 @@ const GYEONGGI_COURSES: DayTripCourse[] = [
   },
   {
     id: "gyeonggi-nami-island",
+    illustrationKey: "gyeonggi-nami-island",
     axis: "gyeonggi",
     order: 4,
     durationBadge: "6H",
@@ -489,6 +504,7 @@ const GYEONGGI_COURSES: DayTripCourse[] = [
   },
   {
     id: "gyeonggi-everland",
+    illustrationKey: "gyeonggi-everland",
     axis: "gyeonggi",
     order: 5,
     durationBadge: "8H",
