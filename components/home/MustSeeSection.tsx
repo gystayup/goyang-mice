@@ -1,13 +1,14 @@
 // components/home/MustSeeSection.tsx — 오더 #C14b Must-see 4카드 · #C19 사진 폴백.
 //
-// 사장님 확정 4곳:
+// 사장님 확정 5곳:
 //   1) seooreung           — history · UNESCO 스탬프 · gallery 6장
 //   2) ilsan-lake-park     — walk · (스탬프 없음, 앵커성 강) · 사장님 수동 사진 3장
 //   3) kintex              — culture · GTX 스탬프 · 사진 없음 → hero-culture.jpg 폴백
 //   4) starfield-goyang    — shopping · (스탬프 없음) · 사진 없음 → hero-shopping.jpg 폴백
+//   5) seosamneung         — history · UNESCO 스탬프 · gallery (오더 #C78 추가)
 //
-// 오더 #C74 추가: 5번째 카드 = 밤리단길 (커스텀 · /bamridan 링크).
-//   5개가 되어 자동회전 캐러셀로 전환. 카드 데이터는 서버에서 조립하고
+// 오더 #C74 추가: 6번째 카드 = 밤리단길 (커스텀 · /bamridan 링크).
+//   6개가 되어 자동회전 캐러셀로 전환. 카드 데이터는 서버에서 조립하고
 //   client 캐러셀 (MustSeeCarousel) 에 props 전달.
 //
 // 데이터 · 폴백 순서 (오더 #C19):
@@ -37,6 +38,8 @@ const MUST_SEE_SLUGS = [
   "ilsan-lake-park",
   "kintex",
   "starfield-goyang",
+  // 오더 #C78: 서삼릉 추가. stampForSlug 가 이미 seosamneung → UNESCO 매핑.
+  "seosamneung",
 ] as const;
 
 /**

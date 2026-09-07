@@ -121,12 +121,13 @@ export const HERO_DISCOVER = {
 // ─── Must-see Section ────────────────────────────────────────────────────
 export const MUST_SEE = {
   eyebrow: "MUST-SEE IN GOYANG", // 5로케일 공통 영문 브랜드 라벨
+  // 오더 #C78: 5 스팟 + 밤리단길(#C74) = 6곳. 헤드라인 숫자 정합.
   headline: {
-    ko: "고양에서 반드시 봐야 할 4곳",
-    en: "Four essential stops in Goyang",
-    ja: "高陽で必ず見るべき4か所",
-    "zh-CN": "高阳必访 4 处",
-    "zh-TW": "高陽必訪 4 處",
+    ko: "고양에서 반드시 봐야 할 6곳",
+    en: "Six essential stops in Goyang",
+    ja: "高陽で必ず見るべき6か所",
+    "zh-CN": "高阳必访 6 处",
+    "zh-TW": "高陽必訪 6 處",
   } as HomeI18n,
 };
 
