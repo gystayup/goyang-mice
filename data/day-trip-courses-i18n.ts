@@ -569,7 +569,7 @@ const seoulModern: PerLocale = {
 const pajuDmzPeace: PerLocale = {
   en: {
     name: "DMZ PEACE — Imjingak, Peace Nuri, Peace Gondola",
-    hook: 'Stay in Goyang, and see the DMZ in half a day.\n> Copy: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    hook: "Stay in Goyang. Visit the DMZ in Half a Day.",
     intro:
       "Start at Peace Nuri Park in Imjingak and cross the Civilian Control Line by the Peace Gondola toward Camp Greaves.\nThis is Paju's most irreplaceable experience — the Korean War, division, and the border still in effect are all understood in one place. The gondola ride crosses the Civilian Control Line, so a security declaration is required — carry your passport and leave time to spare.",
     stops: [
@@ -585,7 +585,7 @@ const pajuDmzPeace: PerLocale = {
   },
   ja: {
     name: "DMZ PEACE — 臨津閣・平和ヌリ・平和ゴンドラ",
-    hook: '高陽に滞在しながら、半日でDMZを見る。\n> 英文コピー: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    hook: "高陽に滞在しながら、半日でDMZを見る。",
     intro:
       "臨津閣（イムジンガク）平和ヌリから出発し、民間人統制区域を横切る平和ゴンドラに乗ってキャンプ・グリーブス方面へ渡るコースです。\n朝鮮戦争と分断、そして現在も続く境界を一か所で理解でき、坡州（パジュ）で最も代替不可能な体験です。\nゴンドラ乗車は民統線立ち入りに該当し、保安誓約手続きが必要です。パスポートを必ず持参し、時間に余裕を持って訪問してください。",
     stops: [
@@ -601,7 +601,7 @@ const pajuDmzPeace: PerLocale = {
   },
   "zh-CN": {
     name: "DMZ PEACE — 临津阁·和平世界·和平缆车",
-    hook: '在高阳过夜，半天时间看DMZ。\n> 英文文案: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    hook: "在高阳过夜，半天时间看DMZ。",
     intro:
       "从临津阁（Imjingak）和平世界公园出发，搭乘横跨民间人统制区的和平缆车前往 Camp Greaves 方向。\n朝鲜战争、分断以及至今仍在的边界，都能在同一处理解，是坡州最不可替代的体验。\n缆车属于民统线进入范围，需办理安保申报，请务必携带护照并预留充裕时间。",
     stops: [
@@ -617,7 +617,7 @@ const pajuDmzPeace: PerLocale = {
   },
   "zh-TW": {
     name: "DMZ PEACE — 臨津閣·和平世界·和平纜車",
-    hook: '在高陽過夜，半天時間看DMZ。\n> 英文文案: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    hook: "在高陽過夜，半天時間看DMZ。",
     intro:
       "從臨津閣（Imjingak）和平世界公園出發，搭乘橫跨民間人統制區的和平纜車前往 Camp Greaves 方向。\n朝鮮戰爭、分斷以及至今仍在的邊界，都能在同一處理解，是坡州最不可替代的體驗。\n纜車屬於民統線進入範圍，需辦理安保申報，請務必攜帶護照並預留充裕時間。",
     stops: [
