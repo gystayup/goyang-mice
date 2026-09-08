@@ -382,11 +382,12 @@ export default async function DayTripDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 히어로 밴드 — 오더 #D12 [1]: 모바일 220px · 데스크톱 340px 로 복원.
+        {/* ① 히어로 밴드 — 오더 #D17: 모바일 260px · 데스크톱 440px 로 확대
+            (D12 220/340 → 피사체 상단 잘림 · 명동성당 첨탑/광화문 상단 온전화).
             2:1 분할(좌 대표사진 / 우 보조사진) · object-cover / object-position center 유지.
             제목·breadcrumb·배지는 아래 흰 헤더 (D09 유지). */}
         <section className="w-full">
-          <div className="mx-auto grid h-[220px] max-w-[1200px] grid-cols-3 overflow-hidden lg:h-[340px]">
+          <div className="mx-auto grid h-[260px] max-w-[1200px] grid-cols-3 overflow-hidden lg:h-[440px]">
             {hasHero ? (
               <>
                 <div className="relative col-span-2 overflow-hidden bg-slate-100">
