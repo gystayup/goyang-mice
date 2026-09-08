@@ -564,7 +564,375 @@ const seoulModern: PerLocale = {
   },
 };
 
-/** id → 로케일별 번역. 파주 6 · 경기 5 는 후속 오더에서 확장. */
+// ─── 파주 축 6개 번역 (오더 #D25-P) ────────────────────────────────────────
+
+const pajuDmzPeace: PerLocale = {
+  en: {
+    name: "DMZ PEACE — Imjingak, Peace Nuri, Peace Gondola",
+    hook: 'Stay in Goyang, and see the DMZ in half a day.\n> Copy: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    intro:
+      "Start at Peace Nuri Park in Imjingak and cross the Civilian Control Line by the Peace Gondola toward Camp Greaves.\nThis is Paju's most irreplaceable experience — the Korean War, division, and the border still in effect are all understood in one place. The gondola ride crosses the Civilian Control Line, so a security declaration is required — carry your passport and leave time to spare.",
+    stops: [
+      { name: "Imjingak", note: "The Freedom Bridge and the Mangbaedan altar. The symbols of division gathered in one spot." },
+      { name: "Peace Gondola", note: "Korea's first gondola across the Civilian Control Line. Security declaration and ID required." },
+      { name: "Peace Nuri Park", note: "A pinwheel-covered hillside. A good stroll before or after the gondola." },
+    ],
+    transport:
+      "Car — via Jayu-ro toward Munsan · about 45 min\nRail — Gyeongui-Jungang Line Daegok Stn. → Munsan Stn. (about 35 min) → transfer to Imjingang Stn. (+ about 8 min)",
+    duration: "About 45 min one way / About 2–2.5 hr on site",
+    recommendedTime: "09:00 – 13:00",
+    note: "* To verify — check the Imjingang Stn. train schedule and gondola operating hours before visiting.",
+  },
+  ja: {
+    name: "DMZ PEACE — 臨津閣・平和ヌリ・平和ゴンドラ",
+    hook: '高陽に滞在しながら、半日でDMZを見る。\n> 英文コピー: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    intro:
+      "臨津閣（イムジンガク）平和ヌリから出発し、民間人統制区域を横切る平和ゴンドラに乗ってキャンプ・グリーブス方面へ渡るコースです。\n朝鮮戦争と分断、そして現在も続く境界を一か所で理解でき、坡州（パジュ）で最も代替不可能な体験です。\nゴンドラ乗車は民統線立ち入りに該当し、保安誓約手続きが必要です。パスポートを必ず持参し、時間に余裕を持って訪問してください。",
+    stops: [
+      { name: "臨津閣 (Imjingak)", note: "自由の橋と望拝壇。分断の象徴が集まる地点です。" },
+      { name: "平和ゴンドラ", note: "民統線を横切る韓国初のゴンドラ。保安誓約と身分証必須。" },
+      { name: "平和ヌリ公園", note: "丘の上の風車の丘。ゴンドラ前後の散策区間に最適です。" },
+    ],
+    transport:
+      "車 — 自由路 文山（ムンサン）方面 約45分\n鉄道 — 京義中央線 大谷駅 → 文山駅（約35分）→ 臨津江駅 乗換（+約8分）",
+    duration: "片道 約45分 / 滞在 約2〜2.5時間",
+    recommendedTime: "09:00 〜 13:00",
+    note: "※ 要確認 — 臨津江駅の運行本数・ゴンドラの運営時間は訪問前に公式案内をご確認ください。",
+  },
+  "zh-CN": {
+    name: "DMZ PEACE — 临津阁·和平世界·和平缆车",
+    hook: '在高阳过夜，半天时间看DMZ。\n> 英文文案: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    intro:
+      "从临津阁（Imjingak）和平世界公园出发，搭乘横跨民间人统制区的和平缆车前往 Camp Greaves 方向。\n朝鲜战争、分断以及至今仍在的边界，都能在同一处理解，是坡州最不可替代的体验。\n缆车属于民统线进入范围，需办理安保申报，请务必携带护照并预留充裕时间。",
+    stops: [
+      { name: "临津阁 (Imjingak)", note: "自由桥与望拜坛。分断的象征汇集于此。" },
+      { name: "和平缆车", note: "韩国首条横跨民统线的缆车。需办理安保申报并出示身份证件。" },
+      { name: "和平世界公园", note: "山丘上的风车之丘。缆车前后适合散步。" },
+    ],
+    transport:
+      "自驾 — 沿自由路往文山方向约45分钟\n铁路 — 京义中央线 大谷站 → 文山站（约35分钟）→ 换乘临津江站（+约8分钟）",
+    duration: "单程约45分钟 / 停留约2–2.5小时",
+    recommendedTime: "09:00 – 13:00",
+    note: "※ 需再确认 — 临津江站班次与缆车运营时间请在出发前于官方公告确认。",
+  },
+  "zh-TW": {
+    name: "DMZ PEACE — 臨津閣·和平世界·和平纜車",
+    hook: '在高陽過夜，半天時間看DMZ。\n> 英文文案: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    intro:
+      "從臨津閣（Imjingak）和平世界公園出發，搭乘橫跨民間人統制區的和平纜車前往 Camp Greaves 方向。\n朝鮮戰爭、分斷以及至今仍在的邊界，都能在同一處理解，是坡州最不可替代的體驗。\n纜車屬於民統線進入範圍，需辦理安保申報，請務必攜帶護照並預留充裕時間。",
+    stops: [
+      { name: "臨津閣 (Imjingak)", note: "自由橋與望拜壇。分斷的象徵匯集於此。" },
+      { name: "和平纜車", note: "韓國首條橫跨民統線的纜車。需辦理安保申報並出示身分證件。" },
+      { name: "和平世界公園", note: "山丘上的風車之丘。纜車前後適合散步。" },
+    ],
+    transport:
+      "自駕 — 沿自由路往文山方向約45分鐘\n鐵路 — 京義中央線 大谷站 → 文山站（約35分鐘）→ 轉乘臨津江站（+約8分鐘）",
+    duration: "單程約45分鐘 / 停留約2–2.5小時",
+    recommendedTime: "09:00 – 13:00",
+    note: "※ 需再確認 — 臨津江站班次與纜車運營時間請在出發前於官方公告確認。",
+  },
+};
+
+const pajuBorderView: PerLocale = {
+  en: {
+    name: "BORDER VIEW — Odusan Unification Observatory, Heyri Art Village",
+    hook: "Look toward the North, then 20 minutes later you arrive in an art village.",
+    intro:
+      "View the northern side from Odusan Unification Observatory, sitting where the Han and Imjin rivers meet, then drive about 20 minutes to Heyri Art Village.\nThe pivot from a divided Korea to an artistic Korea is the point of this course. The observatory closes early in the afternoon, so a morning-to-early-afternoon slot fits best.\nAfter DMZ, this is the next course to recommend to foreign VIP or MICE guests.",
+    stops: [
+      { name: "Odusan Unification Observatory", note: "The two-river confluence and views toward the North. Telescopes installed." },
+      { name: "Heyri Art Village", note: "A settlement village of artists — galleries, museums, book houses, and cafés." },
+    ],
+    transport: "Car — via Jayu-ro toward Seongdong IC. About 25–30 min from Goyang.",
+    duration: "About 25–30 min one way / About 2–2.5 hr on site",
+    recommendedTime: "10:00 – 14:00",
+    note: "* Hours — the observatory is generally 09:00–17:00. Verify before visiting.",
+  },
+  ja: {
+    name: "BORDER VIEW — 烏頭山統一展望台・ヘイリ芸術村",
+    hook: "北を眺めた20分後、芸術村に到着する。",
+    intro:
+      "漢江と臨津江が合流する地点にある烏頭山（オドゥサン）統一展望台から北朝鮮方面を眺望し、車で20分ほど移動してヘイリ芸術村へと渡るコースです。\n分断の韓国から芸術の韓国へと移り変わる転換が、このコースの核心です。展望台は午後遅くに閉館するため、午前〜早い午後の商品として組むのが適切です。\n外国人VIP・MICE参加者にはDMZの次に勧められます。",
+    stops: [
+      { name: "烏頭山統一展望台", note: "二つの川が合流する地形と北朝鮮方面の眺望。望遠鏡設置。" },
+      { name: "ヘイリ芸術村", note: "ギャラリー・博物館・ブックハウス・カフェが混在する芸術家定住の村。" },
+    ],
+    transport: "車 — 自由路 城東IC方面。高陽基準で約25〜30分",
+    duration: "片道 約25〜30分 / 滞在 約2〜2.5時間",
+    recommendedTime: "10:00 〜 14:00",
+    note: "※ 運営時間 — 展望台は概ね09:00〜17:00。訪問前にご確認ください。",
+  },
+  "zh-CN": {
+    name: "BORDER VIEW — 乌头山统一展望台·坡州出版城艺术村",
+    hook: "眺望朝鲜之后20分钟，抵达艺术村。",
+    intro:
+      "位于汉江与临津江交汇处的乌头山统一展望台可眺望朝鲜方向，车程约20分钟即可抵达坡州出版城艺术村（Heyri）。\n从「分断的韩国」到「艺术的韩国」的转换正是这条路线的核心。展望台在下午稍晚就闭馆，最适合安排为上午到早下午的行程。\n对外国VIP·MICE与会者，推荐指数仅次于DMZ路线。",
+    stops: [
+      { name: "乌头山统一展望台", note: "两江汇流的地形与朝鲜方向的眺望。设有望远镜。" },
+      { name: "坡州出版城艺术村 (Heyri)", note: "艺术家聚居的村落。汇集画廊、博物馆、书屋与咖啡馆。" },
+    ],
+    transport: "自驾 — 沿自由路往城东IC方向。距高阳约25–30分钟。",
+    duration: "单程约25–30分钟 / 停留约2–2.5小时",
+    recommendedTime: "10:00 – 14:00",
+    note: "※ 运营时间 — 展望台一般为09:00–17:00。请出发前确认。",
+  },
+  "zh-TW": {
+    name: "BORDER VIEW — 烏頭山統一展望台·坡州出版城藝術村",
+    hook: "眺望朝鮮之後20分鐘，抵達藝術村。",
+    intro:
+      "位於漢江與臨津江匯流處的烏頭山統一展望台可眺望朝鮮方向，車程約20分鐘即可抵達坡州出版城藝術村（Heyri）。\n從「分斷的韓國」到「藝術的韓國」的轉換正是這條路線的核心。展望台在下午稍晚就閉館，最適合安排為上午到早下午的行程。\n對外國VIP·MICE與會者，推薦指數僅次於DMZ路線。",
+    stops: [
+      { name: "烏頭山統一展望台", note: "兩江匯流的地形與朝鮮方向的眺望。設有望遠鏡。" },
+      { name: "坡州出版城藝術村 (Heyri)", note: "藝術家聚居的村落。匯集畫廊、博物館、書屋與咖啡館。" },
+    ],
+    transport: "自駕 — 沿自由路往城東IC方向。距高陽約25–30分鐘。",
+    duration: "單程約25–30分鐘 / 停留約2–2.5小時",
+    recommendedTime: "10:00 – 14:00",
+    note: "※ 營運時間 — 展望台一般為09:00–17:00。請出發前確認。",
+  },
+};
+
+const pajuArtCafe: PerLocale = {
+  en: {
+    name: "ART & CAFÉ — Heyri Art Village, Provence Village",
+    hook: "Start the day in the art village, end it in the village that lights up.",
+    intro:
+      "Look through galleries and architecture in Heyri, then move on to Provence Village.\nHeyri is not a shopping strip but a village where more than 300 artists actually live — studios, museums, and book cafés are mixed together, giving you plenty to talk about. Provence photographs best after the evening lights come on, so a late-afternoon start is better.\nA combination that lands well with younger travelers, couples, and families.",
+    stops: [
+      { name: "Heyri Art Village", note: "Most galleries open at 11:00. Many close on Mondays." },
+      { name: "Provence Village", note: "A cluster of south-French-style shops and restaurants. Evening lighting is the point." },
+    ],
+    transport: "Car — via Jayu-ro toward Seongdong IC. About 25–30 min from Goyang (the two sites are adjacent).",
+    duration: "About 25–30 min one way / About 2.5 hr on site",
+    recommendedTime: "15:00 – 19:00",
+  },
+  ja: {
+    name: "ART & CAFÉ — ヘイリ芸術村・プロヴァンス村",
+    hook: "芸術村で一日を始め、灯りがともる村で締めくくる。",
+    intro:
+      "ヘイリでギャラリーと建築を巡った後、プロヴァンス村に移動するコースです。\nヘイリはショッピング街ではなく、300人余りのアーティストが実際に暮らす村で、アトリエ・博物館・ブックカフェが混在し、語れる要素が豊富です。プロヴァンスは夕方の照明がついた後に写真が最も映えるため、遅めの午後出発が有利です。\n若い旅行者・カップル・ファミリーに反応の良い組み合わせです。",
+    stops: [
+      { name: "ヘイリ芸術村", note: "ギャラリーの多くは午前11時開館、月曜休館が多いです。" },
+      { name: "プロヴァンス村", note: "南仏風の店舗・レストランが集まる複合施設。夜間照明がポイント。" },
+    ],
+    transport: "車 — 自由路 城東IC方面。高陽基準で約25〜30分（両者は隣接）",
+    duration: "片道 約25〜30分 / 滞在 約2.5時間",
+    recommendedTime: "15:00 〜 19:00",
+  },
+  "zh-CN": {
+    name: "ART & CAFÉ — 坡州出版城艺术村·普罗旺斯村",
+    hook: "在艺术村开启一天，在灯火亮起的村庄收尾。",
+    intro:
+      "在艺术村欣赏画廊与建筑之后，移动至普罗旺斯村。\n此艺术村并非购物街，而是300多位艺术家实际居住的村庄，工作室、博物馆、书店咖啡交织，可谈之处极多。普罗旺斯村在傍晚亮灯后拍照效果最佳，因此建议下午稍晚出发。\n对年轻旅客、情侣与家庭反响良好。",
+    stops: [
+      { name: "坡州出版城艺术村 (Heyri)", note: "大多数画廊上午11点开馆，周一休馆居多。" },
+      { name: "普罗旺斯村", note: "汇集南法风格商店与餐厅的复合园区。夜间灯光是重点。" },
+    ],
+    transport: "自驾 — 沿自由路往城东IC方向。距高阳约25–30分钟（两处相邻）",
+    duration: "单程约25–30分钟 / 停留约2.5小时",
+    recommendedTime: "15:00 – 19:00",
+  },
+  "zh-TW": {
+    name: "ART & CAFÉ — 坡州出版城藝術村·普羅旺斯村",
+    hook: "在藝術村開啟一天，在燈火亮起的村莊收尾。",
+    intro:
+      "在藝術村欣賞畫廊與建築之後，移動至普羅旺斯村。\n此藝術村並非購物街，而是300多位藝術家實際居住的村莊，工作室、博物館、書店咖啡交織，可談之處極多。普羅旺斯村在傍晚亮燈後拍照效果最佳，因此建議下午稍晚出發。\n對年輕旅客、情侶與家庭反響良好。",
+    stops: [
+      { name: "坡州出版城藝術村 (Heyri)", note: "大多數畫廊上午11點開館，週一休館居多。" },
+      { name: "普羅旺斯村", note: "匯集南法風格商店與餐廳的複合園區。夜間燈光是重點。" },
+    ],
+    transport: "自駕 — 沿自由路往城東IC方向。距高陽約25–30分鐘（兩處相鄰）",
+    duration: "單程約25–30分鐘 / 停留約2.5小時",
+    recommendedTime: "15:00 – 19:00",
+  },
+};
+
+const pajuKBookHangeul: PerLocale = {
+  en: {
+    name: "K-BOOK & HANGEUL — Paju Book City, Forest of Wisdom",
+    hook: "A whole city made of publishing houses — rare, even in the world.",
+    intro:
+      "Walk Paju Book City, where publishers, printers, binderies, bookshops, and book cafés are gathered in a single complex, and finish at the Forest of Wisdom, a large open bookshelf.\nEach building was designed with intent, so this also works as an architecture trip. The Forest of Wisdom has appeared in many music videos and dramas.\nFor foreign visitors, explain it not as a \"library\" but as **K-BOOK · Hangeul · architecture · K-drama** — that combination communicates the value.",
+    stops: [
+      { name: "Paju Book City", note: "A publishing and printing complex that is also a collection of contemporary architecture. Open on weekdays." },
+      { name: "Forest of Wisdom", note: "A large open bookshelf. Free entry — check quiet-zone signs when taking photos." },
+      { name: "Movable-type and printing workshop", note: "Museums and workshops in the complex run hands-on programs (advance check required)." },
+    ],
+    transport: "Car — via Jayu-ro toward Munsan. About 15–20 min from Goyang.",
+    duration: "About 15–20 min one way / About 2.5 hr on site",
+    recommendedTime: "10:00 – 14:00 or 14:00 – 18:00",
+  },
+  ja: {
+    name: "K-BOOK & HANGEUL — 坡州出版都市・知恵の森",
+    hook: "都市全体が出版社でできている。世界的にも珍しい場所です。",
+    intro:
+      "出版社・印刷所・製本所・書店・ブックカフェが一つの団地に集まる坡州（パジュ）出版都市を歩き、大型開放書架「知恵の森」で締めくくるコースです。\n建物一つ一つが設計意図を持つ団地で、建築旅行としても成立します。知恵の森はミュージックビデオやドラマの撮影地として何度も紹介されている場所でもあります。\n外国人には「図書館」ではなく **K-BOOK・ハングル・建築・K-ドラマ** としてまとめて説明すると価値が伝わります。",
+    stops: [
+      { name: "坡州出版都市 (Paju Book City)", note: "出版・印刷団地であり現代建築の集合。平日も開放されています。" },
+      { name: "知恵の森 (Forest of Wisdom)", note: "大型開放書架。閲覧無料、写真撮影時は静穏区域の表示をご確認ください。" },
+      { name: "活字・印刷体験", note: "団地内の博物館・工房で体験プログラムを運営（事前確認要）。" },
+    ],
+    transport: "車 — 自由路 文山方面。高陽基準で約15〜20分",
+    duration: "片道 約15〜20分 / 滞在 約2.5時間",
+    recommendedTime: "10:00 〜 14:00 または 14:00 〜 18:00",
+  },
+  "zh-CN": {
+    name: "K-BOOK & HANGEUL — 坡州出版城·智慧之林",
+    hook: "一整座城市都由出版社构成。放眼世界也极为罕见。",
+    intro:
+      "在集出版社、印刷厂、装订厂、书店与书籍咖啡于一园的坡州出版城散步，并以大型开放式书架「智慧之林」收尾。\n每栋建筑都带有明确的设计意图，作为建筑之旅同样成立。智慧之林亦多次出现在音乐录影带与电视剧中。\n对外国旅客而言，不要以「图书馆」介绍，而应结合 **K-BOOK · 韩文 · 建筑 · 韩剧** 一并说明，方能传达价值。",
+    stops: [
+      { name: "坡州出版城 (Paju Book City)", note: "出版·印刷园区，同时是现代建筑的集合。工作日亦对外开放。" },
+      { name: "智慧之林 (Forest of Wisdom)", note: "大型开放式书架。免费阅览，摄影时请注意静音区域标示。" },
+      { name: "活字·印刷体验", note: "园区内的博物馆与工坊设有体验课程（须事前确认）。" },
+    ],
+    transport: "自驾 — 沿自由路往文山方向。距高阳约15–20分钟",
+    duration: "单程约15–20分钟 / 停留约2.5小时",
+    recommendedTime: "10:00 – 14:00 或 14:00 – 18:00",
+  },
+  "zh-TW": {
+    name: "K-BOOK & HANGEUL — 坡州出版都市·智慧之林",
+    hook: "整座城市都由出版社構成。放眼世界也極為罕見。",
+    intro:
+      "在集出版社、印刷廠、裝訂廠、書店與書籍咖啡於一園的坡州出版都市散步，並以大型開放式書架「智慧之林」收尾。\n每棟建築都帶有明確的設計意圖，作為建築之旅同樣成立。智慧之林亦多次出現在音樂錄影帶與電視劇中。\n對外國旅客而言，不要以「圖書館」介紹，而應結合 **K-BOOK · 韓文 · 建築 · 韓劇** 一併說明，方能傳達價值。",
+    stops: [
+      { name: "坡州出版都市 (Paju Book City)", note: "出版·印刷園區，同時是現代建築的集合。平日亦對外開放。" },
+      { name: "智慧之林 (Forest of Wisdom)", note: "大型開放式書架。免費閱覽，攝影時請注意靜音區域標示。" },
+      { name: "活字·印刷體驗", note: "園區內的博物館與工坊設有體驗課程（須事前確認）。" },
+    ],
+    transport: "自駕 — 沿自由路往文山方向。距高陽約15–20分鐘",
+    duration: "單程約15–20分鐘 / 停留約2.5小時",
+    recommendedTime: "10:00 – 14:00 或 14:00 – 18:00",
+  },
+};
+
+const pajuLakeBridge: PerLocale = {
+  en: {
+    name: "LAKE & BRIDGE — Majang Lake Suspension Bridge",
+    hook: "No mountain climb — walk across the water instead.",
+    intro:
+      "Cross the suspension bridge over Majang Lake and loop the lakeside walking trail.\nWith no climbing involved, this suits families and older travelers, and the view from the bridge photographs well. As the surest nature alternative to offer visitors less interested in the DMZ or modern history.",
+    stops: [
+      { name: "Majang Lake Suspension Bridge", note: "A suspension bridge across the lake. The sway is part of the appeal — kids love it." },
+      { name: "Lakeside walking trail", note: "A single deck loop. A flat, easy course." },
+      { name: "Lakeview café", note: "A finishing point after the walk." },
+    ],
+    transport: "Car only — about the 40-min range from Goyang.",
+    duration: "About the 40-min range one way / About 2 hr on site",
+    recommendedTime: "11:00 – 15:00",
+    note: "Hours: Mar–Oct 09:00–18:00 / Nov–Feb 09:00–17:00\n* To verify — actual drive time from Goyang.",
+  },
+  ja: {
+    name: "LAKE & BRIDGE — マジャン湖 吊り橋",
+    hook: "山に登らず、湖の上を歩く。",
+    intro:
+      "湖を横切る吊り橋を渡り、湖畔の散策路を巡るコースです。\n登山の負担がなくファミリー・シニア層に向いており、橋上から見る湖の景色は写真にもよく残ります。DMZや近現代史への関心が薄い方に提示できる自然型の代替として最も確実な選択です。",
+    stops: [
+      { name: "マジャン湖 吊り橋", note: "湖を横切る吊り橋。揺れがあり、子どもに人気です。" },
+      { name: "湖畔散策路", note: "デッキ道を一周。無理のない平坦なコースです。" },
+      { name: "湖ビューカフェ", note: "散策後の締めくくり地点。" },
+    ],
+    transport: "車専用 — 高陽基準で40分台",
+    duration: "片道 約40分台 / 滞在 約2時間",
+    recommendedTime: "11:00 〜 15:00",
+    note: "運営時間: 3〜10月 09:00〜18:00 / 11〜2月 09:00〜17:00\n※ 要確認 — 高陽出発の実走行時間。",
+  },
+  "zh-CN": {
+    name: "LAKE & BRIDGE — 马场湖悬索桥",
+    hook: "不必登山，直接走在湖面上。",
+    intro:
+      "跨越湖面的悬索桥，再绕行湖畔散步道一圈。\n没有登山负担，适合家庭与年长旅客，桥上俯瞰湖景也很上镜。作为对DMZ与近现代史兴趣较低的旅客的自然型替代方案，是最稳妥的选择。",
+    stops: [
+      { name: "马场湖悬索桥", note: "横跨湖面的悬索桥。桥面摇晃，孩子们特别喜欢。" },
+      { name: "湖畔散步道", note: "木栈道一圈。平坦轻松的散步路线。" },
+      { name: "湖景咖啡", note: "散步后的收尾之处。" },
+    ],
+    transport: "自驾 — 距高阳约40分钟出头",
+    duration: "单程约40分钟出头 / 停留约2小时",
+    recommendedTime: "11:00 – 15:00",
+    note: "运营时间：3–10月 09:00–18:00 / 11–2月 09:00–17:00\n※ 需再确认 — 高阳出发的实际车程。",
+  },
+  "zh-TW": {
+    name: "LAKE & BRIDGE — 馬場湖懸索橋",
+    hook: "不必登山，直接走在湖面上。",
+    intro:
+      "跨越湖面的懸索橋，再繞行湖畔散步道一圈。\n沒有登山負擔，適合家庭與年長旅客，橋上俯瞰湖景也很上鏡。作為對DMZ與近現代史興趣較低的旅客的自然型替代方案，是最穩妥的選擇。",
+    stops: [
+      { name: "馬場湖懸索橋", note: "橫跨湖面的懸索橋。橋面搖晃，孩子們特別喜歡。" },
+      { name: "湖畔散步道", note: "木棧道一圈。平坦輕鬆的散步路線。" },
+      { name: "湖景咖啡", note: "散步後的收尾之處。" },
+    ],
+    transport: "自駕 — 距高陽約40分鐘出頭",
+    duration: "單程約40分鐘出頭 / 停留約2小時",
+    recommendedTime: "11:00 – 15:00",
+    note: "營運時間：3–10月 09:00–18:00 / 11–2月 09:00–17:00\n※ 需再確認 — 高陽出發的實際車程。",
+  },
+};
+
+const pajuKNature: PerLocale = {
+  en: {
+    name: "K-NATURE ADVENTURE — Gamaksan Suspension Bridge",
+    hook: "150 meters above a ravine — the Korea the mountains give you.",
+    intro:
+      "Cross the Gamaksan suspension bridge and walk the forest path and stream up to a viewpoint.\nThis lands well with active European and North American travelers who want an outdoor day.\nBecause travel takes a large share of the four hours, run this **only as a car-only product**. Sending it out with public-transit guidance causes trouble on the ground.",
+    stops: [
+      { name: "Gamaksan Suspension Bridge", note: "A suspension bridge over a ravine. There is a bypass for anyone uneasy with heights." },
+      { name: "Forest trail and stream", note: "A gentle walking section past the bridge." },
+      { name: "Viewpoint", note: "Views over the northern Paju ridgelines." },
+    ],
+    transport: "Car only — about 1 hr from Goyang.",
+    duration: "About 1 hr one way / About 2 hr on site",
+    recommendedTime: "10:00 – 14:00",
+    note: "* To verify — actual drive time from Goyang; winter closures if any.",
+  },
+  ja: {
+    name: "K-NATURE ADVENTURE — 紺岳山（カムアクサン）吊り橋",
+    hook: "渓谷の上150メートル、山が与える韓国。",
+    intro:
+      "紺岳山（カムアクサン）の吊り橋を渡り、森の道と渓谷を辿って眺望地点まで歩くコースです。\nアクティブな旅行を求めるヨーロッパ・北米の方に反応が良いです。\nただし4時間のうち移動比率が大きいため、**車専用商品**としてのみ運用する必要があります。公共交通案内で出すと現場で問題が生じます。",
+    stops: [
+      { name: "紺岳山 吊り橋", note: "渓谷を横切る吊り橋。高所恐怖症の方は迂回路を利用。" },
+      { name: "森の道・渓谷", note: "橋の先に緩やかな散策区間。" },
+      { name: "眺望地点", note: "坡州北部の稜線を望みます。" },
+    ],
+    transport: "車専用 — 高陽基準で約1時間前後",
+    duration: "片道 約1時間 / 滞在 約2時間",
+    recommendedTime: "10:00 〜 14:00",
+    note: "※ 要確認 — 高陽出発の実走行時間、冬季通行止めの有無。",
+  },
+  "zh-CN": {
+    name: "K-NATURE ADVENTURE — 绀岳山悬索桥",
+    hook: "山谷之上150米，山所馈赠的韩国。",
+    intro:
+      "跨越绀岳山悬索桥，沿森林与溪谷步道走到观景点。\n对追求户外体验的欧美旅客反应良好。\n但4小时中移动比重较大，必须仅以**自驾专用产品**运营。用公共交通指南发送会在现场产生问题。",
+    stops: [
+      { name: "绀岳山悬索桥", note: "横跨溪谷的悬索桥。有高空恐惧者可走绕行路。" },
+      { name: "森林步道·溪谷", note: "过桥后是缓坡的散步段。" },
+      { name: "观景点", note: "眺望坡州北部的稜线。" },
+    ],
+    transport: "自驾 — 距高阳约1小时左右",
+    duration: "单程约1小时 / 停留约2小时",
+    recommendedTime: "10:00 – 14:00",
+    note: "※ 需再确认 — 高阳出发的实际车程、冬季是否封闭。",
+  },
+  "zh-TW": {
+    name: "K-NATURE ADVENTURE — 紺岳山懸索橋",
+    hook: "山谷之上150公尺，山所饋贈的韓國。",
+    intro:
+      "跨越紺岳山懸索橋，沿森林與溪谷步道走到觀景點。\n對追求戶外體驗的歐美旅客反應良好。\n但4小時中移動比重較大，必須僅以**自駕專用產品**營運。用公共交通指南發送會在現場產生問題。",
+    stops: [
+      { name: "紺岳山懸索橋", note: "橫跨溪谷的懸索橋。有懼高症者可走繞行路。" },
+      { name: "森林步道·溪谷", note: "過橋後是緩坡的散步段。" },
+      { name: "觀景點", note: "眺望坡州北部的稜線。" },
+    ],
+    transport: "自駕 — 距高陽約1小時左右",
+    duration: "單程約1小時 / 停留約2小時",
+    recommendedTime: "10:00 – 14:00",
+    note: "※ 需再確認 — 高陽出發的實際車程、冬季是否封閉。",
+  },
+};
+
+/** id → 로케일별 번역. 경기 5 는 후속 D25-G 오더에서 확장. */
 export const dayTripTranslations: Record<string, PerLocale> = {
   "seoul-royal": seoulRoyal,
   "seoul-night": seoulNight,
@@ -572,6 +940,12 @@ export const dayTripTranslations: Record<string, PerLocale> = {
   "seoul-food-design": seoulFoodDesign,
   "seoul-hip": seoulHip,
   "seoul-modern": seoulModern,
+  "paju-dmz-peace": pajuDmzPeace,
+  "paju-border-view": pajuBorderView,
+  "paju-art-cafe": pajuArtCafe,
+  "paju-k-book-hangeul": pajuKBookHangeul,
+  "paju-lake-bridge": pajuLakeBridge,
+  "paju-k-nature": pajuKNature,
 };
 
 /** 로케일 값 스왑 · 미보유 필드는 ko 원문 폴백. */
