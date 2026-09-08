@@ -382,9 +382,11 @@ export default async function DayTripDetailPage({
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 얇은 히어로 밴드 (74px, 2:1 분할, 사진 없으면 축 색 단색) — 오더 #D09 [1]-A */}
+        {/* ① 히어로 밴드 — 오더 #D12 [1]: 모바일 220px · 데스크톱 340px 로 복원.
+            2:1 분할(좌 대표사진 / 우 보조사진) · object-cover / object-position center 유지.
+            제목·breadcrumb·배지는 아래 흰 헤더 (D09 유지). */}
         <section className="w-full">
-          <div className="mx-auto grid h-[74px] max-w-[1200px] grid-cols-3 overflow-hidden">
+          <div className="mx-auto grid h-[220px] max-w-[1200px] grid-cols-3 overflow-hidden lg:h-[340px]">
             {hasHero ? (
               <>
                 <div className="relative col-span-2 overflow-hidden bg-slate-100">
@@ -392,8 +394,8 @@ export default async function DayTripDetailPage({
                     src={heroImgs[0]}
                     alt=""
                     fill
-                    sizes="800px"
-                    className="object-cover"
+                    sizes="(max-width: 1024px) 66vw, 800px"
+                    className="object-cover object-center"
                     priority
                   />
                 </div>
@@ -403,8 +405,8 @@ export default async function DayTripDetailPage({
                       src={heroImgs[1]}
                       alt=""
                       fill
-                      sizes="400px"
-                      className="object-cover"
+                      sizes="(max-width: 1024px) 33vw, 400px"
+                      className="object-cover object-center"
                     />
                   )}
                 </div>
@@ -777,19 +779,34 @@ function RelatedCard({
 }) {
   const name = locale === "ko" || !course.nameEn ? course.name : course.nameEn;
   const hook = course.hookLine ?? course.hook;
+  // 오더 #D12 [2]: heroImages[0] 을 카드 표지로. 없으면 기존 축색 그라디언트 폴백.
+  //   임의 이미지 생성·수집 금지 (오더 [3] 지침).
+  const cover = course.heroImages?.[0];
   return (
     <Link
       href={`/products/day-trips/${course.id}`}
       locale={locale}
       className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[var(--accent)]"
     >
-      <div
-        aria-hidden="true"
-        className="h-32 w-full"
-        style={{
-          background: `linear-gradient(135deg, ${axisColor} 0%, ${axisColor}CC 100%)`,
-        }}
-      />
+      {cover ? (
+        <div className="relative h-32 w-full overflow-hidden bg-slate-100">
+          <Image
+            src={cover}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, 400px"
+            className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+        </div>
+      ) : (
+        <div
+          aria-hidden="true"
+          className="h-32 w-full"
+          style={{
+            background: `linear-gradient(135deg, ${axisColor} 0%, ${axisColor}CC 100%)`,
+          }}
+        />
+      )}
       <div className="p-4">
         <div className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">
           {course.durationBadge}
