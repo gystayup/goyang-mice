@@ -70,7 +70,7 @@ export default async function SocialSection({ locale }: { locale: string }) {
           <h2 className="text-2xl font-black tracking-[-0.03em] text-[#232322] sm:text-3xl lg:text-4xl">{copy.title}</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">{copy.subtitle}</p>
         </div>
-        <SocialFeed />
+        <SocialFeed locale={locale} />
       </div>
     </section>
   );
