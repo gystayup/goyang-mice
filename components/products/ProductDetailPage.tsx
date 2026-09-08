@@ -312,6 +312,14 @@ const T = {
     "zh-CN": "支持语言",
     "zh-TW": "支援語言",
   },
+  // 오더 #D24-B: 슬라이더 이미지 alt 텍스트 (n 번째 이미지 번호가 뒤에 붙음).
+  productImageAlt: {
+    ko: "상품 이미지",
+    en: "Product image",
+    ja: "商品画像",
+    "zh-CN": "商品图片",
+    "zh-TW": "商品圖片",
+  },
 } satisfies Record<string, Record<SupportedLocale, string>>;
 
 const LANGUAGE_BADGE: Record<"en" | "ja" | "zh-CN" | "zh-TW", string> = {
@@ -497,7 +505,7 @@ function RichContent({ text }: { text: string }) {
 }
 
 // ─── 상품상세 세로 스크롤 갤러리 (야놀자 스타일) ──────────────────────────────
-function DetailGallery({ images }: { images: string[] }) {
+function DetailGallery({ images, locale }: { images: string[]; locale: SupportedLocale }) {
   if (!images || images.length === 0) return null;
   return (
     <div className="mb-6 space-y-1.5 bg-white">
@@ -506,7 +514,7 @@ function DetailGallery({ images }: { images: string[] }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
-            alt={`상품 이미지 ${i + 1}`}
+            alt={`${t("productImageAlt", locale)} ${i + 1}`}
             className="block h-auto w-full"
             loading="lazy"
           />
@@ -1144,7 +1152,7 @@ export default function ProductDetailPage({
                 <div>
                   {/* 세로 스크롤 갤러리 */}
                   {galleryImages.length > 0 && (
-                    <DetailGallery images={galleryImages} />
+                    <DetailGallery images={galleryImages} locale={locale} />
                   )}
                   {/* 텍스트 상세 설명 */}
                   {activeContent && (
@@ -1186,7 +1194,7 @@ export default function ProductDetailPage({
             ) : (
               /* 상품상세 탭인데 텍스트는 없어도 이미지는 표시 */
               activeTab === "details" && galleryImages.length > 0 ? (
-                <DetailGallery images={galleryImages} />
+                <DetailGallery images={galleryImages} locale={locale} />
               ) : (
                 <div className="flex flex-col items-center py-10 text-slate-400">
                   <p className="text-sm">{t("contentPending", locale)}</p>
