@@ -7,6 +7,8 @@ import Shell from "@/components/layout/Shell";
 import ProductCategoryQuickNav from "@/components/products/ProductCategoryQuickNav";
 import { getProductById } from "@/data/products";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
+import type { PageLocale } from "@/data/locales/types";
+import { getReservationCopy } from "@/data/locales/reservation-copy";
 
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>;
@@ -32,17 +34,20 @@ export async function generateMetadata(props: {
 export default async function ReservationPage(props: {
   params: Promise<{ id: string }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  locale?: PageLocale;
 }) {
   const { id } = await props.params;
   const searchParams = props.searchParams ? await props.searchParams : {};
   const product = getProductById(id);
+  const locale: PageLocale = props.locale ?? "ko";
+  const copy = getReservationCopy(locale);
 
   if (!product) {
     return (
       <Shell>
         <div className="mx-auto max-w-7xl px-6 py-20 text-center">
           <h1 className="text-3xl font-black tracking-tight text-slate-950">
-            예약 가능한 서비스를 찾을 수 없습니다.
+            {copy.notFoundTitle}
           </h1>
         </div>
       </Shell>
@@ -55,16 +60,14 @@ export default async function ReservationPage(props: {
       <Shell>
         <div className="mx-auto max-w-3xl px-6 py-20 text-center">
           <h1 className="text-3xl font-black tracking-tight text-slate-950">
-            안내 상품입니다
+            {copy.infoOnlyTitle}
           </h1>
-          <p className="mt-4 text-sm leading-8 text-slate-600">
-            이 카테고리는 예약이 아닌 안내 정보만 제공합니다. 상세 페이지에서 정보를 확인해 주세요.
-          </p>
+          <p className="mt-4 text-sm leading-8 text-slate-600">{copy.infoOnlyDesc}</p>
           <Link
-            href={`/products/${product.id}`}
+            href={`/${locale}/products/${product.id}`}
             className="mt-8 inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800"
           >
-            안내 보기
+            {copy.infoOnlyCta}
           </Link>
         </div>
       </Shell>
@@ -92,12 +95,13 @@ export default async function ReservationPage(props: {
   return (
     <Shell>
       {/* 오더 #D20: max-w-7xl (1280) → max-w-[1200px] 로 정합, 좌우 24px padding 유지.
-          이전은 상단 검은 카드/보라·핑크 그라디언트가 좌우 여백 낭비 → D20 은 좌 1fr + 우 360 sticky 로 폭 활용. */}
+          이전은 상단 검은 카드/보라·핑크 그라디언트가 좌우 여백 낭비 → D20 은 좌 1fr + 우 360 sticky 로 폭 활용.
+          #D21: locale 전달 및 SectionTitle 문안 5로케일 사전에서 조회. */}
       <div className="mx-auto max-w-[1200px] px-6 py-16">
         <SectionTitle
-          eyebrow="Reservation"
-          title={`${product.title} 예약 요청`}
-          desc="선택한 상품의 상세 설명과 옵션, 결제 방식을 확인한 뒤 바로 예약 요청을 진행할 수 있습니다."
+          eyebrow={copy.sectionEyebrow}
+          title={`${product.title} · ${copy.sectionTitleSuffix}`}
+          desc={copy.sectionDesc}
         />
         <ProductCategoryQuickNav
           activeCategory={product.categoryKey}
@@ -106,6 +110,8 @@ export default async function ReservationPage(props: {
 
         <TicketReservationBooking
           product={product}
+          locale={locale}
+          copy={copy}
           initialTicketId={ticketId}
           initialTicket={dbTicket}
           initialOptionId={initialOptionId}

@@ -21,10 +21,33 @@ export interface TicketOption {
 export type TicketLocale = "en" | "ja" | "zh-CN" | "zh-TW";
 
 export interface TicketTranslation {
+  // 기존 4필드 (C50~ 지원)
   badge?: string;
   venue?: string;
   tags?: string[];
   options?: Array<{ id: string; label: string; benefits?: string[] }>;
+
+  // 오더 #D21 [1]-B 스키마 확장: 데이터 번역 필드 추가 (값은 admin 트랙에서 사장님이 입력).
+  //   모두 optional — 미보유 시 렌더 코드에서 ko 원문 폴백 (D18 진단 결과 반영).
+  //   렌더 코드에서 이 필드 참조는 별도 오더 (본 오더는 스키마만 추가).
+  subtitle?: string;
+  summary?: string;
+  description?: string;
+  duration?: string;
+  ageLimit?: string;
+  dateText?: string;
+  posterLabel?: string;
+  credit?: string;
+
+  // 8개 탭 콘텐츠
+  tabNotice?: string;
+  tabCasting?: string;
+  tabDetails?: string;
+  tabPrice?: string;
+  tabDiscount?: string;
+  tabUsageInfo?: string;
+  tabVenue?: string;
+  tabCancellation?: string;
 }
 
 export interface TicketProduct {

@@ -18,11 +18,15 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { ArrowRight, CalendarDays, Clock, Info, MapPinned, Ticket, Users } from "lucide-react";
 
-import { getTicketProduct, type TicketProduct } from "@/data/ticket-booking";
+import { getTicketProduct, type TicketLocale, type TicketProduct } from "@/data/ticket-booking";
 import type { Product } from "@/data/products";
+import type { PageLocale } from "@/data/locales/types";
+import type { ReservationCopy } from "@/data/locales/reservation-copy";
 
 type TicketReservationBookingProps = {
   product: Product;
+  locale: PageLocale;
+  copy: ReservationCopy;
   initialTicketId?: string;
   initialTicket?: TicketProduct;
   initialOptionId?: string;
@@ -40,10 +44,44 @@ type FormState = {
   agree: boolean;
 };
 
-const paymentMethods = ["크레딧카드", "카카오페이", "계좌송금", "법인 후불 정산"];
+/** 데이터 번역 필드 우선, 없으면 ko 원문 폴백 (D21 [1]-A). */
+function pickTicketBadge(t: TicketProduct, locale: PageLocale): string {
+  if (locale === "ko") return t.badge;
+  return t.translations?.[locale as TicketLocale]?.badge ?? t.badge;
+}
+function pickTicketVenue(t: TicketProduct, locale: PageLocale): string {
+  if (locale === "ko") return t.venue;
+  return t.translations?.[locale as TicketLocale]?.venue ?? t.venue;
+}
+function pickTicketTags(t: TicketProduct, locale: PageLocale): string[] {
+  if (locale === "ko") return t.tags ?? [];
+  return t.translations?.[locale as TicketLocale]?.tags ?? t.tags ?? [];
+}
+function pickTicketOptionLabel(
+  t: TicketProduct,
+  optId: string,
+  fallback: string,
+  locale: PageLocale
+): string {
+  if (locale === "ko") return fallback;
+  const tr = t.translations?.[locale as TicketLocale]?.options?.find((o) => o.id === optId);
+  return tr?.label ?? fallback;
+}
+function pickTicketOptionBenefits(
+  t: TicketProduct,
+  optId: string,
+  fallback: string[],
+  locale: PageLocale
+): string[] {
+  if (locale === "ko") return fallback;
+  const tr = t.translations?.[locale as TicketLocale]?.options?.find((o) => o.id === optId);
+  return tr?.benefits ?? fallback;
+}
 
 export default function TicketReservationBooking({
   product,
+  locale,
+  copy,
   initialTicketId,
   initialTicket,
   initialOptionId,
@@ -51,6 +89,10 @@ export default function TicketReservationBooking({
   initialDate,
 }: TicketReservationBookingProps) {
   const ticket = initialTicket ?? getTicketProduct(initialTicketId);
+  const paymentMethods = copy.paymentMethods;
+  const localizedBadge = pickTicketBadge(ticket, locale);
+  const localizedVenue = pickTicketVenue(ticket, locale);
+  const localizedTags = pickTicketTags(ticket, locale);
 
   const [selectedOptionId, setSelectedOptionId] = useState(() => {
     if (initialOptionId && ticket.options.some((o) => o.id === initialOptionId)) {
@@ -88,15 +130,14 @@ export default function TicketReservationBooking({
     return (
       <div className="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-emerald-950">
         <div className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">
-          Ticket Reservation
+          {copy.successEyebrow}
         </div>
         <h3 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">
-          티켓 예약이 접수되었습니다.
+          {copy.successTitle}
         </h3>
         <p className="mt-3 max-w-3xl text-sm leading-7">
-          예약 번호는 <span className="font-bold">{submittedBookingNo}</span> 입니다.
-          선택하신 좌석/패키지와 결제방법(참고)이 함께 접수되었으며, 관리자가 발권과
-          진행 상태를 이어서 안내드립니다.
+          {copy.successBookingNoLabel} <span className="font-bold">{submittedBookingNo}</span>
+          {copy.successBookingNoSuffix} {copy.successFollowUp}
         </p>
         <button
           type="button"
@@ -106,7 +147,7 @@ export default function TicketReservationBooking({
           }}
           className="mt-5 rounded-full bg-emerald-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
         >
-          다시 예약 작성
+          {copy.successRestartCta}
         </button>
       </div>
     );
@@ -150,14 +191,12 @@ export default function TicketReservationBooking({
         data?: { booking_no?: string };
       };
       if (!response.ok || !result.success || !result.data?.booking_no) {
-        throw new Error(result.error || "예약 접수에 실패했습니다.");
+        throw new Error(result.error || copy.errorSubmitFailed);
       }
       setSubmittedBookingNo(result.data.booking_no);
     } catch (submitError) {
       setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "예약 접수 중 오류가 발생했습니다."
+        submitError instanceof Error ? submitError.message : copy.errorGeneric
       );
     } finally {
       setSubmitting(false);
@@ -192,9 +231,9 @@ export default function TicketReservationBooking({
             </div>
 
             <div className="p-5 sm:p-6">
-              {ticket.badge ? (
+              {localizedBadge ? (
                 <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[var(--accent)]">
-                  {ticket.badge}
+                  {localizedBadge}
                 </div>
               ) : null}
               <h2 className="mt-2 break-keep text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
@@ -204,21 +243,21 @@ export default function TicketReservationBooking({
                 <p className="mt-2 text-sm text-slate-600">{ticket.subtitle}</p>
               ) : null}
 
-              {/* 4열 통합 정보 — 이전 InfoRow / InfoCard 중복 제거 */}
+              {/* 4열 통합 정보 — 이전 InfoRow / InfoCard 중복 제거 · D21 로케일화 */}
               <dl className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <InfoLine icon={MapPinned} label="장소" value={ticket.venue} />
-                <InfoLine icon={CalendarDays} label="공연기간" value={ticket.dateText} />
+                <InfoLine icon={MapPinned} label={copy.labelVenue} value={localizedVenue} />
+                <InfoLine icon={CalendarDays} label={copy.labelDates} value={ticket.dateText} />
                 {ticket.duration ? (
-                  <InfoLine icon={Clock} label="공연시간" value={ticket.duration} />
+                  <InfoLine icon={Clock} label={copy.labelDuration} value={ticket.duration} />
                 ) : null}
                 {ticket.ageLimit ? (
-                  <InfoLine icon={Users} label="관람연령" value={ticket.ageLimit} />
+                  <InfoLine icon={Users} label={copy.labelAge} value={ticket.ageLimit} />
                 ) : null}
               </dl>
 
-              {ticket.tags.length > 0 ? (
+              {localizedTags.length > 0 ? (
                 <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {ticket.tags.map((tag) => (
+                  {localizedTags.map((tag) => (
                     <li
                       key={tag}
                       className="rounded-full border border-slate-200 bg-white px-2.5 py-0.5 text-[11px] font-semibold text-slate-700"
@@ -237,12 +276,19 @@ export default function TicketReservationBooking({
           <div className="flex items-center gap-2">
             <Ticket className="h-4 w-4 text-[var(--accent)]" aria-hidden="true" />
             <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-700">
-              좌석 · 옵션
+              {copy.optionsTitle}
             </h3>
           </div>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
             {ticket.options.map((option) => {
               const active = selectedOptionId === option.id;
+              const label = pickTicketOptionLabel(ticket, option.id, option.label, locale);
+              const benefits = pickTicketOptionBenefits(
+                ticket,
+                option.id,
+                option.benefits,
+                locale
+              );
               return (
                 <li key={option.id}>
                   <button
@@ -258,15 +304,15 @@ export default function TicketReservationBooking({
                   >
                     <div className="flex items-baseline justify-between gap-3">
                       <span className="text-base font-black text-[#232322]">
-                        {option.label}
+                        {label}
                       </span>
                       <span className="text-base font-black text-[#232322]">
                         {option.price.toLocaleString("ko-KR")}원
                       </span>
                     </div>
-                    {option.benefits.length > 0 ? (
+                    {benefits.length > 0 ? (
                       <div className="mt-2 text-xs leading-5 text-slate-600">
-                        {option.benefits.join(" · ")}
+                        {benefits.join(" · ")}
                       </div>
                     ) : null}
                   </button>
@@ -276,18 +322,15 @@ export default function TicketReservationBooking({
           </ul>
         </section>
 
-        {/* 3) 결제 수단 안내 */}
+        {/* 3) 결제 수단 안내 (D21 로케일화) */}
         <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
           <div className="flex items-center gap-2">
             <Info className="h-4 w-4 text-[var(--accent)]" aria-hidden="true" />
             <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-700">
-              결제 수단 안내
+              {copy.paymentsTitle}
             </h3>
           </div>
-          <p className="mt-2 text-xs leading-6 text-slate-500">
-            예약 접수 후 관리자가 확인하고 발권 가능 여부와 결제·정산 진행 상태를
-            이어서 안내드립니다. 아래 결제 수단은 참고용입니다.
-          </p>
+          <p className="mt-2 text-xs leading-6 text-slate-500">{copy.paymentsNote}</p>
           <ul className="mt-3 flex flex-wrap gap-1.5">
             {paymentMethods.map((m) => (
               <li
@@ -307,27 +350,27 @@ export default function TicketReservationBooking({
           onSubmit={handleSubmit}
           className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_12px_rgba(16,32,58,0.06)]"
         >
-          {/* 코럴레드 헤더 */}
+          {/* 코럴레드 헤더 (D21 로케일화) */}
           <div className="flex items-center gap-2 px-4 py-3" style={{ background: "var(--accent)" }}>
             <Ticket className="h-4 w-4 text-white" aria-hidden="true" />
             <span className="text-sm font-black uppercase tracking-[0.14em] text-white">
-              예약 신청
+              {copy.formHeader}
             </span>
           </div>
 
           <div className="space-y-4 p-4 sm:p-5">
             {/* 요약 rows */}
             <div className="space-y-1.5 rounded-xl bg-slate-50 px-3 py-3 text-xs leading-6">
-              <FormSummary label="선택 공연" value={ticket.title} />
-              <FormSummary label="좌석/패키지" value={selectedOption?.label ?? "-"} />
-              <FormSummary label="공연장" value={ticket.venue} />
+              <FormSummary label={copy.summarySelected} value={ticket.title} />
+              <FormSummary label={copy.summarySeat} value={selectedOption?.label ?? "-"} />
+              <FormSummary label={copy.summaryVenue} value={localizedVenue} />
             </div>
 
             {/* 날짜 · 수량 */}
             <div className="grid grid-cols-2 gap-2">
               <label className="rounded-xl border border-slate-200 px-3 py-2">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                  예약 날짜
+                  {copy.fieldDate}
                 </div>
                 <input
                   type="date"
@@ -338,14 +381,14 @@ export default function TicketReservationBooking({
               </label>
               <div className="rounded-xl border border-slate-200 px-3 py-2">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                  수량
+                  {copy.fieldQuantity}
                 </div>
                 <div className="mt-1 flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setTicketCount((c) => Math.max(1, c - 1))}
                     className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-300 text-slate-700 transition hover:bg-slate-100"
-                    aria-label="Decrease"
+                    aria-label={copy.ariaDecrease}
                   >
                     −
                   </button>
@@ -356,7 +399,7 @@ export default function TicketReservationBooking({
                     type="button"
                     onClick={() => setTicketCount((c) => c + 1)}
                     className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-300 text-slate-700 transition hover:bg-slate-100"
-                    aria-label="Increase"
+                    aria-label={copy.ariaIncrease}
                   >
                     +
                   </button>
@@ -367,33 +410,33 @@ export default function TicketReservationBooking({
             {/* form fields */}
             <div className="space-y-2">
               <FormInput
-                placeholder="기관명 또는 단체명"
+                placeholder={copy.placeholderOrganization}
                 value={form.organization}
                 onChange={(v) => setForm((s) => ({ ...s, organization: v }))}
               />
               <FormInput
-                placeholder="예약 담당자명"
+                placeholder={copy.placeholderManager}
                 value={form.manager}
                 onChange={(v) => setForm((s) => ({ ...s, manager: v }))}
                 required
               />
               <FormInput
                 type="tel"
-                placeholder="연락처"
+                placeholder={copy.placeholderPhone}
                 value={form.phone}
                 onChange={(v) => setForm((s) => ({ ...s, phone: v }))}
                 required
               />
               <FormInput
                 type="email"
-                placeholder="이메일"
+                placeholder={copy.placeholderEmail}
                 value={form.email}
                 onChange={(v) => setForm((s) => ({ ...s, email: v }))}
                 required
               />
               <label className="block rounded-xl border border-slate-200 px-3 py-2">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                  결제 방식 (참고)
+                  {copy.fieldPayment}
                 </div>
                 <select
                   value={form.paymentMethod}
@@ -409,7 +452,7 @@ export default function TicketReservationBooking({
               </label>
               <textarea
                 rows={3}
-                placeholder="좌석 요청, 단체 발권, 세금계산서 요청 등"
+                placeholder={copy.placeholderRequest}
                 value={form.request}
                 onChange={(e) => setForm((s) => ({ ...s, request: e.target.value }))}
                 className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-[#232322] outline-none transition focus:border-[var(--accent)]"
@@ -423,15 +466,13 @@ export default function TicketReservationBooking({
             >
               <div className="flex items-baseline justify-between">
                 <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
-                  예상 금액
+                  {copy.totalLabel}
                 </span>
                 <span className="text-xl font-black text-[#232322]">
                   {totalAmount.toLocaleString("ko-KR")}원
                 </span>
               </div>
-              <p className="mt-1 text-[10px] leading-5 text-slate-500">
-                예약 접수 후 관리자가 확인해 결제·정산 진행을 안내드립니다.
-              </p>
+              <p className="mt-1 text-[10px] leading-5 text-slate-500">{copy.totalNote}</p>
             </div>
 
             <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-slate-200 px-3 py-3">
@@ -441,9 +482,7 @@ export default function TicketReservationBooking({
                 onChange={(e) => setForm((s) => ({ ...s, agree: e.target.checked }))}
                 className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
               />
-              <span className="text-xs leading-5 text-slate-700">
-                개인정보 수집 및 티켓 예약·발권 안내를 위한 연락에 동의합니다.
-              </span>
+              <span className="text-xs leading-5 text-slate-700">{copy.agreeLabel}</span>
             </label>
 
             {error ? (
@@ -458,7 +497,7 @@ export default function TicketReservationBooking({
               className="inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
               style={{ background: "var(--accent)" }}
             >
-              {submitting ? "예약 접수 중..." : "예약 요청"}
+              {submitting ? copy.submittingLabel : copy.submitCta}
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
