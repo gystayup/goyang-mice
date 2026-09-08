@@ -15,11 +15,13 @@ import { DAYTRIPS_TEASER, pickHomeLocale } from "@/data/home-copy";
 import { dayTripAxes, type DayTripAxisBlock } from "@/data/day-trips";
 import { loadDayTrips } from "@/lib/day-trip-catalog-db";
 import { getCoursePhotos } from "@/lib/day-trip-photos";
+import { getLocalizedDayTripCourses } from "@/data/day-trip-courses-i18n";
 import { Link } from "@/lib/navigation";
 
 export default async function DayTripsTeaserSection({ locale }: { locale: string }) {
   const active = pickHomeLocale(locale);
-  const courses = await loadDayTrips();
+  // 오더 #D25: 로케일 값 스왑 후 렌더 (미이관 코스는 ko 원문 폴백).
+  const courses = getLocalizedDayTripCourses(await loadDayTrips(), locale);
 
   // 오더 #C79: 각 축 첫 코스 1건씩 준비 + 카드 사진 우선순위
   //   ① course.heroImages[0] (사장님 업로드) → ② getCoursePhotos (timeline

@@ -30,6 +30,7 @@ import { Link } from "@/lib/navigation";
 import { getAxisBlock, type DayTripLocale } from "@/data/day-trips";
 import type { DayTripAxis, DayTripCourse } from "@/data/day-trip-courses";
 import { loadDayTrip, loadDayTrips } from "@/lib/day-trip-catalog-db";
+import { getLocalizedDayTripCourse, getLocalizedDayTripCourses } from "@/data/day-trip-courses-i18n";
 import { hasSpotAsync } from "@/lib/spot-catalog-db";
 import { getCoursePhotos } from "@/lib/day-trip-photos";
 
@@ -328,10 +329,14 @@ export default async function DayTripDetailPage({
   id: string;
   locale?: PageLocale;
 }) {
-  const course = await loadDayTrip(id);
-  if (!course) notFound();
+  const raw = await loadDayTrip(id);
+  if (!raw) notFound();
+  // 오더 #D25: 로케일 값 스왑 · 미보유 필드는 ko 원문 폴백.
+  const course = getLocalizedDayTripCourse(raw, locale);
   const axis = getAxisBlock(course.axis);
-  const displayName = locale === "ko" || !course.nameEn ? course.name : course.nameEn;
+  // translations 있으면 스왑된 name, 없으면 raw.nameEn 폴백 (D25 미이관 코스 대비).
+  const hasLocalizedName = locale === "ko" || course.name !== raw.name;
+  const displayName = hasLocalizedName ? course.name : (raw.nameEn ?? raw.name);
   const hookText = course.hookLine ?? course.hook;
 
   // 타임라인 스팟 링크 유효성 (죽은 링크 금지)
@@ -345,11 +350,12 @@ export default async function DayTripDetailPage({
     .map((n, i) => ({ node: n, linkable: timelineLinkability[i] }))
     .filter((x) => x.linkable && x.node.spotSlug);
 
-  // 같은 축 다른 코스 3개
+  // 같은 축 다른 코스 3개 (오더 #D25 로케일 스왑 · 관련 카드에도 반영)
   const allCourses = await loadDayTrips();
-  const related = allCourses
-    .filter((c) => c.axis === course.axis && c.id !== course.id)
-    .slice(0, 3);
+  const related = getLocalizedDayTripCourses(
+    allCourses.filter((c) => c.axis === course.axis && c.id !== course.id).slice(0, 3),
+    locale
+  );
 
   const badgeStyle = axisBadgeStyle(course.axis);
   const axisEn = AXIS_BADGE_EN[course.axis] ?? course.axis.toUpperCase();
@@ -749,7 +755,9 @@ function RelatedCard({
   locale: PageLocale;
   axisColor: string;
 }) {
-  const name = locale === "ko" || !course.nameEn ? course.name : course.nameEn;
+  // 오더 #D25: getLocalizedDayTripCourse 이 course.name 을 이미 로케일 스왑함.
+  //   translations 미보유 코스에서만 nameEn 폴백 (nameEn 은 원본 데이터에 있는 축약 영문).
+  const name = course.name;
   const hook = course.hookLine ?? course.hook;
   // 오더 #D12 [2]: heroImages[0] 을 카드 표지로. 없으면 기존 축색 그라디언트 폴백.
   //   임의 이미지 생성·수집 금지 (오더 [3] 지침).
