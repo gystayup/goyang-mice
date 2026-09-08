@@ -789,19 +789,19 @@ function RelatedCard({
       className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[var(--accent)]"
     >
       {cover ? (
-        <div className="relative h-32 w-full overflow-hidden bg-slate-100">
+        <div className="relative h-[220px] w-full overflow-hidden bg-slate-100 lg:h-[340px]">
           <Image
             src={cover}
             alt=""
             fill
-            sizes="(max-width: 640px) 100vw, 400px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </div>
       ) : (
         <div
           aria-hidden="true"
-          className="h-32 w-full"
+          className="h-[220px] w-full lg:h-[340px]"
           style={{
             background: `linear-gradient(135deg, ${axisColor} 0%, ${axisColor}CC 100%)`,
           }}
