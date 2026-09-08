@@ -333,7 +333,7 @@ const PAJU_COURSES: DayTripCourse[] = [
     durationBadge: "4H",
     name: "DMZ PEACE — 임진각 · 평화누리 · 평화곤돌라",
     nameEn: "DMZ PEACE",
-    hook: '고양에 머물면서, 반나절 만에 DMZ를 본다.\n> 영문 카피: **"Stay in Goyang. Visit the DMZ in Half a Day."**',
+    hook: "고양에 머물면서, 반나절 만에 DMZ를 본다.",
     intro:
       "임진각 평화누리에서 출발해 민간인통제구역을 가로지르는 평화곤돌라를 타고\n캠프 그리브스 방향으로 넘어가는 코스입니다. 한국전쟁과 분단, 그리고 지금도\n이어지는 경계를 한 장소에서 이해할 수 있어 파주에서 가장 대체 불가능한 경험입니다.\n곤돌라 탑승은 민통선 출입에 해당해 보안서약 절차가 필요하므로, 여권을 반드시\n지참하고 시간 여유를 두고 방문하십시오.",
     stops: [
