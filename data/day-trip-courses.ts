@@ -96,6 +96,22 @@ export interface DayTripCourse {
    * contentJson 자동 영속 (Prisma 스키마 무접촉).
    */
   heroImages?: string[];
+
+  // ─── 오더 #D09 신규 필드 ─────────────────────────────────────────────
+  /**
+   * 코스 주변 식사·카페 등 광고 슬롯 (우측 사이드바 노출).
+   * 최대 3건. 빈 배열/미설정이면 사이드바에 "광고 문의" 안내만 표시.
+   * 사장님/admin 데이터로 채우는 것이 원칙. seoul-royal 만 예시로 3건 채움.
+   */
+  nearby?: DayTripCourseNearby[];
+}
+
+/** 오더 #D09: 코스 주변 광고 슬롯 항목. */
+export interface DayTripCourseNearby {
+  name: string;
+  desc: string;
+  distance: string;
+  image?: string;
 }
 
 // ─── 서울 축 6코스 ─────────────────────────────────────────────────────────
@@ -186,6 +202,26 @@ const SEOUL_COURSES: DayTripCourse[] = [
       },
     ],
     illustrationKey: "seoul-royal",
+    // 오더 #D09 [2]: 코스 주변 광고 슬롯 예시 (seoul-royal 만).
+    //   나머지 16개는 미설정 (사이드바에서 "광고 문의" 안내만 표시).
+    //   사장님/admin 데이터로 채우는 것이 원칙.
+    nearby: [
+      {
+        name: "인사동 쌈지길",
+        desc: "전통 공예·차·붓글씨가 모인 골목형 상점가",
+        distance: "도보 3분",
+      },
+      {
+        name: "통인시장",
+        desc: "경복궁 서편 골목시장 · 도시락 카페·노포",
+        distance: "도보 10분",
+      },
+      {
+        name: "삼청동 카페거리",
+        desc: "북촌 옆 골목의 카페·디저트 밀집 구역",
+        distance: "도보 15분",
+      },
+    ],
   },
   {
     id: "seoul-night",

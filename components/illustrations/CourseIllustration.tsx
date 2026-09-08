@@ -50,37 +50,123 @@ const Ground = () => <line x1="10" y1="220" x2="290" y2="220" strokeWidth="1.15"
 
 // 서울축 ────────────────────────────────────────────────
 
-// seoul-royal — 경복궁 근정전 (겹처마 팔작지붕·처마 곡선·이층 월대·답도) + 구름·새
+// seoul-royal — 경복궁 근정전 (근정전 상세 형태)
+//   상층: 용마루 + 취두(양끝) + 겹처마(2겹) + 처마 상승 곡선 + 잡상 3개씩
+//   상층 몸체: 공포 세로선 9개 + 창방
+//   하층: 겹처마 지붕 + 기둥 5개 + 어칸 문(창살) + 협칸 창 2개
+//   기단: 이층 월대 + 답도 계단
+//   부속: 우측 소나무, 좌측 깃대+깃발
+//   애니: 구름 2개 drift, 새 2마리 fly, 깃발 sway
 function IllustSeoulRoyal(): ReactElement {
   return (
     <>
-      {/* 구름 (drift 애니) */}
+      {/* 구름 A (좌 상단, drift) */}
       <g className="ci-drift" strokeWidth="0.72">
-        <path d="M50 55 q10 -12 22 -8 q6 -14 22 -8 q14 -4 16 8 q6 8 -4 12 z" />
+        <path d="M20 42 q8 -10 20 -6 q4 -12 18 -6 q12 -3 14 7 q4 8 -4 10 z" />
       </g>
-      {/* 새 (fly 애니) */}
-      <g className="ci-fly" strokeWidth="0.72" transform="translate(220 55)">
+      {/* 구름 B (중앙 상단, drift) — 애니 위상 다르게 하려면 다른 클래스지만 간단히 유지 */}
+      <g className="ci-drift" strokeWidth="0.72" transform="translate(120 -6)">
+        <path d="M40 52 q6 -8 16 -4 q4 -10 14 -4 q10 -2 12 6 q4 6 -4 8 z" />
+      </g>
+      {/* 새 (fly, 우 상단) */}
+      <g className="ci-fly" strokeWidth="0.72" transform="translate(200 40)">
         <path d="M0 4 q4 -6 8 0 q4 -6 8 0" />
+        <path d="M18 12 q3 -5 6 0 q3 -5 6 0" strokeWidth="0.6" />
       </g>
-      {/* 지붕 상단 겹처마 (팔작 곡선 상승) */}
-      <path d="M60 130 q90 -70 180 0" />
+
+      {/* 깃대 + 깃발 (좌 · sway) */}
+      <line x1="30" y1="200" x2="30" y2="80" strokeWidth="0.72" />
+      <g className="ci-sway" style={{ transformOrigin: "30px 82px" }}>
+        <path d="M30 82 l16 4 l-16 6 z" strokeWidth="0.72" />
+      </g>
+
+      {/* 소나무 (우) */}
+      <g transform="translate(268 200)" strokeWidth="0.72">
+        <path d="M0 0 q-4 -20 -2 -40 q2 -18 6 -30" />
+        <path d="M-8 -30 q4 -6 10 -4" />
+        <path d="M-12 -20 q6 -6 14 -4" />
+        <path d="M4 -55 q-10 -4 -18 -2" />
+        <path d="M2 -65 q-8 -3 -14 -1" />
+      </g>
+
+      {/* ─── 상층 지붕 ─── */}
       {/* 용마루 */}
-      <line x1="80" y1="130" x2="220" y2="130" strokeWidth="0.72" />
-      {/* 겹처마 아래층 */}
-      <path d="M55 155 q95 -50 190 0" />
-      {/* 처마 곡선 상승 (좌우 끝) */}
-      <path d="M55 155 q-6 -6 -6 -14" strokeWidth="0.72" />
-      <path d="M245 155 q6 -6 6 -14" strokeWidth="0.72" />
-      {/* 본체 기둥 */}
-      <line x1="80" y1="155" x2="80" y2="200" />
-      <line x1="120" y1="155" x2="120" y2="200" />
-      <line x1="180" y1="155" x2="180" y2="200" />
-      <line x1="220" y1="155" x2="220" y2="200" />
-      {/* 이층 월대 */}
-      <line x1="60" y1="200" x2="240" y2="200" />
-      <line x1="50" y1="212" x2="250" y2="212" />
-      {/* 답도 (중앙 계단) */}
-      <path d="M140 220 l10 -8 h20 l10 8" strokeWidth="0.72" />
+      <line x1="90" y1="94" x2="210" y2="94" strokeWidth="1.15" />
+      {/* 취두 (양 끝) */}
+      <path d="M88 94 q-3 -5 0 -8 q3 3 2 8" strokeWidth="0.72" />
+      <path d="M212 94 q3 -5 0 -8 q-3 3 -2 8" strokeWidth="0.72" />
+      {/* 겹처마 상단 곡선 (2겹) + 처마 상승 */}
+      <path d="M78 108 q72 -22 144 0" />
+      <path d="M70 118 q80 -18 160 0" strokeWidth="0.72" />
+      <path d="M70 118 q-4 -4 -6 -10" strokeWidth="0.72" />
+      <path d="M230 118 q4 -4 6 -10" strokeWidth="0.72" />
+      {/* 잡상 3개씩 (좌우 지붕마루) */}
+      {[86, 92, 98].map((x) => (
+        <g key={`jL${x}`} strokeWidth="0.5" transform={`translate(${x} 108)`}>
+          <path d="M0 0 l1.5 -3 l1.5 3 z" />
+        </g>
+      ))}
+      {[210, 216, 222].map((x) => (
+        <g key={`jR${x}`} strokeWidth="0.5" transform={`translate(${x} 108)`}>
+          <path d="M0 0 l1.5 -3 l1.5 3 z" />
+        </g>
+      ))}
+
+      {/* 상층 몸체 · 창방 */}
+      <line x1="82" y1="126" x2="218" y2="126" strokeWidth="0.72" />
+      <line x1="82" y1="140" x2="218" y2="140" strokeWidth="0.72" />
+      {/* 공포 세로선 9개 */}
+      {[90, 106, 122, 138, 150, 162, 178, 194, 210].map((x) => (
+        <line
+          key={`gong-${x}`}
+          x1={x}
+          y1="126"
+          x2={x}
+          y2="140"
+          strokeWidth="0.5"
+        />
+      ))}
+
+      {/* ─── 하층 지붕 ─── */}
+      <path d="M50 156 q100 -22 200 0" />
+      <path d="M45 168 q105 -20 210 0" strokeWidth="0.72" />
+      <path d="M45 168 q-5 -5 -7 -12" strokeWidth="0.72" />
+      <path d="M255 168 q5 -5 7 -12" strokeWidth="0.72" />
+
+      {/* 하층 몸체 · 창방 */}
+      <line x1="58" y1="176" x2="242" y2="176" strokeWidth="0.72" />
+      {/* 기둥 5개 */}
+      {[70, 110, 150, 190, 230].map((x) => (
+        <line key={`col-${x}`} x1={x} y1="176" x2={x} y2="212" strokeWidth="0.72" />
+      ))}
+      {/* 어칸 문 (중앙 · 창살 격자) */}
+      <rect x="138" y="180" width="24" height="32" strokeWidth="0.72" />
+      <line x1="150" y1="180" x2="150" y2="212" strokeWidth="0.5" />
+      <line x1="138" y1="188" x2="162" y2="188" strokeWidth="0.5" />
+      <line x1="138" y1="196" x2="162" y2="196" strokeWidth="0.5" />
+      <line x1="138" y1="204" x2="162" y2="204" strokeWidth="0.5" />
+      {/* 협칸 창 2개 */}
+      <rect x="82" y="184" width="20" height="24" strokeWidth="0.72" />
+      <line x1="92" y1="184" x2="92" y2="208" strokeWidth="0.5" />
+      <line x1="82" y1="196" x2="102" y2="196" strokeWidth="0.5" />
+      <rect x="198" y="184" width="20" height="24" strokeWidth="0.72" />
+      <line x1="208" y1="184" x2="208" y2="208" strokeWidth="0.5" />
+      <line x1="198" y1="196" x2="218" y2="196" strokeWidth="0.5" />
+
+      {/* ─── 이층 월대 (상 · 하) ─── */}
+      <line x1="55" y1="212" x2="245" y2="212" />
+      <line x1="55" y1="212" x2="55" y2="218" strokeWidth="0.72" />
+      <line x1="245" y1="212" x2="245" y2="218" strokeWidth="0.72" />
+      <line x1="55" y1="218" x2="245" y2="218" strokeWidth="0.72" />
+      <line x1="45" y1="220" x2="255" y2="220" />
+
+      {/* 답도 (중앙 계단 3단) */}
+      <path d="M138 220 l6 -4 h12 l6 4" strokeWidth="0.72" />
+      <path d="M132 224 l8 -4 h20 l8 4" strokeWidth="0.72" />
+      <line x1="150" y1="216" x2="150" y2="220" strokeWidth="0.5" />
+      {/* 계단 봉황 (답도 중앙 상징) */}
+      <circle cx="150" cy="218" r="1.4" strokeWidth="0.5" />
+
       <Ground />
     </>
   );
