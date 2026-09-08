@@ -4,6 +4,7 @@ import ReservationPage, {
   generateMetadata,
 } from "../../../../products/[id]/reservation/_page";
 import { getProductById } from "@/data/products";
+import type { PageLocale } from "@/data/locales/types";
 
 export { generateMetadata };
 
@@ -11,6 +12,11 @@ export { generateMetadata };
 const TICKET_PLATFORM_IDS = new Set([
   "ticket-agency-platform",
 ]);
+
+const LOCALES: PageLocale[] = ["ko", "en", "ja", "zh-CN", "zh-TW"];
+function toPageLocale(v: string): PageLocale {
+  return (LOCALES as string[]).includes(v) ? (v as PageLocale) : "ko";
+}
 
 export default async function LocaleReservationPage(props: {
   params: Promise<{ locale: string; id: string }>;
@@ -35,6 +41,7 @@ export default async function LocaleReservationPage(props: {
     <ReservationPage
       params={Promise.resolve({ id })}
       searchParams={props.searchParams}
+      locale={toPageLocale(locale)}
     />
   );
 }
