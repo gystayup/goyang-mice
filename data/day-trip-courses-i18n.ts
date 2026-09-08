@@ -932,7 +932,328 @@ const pajuKNature: PerLocale = {
   },
 };
 
-/** id → 로케일별 번역. 경기 5 는 후속 D25-G 오더에서 확장. */
+// ─── 경기 축 5개 번역 (오더 #D25-G) ────────────────────────────────────────
+
+const gyeonggiRoyalSuwon: PerLocale = {
+  en: {
+    name: "ROYAL SUWON 4H — Suwon Hwaseong Fortress, Hwaseong Haenggung, Haengridan-gil",
+    hook: "Walk the fortress walls, pass through the palace, and end the evening in a lane behind it.",
+    intro:
+      "Walk the walls of Suwon Hwaseong Fortress (a UNESCO World Heritage site), tour Hwaseong Haenggung Palace, and drop down into the Haengridan-gil lanes right in front of the palace.\nThe royal retreat where the king once stayed and a young commercial street are linked on foot, so history and the present slot into a single route. In Gyeonggi Province, this is the one place that can be packaged with the same density as a Seoul 4-hour course.",
+    stops: [
+      { name: "Hwaseong Haenggung Palace", note: "King Jeongjo's temporary palace. Standing programs include a martial-arts demonstration." },
+      { name: "Suwon Hwaseong Fortress", note: "A walking section along the fortress walls. The Hwaseong Train eases the physical load." },
+      { name: "Haengridan-gil", note: "A café and restaurant lane in front of the palace. A good place to finish." },
+    ],
+    transport: "Car — about 54–57 km from Ilsan · about 54–58 min.",
+    duration: "About 1 hr one way / About 2 hr on site",
+    recommendedTime: "13:00 – 17:00",
+    note: "Hours: Hwaseong Haenggung 09:00–18:00\nNight opening on Fri, Sat, Sun, and public holidays from May 1 to Nov 1.\n* Use the night opening — in the autumn season, a 15:00 departure can extend to a night visit.",
+  },
+  ja: {
+    name: "ROYAL SUWON 4H — 水原華城・華城行宮・幸理団キル",
+    hook: "城壁を歩き、行宮を過ぎ、路地で夕食を取る。",
+    intro:
+      "ユネスコ世界遺産・水原華城（スウォンファソン）の城壁を歩き、華城行宮を巡った後、行宮の前に広がる幸理団キル（ヘンリダンギル）の路地に降りるコースです。\n王が滞在した行宮と若い商店街が徒歩でつながり、歴史と現在が一つの動線に収まります。京畿圏でソウルの4時間コースと最も近い密度で商品化できる唯一の場所です。",
+    stops: [
+      { name: "華城行宮 (Haenggung)", note: "正祖が滞在した行宮。武芸披露などの常設プログラムがあります。" },
+      { name: "水原華城 (Hwaseong)", note: "城壁道の徒歩区間。華城列車を利用すれば体力の負担が軽くなります。" },
+      { name: "幸理団キル (Haengridan-gil)", note: "行宮前のカフェ・食堂路地。締めくくりに最適。" },
+    ],
+    transport: "車 — 一山基準で約54〜57km・約54〜58分",
+    duration: "片道 約1時間 / 滞在 約2時間",
+    recommendedTime: "13:00 〜 17:00",
+    note: "運営時間: 華城行宮 09:00〜18:00\n5月1日〜11月1日のうち金・土・日・祝日は夜間開場あり\n※ 夜間開場の活用 — 秋シーズンは15:00出発で夜間観覧まで組み込めます。",
+  },
+  "zh-CN": {
+    name: "ROYAL SUWON 4H — 水原华城·华城行宫·幸理团街",
+    hook: "走城墙，穿行宫，最后在巷弄里用晚餐。",
+    intro:
+      "沿着联合国教科文组织世界遗产 — 水原华城（Suwon Hwaseong）的城墙散步，参观华城行宫，随后走进行宫前的幸理团街（Haengridan-gil）巷弄。\n国王曾驻跸的行宫与年轻的商圈徒步相连，历史与当下浓缩于同一动线。是京畿圈唯一能以接近首尔4小时路线的密度打包成产品的地方。",
+    stops: [
+      { name: "华城行宫 (Haenggung)", note: "正祖曾驻跸的行宫。设有武艺展示等常设节目。" },
+      { name: "水原华城 (Hwaseong)", note: "沿城墙步行的区间。搭乘华城列车可减轻体力负担。" },
+      { name: "幸理团街 (Haengridan-gil)", note: "行宫前的咖啡与餐饮巷弄，是收尾的好地方。" },
+    ],
+    transport: "自驾 — 距一山约54–57km · 约54–58分钟",
+    duration: "单程约1小时 / 停留约2小时",
+    recommendedTime: "13:00 – 17:00",
+    note: "运营时间：华城行宫 09:00–18:00\n5月1日–11月1日期间，周五·六·日与法定假日开放夜间参观\n※ 善用夜间开放 — 秋季可安排15:00出发，衔接夜间游览。",
+  },
+  "zh-TW": {
+    name: "ROYAL SUWON 4H — 水原華城·華城行宮·幸理團街",
+    hook: "走城牆，穿行宮，最後在巷弄裡用晚餐。",
+    intro:
+      "沿著聯合國教科文組織世界遺產 — 水原華城（Suwon Hwaseong）的城牆散步，參觀華城行宮，隨後走進行宮前的幸理團街（Haengridan-gil）巷弄。\n國王曾駐蹕的行宮與年輕的商圈徒步相連，歷史與當下濃縮於同一動線。是京畿圈唯一能以接近首爾4小時路線的密度打包成產品的地方。",
+    stops: [
+      { name: "華城行宮 (Haenggung)", note: "正祖曾駐蹕的行宮。設有武藝展示等常設節目。" },
+      { name: "水原華城 (Hwaseong)", note: "沿城牆步行的區間。搭乘華城列車可減輕體力負擔。" },
+      { name: "幸理團街 (Haengridan-gil)", note: "行宮前的咖啡與餐飲巷弄，是收尾的好地方。" },
+    ],
+    transport: "自駕 — 距一山約54–57km · 約54–58分鐘",
+    duration: "單程約1小時 / 停留約2小時",
+    recommendedTime: "13:00 – 17:00",
+    note: "營運時間：華城行宮 09:00–18:00\n5月1日–11月1日期間，週五·六·日與法定假日開放夜間參觀\n※ 善用夜間開放 — 秋季可安排15:00出發，銜接夜間遊覽。",
+  },
+};
+
+const gyeonggiKoreanGarden: PerLocale = {
+  en: {
+    name: "KOREAN GARDEN ESCAPE 5H — Garden of Morning Calm",
+    hook: "Instead of explaining what a Korean garden is, we show you.",
+    intro:
+      "Walk through an arboretum laid out in the Korean traditional garden style. The changing seasons themselves become the product — spring blossoms, autumn foliage, and winter illumination each show a different face.\nThe garden has been featured as a drama filming location, making it easy to introduce to Hallyu visitors and well-suited to guests who want nature without a hike.",
+    stops: [
+      { name: "Korean Garden", note: "The central section. The essence of the traditional landscape style is concentrated here." },
+      { name: "Seasonal Gardens", note: "Spring blossoms · autumn foliage · the Lighting Festival of Five-Color Stars in winter." },
+      { name: "Trails · Cafés", note: "Gentle slopes. The entire course is walkable." },
+    ],
+    transport: "Car — toward the Gapyeong area.",
+    duration: "About 1 hr 20 min range one way / About 2–2.5 hr on site",
+    recommendedTime: "11:00 – 16:00",
+    note: "* To verify — actual drive time from Goyang; winter lighting festival operating dates.",
+  },
+  ja: {
+    name: "KOREAN GARDEN ESCAPE 5H — 朝の静けさ樹木園",
+    hook: "韓国式庭園とは何かを、説明ではなく実物で見せる。",
+    intro:
+      "韓国の伝統庭園様式で造成された樹木園を歩くコースです。季節の変化そのものが商品となる場所で、春の花・秋の紅葉・冬の照明シーズンごとに異なる表情を見せます。\nドラマ撮影地として何度も紹介されており、韓流ファンにも説明しやすく、山登りの負担なく自然を楽しみたい方に向いています。",
+    stops: [
+      { name: "韓国庭園", note: "樹木園の中心区域。伝統造園様式が集約されています。" },
+      { name: "季節庭園", note: "春の花・秋の紅葉・冬の五色星の光庭園展。" },
+      { name: "散策路・カフェ", note: "緩やかな傾斜。全区間徒歩可能です。" },
+    ],
+    transport: "車 — 加平（カピョン）方面",
+    duration: "片道 約1時間20分台 / 滞在 約2〜2.5時間",
+    recommendedTime: "11:00 〜 16:00",
+    note: "※ 要確認 — 高陽出発の実走行時間、冬の照明フェスティバル運営期間。",
+  },
+  "zh-CN": {
+    name: "KOREAN GARDEN ESCAPE 5H — 晨静树木园",
+    hook: "什么是韩式庭园？无需解释，看实景。",
+    intro:
+      "在以韩国传统庭园式样打造的树木园中散步。四季变化本身就是这里的产品，春花、秋叶与冬季灯光季各呈现不同面貌。\n作为多部电视剧的取景地，向韩流旅客介绍时十分容易，也适合不想登山、只想亲近自然的旅客。",
+    stops: [
+      { name: "韩国庭园", note: "树木园的核心区域，集中呈现传统造景样式。" },
+      { name: "季节庭园", note: "春花·秋叶·冬季「五色星光庭园展」。" },
+      { name: "散步道·咖啡", note: "缓坡设计，全程可步行。" },
+    ],
+    transport: "自驾 — 往加平方向",
+    duration: "单程约1小时20分钟上下 / 停留约2–2.5小时",
+    recommendedTime: "11:00 – 16:00",
+    note: "※ 需再确认 — 高阳出发的实际车程、冬季灯光节的运营期间。",
+  },
+  "zh-TW": {
+    name: "KOREAN GARDEN ESCAPE 5H — 晨靜樹木園",
+    hook: "什麼是韓式庭園？無需解釋，看實景。",
+    intro:
+      "在以韓國傳統庭園式樣打造的樹木園中散步。四季變化本身就是這裡的產品，春花、秋葉與冬季燈光季各呈現不同面貌。\n作為多部電視劇的取景地，向韓流旅客介紹時十分容易，也適合不想登山、只想親近自然的旅客。",
+    stops: [
+      { name: "韓國庭園", note: "樹木園的核心區域，集中呈現傳統造景樣式。" },
+      { name: "季節庭園", note: "春花·秋葉·冬季「五色星光庭園展」。" },
+      { name: "散步道·咖啡", note: "緩坡設計，全程可步行。" },
+    ],
+    transport: "自駕 — 往加平方向",
+    duration: "單程約1小時20分鐘上下 / 停留約2–2.5小時",
+    recommendedTime: "11:00 – 16:00",
+    note: "※ 需再確認 — 高陽出發的實際車程、冬季燈光節的營運期間。",
+  },
+};
+
+const gyeonggiLivingKorea: PerLocale = {
+  en: {
+    name: "LIVING KOREA 5–6H — Korean Folk Village",
+    hook: "If Gyeongbokgung is the Korea of the kings, this is the Korea people actually lived in.",
+    intro:
+      "Hanok houses, traditional living spaces, farming scenery, folk performances, and food all gathered in one place.\n**The point of this course is that it does not overlap with the Seoul Gyeongbokgung route.** Where the palace shows the royal court, the Folk Village shows daily life. Selling the two courses on separate days makes them complement each other. Building the route around the performance schedule raises the finish.",
+    stops: [
+      { name: "Traditional Village", note: "Hanok houses from different regions rebuilt on the grounds — actual size." },
+      { name: "Folk Performances", note: "Nongak farmers' music · tightrope walking · mounted martial arts. Match your route to the schedule." },
+      { name: "Experiences · Traditional Food", note: "Workshop experiences and market food." },
+    ],
+    transport: "Car — toward the Yongin area.",
+    duration: "About 1 hr one way / About 3–4 hr on site",
+    recommendedTime: "10:00 – 16:00",
+    note: "* To verify — actual drive time from Goyang; performance schedule (varies by season).",
+  },
+  ja: {
+    name: "LIVING KOREA 5–6H — 韓国民俗村",
+    hook: "景福宮が王の韓国なら、ここは人々が暮らした韓国です。",
+    intro:
+      "韓屋と伝統的な生活空間、農村風景、民俗公演と食が一つの場所に集まっています。\n**この商品の核心は、ソウルの景福宮コースと重ならない点です。** 宮殿が王室を見せるとすれば、民俗村は暮らしを見せます。二つのコースを二日に分けて販売すると相互補完になります。公演時間表に合わせて動線を組むと完成度が上がります。",
+    stops: [
+      { name: "伝統マウル (Traditional Village)", note: "地域別の韓屋を移築した区域。実物大です。" },
+      { name: "民俗公演", note: "農楽（ノンアク）・綱渡り・馬上武芸。時間表確認後、動線を合わせてください。" },
+      { name: "体験・伝統料理", note: "工房体験と市場料理。" },
+    ],
+    transport: "車 — 龍仁（ヨンイン）方面",
+    duration: "片道 約1時間前後 / 滞在 約3〜4時間",
+    recommendedTime: "10:00 〜 16:00",
+    note: "※ 要確認 — 高陽出発の実走行時間、公演時間表（季節ごとに異なる）。",
+  },
+  "zh-CN": {
+    name: "LIVING KOREA 5–6H — 韩国民俗村",
+    hook: "景福宫是国王的韩国，这里是人们生活的韩国。",
+    intro:
+      "韩屋、传统生活空间、农村风景，以及民俗表演与美食全部汇聚一处。\n**这条路线的重点在于——不会与首尔的景福宫路线重复。** 宫殿呈现的是王室，民俗村呈现的是生活。将两条路线分两天销售，可形成相互补充。搭配表演时间表规划动线，完成度更高。",
+    stops: [
+      { name: "传统村庄", note: "按地区迁建的韩屋区域，实际尺寸。" },
+      { name: "民俗表演", note: "农乐、走绳、马上武艺。请核对时间表后再规划动线。" },
+      { name: "体验·传统美食", note: "工坊体验与市场美食。" },
+    ],
+    transport: "自驾 — 往龙仁方向",
+    duration: "单程约1小时上下 / 停留约3–4小时",
+    recommendedTime: "10:00 – 16:00",
+    note: "※ 需再确认 — 高阳出发的实际车程、表演时间表（因季节而异）。",
+  },
+  "zh-TW": {
+    name: "LIVING KOREA 5–6H — 韓國民俗村",
+    hook: "景福宮是國王的韓國，這裡是人們生活的韓國。",
+    intro:
+      "韓屋、傳統生活空間、農村風景，以及民俗表演與美食全部匯聚一處。\n**這條路線的重點在於——不會與首爾的景福宮路線重複。** 宮殿呈現的是王室，民俗村呈現的是生活。將兩條路線分兩天銷售，可形成相互補充。搭配表演時間表規劃動線，完成度更高。",
+    stops: [
+      { name: "傳統村莊", note: "按地區遷建的韓屋區域，實際尺寸。" },
+      { name: "民俗表演", note: "農樂、走繩、馬上武藝。請核對時間表後再規劃動線。" },
+      { name: "體驗·傳統美食", note: "工坊體驗與市場美食。" },
+    ],
+    transport: "自駕 — 往龍仁方向",
+    duration: "單程約1小時上下 / 停留約3–4小時",
+    recommendedTime: "10:00 – 16:00",
+    note: "※ 需再確認 — 高陽出發的實際車程、表演時間表（因季節而異）。",
+  },
+};
+
+const gyeonggiNamiIsland: PerLocale = {
+  en: {
+    name: "NAMI ISLAND ESCAPE 6H — Nami Island",
+    hook: "A five-minute boat ride to Korea's most famous tree-lined path.",
+    intro:
+      "Five minutes by boat from the Gapyeong dock. Metasequoia and ginkgo-lined paths and riverside walks make it excellent for photography, and long-standing use as a Hallyu filming location gives it very high recognition among foreign visitors. Open year-round.\n\n**Note — do not package this as a 4-hour product.** Round-trip driving alone approaches 3 hours, and parking, ticketing, and boarding waits add up. Six hours is the right length.",
+    stops: [
+      { name: "Gapyeong Dock", note: "1024 Bukhangangbyeon-ro, Gapyeong-eup, Gapyeong-gun, Gyeonggi-do. Board after purchasing tickets." },
+      { name: "Metasequoia Path", note: "The island's signature image. It begins right after arrival." },
+      { name: "Ginkgo Path · Riverside", note: "The autumn season is strongest." },
+      { name: "Café on the island", note: "A finishing point before the return boat." },
+    ],
+    transport: "Car — about 91.8 km from Ilsan · about 1 hr 23 min + about 5 min by ferry.",
+    duration: "About 1 hr 30 min one way / About 2.5–3 hr on site",
+    recommendedTime: "09:30 – 15:30",
+    note: '* Nami Island is administratively in Chuncheon, Gangwon Special Self-Governing Province, but tourist access is via the Gapyeong dock in Gyeonggi-do. Copy should state "via the Gapyeong dock."',
+  },
+  ja: {
+    name: "NAMI ISLAND ESCAPE 6H — 南怡島",
+    hook: "5分の船に乗れば、韓国で最も有名な並木道が現れる。",
+    intro:
+      "加平（カピョン）船着場から船で5分の島です。メタセコイアの並木道と銀杏並木、川辺の散策路が続いて写真映えし、韓流ロケ地として長く知られてきたため外国人の認知度が非常に高い場所です。通年営業。\n\n**注意 — 4時間商品にしてはいけません。** 車の移動だけで往復3時間近くかかり、駐車・チケット・乗船待ちが加わります。6時間が適切です。",
+    stops: [
+      { name: "加平船着場 (Gapyeong)", note: "京畿道加平郡加平邑北漢江邊路1024。チケット購入後乗船。" },
+      { name: "メタセコイア並木道", note: "島の代表イメージ。入島直後すぐに続きます。" },
+      { name: "銀杏並木・川辺", note: "秋シーズンが最も強いです。" },
+      { name: "島内カフェ", note: "帰り船便の前の締めくくり地点。" },
+    ],
+    transport: "車 — 一山基準で約91.8km・約1時間23分 + 渡船 約5分",
+    duration: "片道 約1時間30分 / 滞在 約2.5〜3時間",
+    recommendedTime: "09:30 〜 15:30",
+    note: '※ 南怡島は行政区域上、江原特別自治道春川市ですが、観光客の進入は京畿道加平船着場を経由します。案内文言には「加平船着場経由」と表記してください。',
+  },
+  "zh-CN": {
+    name: "NAMI ISLAND ESCAPE 6H — 南怡岛",
+    hook: "乘船5分钟，便见韩国最有名的林荫小径。",
+    intro:
+      "从加平（Gapyeong）码头搭船5分钟即达的岛屿。水杉林荫道、银杏道与江畔散步路适合摄影，作为韩流拍摄地知名度极高，深受外国游客欢迎。全年运营。\n\n**注意 — 不能作为4小时产品。** 光是自驾往返就接近3小时，再加上停车、售票与乘船等候，共需6小时才合适。",
+    stops: [
+      { name: "加平码头 (Gapyeong)", note: "京畿道加平郡加平邑北汉江边路1024。购票后登船。" },
+      { name: "水杉林荫道", note: "岛屿的代表画面。入岛后即刻延伸。" },
+      { name: "银杏道·江畔", note: "秋季最为出色。" },
+      { name: "岛内咖啡", note: "返程船班前的收尾之处。" },
+    ],
+    transport: "自驾 — 距一山约91.8km · 约1小时23分 + 渡船约5分钟",
+    duration: "单程约1小时30分 / 停留约2.5–3小时",
+    recommendedTime: "09:30 – 15:30",
+    note: '※ 南怡岛在行政区划上属江原特别自治道春川市，但游客进入需经京畿道加平码头。指南文案应标注「经加平码头」。',
+  },
+  "zh-TW": {
+    name: "NAMI ISLAND ESCAPE 6H — 南怡島",
+    hook: "搭船5分鐘，便見韓國最有名的林蔭小徑。",
+    intro:
+      "從加平（Gapyeong）碼頭搭船5分鐘即達的島嶼。水杉林蔭道、銀杏道與江畔散步路適合攝影，作為韓流拍攝地知名度極高，深受外國遊客歡迎。全年營運。\n\n**注意 — 不能作為4小時產品。** 光是自駕往返就接近3小時，再加上停車、售票與乘船等候，共需6小時才合適。",
+    stops: [
+      { name: "加平碼頭 (Gapyeong)", note: "京畿道加平郡加平邑北漢江邊路1024。購票後登船。" },
+      { name: "水杉林蔭道", note: "島嶼的代表畫面。入島後即刻延伸。" },
+      { name: "銀杏道·江畔", note: "秋季最為出色。" },
+      { name: "島內咖啡", note: "返程船班前的收尾之處。" },
+    ],
+    transport: "自駕 — 距一山約91.8km · 約1小時23分 + 渡船約5分鐘",
+    duration: "單程約1小時30分 / 停留約2.5–3小時",
+    recommendedTime: "09:30 – 15:30",
+    note: '※ 南怡島在行政區劃上屬江原特別自治道春川市，但遊客進入需經京畿道加平碼頭。指南文案應標註「經加平碼頭」。',
+  },
+};
+
+const gyeonggiEverland: PerLocale = {
+  en: {
+    name: "EVERLAND FULL DAY 8H — Everland",
+    hook: "Give up a whole day, and the whole day is done in one.",
+    intro:
+      "Korea's largest theme park, with a safari, Panda World, and major attractions.\nAmong the surest products for foreign families, students, and group visitors.\n\n**Note — never make this a 4-hour product.** Subtracting round-trip travel of 2 hours leaves only two, and you spend that time on entry and waiting. **Sell the 8-hour full-day pass only.** Cutting hours turns this from a product into a complaint.",
+    stops: [
+      { name: "Safari World", note: "Vehicle-based viewing. Mornings have shorter waits." },
+      { name: "Panda World", note: "Indoor area. Weather does not affect it." },
+      { name: "Attractions", note: "Check wait times on the app and route accordingly." },
+      { name: "Seasonal Festivals", note: "Tulips · roses · Halloween · illuminations." },
+    ],
+    transport: "Car — about 68 km from Ilsan Stn. · about 1 hr 4 min.",
+    duration: "About 1 hr one way / About 6 hr on site",
+    recommendedTime: "09:00 – 17:00",
+  },
+  ja: {
+    name: "EVERLAND FULL DAY 8H — エバーランド",
+    hook: "一日を丸ごと使う代わりに、一日で終わる。",
+    intro:
+      "サファリとパンダワールド、大型アトラクションを備えた国内最大のテーマパークです。\n外国人ファミリー・学生・団体の反応が最も確実な商品です。\n\n**注意 — 絶対に4時間商品にしてはいけません。** 往復2時間を引くと二時間しか残らず、入場と待ち時間だけで終わってしまいます。**8時間終日券のみを販売してください。** 時間を削ると商品ではなく不満になります。",
+    stops: [
+      { name: "サファリワールド", note: "車両乗車観覧。午前中は待ち時間が短めです。" },
+      { name: "パンダワールド", note: "屋内区域。天候の影響を受けません。" },
+      { name: "アトラクション", note: "待ち時間はアプリで確認して動線を組んでください。" },
+      { name: "シーズンフェスティバル", note: "チューリップ・バラ・ハロウィン・イルミネーション。" },
+    ],
+    transport: "車 — 一山駅基準で約68km・約1時間4分",
+    duration: "片道 約1時間 / 滞在 約6時間",
+    recommendedTime: "09:00 〜 17:00",
+  },
+  "zh-CN": {
+    name: "EVERLAND FULL DAY 8H — 爱宝乐园",
+    hook: "用一整天，一天就结束。",
+    intro:
+      "拥有野生动物园、熊猫世界及大型游乐设施的韩国最大主题公园。\n对外国家庭、学生与团体来说，是反响最稳定的产品。\n\n**注意 — 千万不要做成4小时产品。** 扣除往返2小时后仅剩2小时，只够排队入场。**仅销售8小时全日票**，缩短时间只会带来投诉而非产品。",
+    stops: [
+      { name: "野生动物园", note: "乘车观赏。上午排队较短。" },
+      { name: "熊猫世界", note: "室内区域，不受天气影响。" },
+      { name: "游乐设施", note: "请用App查询等待时间后再规划动线。" },
+      { name: "季节庆典", note: "郁金香·玫瑰·万圣节·灯饰秀。" },
+    ],
+    transport: "自驾 — 距一山站约68km · 约1小时4分",
+    duration: "单程约1小时 / 停留约6小时",
+    recommendedTime: "09:00 – 17:00",
+  },
+  "zh-TW": {
+    name: "EVERLAND FULL DAY 8H — 愛寶樂園",
+    hook: "用一整天，一天就結束。",
+    intro:
+      "擁有野生動物園、熊貓世界及大型遊樂設施的韓國最大主題公園。\n對外國家庭、學生與團體來說，是反響最穩定的產品。\n\n**注意 — 千萬不要做成4小時產品。** 扣除往返2小時後僅剩2小時，只夠排隊入場。**僅販售8小時全日票**，縮短時間只會帶來投訴而非產品。",
+    stops: [
+      { name: "野生動物園", note: "乘車觀賞。上午排隊較短。" },
+      { name: "熊貓世界", note: "室內區域，不受天氣影響。" },
+      { name: "遊樂設施", note: "請用App查詢等待時間後再規劃動線。" },
+      { name: "季節慶典", note: "鬱金香·玫瑰·萬聖節·燈飾秀。" },
+    ],
+    transport: "自駕 — 距一山站約68km · 約1小時4分",
+    duration: "單程約1小時 / 停留約6小時",
+    recommendedTime: "09:00 – 17:00",
+  },
+};
+
+/** id → 로케일별 번역. 17/17 코스 완료 (D25-S · D25-P · D25-G). */
 export const dayTripTranslations: Record<string, PerLocale> = {
   "seoul-royal": seoulRoyal,
   "seoul-night": seoulNight,
@@ -946,6 +1267,11 @@ export const dayTripTranslations: Record<string, PerLocale> = {
   "paju-k-book-hangeul": pajuKBookHangeul,
   "paju-lake-bridge": pajuLakeBridge,
   "paju-k-nature": pajuKNature,
+  "gyeonggi-royal-suwon": gyeonggiRoyalSuwon,
+  "gyeonggi-korean-garden": gyeonggiKoreanGarden,
+  "gyeonggi-living-korea": gyeonggiLivingKorea,
+  "gyeonggi-nami-island": gyeonggiNamiIsland,
+  "gyeonggi-everland": gyeonggiEverland,
 };
 
 /** 로케일 값 스왑 · 미보유 필드는 ko 원문 폴백. */
