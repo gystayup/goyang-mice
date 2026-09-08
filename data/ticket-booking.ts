@@ -140,10 +140,126 @@ export const ticketProducts: TicketProduct[] = [
       { id: "b", label: "B석", price: 59000, benefits: ["지정 좌석"] },
     ],
     translations: {
-      en: { badge: "Coming Soon", venue: "Goyang K-POP Arena", tags: ["K-POP", "Concert", "Premium Seats"], options: [{ id: "vip", label: "VIP Package", benefits: ["Priority Entry", "Welcome Goods"] }, { id: "r", label: "R-Class", benefits: ["Assigned Seat", "Mobile Ticket"] }, { id: "s", label: "S-Class", benefits: ["Assigned Seat", "On-site Ticketing"] }, { id: "a", label: "A-Class", benefits: ["Assigned Seat"] }, { id: "b", label: "B-Class", benefits: ["Assigned Seat"] }] },
-      ja: { badge: "近日オープン", venue: "高陽K-POPアリーナ", tags: ["K-POP", "公演", "プレミアム席"], options: [{ id: "vip", label: "VIPパッケージ", benefits: ["優先入場", "ウェルカムグッズ"] }, { id: "r", label: "R席", benefits: ["指定席", "モバイルチケット"] }, { id: "s", label: "S席", benefits: ["指定席", "現場発券可"] }, { id: "a", label: "A席", benefits: ["指定席"] }, { id: "b", label: "B席", benefits: ["指定席"] }] },
-      "zh-CN": { badge: "即将开放", venue: "高阳K-POP竞技场", tags: ["K-POP", "演出", "高级座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["优先入场", "欢迎礼品"] }, { id: "r", label: "R区", benefits: ["对号入座", "手机票"] }, { id: "s", label: "S区", benefits: ["对号入座", "现场取票"] }, { id: "a", label: "A区", benefits: ["对号入座"] }, { id: "b", label: "B区", benefits: ["对号入座"] }] },
-      "zh-TW": { badge: "即將開放", venue: "高陽K-POP競技場", tags: ["K-POP", "演出", "高級座位"], options: [{ id: "vip", label: "VIP套餐", benefits: ["優先入場", "歡迎禮品"] }, { id: "r", label: "R區", benefits: ["對號入座", "手機票"] }, { id: "s", label: "S區", benefits: ["對號入座", "現場取票"] }, { id: "a", label: "A區", benefits: ["對號入座"] }, { id: "b", label: "B區", benefits: ["對號入座"] }] },
+      en: {
+        badge: "Coming Soon",
+        venue: "Goyang K-POP Arena",
+        tags: ["K-POP", "Concert", "Premium Seats"],
+        subtitle: "K-POP live series in Goyang",
+        summary: "The flagship K-POP live series launching Goyang's performance infrastructure.",
+        description:
+          "The signature concert series marking the opening of Goyang K-POP Arena. It includes Premium, General, and Family Viewing zones, and connects to the DMC stay programs after the show.",
+        duration: "120 min (no intermission)",
+        ageLimit: "All ages",
+        dateText: "2026.05.14 – 2026.05.16",
+        posterLabel: "ARENA",
+        tabNotice:
+          "※ Entry is restricted 30 minutes after the show starts.\n※ Outside food is not allowed inside the venue (drinks with lids are permitted).\n※ Photography is allowed; video recording and flash are not.",
+        tabCasting:
+          "■ Artist lineup\n\n• Headliner: Special artist for the Goyang K-POP Arena opening (to be announced)\n• Supporting: Three emerging artists from Goyang\n• Opening DJ set included\n\n■ Program\n• Opening performance (20 min)\n• Main live show (100 min)\n\n⚠️ The lineup may change at the organizer's discretion.",
+        tabDetails:
+          "The first official signature show marking the opening of Goyang K-POP Arena.\n\n🎤 About the show\nThe opening show of Goyang's new K-POP Arena — a premium live stage for K-POP fans from Korea and abroad.\n\n🏟️ Seating\n- VIP: Rows 1–5 facing the stage, with special merch\n- R-Class: Main floor assigned seating\n- S-Class: Side and second-tier assigned seating\n\n✨ Special benefits\n- VIP: Photo-wall opportunity before the show\n- Early-bird buyers: Limited-edition poster",
+        tabUsageInfo:
+          "• Venue: Goyang K-POP Arena (next to KINTEX)\n• Entry: From 1 hour before the show\n• Mobile or physical ticket required\n• Parking: On-site parking available (paid)\n• Transit: Daehwa Stn. (Line 3) 15 min on foot / shuttle bus available\n• Lost & found: Venue operations 031-XXXX-XXXX",
+        tabPrice:
+          "■ Prices by seat grade\n\n• VIP Package: 198,000 KRW\n  - Assigned seats in rows 1–5 facing the stage\n  - Photo-wall opportunity before the show\n  - Limited-edition welcome merch\n\n• R-Class: 143,000 KRW\n  - Main floor assigned seating\n  - Mobile ticketing\n\n• S-Class: 99,000 KRW\n  - Side and second-tier assigned seating\n  - On-site ticketing available\n\n※ Prices include VAT.\n※ Up to 4 tickets per person.",
+        tabDiscount:
+          "🎟️ Early-bird\n• 10% off all seats within 72 hours of opening sales\n• Ends earlier if the quota sells out\n\n🎓 Youth discount\n• Ages 13–18: 30% off S-Class\n• Student ID or youth ID required on site\n\n👨‍👩‍👧 Family package\n• Buy 4 seats together and 1 person is free\n• Applies to VIP and R-Class\n\n🏢 Group discount\n• 20+ people: 15% off\n• 50+ people: 20% off\n• Advance inquiry required (contact@goyang-mice.kr)\n\n※ Discounts do not stack\n※ Full price applies once early-bird ends",
+        tabVenue:
+          "📍 Venue\nGoyang K-POP Arena (next to KINTEX)\n217-60 KINTEX-ro, Ilsanseo-gu, Goyang-si, Gyeonggi-do\n\n🚇 Transit\n• Subway: Daehwa Stn. (Line 3), 15 min on foot\n• Bus: Shuttle from Goyang Terminal (show days)\n• Airport bus: Direct limousine from Incheon Airport\n\n🚗 By car\n• Naver Map: search \"Goyang K-POP Arena\"\n• Parking: 3,000-space dedicated lot (paid)\n• Rate: 2,000 KRW/hour · 5,000 KRW flat on show days\n\n🏨 Nearby stays\n• Multiple hotels near KINTEX\n• Free shuttle available with a stay package\n\n⚠️ Notes\n• Entry from 1 hour before the show\n• No entry 30 minutes after the show starts",
+        tabCancellation:
+          "■ Cancellation and refund policy\n\n• Within 7 days of purchase & at least 10 days before the show: 100% refund\n• 9–7 days before the show: 70% refund\n• 6–3 days before the show: 50% refund\n• 2 days before or on the day: no refund\n\n■ If the show is cancelled\nFull refund if the show is cancelled by the organizer.\n\n■ Refund processing\n• Credit card: 3–5 business days\n• KakaoPay / bank transfer: 2–3 business days",
+        options: [{ id: "vip", label: "VIP Package", benefits: ["Priority Entry", "Welcome Goods"] }, { id: "r", label: "R-Class", benefits: ["Assigned Seat", "Mobile Ticket"] }, { id: "s", label: "S-Class", benefits: ["Assigned Seat", "On-site Ticketing"] }, { id: "a", label: "A-Class", benefits: ["Assigned Seat"] }, { id: "b", label: "B-Class", benefits: ["Assigned Seat"] }],
+      },
+      ja: {
+        badge: "近日オープン",
+        venue: "高陽K-POPアリーナ (KINTEX隣接)",
+        tags: ["K-POP", "公演", "プレミアム席"],
+        subtitle: "高陽型K-POP連携公演",
+        summary: "高陽の公演インフラ始動を告げる代表的なK-POPライブシリーズです。",
+        description:
+          "高陽K-POPアリーナ開場に合わせて開催されるシグネチャー公演シリーズです。プレミアムゾーン、一般ゾーン、ファミリー観覧ゾーンで構成され、公演後のDMC滞在プログラムとも連携します。",
+        duration: "120分（休憩なし）",
+        ageLimit: "全年齢対象",
+        dateText: "2026.05.14 – 2026.05.16",
+        posterLabel: "ARENA",
+        tabNotice:
+          "※ 公演開始30分後は入場が制限されます。\n※ 会場内への飲食物持ち込み禁止（フタ付きの飲み物のみ可）\n※ 写真撮影は可能、動画撮影・フラッシュ使用は禁止です。",
+        tabCasting:
+          "■ アーティストラインナップ\n\n• ヘッドライナー: 高陽K-POPアリーナ開場記念スペシャルアーティスト（後日発表）\n• サポート: 高陽市出身の新人アーティスト3組\n• オープニングDJセット含む\n\n■ 公演構成\n• オープニングパフォーマンス（20分）\n• メインライブ公演（100分）\n\n⚠️ ラインナップは主催者の都合により変更となる場合があります。",
+        tabDetails:
+          "高陽K-POPアリーナの開場を告げる初の公式シグネチャー公演です。\n\n🎤 公演について\n高陽市が新たに披露するK-POPアリーナの開館公演で、国内外のK-POPファンに向けたプレミアムライブステージです。\n\n🏟️ 座席構成\n- VIP: ステージ正面1〜5列、特別グッズ付き\n- R席: メインフロア指定席\n- S席: サイドおよび2階指定席\n\n✨ 特典\n- VIP購入者: 公演前のフォトウォール参加機会\n- 早期購入者: 限定ポスター進呈",
+        tabUsageInfo:
+          "• 会場: 高陽K-POPアリーナ（KINTEX隣接）\n• 入場: 公演開始1時間前から\n• モバイルチケットまたは実券の持参必須\n• 駐車: 会場駐車場利用可（有料）\n• 公共交通: 大化駅（3号線）徒歩15分／シャトルバス運行\n• 遺失物: 会場運営チーム 031-XXXX-XXXX",
+        tabPrice:
+          "■ 座席等級別料金\n\n• VIPパッケージ: 198,000ウォン\n  - ステージ正面1〜5列指定席\n  - 公演前フォトウォール参加機会\n  - 限定ウェルカムグッズ進呈\n\n• R席: 143,000ウォン\n  - メインフロア指定席\n  - モバイルチケット\n\n• S席: 99,000ウォン\n  - サイド・2階指定席\n  - 現場発券可\n\n※ 料金は消費税込み\n※ お一人様最大4枚まで購入可",
+        tabDiscount:
+          "🎟️ 早期割引\n• 販売開始から72時間以内の購入で全席10%割引\n• 数量限定 · 早期終了の可能性あり\n\n🎓 青少年割引\n• 満13〜18歳: S席30%割引\n• 学生証または青少年証の現場提示必須\n\n👨‍👩‍👧 ファミリーパッケージ\n• 同一座席4名同時購入で1名無料\n• VIP・R席対象\n\n🏢 団体割引\n• 20名以上の団体: 15%割引\n• 50名以上の団体: 20%割引\n• 事前お問い合わせ必須（contact@goyang-mice.kr）\n\n※ 割引の重複適用不可\n※ 早期割終了後は定価適用",
+        tabVenue:
+          "📍 公演会場\n高陽K-POPアリーナ（KINTEX隣接）\n京畿道 高陽市 一山西区 KINTEX路 217-60\n\n🚇 公共交通\n• 地下鉄: 大化（テファ）駅（3号線）徒歩15分\n• バス: 高陽総合ターミナルからシャトルバス運行（公演当日）\n• 空港バス: 仁川空港リムジン直行運行\n\n🚗 自家用車\n• Naverマップ: 「高陽K-POPアリーナ」検索\n• 駐車場: アリーナ専用駐車場3,000台運営（有料）\n• 駐車料金: 1時間2,000ウォン／公演当日 5,000ウォン定額\n\n🏨 周辺宿泊\n• KINTEX近隣に多数のホテル\n• 宿泊パッケージ予約でシャトルバス無料利用可\n\n⚠️ ご案内\n• 公演開始1時間前から入場可能\n• 公演開始30分後は入場制限",
+        tabCancellation:
+          "■ キャンセル・返金規定\n\n• 購入後7日以内 & 公演日10日前まで: 100%返金\n• 公演日9日前〜7日前: 70%返金\n• 公演日6日前〜3日前: 50%返金\n• 公演日2日前〜当日: 返金不可\n\n■ 公演中止の場合\n主催者の都合による中止時は100%返金対応。\n\n■ 返金処理\n• クレジットカード: 3〜5営業日\n• カカオペイ・銀行振込: 2〜3営業日",
+        options: [{ id: "vip", label: "VIPパッケージ", benefits: ["優先入場", "ウェルカムグッズ"] }, { id: "r", label: "R席", benefits: ["指定席", "モバイルチケット"] }, { id: "s", label: "S席", benefits: ["指定席", "現場発券可"] }, { id: "a", label: "A席", benefits: ["指定席"] }, { id: "b", label: "B席", benefits: ["指定席"] }],
+      },
+      "zh-CN": {
+        badge: "即将开放",
+        venue: "高阳K-POP竞技场 (KINTEX旁)",
+        tags: ["K-POP", "演出", "高级座位"],
+        subtitle: "高阳K-POP联动演出",
+        summary: "宣告高阳演出基础设施启动的代表性K-POP现场系列。",
+        description:
+          "配合高阳K-POP竞技场开幕举行的招牌演出系列。设有 Premium、普通、家庭观演三个区域，演出后可与 DMC 停留项目衔接。",
+        duration: "120分钟（无中场休息）",
+        ageLimit: "全年龄段",
+        dateText: "2026.05.14 – 2026.05.16",
+        posterLabel: "ARENA",
+        tabNotice:
+          "※ 演出开始30分钟后限制入场。\n※ 场内禁止外带食物（仅可带有盖饮料）\n※ 允许拍照；禁止摄像与闪光灯。",
+        tabCasting:
+          "■ 艺人阵容\n\n• 主打艺人: 高阳K-POP竞技场开幕特别嘉宾（稍后公布）\n• 助阵: 高阳出身新人艺人3组\n• 含开场 DJ Set\n\n■ 演出构成\n• 开场表演（20分钟）\n• 主要现场演出（100分钟）\n\n⚠️ 阵容可能因主办方原因变动。",
+        tabDetails:
+          "高阳K-POP竞技场开幕以来首场官方招牌演出。\n\n🎤 演出简介\n作为高阳新亮相K-POP竞技场的开馆演出，为国内外K-POP粉丝呈现的高端现场舞台。\n\n🏟️ 座位构成\n- VIP：舞台正面1〜5排指定席，含特别周边\n- R区：主舞池指定席\n- S区：侧面及2层指定席\n\n✨ 特别福利\n- VIP购票者：演出前照片墙参与机会\n- 早鸟购票者：限量海报赠送",
+        tabUsageInfo:
+          "• 场地: 高阳K-POP竞技场（KINTEX旁）\n• 入场: 演出开始前1小时起\n• 需持手机票或实体票\n• 停车: 场馆停车场可用（收费）\n• 公共交通: 大化站（3号线）步行15分钟 / 有接驳巴士\n• 失物: 场馆运营组 031-XXXX-XXXX",
+        tabPrice:
+          "■ 各座位等级价格\n\n• VIP套餐: 198,000韩元\n  - 舞台正面1〜5排指定席\n  - 演出前照片墙参与机会\n  - 限量欢迎周边赠送\n\n• R区: 143,000韩元\n  - 主舞池指定席\n  - 手机票\n\n• S区: 99,000韩元\n  - 侧面及2层指定席\n  - 现场取票可用\n\n※ 价格含增值税\n※ 每人最多购买4张",
+        tabDiscount:
+          "🎟️ 早鸟优惠\n• 开售72小时内购票，全席位10%优惠\n• 限量供应 · 售完即止\n\n🎓 青少年优惠\n• 13〜18岁: S区30%优惠\n• 现场须出示学生证或青少年证\n\n👨‍👩‍👧 家庭套餐优惠\n• 同一区域4人同购，1人免费\n• 适用 VIP·R区\n\n🏢 团体优惠\n• 20人以上: 15%优惠\n• 50人以上: 20%优惠\n• 需事先咨询（contact@goyang-mice.kr）\n\n※ 优惠不可叠加\n※ 早鸟结束后按原价\n",
+        tabVenue:
+          "📍 演出场地\n高阳K-POP竞技场（KINTEX旁）\n京畿道高阳市一山西区KINTEX路217-60\n\n🚇 公共交通\n• 地铁: 大化（Daehwa）站（3号线）步行15分钟\n• 巴士: 高阳综合客运站接驳巴士运行（演出当日）\n• 机场巴士: 仁川机场机场大巴直达\n\n🚗 自驾\n• Naver地图: 搜索「高阳K-POP竞技场」\n• 停车: 场馆专用停车场3,000个车位（收费）\n• 停车费: 每小时2,000韩元 / 演出当日定额5,000韩元\n\n🏨 周边住宿\n• KINTEX附近多家酒店\n• 预订住宿套餐可免费乘接驳巴士\n\n⚠️ 注意事项\n• 演出开始前1小时起可入场\n• 演出开始30分钟后限制入场",
+        tabCancellation:
+          "■ 取消及退款规定\n\n• 购买后7日内 & 演出前10日前: 100%退款\n• 演出前9日〜7日前: 70%退款\n• 演出前6日〜3日前: 50%退款\n• 演出前2日〜当日: 不予退款\n\n■ 演出取消时\n因主办方原因取消时全额退款。\n\n■ 退款处理\n• 信用卡: 3〜5个工作日\n• KakaoPay·银行转账: 2〜3个工作日",
+        options: [{ id: "vip", label: "VIP套餐", benefits: ["优先入场", "欢迎礼品"] }, { id: "r", label: "R区", benefits: ["对号入座", "手机票"] }, { id: "s", label: "S区", benefits: ["对号入座", "现场取票"] }, { id: "a", label: "A区", benefits: ["对号入座"] }, { id: "b", label: "B区", benefits: ["对号入座"] }],
+      },
+      "zh-TW": {
+        badge: "即將開放",
+        venue: "高陽K-POP競技場 (KINTEX旁)",
+        tags: ["K-POP", "演出", "高級座位"],
+        subtitle: "高陽K-POP聯動演出",
+        summary: "宣告高陽演出基礎設施啟動的代表性K-POP現場系列。",
+        description:
+          "配合高陽K-POP競技場開幕舉行的招牌演出系列。設有 Premium、普通、家庭觀演三個區域，演出後可與 DMC 停留計畫銜接。",
+        duration: "120分鐘（無中場休息）",
+        ageLimit: "全年齡段",
+        dateText: "2026.05.14 – 2026.05.16",
+        posterLabel: "ARENA",
+        tabNotice:
+          "※ 演出開始30分鐘後限制入場。\n※ 場內禁止外帶食物（僅可帶有蓋飲料）\n※ 允許拍照；禁止攝影與閃光燈。",
+        tabCasting:
+          "■ 藝人陣容\n\n• 主打藝人: 高陽K-POP競技場開幕特別嘉賓（稍後公布）\n• 助陣: 高陽出身新人藝人3組\n• 含開場 DJ Set\n\n■ 演出構成\n• 開場表演（20分鐘）\n• 主要現場演出（100分鐘）\n\n⚠️ 陣容可能因主辦方原因變動。",
+        tabDetails:
+          "高陽K-POP競技場開幕以來首場官方招牌演出。\n\n🎤 演出簡介\n作為高陽新亮相K-POP競技場的開館演出，為國內外K-POP歌迷呈現的高端現場舞台。\n\n🏟️ 座位構成\n- VIP：舞台正面1〜5排指定席，含特別周邊\n- R區：主舞池指定席\n- S區：側面及2層指定席\n\n✨ 特別福利\n- VIP購票者：演出前照片牆參與機會\n- 早鳥購票者：限量海報贈送",
+        tabUsageInfo:
+          "• 場地: 高陽K-POP競技場（KINTEX旁）\n• 入場: 演出開始前1小時起\n• 需持手機票或實體票\n• 停車: 場館停車場可用（收費）\n• 公共交通: 大化站（3號線）步行15分鐘 / 有接駁巴士\n• 失物: 場館營運組 031-XXXX-XXXX",
+        tabPrice:
+          "■ 各座位等級價格\n\n• VIP套餐: 198,000韓元\n  - 舞台正面1〜5排指定席\n  - 演出前照片牆參與機會\n  - 限量歡迎周邊贈送\n\n• R區: 143,000韓元\n  - 主舞池指定席\n  - 手機票\n\n• S區: 99,000韓元\n  - 側面及2層指定席\n  - 現場取票可用\n\n※ 價格含加值稅\n※ 每人最多購買4張",
+        tabDiscount:
+          "🎟️ 早鳥優惠\n• 開售72小時內購票，全席位10%優惠\n• 限量供應 · 售完即止\n\n🎓 青少年優惠\n• 13〜18歲: S區30%優惠\n• 現場須出示學生證或青少年證\n\n👨‍👩‍👧 家庭套餐優惠\n• 同一區域4人同購，1人免費\n• 適用 VIP·R區\n\n🏢 團體優惠\n• 20人以上: 15%優惠\n• 50人以上: 20%優惠\n• 需事先諮詢（contact@goyang-mice.kr）\n\n※ 優惠不可疊加\n※ 早鳥結束後按原價\n",
+        tabVenue:
+          "📍 演出場地\n高陽K-POP競技場（KINTEX旁）\n京畿道高陽市一山西區KINTEX路217-60\n\n🚇 公共交通\n• 地鐵: 大化（Daehwa）站（3號線）步行15分鐘\n• 巴士: 高陽綜合客運站接駁巴士運行（演出當日）\n• 機場巴士: 仁川機場機場大巴直達\n\n🚗 自駕\n• Naver地圖: 搜尋「高陽K-POP競技場」\n• 停車: 場館專用停車場3,000個車位（收費）\n• 停車費: 每小時2,000韓元 / 演出當日定額5,000韓元\n\n🏨 周邊住宿\n• KINTEX附近多家飯店\n• 預訂住宿套餐可免費搭乘接駁巴士\n\n⚠️ 注意事項\n• 演出開始前1小時起可入場\n• 演出開始30分鐘後限制入場",
+        tabCancellation:
+          "■ 取消及退款規定\n\n• 購買後7日內 & 演出前10日前: 100%退款\n• 演出前9日〜7日前: 70%退款\n• 演出前6日〜3日前: 50%退款\n• 演出前2日〜當日: 不予退款\n\n■ 演出取消時\n因主辦方原因取消時全額退款。\n\n■ 退款處理\n• 信用卡: 3〜5個工作日\n• KakaoPay·銀行轉帳: 2〜3個工作日",
+        options: [{ id: "vip", label: "VIP套餐", benefits: ["優先入場", "歡迎禮品"] }, { id: "r", label: "R區", benefits: ["對號入座", "手機票"] }, { id: "s", label: "S區", benefits: ["對號入座", "現場取票"] }, { id: "a", label: "A區", benefits: ["對號入座"] }, { id: "b", label: "B區", benefits: ["對號入座"] }],
+      },
     },
   },
   {
