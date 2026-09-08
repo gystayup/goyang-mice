@@ -22,6 +22,7 @@ import {
   type DayTripLocale,
 } from "@/data/day-trips";
 import { loadDayTrips } from "@/lib/day-trip-catalog-db";
+import { getLocalizedDayTripCourses } from "@/data/day-trip-courses-i18n";
 import type { DayTripCourse } from "@/data/day-trip-courses";
 import { getCoursePhotos } from "@/lib/day-trip-photos";
 
@@ -62,7 +63,8 @@ export default async function ProductsPage({
   locale?: PageLocale;
 }) {
   const copy = DAY_TRIPS_PAGE_COPY;
-  const courses = await loadDayTrips();
+  // 오더 #D25: 로케일 값 스왑 · 미이관 코스는 ko 원문 폴백.
+  const courses = getLocalizedDayTripCourses(await loadDayTrips(), locale);
 
   // 오더 #C59-B [2] — 목록 카드용 대표 사진 자동 수집.
   //   각 코스의 timeline 스팟 갤러리 첫 장 · 없으면 undefined (그라디언트 폴백 유지).
