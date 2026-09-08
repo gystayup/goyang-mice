@@ -22,6 +22,9 @@ import { ArrowRight, Bus, Car, Train, Zap } from "lucide-react";
 import Shell from "@/components/layout/Shell";
 import DayTripStickyCta from "@/components/day-trips/DayTripStickyCta";
 import CourseIllustration from "@/components/illustrations/CourseIllustration";
+import OverviewBox from "@/components/day-trips/OverviewBox";
+import CourseSidebar from "@/components/day-trips/CourseSidebar";
+import { MapPin } from "lucide-react";
 import { Link } from "@/lib/navigation";
 import { getAxisBlock, type DayTripLocale } from "@/data/day-trips";
 import type { DayTripAxis, DayTripCourse } from "@/data/day-trip-courses";
@@ -120,6 +123,22 @@ const CTA_BUTTON: Record<PageLocale, string> = {
   ja: "高陽の宿泊を見る",
   "zh-CN": "查看高阳住宿",
   "zh-TW": "查看高陽住宿",
+};
+
+// 오더 #D09 [1]-A: 히어로 아래 흰 배경 위 · 출발지 · 고지 5로케일
+const STARTING_FROM: Record<PageLocale, string> = {
+  ko: "고양에서 출발",
+  en: "Starting from Goyang",
+  ja: "高陽から出発",
+  "zh-CN": "从高阳出发",
+  "zh-TW": "從高陽出發",
+};
+const HERO_NOTE: Record<PageLocale, string> = {
+  ko: "이 코스는 안내 정보입니다. 입장권·체험은 각 기관에서 직접 예매하십시오.",
+  en: "This course is informational. Book admissions and experiences directly with each venue.",
+  ja: "本コースはご案内です。入場券・体験は各施設で直接ご予約ください。",
+  "zh-CN": "本路线仅供参考。入场券·体验请直接在各机构预订。",
+  "zh-TW": "本路線僅供參考。入場券·體驗請直接於各機構預訂。",
 };
 const AXIS_BADGE_EN: Record<string, string> = {
   seoul: "SEOUL",
@@ -357,493 +376,343 @@ export default async function DayTripDetailPage({
   const introParagraphs = splitParagraphs(course.intro ?? "");
   const accessFallbackParagraphs = course.access ? [] : splitParagraphs(course.transport ?? "");
 
-  // 오더 #C68 [1]-C: 대형 이미지 위에만 얹는 오버레이 (breadcrumb + 배지 + 제목 + 스팟 + 후크).
-  //   색면 폴백/1장/2장/3장 모든 케이스에서 재사용.
-  const overlayContent = (
-    <div className="absolute inset-0 flex flex-col justify-between px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-      {/* 상단: Breadcrumb */}
-      <nav
-        aria-label="breadcrumb"
-        className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm"
-      >
-        <Link
-          href="/"
-          locale={locale}
-          className="text-white/90 underline-offset-4 hover:underline"
-        >
-          {BREADCRUMB_HOME[locale]}
-        </Link>
-        <span aria-hidden="true" className="text-white/60">›</span>
-        <Link
-          href="/products"
-          locale={locale}
-          className="text-white/90 underline-offset-4 hover:underline"
-        >
-          {BREADCRUMB_DAYTRIPS[locale]}
-        </Link>
-        <span aria-hidden="true" className="text-white/60">›</span>
-        <Link
-          href="/products"
-          locale={locale}
-          className="text-white/90 underline-offset-4 hover:underline"
-        >
-          {breadcrumbAxisLabel}
-        </Link>
-        <span aria-hidden="true" className="text-white/60">›</span>
-        <span aria-current="page" className="text-white">{displayName}</span>
-      </nav>
-      {/* 하단: 배지 · 제목 · 스팟 · 후크 */}
-      <div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span
-            className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
-            style={badgeStyle}
-          >
-            {axisEn}
-          </span>
-          <span
-            className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
-            style={{ background: "#faf7f2", color: "#232322" }}
-          >
-            {course.durationBadge}
-          </span>
-        </div>
-        <h1 className="mt-3 text-2xl font-black leading-tight tracking-[-0.03em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] sm:text-3xl lg:text-4xl">
-          {displayName}
-        </h1>
-        {course.stops.length > 0 && (
-          <p className="mt-2 text-xs text-white/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-sm">
-            {course.stops.map((s) => s.name).join(" · ")}
-          </p>
-        )}
-        <p className="mt-2 max-w-[720px] text-sm leading-[1.6] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)] sm:text-base">
-          {hookText}
-        </p>
-      </div>
-    </div>
-  );
+  // 오더 #D09 [1]-A: 히어로 74px 얇게 축소. Breadcrumb·배지·제목·출발지·고지는
+  //   히어로 아래 흰 배경으로 이동 (visitlondon 상세 레이아웃 참고).
 
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 히어로 — 항상 렌더. 사진 유무·장수에 따라 색면/1장/2장/3장 콜라주.
-             오더 #C68 [1]-C: 대형1+소형2 콜라주. 오버레이는 대형 위에만. */}
-        <section className="relative w-full overflow-hidden bg-white">
-          <div className="relative mx-auto h-[300px] w-full max-w-7xl overflow-hidden sm:h-[360px] lg:h-[420px]">
-            {!hasHero && (
+        {/* ① 얇은 히어로 밴드 (74px, 2:1 분할, 사진 없으면 축 색 단색) — 오더 #D09 [1]-A */}
+        <section className="w-full">
+          <div className="mx-auto grid h-[74px] max-w-[1200px] grid-cols-3 overflow-hidden">
+            {hasHero ? (
               <>
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0"
-                  style={{ background: axisGradient(axis.color) }}
-                />
-                {overlayContent}
-              </>
-            )}
-            {hasHero && heroImgs.length === 1 && (
-              <>
-                <Image
-                  src={heroImgs[0]}
-                  alt={displayName}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1280px"
-                  className="object-cover"
-                  priority
-                />
-                <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
-                {overlayContent}
-              </>
-            )}
-            {hasHero && heroImgs.length === 2 && (
-              <div className="absolute inset-0 grid grid-cols-1 grid-rows-[3fr_2fr] gap-1 lg:grid-cols-3 lg:grid-rows-1">
-                <div className="relative overflow-hidden lg:col-span-2">
+                <div className="relative col-span-2 overflow-hidden bg-slate-100">
                   <Image
                     src={heroImgs[0]}
-                    alt={displayName}
+                    alt=""
                     fill
-                    sizes="(max-width: 1024px) 100vw, 853px"
+                    sizes="800px"
                     className="object-cover"
                     priority
                   />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
-                  {overlayContent}
                 </div>
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={heroImgs[1]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 427px"
-                    className="object-cover"
-                  />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
+                <div className="relative overflow-hidden" style={{ background: axis.color }}>
+                  {heroImgs[1] && (
+                    <Image
+                      src={heroImgs[1]}
+                      alt=""
+                      fill
+                      sizes="400px"
+                      className="object-cover"
+                    />
+                  )}
                 </div>
-              </div>
-            )}
-            {hasHero && heroImgs.length === 3 && (
-              <div className="absolute inset-0 grid grid-cols-2 grid-rows-[3fr_2fr] gap-1 lg:grid-cols-3 lg:grid-rows-2">
-                <div className="relative overflow-hidden col-span-2 lg:col-span-2 lg:row-span-2">
-                  <Image
-                    src={heroImgs[0]}
-                    alt={displayName}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 853px"
-                    className="object-cover"
-                    priority
-                  />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
-                  {overlayContent}
-                </div>
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={heroImgs[1]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 427px"
-                    className="object-cover"
-                  />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
-                </div>
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={heroImgs[2]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 427px"
-                    className="object-cover"
-                  />
-                  <div aria-hidden="true" className="absolute inset-0 bg-black/20" />
-                </div>
-              </div>
+              </>
+            ) : (
+              <>
+                <div className="col-span-2" style={{ background: axis.color }} />
+                <div style={{ background: `${axis.color}CC` }} />
+              </>
             )}
           </div>
         </section>
 
-        {/* ② Overview 4칸 (없으면 숨김) — 흰색 */}
-        {course.overview && hasAnyOverview(course.overview) && (
-          <section className="bg-white">
-            <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-              <h2 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
-                {OVERVIEW_LABEL[locale]}
-              </h2>
-              <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-                {course.overview.totalDuration && (
-                  <OverviewCell
-                    label={OVERVIEW_ITEM_LABELS[locale].totalDuration}
-                    value={course.overview.totalDuration}
-                  />
-                )}
-                {course.overview.transport && (
-                  <OverviewCell
-                    label={OVERVIEW_ITEM_LABELS[locale].transport}
-                    value={course.overview.transport}
-                  />
-                )}
-                {course.overview.recommendedTime && (
-                  <OverviewCell
-                    label={OVERVIEW_ITEM_LABELS[locale].recommendedTime}
-                    value={course.overview.recommendedTime}
-                  />
-                )}
-                {course.overview.recommendedFor && (
-                  <OverviewCell
-                    label={OVERVIEW_ITEM_LABELS[locale].recommendedFor}
-                    value={course.overview.recommendedFor}
-                  />
-                )}
-              </dl>
-            </div>
-          </section>
-        )}
-
-        {/* ③ 가는 법 — 2칸 카드 + 지도 축소 · 흰색 */}
+        {/* ② 흰 배경 헤더 — breadcrumb + 배지 + 제목 + 출발지 + 고지 (오더 #D09 [1]-A) */}
         <section className="bg-white">
-          <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-            <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-              {ACCESS_LABEL[locale]}
-            </h2>
-            {transportCards.length > 0 && (
-              <div
-                className={
-                  "mt-6 grid gap-3 " +
-                  (transportCards.length > 1 || gtxMentioned
-                    ? "grid-cols-1 md:grid-cols-2"
-                    : "grid-cols-1")
-                }
-              >
-                {transportCards.map((card, i) => {
-                  const Icon = TRANSPORT_ICONS[card.icon];
-                  return (
-                    <div
-                      key={`${card.title}-${i}`}
-                      className="rounded-2xl border border-slate-200 bg-white p-5"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span
-                          aria-hidden="true"
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full"
-                          style={{ background: `${axis.color}1A`, color: axis.color }}
-                        >
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <span className="text-base font-black text-[#232322]">
-                          {card.title}
-                        </span>
-                      </div>
-                      {card.body && (
-                        <p className="mt-3 text-sm leading-[1.6] text-[#232322]">
-                          {card.body}
-                        </p>
-                      )}
-                      {course.duration && (
-                        <p className="mt-2 text-xs text-slate-500">{course.duration}</p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            {(accessBullets.length > 0 || accessFallbackParagraphs.length > 0) && (
-              <ul className="mt-4 space-y-2">
-                {(accessBullets.length > 0 ? accessBullets : accessFallbackParagraphs).map(
-                  (line, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2 text-sm leading-[1.7] text-[#232322]"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ background: axis.color }}
-                      />
-                      <span>{line}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
-            {/* 대곡역 축소 지도 — 클릭 시 /dmc/move */}
-            <div className="mt-6">
-              <Link
-                href="/dmc/move"
-                locale={locale}
-                className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white"
-              >
-                <Image
-                  src={`/images/transit/daegok-access-map-${locale}.svg`}
-                  alt={ACCESS_MAP_LINK[locale]}
-                  width={720}
-                  height={480}
-                  className="h-auto w-full transition group-hover:opacity-90"
-                />
+          <div className="mx-auto max-w-[1200px] px-4 pb-6 pt-4 sm:px-6">
+            <nav aria-label="breadcrumb" className="flex flex-wrap items-center gap-1.5 text-[12px] text-slate-500">
+              <Link href="/" locale={locale} className="hover:underline">
+                {BREADCRUMB_HOME[locale]}
               </Link>
-              <div className="mt-2">
-                <Link
-                  href="/dmc/move"
-                  locale={locale}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)] underline-offset-4 hover:underline"
-                >
-                  {ACCESS_MAP_LINK[locale]} <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+              <span aria-hidden="true">›</span>
+              <Link href="/products" locale={locale} className="hover:underline">
+                {BREADCRUMB_DAYTRIPS[locale]}
+              </Link>
+              <span aria-hidden="true">›</span>
+              <Link href="/products" locale={locale} className="hover:underline">
+                {breadcrumbAxisLabel}
+              </Link>
+              <span aria-hidden="true">›</span>
+              <span aria-current="page" className="text-[#232322]">{displayName}</span>
+            </nav>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
+                style={badgeStyle}
+              >
+                {axisEn}
+              </span>
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
+                style={{ background: "#faf7f2", color: "#232322" }}
+              >
+                {course.durationBadge}
+              </span>
             </div>
+            <h1 className="mt-2 text-[28px] font-extrabold leading-tight tracking-[-0.02em] text-[#232322] sm:text-[37px]">
+              {displayName}
+            </h1>
+            <div className="mt-2 flex items-center gap-1.5 text-[13px] text-slate-700">
+              <MapPin className="h-4 w-4" strokeWidth={1.4} />
+              <span>{STARTING_FROM[locale]}</span>
+            </div>
+            <p className="mt-2 text-[12px] italic text-slate-500">
+              {HERO_NOTE[locale]}
+            </p>
+            {course.stops.length > 0 && (
+              <p className="mt-3 text-[13px] leading-[1.6] text-slate-700">
+                {course.stops.map((s) => s.name).join(" · ")} · {hookText}
+              </p>
+            )}
           </div>
         </section>
 
-        {/* ④ 타임라인 (핵심) — 없으면 숨김 · 흰색 */}
-        {timeline.length > 0 && (
-          <section className="bg-white">
-            <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-              <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-                {TIMELINE_LABEL[locale]}
-              </h2>
-              <ol className="relative mt-6">
-                {timeline.map((node, i) => {
-                  const isLast = i === timeline.length - 1;
-                  const linkable = timelineLinkability[i];
-                  return (
-                    <li key={`${node.spotName}-${i}`} className="relative pb-8 last:pb-0">
-                      {/* 좌측 세로선 */}
-                      {!isLast && (
-                        <span
-                          aria-hidden="true"
-                          className="absolute left-[11px] top-6 h-full w-px"
-                          style={{ background: axis.color, opacity: 0.35 }}
-                        />
-                      )}
-                      {/* 원형 노드 (색=축) */}
-                      <span
-                        aria-hidden="true"
-                        className="absolute left-0 top-1 inline-block h-6 w-6 rounded-full ring-4 ring-white"
-                        style={{ background: axis.color }}
-                      />
-                      <div className="pl-10">
-                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          {node.time && (
-                            <span className="text-sm font-black text-[#232322]">{node.time}</span>
-                          )}
-                          {linkable && node.spotSlug ? (
-                            <Link
-                              href={`/dmc/${node.spotSlug}`}
-                              locale={locale}
-                              className="text-base font-bold text-[#232322] underline-offset-4 hover:underline sm:text-lg"
-                            >
-                              {node.spotName}
-                            </Link>
-                          ) : (
-                            <span className="text-base font-bold text-[#232322] sm:text-lg">
-                              {node.spotName}
-                            </span>
-                          )}
-                          {node.duration && (
-                            <span className="text-sm text-slate-500">{node.duration}</span>
-                          )}
-                        </div>
-                        {node.note && (
-                          <p className="mt-1 text-sm leading-[1.7] text-slate-700">{node.note}</p>
+        {/* ③ 본문 2단 (좌 1fr / 우 330px) — 오더 #D09 [1]-B/C */}
+        <section className="bg-white">
+          <div className="mx-auto max-w-[1200px] px-4 pb-10 sm:px-6 lg:grid lg:grid-cols-[1fr_330px] lg:gap-7">
+            <div className="min-w-0">
+              {/* 회색 박스 (개요 탭 · 2×2 요약) */}
+              {course.overview && hasAnyOverview(course.overview) && (
+                <div>
+                  <OverviewBox locale={locale} overview={course.overview} />
+                </div>
+              )}
+
+              {/* About + 일러 */}
+              <div className="mt-10">
+                <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+                  {ABOUT_LABEL[locale]}
+                </h2>
+                <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-start">
+                  <div className="shrink-0">
+                    <CourseIllustration
+                      courseId={course.id}
+                      className="h-auto w-[170px] md:w-[196px]"
+                      title={course.name}
+                    />
+                  </div>
+                  <div className="max-w-[680px]">
+                    {introParagraphs.length > 0
+                      ? introParagraphs.map((para, i) => (
+                          <p
+                            key={i}
+                            className="mt-3 text-base leading-[1.7] text-[#232322] first:mt-0"
+                          >
+                            {para}
+                          </p>
+                        ))
+                      : (
+                          <p className="text-base leading-[1.7] text-[#232322]">
+                            {(course.intro ?? "").replace(/\n/g, " ")}
+                          </p>
                         )}
-                        {node.transportToNext && (
-                          <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
+                  </div>
+                </div>
+              </div>
+
+              {/* 타임라인 */}
+              {timeline.length > 0 && (
+                <div className="mt-10">
+                  <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+                    {TIMELINE_LABEL[locale]}
+                  </h2>
+                  <ol className="relative mt-6">
+                    {timeline.map((node, i) => {
+                      const isLast = i === timeline.length - 1;
+                      const linkable = timelineLinkability[i];
+                      return (
+                        <li key={`${node.spotName}-${i}`} className="relative pb-8 last:pb-0">
+                          {!isLast && (
                             <span
                               aria-hidden="true"
-                              className="inline-block h-4 w-px border-l border-dashed"
-                              style={{ borderColor: axis.color, opacity: 0.6 }}
+                              className="absolute left-[11px] top-6 h-full w-px"
+                              style={{ background: axis.color, opacity: 0.35 }}
                             />
-                            <span>↓ {node.transportToNext}</span>
+                          )}
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-0 top-1 inline-block h-6 w-6 rounded-full ring-4 ring-white"
+                            style={{ background: axis.color }}
+                          />
+                          <div className="pl-10">
+                            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                              {node.time && (
+                                <span className="text-sm font-black text-[#232322]">{node.time}</span>
+                              )}
+                              {linkable && node.spotSlug ? (
+                                <Link
+                                  href={`/dmc/${node.spotSlug}`}
+                                  locale={locale}
+                                  className="text-base font-bold text-[#232322] underline-offset-4 hover:underline sm:text-lg"
+                                >
+                                  {node.spotName}
+                                </Link>
+                              ) : (
+                                <span className="text-base font-bold text-[#232322] sm:text-lg">
+                                  {node.spotName}
+                                </span>
+                              )}
+                              {node.duration && (
+                                <span className="text-sm text-slate-500">{node.duration}</span>
+                              )}
+                            </div>
+                            {node.note && (
+                              <p className="mt-1 text-sm leading-[1.7] text-slate-700">{node.note}</p>
+                            )}
+                            {node.transportToNext && (
+                              <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
+                                <span
+                                  aria-hidden="true"
+                                  className="inline-block h-4 w-px border-l border-dashed"
+                                  style={{ borderColor: axis.color, opacity: 0.6 }}
+                                />
+                                <span>↓ {node.transportToNext}</span>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </section>
-        )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              )}
 
-        {/* ⑤ About + 좌측 라인 일러스트 — 아이보리 · 문단 단위 분리
-             오더 #D07: /images/illustrations/{key}.svg 파일 대신 코드 SVG 컴포넌트
-             CourseIllustration 로 교체. 17개 코스별 전용 라인 일러 (visitlondon 참고).
-             레이아웃: 좌 196px + 우 본문 2단 (md+), 모바일 1단 170px. */}
-        <section className="bg-[#faf7f2]">
-          <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-            <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-              {ABOUT_LABEL[locale]}
-            </h2>
-            <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-start">
-              <div className="shrink-0">
-                <CourseIllustration
-                  courseId={course.id}
-                  className="h-auto w-[170px] md:w-[196px]"
-                  title={course.name}
-                />
-              </div>
-              <div className="max-w-[680px]">
-                {introParagraphs.length > 0
-                  ? introParagraphs.map((para, i) => (
-                      <p
-                        key={i}
-                        className="mt-3 text-base leading-[1.7] text-[#232322] first:mt-0"
-                      >
-                        {para}
-                      </p>
-                    ))
-                  : (
-                      <p className="text-base leading-[1.7] text-[#232322]">
-                        {(course.intro ?? "").replace(/\n/g, " ")}
-                      </p>
+              {/* 가는 법 */}
+              <div className="mt-10">
+                <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+                  {ACCESS_LABEL[locale]}
+                </h2>
+                {transportCards.length > 0 && (
+                  <div
+                    className={
+                      "mt-6 grid gap-3 " +
+                      (transportCards.length > 1 || gtxMentioned
+                        ? "grid-cols-1 md:grid-cols-2"
+                        : "grid-cols-1")
+                    }
+                  >
+                    {transportCards.map((card, i) => {
+                      const Icon = TRANSPORT_ICONS[card.icon];
+                      return (
+                        <div
+                          key={`${card.title}-${i}`}
+                          className="rounded-2xl border border-slate-200 bg-white p-5"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span
+                              aria-hidden="true"
+                              className="inline-flex h-9 w-9 items-center justify-center rounded-full"
+                              style={{ background: `${axis.color}1A`, color: axis.color }}
+                            >
+                              <Icon className="h-5 w-5" />
+                            </span>
+                            <span className="text-base font-black text-[#232322]">
+                              {card.title}
+                            </span>
+                          </div>
+                          {card.body && (
+                            <p className="mt-3 text-sm leading-[1.6] text-[#232322]">
+                              {card.body}
+                            </p>
+                          )}
+                          {course.duration && (
+                            <p className="mt-2 text-xs text-slate-500">{course.duration}</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {(accessBullets.length > 0 || accessFallbackParagraphs.length > 0) && (
+                  <ul className="mt-4 space-y-2">
+                    {(accessBullets.length > 0 ? accessBullets : accessFallbackParagraphs).map(
+                      (line, i) => (
+                        <li
+                          key={i}
+                          className="flex gap-2 text-sm leading-[1.7] text-[#232322]"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full"
+                            style={{ background: axis.color }}
+                          />
+                          <span>{line}</span>
+                        </li>
+                      )
                     )}
+                  </ul>
+                )}
               </div>
+
+              {/* 스팟 카드 */}
+              {spotCards.length > 0 && (
+                <div className="mt-10">
+                  <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+                    {STOPS_LABEL[locale]}
+                  </h2>
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {spotCards.map(({ node }, i) => (
+                      <Link
+                        key={`${node.spotSlug}-${i}`}
+                        href={`/dmc/${node.spotSlug}`}
+                        locale={locale}
+                        className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[var(--accent)]"
+                      >
+                        <div
+                          aria-hidden="true"
+                          className="h-32 w-full"
+                          style={{
+                            background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 100%)`,
+                          }}
+                        />
+                        <div className="p-4">
+                          <div className="text-base font-bold text-[#232322] group-hover:text-[var(--accent)]">
+                            {node.spotName}
+                          </div>
+                          {node.note && (
+                            <p className="mt-1 line-clamp-2 text-sm text-slate-600">{node.note}</p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* FAQ */}
+              {course.faq && course.faq.length > 0 && (
+                <div className="mt-10">
+                  <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
+                    {FAQ_LABEL[locale]}
+                  </h2>
+                  <dl className="mt-6 space-y-4">
+                    {course.faq.slice(0, 4).map((item, i) => (
+                      <div
+                        key={i}
+                        className="rounded-2xl border border-slate-200 bg-white p-5"
+                      >
+                        <dt className="text-base font-bold text-[#232322]">Q. {item.q}</dt>
+                        <dd className="mt-2 whitespace-pre-line text-sm leading-[1.7] text-slate-700">
+                          {item.a}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+            </div>
+
+            {/* 우측 sticky 사이드바 — whyGood ✓ + 광고 블록 */}
+            <div className="mt-10 lg:mt-0">
+              <CourseSidebar
+                locale={locale}
+                whyGood={course.whyGood}
+                nearby={course.nearby}
+              />
             </div>
           </div>
         </section>
-
-        {/* ⑥ 이 코스가 좋은 이유 (없으면 숨김) — 아이보리 */}
-        {course.whyGood && course.whyGood.length > 0 && (
-          <section className="bg-[#faf7f2]">
-            <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-              <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-                {WHY_LABEL[locale]}
-              </h2>
-              <ul className="mt-6 space-y-3">
-                {course.whyGood.map((line, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-3 text-base leading-[1.7] text-[#232322]"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-2 inline-block h-2 w-2 shrink-0 rounded-full"
-                      style={{ background: axis.color }}
-                    />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        )}
-
-        {/* ⑦ 스팟 카드 — 스팟 상세 있는 것만 · 흰색 */}
-        {spotCards.length > 0 && (
-          <section className="bg-white">
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:py-10">
-              <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-                {STOPS_LABEL[locale]}
-              </h2>
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {spotCards.map(({ node }, i) => (
-                  <Link
-                    key={`${node.spotSlug}-${i}`}
-                    href={`/dmc/${node.spotSlug}`}
-                    locale={locale}
-                    className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[var(--accent)]"
-                  >
-                    <div
-                      aria-hidden="true"
-                      className="h-32 w-full"
-                      style={{
-                        background: `linear-gradient(135deg, ${axis.color} 0%, ${axis.color}CC 100%)`,
-                      }}
-                    />
-                    <div className="p-4">
-                      <div className="text-base font-bold text-[#232322] group-hover:text-[var(--accent)]">
-                        {node.spotName}
-                      </div>
-                      {node.note && (
-                        <p className="mt-1 line-clamp-2 text-sm text-slate-600">{node.note}</p>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ⑧ FAQ — 없으면 블록 자체 숨김 · 아이보리 */}
-        {course.faq && course.faq.length > 0 && (
-          <section className="bg-[#faf7f2]">
-            <div className="mx-auto max-w-[720px] px-4 py-8 sm:px-6 md:py-10">
-              <h2 className="text-xl font-black leading-tight tracking-[-0.02em] text-[#232322] sm:text-2xl">
-                {FAQ_LABEL[locale]}
-              </h2>
-              <dl className="mt-6 space-y-4">
-                {course.faq.slice(0, 4).map((item, i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl border border-slate-200 bg-white p-5"
-                  >
-                    <dt className="text-base font-bold text-[#232322]">Q. {item.q}</dt>
-                    <dd className="mt-2 whitespace-pre-line text-sm leading-[1.7] text-slate-700">
-                      {item.a}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </section>
-        )}
 
         {/* ⑨ 같은 축 다른 코스 3개 — 흰색 */}
         {related.length > 0 && (
