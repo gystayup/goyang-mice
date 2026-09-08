@@ -1,24 +1,26 @@
-// /[locale]/dmc/tickets/[id] — 오더 #C56 [1] 티켓 상세 안내 라우트.
+// /[locale]/dmc/tickets/[id] — 오더 #D18 visitlondon 예매형 레이아웃.
 //
-// 방침 (사장님 확정):
-//   · 결제·예약 시스템 신설 금지. 안내형 페이지.
-//   · 표시 항목은 data/ticket-booking.ts 의 기존 필드만 사용 (창작 금지).
-//   · 5로케일 (ko/en/ja/zh-CN/zh-TW) — ko 원문 + translations 병합 (A안).
-//   · 최하단 CTA = "문의하기" → /contact.
+// 진화:
+//   · #C56 [1]: 초기 안내형 페이지 (탭 8종 · 세로 나열).
+//   · #C57 [3]: 최하단 예매 CTA 복구 (기존 Toss reservation 재사용).
+//   · #D18: visitlondon(theatre.visitlondon.com) 예매형 2단 레이아웃 전환.
+//     좌측 본문(히어로·정보블록·현지어 장소명·4탭) + 우측 sticky 예매 박스(캘린더·CTA).
+//     새 결제 시스템 신설 금지 — 기존 /products/ticket-agency-platform/reservation?ticket={id} 재사용.
+//     회차·잔여 상태 데이터 미보유 → 캘린더는 dateText~endDate 범위를 "여유"로 표시,
+//     선택 시 "회차·좌석은 예매 화면에서" 안내.
 //
-// 데이터: readTicketCatalog() (Supabase 우선 · DB 실패 시 정적 폴백).
-// 렌더 필드: 포스터(imageUrl or 그라디언트+posterLabel) · badge · title · subtitle
-//   · venue · dateText · duration · ageLimit · tags · options(label/price/benefits)
-//   · summary · description · credit · tab* (있으면).
+// 데이터: readTicketCatalog() (Supabase 우선 · 실패 시 정적 폴백).
+// 5로케일 (ko/en/ja/zh-CN/zh-TW) — ko 원문 + translations 병합.
 
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowRight, Calendar, Clock, MapPin, Users } from "lucide-react";
+import { Calendar, Clock, MapPin, Ticket as TicketIcon, Users } from "lucide-react";
 
 import Shell from "@/components/layout/Shell";
 import { Link } from "@/lib/navigation";
-import PriceKRW from "@/components/currency/PriceKRW";
+import TicketBookingBox from "@/components/tickets/TicketBookingBox";
+import TicketDetailTabs from "@/components/tickets/TicketDetailTabs";
 import { readTicketCatalog } from "@/lib/ticket-catalog-db";
 import type {
   TicketLocale,
@@ -28,115 +30,97 @@ import type {
 
 export type PageLocale = "ko" | "en" | "ja" | "zh-CN" | "zh-TW";
 
-type DetailCopy = {
+type PageCopy = {
   eyebrow: string;
-  seatSection: string;
-  benefitsLabel: string;
-  aboutSection: string;
-  noticeLabel: string;
-  castingLabel: string;
-  detailsLabel: string;
-  priceLabel: string;
-  discountLabel: string;
-  usageLabel: string;
-  venueLabel: string;
-  cancellationLabel: string;
+  venueKoreanLabel: string;
+  categoryLabel: string;
+  ticketTypeLabel: string;
+  languageLabel: string;
+  languageFallback: string;
   contactCta: string;
   backCta: string;
   durationLabel: string;
   ageLabel: string;
+  dateLabel: string;
+  venueLabel: string;
+  bookingLabel: string;
 };
 
-const COPY: Record<PageLocale, DetailCopy> = {
+const COPY: Record<PageLocale, PageCopy> = {
   ko: {
     eyebrow: "GOYANG TICKETS",
-    seatSection: "좌석 · 옵션",
-    benefitsLabel: "포함 사항",
-    aboutSection: "소개",
-    noticeLabel: "관람 안내",
-    castingLabel: "캐스팅 / 구성",
-    detailsLabel: "상세 안내",
-    priceLabel: "가격 안내",
-    discountLabel: "할인 안내",
-    usageLabel: "이용 안내",
-    venueLabel: "장소 안내",
-    cancellationLabel: "취소 · 환불",
+    venueKoreanLabel: "장소 (한국어)",
+    categoryLabel: "카테고리",
+    ticketTypeLabel: "티켓 형태",
+    languageLabel: "언어",
+    languageFallback: "한국어",
     contactCta: "문의하기",
     backCta: "티켓 목록으로",
     durationLabel: "관람 시간",
     ageLabel: "관람 연령",
+    dateLabel: "일정",
+    venueLabel: "장소",
+    bookingLabel: "예매하기",
   },
   en: {
     eyebrow: "GOYANG TICKETS",
-    seatSection: "Seats & Options",
-    benefitsLabel: "Included",
-    aboutSection: "About",
-    noticeLabel: "Notice",
-    castingLabel: "Cast / Program",
-    detailsLabel: "Details",
-    priceLabel: "Pricing",
-    discountLabel: "Discounts",
-    usageLabel: "Usage Info",
-    venueLabel: "Venue",
-    cancellationLabel: "Cancellation & Refund",
+    venueKoreanLabel: "Venue (Korean)",
+    categoryLabel: "Category",
+    ticketTypeLabel: "Ticket type",
+    languageLabel: "Language",
+    languageFallback: "Korean",
     contactCta: "Contact us",
     backCta: "Back to tickets",
     durationLabel: "Running time",
     ageLabel: "Age",
+    dateLabel: "Dates",
+    venueLabel: "Venue",
+    bookingLabel: "Book Now",
   },
   ja: {
     eyebrow: "GOYANG TICKETS",
-    seatSection: "座席・オプション",
-    benefitsLabel: "含まれる特典",
-    aboutSection: "紹介",
-    noticeLabel: "観覧のご案内",
-    castingLabel: "キャスト / 構成",
-    detailsLabel: "詳細",
-    priceLabel: "料金案内",
-    discountLabel: "割引案内",
-    usageLabel: "利用案内",
-    venueLabel: "会場案内",
-    cancellationLabel: "キャンセル・返金",
+    venueKoreanLabel: "会場 (韓国語)",
+    categoryLabel: "カテゴリ",
+    ticketTypeLabel: "チケット形態",
+    languageLabel: "言語",
+    languageFallback: "韓国語",
     contactCta: "お問い合わせ",
     backCta: "チケット一覧へ",
     durationLabel: "上演時間",
     ageLabel: "観覧年齢",
+    dateLabel: "日程",
+    venueLabel: "会場",
+    bookingLabel: "予約する",
   },
   "zh-CN": {
     eyebrow: "GOYANG TICKETS",
-    seatSection: "座位 · 选项",
-    benefitsLabel: "包含内容",
-    aboutSection: "简介",
-    noticeLabel: "观演须知",
-    castingLabel: "阵容 / 构成",
-    detailsLabel: "详细信息",
-    priceLabel: "价格说明",
-    discountLabel: "优惠说明",
-    usageLabel: "使用说明",
-    venueLabel: "场地说明",
-    cancellationLabel: "取消 · 退款",
+    venueKoreanLabel: "场地 (韩语)",
+    categoryLabel: "类别",
+    ticketTypeLabel: "票种",
+    languageLabel: "语言",
+    languageFallback: "韩语",
     contactCta: "咨询",
     backCta: "返回门票列表",
     durationLabel: "演出时长",
     ageLabel: "观演年龄",
+    dateLabel: "日程",
+    venueLabel: "场地",
+    bookingLabel: "立即预约",
   },
   "zh-TW": {
     eyebrow: "GOYANG TICKETS",
-    seatSection: "座位 · 選項",
-    benefitsLabel: "包含內容",
-    aboutSection: "簡介",
-    noticeLabel: "觀演須知",
-    castingLabel: "陣容 / 構成",
-    detailsLabel: "詳細資訊",
-    priceLabel: "價格說明",
-    discountLabel: "優惠說明",
-    usageLabel: "使用說明",
-    venueLabel: "場地說明",
-    cancellationLabel: "取消 · 退款",
+    venueKoreanLabel: "場地 (韓語)",
+    categoryLabel: "類別",
+    ticketTypeLabel: "票種",
+    languageLabel: "語言",
+    languageFallback: "韓語",
     contactCta: "諮詢",
     backCta: "返回門票列表",
     durationLabel: "演出時長",
     ageLabel: "觀演年齡",
+    dateLabel: "日程",
+    venueLabel: "場地",
+    bookingLabel: "立即預約",
   },
 };
 
@@ -192,209 +176,165 @@ export default async function DmcTicketDetailPage({
 
   const copy = COPY[locale];
   const badge = pickBadge(t, locale);
-  const venue = pickVenue(t, locale);
+  const venueLocalized = pickVenue(t, locale);
+  const venueOriginal = t.venue;
+  const showKoreanVenueCard = locale !== "ko" && venueLocalized !== venueOriginal;
   const tags = pickTags(t, locale);
+
+  const optionRows = (t.options ?? []).map((opt) => ({
+    opt,
+    label: pickOptionLabel(t, opt, locale),
+    benefits: pickOptionBenefits(t, opt, locale),
+  }));
+
+  const prices = optionRows.map((r) => r.opt.price).filter((p) => typeof p === "number" && p > 0);
+  const minPrice = prices.length > 0 ? Math.min(...prices) : null;
+
+  // 오더 #D18 [3]-A: 기존 Toss reservation 흐름 재사용 (C57-B 동일 패턴).
+  //   hub product 'ticket-agency-platform' 로드 후 ?ticket=<id> 로 실제 티켓 주입.
+  const bookingUrl = `/${locale}/products/ticket-agency-platform/reservation?ticket=${t.id}`;
 
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        <section className="mx-auto max-w-5xl px-4 pt-10 pb-6 sm:px-6 sm:pt-14">
+        <section className="mx-auto max-w-[1200px] px-4 pb-10 pt-8 sm:px-6 sm:pt-12">
+          {/* Eyebrow */}
           <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--accent)]">
             {copy.eyebrow}
           </div>
-          <div className="mt-10 grid gap-8 sm:grid-cols-[minmax(0,320px)_1fr] sm:gap-10">
-            <div className="w-full">
-              {t.imageUrl ? (
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-slate-100">
-                  <Image
-                    src={t.imageUrl}
-                    alt={t.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 320px"
-                    priority
-                  />
-                </div>
-              ) : (
-                <div
-                  aria-hidden="true"
-                  className={`relative flex aspect-[3/4] w-full items-end overflow-hidden rounded-2xl bg-gradient-to-br ${t.imageTone} p-5`}
-                >
-                  <span className="text-3xl font-black uppercase tracking-[0.14em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
-                    {t.posterLabel}
-                  </span>
-                </div>
-              )}
-              {t.credit ? (
-                <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{t.credit}</p>
-              ) : null}
-            </div>
 
-            <div className="flex flex-col">
-              {badge ? (
-                <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
-                  {badge}
-                </div>
-              ) : null}
-              <h1 className="mt-3 text-2xl font-black leading-tight tracking-[-0.03em] sm:text-3xl lg:text-4xl">
-                {t.title}
-              </h1>
-              {t.subtitle ? (
-                <p className="mt-3 text-sm text-slate-600 sm:text-base">{t.subtitle}</p>
-              ) : null}
-
-              <dl className="mt-6 grid gap-3 text-sm text-slate-700">
-                <div className="flex items-start gap-2">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                  <span>{venue}</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                  <span>{t.dateText}</span>
-                </div>
-                {t.duration ? (
-                  <div className="flex items-start gap-2">
-                    <Clock className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                    <span>
-                      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-                        {copy.durationLabel}
+          {/* 2단 레이아웃 (오더 D18 [1]+[2]) */}
+          <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_360px] lg:gap-10">
+            {/* ─── 좌측 본문 ─── */}
+            <div className="min-w-0">
+              {/* 히어로 + 타이틀 (포스터 좌 · 텍스트 우) */}
+              <div className="grid gap-6 sm:grid-cols-[minmax(0,300px)_1fr] sm:gap-8">
+                <div className="w-full">
+                  {t.imageUrl ? (
+                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-slate-100">
+                      <Image
+                        src={t.imageUrl}
+                        alt={t.title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 640px) 100vw, 300px"
+                        priority
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      className={`relative flex aspect-[3/4] w-full items-end overflow-hidden rounded-2xl bg-gradient-to-br ${t.imageTone} p-5`}
+                    >
+                      <span className="text-3xl font-black uppercase tracking-[0.14em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+                        {t.posterLabel}
                       </span>
-                      <span className="ml-2">{t.duration}</span>
-                    </span>
-                  </div>
+                    </div>
+                  )}
+                  {t.credit ? (
+                    <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{t.credit}</p>
+                  ) : null}
+                </div>
+
+                <div className="flex flex-col">
+                  {badge ? (
+                    <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent)]">
+                      {badge}
+                    </div>
+                  ) : null}
+                  <h1 className="mt-2 text-2xl font-black leading-tight tracking-[-0.03em] sm:text-3xl lg:text-[34px]">
+                    {t.title}
+                  </h1>
+                  {t.subtitle ? (
+                    <p className="mt-3 text-sm text-slate-600 sm:text-base">{t.subtitle}</p>
+                  ) : null}
+
+                  {tags.length > 0 ? (
+                    <ul className="mt-4 flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </div>
+
+              {/* 아이콘 정보 블록 (오더 D18 [1] · 2열 그리드) */}
+              <dl className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {t.dateText ? (
+                  <InfoCell icon={Calendar} label={copy.dateLabel} value={t.dateText} />
+                ) : null}
+                <InfoCell icon={MapPin} label={copy.venueLabel} value={venueLocalized} />
+                {t.duration ? (
+                  <InfoCell icon={Clock} label={copy.durationLabel} value={t.duration} />
                 ) : null}
                 {t.ageLimit ? (
-                  <div className="flex items-start gap-2">
-                    <Users className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                    <span>
-                      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-                        {copy.ageLabel}
-                      </span>
-                      <span className="ml-2">{t.ageLimit}</span>
-                    </span>
-                  </div>
+                  <InfoCell icon={Users} label={copy.ageLabel} value={t.ageLimit} />
                 ) : null}
+                <InfoCell
+                  icon={TicketIcon}
+                  label={copy.ticketTypeLabel}
+                  value={t.category.toUpperCase()}
+                />
+                <InfoCell
+                  icon={TicketIcon}
+                  label={copy.languageLabel}
+                  value={copy.languageFallback}
+                />
               </dl>
 
-              {tags.length > 0 ? (
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700"
-                    >
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
+              {/* 현지어 장소명 카드 (non-KO 로케일에서만) */}
+              {showKoreanVenueCard ? (
+                <div
+                  className="mt-6 rounded-2xl border border-slate-200 bg-[#faf7f2] p-4"
+                >
+                  <div className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
+                    {copy.venueKoreanLabel}
+                  </div>
+                  <div className="mt-1 text-base font-bold text-[#232322]">
+                    {venueOriginal}
+                  </div>
+                </div>
               ) : null}
+
+              {/* 탭 (공연정보 · 일정·좌석 · 갤러리 · 오시는 길) */}
+              <TicketDetailTabs ticket={t} locale={locale} options={optionRows} />
+            </div>
+
+            {/* ─── 우측 sticky 예매 박스 (오더 D18 [2]) ─── */}
+            <div className="lg:mt-0">
+              <TicketBookingBox
+                locale={locale}
+                dateText={t.dateText}
+                endDate={t.endDate}
+                minPrice={minPrice}
+                bookingUrl={bookingUrl}
+                bookingLabel={copy.bookingLabel}
+              />
             </div>
           </div>
         </section>
 
-        {t.summary || t.description ? (
-          <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-            <h2 className="text-lg font-black tracking-[-0.02em] text-[#232322] sm:text-xl">
-              {copy.aboutSection}
-            </h2>
-            {t.summary ? (
-              <p className="mt-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                {t.summary}
-              </p>
-            ) : null}
-            {t.description ? (
-              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700 sm:text-base">
-                {t.description}
-              </p>
-            ) : null}
-          </section>
-        ) : null}
-
-        {Array.isArray(t.options) && t.options.length > 0 ? (
-          <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-            <h2 className="text-lg font-black tracking-[-0.02em] text-[#232322] sm:text-xl">
-              {copy.seatSection}
-            </h2>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {t.options.map((opt) => {
-                const label = pickOptionLabel(t, opt, locale);
-                const benefits = pickOptionBenefits(t, opt, locale);
-                return (
-                  <li
-                    key={opt.id}
-                    className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_2px_10px_rgba(16,32,58,0.04)]"
-                  >
-                    <div className="flex items-baseline justify-between gap-3">
-                      <div className="text-base font-black tracking-[-0.02em] text-slate-950">
-                        {label}
-                      </div>
-                      <PriceKRW krw={opt.price} className="text-base font-bold text-slate-950" />
-                    </div>
-                    {benefits.length > 0 ? (
-                      <div className="mt-3">
-                        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                          {copy.benefitsLabel}
-                        </div>
-                        <ul className="mt-2 space-y-1 text-sm text-slate-700">
-                          {benefits.map((b) => (
-                            <li key={b}>· {b}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        ) : null}
-
-        <TabBlocks ticket={t} copy={copy} />
-
-        {/* 오더 #C57 [3]: 예매 CTA 복구 · #C56 오설정 (/contact) 정정.
-            최저가 표시 + [예매하기] → 기존 /products/{id}/reservation Toss 결제 흐름 재사용.
-            문의하기는 보조 링크로 유지. */}
+        {/* 하단 back / 문의 */}
         <section className="bg-[#faf7f2]">
-          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-            <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
-              <Link
-                href="/dmc"
-                className="text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
-              >
-                ← {copy.backCta}
-              </Link>
-              <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href="/contact"
-                  className="text-sm font-semibold text-slate-600 underline-offset-4 hover:underline"
-                >
-                  {copy.contactCta}
-                </Link>
-                {(() => {
-                  const prices = (t.options ?? []).map((o) => o.price).filter((p) => typeof p === "number" && p > 0);
-                  const min = prices.length > 0 ? Math.min(...prices) : null;
-                  const label = locale === "ko" ? "예매하기"
-                    : locale === "ja" ? "予約する"
-                    : locale === "zh-CN" ? "立即预约"
-                    : locale === "zh-TW" ? "立即預約"
-                    : "Book Now";
-                  return (
-                    <Link
-                      // 오더 #C57-B: 티켓 hub product 재사용 · ticket id 는 쿼리로 전달.
-                      //   reservation 라우트가 getProductById("ticket-agency-platform") 로 hub 상품 로드 후
-                      //   ?ticket 쿼리로 TicketReservationBooking 에 실제 티켓 주입 (whats-on 어댑터 동일 패턴).
-                      //   기존 Toss 결제 흐름·금액 로직 무변경.
-                      href={`/products/ticket-agency-platform/reservation?ticket=${t.id}`}
-                      className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(16,32,58,0.20)] transition hover:brightness-110"
-                    >
-                      {min ? <PriceKRW krw={min} className="text-white/85" suffix=" ~" /> : null}
-                      <span>{label}</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  );
-                })()}
-              </div>
-            </div>
+          <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-3 px-4 py-8 sm:flex-row sm:justify-between sm:px-6">
+            <Link
+              href="/dmc"
+              className="text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
+            >
+              ← {copy.backCta}
+            </Link>
+            <Link
+              href="/contact"
+              className="text-sm font-semibold text-slate-600 underline-offset-4 hover:underline"
+            >
+              {copy.contactCta}
+            </Link>
           </div>
         </section>
       </article>
@@ -402,32 +342,30 @@ export default async function DmcTicketDetailPage({
   );
 }
 
-function TabBlocks({ ticket, copy }: { ticket: TicketProduct; copy: DetailCopy }) {
-  const blocks: Array<{ label: string; body?: string }> = [
-    { label: copy.noticeLabel, body: ticket.tabNotice },
-    { label: copy.castingLabel, body: ticket.tabCasting },
-    { label: copy.detailsLabel, body: ticket.tabDetails },
-    { label: copy.priceLabel, body: ticket.tabPrice },
-    { label: copy.discountLabel, body: ticket.tabDiscount },
-    { label: copy.usageLabel, body: ticket.tabUsageInfo },
-    { label: copy.venueLabel, body: ticket.tabVenue },
-    { label: copy.cancellationLabel, body: ticket.tabCancellation },
-  ].filter((b) => typeof b.body === "string" && b.body!.trim().length > 0);
-  if (blocks.length === 0) return null;
+function InfoCell({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Calendar;
+  label: string;
+  value: string;
+}) {
   return (
-    <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <div className="grid gap-6">
-        {blocks.map((b) => (
-          <div key={b.label} className="rounded-2xl border border-slate-200 bg-white p-6">
-            <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-700">
-              {b.label}
-            </h3>
-            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">
-              {b.body}
-            </p>
-          </div>
-        ))}
+    <div className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+      <span
+        aria-hidden="true"
+        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+        style={{ background: "rgba(226, 62, 46, 0.10)", color: "var(--accent)" }}
+      >
+        <Icon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+          {label}
+        </div>
+        <div className="mt-0.5 text-sm font-bold text-[#232322]">{value}</div>
       </div>
-    </section>
+    </div>
   );
 }
