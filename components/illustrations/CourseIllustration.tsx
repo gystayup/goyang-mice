@@ -25,24 +25,81 @@ const SVG_PROPS = {
   strokeLinejoin: "round" as const,
 };
 
-// 애니메이션 CSS — 컴포넌트 최상위에 한 번 삽입, prefers-reduced-motion 대응.
-const ANIM_STYLE = `
-@keyframes ci-drift { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
-@keyframes ci-fly   { 0%{transform:translateX(-8px)} 100%{transform:translateX(12px)} }
-@keyframes ci-blink { 0%,60%,100%{opacity:1} 30%{opacity:0.25} }
-@keyframes ci-wave  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-1.5px)} }
-@keyframes ci-spin  { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-@keyframes ci-sway  { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
-.ci-drift{animation:ci-drift 5s ease-in-out infinite}
-.ci-fly  {animation:ci-fly   9s linear      infinite alternate}
-.ci-blink{animation:ci-blink 2.4s ease-in-out infinite}
-.ci-wave {animation:ci-wave  3.5s ease-in-out infinite}
-.ci-spin {transform-origin:center;animation:ci-spin 12s linear infinite}
-.ci-sway {transform-origin:center;animation:ci-sway 4s ease-in-out infinite}
-@media (prefers-reduced-motion: reduce) {
-  .ci-drift,.ci-fly,.ci-blink,.ci-wave,.ci-spin,.ci-sway { animation: none !important; transform: none !important; }
-}
-`;
+// 오더 #D10: CSS keyframes 방식은 SVG 내부 <style> 안 브라우저 편차로
+//   미동작. SMIL (<animateTransform>, <animate>) 로 전환 — CSS 파이프라인
+//   무관하게 SVG 자체 처리로 안정 동작.
+// SMIL 헬퍼 컴포넌트 — 각 애니 타입별 파라미터화.
+
+// 드리프트 (horizontal, dx=6, 5s)
+const Drift = ({ dx = 6, dur = 5 }: { dx?: number; dur?: number }) => (
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    additive="sum"
+    values={`0 0; ${dx} 0; 0 0`}
+    dur={`${dur}s`}
+    repeatCount="indefinite"
+  />
+);
+
+// 새 (fly, -8→12 왕복, 9s)
+const Fly = () => (
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    additive="sum"
+    values="-8 0; 12 0; -8 0"
+    dur="9s"
+    repeatCount="indefinite"
+  />
+);
+
+// 조명 점멸 (opacity 1→0.25→1, 2.4s)
+const Blink = () => (
+  <animate
+    attributeName="opacity"
+    values="1;1;0.25;1;1"
+    keyTimes="0;0.29;0.35;0.6;1"
+    dur="2.4s"
+    repeatCount="indefinite"
+  />
+);
+
+// 물결 (y -1.5, 3.5s)
+const Wave = () => (
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    additive="sum"
+    values="0 0; 0 -1.5; 0 0"
+    dur="3.5s"
+    repeatCount="indefinite"
+  />
+);
+
+// 회전 (0→360, 12s, 중심 cx/cy)
+const Spin = ({ cx = 0, cy = 0, dur = 12 }: { cx?: number; cy?: number; dur?: number }) => (
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    additive="sum"
+    values={`0 ${cx} ${cy}; 360 ${cx} ${cy}`}
+    dur={`${dur}s`}
+    repeatCount="indefinite"
+  />
+);
+
+// 흔들림 (±3deg, 4s, 중심 cx/cy)
+const Sway = ({ cx = 0, cy = 0, dur = 4 }: { cx?: number; cy?: number; dur?: number }) => (
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    additive="sum"
+    values={`-3 ${cx} ${cy}; 3 ${cx} ${cy}; -3 ${cx} ${cy}`}
+    dur={`${dur}s`}
+    repeatCount="indefinite"
+  />
+);
 
 // ─── 개별 코스 SVG ─────────────────────────────────────────────────────────
 // 공통 지면선 (헬퍼)
@@ -55,11 +112,13 @@ function IllustSeoulRoyal(): ReactElement {
   return (
     <>
       {/* 구름 (drift 애니) */}
-      <g className="ci-drift" strokeWidth="0.72">
+      <g strokeWidth="0.72">
+        <Drift dx={8} dur={5} />
         <path d="M50 55 q10 -12 22 -8 q6 -14 22 -8 q14 -4 16 8 q6 8 -4 12 z" />
       </g>
       {/* 새 (fly 애니) */}
-      <g className="ci-fly" strokeWidth="0.72" transform="translate(220 55)">
+      <g strokeWidth="0.72" transform="translate(220 55)">
+        <Fly />
         <path d="M0 4 q4 -6 8 0 q4 -6 8 0" />
       </g>
       {/* 지붕 상단 겹처마 (팔작 곡선 상승) */}
@@ -106,9 +165,13 @@ function IllustSeoulNight(): ReactElement {
       <path d="M188 82 h24" />
       {/* 안테나 (blink) */}
       <line x1="200" y1="70" x2="200" y2="45" strokeWidth="0.72" />
-      <circle cx="200" cy="42" r="2.5" className="ci-blink" strokeWidth="0.72" />
+      <circle cx="200" cy="42" r="2.5" strokeWidth="0.72">
+        <Blink />
+      </circle>
       {/* 캐빈 조명 (blink) */}
-      <circle cx="200" cy="72" r="1.4" className="ci-blink" strokeWidth="0.72" />
+      <circle cx="200" cy="72" r="1.4" strokeWidth="0.72">
+        <Blink />
+      </circle>
       <Ground />
     </>
   );
@@ -119,11 +182,13 @@ function IllustSeoulKYouth(): ReactElement {
   return (
     <>
       {/* 원경 나무 (sway) */}
-      <g className="ci-sway" transform="translate(60 200)" strokeWidth="0.72">
+      <g transform="translate(60 200)" strokeWidth="0.72">
+        <Sway cx={0} cy={0} dur={4} />
         <line x1="0" y1="0" x2="0" y2="-40" />
         <circle cx="0" cy="-45" r="14" />
       </g>
-      <g className="ci-sway" transform="translate(240 200)" strokeWidth="0.72">
+      <g transform="translate(240 200)" strokeWidth="0.72">
+        <Sway cx={0} cy={0} dur={5} />
         <line x1="0" y1="0" x2="0" y2="-40" />
         <circle cx="0" cy="-45" r="14" />
       </g>
@@ -156,7 +221,8 @@ function IllustSeoulFoodDesign(): ReactElement {
       <path d="M40 175 q30 -50 70 -45" strokeWidth="0.72" />
       <path d="M50 195 q30 -40 75 -30" strokeWidth="0.72" />
       {/* 시장 천막 (우 · drift) */}
-      <g className="ci-drift" transform="translate(190 100)">
+      <g transform="translate(190 100)">
+        <Drift dx={4} dur={6} />
         <path d="M0 60 q30 -30 60 0" />
         <line x1="0" y1="60" x2="60" y2="60" strokeWidth="0.72" />
         {/* 술 장식 */}
@@ -177,7 +243,8 @@ function IllustSeoulHip(): ReactElement {
   return (
     <>
       {/* 나무 (sway) */}
-      <g className="ci-sway" transform="translate(70 200)">
+      <g transform="translate(70 200)">
+        <Sway cx={0} cy={0} dur={4.5} />
         <line x1="0" y1="0" x2="0" y2="-55" />
         <circle cx="-8" cy="-58" r="12" strokeWidth="0.72" />
         <circle cx="8" cy="-63" r="14" strokeWidth="0.72" />
@@ -248,7 +315,8 @@ function IllustPajuDmzPeace(): ReactElement {
       <line x1="60" y1="90" x2="60" y2="130" strokeWidth="0.72" />
       <line x1="220" y1="72" x2="220" y2="130" strokeWidth="0.72" />
       {/* 곤돌라 (drift) */}
-      <g className="ci-drift" transform="translate(130 82)">
+      <g transform="translate(130 82)">
+        <Drift dx={10} dur={6} />
         <rect x="-10" y="0" width="20" height="12" rx="2" strokeWidth="0.72" />
         <line x1="0" y1="0" x2="0" y2="-6" strokeWidth="0.72" />
       </g>
@@ -281,7 +349,8 @@ function IllustPajuBorderView(): ReactElement {
   return (
     <>
       {/* 강 물결 (wave) */}
-      <g className="ci-wave" strokeWidth="0.72">
+      <g strokeWidth="0.72">
+        <Wave />
         <path d="M20 200 q20 -4 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
         <path d="M20 210 q20 -4 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" strokeWidth="0.5" />
       </g>
@@ -324,7 +393,8 @@ function IllustPajuArtCafe(): ReactElement {
       <rect x="180" y="170" width="20" height="30" strokeWidth="0.72" />
       {/* 굴뚝 (연기 drift) */}
       <line x1="215" y1="140" x2="215" y2="115" strokeWidth="0.72" />
-      <g className="ci-drift" strokeWidth="0.72">
+      <g strokeWidth="0.72">
+        <Drift dx={4} dur={4} />
         <path d="M215 112 q4 -6 8 -2 q3 -6 -2 -10" />
       </g>
       <Ground />
@@ -406,7 +476,8 @@ function IllustPajuLakeBridge(): ReactElement {
         />
       ))}
       {/* 물결 (wave) */}
-      <g className="ci-wave" strokeWidth="0.72">
+      <g strokeWidth="0.72">
+        <Wave />
         <path d="M20 205 q20 -4 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
         <path d="M20 215 q20 -4 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" strokeWidth="0.5" />
       </g>
@@ -472,7 +543,8 @@ function IllustGyeonggiKoreanGarden(): ReactElement {
   return (
     <>
       {/* 침엽수 (우 · sway) */}
-      <g className="ci-sway" transform="translate(230 200)">
+      <g transform="translate(230 200)">
+        <Sway cx={0} cy={0} dur={5} />
         <line x1="0" y1="0" x2="0" y2="-70" />
         <path d="M-15 -20 l15 -15 l15 15 z" strokeWidth="0.72" />
         <path d="M-18 -40 l18 -18 l18 18 z" strokeWidth="0.72" />
@@ -509,7 +581,8 @@ function IllustGyeonggiLivingKorea(): ReactElement {
       <rect x="72" y="175" width="16" height="25" strokeWidth="0.72" />
       {/* 물레방아 (우 · spin) */}
       <g transform="translate(220 165)">
-        <g className="ci-spin">
+        <g>
+          <Spin cx={0} cy={0} dur={10} />
           <circle cx="0" cy="0" r="30" />
           <line x1="-30" y1="0" x2="30" y2="0" strokeWidth="0.72" />
           <line x1="0" y1="-30" x2="0" y2="30" strokeWidth="0.72" />
@@ -558,7 +631,8 @@ function IllustGyeonggiNamiIsland(): ReactElement {
       <line x1="140" y1="180" x2="130" y2="215" strokeWidth="0.72" />
       <line x1="160" y1="180" x2="170" y2="215" strokeWidth="0.72" />
       {/* 나룻배 (하단 · wave) */}
-      <g className="ci-wave" transform="translate(150 218)">
+      <g transform="translate(150 218)">
+        <Wave />
         <path d="M-24 0 q24 12 48 0 l-6 -6 h-36 z" />
         <line x1="0" y1="-6" x2="0" y2="-14" strokeWidth="0.72" />
       </g>
@@ -573,7 +647,8 @@ function IllustGyeonggiEverland(): ReactElement {
     <>
       {/* 대관람차 (좌 · spin) */}
       <g transform="translate(80 130)">
-        <g className="ci-spin">
+        <g>
+          <Spin cx={0} cy={0} dur={16} />
           <circle cx="0" cy="0" r="60" />
           {/* 8 스포크 */}
           {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
@@ -611,7 +686,8 @@ function IllustGyeonggiEverland(): ReactElement {
         <line x1="0" y1="-35" x2="0" y2="-45" strokeWidth="0.72" />
         <path d="M-2 -45 h6 v-4 h-6 z" strokeWidth="0.72" />
         {/* 회전축 (spin) */}
-        <g className="ci-spin">
+        <g>
+          <Spin cx={0} cy={0} dur={12} />
           <ellipse cx="0" cy="0" rx="30" ry="8" />
           {/* 폴 */}
           <line x1="-20" y1="-2" x2="-20" y2="14" strokeWidth="0.72" />
@@ -652,7 +728,6 @@ export default function CourseIllustration({ courseId, className, title }: Props
   if (!Draw) return null;
   return (
     <svg {...SVG_PROPS} role="img" aria-label={title ?? "course illustration"} className={className}>
-      <style>{ANIM_STYLE}</style>
       <Draw />
     </svg>
   );
