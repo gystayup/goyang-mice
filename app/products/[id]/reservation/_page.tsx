@@ -91,7 +91,9 @@ export default async function ReservationPage(props: {
 
   return (
     <Shell>
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      {/* 오더 #D20: max-w-7xl (1280) → max-w-[1200px] 로 정합, 좌우 24px padding 유지.
+          이전은 상단 검은 카드/보라·핑크 그라디언트가 좌우 여백 낭비 → D20 은 좌 1fr + 우 360 sticky 로 폭 활용. */}
+      <div className="mx-auto max-w-[1200px] px-6 py-16">
         <SectionTitle
           eyebrow="Reservation"
           title={`${product.title} 예약 요청`}
