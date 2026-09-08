@@ -24,6 +24,7 @@ import DayTripStickyCta from "@/components/day-trips/DayTripStickyCta";
 import CourseIllustration from "@/components/illustrations/CourseIllustration";
 import OverviewBox from "@/components/day-trips/OverviewBox";
 import CourseSidebar from "@/components/day-trips/CourseSidebar";
+import HeroGallery from "@/components/day-trips/HeroGallery";
 import { MapPin } from "lucide-react";
 import { Link } from "@/lib/navigation";
 import { getAxisBlock, type DayTripLocale } from "@/data/day-trips";
@@ -353,12 +354,11 @@ export default async function DayTripDetailPage({
   const badgeStyle = axisBadgeStyle(course.axis);
   const axisEn = AXIS_BADGE_EN[course.axis] ?? course.axis.toUpperCase();
 
-  // 오더 #C61 [1] — 히어로 사진 자동 수집 (timeline 스팟 gallery 폴백).
-  // 오더 #C68 [1]-C — course.heroImages (사장님 업로드) 우선, 없으면 자동 수집.
-  //   3장은 대형1+소형2 콜라주로, 2장/1장은 축소된 콜라주, 0장은 축 색면 폴백.
-  const heroPhotos = await getCoursePhotos(course, { limit: 3 });
-  const heroImgs = (course.heroImages?.length ? course.heroImages : heroPhotos).slice(0, 3);
-  const hasHero = heroImgs.length > 0;
+  // 오더 #D19 [2] 갤러리 — 최대 4장 표시 + 초과분은 마지막 칸 "+N" 오버레이.
+  //   기존 D12/D17 은 최대 3장 (좌 대형 + 우 1칸) → D19 는 좌 대형 + 우 3칸으로 확대.
+  //   course.heroImages (admin 업로드) 우선, 없으면 timeline 스팟 gallery 자동 수집.
+  const heroPhotos = await getCoursePhotos(course, { limit: 8 });
+  const heroImgs = (course.heroImages?.length ? course.heroImages : heroPhotos).slice(0, 8);
 
   // 오더 #C61 [2] — Breadcrumb 항목 (Home > Day Trips > Axis > Course)
   const breadcrumbAxisLabel = AXIS_LABEL_LOCALIZED[course.axis][locale];
@@ -376,54 +376,18 @@ export default async function DayTripDetailPage({
   const introParagraphs = splitParagraphs(course.intro ?? "");
   const accessFallbackParagraphs = course.access ? [] : splitParagraphs(course.transport ?? "");
 
-  // 오더 #D09 [1]-A: 히어로 74px 얇게 축소. Breadcrumb·배지·제목·출발지·고지는
-  //   히어로 아래 흰 배경으로 이동 (visitlondon 상세 레이아웃 참고).
+  // 오더 #D19 [1] 상단 여백·순서:
+  //   네비 → 28px → Breadcrumb → 20px → 갤러리 → 24px → 배지 → 제목 → 출발지 → 고지
+  //   컨테이너 max-w 1200 + 좌우 padding 18px(모바일) / 24px(sm+)
+  //   (D09 는 히어로가 화면 끝까지 붙어 있었고 breadcrumb 가 이미지 아래였음 — D19 로 반전)
 
   return (
     <Shell>
       <article className="bg-white text-[#232322]">
-        {/* ① 히어로 밴드 — 오더 #D17: 모바일 260px · 데스크톱 440px 로 확대
-            (D12 220/340 → 피사체 상단 잘림 · 명동성당 첨탑/광화문 상단 온전화).
-            2:1 분할(좌 대표사진 / 우 보조사진) · object-cover / object-position center 유지.
-            제목·breadcrumb·배지는 아래 흰 헤더 (D09 유지). */}
-        <section className="w-full">
-          <div className="mx-auto grid h-[260px] max-w-[1200px] grid-cols-3 overflow-hidden lg:h-[440px]">
-            {hasHero ? (
-              <>
-                <div className="relative col-span-2 overflow-hidden bg-slate-100">
-                  <Image
-                    src={heroImgs[0]}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 66vw, 800px"
-                    className="object-cover object-center"
-                    priority
-                  />
-                </div>
-                <div className="relative overflow-hidden" style={{ background: axis.color }}>
-                  {heroImgs[1] && (
-                    <Image
-                      src={heroImgs[1]}
-                      alt=""
-                      fill
-                      sizes="(max-width: 1024px) 33vw, 400px"
-                      className="object-cover object-center"
-                    />
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="col-span-2" style={{ background: axis.color }} />
-                <div style={{ background: `${axis.color}CC` }} />
-              </>
-            )}
-          </div>
-        </section>
-
-        {/* ② 흰 배경 헤더 — breadcrumb + 배지 + 제목 + 출발지 + 고지 (오더 #D09 [1]-A) */}
+        {/* ①+② 통합 상단 (오더 #D19 [1]+[2]) */}
         <section className="bg-white">
-          <div className="mx-auto max-w-[1200px] px-4 pb-6 pt-4 sm:px-6">
+          <div className="mx-auto max-w-[1200px] px-[18px] pt-7 sm:px-6">
+            {/* Breadcrumb */}
             <nav aria-label="breadcrumb" className="flex flex-wrap items-center gap-1.5 text-[12px] text-slate-500">
               <Link href="/" locale={locale} className="hover:underline">
                 {BREADCRUMB_HOME[locale]}
@@ -439,7 +403,14 @@ export default async function DayTripDetailPage({
               <span aria-hidden="true">›</span>
               <span aria-current="page" className="text-[#232322]">{displayName}</span>
             </nav>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+
+            {/* 여백 20px → 갤러리 (D19 [2]) */}
+            <div className="mt-5">
+              <HeroGallery images={heroImgs} axisColor={axis.color} alt={displayName} />
+            </div>
+
+            {/* 여백 24px → 배지 · 제목 · 출발지 · 고지 */}
+            <div className="mt-6 flex flex-wrap items-center gap-2">
               <span
                 className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em]"
                 style={badgeStyle}
