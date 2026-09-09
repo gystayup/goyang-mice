@@ -9,14 +9,34 @@
 // 오더 #C54-C: readSpotCatalog 를 React cache() 로 래핑 → 요청당 1회 DB 조회.
 //   상세 1페이지가 loadSpot·loadSpots·loadNearbySpots 로 5~6회 호출하던 것이
 //   요청 단위 memoize 로 단일 fetch 로 축소. 요청 사이에는 캐시 안 남음 (매 요청 새로 조회).
+//
+// 오더 #D26-검증: DB 시드 시점(C54, D26 이전)에 en/ja/zh 는 ko 폴백값으로 저장
+//   되어 있고 D26 이후 정적 파일(data/spots.ts) 만 번역되었기 때문에, DB row 만
+//   가지고 렌더하면 /en /ja /zh 페이지 본문이 한국어로 나온다. DB 직접 조작·
+//   admin 저장 로직 무접촉 조건 하에 렌더 경로에서 오버레이:
+//     · DB[loc] === DB.ko  (미번역 마커)  AND
+//     · static[loc] !== static.ko           (정적에 실제 번역 존재)  AND
+//     · DB.ko === static.ko                 (ko 원문 동일 · 안전한 페어)
+//   세 조건 모두 성립할 때만 loc 값을 static 값으로 스왑. DB 에서 admin 이
+//   실제로 번역해 둔 필드(DB[loc] !== DB.ko)는 그대로 존중. day-trip 다국어
+//   패턴 (getLocalizedDayTripCourse) 과 동일 사상.
 
 import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 import { spots as defaultSpots } from "@/data/spots";
-import type { Spot } from "@/data/spots";
+import type { Spot, I18nText, SpotLocale } from "@/data/spots";
 
 const PAGE_KEY = "spot-catalog";
+const OVERLAY_LOCALES: readonly Exclude<SpotLocale, "ko">[] = [
+  "en",
+  "ja",
+  "zh-CN",
+  "zh-TW",
+];
+const STATIC_BY_SLUG: Map<string, Spot> = new Map(
+  defaultSpots.map((s) => [s.slug, s]),
+);
 
 function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -25,7 +45,77 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
-/** DB에서 스팟 목록 읽기. 없거나 실패 시 정적 폴백. 오더 #C54-C: 요청당 1회 memoize. */
+/** I18nText 형태 판별 (ko/en/ja/zh-CN/zh-TW 5키 모두 string). */
+function isI18nText(v: unknown): v is I18nText {
+  if (!v || typeof v !== "object") return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o.ko === "string" &&
+    typeof o.en === "string" &&
+    typeof o.ja === "string" &&
+    typeof o["zh-CN"] === "string" &&
+    typeof o["zh-TW"] === "string"
+  );
+}
+
+/** DB 미번역 마커 → 정적 번역으로 스왑. 세 안전조건 성립 시에만. */
+function overlayI18n(dbVal: I18nText, staticVal: I18nText): I18nText {
+  const out: I18nText = { ...dbVal };
+  for (const loc of OVERLAY_LOCALES) {
+    if (
+      dbVal[loc] === dbVal.ko &&
+      staticVal[loc] !== staticVal.ko &&
+      dbVal.ko === staticVal.ko
+    ) {
+      out[loc] = staticVal[loc];
+    }
+  }
+  return out;
+}
+
+/** 트리 재귀 오버레이. 배열은 index 대응, I18nText 리프에서만 값 스왑. */
+function overlayNode(dbNode: unknown, staticNode: unknown): unknown {
+  if (dbNode === null || dbNode === undefined) return dbNode;
+  if (isI18nText(dbNode)) {
+    if (isI18nText(staticNode)) return overlayI18n(dbNode, staticNode);
+    return dbNode;
+  }
+  if (Array.isArray(dbNode)) {
+    if (!Array.isArray(staticNode)) return dbNode;
+    return dbNode.map((item, i) => overlayNode(item, staticNode[i]));
+  }
+  if (typeof dbNode === "object") {
+    if (
+      staticNode === null ||
+      staticNode === undefined ||
+      typeof staticNode !== "object" ||
+      Array.isArray(staticNode)
+    ) {
+      return dbNode;
+    }
+    const src = dbNode as Record<string, unknown>;
+    const other = staticNode as Record<string, unknown>;
+    const out: Record<string, unknown> = {};
+    for (const k of Object.keys(src)) {
+      out[k] = k in other ? overlayNode(src[k], other[k]) : src[k];
+    }
+    return out;
+  }
+  return dbNode;
+}
+
+/** DB 스팟 목록에 정적 번역을 slug 매칭으로 오버레이. */
+function overlaySpotList(dbList: Spot[]): Spot[] {
+  return dbList.map((dbSpot) => {
+    const staticSpot = STATIC_BY_SLUG.get(dbSpot.slug);
+    if (!staticSpot) return dbSpot;
+    return overlayNode(dbSpot, staticSpot) as Spot;
+  });
+}
+
+/** DB에서 스팟 목록 읽기. 없거나 실패 시 정적 폴백. 오더 #C54-C: 요청당 1회 memoize.
+ *  오더 #D26-검증: DB 결과에는 정적 번역 오버레이 적용. 정적 폴백 경로는 이미
+ *  data/spots.ts 원본이므로 오버레이 불필요. */
 export const readSpotCatalog = cache(async (): Promise<Spot[]> => {
   try {
     const supabase = getSupabaseClient();
@@ -35,7 +125,7 @@ export const readSpotCatalog = cache(async (): Promise<Spot[]> => {
       .eq("pageKey", PAGE_KEY)
       .single();
     if (!data?.contentJson) return defaultSpots;
-    return data.contentJson as Spot[];
+    return overlaySpotList(data.contentJson as Spot[]);
   } catch {
     return defaultSpots;
   }
