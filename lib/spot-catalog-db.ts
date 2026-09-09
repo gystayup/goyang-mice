@@ -6,20 +6,28 @@
 //
 // 폴백: DB 조회 실패 or contentJson 없음 → data/spots.ts 정적 배열.
 //
-// 오더 #C54-C: readSpotCatalog 를 React cache() 로 래핑 → 요청당 1회 DB 조회.
+// 오더 #C54-C: React cache() 로 래핑 → 요청당 1회 DB 조회.
 //   상세 1페이지가 loadSpot·loadSpots·loadNearbySpots 로 5~6회 호출하던 것이
 //   요청 단위 memoize 로 단일 fetch 로 축소. 요청 사이에는 캐시 안 남음 (매 요청 새로 조회).
 //
 // 오더 #D26-검증: DB 시드 시점(C54, D26 이전)에 en/ja/zh 는 ko 폴백값으로 저장
-//   되어 있고 D26 이후 정적 파일(data/spots.ts) 만 번역되었기 때문에, DB row 만
-//   가지고 렌더하면 /en /ja /zh 페이지 본문이 한국어로 나온다. DB 직접 조작·
-//   admin 저장 로직 무접촉 조건 하에 렌더 경로에서 오버레이:
-//     · DB[loc] === DB.ko  (미번역 마커)  AND
-//     · static[loc] !== static.ko           (정적에 실제 번역 존재)  AND
-//     · DB.ko === static.ko                 (ko 원문 동일 · 안전한 페어)
-//   세 조건 모두 성립할 때만 loc 값을 static 값으로 스왑. DB 에서 admin 이
-//   실제로 번역해 둔 필드(DB[loc] !== DB.ko)는 그대로 존중. day-trip 다국어
-//   패턴 (getLocalizedDayTripCourse) 과 동일 사상.
+//   되어 있고 D26 이후 정적 파일(data/spots.ts) 만 번역됨 → DB row 만으로 렌더 시
+//   /en /ja /zh 페이지 본문이 한국어로 나온다. 렌더 경로에서 오버레이 적용.
+//
+// 오더 #D30: 오버레이 게이트 완화 (실제 DB 데이터로 미작동 확인)
+//   · 이전 3중 게이트: DB[loc]===DB.ko  AND  static[loc]!==static.ko
+//                      AND  DB.ko===static.ko(strict ko 일치)
+//   · 신 2중 게이트:  DB[loc]===DB.ko  AND  static[loc]!==static.ko
+//   ko 완전일치(gate 3) 요건은 실제 시드 이후 admin/문안 소소 편집으로 실패해
+//   /en 페이지 한국어 잔존 원인. slug + 재귀 필드경로가 이미 매칭 보장이므로
+//   ko 일치를 강제하지 않아도 엉뚱한 필드에 오버레이가 붙지 않는다.
+//
+//   admin 이 DB 에서 실제로 번역해 둔 경우(DB[loc]!==DB.ko)는 그대로 존중.
+//
+// 오더 #D30: raw read (admin 편집 경로) 와 localized read (프론트 경로) 분리.
+//   admin 이 spot 을 로드→편집→저장하는 사이클에서 오버레이가 개입하면 DB 에
+//   오버레이 값이 유입될 수 있음. addSpotItem/updateSpotItem/deleteSpotItem 등
+//   쓰기 read-modify-write 사이클과 admin API 는 raw 사용.
 
 import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -58,15 +66,17 @@ function isI18nText(v: unknown): v is I18nText {
   );
 }
 
-/** DB 미번역 마커 → 정적 번역으로 스왑. 세 안전조건 성립 시에만. */
-function overlayI18n(dbVal: I18nText, staticVal: I18nText): I18nText {
+/**
+ * DB 미번역 마커 → 정적 번역으로 스왑.
+ * 오더 #D30 게이트 2중:
+ *   1) DB[loc] === DB.ko          (미번역 마커)
+ *   2) static[loc] !== static.ko   (정적에 실제 번역 존재)
+ * 매칭은 slug + 재귀 필드경로로 이미 보장되므로 ko 완전일치는 생략.
+ */
+export function overlayI18n(dbVal: I18nText, staticVal: I18nText): I18nText {
   const out: I18nText = { ...dbVal };
   for (const loc of OVERLAY_LOCALES) {
-    if (
-      dbVal[loc] === dbVal.ko &&
-      staticVal[loc] !== staticVal.ko &&
-      dbVal.ko === staticVal.ko
-    ) {
+    if (dbVal[loc] === dbVal.ko && staticVal[loc] !== staticVal.ko) {
       out[loc] = staticVal[loc];
     }
   }
@@ -74,7 +84,7 @@ function overlayI18n(dbVal: I18nText, staticVal: I18nText): I18nText {
 }
 
 /** 트리 재귀 오버레이. 배열은 index 대응, I18nText 리프에서만 값 스왑. */
-function overlayNode(dbNode: unknown, staticNode: unknown): unknown {
+export function overlayNode(dbNode: unknown, staticNode: unknown): unknown {
   if (dbNode === null || dbNode === undefined) return dbNode;
   if (isI18nText(dbNode)) {
     if (isI18nText(staticNode)) return overlayI18n(dbNode, staticNode);
@@ -113,10 +123,32 @@ function overlaySpotList(dbList: Spot[]): Spot[] {
   });
 }
 
-/** DB에서 스팟 목록 읽기. 없거나 실패 시 정적 폴백. 오더 #C54-C: 요청당 1회 memoize.
- *  오더 #D26-검증: DB 결과에는 정적 번역 오버레이 적용. 정적 폴백 경로는 이미
- *  data/spots.ts 원본이므로 오버레이 불필요. */
+/**
+ * DB에서 스팟 목록 읽기 (raw · 오버레이 미적용).
+ * 오더 #D30: admin 편집·쓰기 사이클용. 프론트 렌더는 readSpotCatalogLocalized 사용.
+ * 오더 #C54-C: 요청당 1회 memoize.
+ */
 export const readSpotCatalog = cache(async (): Promise<Spot[]> => {
+  try {
+    const supabase = getSupabaseClient();
+    const { data } = await supabase
+      .from("pages")
+      .select("contentJson")
+      .eq("pageKey", PAGE_KEY)
+      .single();
+    if (!data?.contentJson) return defaultSpots;
+    return data.contentJson as Spot[];
+  } catch {
+    return defaultSpots;
+  }
+});
+
+/**
+ * DB에서 스팟 목록 읽기 (localized · 정적 번역 오버레이 적용).
+ * 오더 #D30: 프론트 렌더 경로 전용. admin/쓰기 경로는 readSpotCatalog 사용.
+ * 정적 폴백 경로는 defaultSpots 이미 원본 · 오버레이 불필요.
+ */
+export const readSpotCatalogLocalized = cache(async (): Promise<Spot[]> => {
   try {
     const supabase = getSupabaseClient();
     const { data } = await supabase
@@ -179,7 +211,7 @@ export async function writeSpotCatalog(spots: Spot[]): Promise<void> {
   }
 }
 
-/** 스팟 추가. */
+/** 스팟 추가. 오더 #D30: read-modify-write 는 raw 사용 (오버레이 유입 방지). */
 export async function addSpotItem(item: Spot): Promise<Spot[]> {
   const list = await readSpotCatalog();
   if (list.some((s) => s.slug === item.slug)) {
@@ -190,7 +222,7 @@ export async function addSpotItem(item: Spot): Promise<Spot[]> {
   return updated;
 }
 
-/** 스팟 수정 (slug 기준). */
+/** 스팟 수정 (slug 기준). 오더 #D30: raw 사용. */
 export async function updateSpotItem(item: Spot): Promise<Spot[]> {
   const list = await readSpotCatalog();
   const idx = list.findIndex((s) => s.slug === item.slug);
@@ -201,7 +233,7 @@ export async function updateSpotItem(item: Spot): Promise<Spot[]> {
   return updated;
 }
 
-/** 스팟 삭제 (slug 기준). */
+/** 스팟 삭제 (slug 기준). 오더 #D30: raw 사용. */
 export async function deleteSpotItem(slug: string): Promise<Spot[]> {
   const list = await readSpotCatalog();
   const updated = list.filter((s) => s.slug !== slug);
@@ -209,15 +241,15 @@ export async function deleteSpotItem(slug: string): Promise<Spot[]> {
   return updated;
 }
 
-/** slug 로 단일 스팟 조회 (published 무관). */
+/** slug 로 단일 스팟 조회 (published 무관 · 프론트용 · localized). */
 export async function getSpotFromCatalog(slug: string): Promise<Spot | null> {
-  const list = await readSpotCatalog();
+  const list = await readSpotCatalogLocalized();
   return list.find((s) => s.slug === slug) ?? null;
 }
 
-/** 노출(published !== false) 스팟만 반환. published 필드가 없으면 노출 취급. */
+/** 노출(published !== false) 스팟만 반환 · 프론트용 · localized. */
 export async function readVisibleSpots(): Promise<Spot[]> {
-  const list = await readSpotCatalog();
+  const list = await readSpotCatalogLocalized();
   return list.filter((s) => s.published !== false);
 }
 
