@@ -74,6 +74,8 @@ export function ZoomableSvg({
   const [tx, setTx] = useState(0);
   const [ty, setTy] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  // isInteracting: 드래그·핀치 중이면 true. 렌더 중 ref.current 접근 회피용.
+  const [isInteracting, setIsInteracting] = useState(false);
 
   // 활성 포인터 추적 (핀치 지원)
   const pointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
@@ -151,6 +153,7 @@ export function ZoomableSvg({
         const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
         pinchStartRef.current = { dist, scale };
         dragOriginRef.current = null;
+        setIsInteracting(true);
       } else if (pointersRef.current.size === 1 && scale > 1) {
         // 팬 시작 (zoom>1 일 때만)
         dragOriginRef.current = {
@@ -160,6 +163,7 @@ export function ZoomableSvg({
           startTx: tx,
           startTy: ty,
         };
+        setIsInteracting(true);
       }
     },
     [scale, tx, ty],
@@ -204,6 +208,9 @@ export function ZoomableSvg({
       dragOriginRef.current.pointerId === e.pointerId
     ) {
       dragOriginRef.current = null;
+    }
+    if (pointersRef.current.size === 0) {
+      setIsInteracting(false);
     }
   }, []);
 
@@ -268,7 +275,7 @@ export function ZoomableSvg({
           className={"absolute inset-0 origin-center will-change-transform " + contentClassName}
           style={{
             transform,
-            transition: pointersRef.current.size === 0 ? "transform 120ms ease-out" : "none",
+            transition: isInteracting ? "none" : "transform 120ms ease-out",
           }}
         >
           {children}
