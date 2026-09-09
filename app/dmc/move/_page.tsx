@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { MovePrep } from "@/components/dmc/MovePrep";
 import { MoveTabs } from "@/components/dmc/MoveTabs";
 import Shell from "@/components/layout/Shell";
+import { ZoomableSvg } from "@/components/common/ZoomableSvg";
 import {
   dmcMoveData,
   MOVE_LOCALES,
@@ -41,6 +42,67 @@ const TRANSIT_MAP_CAPTION: Record<PageLocale, string> = {
   ja: "大谷駅の交通概念図 — GTX-A・3号線・京義中央線・ユネスコ世界遺産 王陵",
   "zh-CN": "大谷站交通概念图 — GTX-A · 3号线 · 京义中央线 · 联合国教科文组织世界遗产 王陵",
   "zh-TW": "大谷站交通概念圖 — GTX-A · 3號線 · 京義中央線 · 聯合國教科文組織世界遺產 王陵",
+};
+
+// 오더 #D22 [1]: ZoomableSvg 컨트롤 라벨 5로케일.
+// 오더 #D22-2: openFullscreenCta 추가.
+const ZOOM_LABELS: Record<
+  PageLocale,
+  {
+    zoomIn: string;
+    zoomOut: string;
+    reset: string;
+    fullscreen: string;
+    exitFullscreen: string;
+    hint: string;
+    openFullscreenCta: string;
+  }
+> = {
+  ko: {
+    zoomIn: "확대",
+    zoomOut: "축소",
+    reset: "원래 크기",
+    fullscreen: "전체화면",
+    exitFullscreen: "닫기",
+    hint: "두 손가락으로 확대 · 드래그로 이동 · 휠·버튼으로도 조작",
+    openFullscreenCta: "전체화면으로 지도 크게 보기",
+  },
+  en: {
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    reset: "Reset",
+    fullscreen: "Fullscreen",
+    exitFullscreen: "Close",
+    hint: "Pinch to zoom · drag to pan · scroll or use buttons",
+    openFullscreenCta: "Open map in fullscreen",
+  },
+  ja: {
+    zoomIn: "拡大",
+    zoomOut: "縮小",
+    reset: "リセット",
+    fullscreen: "全画面",
+    exitFullscreen: "閉じる",
+    hint: "二本指で拡大 · ドラッグで移動 · ホイール・ボタンでも操作",
+    openFullscreenCta: "全画面で地図を大きく見る",
+  },
+  "zh-CN": {
+    zoomIn: "放大",
+    zoomOut: "缩小",
+    reset: "重置",
+    fullscreen: "全屏",
+    exitFullscreen: "关闭",
+    hint: "双指缩放 · 拖动平移 · 也可用滚轮或按钮",
+    openFullscreenCta: "全屏查看大地图",
+  },
+  "zh-TW": {
+    zoomIn: "放大",
+    zoomOut: "縮小",
+    reset: "重設",
+    fullscreen: "全螢幕",
+    exitFullscreen: "關閉",
+    hint: "雙指縮放 · 拖動平移 · 也可用滾輪或按鈕",
+    openFullscreenCta: "全螢幕查看大地圖",
+  },
 };
 
 function transitMapSrc(locale: PageLocale): string {
@@ -87,27 +149,28 @@ export default async function DmcMovePage({
 
         {/* 오더 #C21: 대곡역 교통 개념도 — 로케일 연동 SVG. 반응형 · 저작권
             자체 제작 · 서오릉·서삼릉 유네스코 세계유산 포함본.
-            오더 #C24: 데스크탑 max-w-7xl(1280px) 로 상향 · 모바일 가로 스크롤
-            (min-w 900px) 로 표·역명 가독성 확보. SVG 자체 무수정 · 비율 유지. */}
-        <section className="mx-auto max-w-7xl px-2 pb-8 sm:px-6">
-          <figure className="overflow-hidden rounded-2xl border border-[#232322]/10 bg-white">
-            <div className="overflow-x-auto">
-              <div
-                className="relative mx-auto"
-                style={{ minWidth: "900px", width: "100%", aspectRatio: "1700 / 1300" }}
-              >
-                <Image
-                  src={transitMapSrc(active)}
-                  alt={TRANSIT_MAP_ALT[active]}
-                  fill
-                  sizes="(max-width: 640px) 900px, (max-width: 1280px) 100vw, 1280px"
-                  className="object-contain"
-                  priority
-                  unoptimized
-                />
-              </div>
-            </div>
-            <figcaption className="border-t border-[#232322]/10 bg-[#faf7f2] px-4 py-3 text-[11px] leading-relaxed text-[#232322]/70 sm:text-xs">
+            오더 #D22 [1]: 모바일 가로 스크롤(min-w 900px)을 ZoomableSvg 로 대체.
+              · 기본: 컨테이너 폭에 맞춰 축소 (가로 스크롤 0)
+              · 확대: 핀치/휠/버튼, 팬, 전체화면 · 1x~4x · 원본 SVG 좌표 무터치
+            SVG 자체 무수정 · 비율 유지 (aspectRatio 1700/1300). */}
+        <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
+          <figure>
+            <ZoomableSvg
+              aspectRatio="1700 / 1300"
+              labels={ZOOM_LABELS[active]}
+              ariaLabel={TRANSIT_MAP_ALT[active]}
+            >
+              <Image
+                src={transitMapSrc(active)}
+                alt={TRANSIT_MAP_ALT[active]}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 100vw, 1280px"
+                className="object-contain"
+                priority
+                unoptimized
+              />
+            </ZoomableSvg>
+            <figcaption className="mt-3 rounded-xl border border-[#232322]/10 bg-[#faf7f2] px-4 py-3 text-[11px] leading-relaxed text-[#232322]/70 sm:text-xs">
               {TRANSIT_MAP_CAPTION[active]}
             </figcaption>
           </figure>

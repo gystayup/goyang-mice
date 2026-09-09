@@ -10,6 +10,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { ZoomableSvg } from "@/components/common/ZoomableSvg";
 import styles from "./BamridanMap.module.css";
 
 type CategoryKey = "eat" | "coffee" | "sweet" | "shop";
@@ -91,7 +92,9 @@ export default function BamridanMap() {
   const [tooltip, setTooltip] = useState<
     { spot: Spot; x: number; y: number } | null
   >(null);
-  const mapInnerRef = useRef<HTMLDivElement>(null);
+  // 오더 #D22-3: ZoomableSvg 로 감싼 뒤에도 툴팁 좌표는 변환이 없는 outer
+  // 컨테이너(map-frame) 기준으로 계산해야 시각 위치가 흐트러지지 않는다.
+  const frameRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const stickyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -114,9 +117,10 @@ export default function BamridanMap() {
   }, []);
 
   const computeTipPos = useCallback((e: React.MouseEvent) => {
-    const inner = mapInnerRef.current;
-    if (!inner) return { x: 0, y: 0 };
-    const r = inner.getBoundingClientRect();
+    // 오더 #D22-3: outer frame (변환 없는 컨테이너) 기준으로 좌표 계산.
+    const frame = frameRef.current;
+    if (!frame) return { x: 0, y: 0 };
+    const r = frame.getBoundingClientRect();
     let x = e.clientX - r.left + 16;
     const y = e.clientY - r.top + 14;
     if (x + 280 > r.width) x = e.clientX - r.left - 290;
@@ -182,53 +186,58 @@ export default function BamridanMap() {
           <p>핀에 마우스를 올리거나 아래 목록을 클릭하면 위치가 표시됩니다</p>
         </div>
 
-        {/* 오더 #C75 [1]-A: 모바일에서 지도가 min-width:1000px 이라 가로 스크롤
-           필요. 스크롤 가능함을 알리는 힌트를 지도 위에 노출. CSS 로 모바일
-           (<=640px) 에서만 display:block. */}
-        <div className={styles["map-scroll-hint"]} aria-hidden="true">
-          ← 좌우로 밀어 지도를 보세요 →
-        </div>
-        <div className={styles["map-frame"]}>
-          <div className={styles["map-inner"]} ref={mapInnerRef}>
-            {tooltip && (
-              <div
-                className={styles.tooltip}
-                style={{
-                  display: "block",
-                  left: `${tooltip.x}px`,
-                  top: `${tooltip.y}px`,
-                  borderLeftColor: CATS[tooltip.spot.c].color,
-                }}
-              >
-                <div className={styles["t-cat"]} style={{ color: CATS[tooltip.spot.c].color }}>
-                  {CATS[tooltip.spot.c].en} · {tooltip.spot.type}
-                </div>
-                <div className={styles["t-name"]}>{tooltip.spot.name}</div>
-                <div className={styles["t-desc"]}>{tooltip.spot.desc}</div>
-                <div className={styles["t-meta"]}>
-                  {tooltip.spot.rate != null && (
-                    <>
-                      ★ <b>{tooltip.spot.rate.toFixed(1)}</b>
-                      {tooltip.spot.rev != null && ` (${tooltip.spot.rev})`}
-                    </>
-                  )}
-                  {tooltip.spot.price && tooltip.spot.price !== "-" && (
-                    <>
-                      {tooltip.spot.rate != null ? " · " : ""}
-                      {tooltip.spot.price}
-                    </>
-                  )}
-                  <br />
-                  {tooltip.spot.addr} · {tooltip.spot.hours}
-                </div>
+        {/* 오더 #D22-3: min-width:1000px 가로 스크롤 → ZoomableSvg 로 대체.
+           · 기본: 컨테이너 폭에 맞춰 fit (가로 스크롤 0)
+           · 확대: 핀치/휠/버튼 · 팬 · 전체화면 · 1x~4x
+           · 원본 SVG 좌표(viewBox 1400×960) 무터치
+           툴팁은 변환이 없는 outer frame 을 기준으로 절대배치 (좌표 흐트러짐 방지). */}
+        <div className={styles["map-frame"]} ref={frameRef}>
+          {tooltip && (
+            <div
+              className={styles.tooltip}
+              style={{
+                display: "block",
+                left: `${tooltip.x}px`,
+                top: `${tooltip.y}px`,
+                borderLeftColor: CATS[tooltip.spot.c].color,
+                zIndex: 40,
+              }}
+            >
+              <div className={styles["t-cat"]} style={{ color: CATS[tooltip.spot.c].color }}>
+                {CATS[tooltip.spot.c].en} · {tooltip.spot.type}
               </div>
-            )}
+              <div className={styles["t-name"]}>{tooltip.spot.name}</div>
+              <div className={styles["t-desc"]}>{tooltip.spot.desc}</div>
+              <div className={styles["t-meta"]}>
+                {tooltip.spot.rate != null && (
+                  <>
+                    ★ <b>{tooltip.spot.rate.toFixed(1)}</b>
+                    {tooltip.spot.rev != null && ` (${tooltip.spot.rev})`}
+                  </>
+                )}
+                {tooltip.spot.price && tooltip.spot.price !== "-" && (
+                  <>
+                    {tooltip.spot.rate != null ? " · " : ""}
+                    {tooltip.spot.price}
+                  </>
+                )}
+                <br />
+                {tooltip.spot.addr} · {tooltip.spot.hours}
+              </div>
+            </div>
+          )}
 
+          <ZoomableSvg
+            aspectRatio="1400 / 960"
+            ariaLabel="밤리단길 골목 배치도"
+            contentClassName={styles["zoomable-content"]}
+          >
             <svg
               ref={svgRef}
               viewBox="0 0 1400 960"
               xmlns="http://www.w3.org/2000/svg"
               aria-label="밤리단길 골목 배치도"
+              style={{ width: "100%", height: "100%", display: "block" }}
             >
               <defs>
                 <linearGradient id="paperG" x1="0" y1="0" x2="0" y2="1">
@@ -496,7 +505,7 @@ export default function BamridanMap() {
                 })}
               </g>
             </svg>
-          </div>
+          </ZoomableSvg>
 
           <div className={styles.legend}>
             <span className={styles.lg}><i style={{ background: "var(--eat)" }} />EAT 음식점 10</span>
