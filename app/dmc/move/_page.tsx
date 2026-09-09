@@ -45,6 +45,7 @@ const TRANSIT_MAP_CAPTION: Record<PageLocale, string> = {
 };
 
 // 오더 #D22 [1]: ZoomableSvg 컨트롤 라벨 5로케일.
+// 오더 #D22-2: openFullscreenCta 추가.
 const ZOOM_LABELS: Record<
   PageLocale,
   {
@@ -54,6 +55,7 @@ const ZOOM_LABELS: Record<
     fullscreen: string;
     exitFullscreen: string;
     hint: string;
+    openFullscreenCta: string;
   }
 > = {
   ko: {
@@ -61,40 +63,45 @@ const ZOOM_LABELS: Record<
     zoomOut: "축소",
     reset: "원래 크기",
     fullscreen: "전체화면",
-    exitFullscreen: "전체화면 종료",
+    exitFullscreen: "닫기",
     hint: "두 손가락으로 확대 · 드래그로 이동 · 휠·버튼으로도 조작",
+    openFullscreenCta: "전체화면으로 지도 크게 보기",
   },
   en: {
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
     reset: "Reset",
     fullscreen: "Fullscreen",
-    exitFullscreen: "Exit fullscreen",
+    exitFullscreen: "Close",
     hint: "Pinch to zoom · drag to pan · scroll or use buttons",
+    openFullscreenCta: "Open map in fullscreen",
   },
   ja: {
     zoomIn: "拡大",
     zoomOut: "縮小",
     reset: "リセット",
     fullscreen: "全画面",
-    exitFullscreen: "全画面終了",
+    exitFullscreen: "閉じる",
     hint: "二本指で拡大 · ドラッグで移動 · ホイール・ボタンでも操作",
+    openFullscreenCta: "全画面で地図を大きく見る",
   },
   "zh-CN": {
     zoomIn: "放大",
     zoomOut: "缩小",
     reset: "重置",
     fullscreen: "全屏",
-    exitFullscreen: "退出全屏",
+    exitFullscreen: "关闭",
     hint: "双指缩放 · 拖动平移 · 也可用滚轮或按钮",
+    openFullscreenCta: "全屏查看大地图",
   },
   "zh-TW": {
     zoomIn: "放大",
     zoomOut: "縮小",
     reset: "重設",
     fullscreen: "全螢幕",
-    exitFullscreen: "退出全螢幕",
+    exitFullscreen: "關閉",
     hint: "雙指縮放 · 拖動平移 · 也可用滾輪或按鈕",
+    openFullscreenCta: "全螢幕查看大地圖",
   },
 };
 

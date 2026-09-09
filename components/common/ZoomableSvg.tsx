@@ -1,4 +1,4 @@
-// components/common/ZoomableSvg.tsx — 오더 #D22 [1].
+// components/common/ZoomableSvg.tsx — 오더 #D22 [1] · #D22-2 개선.
 //
 // 대형 SVG(교통 개념도·밤리단길 지도 등)를 컨테이너 폭에 맞춰 축소 표시하고,
 // 사용자가 확대·팬·전체화면으로 판독할 수 있게 하는 뷰어.
@@ -9,9 +9,19 @@
 //   · 신규 라이브러리 없음 (React + PointerEvents + Fullscreen API)
 //   · 컨트롤 버튼 44×44px (터치 타깃 준수)
 //   · 줌 범위 1x~4x · 초과 요청은 clamp
-//   · 휠 줌(데스크톱) · 핀치 줌(터치 2점) · 드래그 팬(1점) · [+][−][fit][전체화면] 버튼
+//   · 휠 줌(데스크톱, Ctrl/Cmd+wheel) · 핀치 줌(touch) · 드래그 팬(1점) ·
+//     [+][−][fit][전체화면] 버튼
 //   · 팬은 zoom>1 일 때만. 팬 오프셋은 컨테이너 경계 밖으로 나가지 않도록 clamp.
 //   · 접근성: 컨트롤 버튼에 aria-label · 키보드 조작 가능 · reduce-motion 존중.
+//
+// 오더 #D22-2 개선:
+//   · 컨트롤 툴바 z-index z-30 + 대비 강화 (다크 배경) — 채팅 위젯(우하단, z-40 이하)
+//     과 겹치지 않도록 우상단 유지 + 스택 가시성 확보.
+//   · 하단에 대형 "전체화면으로 지도 크게 보기" 프라이머리 CTA 를 항상 표시 →
+//     사용자가 처음 열었을 때 여러 번 확대·이동 없이 전체 개념도를 한 화면으로
+//     볼 수 있음.
+//   · 전체화면 진입 시 scale/pan 을 초기화 (fit) — 전체 흐름을 한눈에.
+//   · 전체화면 닫기 버튼을 크게 (텍스트 병기).
 
 "use client";
 
@@ -39,6 +49,8 @@ export type ZoomableSvgLabels = {
   fullscreen: string;
   exitFullscreen: string;
   hint: string;
+  /** 하단 프라이머리 CTA — "전체화면으로 지도 크게 보기". */
+  openFullscreenCta: string;
 };
 
 const DEFAULT_LABELS: ZoomableSvgLabels = {
@@ -46,8 +58,9 @@ const DEFAULT_LABELS: ZoomableSvgLabels = {
   zoomOut: "축소",
   reset: "원래 크기",
   fullscreen: "전체화면",
-  exitFullscreen: "전체화면 종료",
+  exitFullscreen: "닫기",
   hint: "두 손가락으로 확대·드래그로 이동 · 휠/버튼으로도 조작",
+  openFullscreenCta: "전체화면으로 지도 크게 보기",
 };
 
 export function ZoomableSvg({
@@ -130,8 +143,6 @@ export function ZoomableSvg({
     (e: ReactWheelEvent<HTMLDivElement>) => {
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         // 기본 페이지 스크롤 허용. Ctrl/Cmd/Alt + 휠일 때만 줌.
-        // (모바일 없는 마우스휠은 페이지 스크롤과 충돌 방지)
-        // 데스크톱 사용자 UX: Ctrl/Cmd + wheel 은 표준 확대 제스처.
         return;
       }
       e.preventDefault();
@@ -219,6 +230,12 @@ export function ZoomableSvg({
     const onFsChange = () => {
       const fs = document.fullscreenElement === wrapRef.current;
       setIsFullscreen(fs);
+      if (fs) {
+        // 오더 #D22-2 [2]: 전체화면 진입 시 fit 초기화 → 전체 흐름을 한눈에.
+        setScale(1);
+        setTx(0);
+        setTy(0);
+      }
     };
     document.addEventListener("fullscreenchange", onFsChange);
     return () => document.removeEventListener("fullscreenchange", onFsChange);
@@ -231,6 +248,11 @@ export function ZoomableSvg({
       if (document.fullscreenElement) {
         await document.exitFullscreen();
       } else if (el.requestFullscreen) {
+        // 오더 #D22-2 [2]: 진입 전에도 fit 상태로 (fullscreenchange 콜백 안 오는
+        // iOS Safari 대비 이중 안전).
+        setScale(1);
+        setTx(0);
+        setTy(0);
         await el.requestFullscreen();
       }
     } catch {
@@ -242,6 +264,11 @@ export function ZoomableSvg({
     () => `translate(${tx}px, ${ty}px) scale(${scale})`,
     [tx, ty, scale],
   );
+
+  // 오더 #D22-2 [1]: 채팅 위젯(우하단, 통상 z-40~50) 과 겹치지 않도록 우상단 배치.
+  //   z-30 + 다크 배경으로 지도 위에서 항상 시인성 확보 (흰 지도 위 흰 버튼 회귀 방지).
+  const ctrlBtnBase =
+    "flex h-11 w-11 items-center justify-center rounded-full bg-[#232322] text-white shadow-lg ring-1 ring-white/20 transition hover:bg-[#0f0f0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] disabled:opacity-40 disabled:cursor-not-allowed";
 
   return (
     <div
@@ -282,9 +309,9 @@ export function ZoomableSvg({
         </div>
       </div>
 
-      {/* 컨트롤 툴바 (44×44 터치 타깃) */}
+      {/* 컨트롤 툴바 (44×44 터치 타깃) — 우상단, z-30, 다크 대비 */}
       <div
-        className="absolute right-3 top-3 flex flex-col gap-2"
+        className="absolute right-3 top-3 z-30 flex flex-col gap-2"
         role="toolbar"
         aria-label="지도 확대·축소 컨트롤"
       >
@@ -292,7 +319,7 @@ export function ZoomableSvg({
           type="button"
           onClick={() => applyScale(scale + BTN_STEP)}
           aria-label={L.zoomIn}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#232322] shadow-md ring-1 ring-black/10 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+          className={ctrlBtnBase}
           disabled={scale >= MAX_SCALE}
         >
           <Plus className="h-5 w-5" aria-hidden="true" />
@@ -301,7 +328,7 @@ export function ZoomableSvg({
           type="button"
           onClick={() => applyScale(scale - BTN_STEP)}
           aria-label={L.zoomOut}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#232322] shadow-md ring-1 ring-black/10 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+          className={ctrlBtnBase}
           disabled={scale <= MIN_SCALE}
         >
           <Minus className="h-5 w-5" aria-hidden="true" />
@@ -310,7 +337,7 @@ export function ZoomableSvg({
           type="button"
           onClick={reset}
           aria-label={L.reset}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#232322] shadow-md ring-1 ring-black/10 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+          className={ctrlBtnBase}
         >
           <RotateCcw className="h-5 w-5" aria-hidden="true" />
         </button>
@@ -318,27 +345,57 @@ export function ZoomableSvg({
           type="button"
           onClick={toggleFullscreen}
           aria-label={isFullscreen ? L.exitFullscreen : L.fullscreen}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#232322] shadow-md ring-1 ring-black/10 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+          className={ctrlBtnBase}
         >
           {isFullscreen ? <X className="h-5 w-5" aria-hidden="true" /> : <Maximize2 className="h-5 w-5" aria-hidden="true" />}
         </button>
       </div>
 
-      {/* 스케일 표시 */}
+      {/* 스케일 표시 — 좌상단, z-30 */}
       <div
-        className="pointer-events-none absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold tracking-wider text-[#232322] shadow-md ring-1 ring-black/10"
+        className="pointer-events-none absolute left-3 top-3 z-30 rounded-full bg-[#232322] px-3 py-1 text-[11px] font-bold tracking-wider text-white shadow-lg ring-1 ring-white/20"
         aria-live="polite"
       >
         {scale.toFixed(1)}×
       </div>
 
-      {/* 힌트 (초기 상태에서만 · 조작 후 숨김) */}
-      {scale === 1 && (
+      {/* 오더 #D22-2 [1][3]: 하단 프라이머리 CTA — "전체화면으로 지도 크게 보기".
+          전체화면이 아닐 때만 노출. 채팅 위젯(우하단) 과 겹치지 않도록 좌측 정렬. */}
+      {!isFullscreen && (
+        <div className="absolute inset-x-0 bottom-3 z-30 flex justify-start px-3 sm:justify-center">
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-[#D4AF37] px-5 text-sm font-black text-[#232322] shadow-lg ring-1 ring-black/10 transition hover:bg-[#c69f2b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <Maximize2 className="h-4 w-4" aria-hidden="true" />
+            <span>{L.openFullscreenCta}</span>
+          </button>
+        </div>
+      )}
+
+      {/* 전체화면 닫기 대형 버튼 — 우상단 툴바 옆에 텍스트 병기 */}
+      {isFullscreen && (
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          aria-label={L.exitFullscreen}
+          className="absolute left-3 top-3 z-30 inline-flex h-11 items-center gap-2 rounded-full bg-[#232322] px-4 text-sm font-black text-white shadow-lg ring-1 ring-white/20 hover:bg-[#0f0f0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+        >
+          <X className="h-5 w-5" aria-hidden="true" />
+          <span>{L.exitFullscreen}</span>
+        </button>
+      )}
+
+      {/* 힌트 (초기 상태에서만 · 조작 후 숨김) — 전체화면 중이면 상단, 아니면 감춤 */}
+      {isFullscreen && scale === 1 && (
         <div
-          className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-medium text-white sm:text-xs"
+          className="pointer-events-none absolute inset-x-0 top-16 z-20 mx-auto flex justify-center"
           aria-hidden="true"
         >
-          {L.hint}
+          <span className="rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-medium text-white sm:text-xs">
+            {L.hint}
+          </span>
         </div>
       )}
     </div>
